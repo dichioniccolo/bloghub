@@ -13,8 +13,6 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@acme/api": "^0.1.0",
-    "@acme/auth": "^0.1.0",
     "@acme/db": "^0.1.0",
     "@acme/tailwind-config": "^0.1.0",
     "@t3-oss/env-nextjs": "^0.2.2",
