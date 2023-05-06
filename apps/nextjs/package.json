@@ -10,7 +10,7 @@
     "lint:fix": "pnpm lint --fix",
     "start": "pnpm with-env next start",
     "type-check": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "doppler run --"
   },
   "dependencies": {
     "@acme/db": "^0.1.0",
