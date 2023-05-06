@@ -73,9 +73,6 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
-      server-only:
-        specifier: ^0.0.1
-        version: 0.0.1
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -328,7 +325,7 @@ importers:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.23)
       eslint:
-        specifier: ^8.39.0
+        specifier: ^8.40.0
         version: 8.40.0
       postcss:
         specifier: ^8.4.23
@@ -7155,10 +7152,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-
-  /server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
-    dev: false
 
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
