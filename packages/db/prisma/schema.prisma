@@ -15,9 +15,7 @@ datasource db {
 
 model User {
   id                   String    @id @default(uuid())
-  email                String    @unique
-  name                 String?
-  image                String?
+  clerkId              String    @unique
   stripeCustomerId     String?   @unique
   stripeSubscriptionId String?
   stripePriceId        String?
