@@ -1,15 +1,23 @@
 import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
-import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "@acme/ui/styles/globals.css";
+import { Inter, Roboto_Mono } from "next/font/google";
+
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/utils";
 
-const fontInter = Inter({
+const inter = Inter({
   subsets: ["latin"],
+  display: "swap",
   variable: "--font-inter",
+});
+
+const roboto_mono = Roboto_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-mono",
 });
 
 export const metadata = {
@@ -79,8 +87,9 @@ export default function Layout({ children }: PropsWithChildren) {
       <html
         lang="en"
         className={cn(
-          "bg-white font-sans text-slate-900 antialiased",
-          fontInter.variable,
+          "bg-white text-slate-900 antialiased",
+          inter.variable,
+          roboto_mono.variable,
         )}
       >
         <head />
