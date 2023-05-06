@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js",
+      "name": "Dashboard Next.js",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm dev",
-      "cwd": "${workspaceFolder}/apps/nextjs/",
+      "cwd": "${workspaceFolder}/apps/dashboard/",
       "skipFiles": ["<node_internals>/**"]
     }
   ]

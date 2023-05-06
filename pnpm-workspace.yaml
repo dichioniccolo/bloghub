@@ -1,5 +1,9 @@
 packages:
-  - apps/nextjs
+  # - apps/api
+  # - apps/blog
+  - apps/dashboard
+  # - apps/landing
+  - packages/config/*
   - packages/db
   - packages/mailing
-  - packages/config/*
+  - packages/ui
