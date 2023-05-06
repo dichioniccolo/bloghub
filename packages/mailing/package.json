@@ -5,8 +5,7 @@
   "types": "./emails/index.ts",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "pnpm with-env npx mailing --typescript",
-    "with-env": "doppler run --"
+    "dev": "npx mailing --typescript"
   },
   "dependencies": {
     "mailing-core": "^0.9.15",
