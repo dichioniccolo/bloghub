@@ -4,13 +4,13 @@ import { Webhook } from "svix";
 
 import { prisma } from "@acme/db";
 
-const secret = "whsec_4NI7Sd804IpSx0xgAM6ePnWof6SRs6p3";
+import { env } from "~/env.mjs";
 
 export const runtime = "edge";
 
 export async function POST(request: Request) {
   const payload = await request.text();
-  const webhook = new Webhook(secret);
+  const webhook = new Webhook(env.CLERK_SECRET_KEY);
 
   const headers = {
     "svix-id": request.headers.get("svix-id") || "",
