@@ -22,7 +22,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <ProjectsDropdownTrigger projects={projects} />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
