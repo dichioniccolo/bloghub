@@ -12,16 +12,19 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@acme/auth": "^0.1.0",
     "@acme/db": "^0.1.0",
+    "@acme/mailing": "^0.1.0",
     "@acme/tailwind-config": "^0.1.0",
     "@acme/ui": "^0.1.0",
-    "@clerk/nextjs": "^4.17.1",
+    "@hookform/resolvers": "^3.1.0",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@vercel/kv": "^0.1.1",
     "lucide-react": "^0.214.0",
     "next": "^13.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "zod": "^3.21.4"
   },
   "devDependencies": {

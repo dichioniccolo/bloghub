@@ -1,12 +1,15 @@
 import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
+import { getServerSession } from "next-auth";
 
 import "@acme/ui/styles/globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 
+import { authOptions } from "@acme/auth";
+
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/utils";
+import { Providers } from "./Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -81,9 +84,11 @@ export const metadata = {
   },
 } satisfies Metadata;
 
-export default function Layout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
+  const session = await getServerSession(authOptions);
+
   return (
-    <ClerkProvider>
+    <Providers session={session}>
       <html
         lang="en"
         className={cn(
@@ -95,6 +100,6 @@ export default function Layout({ children }: PropsWithChildren) {
         <head />
         <body>{children}</body>
       </html>
-    </ClerkProvider>
+    </Providers>
   );
 }

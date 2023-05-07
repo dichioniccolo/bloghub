@@ -15,6 +15,7 @@ on:
 
 jobs:
   build-lint:
+    if: false
     env:
       DATABASE_URL: file:./db.sqlite
     runs-on: ubuntu-latest

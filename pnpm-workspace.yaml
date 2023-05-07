@@ -3,6 +3,7 @@ packages:
   # - apps/blog
   - apps/dashboard
   # - apps/landing
+  - packages/auth
   - packages/config/*
   - packages/db
   - packages/mailing

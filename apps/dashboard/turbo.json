@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "//"
+  ],
+  "globalEnv": [
+    "NEXTAUTH_SECRET",
+    "POSTMARK_API_KEY",
+    "POSTMARK_BROADCAST_ACCESS_KEY",
+    "POSTMARK_BROADCAST_SECRET_KEY",
+    "POSTMARK_FROM",
+    "NEXT_PUBLIC_APP_NAME"
+  ]
+}

@@ -1,6 +1,5 @@
 import { Suspense, type PropsWithChildren } from "react";
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
 
 import { Skeleton } from "@acme/ui";
 
@@ -22,7 +21,7 @@ export default function Layout({ children }: PropsWithChildren) {
               <ProjectsDropdown />
             </Suspense>
           </div>
-          <UserButton />
+          <span>user</span>
         </div>
       </header>
       <div className="container grid gap-12">

@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "//"
+  ],
+  "globalEnv": [
+    "POSTMARK_API_KEY",
+    "POSTMARK_BROADCAST_ACCESS_KEY",
+    "POSTMARK_BROADCAST_SECRET_KEY",
+    "POSTMARK_FROM"
+  ]
+}

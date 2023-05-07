@@ -1,10 +1,12 @@
 "use server";
 
 import { cache } from "react";
-import { currentUser } from "@clerk/nextjs";
+import { getServerSession } from "next-auth";
 
+import { authOptions } from "@acme/auth";
 import { prisma } from "@acme/db";
 
+import { CreateProjectDialogForm } from "~/components/dialogs/create-project-dialog/form";
 import { ProjectsDropdownClient } from "./ProjectsDropdownClient";
 
 const getProjects = cache(async (userId: string) => {
@@ -20,13 +22,19 @@ const getProjects = cache(async (userId: string) => {
 });
 
 export async function ProjectsDropdown() {
-  const user = await currentUser();
+  const session = await getServerSession(authOptions);
 
-  if (!user) {
+  if (!session) {
     return null;
   }
 
-  const projects = await getProjects(user.id);
+  const projects = await getProjects(session.user.id);
 
-  return <ProjectsDropdownClient projects={projects} />;
+  return (
+    <ProjectsDropdownClient
+      projects={projects}
+      // @ts-expect-error react async component
+      form={<CreateProjectDialogForm />}
+    />
+  );
 }

@@ -1,6 +1,7 @@
 import {
   type ComponentProps,
-  type ComponentPropsWithoutRef,
+  type HTMLAttributes,
+  type PropsWithoutRef,
   type ReactNode,
 } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +18,7 @@ type FormProps<S extends z.ZodType> = Omit<
   "onSubmit" | "children"
 > & {
   schema: S;
+  onSubmit: (values: z.infer<S>) => unknown;
   initialValues?: UseFormProps<z.infer<S>>["defaultValues"];
   children?: ReactNode | ((form: UseFormReturn<z.infer<S>>) => ReactNode);
 };
@@ -33,6 +35,7 @@ export function useZodForm<S extends z.ZodType>(
 
 export function Form<S extends z.ZodType>({
   schema,
+  onSubmit,
   initialValues,
   children,
   ...props
@@ -43,22 +46,24 @@ export function Form<S extends z.ZodType>({
   });
 
   return (
-    <FormAsProp form={form} {...props}>
+    <FormAsProp form={form} onSubmit={onSubmit} {...props}>
       {children}
     </FormAsProp>
   );
 }
 
 type FormAsPropProps<S extends z.ZodType> = Omit<
-  ComponentPropsWithoutRef<"form">,
+  PropsWithoutRef<HTMLAttributes<HTMLFormElement>>,
   "onSubmit" | "children"
 > & {
   form: UseFormReturn<z.infer<S>>;
+  onSubmit: (data: z.infer<S>) => unknown;
   children?: ReactNode | ((form: UseFormReturn<z.infer<S>>) => ReactNode);
 };
 
 export function FormAsProp<S extends z.ZodType>({
   form,
+  onSubmit,
   children,
   ...props
 }: FormAsPropProps<S>) {
@@ -67,7 +72,9 @@ export function FormAsProp<S extends z.ZodType>({
 
   return (
     <FormProvider {...form}>
-      <form {...props}>{resolvedChildren}</form>
+      <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
+        {resolvedChildren}
+      </form>
     </FormProvider>
   );
 }

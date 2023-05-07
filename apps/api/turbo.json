@@ -2,7 +2,5 @@
   "extends": [
     "//"
   ],
-  "globalEnv": [
-    "CLERK_WEBHOOK_SECRET_KEY"
-  ]
+  "globalEnv": []
 }

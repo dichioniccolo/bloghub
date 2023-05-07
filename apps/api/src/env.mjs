@@ -9,8 +9,6 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
-    CLERK_SECRET_KEY: z.string().min(1),
-    CLERK_WEBHOOK_SECRET_KEY: z.string().min(1),
     POSTMARK_API_KEY: z.string().min(1),
     POSTMARK_BROADCAST_ACCESS_KEY: z.string().min(1),
     POSTMARK_BROADCAST_SECRET_KEY: z.string().min(1),
@@ -21,7 +19,6 @@ export const env = createEnv({
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
   },
   /**
@@ -30,14 +27,10 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-    CLERK_WEBHOOK_SECRET_KEY: process.env.CLERK_WEBHOOK_SECRET_KEY,
     POSTMARK_API_KEY: process.env.POSTMARK_API_KEY,
     POSTMARK_BROADCAST_ACCESS_KEY: process.env.POSTMARK_BROADCAST_ACCESS_KEY,
     POSTMARK_BROADCAST_SECRET_KEY: process.env.POSTMARK_BROADCAST_SECRET_KEY,
     POSTMARK_FROM: process.env.POSTMARK_FROM,
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   },
 });

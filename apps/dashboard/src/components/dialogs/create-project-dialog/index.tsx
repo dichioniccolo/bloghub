@@ -1,31 +1,21 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useUser } from "@clerk/nextjs";
-
 import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  Form,
-  Input,
-  Label,
-} from "@acme/ui";
+  useCallback,
+  useState,
+  type PropsWithChildren,
+  type ReactNode,
+} from "react";
 
-import { createProject } from "~/lib/shared/actions";
-import { generateDomainFromName } from "~/lib/utils";
-import { CreateProjectSchema } from "~/lib/validation/schema";
-import { Icons } from "../icons";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@acme/ui";
 
 type Props = {
   open: boolean;
   setOpen: (value: boolean) => void;
+  children: ReactNode;
 };
 
-function CreateProjectDialog({ open, setOpen }: Props) {
-  const data = useUser();
+function CreateProjectDialog({ open, setOpen, children }: Props) {
   // const [optimisticProject, addOptimisticProject] = experimental_useOptimistic(
   //   {
   //     creating: false,
@@ -67,9 +57,9 @@ function CreateProjectDialog({ open, setOpen }: Props) {
   //   });
   // }
 
-  if (!data.user) {
-    return null;
-  }
+  // if (!data.user) {
+  //   return null;
+  // }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -79,7 +69,8 @@ function CreateProjectDialog({ open, setOpen }: Props) {
             <span>Create a new project</span>
           </DialogTitle>
         </DialogHeader>
-        <Form
+        {children}
+        {/* <Form
           schema={CreateProjectSchema}
           action={(form) => createProject(data.user.id, form)}
           className="flex flex-col space-y-6 text-left"
@@ -134,7 +125,7 @@ function CreateProjectDialog({ open, setOpen }: Props) {
               </Button>
             </>
           )}
-        </Form>
+        </Form> */}
       </DialogContent>
     </Dialog>
   );
@@ -144,7 +135,11 @@ export function useCreateProjectDialog() {
   const [open, setOpen] = useState(false);
 
   const CreateProjectDialogCallback = useCallback(
-    () => <CreateProjectDialog open={open} setOpen={setOpen} />,
+    ({ children }: PropsWithChildren) => (
+      <CreateProjectDialog open={open} setOpen={setOpen}>
+        {children}
+      </CreateProjectDialog>
+    ),
     [open, setOpen],
   );
 
