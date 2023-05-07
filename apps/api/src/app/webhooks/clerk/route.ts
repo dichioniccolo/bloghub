@@ -6,7 +6,7 @@ import { prisma } from "@acme/db";
 
 import { env } from "~/env.mjs";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 export async function POST(request: Request) {
   const payload = await request.text();
