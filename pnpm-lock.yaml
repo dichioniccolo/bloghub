@@ -50,8 +50,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       '@vercel/kv':
-        specifier: ^0.1.1
-        version: 0.1.1
+        specifier: ^0.1.2
+        version: 0.1.2
       next:
         specifier: ^13.4.1
         version: 13.4.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
@@ -117,8 +117,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       '@vercel/kv':
-        specifier: ^0.1.1
-        version: 0.1.1
+        specifier: ^0.1.2
+        version: 0.1.2
       lucide-react:
         specifier: ^0.214.0
         version: 0.214.0(react@18.2.0)
@@ -2641,19 +2641,19 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: false
 
-  /@upstash/redis@1.20.2:
-    resolution: {integrity: sha512-9QS/SypDxeeh672H7dEEmuYOX5TtPYnaDLlhxWJEPd8LzcEQ6hohwDJuojpqGkvvvrK58mlWOkN1GrMxbXPTeQ==}
+  /@upstash/redis@1.20.6:
+    resolution: {integrity: sha512-q1izaYEUsq/WiXNOjf4oOjFZe8fIeBSZN8d5cEyOD4nem+zxc4jccieorQQrNlEahKPE1ZYLzVEkMODRUfch2g==}
     dependencies:
       isomorphic-fetch: 3.0.0
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@vercel/kv@0.1.1:
-    resolution: {integrity: sha512-wkhR/4okC3ZjAG66SPbSP31ToRYg4SFohl0P8WvuIjNl5EJGxdjJJ8l/yIJ2VMvxt0mMsEa442haS3GBJkRXBQ==}
+  /@vercel/kv@0.1.2:
+    resolution: {integrity: sha512-/cTMy9L6qcW7gMGCaicwqOK1zPfP5qlpBaF5TqnXsCB6cYRkiNG13aAodLvgthqZa6B82QNaGGcQl3OiyJFNug==}
     engines: {node: '>=14.6'}
     dependencies:
-      '@upstash/redis': 1.20.2
+      '@upstash/redis': 1.20.6
     transitivePeerDependencies:
       - encoding
     dev: false
