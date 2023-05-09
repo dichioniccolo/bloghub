@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { Skeleton } from "@acme/ui";
 
-import { Icons } from "~/components/icons";
-import { ProjectsDropdown } from "./components/ProjectsDropdown";
+import { Icons } from "~/app/_components/icons";
+import { ProjectsDropdown } from "./_components/ProjectsDropdown";
 
 export default function Layout({ children }: PropsWithChildren) {
   return (

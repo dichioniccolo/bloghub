@@ -1,33 +1,34 @@
-// "use server";
+"use server";
 
-// import { Role, prisma } from "@acme/db";
+import { zact } from "zact/server";
+import { z } from "zod";
 
-// import { CreateProjectSchema } from "../validation/schema";
-// import { preprocessFormData } from "./form-parser";
+import { Role, prisma } from "@acme/db";
 
-// export async function createProject(userId: string, data: FormData) {
-//   "use server";
+export const createProject = zact(
+  z.object({
+    userId: z.string(),
+    name: z.string().min(3),
+    domain: z.string().min(3),
+  }),
+)(async (input) => {
+  const { userId, name, domain } = input;
 
-//   const { name, domain } = await CreateProjectSchema.parseAsync(
-//     preprocessFormData(data, CreateProjectSchema),
-//   );
-
-//   const project = await prisma.project.create({
-//     data: {
-//       name,
-//       domain,
-//       users: {
-//         create: {
-//           role: Role.OWNER,
-//           user: {
-//             connect: {
-//               clerkId,
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-
-//   return project;
-// }
+  const project = await prisma.project.create({
+    data: {
+      name,
+      domain,
+      users: {
+        create: {
+          role: Role.OWNER,
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      },
+    },
+  });
+  return project;
+});

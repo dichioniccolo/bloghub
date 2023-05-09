@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
-import { Icons } from "~/components/icons";
-import { UserAuthForm } from "./UserAuthForm";
-import { UserAuthFormPlaceholder } from "./UserAuthFormPlaceholder";
+import { Icons } from "~/app/_components/icons";
+import { UserAuthForm } from "./_components/UserAuthForm";
+import { UserAuthFormPlaceholder } from "./_components/UserAuthFormPlaceholder";
 
 export default function Page() {
   return (

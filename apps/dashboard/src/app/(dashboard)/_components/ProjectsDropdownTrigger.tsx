@@ -3,14 +3,14 @@
 import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { useSession } from "next-auth/react";
 
-import { type Project } from "@acme/db";
 import { Avatar, AvatarImage, BlurImage, Button } from "@acme/ui";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/app/_components/icons";
+import { type GetProjects } from "~/lib/shared/gets";
 import { useSelectedProject } from "./useSelectedProject";
 
 type Props = ComponentPropsWithoutRef<"button"> & {
-  projects: Project[];
+  projects: GetProjects;
 };
 
 export const ProjectsDropdownTrigger = forwardRef<HTMLButtonElement, Props>(

@@ -4,7 +4,9 @@ import { usePathname } from "next/navigation";
 
 import { type Project } from "@acme/db";
 
-export function useSelectedProject(projects: Project[]) {
+export function useSelectedProject(
+  projects: Pick<Project, "id" | "logo" | "name">[],
+) {
   const pathname = usePathname();
 
   if (pathname === "/" || !pathname?.startsWith("/projects/")) {

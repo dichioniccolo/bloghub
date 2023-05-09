@@ -6,8 +6,27 @@ import {
   type PropsWithChildren,
   type ReactNode,
 } from "react";
+import { useZact } from "zact/client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@acme/ui";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Form,
+  Input,
+  Label,
+} from "@acme/ui";
+
+import { Icons } from "~/app/_components/icons";
+import { useUser } from "~/hooks/use-user";
+import { createProject } from "~/lib/shared/actions";
+import { generateDomainFromName } from "~/lib/utils";
+import {
+  CreateProjectSchema,
+  type CreateProjectSchemaType,
+} from "~/lib/validation/schema";
 
 type Props = {
   open: boolean;
@@ -16,46 +35,19 @@ type Props = {
 };
 
 function CreateProjectDialog({ open, setOpen, children }: Props) {
-  // const [optimisticProject, addOptimisticProject] = experimental_useOptimistic(
-  //   {
-  //     creating: false,
-  //   },
-  //   (state, _action) => ({
-  //     ...state,
-  //     creating: true,
-  //   }),
-  // );
-  // const { toast } = useToast();
+  const user = useUser();
 
-  // const router = useRouter();
+  const { mutate } = useZact(createProject);
 
-  // async function onSubmit({ name, domain }: CreateProjectSchemaType) {
-  //   const { data } = await createProjectMutation({
-  //     variables: {
-  //       input: {
-  //         name,
-  //         domain,
-  //       },
-  //     },
-  //   });
+  async function onSubmit({ name, domain }: CreateProjectSchemaType) {
+    await mutate({
+      userId: user.id,
+      name,
+      domain,
+    });
 
-  //   if (!data?.project) {
-  //     return toast({
-  //       variant: "destructive",
-  //       description: "Project could not be created",
-  //     });
-  //   }
-
-  //   setOpen(false);
-
-  //   toast({
-  //     description: "Project created",
-  //   });
-
-  //   startTransition(() => {
-  //     router.refresh();
-  //   });
-  // }
+    setOpen(false);
+  }
 
   // if (!data.user) {
   //   return null;
@@ -70,9 +62,9 @@ function CreateProjectDialog({ open, setOpen, children }: Props) {
           </DialogTitle>
         </DialogHeader>
         {children}
-        {/* <Form
+        <Form
           schema={CreateProjectSchema}
-          action={(form) => createProject(data.user.id, form)}
+          onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
           {({ register, setValue, formState: { isSubmitting, errors } }) => (
@@ -85,7 +77,6 @@ function CreateProjectDialog({ open, setOpen, children }: Props) {
                   placeholder="My project name"
                   autoComplete="project-name"
                   autoCorrect="off"
-                  disabled={isSubmitting}
                   {...register("name", {
                     onChange(e: { target: { value: string } }) {
                       const value = e.target.value;
@@ -108,7 +99,6 @@ function CreateProjectDialog({ open, setOpen, children }: Props) {
                   placeholder="blog.me.com"
                   autoComplete="domain"
                   autoCorrect="off"
-                  disabled={isSubmitting}
                   {...register("domain")}
                 />
                 {errors?.domain && (
@@ -125,7 +115,7 @@ function CreateProjectDialog({ open, setOpen, children }: Props) {
               </Button>
             </>
           )}
-        </Form> */}
+        </Form>
       </DialogContent>
     </Dialog>
   );

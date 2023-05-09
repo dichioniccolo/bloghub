@@ -2,7 +2,7 @@
 
 import { Form, Input, Label, buttonVariants } from "@acme/ui";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/utils";
 import { UserAuthSchema } from "~/lib/validation/schema";
 

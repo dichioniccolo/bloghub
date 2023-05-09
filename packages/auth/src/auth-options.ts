@@ -1,5 +1,4 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import jsonwebtoken from "jsonwebtoken";
 import { type DefaultSession, type NextAuthOptions } from "next-auth";
 import { type DefaultJWT, type JWT } from "next-auth/jwt";
 
@@ -54,13 +53,6 @@ export const authOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
-
-        const encodedToken = jsonwebtoken.sign(
-          token,
-          process.env.NEXTAUTH_SECRET as string,
-          { algorithm: "HS256" },
-        );
-        session.token = encodedToken;
       }
       return session;
     },

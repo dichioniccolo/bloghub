@@ -73,7 +73,12 @@ export function FormAsProp<S extends z.ZodType>({
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
-        {resolvedChildren}
+        <fieldset
+          className={props.className}
+          disabled={form.formState.isSubmitting}
+        >
+          {resolvedChildren}
+        </fieldset>
       </form>
     </FormProvider>
   );

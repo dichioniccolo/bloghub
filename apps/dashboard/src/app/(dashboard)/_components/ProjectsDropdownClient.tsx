@@ -1,8 +1,5 @@
 "use client";
 
-import { type ReactNode } from "react";
-
-import { type Project } from "@acme/db";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,16 +7,16 @@ import {
   DropdownMenuTrigger,
 } from "@acme/ui";
 
-import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
-import { Icons } from "~/components/icons";
+import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
+import { Icons } from "~/app/_components/icons";
+import { type GetProjects } from "~/lib/shared/gets";
 import { ProjectsDropdownTrigger } from "./ProjectsDropdownTrigger";
 
 type Props = {
-  projects: Project[];
-  form: ReactNode;
+  projects: GetProjects;
 };
 
-export function ProjectsDropdownClient({ projects, form }: Props) {
+export function ProjectsDropdownClient({ projects }: Props) {
   const { setOpen, CreateProjectDialog } = useCreateProjectDialog();
 
   return (
@@ -37,7 +34,7 @@ export function ProjectsDropdownClient({ projects, form }: Props) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <CreateProjectDialog>{form}</CreateProjectDialog>
+      <CreateProjectDialog />
     </>
   );
 }

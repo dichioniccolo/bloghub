@@ -15,7 +15,7 @@ import {
   useToast,
 } from "@acme/ui";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/utils";
 import {
   UserAuthSchema,
