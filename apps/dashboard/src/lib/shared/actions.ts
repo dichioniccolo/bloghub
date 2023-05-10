@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { Role, prisma } from "@acme/db";
 
+import { createDomain } from "../external/vercel";
 import { zact } from "../zact/server";
 
 export const createProject = zact(
@@ -26,6 +27,8 @@ export const createProject = zact(
   }),
 )(async (input) => {
   const { userId, name, domain } = input;
+
+  await createDomain(domain);
 
   const project = await prisma.project.create({
     data: {
