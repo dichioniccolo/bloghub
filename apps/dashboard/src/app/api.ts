@@ -3,11 +3,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@acme/auth";
 import { prisma } from "@acme/db";
 
-export async function GET() {
+export async function getProjects() {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return new Response("Unauthorized", { status: 403 });
+  if (!session?.user) {
+    return [];
   }
 
   const { user } = session;
@@ -28,5 +28,7 @@ export async function GET() {
     },
   });
 
-  return new Response(JSON.stringify(projects));
+  return projects;
 }
+
+export type GetProjects = Awaited<ReturnType<typeof getProjects>>;

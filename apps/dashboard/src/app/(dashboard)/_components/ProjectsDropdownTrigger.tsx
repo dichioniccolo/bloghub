@@ -1,12 +1,12 @@
 "use client";
 
 import { forwardRef, type ComponentPropsWithoutRef } from "react";
-import { useSession } from "next-auth/react";
 
 import { Avatar, AvatarImage, BlurImage, Button } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { type GetProjects } from "~/lib/shared/gets";
+import { type GetProjects } from "~/app/api";
+import { useUser } from "~/hooks/use-user";
 import { useSelectedProject } from "./useSelectedProject";
 
 type Props = ComponentPropsWithoutRef<"button"> & {
@@ -15,11 +15,9 @@ type Props = ComponentPropsWithoutRef<"button"> & {
 
 export const ProjectsDropdownTrigger = forwardRef<HTMLButtonElement, Props>(
   function ProjectsDropdownTrigger({ projects, ...props }, ref) {
-    const session = useSession();
+    const user = useUser();
 
     const selectedProject = useSelectedProject(projects);
-
-    if (!session?.data?.user) return null;
 
     return (
       <Button
@@ -43,16 +41,16 @@ export const ProjectsDropdownTrigger = forwardRef<HTMLButtonElement, Props>(
           ) : (
             <Avatar>
               <AvatarImage
-                alt={session.data.user.email}
+                alt={user.email}
                 src={
-                  session.data.user.image ??
-                  `https://api.dicebear.com/6.x/adventurer/svg?seed=${session.data.user.email}`
+                  user.image ??
+                  `https://api.dicebear.com/6.x/adventurer/svg?seed=${user.email}`
                 }
               />
             </Avatar>
           )}
           <span className="block w-32 truncate text-left text-sm font-medium">
-            {selectedProject?.name ?? session.data.user.email}
+            {selectedProject?.name ?? user.email}
           </span>
         </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1 sm:pr-2">

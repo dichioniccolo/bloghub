@@ -8,10 +8,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FormProvider,
   useForm,
+  type Path,
   type UseFormProps,
   type UseFormReturn,
 } from "react-hook-form";
 import { type z } from "zod";
+
+type ZactError<S extends z.ZodType> = {
+  formErrors: string[];
+  fieldErrors: {
+    [key in keyof S]?: string[];
+  };
+};
+
+function isZactError<S extends z.ZodType>(e: unknown): e is ZactError<S> {
+  return (
+    typeof e === "object" &&
+    e !== null &&
+    "formErrors" in e &&
+    "fieldErrors" in e
+  );
+}
 
 type FormProps<S extends z.ZodType> = Omit<
   ComponentProps<"form">,
@@ -72,7 +89,22 @@ export function FormAsProp<S extends z.ZodType>({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
+      <form
+        onSubmit={form.handleSubmit(async (data) => {
+          try {
+            await onSubmit(data);
+          } catch (e) {
+            if (isZactError<S>(e)) {
+              Object.entries(e.fieldErrors).forEach(([key, value]) => {
+                form.setError(key as Path<z.TypeOf<S>>, {
+                  message: value?.join(", "),
+                });
+              });
+            }
+          }
+        })}
+        {...props}
+      >
         <fieldset
           className={props.className}
           disabled={form.formState.isSubmitting}

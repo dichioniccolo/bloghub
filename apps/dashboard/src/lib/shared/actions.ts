@@ -1,15 +1,28 @@
 "use server";
 
-import { zact } from "zact/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { Role, prisma } from "@acme/db";
+
+import { zact } from "../zact/server";
 
 export const createProject = zact(
   z.object({
     userId: z.string(),
     name: z.string().min(3),
-    domain: z.string().min(3),
+    domain: z
+      .string()
+      .min(3)
+      .refine(async (domain) => {
+        const count = await prisma.project.count({
+          where: {
+            domain,
+          },
+        });
+
+        return count === 0;
+      }, "Domain already exists"),
   }),
 )(async (input) => {
   const { userId, name, domain } = input;
@@ -30,5 +43,8 @@ export const createProject = zact(
       },
     },
   });
+
+  revalidatePath("/");
+
   return project;
 });

@@ -3,10 +3,9 @@
 import {
   useCallback,
   useState,
-  type PropsWithChildren,
-  type ReactNode,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
-import { useZact } from "zact/client";
 
 import {
   Button,
@@ -27,14 +26,14 @@ import {
   CreateProjectSchema,
   type CreateProjectSchemaType,
 } from "~/lib/validation/schema";
+import { useZact } from "~/lib/zact/client";
 
 type Props = {
   open: boolean;
-  setOpen: (value: boolean) => void;
-  children: ReactNode;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-function CreateProjectDialog({ open, setOpen, children }: Props) {
+function CreateProjectDialog({ open, setOpen }: Props) {
   const user = useUser();
 
   const { mutate } = useZact(createProject);
@@ -49,10 +48,6 @@ function CreateProjectDialog({ open, setOpen, children }: Props) {
     setOpen(false);
   }
 
-  // if (!data.user) {
-  //   return null;
-  // }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -61,7 +56,6 @@ function CreateProjectDialog({ open, setOpen, children }: Props) {
             <span>Create a new project</span>
           </DialogTitle>
         </DialogHeader>
-        {children}
         <Form
           schema={CreateProjectSchema}
           onSubmit={onSubmit}
@@ -125,11 +119,7 @@ export function useCreateProjectDialog() {
   const [open, setOpen] = useState(false);
 
   const CreateProjectDialogCallback = useCallback(
-    ({ children }: PropsWithChildren) => (
-      <CreateProjectDialog open={open} setOpen={setOpen}>
-        {children}
-      </CreateProjectDialog>
-    ),
+    () => <CreateProjectDialog open={open} setOpen={setOpen} />,
     [open, setOpen],
   );
 
