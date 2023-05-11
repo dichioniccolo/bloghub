@@ -15,7 +15,6 @@ on:
 
 jobs:
   build-lint:
-    if: false
     env:
       DATABASE_URL: file:./db.sqlite
     runs-on: ubuntu-latest
@@ -55,8 +54,6 @@ jobs:
 
       - name: Build, lint and type-check
         run: pnpm turbo build lint type-check
-        env:
-          SKIP_ENV_VALIDATION: true
 
       - name: Check workspaces
         run: pnpm manypkg check

@@ -189,6 +189,9 @@ importers:
       '@next-auth/prisma-adapter':
         specifier: ^1.0.6
         version: 1.0.6(@prisma/client@4.14.0)(next-auth@4.22.1)
+      '@t3-oss/env-nextjs':
+        specifier: ^0.3.1
+        version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       next:
         specifier: ^13.4.1
         version: 13.4.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
@@ -269,6 +272,9 @@ importers:
       '@prisma/client':
         specifier: ^4.14.0
         version: 4.14.0(prisma@4.14.0)
+      '@t3-oss/env-nextjs':
+        specifier: ^0.3.1
+        version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
     devDependencies:
       dotenv-cli:
         specifier: ^7.2.1
@@ -282,6 +288,9 @@ importers:
 
   packages/mailing:
     dependencies:
+      '@t3-oss/env-nextjs':
+        specifier: ^0.3.1
+        version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       mailing-core:
         specifier: ^0.9.15
         version: 0.9.15(react-dom@18.2.0)(react@18.2.0)
