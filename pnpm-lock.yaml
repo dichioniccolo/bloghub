@@ -50,8 +50,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       '@vercel/kv':
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.2.0
+        version: 0.2.0
       next:
         specifier: ^13.4.1
         version: 13.4.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
@@ -120,8 +120,8 @@ importers:
         specifier: ^0.1.10
         version: 0.1.10
       '@vercel/kv':
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.2.0
+        version: 0.2.0
       lucide-react:
         specifier: ^0.216.0
         version: 0.216.0(react@18.2.0)
@@ -2651,8 +2651,8 @@ packages:
     engines: {node: '>=14.6'}
     dev: false
 
-  /@vercel/kv@0.1.2:
-    resolution: {integrity: sha512-/cTMy9L6qcW7gMGCaicwqOK1zPfP5qlpBaF5TqnXsCB6cYRkiNG13aAodLvgthqZa6B82QNaGGcQl3OiyJFNug==}
+  /@vercel/kv@0.2.0:
+    resolution: {integrity: sha512-cMPpNGDtbqmSiELq3OhP6h8nhjmyyFj7yEcxisD0yCEHQvL38moS+xT105lwHbt/j42pBp9jcJsdx1wYfRERSg==}
     engines: {node: '>=14.6'}
     dependencies:
       '@upstash/redis': 1.20.6
