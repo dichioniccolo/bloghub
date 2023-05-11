@@ -116,6 +116,9 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
+      '@vercel/edge-config':
+        specifier: ^0.1.10
+        version: 0.1.10
       '@vercel/kv':
         specifier: ^0.1.2
         version: 0.1.2
@@ -2641,6 +2644,11 @@ packages:
       isomorphic-fetch: 3.0.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@vercel/edge-config@0.1.10:
+    resolution: {integrity: sha512-QdahUjvtpnnKD/vd79Gre7OVoEwjspktCFvOI6IXUqQ45e/Sk3In/rLOySF0dg4XHDWEuy+DRIK0SIOW2/C1FQ==}
+    engines: {node: '>=14.6'}
     dev: false
 
   /@vercel/kv@0.1.2:
