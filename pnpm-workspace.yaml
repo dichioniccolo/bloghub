@@ -1,0 +1,10 @@
+packages:
+  - apps/api
+  # - apps/blog
+  - apps/dashboard
+  # - apps/landing
+  - packages/auth
+  - packages/config/*
+  - packages/db
+  - packages/emails
+  - packages/ui
