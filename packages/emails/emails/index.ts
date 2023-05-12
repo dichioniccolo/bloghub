@@ -13,7 +13,7 @@ const sendMail = buildSendMail({
     },
   }),
   defaultFrom: env.POSTMARK_FROM,
-  configPath: "../mailing.config.json",
+  configPath: "./mailing.config.json",
 });
 
 export default sendMail;
@@ -28,5 +28,5 @@ export const sendMarketingMail = buildSendMail({
     },
   }),
   defaultFrom: env.POSTMARK_FROM,
-  configPath: "../mailing.config.json",
+  configPath: "./mailing.config.json",
 });

@@ -2,12 +2,7 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
 import { authOptions } from "@acme/auth";
-import {
-  LoginLink,
-  WelcomeEmail,
-  sendMail,
-  sendMarketingMail,
-} from "@acme/emails";
+import { LoginLink, WelcomeEmail, sendMarketingMail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
 
@@ -20,16 +15,21 @@ export default NextAuth({
           return;
         }
 
-        await sendMail({
-          to: identifier,
-          subject: `Your login link`,
-          component: <LoginLink url={url} />,
-          headers: {
-            // Set this to prevent Gmail from threading emails.
-            // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
-            "X-Entity-Ref-ID": `${new Date().getTime()}`,
-          },
-        });
+        // console.log(<LoginLink url={url} />);
+
+        const x = JSON.stringify(<LoginLink url={url} />);
+
+        throw x;
+        // await sendMail({
+        //   to: identifier,
+        //   subject: `Your login link`,
+        //   component: <LoginLink url={url} />,
+        //   headers: {
+        //     // Set this to prevent Gmail from threading emails.
+        //     // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
+        //     "X-Entity-Ref-ID": `${new Date().getTime()}`,
+        //   },
+        // });
       },
     }),
     /**
