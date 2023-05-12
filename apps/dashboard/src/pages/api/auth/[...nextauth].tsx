@@ -1,10 +1,13 @@
-import sendMail, { sendMarketingMail } from "emails";
-import LoginLink from "emails/LoginLink";
-import Welcome from "emails/Welcome";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
 import { authOptions } from "@acme/auth";
+import {
+  LoginLink,
+  WelcomeEmail,
+  sendMail,
+  sendMarketingMail,
+} from "@acme/emails";
 
 import { env } from "~/env.mjs";
 
@@ -50,7 +53,7 @@ export default NextAuth({
       await sendMarketingMail({
         to: user.email,
         subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
-        component: <Welcome email={user.email} />,
+        component: <WelcomeEmail email={user.email} />,
       });
     },
   },
