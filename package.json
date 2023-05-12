@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=v18.16.0"
   },
-  "packageManager": "npm@9.5.1",
+  "packageManager": "npm@9.6.6",
   "workspaces": [
     "apps/api",
     "apps/dashboard",
