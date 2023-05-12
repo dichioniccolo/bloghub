@@ -101,9 +101,6 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
-      '@acme/emails':
-        specifier: ^0.1.0
-        version: link:../../packages/emails
       '@acme/tailwind-config':
         specifier: ^0.1.0
         version: link:../../packages/config/tailwind
@@ -125,6 +122,9 @@ importers:
       lucide-react:
         specifier: ^0.216.0
         version: 0.216.0(react@18.2.0)
+      mailing-core:
+        specifier: ^0.9.15
+        version: 0.9.15(react-dom@18.2.0)(react@18.2.0)
       next:
         specifier: ^13.4.2
         version: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
@@ -168,6 +168,9 @@ importers:
       eslint:
         specifier: ^8.40.0
         version: 8.40.0
+      mailing:
+        specifier: ^0.9.15
+        version: 0.9.15(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
       postcss:
         specifier: ^8.4.23
         version: 8.4.23
@@ -183,9 +186,6 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../db
-      '@acme/emails':
-        specifier: ^0.1.0
-        version: link:../emails
       '@next-auth/prisma-adapter':
         specifier: ^1.0.6
         version: 1.0.6(@prisma/client@4.14.0)(next-auth@4.22.1)
@@ -285,28 +285,6 @@ importers:
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
-
-  packages/emails:
-    dependencies:
-      '@t3-oss/env-nextjs':
-        specifier: ^0.3.1
-        version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
-      mailing-core:
-        specifier: ^0.9.15
-        version: 0.9.15(react-dom@18.2.0)(react@18.2.0)
-      next:
-        specifier: ^13.4.2
-        version: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      mailing:
-        specifier: ^0.9.15
-        version: 0.9.15(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
 
   packages/ui:
     dependencies:

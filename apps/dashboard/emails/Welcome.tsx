@@ -12,11 +12,7 @@ import Footer from "./components/Footer";
 import Head from "./components/Head";
 import Header from "./components/Header";
 
-export default function WelcomeEmail({
-  email,
-}: {
-  email?: string;
-}): JSX.Element {
+export default function Welcome({ email }: { email?: string }): JSX.Element {
   return (
     <Mjml>
       <Head />

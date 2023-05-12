@@ -1,7 +1,7 @@
 import { buildSendMail } from "mailing-core";
 import nodemailer from "nodemailer";
 
-import { env } from "../env.mjs";
+import { env } from "~/env.mjs";
 
 const sendMail = buildSendMail({
   transport: nodemailer.createTransport({
@@ -13,7 +13,7 @@ const sendMail = buildSendMail({
     },
   }),
   defaultFrom: env.POSTMARK_FROM,
-  configPath: "../mailing.config.json",
+  configPath: "./mailing.config.json",
 });
 
 export default sendMail;
@@ -28,5 +28,5 @@ export const sendMarketingMail = buildSendMail({
     },
   }),
   defaultFrom: env.POSTMARK_FROM,
-  configPath: "../mailing.config.json",
+  configPath: "./mailing.config.json",
 });

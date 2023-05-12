@@ -3,7 +3,7 @@ import { Mjml, MjmlBody, MjmlWrapper } from "mjml-react";
 import Footer from "./components/Footer";
 import Head from "./components/Head";
 
-export default function WelcomeEmail({
+export default function BelatedWelcome({
   domains: _,
 }: {
   domains?: string[];

@@ -1,6 +1,6 @@
 import { default as LoginLinkEmail } from "../LoginLink";
 import { default as ProjectInviteEmail } from "../ProjectInvite";
-import { default as WelcomeEmailChild } from "../WelcomeEmail";
+import { default as WelcomeEmailChild } from "../Welcome";
 
 export function LoginLink() {
   return (
