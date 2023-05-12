@@ -6,5 +6,5 @@ packages:
   - packages/auth
   - packages/config/*
   - packages/db
-  - packages/mailing
+  - packages/emails
   - packages/ui

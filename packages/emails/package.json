@@ -1,11 +1,13 @@
 {
-  "name": "@acme/mailing",
+  "name": "@acme/emails",
   "version": "0.1.0",
-  "main": "./emails/index.ts",
-  "types": "./emails/index.ts",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "npx mailing --typescript"
+    "dev": "npx mailing --typescript",
+    "build": "npx mailing server build",
+    "start": "npx mailing server start"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.3.1",

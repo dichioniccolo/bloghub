@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
 import { authOptions } from "@acme/auth";
-import sendMail, { LoginLink, Welcome, sendMailBroadcast } from "@acme/mailing";
+import sendMail, { LoginLink, Welcome, sendMailBroadcast } from "@acme/emails";
 
 import { env } from "~/env.mjs";
 

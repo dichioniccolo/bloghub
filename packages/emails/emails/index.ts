@@ -28,10 +28,6 @@ const sendMail = buildSendMail({
   configPath: "./mailing.config.json",
 });
 
-export { default as LoginLink } from "./LoginLink";
-export { default as ProjectInvite } from "./ProjectInvite";
-export { default as Welcome } from "./Welcome";
-
 export const sendMailBroadcast = buildSendMail({
   transport: broadcast,
   defaultFrom: process.env.POSTMARK_FROM as string,

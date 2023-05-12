@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@acme/db": "^0.1.0",
-    "@acme/mailing": "^0.1.0",
+    "@acme/emails": "^0.1.0",
     "@next-auth/prisma-adapter": "^1.0.6",
     "@t3-oss/env-nextjs": "^0.3.1",
     "next": "^13.4.2",

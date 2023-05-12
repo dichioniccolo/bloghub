@@ -101,9 +101,9 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
-      '@acme/mailing':
+      '@acme/emails':
         specifier: ^0.1.0
-        version: link:../../packages/mailing
+        version: link:../../packages/emails
       '@acme/tailwind-config':
         specifier: ^0.1.0
         version: link:../../packages/config/tailwind
@@ -183,9 +183,9 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../db
-      '@acme/mailing':
+      '@acme/emails':
         specifier: ^0.1.0
-        version: link:../mailing
+        version: link:../emails
       '@next-auth/prisma-adapter':
         specifier: ^1.0.6
         version: 1.0.6(@prisma/client@4.14.0)(next-auth@4.22.1)
@@ -286,7 +286,7 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4
 
-  packages/mailing:
+  packages/emails:
     dependencies:
       '@t3-oss/env-nextjs':
         specifier: ^0.3.1
