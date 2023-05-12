@@ -1,5 +1,5 @@
-export * from "./emails";
-export { default as sendMail } from "./emails";
-export { default as LoginLink } from "./emails/LoginLink";
-export { default as ProjectInvite } from "./emails/ProjectInvite";
-export { default as WelcomeEmail } from "./emails/WelcomeEmail";
+export * from "./src";
+export { default as sendMail } from "./src";
+export { default as LoginLink } from "./src/LoginLink";
+export { default as ProjectInvite } from "./src/ProjectInvite";
+export { default as WelcomeEmail } from "./src/WelcomeEmail";
