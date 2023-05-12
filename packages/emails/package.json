@@ -5,7 +5,8 @@
   "types": "./index.tsx",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "npx mailing --typescript"
+    "dev": "npx mailing --typescript",
+    "export": "npx mailing export-previews"
   },
   "devDependencies": {
     "mailing": "^1.0.0-next.0",

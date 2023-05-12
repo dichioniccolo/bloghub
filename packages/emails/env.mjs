@@ -8,13 +8,13 @@ export const env = createEnv({
    */
   server: {
     POSTMARK_API_KEY: z.string().min(1),
-    POSTMARK_BROADCAST_ACCESS_KEY: z.string().min(1),
-    POSTMARK_BROADCAST_SECRET_KEY: z.string().min(1),
     POSTMARK_FROM: z.preprocess(
       // get from the string the value between the < and > characters
       (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
       z.string().email(),
     ),
+    ICLOUD_EMAIL: z.string().email(),
+    ICLOUD_PASSWORD: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -26,8 +26,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     POSTMARK_API_KEY: process.env.POSTMARK_API_KEY,
-    POSTMARK_BROADCAST_ACCESS_KEY: process.env.POSTMARK_BROADCAST_ACCESS_KEY,
-    POSTMARK_BROADCAST_SECRET_KEY: process.env.POSTMARK_BROADCAST_SECRET_KEY,
     POSTMARK_FROM: process.env.POSTMARK_FROM,
+    ICLOUD_EMAIL: process.env.ICLOUD_EMAIL,
+    ICLOUD_PASSWORD: process.env.ICLOUD_PASSWORD,
   },
 });
