@@ -97,7 +97,7 @@ export function UserAuthForm({ className, ...props }: Props) {
           </div>
         )}
       </Form>
-      <div className="relative">
+      {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-slate-300" />
         </div>
@@ -105,7 +105,7 @@ export function UserAuthForm({ className, ...props }: Props) {
           <span className="bg-white px-2 text-slate-600">Or continue with</span>
         </div>
       </div>
-      <>TODO: Add social login buttons</>
+      <>TODO: Add social login buttons</> */}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { MjmlDivider } from "mjml-react";
-
-import { colors } from "../theme";
+import { grayDark, grayLight } from "./theme";
 
 export default function Divider({
   bottomPadding,
@@ -11,13 +10,13 @@ export default function Divider({
     <>
       <MjmlDivider
         cssClass="light-mode"
-        borderColor={colors.grayLight}
+        borderColor={grayLight}
         borderWidth="1px"
         padding={bottomPadding ? "24px" : "24px 24px 0px"}
       ></MjmlDivider>
       <MjmlDivider
         cssClass="dark-mode"
-        borderColor={colors.grayDark}
+        borderColor={grayDark}
         borderWidth="1px"
         padding={bottomPadding ? "24px" : "24px 24px 0px"}
       ></MjmlDivider>

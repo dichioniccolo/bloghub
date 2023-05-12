@@ -5,9 +5,7 @@
   "types": "./index.tsx",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "npx mailing --typescript",
-    "build": "npx mailing server build",
-    "start": "npx mailing server start"
+    "dev": "npx mailing --typescript"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.3.1",

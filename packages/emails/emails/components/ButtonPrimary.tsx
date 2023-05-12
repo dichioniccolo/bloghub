@@ -1,12 +1,6 @@
 import { MjmlButton } from "mjml-react";
-
-import {
-  borderRadius,
-  colors,
-  fontSize,
-  fontWeight,
-  lineHeight,
-} from "../theme";
+import { black, grayLight, white } from "./theme";
+import { borderBase, leadingTight, textSm } from "./theme";
 
 export default function ButtonPrimary({
   link,
@@ -18,29 +12,29 @@ export default function ButtonPrimary({
   return (
     <>
       <MjmlButton
-        lineHeight={lineHeight.tight}
-        fontSize={fontSize.sm}
-        fontWeight={fontWeight.slightBold}
+        lineHeight={leadingTight}
+        fontSize={textSm}
+        fontWeight={600}
         height={32}
         align="left"
         href={link}
-        backgroundColor={colors.black}
-        color={colors.grayLight}
-        borderRadius={borderRadius.base}
+        backgroundColor={black}
+        color={grayLight}
+        borderRadius={borderBase}
         cssClass="light-mode"
       >
         {uiText}
       </MjmlButton>
       <MjmlButton
-        lineHeight={lineHeight.tight}
-        fontSize={fontSize.sm}
-        fontWeight={fontWeight.slightBold}
+        lineHeight={leadingTight}
+        fontSize={textSm}
+        fontWeight={600}
         height={32}
         align="left"
         href={link}
-        backgroundColor={colors.white}
-        color={colors.black}
-        borderRadius={borderRadius.base}
+        backgroundColor={white}
+        color={black}
+        borderRadius={borderBase}
         cssClass="dark-mode"
       >
         {uiText}

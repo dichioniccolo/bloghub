@@ -1,3 +1,4 @@
+import React from "react";
 import {
   MjmlAll,
   MjmlAttributes,
@@ -6,19 +7,9 @@ import {
   MjmlRaw,
   MjmlStyle,
 } from "mjml-react";
+import { black, blue, grayDark, grayLight, purple } from "./theme";
 
-import {
-  borderRadius,
-  colors,
-  fontFamily,
-  fontSize,
-  screens,
-  spacing,
-} from "../theme";
-
-const { black, blue, grayDark, grayLight, purple } = colors;
-
-export default function Head({ style }: { style?: string }): JSX.Element {
+export default function Head(): JSX.Element {
   return (
     <MjmlHead>
       <>
@@ -31,66 +22,6 @@ export default function Head({ style }: { style?: string }): JSX.Element {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700"
         />
         <MjmlStyle>{`
-        body {
-            -webkit-font-smoothing: antialiased;
-            min-width: 320px;
-            background-color: ${colors.white};
-          }
-          a {
-            color: inherit
-          }
-          .gutter {
-            padding-left: ${spacing.s7}px;
-            padding-right: ${spacing.s7}px;
-          }
-          .code {
-            font-family: ${fontFamily.mono};
-            color: ${colors.green200};
-            background-color: ${colors.zinc800};
-            font-size: ${fontSize.sm}px;
-            border-radius: ${borderRadius.sm}px;
-            padding: ${spacing.s1}px ${spacing.s3}px;
-          }
-          .no-wrap {
-            white-space: nowrap;
-          }
-          .hidden {
-            display: none;
-            max-width: 0px;
-            max-height: 0px;
-            overflow: hidden;
-            mso-hide: all;
-          }
-          .lg-hidden {
-            display: none;
-            max-width: 0px;
-            max-height: 0px;
-            overflow: hidden;
-            mso-hide: all;
-          }
-
-          /* Large screens */
-          @media (min-width:${screens.xs}) {
-            .gutter {
-              padding-left: ${spacing.s9}px;
-              padding-right: ${spacing.s9}px;
-            }
-            .sm-hidden {
-              display: none;
-              max-width: 0px;
-              max-height: 0px;
-              overflow: hidden;
-              mso-hide: all;
-            }
-            .lg-hidden {
-              display: block !important;
-              max-width: none !important;
-              max-height: none !important;
-              overflow: visible !important;
-              mso-hide: none !important;
-            }
-          }
-
         .container {
           border: solid 1px ${grayLight};
           border-radius: 8px;
@@ -121,6 +52,7 @@ export default function Head({ style }: { style?: string }): JSX.Element {
         .paragraph a, .li a {
           color: ${blue} !important;
           text-decoration: none;
+          font-weight: 700;
         }
         .paragraph code, .li code {
           color: ${purple} !important;
@@ -178,9 +110,6 @@ export default function Head({ style }: { style?: string }): JSX.Element {
             display: none;
           }
         }
-
-          /* Email specific Styles */
-        ${style}
       `}</MjmlStyle>
         <MjmlAttributes>
           <MjmlAll font-family='Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' />

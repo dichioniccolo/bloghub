@@ -1,37 +1,32 @@
 import { buildSendMail } from "mailing-core";
 import nodemailer from "nodemailer";
 
-const transport = nodemailer.createTransport({
-  pool: true,
-  host: "smtp.postmarkapp.com",
-  port: 587,
-  // secure: true, // use TLS
-  auth: {
-    user: process.env.POSTMARK_API_KEY,
-    pass: process.env.POSTMARK_API_KEY,
-  },
-});
-
-const broadcast = nodemailer.createTransport({
-  pool: true,
-  host: "smtp-broadcasts.postmarkapp.com",
-  port: 587,
-  auth: {
-    accessToken: process.env.POSTMARK_BROADCAST_ACCESS_KEY,
-    clientSecret: process.env.POSTMARK_BROADCAST_SECRET_KEY,
-  },
-});
+import { env } from "../env.mjs";
 
 const sendMail = buildSendMail({
-  transport,
-  defaultFrom: process.env.POSTMARK_FROM as string,
-  configPath: "./mailing.config.json",
-});
-
-export const sendMailBroadcast = buildSendMail({
-  transport: broadcast,
-  defaultFrom: process.env.POSTMARK_FROM as string,
-  configPath: "./mailing.config.json",
+  transport: nodemailer.createTransport({
+    host: "smtp.postmarkapp.com",
+    port: 587,
+    auth: {
+      user: env.POSTMARK_API_KEY,
+      pass: env.POSTMARK_API_KEY,
+    },
+  }),
+  defaultFrom: env.POSTMARK_FROM,
+  configPath: "../mailing.config.json",
 });
 
 export default sendMail;
+
+export const sendMarketingMail = buildSendMail({
+  transport: nodemailer.createTransport({
+    host: "smtp-broadcasts.postmarkapp.com",
+    port: 587,
+    auth: {
+      user: env.POSTMARK_BROADCAST_ACCESS_KEY,
+      pass: env.POSTMARK_BROADCAST_SECRET_KEY,
+    },
+  }),
+  defaultFrom: env.POSTMARK_FROM,
+  configPath: "../mailing.config.json",
+});
