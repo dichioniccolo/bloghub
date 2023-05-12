@@ -20,13 +20,12 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createProject } from "~/lib/shared/actions";
+// import { createProject } from "~/lib/shared/actions";
 import { generateDomainFromName } from "~/lib/utils";
 import {
   CreateProjectSchema,
   type CreateProjectSchemaType,
 } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 type Props = {
   open: boolean;
@@ -36,14 +35,14 @@ type Props = {
 function CreateProjectDialog({ open, setOpen }: Props) {
   const user = useUser();
 
-  const { mutate } = useZact(createProject);
+  // const { mutate } = useZact(createProject);
 
   async function onSubmit({ name, domain }: CreateProjectSchemaType) {
-    await mutate({
-      userId: user.id,
-      name,
-      domain,
-    });
+    // await mutate({
+    //   userId: user.id,
+    //   name,
+    //   domain,
+    // });
 
     setOpen(false);
   }

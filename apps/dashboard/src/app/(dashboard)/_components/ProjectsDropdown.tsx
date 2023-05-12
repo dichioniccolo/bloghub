@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { getProjects } from "~/app/api";
 import { ProjectsDropdownClient } from "./ProjectsDropdownClient";
