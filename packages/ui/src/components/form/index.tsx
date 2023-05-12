@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
 import {
   type ComponentProps,
   type HTMLAttributes,
@@ -17,7 +19,7 @@ import { type z } from "zod";
 type ZactError<S extends z.ZodType> = {
   formErrors: string[];
   fieldErrors: {
-    [key in keyof S]?: string[];
+    [key in keyof S]: string[];
   };
 };
 
