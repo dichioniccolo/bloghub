@@ -5,7 +5,7 @@ import {
   MjmlSection,
   MjmlText,
   MjmlWrapper,
-} from "mjml-react";
+} from "@faire/mjml-react";
 
 import ButtonPrimary from "./components/ButtonPrimary";
 import Divider from "./components/Divider";

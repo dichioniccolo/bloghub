@@ -1,6 +1,13 @@
-import { MjmlButton } from "mjml-react";
-import { black, grayLight, white } from "./theme";
-import { borderBase, leadingTight, textSm } from "./theme";
+import { MjmlButton } from "@faire/mjml-react";
+
+import {
+  black,
+  borderBase,
+  grayLight,
+  leadingTight,
+  textSm,
+  white,
+} from "./theme";
 
 export default function ButtonPrimary({
   link,
@@ -14,7 +21,7 @@ export default function ButtonPrimary({
       <MjmlButton
         lineHeight={leadingTight}
         fontSize={textSm}
-        fontWeight={600}
+        fontWeight="600"
         height={32}
         align="left"
         href={link}
@@ -28,7 +35,7 @@ export default function ButtonPrimary({
       <MjmlButton
         lineHeight={leadingTight}
         fontSize={textSm}
-        fontWeight={600}
+        fontWeight="600"
         height={32}
         align="left"
         href={link}

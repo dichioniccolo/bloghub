@@ -1,4 +1,5 @@
-import { MjmlDivider } from "mjml-react";
+import { MjmlDivider } from "@faire/mjml-react";
+
 import { grayDark, grayLight } from "./theme";
 
 export default function Divider({

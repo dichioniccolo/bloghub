@@ -5,7 +5,7 @@ import {
   MjmlSection,
   MjmlText,
   MjmlWrapper,
-} from "mjml-react";
+} from "@faire/mjml-react";
 
 import Divider from "./components/Divider";
 import Footer from "./components/Footer";

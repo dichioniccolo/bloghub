@@ -14,13 +14,6 @@ const config = {
   typescript: { ignoreBuildErrors: true },
   experimental: {
     serverActions: true,
-    // runtime: "edge",
-    serverComponentsExternalPackages: [
-      "@acme/emails",
-      "@acme/auth",
-      "@acme/db",
-      "@acme/ui",
-    ],
   },
 };
 
