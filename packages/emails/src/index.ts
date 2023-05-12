@@ -5,12 +5,11 @@ import { env } from "../env.mjs";
 
 const sendMail = buildSendMail({
   transport: nodemailer.createTransport({
-    host: "smtp.mail.me.com",
+    host: "smtp.postmarkapp.com",
     port: 587,
-    tls: true,
     auth: {
-      user: env.ICLOUD_EMAIL,
-      pass: env.ICLOUD_PASSWORD,
+      user: env.POSTMARK_API_KEY,
+      pass: env.POSTMARK_API_KEY,
     },
   }),
   defaultFrom: env.POSTMARK_FROM,

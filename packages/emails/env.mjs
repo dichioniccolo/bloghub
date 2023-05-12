@@ -13,8 +13,6 @@ export const env = createEnv({
       (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
       z.string().email(),
     ),
-    ICLOUD_EMAIL: z.string().email(),
-    ICLOUD_PASSWORD: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -27,7 +25,5 @@ export const env = createEnv({
   runtimeEnv: {
     POSTMARK_API_KEY: process.env.POSTMARK_API_KEY,
     POSTMARK_FROM: process.env.POSTMARK_FROM,
-    ICLOUD_EMAIL: process.env.ICLOUD_EMAIL,
-    ICLOUD_PASSWORD: process.env.ICLOUD_PASSWORD,
   },
 });
