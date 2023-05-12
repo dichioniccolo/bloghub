@@ -11,7 +11,7 @@ export default NextAuth({
   providers: [
     EmailProvider({
       async sendVerificationRequest({ identifier, url }) {
-        await sendMail({
+        const r = await sendMail({
           to: identifier,
           subject: `Your login link`,
           component: (
@@ -23,6 +23,9 @@ export default NextAuth({
             "X-Entity-Ref-ID": `${new Date().getTime()}`,
           },
         });
+
+        console.log(r);
+        console.error(r);
       },
     }),
     /**
