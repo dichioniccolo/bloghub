@@ -20,7 +20,7 @@ export default NextAuth({
           return;
         }
 
-        const r = await sendMail({
+        await sendMail({
           to: identifier,
           subject: `Your login link`,
           component: <LoginLink url={url} />,
@@ -30,8 +30,6 @@ export default NextAuth({
             "X-Entity-Ref-ID": `${new Date().getTime()}`,
           },
         });
-
-        throw r;
       },
     }),
     /**

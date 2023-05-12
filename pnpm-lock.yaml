@@ -292,8 +292,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       mailing-core:
-        specifier: ^0.9.15
-        version: 0.9.15(react-dom@18.2.0)(react@18.2.0)
+        specifier: 0.9.13
+        version: 0.9.13(react-dom@18.2.0)(react@18.2.0)
       next:
         specifier: ^13.4.2
         version: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
@@ -305,8 +305,8 @@ importers:
         version: 18.2.0(react@18.2.0)
     devDependencies:
       mailing:
-        specifier: ^0.9.15
-        version: 0.9.15(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
+        specifier: 0.9.13
+        version: 0.9.13(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
 
   packages/ui:
     dependencies:
@@ -5593,8 +5593,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /mailing-core@0.9.15(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-FUq49MKft1U0EVPBMy+judvHRj07N+Rmcvw6Fnt+9INx81S8VYVsmiyDBkrh5DtAaqElSRNckJ3YCY28yuAtzg==}
+  /mailing-core@0.9.13(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-0Pp/i+qGADfwiEFCPeFtm3Ae8+N3KiG5SmuB43FLfleZ7OLI57kFvIIBQZpsx5sXTtcR/I88ofjuKF4uaN3MJA==}
     dependencies:
       chalk: 4.1.2
       fs-extra: 10.1.0
@@ -5610,8 +5610,8 @@ packages:
       - react
       - react-dom
 
-  /mailing@0.9.15(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1):
-    resolution: {integrity: sha512-YF9SnyGqrdOXBpeqSmyTmxcYxHMKCnVPAYHJ2wbgVL4pik4H+0aqyblw8rPJzlEAoSaGd4UQitCk+Lc/wM8PoA==}
+  /mailing@0.9.13(next@13.4.2)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1):
+    resolution: {integrity: sha512-mL3jHFIk8oySX/ZLeyhQHI+dI5GZXYy4Htv/VWX8M98AKbm8vDGzMQT6ft0i2gnQZHMZvOKADHnZEiMGDb+eUA==}
     hasBin: true
     peerDependencies:
       next: ^12.0.0 || ^13.0.0
@@ -5647,7 +5647,7 @@ packages:
       html-minifier-terser: 7.2.0
       iron-session: 6.3.1(next@13.4.2)
       lodash: 4.17.21
-      mailing-core: 0.9.15(react-dom@18.2.0)(react@18.2.0)
+      mailing-core: 0.9.13(react-dom@18.2.0)(react@18.2.0)
       mjml: 4.14.1
       mjml-react: 2.0.8(mjml@4.14.1)(react-dom@18.2.0)(react@18.2.0)
       next: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
