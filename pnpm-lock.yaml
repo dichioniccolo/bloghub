@@ -304,8 +304,8 @@ importers:
         specifier: 2.3.2
         version: 2.3.2
       framer-motion:
-        specifier: 8.4.6
-        version: 8.4.6(react-dom@18.2.0)(react@18.2.0)
+        specifier: 8.5.5
+        version: 8.5.5(react-dom@18.2.0)(react@18.2.0)
       postcss:
         specifier: ^8.4.23
         version: 8.4.23
@@ -4457,8 +4457,8 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
-  /framer-motion@8.4.6(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-0GkpTQnhDysG5SiD2VbANtAs8yCXVQLasynVABDTZYI+Qcx1krWg+rfyveM8W78q7AX+8RTsiMz/LJ7YIRZvFw==}
+  /framer-motion@8.5.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-5IDx5bxkjWHWUF3CVJoSyUVOtrbAxtzYBBowRE2uYI/6VYhkEBD+rbTHEGuUmbGHRj6YqqSfoG7Aa1cLyWCrBA==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
