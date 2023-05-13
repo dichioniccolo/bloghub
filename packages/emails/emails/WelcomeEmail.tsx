@@ -1,7 +1,6 @@
 import {
   Body,
   Container,
-  Head,
   Heading,
   Html,
   Img,
@@ -11,6 +10,8 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+
+import Head from "./components/Head";
 
 interface WelcomeEmailProps {
   siteName: string;

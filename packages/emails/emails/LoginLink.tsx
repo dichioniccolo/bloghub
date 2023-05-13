@@ -2,7 +2,6 @@ import {
   Body,
   Button,
   Container,
-  Head,
   Heading,
   Hr,
   Html,
@@ -13,6 +12,8 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+
+import Head from "./components/Head";
 
 interface LoginLinkProps {
   siteName: string;
