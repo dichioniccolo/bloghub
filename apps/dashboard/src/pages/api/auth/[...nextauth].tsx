@@ -1,56 +1,52 @@
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
-import { Client } from "postmark";
 
 import { authOptions } from "@acme/auth";
-import { WelcomeEmail, sendMarketingMail } from "@acme/emails";
+import { prisma } from "@acme/db";
+import {
+  LoginLink,
+  WelcomeEmail,
+  sendMail,
+  sendMarketingMail,
+} from "@acme/emails";
 
 import { env } from "~/env.mjs";
-
-// Send an email:
-const client = new Client(env.POSTMARK_API_KEY);
 
 export default NextAuth({
   ...authOptions,
   providers: [
     EmailProvider({
-      from: env.POSTMARK_FROM,
-      async sendVerificationRequest({ identifier, url, provider }) {
+      async sendVerificationRequest({ identifier, url }) {
         if (identifier !== "dichioniccolo@gmail.com") {
           return;
         }
 
-        const result = await client.sendEmailWithTemplate({
-          TemplateId: env.POSTMARK_LOGIN_LINK_TEMPLATE_ID,
-          To: identifier,
-          From: provider.from ?? env.POSTMARK_FROM,
-          TemplateModel: {
-            url,
+        const user = await prisma.user.findUnique({
+          where: {
+            email: identifier,
           },
-          Headers: [
-            {
-              // Set this to prevent Gmail from threading emails.
-              // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
-              Name: "X-Entity-Ref-ID",
-              Value: `${new Date().getTime()}`,
-            },
-          ],
+          select: {
+            name: true,
+          },
         });
 
-        if (result.ErrorCode) {
-          throw new Error(result.Message);
-        }
-
-        // await sendMail({
-        //   to: identifier,
-        //   subject: "Your login link",
-        //   component: <LoginLink url={url} />,
-        //   headers: {
-        //     // Set this to prevent Gmail from threading emails.
-        //     // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
-        //     "X-Entity-Ref-ID": `${new Date().getTime()}`,
-        //   },
-        // });
+        await sendMail({
+          to: identifier,
+          subject: "Your login link",
+          component: (
+            <LoginLink
+              siteName={env.NEXT_PUBLIC_APP_NAME}
+              url={url}
+              userName={user?.name}
+              userEmail={identifier}
+            />
+          ),
+          headers: {
+            // Set this to prevent Gmail from threading emails.
+            // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
+            "X-Entity-Ref-ID": `${new Date().getTime()}`,
+          },
+        });
       },
     }),
     /**
@@ -72,7 +68,12 @@ export default NextAuth({
       await sendMarketingMail({
         to: user.email,
         subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
-        component: <WelcomeEmail email={user.email} />,
+        component: (
+          <WelcomeEmail
+            siteName={env.NEXT_PUBLIC_APP_NAME}
+            userEmail={user.email}
+          />
+        ),
       });
     },
   },

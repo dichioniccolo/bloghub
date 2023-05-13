@@ -1,26 +1,21 @@
-import {
-  MjmlAll,
-  MjmlAttributes,
-  MjmlFont,
-  MjmlHead,
-  MjmlRaw,
-  MjmlStyle,
-} from "@faire/mjml-react";
-
-import { black, blue, grayDark, grayLight, purple } from "./theme";
+import { Head as BaseHead, Font } from "@react-email/components";
 
 export default function Head(): JSX.Element {
   return (
-    <MjmlHead>
-      <MjmlRaw>
-        <meta name="color-scheme" content="light dark" />
-        <meta name="supported-color-schemes" content="light dark" />
-      </MjmlRaw>
-      <MjmlFont
-        name="Inter"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700"
+    <BaseHead>
+      <meta name="color-scheme" content="light dark" />
+      <meta name="supported-color-schemes" content="light dark" />
+      <Font
+        fontFamily="Roboto"
+        fallbackFontFamily="Verdana"
+        webFont={{
+          url: "https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2",
+          format: "woff2",
+        }}
+        fontWeight={400}
+        fontStyle="normal"
       />
-      <MjmlStyle>{`
+      {/* <MjmlStyle>{`
         .container {
           border: solid 1px ${grayLight};
           border-radius: 8px;
@@ -112,7 +107,7 @@ export default function Head(): JSX.Element {
       `}</MjmlStyle>
       <MjmlAttributes>
         <MjmlAll font-family='Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' />
-      </MjmlAttributes>
-    </MjmlHead>
+      </MjmlAttributes> */}
+    </BaseHead>
   );
 }

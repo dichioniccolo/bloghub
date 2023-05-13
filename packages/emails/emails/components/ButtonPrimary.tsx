@@ -1,13 +1,4 @@
-import { MjmlButton } from "@faire/mjml-react";
-
-import {
-  black,
-  borderBase,
-  grayLight,
-  leadingTight,
-  textSm,
-  white,
-} from "./theme";
+import { Button } from "@react-email/components";
 
 export default function ButtonPrimary({
   link,
@@ -18,21 +9,13 @@ export default function ButtonPrimary({
 }): JSX.Element {
   return (
     <>
-      <MjmlButton
-        lineHeight={leadingTight}
-        fontSize={textSm}
-        fontWeight="600"
-        height={32}
-        align="left"
+      <Button
+        className="h-8 rounded-lg bg-black text-left text-sm font-semibold leading-tight text-gray-200"
         href={link}
-        backgroundColor={black}
-        color={grayLight}
-        borderRadius={borderBase}
-        cssClass="light-mode"
       >
         {uiText}
-      </MjmlButton>
-      <MjmlButton
+      </Button>
+      {/* <MjmlButton
         lineHeight={leadingTight}
         fontSize={textSm}
         fontWeight="600"
@@ -45,7 +28,7 @@ export default function ButtonPrimary({
         cssClass="dark-mode"
       >
         {uiText}
-      </MjmlButton>
+      </MjmlButton> */}
     </>
   );
 }

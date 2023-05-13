@@ -1,18 +1,18 @@
-import { MjmlColumn, MjmlSection, MjmlText } from "@faire/mjml-react";
+import { Column, Section, Text } from "@react-email/components";
 
 export default function Footer({
   unsubscribe,
-  footnote: _ = true,
+  footnote = true,
 }: {
   unsubscribe?: boolean;
   footnote?: boolean;
 }): JSX.Element {
   return (
-    <MjmlSection cssClass="smooth">
-      <MjmlColumn>
-        <MjmlText cssClass="footer">
+    <Section>
+      <Column>
+        <Text className="px-6 pb-6">
           © {new Date().getFullYear()}
-          {/* Dub.sh */}
+          Niccolò Di Chio
           {unsubscribe && (
             <>
               &nbsp;&nbsp;·&nbsp;&nbsp;
@@ -21,14 +21,14 @@ export default function Footer({
               </a>
             </>
           )}
-        </MjmlText>
-        {/* {footnote && (
-          <MjmlText cssClass="footer">
+        </Text>
+        {footnote && (
+          <Text className="px-6 pb-6">
             If you have any feedback or questions about this email, simply reply
-            to it. I'd love to hear from you!
-          </MjmlText>
-        )} */}
-      </MjmlColumn>
-    </MjmlSection>
+            to it. I&apos;d love to hear from you!
+          </Text>
+        )}
+      </Column>
+    </Section>
   );
 }

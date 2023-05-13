@@ -7,8 +7,11 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    POSTMARK_API_KEY: z.string().min(1),
-    POSTMARK_FROM: z.preprocess(
+    SMTP_HOST: z.string().min(1),
+    SMTP_PORT: z.string().min(1).transform(Number),
+    SMTP_USER: z.string().min(1),
+    SMTP_PASSWORD: z.string().min(1),
+    SMTP_FROM: z.preprocess(
       // get from the string the value between the < and > characters
       (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
       z.string().email(),
@@ -23,7 +26,10 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    POSTMARK_API_KEY: process.env.POSTMARK_API_KEY,
-    POSTMARK_FROM: process.env.POSTMARK_FROM,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    SMTP_FROM: process.env.SMTP_FROM,
   },
 });

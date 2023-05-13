@@ -1,9 +1,9 @@
-import { MjmlColumn, MjmlSection, MjmlText } from "@faire/mjml-react";
+import { Column, Section, Text } from "@react-email/components";
 
 export default function Header({ title }: { title: string }): JSX.Element {
   return (
-    <MjmlSection>
-      <MjmlColumn>
+    <Section>
+      <Column>
         {/* <MjmlImage
           padding="12px 0 24px"
           width="44px"
@@ -12,10 +12,8 @@ export default function Header({ title }: { title: string }): JSX.Element {
           src="https://dub.sh/_static/logo.png"
           cssClass="logo"
         /> */}
-        <MjmlText cssClass="title" align="center">
-          {title}
-        </MjmlText>
-      </MjmlColumn>
-    </MjmlSection>
+        <Text className="text-center text-2xl">{title}</Text>
+      </Column>
+    </Section>
   );
 }

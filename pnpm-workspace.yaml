@@ -1,5 +1,5 @@
 packages:
-  - apps/api
+  # - apps/api
   # - apps/blog
   - apps/dashboard
   # - apps/landing

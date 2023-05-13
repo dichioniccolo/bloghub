@@ -17,13 +17,6 @@ export const env = createEnv({
       .transform((str) => str === "true"),
     VERCEL_PROJECT_ID: z.string().min(1),
     VERCEL_TEAM_ID: z.string().min(1),
-    POSTMARK_API_KEY: z.string().min(1),
-    POSTMARK_FROM: z.preprocess(
-      // get from the string the value between the < and > characters
-      (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
-      z.string().email(),
-    ),
-    POSTMARK_LOGIN_LINK_TEMPLATE_ID: z.string().min(1).transform(Number),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -44,9 +37,5 @@ export const env = createEnv({
     VERCEL_ENABLE_DOMAIN: process.env.VERCEL_ENABLE_DOMAIN,
     VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
     VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
-    POSTMARK_LOGIN_LINK_TEMPLATE_ID:
-      process.env.POSTMARK_LOGIN_LINK_TEMPLATE_ID,
-    POSTMARK_API_KEY: process.env.POSTMARK_API_KEY,
-    POSTMARK_FROM: process.env.POSTMARK_FROM,
   },
 });
