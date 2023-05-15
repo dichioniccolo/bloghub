@@ -68,8 +68,8 @@ importers:
         specifier: ^0.1.10
         version: 0.1.10
       '@vercel/kv':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.2.1
+        version: 0.2.1
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
@@ -2916,8 +2916,8 @@ packages:
     engines: {node: '>=14.6'}
     dev: false
 
-  /@vercel/kv@0.2.0:
-    resolution: {integrity: sha512-cMPpNGDtbqmSiELq3OhP6h8nhjmyyFj7yEcxisD0yCEHQvL38moS+xT105lwHbt/j42pBp9jcJsdx1wYfRERSg==}
+  /@vercel/kv@0.2.1:
+    resolution: {integrity: sha512-0O1CVh0maG/bduAE6DPKUTfGSnORgrcS5xBYZCb62sOU7PrVZrXhaPbUSBE4q5PXS5DC+cpN6FY2RWNlslUaWQ==}
     engines: {node: '>=14.6'}
     dependencies:
       '@upstash/redis': 1.20.6
