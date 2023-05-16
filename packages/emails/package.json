@@ -17,7 +17,7 @@
     "@react-email/render": "^0.0.7",
     "@types/nodemailer": "^6.4.7",
     "classnames": "2.3.2",
-    "framer-motion": "10.12.11",
+    "framer-motion": "10.12.12",
     "prism-react-renderer": "2.0.4",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",
