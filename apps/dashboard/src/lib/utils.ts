@@ -45,3 +45,7 @@ export function generateDomainFromName(name: string) {
 
   return `${shortestString}.to`;
 }
+
+export function getDefaultUserImage(email: string) {
+  return `https://unavatar.io/gravatar/${email}?fallback=https://avatar.vercel.sh/${email}?size=400`;
+}

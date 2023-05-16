@@ -5,6 +5,7 @@ import { Skeleton } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { ProjectsDropdown } from "./_components/ProjectsDropdown";
+import { UserDropdown } from "./_components/UserDropdown";
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
@@ -21,7 +22,7 @@ export default function Layout({ children }: PropsWithChildren) {
               <ProjectsDropdown />
             </Suspense>
           </div>
-          <span>user</span>
+          <UserDropdown />
         </div>
       </header>
       <div className="container grid gap-12">

@@ -9,7 +9,7 @@ import { authOptions } from "@acme/auth";
 
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/utils";
-import { Providers } from "./Providers";
+import { Providers } from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
