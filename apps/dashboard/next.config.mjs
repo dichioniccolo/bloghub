@@ -2,6 +2,7 @@
 import "@acme/auth/env.mjs";
 import "@acme/db/env.mjs";
 import "@acme/emails/env.mjs";
+import "@acme/stripe/env.mjs";
 import "./src/env.mjs";
 
 /** @type {import("next").NextConfig} */

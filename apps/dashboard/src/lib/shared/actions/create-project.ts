@@ -6,8 +6,8 @@ import { z } from "zod";
 
 import { Role, prisma } from "@acme/db";
 
-import { createDomain } from "../external/vercel";
-import { zact } from "../zact/server";
+import { createDomain } from "../../external/vercel";
+import { zact } from "../../zact/server";
 
 export const createProject = zact(
   z.object({
@@ -36,7 +36,7 @@ export const createProject = zact(
           return true;
         }
 
-        return !blackList.includes(domain);
+        return !blackList.some((x) => x?.toString().includes(domain));
       }, "Domain not available"),
   }),
 )(async (input) => {

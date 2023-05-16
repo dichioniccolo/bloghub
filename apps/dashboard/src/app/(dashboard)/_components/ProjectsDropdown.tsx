@@ -1,6 +1,6 @@
 "use server";
 
-import { getProjects } from "~/app/api";
+import { getProjects } from "~/lib/shared/api/projects";
 import { ProjectsDropdownClient } from "./ProjectsDropdownClient";
 
 export async function ProjectsDropdown() {

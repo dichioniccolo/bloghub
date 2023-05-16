@@ -10,7 +10,7 @@ export const UserAuthSchema = z.object({
 export type UserAuthSchemaType = z.infer<typeof UserAuthSchema>;
 
 export const UserNameSchema = z.object({
-  name: z.string().min(3).max(50),
+  name: z.string(),
 });
 
 export type UserNameSchemaType = z.infer<typeof UserNameSchema>;

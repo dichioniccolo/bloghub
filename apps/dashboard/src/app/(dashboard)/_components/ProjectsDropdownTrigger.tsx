@@ -5,8 +5,9 @@ import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { Avatar, AvatarImage, BlurImage, Button } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { type GetProjects } from "~/app/api";
 import { useUser } from "~/hooks/use-user";
+import { type GetProjects } from "~/lib/shared/api/projects";
+import { getDefaultUserImage } from "~/lib/utils";
 import { useSelectedProject } from "./useSelectedProject";
 
 type Props = ComponentPropsWithoutRef<"button"> & {
@@ -42,10 +43,7 @@ export const ProjectsDropdownTrigger = forwardRef<HTMLButtonElement, Props>(
             <Avatar>
               <AvatarImage
                 alt={user.email}
-                src={
-                  user.image ??
-                  `https://api.dicebear.com/6.x/adventurer/svg?seed=${user.email}`
-                }
+                src={user.image ?? getDefaultUserImage(user.email)}
               />
             </Avatar>
           )}

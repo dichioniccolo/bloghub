@@ -9,7 +9,7 @@ import {
 
 import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
 import { Icons } from "~/app/_components/icons";
-import { type GetProjects } from "~/app/api";
+import { type GetProjects } from "~/lib/shared/api/projects";
 import { ProjectsDropdownLinks } from "./ProjectsDropdownLinks";
 import { ProjectsDropdownTrigger } from "./ProjectsDropdownTrigger";
 
@@ -26,7 +26,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
         <DropdownMenuTrigger asChild>
           <ProjectsDropdownTrigger projects={projects} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="w-56">
           <ProjectsDropdownLinks projects={projects} />
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <span className="flex items-center justify-between space-x-3">

@@ -20,7 +20,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createProject } from "~/lib/shared/actions";
+import { createProject } from "~/lib/shared/actions/create-project";
 import { generateDomainFromName } from "~/lib/utils";
 import {
   CreateProjectSchema,

@@ -1,3 +1,5 @@
+"use server";
+
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@acme/auth";
@@ -24,7 +26,30 @@ export async function getProjects() {
       id: true,
       name: true,
       logo: true,
+      domain: true,
       domainVerified: true,
+    },
+  });
+
+  return projects;
+}
+
+export async function getProjectsCount() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    return 0;
+  }
+
+  const { user } = session;
+
+  const projects = await prisma.project.count({
+    where: {
+      users: {
+        some: {
+          userId: user.id,
+        },
+      },
     },
   });
 

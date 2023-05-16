@@ -29,13 +29,20 @@ export function subdomainUrl(
 }
 
 function getProtocol() {
+  if (window !== undefined) {
+    return `${window.location.protocol}//`;
+  }
+
   return env.NODE_ENV === "production" ? "https://" : "http://";
 }
 
 export function getBaseUrlPath() {
+  if (window !== undefined) {
+    return window.location.origin.replace(/^https?:\/\//, "");
+  }
+
   if (env.NODE_ENV === "production") {
-    throw new Error(`getBaseUrlPath() is not implemented for production`);
-    // return `${env.NEXT_PUBLIC_APP_DOMAIN}`;
+    return `${process.env.VERCEL_URL}`;
   }
 
   return `localhost:3000`;

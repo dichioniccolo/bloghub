@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BlurImage, DropdownMenuItem, DropdownMenuShortcut } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { type GetProjects } from "~/app/api";
+import { type GetProjects } from "~/lib/shared/api/projects";
 import { cn } from "~/lib/utils";
 import { useSelectedProject } from "./useSelectedProject";
 

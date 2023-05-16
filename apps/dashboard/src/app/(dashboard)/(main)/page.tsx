@@ -1,0 +1,30 @@
+import { Suspense } from "react";
+import { type Metadata } from "next";
+
+import { DashboardHeader } from "~/app/_components/dashboard-header";
+import { DashboardShell } from "~/app/_components/dashboard-shell";
+import { CreateProjectButton } from "./_components/create-project-button";
+import {
+  ProjectsCards,
+  ProjectsCardsSkeleton,
+} from "./_components/projects-cards";
+
+export const metadata = {
+  title: "Dashboard",
+} satisfies Metadata;
+
+export const revalidate = 3600;
+
+export default function AppDashboardMainPage() {
+  return (
+    <DashboardShell>
+      <DashboardHeader heading="My Projects">
+        <CreateProjectButton />
+      </DashboardHeader>
+      <Suspense fallback={<ProjectsCardsSkeleton />}>
+        {/* @ts-expect-error react async component */}
+        <ProjectsCards />
+      </Suspense>
+    </DashboardShell>
+  );
+}
