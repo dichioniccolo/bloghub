@@ -3,7 +3,8 @@
 import { z } from "zod";
 
 import { prisma } from "@acme/db";
-import { createStripeClient, determinePlanPriceId } from "@acme/stripe/actions";
+import { stripe } from "@acme/stripe";
+import { determinePlanPriceId } from "@acme/stripe/actions";
 
 import { zact } from "~/lib/zact/server";
 
@@ -26,12 +27,10 @@ export const createCheckoutSession = zact(
     },
   });
 
-  const client = await createStripeClient();
-
   if (dbUser.stripeCustomerId && dbUser.stripeSubscriptionId) {
     // The user is on the pro plan.
     // Create a portal session to manage subscription.
-    const stripeSession = await client.billingPortal.sessions.create({
+    const stripeSession = await stripe.billingPortal.sessions.create({
       customer: dbUser.stripeCustomerId,
       return_url: callbackUrl,
     });
@@ -49,7 +48,7 @@ export const createCheckoutSession = zact(
     throw new Error("Unable to determine chosen plan");
   }
 
-  const stripeSession = await client.checkout.sessions.create({
+  const stripeSession = await stripe.checkout.sessions.create({
     mode: "subscription",
     payment_method_types: ["card"],
     line_items: [

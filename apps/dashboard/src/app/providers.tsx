@@ -4,16 +4,16 @@ import { type PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 
 import { type Session } from "@acme/auth";
-import { Toaster } from "@acme/ui";
+import { Toaster, TooltipProvider } from "@acme/ui";
 
-type Props = PropsWithChildren<{
+type Props = {
   session?: Session | null;
-}>;
+};
 
-export function Providers({ session, children }: Props) {
+export function Providers({ session, children }: PropsWithChildren<Props>) {
   return (
     <SessionProvider session={session}>
-      {children}
+      <TooltipProvider>{children}</TooltipProvider>
       <Toaster />
     </SessionProvider>
   );

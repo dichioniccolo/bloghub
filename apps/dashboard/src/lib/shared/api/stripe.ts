@@ -1,18 +1,15 @@
 "use server";
 
-import { proPlans } from "@acme/stripe";
-import { createStripeClient } from "@acme/stripe/actions";
+import { proPlans, stripe } from "@acme/stripe";
 
 export async function getProPlans() {
-  const client = await createStripeClient();
-
   const allPrices = [
     ...proPlans.map((x) => x.prices.monthly),
     ...proPlans.map((x) => x.prices.yearly),
   ];
 
   const prices = await Promise.all(
-    allPrices.map((p) => client.prices.retrieve(p)),
+    allPrices.map((p) => stripe.prices.retrieve(p)),
   );
 
   const plans = proPlans.map((plan) => {

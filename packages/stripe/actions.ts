@@ -1,28 +1,13 @@
 "use server";
 
-import Stripe from "stripe";
-
-import { freePlan, proPlans } from ".";
-import { env } from "./env.mjs";
-
-const stripe = new Stripe(env.STRIPE_API_KEY, {
-  apiVersion: "2022-11-15",
-  typescript: true,
-});
-
-// eslint-disable-next-line @typescript-eslint/require-await
-export const createStripeClient = async () => {
-  return stripe;
-};
+import { freePlan, proPlans, stripe } from ".";
 
 export async function getUserSubscription(subscriptionId?: string | null) {
   if (!subscriptionId) {
     return null;
   }
 
-  const client = await createStripeClient();
-
-  return await client.subscriptions.retrieve(subscriptionId);
+  return await stripe.subscriptions.retrieve(subscriptionId);
 }
 
 export async function isUserPro(
