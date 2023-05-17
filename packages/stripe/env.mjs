@@ -13,7 +13,6 @@ export const env = createEnv({
     STRIPE_PRO_10K_YEARLY_PLAN_ID: z.string().min(1),
     STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID: z.string().min(1),
     STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID: z.string().min(1),
-    STRIPE_WEBHOOK_SECRET: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -32,6 +31,5 @@ export const env = createEnv({
       process.env.STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID,
     STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID:
       process.env.STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   },
 });

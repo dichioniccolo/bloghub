@@ -8,6 +8,7 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
+    "dev": "stripe listen --forward-to localhost:3002/webhooks/stripe",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
