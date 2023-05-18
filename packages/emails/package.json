@@ -15,7 +15,7 @@
     "@radix-ui/react-toggle-group": "1.0.3",
     "@radix-ui/react-tooltip": "1.0.5",
     "@react-email/render": "^0.0.7",
-    "@types/nodemailer": "^6.4.7",
+    "@types/nodemailer": "^6.4.8",
     "classnames": "2.3.2",
     "framer-motion": "10.12.12",
     "prism-react-renderer": "2.0.4",
