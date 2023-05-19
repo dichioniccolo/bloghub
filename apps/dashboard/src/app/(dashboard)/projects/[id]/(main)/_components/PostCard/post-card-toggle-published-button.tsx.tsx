@@ -10,7 +10,6 @@ import { togglePublishedPost } from "~/lib/shared/actions/toggle-published-post"
 import { type GetPosts } from "~/lib/shared/api/posts";
 import { type GetProject } from "~/lib/shared/api/projects";
 import { cn } from "~/lib/utils";
-import { useZact } from "~/lib/zact/client";
 import { PostCardButton } from "./post-card-button";
 
 type Props = {
@@ -23,8 +22,6 @@ export function PostCardTogglePublishedButton({ project, post }: Props) {
 
   const [loading, startTransition] = useTransition();
 
-  const { mutate } = useZact(togglePublishedPost);
-
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -33,7 +30,7 @@ export function PostCardTogglePublishedButton({ project, post }: Props) {
           className="group"
           onClick={() =>
             startTransition(async () => {
-              await mutate({
+              await togglePublishedPost({
                 userId: user.id,
                 projectId: project.id,
                 postId: post.id,

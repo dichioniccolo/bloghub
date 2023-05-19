@@ -32,10 +32,10 @@ export const ProjectsDropdownTrigger = forwardRef<HTMLButtonElement, Props>(
             <BlurImage
               src={
                 selectedProject.logo ??
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAIhJREFUaEPt0sEJACEQBEHNP7XNSYOohwh9/1mw6/bMnPXxt3vAY70EHgOsBBLAAv1CGJDnCXBCPJAABuR5ApwQDySAAXmeACfEAwlgQJ4nwAnxQAIYkOcJcEI8kAAG5HkCnBAPJIABeZ4AJ8QDCWBAnifACfFAAhiQ5wlwQjyQAAbkeQKcEA9cSuOiwSGdZ9oAAAAASUVORK5CYII="
+                `https://avatar.vercel.sh/${selectedProject.name}?size=400`
               }
               alt={selectedProject.name}
-              className="h-6 w-6 overflow-hidden rounded-full sm:h-8 sm:w-8"
+              className="h-12 w-12 overflow-hidden rounded-full sm:h-8 sm:w-8"
               width={48}
               height={48}
             />

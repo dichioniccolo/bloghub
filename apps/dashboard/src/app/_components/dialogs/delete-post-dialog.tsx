@@ -17,7 +17,6 @@ import {
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { deletePost } from "~/lib/shared/actions/delete-post";
-import { useZact } from "~/lib/zact/client";
 import { PostCardButton } from "../../(dashboard)/projects/[id]/(main)/_components/PostCard/post-card-button";
 
 type Props = {
@@ -29,8 +28,6 @@ export function DeletePostDialog({ projectId, id }: Props) {
   const user = useUser();
 
   const [loading, startTransition] = useTransition();
-
-  const { mutate } = useZact(deletePost);
 
   return (
     <AlertDialog>
@@ -57,7 +54,7 @@ export function DeletePostDialog({ projectId, id }: Props) {
           <AlertDialogAction
             onClick={() =>
               startTransition(async () => {
-                await mutate({
+                await deletePost({
                   postId: id,
                   projectId,
                   userId: user.id,

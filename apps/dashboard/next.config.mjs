@@ -8,6 +8,9 @@ import "./src/env.mjs";
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  images: {
+    domains: ["avatar.vercel.sh"],
+  },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: ["@acme/emails", "@acme/auth", "@acme/db", "@acme/ui"],
   /** We already do linting and typechecking as separate tasks in CI */
