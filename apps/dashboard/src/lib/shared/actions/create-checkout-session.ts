@@ -65,6 +65,7 @@ export const createCheckoutSession = zact(
       enabled: true,
     },
     client_reference_id: userId,
+    customer: dbUser.stripeCustomerId ?? undefined,
   });
 
   return stripeSession.url;
