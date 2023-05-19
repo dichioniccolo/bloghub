@@ -1,8 +1,8 @@
 // Importing env files here to validate on build
 import "@acme/auth/env.mjs";
+import "@acme/common/env.mjs";
 import "@acme/db/env.mjs";
 import "@acme/emails/env.mjs";
-import "@acme/stripe/env.mjs";
 import "./src/env.mjs";
 
 /** @type {import("next").NextConfig} */
@@ -12,7 +12,7 @@ const config = {
     domains: ["avatar.vercel.sh"],
   },
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ["@acme/emails", "@acme/auth", "@acme/db", "@acme/ui"],
+  transpilePackages: ["@acme/emails", "@acme/auth", "@acme/db", "@acme/ui", "@acme/common"],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

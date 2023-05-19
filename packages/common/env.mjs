@@ -8,6 +8,14 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    VERCEL_API_URL: z.string().min(1),
+    VERCEL_BEARER_TOKEN: z.string().min(1),
+    VERCEL_ENABLE_DOMAIN: z
+      .string()
+      .regex(/true|false/)
+      .transform((str) => str === "true"),
+    VERCEL_PROJECT_ID: z.string().min(1),
+    VERCEL_TEAM_ID: z.string().min(1),
     STRIPE_API_KEY: z.string().min(1),
     STRIPE_PRO_10K_MONTHLY_PLAN_ID: z.string().min(1),
     STRIPE_PRO_10K_YEARLY_PLAN_ID: z.string().min(1),
@@ -24,6 +32,11 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    VERCEL_API_URL: process.env.VERCEL_API_URL,
+    VERCEL_BEARER_TOKEN: process.env.VERCEL_BEARER_TOKEN,
+    VERCEL_ENABLE_DOMAIN: process.env.VERCEL_ENABLE_DOMAIN,
+    VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
+    VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
     STRIPE_API_KEY: process.env.STRIPE_API_KEY,
     STRIPE_PRO_10K_MONTHLY_PLAN_ID: process.env.STRIPE_PRO_10K_MONTHLY_PLAN_ID,
     STRIPE_PRO_10K_YEARLY_PLAN_ID: process.env.STRIPE_PRO_10K_YEARLY_PLAN_ID,

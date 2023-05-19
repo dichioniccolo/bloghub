@@ -18,7 +18,7 @@ import Head from "./components/Head";
 interface LoginLinkProps {
   siteName: string;
   url: string;
-  userName?: string;
+  userName?: string | null;
   userEmail?: string;
 }
 

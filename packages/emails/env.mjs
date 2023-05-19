@@ -16,6 +16,10 @@ export const env = createEnv({
       (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
       z.string().email(),
     ),
+    SMTP_BROADCAST_HOST: z.string().min(1),
+    SMTP_BROADCAST_PORT: z.string().min(1).transform(Number),
+    SMTP_BROADCAST_ACCESS_KEY: z.string().min(1),
+    SMTP_BROADCAST_SECRET_KEY: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -31,5 +35,9 @@ export const env = createEnv({
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_FROM: process.env.SMTP_FROM,
+    SMTP_BROADCAST_HOST: process.env.SMTP_BROADCAST_HOST,
+    SMTP_BROADCAST_PORT: process.env.SMTP_BROADCAST_PORT,
+    SMTP_BROADCAST_ACCESS_KEY: process.env.SMTP_BROADCAST_ACCESS_KEY,
+    SMTP_BROADCAST_SECRET_KEY: process.env.SMTP_BROADCAST_SECRET_KEY,
   },
 });

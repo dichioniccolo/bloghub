@@ -1,79 +1,122 @@
-// import { Mjml, MjmlBody, MjmlWrapper } from "@faire/mjml-react";
+import {
+  Body,
+  Button,
+  Container,
+  Heading,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components";
 
-// import Footer from "./components/Footer";
-// import Head from "./components/Head";
-// import Header from "./components/Header";
+import Head from "./components/Head";
 
-// export default function InvalidDomain({
-//   domain: _1,
-//   projectSlug: _2,
-//   invalidDays: _3,
-// }: {
-//   domain: string;
-//   projectSlug: string;
-//   invalidDays: number;
-// }): JSX.Element {
-//   return (
-//     <Mjml>
-//       <Head />
-//       <MjmlBody width={500}>
-//         <MjmlWrapper cssClass="container">
-//           <Header title="Invalid Domain Configuration" />
-//           {/* <MjmlSection cssClass="smooth">
-//             <MjmlColumn>
-//               <MjmlText cssClass="paragraph">Hey there!</MjmlText>
-//               <MjmlText cssClass="paragraph">
-//                 I did a scan of all our projects and noticed that your domain{" "}
-//                 <code>
-//                   <a
-//                     rel="nofollow"
-//                     style={{
-//                       textDecoration: "none",
-//                       color: `${purple} !important`,
-//                     }}
-//                   >
-//                     {domain}
-//                   </a>
-//                 </code>{" "}
-//                 for your Dub project{" "}
-//                 <a href={`https://app.dub.sh/${projectSlug}`} target="_blank">
-//                   {projectSlug}↗
-//                 </a>{" "}
-//                 has been invalid for {invalidDays} days.
-//               </MjmlText>
-//               <MjmlText cssClass="paragraph">
-//                 If your domain remains unconfigured for 30 days, it will be
-//                 automatically deleted from Dub. Please click the link below to
-//                 configure your domain.
-//               </MjmlText>
-//               <ButtonPrimary
-//                 link={`https://app.dub.sh/${projectSlug}/domains`}
-//                 uiText="Configure my domain"
-//               />
-//               <MjmlText cssClass="paragraph">
-//                 If you do not want to keep this domain on Dub, you can{" "}
-//                 <a
-//                   href={`https://app.dub.sh/${projectSlug}/domains`}
-//                   target="_blank"
-//                 >
-//                   delete it
-//                 </a>{" "}
-//                 or simply ignore this email. To respect your inbox,{" "}
-//                 {invalidDays < 28
-//                   ? `I will only send you one more email about this in ${
-//                       28 - invalidDays
-//                     } days.`
-//                   : "this will be the last time I'll email you about this."}
-//               </MjmlText>
-//               <MjmlText cssClass="paragraph" color={grayDark}>
-//                 Steven from Dub
-//               </MjmlText>
-//               <Divider />
-//             </MjmlColumn>
-//           </MjmlSection> */}
-//           <Footer />
-//         </MjmlWrapper>
-//       </MjmlBody>
-//     </Mjml>
-//   );
-// }
+interface InvalidDomainProps {
+  siteName: string;
+  projectId: string;
+  projectName: string;
+  domain: string;
+  invalidDays: number;
+  ownerEmail: string;
+}
+
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "";
+
+export const InvalidDomain = ({
+  siteName = "MyBlog",
+  projectId = "abcd",
+  projectName = "Pippo",
+  domain = "google.com",
+  invalidDays = 3,
+  ownerEmail = "me@email.com",
+}: InvalidDomainProps) => {
+  const previewText = `Your ${siteName} domain ${domain} is not configured`;
+
+  return (
+    <Html>
+      <Head />
+      <Preview>{previewText}</Preview>
+      <Tailwind>
+        <Body className="mx-auto my-auto bg-white font-sans">
+          <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
+            <Section className="mt-[32px]">
+              <Img
+                src={`${baseUrl}/static/logo.png`}
+                width="40"
+                height="37"
+                alt={siteName}
+                className="mx-auto my-0"
+              />
+            </Section>
+            <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
+              Hey there!
+            </Heading>
+            <Text className="text-[14px] leading-[24px] text-black">
+              I did a scan of all our projects and noticed that your domain{" "}
+              <Link rel="nofollow" className="text-blue-600 no-underline">
+                {domain}
+              </Link>{" "}
+              for project <strong>{projectName}</strong> has been invalid for{" "}
+              {invalidDays} days.
+            </Text>
+            <Text className="text-[14px] leading-[24px] text-black">
+              If your domain remains unconfigured for 7 days, your project will
+              be automatically deleted. Please click the link below to configure
+              your domain.
+            </Text>
+            <Section className="mb-[32px] mt-[32px] text-center">
+              <Button
+                pX={20}
+                pY={12}
+                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                href={`${baseUrl}/projects/${projectId}/settings`}
+              >
+                Configure domain
+              </Button>
+            </Section>
+            <Hr />
+            <Text className="text-[14px] leading-[24px] text-black">
+              If you do not want to keep this project, you can{" "}
+            </Text>
+            <Section className="mb-[32px] mt-[32px] text-center">
+              <Button
+                pX={20}
+                pY={12}
+                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                href={`${baseUrl}/projects/${projectId}/settings`}
+              >
+                Delete it
+              </Button>
+            </Section>
+            <Text className="text-[14px] leading-[24px] text-black">
+              or simply ignore this email.
+            </Text>
+            <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
+            <Text className="text-[12px] leading-[24px] text-[#666666]">
+              This email was intended for{" "}
+              <span className="text-black">{ownerEmail}</span>. If you were not
+              expecting this email, you can ignore it. If you are concerned
+              about your account&apos;s safety, please reply to this email to
+              get in touch with us.
+            </Text>
+            <Link
+              className="text-center text-xs"
+              href="{{{ pm:unsubscribe }}}"
+              target="_blank"
+            >
+              Unsubscribe
+            </Link>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  );
+};
+
+export default InvalidDomain;

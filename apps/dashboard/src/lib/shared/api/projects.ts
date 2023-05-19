@@ -3,8 +3,8 @@
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@acme/auth";
+import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
-import { determinePlanByPriceId } from "@acme/stripe/actions";
 
 export async function getProjects() {
   const session = await getServerSession(authOptions);

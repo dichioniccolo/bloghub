@@ -7,5 +7,5 @@ packages:
   - packages/config/*
   - packages/db
   - packages/emails
-  - packages/stripe
+  - packages/common
   - packages/ui

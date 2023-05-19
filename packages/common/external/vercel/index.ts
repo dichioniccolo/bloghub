@@ -1,6 +1,6 @@
 "use server";
 
-import { env } from "~/env.mjs";
+import { env } from "../../env.mjs";
 
 export interface ConfigJSON {
   configuredBy: string;

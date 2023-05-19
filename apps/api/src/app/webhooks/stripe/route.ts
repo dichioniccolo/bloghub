@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { stripe, type Stripe } from "@acme/common/external/stripe";
+import { getUserSubscription } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
-import { stripe, type Stripe } from "@acme/stripe";
-import { getUserSubscription } from "@acme/stripe/actions";
 
 import { env } from "~/env.mjs";
 
@@ -124,6 +124,7 @@ export async function POST(req: Request) {
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return new Response(`Webhook Error: Unhandled ${e.message}`, {
       status: 500,
     });

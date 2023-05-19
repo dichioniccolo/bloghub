@@ -12,7 +12,7 @@ import {
 
 import { env } from "~/env.mjs";
 
-export default NextAuth({
+const handler = NextAuth({
   ...authOptions,
   providers: [
     EmailProvider({
@@ -78,3 +78,5 @@ export default NextAuth({
     },
   },
 });
+
+export { handler as GET, handler as POST };

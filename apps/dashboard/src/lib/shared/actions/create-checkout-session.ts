@@ -2,9 +2,9 @@
 
 import { z } from "zod";
 
+import { stripe } from "@acme/common/external/stripe";
+import { determinePlanPriceId } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
-import { stripe } from "@acme/stripe";
-import { determinePlanPriceId } from "@acme/stripe/actions";
 
 import { zact } from "~/lib/zact/server";
 

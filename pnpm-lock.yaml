@@ -43,12 +43,15 @@ importers:
 
   apps/api:
     dependencies:
+      '@acme/common':
+        specifier: ^0.1.0
+        version: link:../../packages/common
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
-      '@acme/stripe':
+      '@acme/emails':
         specifier: ^0.1.0
-        version: link:../../packages/stripe
+        version: link:../../packages/emails
       '@t3-oss/env-nextjs':
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
@@ -101,15 +104,15 @@ importers:
       '@acme/auth':
         specifier: ^0.1.0
         version: link:../../packages/auth
+      '@acme/common':
+        specifier: ^0.1.0
+        version: link:../../packages/common
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
       '@acme/emails':
         specifier: ^0.1.0
         version: link:../../packages/emails
-      '@acme/stripe':
-        specifier: ^0.1.0
-        version: link:../../packages/stripe
       '@acme/tailwind-config':
         specifier: ^0.1.0
         version: link:../../packages/config/tailwind
@@ -248,6 +251,31 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4
 
+  packages/common:
+    dependencies:
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../db
+      '@t3-oss/env-nextjs':
+        specifier: ^0.3.1
+        version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
+      stripe:
+        specifier: ^12.6.0
+        version: 12.6.0
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: ^0.1.0
+        version: link:../config/eslint
+      eslint:
+        specifier: ^8.40.0
+        version: 8.40.0
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+
   packages/config/eslint:
     dependencies:
       '@types/eslint':
@@ -340,7 +368,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       react-email:
-        specifier: 1.9.3
+        specifier: ^1.9.3
         version: 1.9.3
       zod:
         specifier: ^3.21.4
@@ -385,28 +413,6 @@ importers:
       prism-react-renderer:
         specifier: 2.0.4
         version: 2.0.4(react@18.2.0)
-      typescript:
-        specifier: ^5.0.4
-        version: 5.0.4
-
-  packages/stripe:
-    dependencies:
-      '@t3-oss/env-nextjs':
-        specifier: ^0.3.1
-        version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
-      stripe:
-        specifier: ^12.6.0
-        version: 12.6.0
-      zod:
-        specifier: ^3.21.4
-        version: 3.21.4
-    devDependencies:
-      '@acme/eslint-config':
-        specifier: ^0.1.0
-        version: link:../config/eslint
-      eslint:
-        specifier: ^8.40.0
-        version: 8.40.0
       typescript:
         specifier: ^5.0.4
         version: 5.0.4
@@ -1475,7 +1481,7 @@ packages:
     resolution: {integrity: sha512-/aFM2M4HVDBT/jjDBa84sJniv1t9Gm/rLkalaz9htOm+L+8JMj1k9w0CkUdcxNyNxZPlTxKPVko+m1VlM58ZVA==}
     engines: {node: '>= 14'}
     dependencies:
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
     dev: false
 
   /@octokit/core@4.2.1:
@@ -1486,7 +1492,7 @@ packages:
       '@octokit/graphql': 5.0.5
       '@octokit/request': 6.2.5
       '@octokit/request-error': 3.0.3
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
       before-after-hook: 2.2.3
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
@@ -1497,7 +1503,7 @@ packages:
     resolution: {integrity: sha512-LG4o4HMY1Xoaec87IqQ41TQ+glvIeTKqfjkCEmt5AIwDZJwQeVZFIEYXrYY6yLwK+pAScb9Gj4q+Nz2qSw1roA==}
     engines: {node: '>= 14'}
     dependencies:
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
       is-plain-object: 5.0.0
       universal-user-agent: 6.0.0
     dev: false
@@ -1507,7 +1513,7 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       '@octokit/request': 6.2.5
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
       - encoding
@@ -1517,14 +1523,14 @@ packages:
     resolution: {integrity: sha512-MazrFNx4plbLsGl+LFesMo96eIXkFgEtaKbnNpdh4aQ0VM10aoylFsTYP1AEjkeoRNZiiPe3T6Gl2Hr8dJWdlQ==}
     dev: false
 
-  /@octokit/plugin-paginate-rest@6.1.0(@octokit/core@4.2.1):
-    resolution: {integrity: sha512-5T4iXjJdYCVA1rdWS1C+uZV9AvtZY9QgTG74kFiSFVj94dZXowyi/YK8f4SGjZaL69jZthGlBaDKRdCMCF9log==}
+  /@octokit/plugin-paginate-rest@6.1.1(@octokit/core@4.2.1):
+    resolution: {integrity: sha512-64kiYiv//JIEk6XdEhysyWCmtKt+ranjUiCsokBKhTvmF+3WiH+vdlF+HSvD/6PmbVWRQ7BMoOC6nvDhblR18w==}
     engines: {node: '>= 14'}
     peerDependencies:
       '@octokit/core': '>=4'
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
     dev: false
 
   /@octokit/plugin-request-log@1.0.4(@octokit/core@4.2.1):
@@ -1535,14 +1541,14 @@ packages:
       '@octokit/core': 4.2.1
     dev: false
 
-  /@octokit/plugin-rest-endpoint-methods@7.1.1(@octokit/core@4.2.1):
-    resolution: {integrity: sha512-1XYEQZOGrD4FDa2bxuPfAVmzbKbUDs+P1dqn2TyufIW3EIZFI53n+YFr0XV+EBNATRWUL2rWuZJRKBZiU6guGA==}
+  /@octokit/plugin-rest-endpoint-methods@7.1.2(@octokit/core@4.2.1):
+    resolution: {integrity: sha512-R0oJ7j6f/AdqPLtB9qRXLO+wjI9pctUn8Ka8UGfGaFCcCv3Otx14CshQ89K4E88pmyYZS8p0rNTiprML/81jig==}
     engines: {node: '>= 14'}
     peerDependencies:
       '@octokit/core': '>=3'
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
       deprecation: 2.3.1
     dev: false
 
@@ -1550,7 +1556,7 @@ packages:
     resolution: {integrity: sha512-crqw3V5Iy2uOU5Np+8M/YexTlT8zxCfI+qu+LxUB7SZpje4Qmx3mub5DfEKSO8Ylyk0aogi6TYdf6kxzh2BguQ==}
     engines: {node: '>= 14'}
     dependencies:
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
       deprecation: 2.3.1
       once: 1.4.0
     dev: false
@@ -1561,7 +1567,7 @@ packages:
     dependencies:
       '@octokit/endpoint': 7.0.5
       '@octokit/request-error': 3.0.3
-      '@octokit/types': 9.2.2
+      '@octokit/types': 9.2.3
       is-plain-object: 5.0.0
       node-fetch: 2.6.11
       universal-user-agent: 6.0.0
@@ -1574,15 +1580,15 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/plugin-paginate-rest': 6.1.0(@octokit/core@4.2.1)
+      '@octokit/plugin-paginate-rest': 6.1.1(@octokit/core@4.2.1)
       '@octokit/plugin-request-log': 1.0.4(@octokit/core@4.2.1)
-      '@octokit/plugin-rest-endpoint-methods': 7.1.1(@octokit/core@4.2.1)
+      '@octokit/plugin-rest-endpoint-methods': 7.1.2(@octokit/core@4.2.1)
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@octokit/types@9.2.2:
-    resolution: {integrity: sha512-9BjDxjgQIvCjNWZsbqyH5QC2Yni16oaE6xL+8SUBMzcYPF4TGQBXGA97Cl3KceK9mwiNMb1mOYCz6FbCCLEL+g==}
+  /@octokit/types@9.2.3:
+    resolution: {integrity: sha512-MMeLdHyFIALioycq+LFcA71v0S2xpQUX2cw6pPbHQjaibcHYwLnmK/kMZaWuGfGfjBJZ3wRUq+dOaWsvrPJVvA==}
     dependencies:
       '@octokit/openapi-types': 17.2.0
     dev: false
@@ -3323,7 +3329,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001488
-      electron-to-chromium: 1.4.401
+      electron-to-chromium: 1.4.402
       node-releases: 2.0.10
       update-browserslist-db: 1.0.11(browserslist@4.21.5)
 
@@ -3939,8 +3945,8 @@ packages:
       semver: 5.7.1
       sigmund: 1.0.1
 
-  /electron-to-chromium@1.4.401:
-    resolution: {integrity: sha512-AswqHsYyEbfSn0x87n31Na/xttUqEAg7NUjpiyxC20MaWKLyadOYHMzyLdF78N1iw+FK8/2KHLpZxRdyRILgtA==}
+  /electron-to-chromium@1.4.402:
+    resolution: {integrity: sha512-gWYvJSkohOiBE6ecVYXkrDgNaUjo47QEKK0kQzmWyhkH+yoYiG44bwuicTGNSIQRG3WDMsWVZJLRnJnLNkbWvA==}
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}

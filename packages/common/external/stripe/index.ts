@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-import { env } from "./env.mjs";
+import { env } from "../../env.mjs";
 
 export { Stripe };
 

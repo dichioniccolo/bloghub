@@ -10,14 +10,20 @@ const transporter = nodemailer.createTransport({
     user: env.SMTP_USER,
     pass: env.SMTP_PASSWORD,
   },
+  headers: {
+    "X-PM-Message-Stream": "outbound",
+  },
 });
 
 const markeringTransporter = nodemailer.createTransport({
-  host: env.SMTP_HOST,
-  port: env.SMTP_PORT,
+  host: env.SMTP_BROADCAST_HOST,
+  port: env.SMTP_BROADCAST_PORT,
   auth: {
-    user: env.SMTP_USER,
-    pass: env.SMTP_PASSWORD,
+    user: env.SMTP_BROADCAST_ACCESS_KEY,
+    pass: env.SMTP_BROADCAST_SECRET_KEY,
+  },
+  headers: {
+    "X-PM-Message-Stream": "broadcast",
   },
 });
 

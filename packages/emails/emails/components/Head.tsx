@@ -3,8 +3,8 @@ import { Head as BaseHead, Font } from "@react-email/components";
 export default function Head(): JSX.Element {
   return (
     <BaseHead>
-      <meta name="color-scheme" content="light dark" />
-      <meta name="supported-color-schemes" content="light dark" />
+      {/* <meta name="color-scheme" content="light dark" />
+      <meta name="supported-color-schemes" content="light dark" /> */}
       <Font
         fontFamily="Roboto"
         fallbackFontFamily="Verdana"

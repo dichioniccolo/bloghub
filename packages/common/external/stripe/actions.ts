@@ -1,6 +1,6 @@
 "use server";
 
-import { freePlan, proPlans, stripe } from ".";
+import { freePlan, proPlans, stripe } from "../stripe";
 
 export async function getUserSubscription(subscriptionId?: string | null) {
   if (!subscriptionId) {

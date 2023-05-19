@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
+import { createDomain } from "@acme/common/external/vercel";
 import { Role, prisma } from "@acme/db";
 
-import { createDomain } from "../../external/vercel";
 import { zact } from "../../zact/server";
 
 export const createProject = zact(
