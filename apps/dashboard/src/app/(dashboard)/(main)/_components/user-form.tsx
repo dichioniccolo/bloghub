@@ -9,8 +9,12 @@ import {
   CardHeader,
   CardTitle,
   Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -50,26 +54,26 @@ export function UserNameForm() {
           name: user.name ?? "",
         }}
       >
-        {({ register, formState: { errors, isSubmitting } }) => (
+        {({ formState: { isSubmitting } }) => (
           <>
             <CardContent>
-              <div className="grid gap-1">
-                <Label className="sr-only" htmlFor="name">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  className="w-[400px]"
-                  size={32}
-                  defaultValue={user.name ?? ""}
-                  {...register("name")}
-                />
-                {errors?.name && (
-                  <p className="px-1 text-xs text-red-600">
-                    {errors.name.message}
-                  </p>
+              <FormField
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-[400px]"
+                        size={32}
+                        disabled={isSubmitting}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
+              />
             </CardContent>
             <CardFooter>
               <Button disabled={isSubmitting}>

@@ -9,8 +9,12 @@ import {
   DialogHeader,
   DialogTitle,
   Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
   useToast,
 } from "@acme/ui";
 
@@ -70,25 +74,26 @@ function CreatePostDialog({ projectId, open, setOpen }: Props) {
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
-          {({ register, formState: { isSubmitting, errors } }) => (
+          {({ formState: { isSubmitting } }) => (
             <>
-              <div className="grid gap-1">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  type="text"
-                  placeholder="A title that suits your post"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  disabled={isSubmitting}
-                  {...register("title")}
-                />
-                {errors?.title && (
-                  <p className="px-1 text-xs text-red-600">
-                    {errors.title.message}
-                  </p>
+              <FormField
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="A title that suits your post"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        disabled={isSubmitting}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
+              />
               <Button disabled={isSubmitting}>
                 {isSubmitting && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

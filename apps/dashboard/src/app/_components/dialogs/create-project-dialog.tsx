@@ -14,8 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
   Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -61,46 +65,51 @@ function CreateProjectDialog({ open, setOpen }: Props) {
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
-          {({ register, setValue, formState: { isSubmitting, errors } }) => (
+          {({ setValue, formState: { isSubmitting } }) => (
             <>
-              <div className="grid gap-1">
-                <Label htmlFor="name">Project Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="My project name"
-                  autoComplete="project-name"
-                  autoCorrect="off"
-                  {...register("name", {
-                    onChange(e: { target: { value: string } }) {
-                      const value = e.target.value;
+              <FormField
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="My project name"
+                        autoComplete="project-name"
+                        autoCorrect="off"
+                        disabled={isSubmitting}
+                        {...field}
+                        onChange={(e: { target: { value: string } }) => {
+                          const value = e.target.value;
 
-                      setValue("domain", generateDomainFromName(value));
-                    },
-                  })}
-                />
-                {errors?.name && (
-                  <p className="px-1 text-xs text-red-600">
-                    {errors.name.message?.toString()}
-                  </p>
+                          setValue("domain", generateDomainFromName(value));
+                          field.onChange(e);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
-              <div className="grid gap-1">
-                <Label htmlFor="domain">Domain</Label>
-                <Input
-                  id="domain"
-                  type="text"
-                  placeholder="blog.me.com"
-                  autoComplete="domain"
-                  autoCorrect="off"
-                  {...register("domain")}
-                />
-                {errors?.domain && (
-                  <p className="px-1 text-xs text-red-600">
-                    {errors.domain.message?.toString()}
-                  </p>
+              />
+
+              <FormField
+                name="domain"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Domain</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="blog.me.com"
+                        autoComplete="domain"
+                        autoCorrect="off"
+                        disabled={isSubmitting}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </div>
+              />
               <Button disabled={isSubmitting}>
                 {isSubmitting && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

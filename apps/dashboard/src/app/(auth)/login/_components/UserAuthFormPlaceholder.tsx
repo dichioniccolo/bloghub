@@ -1,6 +1,15 @@
 "use client";
 
-import { Form, Input, Label, buttonVariants } from "@acme/ui";
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/utils";
@@ -15,34 +24,33 @@ export function UserAuthFormPlaceholder() {
           //
         }}
       >
-        {({ register, formState: { isSubmitting, errors } }) => (
+        {({ formState: { isSubmitting } }) => (
           <div className="grid gap-2">
-            <div className="grid gap-1">
-              <Label className="sr-only" htmlFor="email">
-                Email
-              </Label>
-              <Input
-                disabled
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                {...register("email")}
-              />
-              {errors?.email && (
-                <p className="px-1 text-xs text-red-600">
-                  {errors.email.message?.toString()}
-                </p>
+            <FormField
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="you@example.com"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                      autoCorrect="off"
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </div>
-            <button disabled className={cn(buttonVariants())}>
+            />
+            <Button disabled>
               {isSubmitting && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
               Sign In with Email
-            </button>
+            </Button>
           </div>
         )}
       </Form>

@@ -8,10 +8,14 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
+  Button,
   Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
-  buttonVariants,
   useToast,
 } from "@acme/ui";
 
@@ -66,9 +70,28 @@ export function UserAuthForm({ className, ...props }: Props) {
         </Alert>
       )}
       <Form schema={UserAuthSchema} onSubmit={onSubmit}>
-        {({ register, formState: { isSubmitting, errors } }) => (
+        {({ formState: { isSubmitting } }) => (
           <div className="grid gap-2">
-            <div className="grid gap-1">
+            <FormField
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="you@example.com"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                      autoCorrect="off"
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* <div className="grid gap-1">
               <Label className="sr-only" htmlFor="email">
                 Email
               </Label>
@@ -87,13 +110,13 @@ export function UserAuthForm({ className, ...props }: Props) {
                   {errors.email.message?.toString()}
                 </p>
               )}
-            </div>
-            <button className={cn(buttonVariants())} disabled={isSubmitting}>
+            </div> */}
+            <Button disabled={isSubmitting}>
               {isSubmitting && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
               Sign In with Email
-            </button>
+            </Button>
           </div>
         )}
       </Form>

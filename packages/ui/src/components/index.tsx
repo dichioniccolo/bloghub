@@ -15,6 +15,7 @@ export * from "./ui/command";
 export * from "./ui/context-menu";
 export * from "./ui/dialog";
 export * from "./ui/dropdown-menu";
+export * from "./ui/form";
 export * from "./ui/hover-card";
 export * from "./ui/input";
 export * from "./ui/label";

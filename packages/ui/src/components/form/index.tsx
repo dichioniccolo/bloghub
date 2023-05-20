@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-
 import {
   type ComponentProps,
   type HTMLAttributes,
