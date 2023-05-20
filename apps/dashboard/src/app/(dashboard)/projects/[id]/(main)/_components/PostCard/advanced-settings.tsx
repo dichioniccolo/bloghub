@@ -2,8 +2,7 @@
 
 import { type Dispatch, type SetStateAction } from "react";
 import Link from "next/link";
-
-// import { ColorInput, ColorPicker } from "@mantine/core";
+import { HexColorInput } from "react-colorful";
 
 import {
   Accordion,
@@ -92,7 +91,7 @@ export function AdvancedSettings({
               Foreground Color
             </Label>
             <div className="relative mt-1 flex h-9 w-48 rounded-md shadow-sm">
-              <Tooltip>
+              {/* <Tooltip>
                 <TooltipTrigger asChild>
                   <div
                     className="h-full w-12 rounded-l-md border"
@@ -103,24 +102,28 @@ export function AdvancedSettings({
                   />
                 </TooltipTrigger>
                 <TooltipContent align="start">
-                  {/* <ColorPicker
-                    value={qrData.foregroundColor}
-                    format="hex"
-                    onChange={(color) => setForegroundColor(color)}
-                  /> */}
+                  <HexColorPicker
+                    color={qrData.foregroundColor}
+                    onChange={setForegroundColor}
+                  />
                 </TooltipContent>
-              </Tooltip>
-              {/* <ColorInput
+              </Tooltip> */}
+              <div
+                className="h-full w-12 rounded-l-md border"
+                style={{
+                  backgroundColor: qrData.foregroundColor,
+                  borderColor: qrData.foregroundColor,
+                }}
+              />
+              <HexColorInput
                 id="color"
                 name="color"
-                value={qrData.foregroundColor}
-                onChange={(color) => setForegroundColor(color)}
+                color={qrData.foregroundColor}
+                onChange={setForegroundColor}
+                prefixed
                 style={{ borderColor: qrData.foregroundColor }}
-                classNames={{
-                  input:
-                    "block w-full rounded-l-none rounded-r-md border-2 border-l-0 pl-3 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-black sm:text-sm",
-                }}
-              /> */}
+                className={`block w-full rounded-r-md border-2 border-l-0 pl-3 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-black sm:text-sm`}
+              />
             </div>
           </div>
         </AccordionContent>

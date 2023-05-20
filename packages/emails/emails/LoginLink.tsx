@@ -13,6 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 
+import { env } from "../env.mjs";
 import Head from "./components/Head";
 
 interface LoginLinkProps {
@@ -21,10 +22,6 @@ interface LoginLinkProps {
   userName?: string | null;
   userEmail?: string;
 }
-
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
 
 export const LoginLink = ({
   siteName = "MyBlog",
@@ -40,10 +37,10 @@ export const LoginLink = ({
       <Preview>{previewText}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
-          <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
+          <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${baseUrl}/static/logo.png`}
+                src={`${env.APP_BASE_URL}/static/logo.png`}
                 width="40"
                 height="37"
                 alt={siteName}

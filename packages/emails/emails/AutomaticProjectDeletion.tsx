@@ -16,24 +16,22 @@ import {
 import { env } from "../env.mjs";
 import Head from "./components/Head";
 
-interface InvalidDomainProps {
+interface AutomaticProjectDeletionProps {
   siteName: string;
-  projectId: string;
   projectName: string;
   domain: string;
   invalidDays: number;
   ownerEmail: string;
 }
 
-export const InvalidDomain = ({
+export const AutomaticProjectDeletion = ({
   siteName = "MyBlog",
-  projectId = "abcd",
   projectName = "Pippo",
   domain = "google.com",
   invalidDays = 3,
   ownerEmail = "me@email.com",
-}: InvalidDomainProps) => {
-  const previewText = `Your ${siteName} domain ${domain} is not configured`;
+}: AutomaticProjectDeletionProps) => {
+  const previewText = `Your ${siteName} project with domain ${domain} was deleted`;
 
   return (
     <Html>
@@ -55,7 +53,7 @@ export const InvalidDomain = ({
               Hey there!
             </Heading>
             <Text className="text-[14px] leading-[24px] text-black">
-              I did a scan of all our projects and noticed that your domain{" "}
+              Just wanted to let you know that your domain{" "}
               <Link rel="nofollow" className="text-blue-600 no-underline">
                 {domain}
               </Link>{" "}
@@ -63,37 +61,20 @@ export const InvalidDomain = ({
               {invalidDays} days.
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              If your domain remains unconfigured for 7 days, your project will
-              be automatically deleted. Please click the link below to configure
-              your domain.
+              Therefore, your project was automatically deleted. If you would
+              like to restore the project, you can easily create it again with
+              the link below.
             </Text>
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
                 pX={20}
                 pY={12}
                 className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
-                href={`${env.APP_BASE_URL}/projects/${projectId}/settings`}
+                href={env.APP_BASE_URL}
               >
-                Configure domain
+                Create project
               </Button>
             </Section>
-            <Hr />
-            <Text className="text-[14px] leading-[24px] text-black">
-              If you do not want to keep this project, you can{" "}
-            </Text>
-            <Section className="mb-[32px] mt-[32px] text-center">
-              <Button
-                pX={20}
-                pY={12}
-                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
-                href={`${env.APP_BASE_URL}/projects/${projectId}/settings`}
-              >
-                Delete it
-              </Button>
-            </Section>
-            <Text className="text-[14px] leading-[24px] text-black">
-              or simply ignore this email.
-            </Text>
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">
               This email was intended for{" "}
@@ -116,4 +97,4 @@ export const InvalidDomain = ({
   );
 };
 
-export default InvalidDomain;
+export default AutomaticProjectDeletion;

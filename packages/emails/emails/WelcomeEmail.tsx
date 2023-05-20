@@ -11,16 +11,13 @@ import {
   Text,
 } from "@react-email/components";
 
+import { env } from "../env.mjs";
 import Head from "./components/Head";
 
 interface WelcomeEmailProps {
   siteName: string;
   userEmail?: string;
 }
-
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
 
 export const WelcomeEmail = ({
   siteName = "MyBlog",
@@ -34,10 +31,10 @@ export const WelcomeEmail = ({
       <Preview>{previewText}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
-          <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
+          <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${baseUrl}/static/logo.png`}
+                src={`${env.APP_BASE_URL}/static/logo.png`}
                 width="40"
                 height="37"
                 alt={siteName}
@@ -89,37 +86,6 @@ export const WelcomeEmail = ({
 
 export default WelcomeEmail;
 
-// import {
-//   Mjml,
-//   MjmlBody,
-//   MjmlColumn,
-//   MjmlSection,
-//   MjmlText,
-//   MjmlWrapper,
-// } from "@faire/mjml-react";
-
-// import Divider from "./components/Divider";
-// import Footer from "./components/Footer";
-// import Head from "./components/Head";
-// import Header from "./components/Header";
-
-// export function WelcomeEmail({ email }: { email?: string }): JSX.Element {
-//   return (
-//     <Mjml>
-//       <Head />
-//       <MjmlBody width={500}>
-//         <MjmlWrapper cssClass="container">
-//           <Header title="Welcome" />
-//           <MjmlSection padding="0">
-//             <MjmlColumn>
-//               {/* <MjmlImage
-//                 cssClass="hero"
-//                 padding="0"
-//                 align="left"
-//                 src="https://dub.sh/_static/thumbnail.png"
-//               /> */}
-//             </MjmlColumn>
-//           </MjmlSection>
 //           <MjmlSection cssClass="smooth">
 //             <MjmlColumn>
 //               <MjmlText cssClass="paragraph">
@@ -167,9 +133,3 @@ export default WelcomeEmail;
 //               <Divider />
 //             </MjmlColumn>
 //           </MjmlSection>
-//           <Footer unsubscribe />
-//         </MjmlWrapper>
-//       </MjmlBody>
-//     </Mjml>
-//   );
-// }

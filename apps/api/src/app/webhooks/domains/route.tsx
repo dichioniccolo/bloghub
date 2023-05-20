@@ -1,7 +1,11 @@
 import { deleteDomain } from "@acme/common/external/vercel";
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
 import { EmailType, Role, prisma } from "@acme/db";
-import { InvalidDomain, sendMarketingMail } from "@acme/emails";
+import {
+  AutomaticProjectDeletion,
+  InvalidDomain,
+  sendMarketingMail,
+} from "@acme/emails";
 
 import { env } from "~/env.mjs";
 
@@ -67,41 +71,57 @@ export async function POST(_req: Request) {
           return;
         }
 
-        await sendMarketingMail({
-          to: projectOwnerEmail,
-          subject: `Your ${project.domain} domain is not configured`,
-          component: (
-            <InvalidDomain
-              siteName={env.NEXT_PUBLIC_APP_NAME}
-              projectId={project.id}
-              projectName={project.name}
-              domain={project.domain}
-              invalidDays={invalidDays}
-              ownerEmail={projectOwnerEmail}
-            />
-          ),
-        });
+        await prisma.$transaction(async (tx) => {
+          await sendMarketingMail({
+            to: projectOwnerEmail,
+            subject: `Your ${project.domain} domain is not configured`,
+            component: (
+              <InvalidDomain
+                siteName={env.NEXT_PUBLIC_APP_NAME}
+                projectId={project.id}
+                projectName={project.name}
+                domain={project.domain}
+                invalidDays={invalidDays}
+                ownerEmail={projectOwnerEmail}
+              />
+            ),
+          });
 
-        await prisma.emails.create({
-          data: {
-            project: {
-              connect: {
-                id: project.id,
+          await tx.emails.create({
+            data: {
+              project: {
+                connect: {
+                  id: project.id,
+                },
+              },
+              type: EmailType.INVALID_DOMAIN,
+              user: {
+                connect: {
+                  email: projectOwnerEmail,
+                },
               },
             },
-            type: EmailType.INVALID_DOMAIN,
-            user: {
-              connect: {
-                email: projectOwnerEmail,
-              },
-            },
-          },
+          });
         });
       } else if (invalidDays > 7) {
         await prisma.$transaction(async (tx) => {
           await deleteDomain(project.domain);
 
-          // TODO: Send email
+          // TODO: Delete project media
+
+          await sendMarketingMail({
+            to: projectOwnerEmail,
+            subject: `Your ${project.domain} domain is not configured`,
+            component: (
+              <AutomaticProjectDeletion
+                siteName={env.NEXT_PUBLIC_APP_NAME}
+                projectName={project.name}
+                domain={project.domain}
+                invalidDays={invalidDays}
+                ownerEmail={projectOwnerEmail}
+              />
+            ),
+          });
 
           await tx.project.delete({
             where: {

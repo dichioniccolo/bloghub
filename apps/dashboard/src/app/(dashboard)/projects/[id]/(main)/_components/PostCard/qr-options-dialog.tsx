@@ -61,7 +61,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
     }
 
     return typeof window !== "undefined" && window.location.origin
-      ? new URL("/_static/logo.svg", window.location.origin).href
+      ? new URL("/static/logo.svg", window.location.origin).href
       : "";
   }, [owner.isPro, project.logo]);
 
@@ -175,7 +175,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
                           imageSettings: {
                             ...qrData.imageSettings,
                             src:
-                              project.logo || absoluteUrl("/_static/logo.svg"),
+                              project.logo || absoluteUrl("/static/logo.svg"),
                           },
                         }),
                     }),

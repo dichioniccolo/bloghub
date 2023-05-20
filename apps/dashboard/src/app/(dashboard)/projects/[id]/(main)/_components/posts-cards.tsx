@@ -33,7 +33,7 @@ export async function PostsCards({ project }: Props) {
       {posts.length === 0 && (
         <PlaceholderWithIllustration
           text="You don't have any posts yet!"
-          src="/_static/illustrations/call-waiting.svg"
+          src="/static/illustrations/call-waiting.svg"
         >
           <CreatePostButton projectId={project.id} />
         </PlaceholderWithIllustration>

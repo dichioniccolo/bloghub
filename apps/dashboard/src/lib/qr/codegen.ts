@@ -672,7 +672,7 @@ namespace qrcodegen {
         z ^= ((y >>> i) & 1) * x;
       }
       assert(z >>> 8 == 0);
-      return z as byte;
+      return z;
     }
 
     // Can only be called immediately after a light run is added, and

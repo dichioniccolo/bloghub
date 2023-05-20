@@ -19,7 +19,7 @@ export async function ProjectsCards() {
       {projects.length === 0 && (
         <PlaceholderWithIllustration
           text="You don't have any projects yet!"
-          src="/_static/illustrations/shopping-call.svg"
+          src="/static/illustrations/shopping-call.svg"
         >
           <CreateProjectButton />
         </PlaceholderWithIllustration>

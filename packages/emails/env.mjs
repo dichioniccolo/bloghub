@@ -20,6 +20,7 @@ export const env = createEnv({
     SMTP_BROADCAST_PORT: z.string().min(1).transform(Number),
     SMTP_BROADCAST_ACCESS_KEY: z.string().min(1),
     SMTP_BROADCAST_SECRET_KEY: z.string().min(1),
+    APP_BASE_URL: z.string().url(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -39,5 +40,6 @@ export const env = createEnv({
     SMTP_BROADCAST_PORT: process.env.SMTP_BROADCAST_PORT,
     SMTP_BROADCAST_ACCESS_KEY: process.env.SMTP_BROADCAST_ACCESS_KEY,
     SMTP_BROADCAST_SECRET_KEY: process.env.SMTP_BROADCAST_SECRET_KEY,
+    APP_BASE_URL: process.env.APP_BASE_URL,
   },
 });
