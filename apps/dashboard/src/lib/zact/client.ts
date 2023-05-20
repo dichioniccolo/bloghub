@@ -29,7 +29,6 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
     () => async (input: z.infer<InputType>) => {
       setIsLoading(true);
       setErr(null);
-      setData(null);
       try {
         const result = await doAction.current(input);
 

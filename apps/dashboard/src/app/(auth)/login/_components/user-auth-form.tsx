@@ -91,26 +91,6 @@ export function UserAuthForm({ className, ...props }: Props) {
                 </FormItem>
               )}
             />
-            {/* <div className="grid gap-1">
-              <Label className="sr-only" htmlFor="email">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                disabled={isSubmitting}
-                {...register("email")}
-              />
-              {errors?.email && (
-                <p className="px-1 text-xs text-red-600">
-                  {errors.email.message?.toString()}
-                </p>
-              )}
-            </div> */}
             <Button disabled={isSubmitting}>
               {isSubmitting && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

@@ -19,7 +19,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { getDefaultUserImage } from "~/lib/utils";
+import { getDefaultAvatarImage } from "~/lib/utils";
 
 export function UserDropdown() {
   const user = useUser();
@@ -35,7 +35,7 @@ export function UserDropdown() {
           <Avatar>
             <AvatarImage
               alt={user.name ?? user.email}
-              src={user.image ?? getDefaultUserImage(user.name ?? user.email)}
+              src={user.image ?? getDefaultAvatarImage(user.name ?? user.email)}
               className="h-10 w-10 rounded-full"
             />
             <AvatarFallback>{user.name ?? user.email}</AvatarFallback>

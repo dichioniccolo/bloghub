@@ -20,6 +20,14 @@ export function parseRequest(req: NextRequest) {
   return { domain, path, keys };
 }
 
+export function getSubDomain(name?: string, apexName?: string) {
+  if (!name || !apexName || name === apexName) {
+    return null;
+  }
+
+  return name.slice(0, name.length - apexName.length - 1);
+}
+
 export function generateDomainFromName(name: string) {
   const normalizedName = name
     .trim()
@@ -47,8 +55,8 @@ export function generateDomainFromName(name: string) {
   return `${shortestString}.to`;
 }
 
-export function getDefaultUserImage(email: string) {
-  return `https://unavatar.io/gravatar/${email}?fallback=https://avatar.vercel.sh/${email}?size=400`;
+export function getDefaultAvatarImage(text: string) {
+  return `https://avatar.vercel.sh/${text}?size=400`;
 }
 
 const lookup = [

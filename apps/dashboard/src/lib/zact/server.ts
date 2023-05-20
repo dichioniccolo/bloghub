@@ -8,7 +8,7 @@ type ActionType<InputType extends z.ZodTypeAny, ResponseType> = (
   input: z.infer<InputType>,
 ) => Promise<ResponseType | ZactError<InputType>>;
 
-export type ZactError<InputType extends z.ZodTypeAny> = {
+export type ZactError<InputType extends z.ZodTypeAny = z.ZodTypeAny> = {
   formErrors: string[];
   fieldErrors: {
     [P in keyof InputType]?: string[];

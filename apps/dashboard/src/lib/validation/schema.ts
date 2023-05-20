@@ -31,7 +31,11 @@ export type CreatePostSchemaType = z.infer<typeof CreatePostSchema>;
 export const UpdateDomainSchema = z.object({
   oldDomain: z.string().regex(domainRegex),
   newDomain: z.string().regex(domainRegex),
-  confirm: z.literal("yes, change my domain"),
+  confirm: z.literal("yes, change my domain", {
+    errorMap: () => ({
+      message: "Please confirm the domain change",
+    }),
+  }),
 });
 
 export type UpdateDomainSchemaType = z.infer<typeof UpdateDomainSchema>;
