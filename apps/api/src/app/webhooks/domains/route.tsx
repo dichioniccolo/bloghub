@@ -1,4 +1,7 @@
-import { deleteDomain } from "@acme/common/external/vercel";
+import { headers } from "next/headers";
+import { Receiver } from "@upstash/qstash";
+
+import { deleteProject } from "@acme/common/actions";
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
 import { EmailType, Role, prisma } from "@acme/db";
 import {
@@ -9,7 +12,28 @@ import {
 
 import { env } from "~/env.mjs";
 
-export async function POST(_req: Request) {
+const receiver = new Receiver({
+  currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY,
+  nextSigningKey: env.QSTASH_NEXT_SIGNING_KEY,
+});
+
+export async function POST(req: Request) {
+  const body = await req.text();
+
+  const isValid = await receiver.verify({
+    signature:
+      headers().get("Upstash-Signature") ??
+      headers().get("upstash-signature") ??
+      "",
+    body,
+  });
+
+  if (!isValid) {
+    return new Response(null, {
+      status: 401,
+    });
+  }
+
   const projects = await prisma.project.findMany({
     select: {
       id: true,
@@ -38,8 +62,8 @@ export async function POST(_req: Request) {
     take: 100,
   });
 
-  await Promise.all(
-    projects.map(async (project) => {
+  try {
+    for await (const project of projects) {
       const verificationResult = await verifyProjectDomain(project.domain);
 
       if (verificationResult.verified) {
@@ -74,7 +98,7 @@ export async function POST(_req: Request) {
         await prisma.$transaction(async (tx) => {
           await sendMarketingMail({
             to: projectOwnerEmail,
-            subject: `Your ${project.domain} domain is not configured`,
+            subject: `Your domain ${project.domain} is not configured`,
             component: (
               <InvalidDomain
                 siteName={env.NEXT_PUBLIC_APP_NAME}
@@ -104,36 +128,32 @@ export async function POST(_req: Request) {
           });
         });
       } else if (invalidDays > 7) {
-        await prisma.$transaction(async (tx) => {
-          await deleteDomain(project.domain);
-
-          // TODO: Delete project media
-
-          await sendMarketingMail({
-            to: projectOwnerEmail,
-            subject: `Your ${project.domain} domain is not configured`,
-            component: (
-              <AutomaticProjectDeletion
-                siteName={env.NEXT_PUBLIC_APP_NAME}
-                projectName={project.name}
-                domain={project.domain}
-                invalidDays={invalidDays}
-                ownerEmail={projectOwnerEmail}
-              />
-            ),
-          });
-
-          await tx.project.delete({
-            where: {
-              id: project.id,
-            },
-          });
+        await sendMarketingMail({
+          to: projectOwnerEmail,
+          subject: `Your ${project.domain} domain is not configured`,
+          component: (
+            <AutomaticProjectDeletion
+              siteName={env.NEXT_PUBLIC_APP_NAME}
+              projectName={project.name}
+              domain={project.domain}
+              invalidDays={invalidDays}
+              ownerEmail={projectOwnerEmail}
+            />
+          ),
         });
-      }
-    }),
-  );
 
-  return new Response(null, {
-    status: 200,
-  });
+        await deleteProject(project);
+      }
+    }
+
+    return new Response(null, {
+      status: 200,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+    return new Response(e?.message, {
+      status: 500,
+    });
+  }
 }

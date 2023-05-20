@@ -12,10 +12,11 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@acme/common": "^0.1.0",
     "@acme/db": "^0.1.0",
     "@acme/emails": "^0.1.0",
-    "@acme/common": "^0.1.0",
     "@t3-oss/env-nextjs": "^0.3.1",
+    "@upstash/qstash": "^0.3.6",
     "@vercel/kv": "^0.2.1",
     "next": "^13.4.3",
     "react": "^18.2.0",

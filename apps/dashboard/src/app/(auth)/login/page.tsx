@@ -4,6 +4,8 @@ import { Icons } from "~/app/_components/icons";
 import { UserAuthForm } from "./_components/user-auth-form";
 import { UserAuthFormPlaceholder } from "./_components/user-auth-form-placeholder";
 
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">

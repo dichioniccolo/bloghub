@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { deleteDomain } from "@acme/common/external/vercel";
+import { deleteProject as deleteProjectBase } from "@acme/common/actions";
 import { Role, prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
@@ -25,6 +25,7 @@ export const deleteProject = zact(
       },
     },
     select: {
+      id: true,
       domain: true,
     },
   });
@@ -33,13 +34,7 @@ export const deleteProject = zact(
     throw new Error("Project not found");
   }
 
-  await deleteDomain(project.domain);
-
-  await prisma.project.delete({
-    where: {
-      id: projectId,
-    },
-  });
+  await deleteProjectBase(project);
 
   revalidatePath("/");
 });
