@@ -9,10 +9,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  useInterval,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { useInterval } from "~/hooks/use-interval";
 import { useUser } from "~/hooks/use-user";
 import { verifyDomain } from "~/lib/shared/actions/verify-domain";
 import { type GetProject } from "~/lib/shared/api/projects";
@@ -45,12 +45,14 @@ export function CustomDomain({ project }: Props) {
   }, [data, interval]);
 
   useEffect(() => {
+    void handleVerify();
     interval.start();
 
     return () => {
       interval.stop();
     };
-  }, [interval]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Card>

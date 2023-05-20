@@ -1,5 +1,6 @@
+import { useCopyToClipboard } from "@acme/ui";
+
 import { Icons } from "~/app/_components/icons";
-import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
 import { PostCardButton } from "./post-card-button";
 
 type Props = {
