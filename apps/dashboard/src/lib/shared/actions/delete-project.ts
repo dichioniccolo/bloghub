@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { deleteProject as deleteProjectBase } from "@acme/common/actions";
@@ -37,4 +38,5 @@ export const deleteProject = zact(
   await deleteProjectBase(project);
 
   revalidatePath("/");
+  redirect("/");
 });

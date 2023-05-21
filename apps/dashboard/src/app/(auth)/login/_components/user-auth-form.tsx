@@ -45,14 +45,14 @@ export function UserAuthForm({ className, ...props }: Props) {
     });
 
     if (!signInResult?.ok) {
-      return toast({
+      toast({
         title: "Something went wrong",
         description: "Your sign in request failed. Please try again.",
         variant: "destructive",
       });
     }
 
-    return toast({
+    toast({
       title: "Check your email",
       description: "We sent you a login link. Be sure to check your spam too",
     });

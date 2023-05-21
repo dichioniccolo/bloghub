@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@acme/ui";
 
+import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { deleteProject } from "~/lib/shared/actions/delete-project";
 import { type GetProject } from "~/lib/shared/api/projects";
@@ -32,10 +33,32 @@ export function DeleteProjectDialog({ project }: Props) {
   const { toast } = useToast();
 
   const router = useRouter();
+
   const [open, setOpen] = useState(false);
-  const [, startTransition] = useTransition();
+  const [loading, startTransition] = useTransition();
 
   const { mutate } = useZact(deleteProject);
+
+  const onDelete = () =>
+    startTransition(async () => {
+      try {
+        await mutate({
+          projectId: project.id,
+          userId: user.id,
+        });
+
+        toast({
+          title: "Project deleted.",
+        });
+
+        router.push("/");
+      } catch {
+        toast({
+          title: "Something went wrong.",
+          variant: "destructive",
+        });
+      }
+    });
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -52,31 +75,8 @@ export function DeleteProjectDialog({ project }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() =>
-              startTransition(async () => {
-                try {
-                  await mutate({
-                    projectId: project.id,
-                    userId: user.id,
-                  });
-
-                  setOpen(false);
-
-                  toast({
-                    description: "Project deleted.",
-                  });
-
-                  router.push("/");
-                } catch {
-                  toast({
-                    variant: "destructive",
-                    description: "An error occurred",
-                  });
-                }
-              })
-            }
-          >
+          <AlertDialogAction onClick={onDelete}>
+            {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

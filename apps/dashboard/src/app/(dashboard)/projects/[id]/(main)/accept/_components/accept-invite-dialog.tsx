@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import {
   Button,
@@ -30,7 +29,6 @@ export function AcceptInviteDialog({ project, expired }: Props) {
   const user = useUser();
 
   const { toast } = useToast();
-  const router = useRouter();
 
   const { mutate, isRunning: loading } = useZact(acceptInvite);
 
@@ -43,8 +41,6 @@ export function AcceptInviteDialog({ project, expired }: Props) {
     toast({
       description: "You now are a part of this project!",
     });
-
-    // router.push(`/projects/${project.id}`);
   };
 
   return (

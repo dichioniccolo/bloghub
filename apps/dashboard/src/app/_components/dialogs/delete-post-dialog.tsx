@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, type ReactNode } from "react";
 
 import {
   AlertDialog,
@@ -12,35 +12,40 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  useToast,
 } from "@acme/ui";
 
-import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { deletePost } from "~/lib/shared/actions/delete-post";
-import { PostCardButton } from "../../(dashboard)/projects/[id]/(main)/_components/PostCard/post-card-button";
 
 type Props = {
   projectId: string;
   id: string;
+  trigger(loading: boolean): ReactNode;
 };
 
-export function DeletePostDialog({ projectId, id }: Props) {
+export function DeletePostDialog({ projectId, id, trigger }: Props) {
   const user = useUser();
 
+  const { toast } = useToast();
   const [loading, startTransition] = useTransition();
+
+  const onDelete = () =>
+    startTransition(async () => {
+      await deletePost({
+        postId: id,
+        projectId,
+        userId: user.id,
+      });
+
+      toast({
+        title: "Post deleted",
+      });
+    });
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <PostCardButton>
-          {loading ? (
-            <Icons.spinner className="animate-spin text-gray-700 transition-colors dark:text-gray-100" />
-          ) : (
-            <Icons.delete className="text-red-700 transition-colors group-hover:text-blue-800 dark:text-red-100 dark:group-hover:text-blue-300" />
-          )}
-          <p className="sr-only">Delete</p>
-        </PostCardButton>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{trigger(loading)}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -51,19 +56,7 @@ export function DeletePostDialog({ projectId, id }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() =>
-              startTransition(async () => {
-                await deletePost({
-                  postId: id,
-                  projectId,
-                  userId: user.id,
-                });
-              })
-            }
-          >
-            Continue
-          </AlertDialogAction>
+          <AlertDialogAction onClick={onDelete}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

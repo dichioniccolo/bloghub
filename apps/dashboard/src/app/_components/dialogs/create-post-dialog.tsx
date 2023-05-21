@@ -48,16 +48,17 @@ function CreatePostDialog({ projectId, open, setOpen }: Props) {
     });
 
     if (!post) {
-      return toast({
-        description: "Post could not be created",
+      toast({
+        title: "Post could not be created",
         variant: "destructive",
       });
+      return;
     }
 
     setOpen(false);
 
     toast({
-      description: "Post created",
+      title: "Post created",
     });
   }
 

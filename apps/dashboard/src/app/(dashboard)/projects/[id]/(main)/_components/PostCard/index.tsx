@@ -168,7 +168,20 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
               )}
 
               {currentUserRole === "OWNER" && (
-                <DeletePostDialog id={post.id} projectId={project.id} />
+                <DeletePostDialog
+                  id={post.id}
+                  projectId={project.id}
+                  trigger={(loading) => (
+                    <PostCardButton>
+                      {loading ? (
+                        <Icons.spinner className="animate-spin text-gray-700 transition-colors dark:text-gray-100" />
+                      ) : (
+                        <Icons.delete className="text-red-700 transition-colors group-hover:text-blue-800 dark:text-red-100 dark:group-hover:text-blue-300" />
+                      )}
+                      <p className="sr-only">Delete</p>
+                    </PostCardButton>
+                  )}
+                />
               )}
 
               {(currentUserRole === "OWNER" ||

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { Role, prisma } from "@acme/db";
@@ -18,7 +19,7 @@ export const quitProject = zact(
         where: {
           userId,
           projectId,
-          role: Role.OWNER
+          role: Role.OWNER,
         },
       });
 
@@ -31,7 +32,7 @@ export const quitProject = zact(
       }
     }),
 )(async ({ userId, projectId }) => {
-  const deleted = await prisma.projectUser.deleteMany({
+  await prisma.projectUser.deleteMany({
     where: {
       userId,
       projectId,
@@ -39,6 +40,5 @@ export const quitProject = zact(
   });
 
   revalidatePath("/");
-
-  return deleted.count;
+  redirect("/");
 });

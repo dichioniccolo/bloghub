@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  useToast,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -33,6 +34,7 @@ type Props = {
 
 export function UpdateDomainDialog({ project }: Props) {
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
 
   const { mutate } = useZact(updateDomain);
 
@@ -46,7 +48,10 @@ export function UpdateDomainDialog({ project }: Props) {
 
       setOpen(false);
     } catch {
-      //
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
     }
   };
 

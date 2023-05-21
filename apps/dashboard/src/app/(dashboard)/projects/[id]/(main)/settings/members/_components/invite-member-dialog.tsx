@@ -46,7 +46,7 @@ export function InviteMemberDialog({ projectId }: Props) {
     });
 
     toast({
-      description: "Invitation sent",
+      title: "Invitation sent",
     });
   }
 

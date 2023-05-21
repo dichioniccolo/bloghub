@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  useToast,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -40,6 +41,8 @@ type Props = {
 function CreateProjectDialog({ open, setOpen }: Props) {
   const user = useUser();
 
+  const { toast } = useToast();
+
   const { mutate } = useZact(createProject);
 
   async function onSubmit({ name, domain }: CreateProjectSchemaType) {
@@ -50,6 +53,10 @@ function CreateProjectDialog({ open, setOpen }: Props) {
     });
 
     setOpen(false);
+
+    toast({
+      title: "Project created",
+    });
   }
 
   return (

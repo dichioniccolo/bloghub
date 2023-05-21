@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { prisma } from "@acme/db";
@@ -43,7 +44,7 @@ export const togglePublishedPost = zact(
         });
       }
     }),
-)(async ({ postId }) => {
+)(async ({ projectId, postId }) => {
   const { published } = await prisma.post.findUniqueOrThrow({
     where: {
       id: postId,
@@ -58,4 +59,6 @@ export const togglePublishedPost = zact(
       published: !published,
     },
   });
+
+  revalidatePath(`/projects/${projectId}`);
 });

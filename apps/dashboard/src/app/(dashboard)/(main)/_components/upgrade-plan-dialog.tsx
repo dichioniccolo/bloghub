@@ -43,30 +43,26 @@ export function UpgradePlanDialog({ proPlans }: Props) {
   const { mutate } = useZact(createCheckoutSession);
 
   const onUpgrade = () =>
-    startTransition(() => {
-      mutate({
+    startTransition(async () => {
+      const url = await mutate({
         userId: user.id,
         callbackUrl: absoluteUrl("/settings"),
         name: plan?.name,
         period,
-      })
-        .then((url) => {
-          if (!url) {
-            return toast({
-              title: "Something went wrong.",
-              description: "Please refresh the page and try again.",
-              variant: "destructive",
-            });
-          }
+      });
 
-          // Redirect to the Stripe session.
-          // This could be a checkout page for initial upgrade.
-          // Or portal to manage existing subscription.
-          location.href = url;
-        })
-        .catch((_) => {
-          //
+      if (!url) {
+        toast({
+          title: "Something went wrong.",
+          variant: "destructive",
         });
+        return;
+      }
+
+      // Redirect to the Stripe session.
+      // This could be a checkout page for initial upgrade.
+      // Or portal to manage existing subscription.
+      location.href = url;
     });
 
   useEffect(() => {

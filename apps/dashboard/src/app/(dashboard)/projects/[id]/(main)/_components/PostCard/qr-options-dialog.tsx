@@ -94,19 +94,20 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
 
       canvas.toBlob(async (blob) => {
         if (!blob) {
-          return toast({
+          toast({
             variant: "destructive",
             title: "Unable to copy",
             description:
               "An error occurred while copying the QR code to the clipboard.",
           });
+          return;
         }
 
         const item = new ClipboardItem({ "image/png": blob });
         await navigator.clipboard.write([item]);
 
         toast({
-          description: "Copied!",
+          title: "Copied!",
         });
       });
     } catch {
