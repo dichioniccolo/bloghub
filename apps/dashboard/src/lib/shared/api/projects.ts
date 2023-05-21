@@ -112,6 +112,74 @@ export async function getProjectsCount() {
   return projects;
 }
 
+export async function getProjectUsers(projectId: string) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    throw new Error("You must be authenticated");
+  }
+
+  const { user } = session;
+
+  const users = await prisma.projectUser.findMany({
+    where: {
+      projectId,
+      project: {
+        users: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+      role: true,
+      createdAt: true,
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  return users;
+}
+
+export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
+
+export async function getProjectInvites(projectId: string) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    throw new Error("You must be authenticated");
+  }
+
+  const { user } = session;
+
+  const invites = await prisma.invite.findMany({
+    where: {
+      projectId,
+      project: {
+        users: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+      email: true,
+      createdAt: true,
+    },
+  });
+
+  return invites;
+}
+
 export async function getProjectOwner(projectId: string) {
   const session = await getServerSession(authOptions);
 
@@ -153,3 +221,25 @@ export async function getProjectOwner(projectId: string) {
 }
 
 export type GetProjectOwner = Awaited<ReturnType<typeof getProjectOwner>>;
+
+export async function getPendingInvite(email: string, projectId: string) {
+  const invite = await prisma.invite.findFirst({
+    where: {
+      projectId,
+      email,
+    },
+    select: {
+      expiresAt: true,
+      project: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  return invite;
+}
+
+export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;

@@ -17,6 +17,7 @@ export const env = createEnv({
       .transform((str) => str === "true"),
     VERCEL_PROJECT_ID: z.string().min(1),
     VERCEL_TEAM_ID: z.string().min(1),
+    NEXTAUTH_SECRET: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -39,5 +40,6 @@ export const env = createEnv({
     VERCEL_ENABLE_DOMAIN: process.env.VERCEL_ENABLE_DOMAIN,
     VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
     VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
 });

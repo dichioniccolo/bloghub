@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { prisma } from "@acme/db";
+import { Role, prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -18,6 +18,7 @@ export const quitProject = zact(
         where: {
           userId,
           projectId,
+          role: Role.OWNER
         },
       });
 

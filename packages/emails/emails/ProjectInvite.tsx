@@ -1,56 +1,91 @@
-// import { Mjml, MjmlBody, MjmlWrapper } from "@faire/mjml-react";
+import {
+  Body,
+  Button,
+  Container,
+  Heading,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components";
 
-// import Footer from "./components/Footer";
-// import Head from "./components/Head";
+import { env } from "../env.mjs";
+import Head from "./components/Head";
 
-// export function ProjectInvite({
-//   url: _1,
-//   projectName: _2,
-// }: {
-//   url: string;
-//   projectName: string;
-// }): JSX.Element {
-//   return (
-//     <Mjml>
-//       <Head />
-//       <MjmlBody width={500}>
-//         <MjmlWrapper cssClass="container">
-//           {/* <Header title="Your Dub Invite" />
-//           <MjmlSection cssClass="smooth">
-//             <MjmlColumn>
-//               <MjmlText cssClass="paragraph">
-//                 You've been invited to join the <strong>{projectName}</strong>{" "}
-//                 project on Dub!
-//               </MjmlText>
-//               <MjmlText cssClass="paragraph">
-//                 You can use the magic link below to sign in to Dub and join the
-//                 project.
-//               </MjmlText>
-//               <ButtonPrimary link={url} uiText="Join Project" />
-//               <MjmlText cssClass="paragraph">
-//                 If you're on a mobile device, you can also copy the link below
-//                 and paste it into the browser of your choice.
-//               </MjmlText>
-//               <MjmlText cssClass="paragraph">
-//                 <a
-//                   rel="nofollow"
-//                   style={{
-//                     textDecoration: "none",
-//                     color: `${purple} !important`,
-//                   }}
-//                 >
-//                   {url.replace(/^https?:\/\//, "")}
-//                 </a>
-//               </MjmlText>
-//               <MjmlText cssClass="paragraph">
-//                 If you did not request this email, you can safely ignore it.
-//               </MjmlText>
-//               <Divider />
-//             </MjmlColumn>
-//           </MjmlSection> */}
-//           <Footer footnote={false} />
-//         </MjmlWrapper>
-//       </MjmlBody>
-//     </Mjml>
-//   );
-// }
+interface ProjectInviteProps {
+  siteName: string;
+  url: string;
+  userEmail?: string;
+}
+
+export const ProjectInvite = ({
+  siteName = "MyBlog",
+  url = "https://google.com",
+  userEmail = "me@email.com",
+}: ProjectInviteProps) => {
+  const previewText = `You have been invited to join a project on ${siteName}`;
+
+  return (
+    <Html>
+      <Head />
+      <Preview>{previewText}</Preview>
+      <Tailwind>
+        <Body className="mx-auto my-auto bg-white font-sans">
+          <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
+            <Section className="mt-[32px]">
+              <Img
+                src={`${env.APP_BASE_URL}/static/logo.png`}
+                width="40"
+                height="37"
+                alt={siteName}
+                className="mx-auto my-0"
+              />
+            </Section>
+            <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
+              Sign in on <strong>{siteName}</strong>
+            </Heading>
+            <Text className="text-[14px] leading-[24px] text-black">
+              Hello {userEmail},
+            </Text>
+            <Text className="text-[14px] leading-[24px] text-black">
+              you have been invited to join a project on{" "}
+              <strong>{siteName}</strong>.
+            </Text>
+            <Section className="mb-[32px] mt-[32px] text-center">
+              <Button
+                pX={20}
+                pY={12}
+                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                href={url}
+              >
+                Accept
+              </Button>
+            </Section>
+            <Text className="text-[14px] leading-[24px] text-black">
+              or copy and paste this URL into your browser:{" "}
+              <Link href={url} className="text-blue-600 no-underline">
+                {url}
+              </Link>
+            </Text>
+            <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
+            <Text className="text-[12px] leading-[24px] text-[#666666]">
+              This link was intended for{" "}
+              <span className="text-black">{userEmail}</span>.
+              {/* This link was
+              sent from <span className="text-black">{linkFromIp}</span> located
+              in <span className="text-black">{linkFromLocation}</span>. */}{" "}
+              If you were not expecting this invitation, you can ignore this
+              email.
+            </Text>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  );
+};
+
+export default ProjectInvite;
