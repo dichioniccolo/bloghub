@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import {
   Infinity as InfinityIcon,
   AlertCircle,
+  BarChart,
   Check,
   CheckCircle,
   ChevronsUpDown,
@@ -41,6 +42,7 @@ export const Icons = {
   moon: Moon,
   infinite: InfinityIcon,
   qr: QrCode,
+  chart: BarChart,
   spinner: Loader2,
   chevronsUpDown: ChevronsUpDown,
   check: Check,

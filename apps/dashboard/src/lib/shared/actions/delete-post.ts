@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { prisma } from "@acme/db";
+import { Role, prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -47,12 +47,11 @@ export const deletePost = zact(
     throw new Error("Post not found");
   }
 
-  if (post.project.users[0]?.role !== "OWNER") {
+  if (post.project.users[0]?.role !== Role.OWNER) {
     throw new Error("You must be the owner of the project");
   }
 
   // TODO: Delete medias for this post
-  // TODO: delete post on redis (do we still need this?)
   await prisma.post.delete({
     where: {
       id: postId,

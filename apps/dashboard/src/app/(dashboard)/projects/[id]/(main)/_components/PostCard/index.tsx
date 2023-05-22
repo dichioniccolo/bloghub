@@ -23,7 +23,7 @@ import {
   type GetProjectOwner,
 } from "~/lib/shared/api/projects";
 import { constructPostUrl } from "~/lib/url";
-import { cn, timeAgo } from "~/lib/utils";
+import { cn, formatNumber, timeAgo } from "~/lib/utils";
 import { PostCardButton } from "./post-card-button";
 import { PostCardCopyButton } from "./post-card-copy-button";
 import { PostCardTogglePublishedButton } from "./post-card-toggle-published-button.tsx";
@@ -118,6 +118,18 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 </PostCardButton>
               }
             />
+            <Link
+              href={{
+                pathname: `/${project.id}/post/${post.id}/stats`,
+              }}
+              className="flex items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 dark:bg-gray-700"
+            >
+              <Icons.chart className="text-gray-700 transition-colors group-hover:text-blue-800 dark:text-gray-100 dark:group-hover:text-blue-300" />
+              <p className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                {formatNumber(post.clicks)}
+                <span className="ml-1 hidden sm:inline-block">clicks</span>
+              </p>
+            </Link>
           </div>
           <div className="flex items-center">
             <p className="mr-3 hidden whitespace-nowrap text-sm text-gray-500 sm:block">

@@ -20,11 +20,10 @@ const receiver = new Receiver({
 export async function POST(req: Request) {
   const body = await req.text();
 
+  const signature = headers().get("Upstash-Signature") as string;
+
   const isValid = await receiver.verify({
-    signature:
-      headers().get("Upstash-Signature") ??
-      headers().get("upstash-signature") ??
-      "",
+    signature,
     body,
   });
 

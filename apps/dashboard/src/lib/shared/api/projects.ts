@@ -3,6 +3,7 @@
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@acme/auth";
+import { getUserTotalUsage } from "@acme/common/actions";
 import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
 
@@ -204,17 +205,18 @@ export async function getProjectOwner(projectId: string) {
     select: {
       user: {
         select: {
-          usage: true,
           stripePriceId: true,
         },
       },
     },
   });
 
+  const usage = await getUserTotalUsage(user.id);
+
   const plan = await determinePlanByPriceId(owner.user.stripePriceId);
 
   return {
-    usage: owner.user.usage,
+    usage,
     quota: plan.quota,
     isPro: plan.isPro,
   };

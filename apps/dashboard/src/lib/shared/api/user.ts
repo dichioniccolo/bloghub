@@ -1,5 +1,6 @@
 "use server";
 
+import { getUserTotalUsage } from "@acme/common/actions";
 import { type SubscriptionPlan } from "@acme/common/external/stripe";
 import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
@@ -19,16 +20,17 @@ export async function getUserPlan(): Promise<{
     select: {
       stripeSubscriptionId: true,
       stripePriceId: true,
-      usage: true,
       dayWhenbillingStarts: true,
     },
   });
+
+  const usage = await getUserTotalUsage(user.id);
 
   const plan = await determinePlanByPriceId(dbUser?.stripePriceId);
 
   return {
     plan,
-    usage: dbUser?.usage ?? 0,
+    usage,
   };
 }
 

@@ -17,7 +17,7 @@ export const inviteUser = zact(
       email: z.string().email(),
     })
     .superRefine(async ({ projectId, userId, email }, ctx) => {
-      const projectUser = await prisma.projectUser.count({
+      const isOwnerCount = await prisma.projectUser.count({
         where: {
           projectId,
           userId,
@@ -25,7 +25,7 @@ export const inviteUser = zact(
         },
       });
 
-      if (projectUser === 0) {
+      if (isOwnerCount === 0) {
         ctx.addIssue({
           code: "custom",
           message: "You do not have permission to invite users to this project",

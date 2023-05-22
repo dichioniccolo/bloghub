@@ -55,8 +55,6 @@ model User {
   stripeCustomerId     String?   @unique
   stripeSubscriptionId String?
   stripePriceId        String?
-  usage                Int       @default(0)
-  usageUpdatedAt       DateTime?
   dayWhenbillingStarts DateTime  @default(now())
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
@@ -92,6 +90,7 @@ model Project {
   posts   Post[]
   media   Media[]
   emails  Emails[]
+  visits  Visit[]
 }
 
 enum Role {
@@ -137,6 +136,7 @@ model Post {
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  visit     Visit[]
 
   @@unique([projectId, slug])
   @@index([projectId])
@@ -182,4 +182,31 @@ model Emails {
 
   @@index([userId])
   @@index([projectId])
+}
+
+model Visit {
+  id              String   @id @default(cuid())
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  postId          String?
+  post            Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  browserName     String?
+  browserVersion  String?
+  osName          String?
+  osVersion       String?
+  deviceType      String?
+  deviceVendor    String?
+  deviceModel     String?
+  engineName      String?
+  engineVersion   String?
+  cpuArchitecture String?
+  city            String?
+  region          String?
+  country         String?
+  latitude        String?
+  longitude       String?
+  createdAt       DateTime @default(now())
+
+  @@index([projectId])
+  @@index([postId])
 }

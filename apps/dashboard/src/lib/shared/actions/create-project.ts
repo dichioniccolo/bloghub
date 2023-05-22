@@ -27,11 +27,7 @@ export const createProject = zact(
       users: {
         create: {
           role: Role.OWNER,
-          user: {
-            connect: {
-              id: userId,
-            },
-          },
+          userId,
         },
       },
     },
