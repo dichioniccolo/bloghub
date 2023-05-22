@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash";
 
 import { deleteProject } from "@acme/common/actions";
@@ -20,7 +19,7 @@ const receiver = new Receiver({
 export async function POST(req: Request) {
   const body = await req.text();
 
-  const signature = headers().get("Upstash-Signature") as string;
+  const signature = req.headers.get("Upstash-Signature") as string;
 
   const isValid = await receiver.verify({
     signature,
