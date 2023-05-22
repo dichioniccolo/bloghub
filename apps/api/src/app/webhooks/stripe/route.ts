@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { stripe, type Stripe } from "@acme/common/external/stripe";
@@ -16,7 +17,7 @@ const relevantEvents = new Set([
 export async function POST(req: Request) {
   const body = await req.text();
 
-  const signature = req.headers.get("Stripe-Signature") as string;
+  const signature = headers().get("Stripe-Signature") as string;
 
   if (!signature) {
     return new Response("Webhook Error: Missing signature", {
