@@ -7,10 +7,11 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  // directUrl    = env("MIGRATE_DATABASE_URL")
-  relationMode = "prisma"
+  provider          = "postgresql"
+  url               = env("DATABASE_URL") // uses connection pooling
+  directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+  relationMode      = "prisma"
 }
 
 // NextAuth.js Models
