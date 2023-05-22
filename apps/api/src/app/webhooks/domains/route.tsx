@@ -20,11 +20,10 @@ const receiver = new Receiver({
 export async function POST(req: Request) {
   const body = await req.text();
 
+  const signature = headers().get("Upstash-Signature") ?? "";
+
   const isValid = await receiver.verify({
-    signature:
-      headers().get("Upstash-Signature") ??
-      headers().get("upstash-signature") ??
-      "",
+    signature,
     body,
   });
 
@@ -67,7 +66,7 @@ export async function POST(req: Request) {
       const verificationResult = await verifyProjectDomain(project.domain);
 
       if (verificationResult.verified) {
-        return;
+        continue;
       }
 
       const invalidDays = Math.floor(
@@ -92,7 +91,7 @@ export async function POST(req: Request) {
         });
 
         if (invalidDomainEmailCount > 0) {
-          return;
+          continue;
         }
 
         await prisma.$transaction(async (tx) => {
