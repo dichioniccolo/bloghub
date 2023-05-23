@@ -25,7 +25,7 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
   {
     key: "Referrer-Policy",
-    value: "origin-when-cross-origin",
+    value: "same-origin",
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   {
@@ -50,8 +50,7 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy
   {
     key: "Permissions-Policy",
-    value:
-      "accelerometer=(), autoplay=(self), camera=(), document-domain=(self), encrypted-media=(self), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(),sync-xhr=(self), usb=()",
+    value: "fullscreen=()",
   },
 ];
 
@@ -78,11 +77,7 @@ const config = {
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
     {
-      source: "/",
-      headers: securityHeaders,
-    },
-    {
-      source: "/:path*",
+      source: "/(.*)",
       headers: securityHeaders,
     },
   ],
