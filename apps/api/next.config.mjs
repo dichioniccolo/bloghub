@@ -7,11 +7,11 @@ import "./src/env.mjs";
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval';
+  script-src 'self';
   child-src 'none';
   style-src 'self';
   img-src * blob: data:;
-  base-uri 'self'
+  base-uri 'self';
   media-src 'none';
   connect-src *;
   font-src 'self';
