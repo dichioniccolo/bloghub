@@ -42,8 +42,8 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
       <div className="absolute left-0 top-0 flex h-full w-2 flex-col">
         <div
           className={cn("h-full w-full", {
-            "bg-green-500": post.published,
-            "bg-amber-500": !post.published,
+            "bg-green-500": !post.hidden,
+            "bg-amber-500": post.hidden,
           })}
         />
       </div>

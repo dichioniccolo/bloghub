@@ -5,7 +5,7 @@ import type z from "zod";
 
 import type { ZactAction, ZactError } from "./server";
 
-function rethrowZactError<InputType extends z.ZodTypeAny, ResponseType>(
+export function rethrowZactError<InputType extends z.ZodTypeAny, ResponseType>(
   result: Awaited<ReturnType<ZactAction<InputType, ResponseType>>>,
 ): result is ZactError<InputType> {
   if (typeof result === "object" && result && "formErrors" in result) {

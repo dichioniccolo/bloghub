@@ -21,6 +21,11 @@ export const env = createEnv({
     STRIPE_PRO_10K_YEARLY_PLAN_ID: z.string().min(1),
     STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID: z.string().min(1),
     STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID: z.string().min(1),
+    DO_ENDPOINT: z.string().min(1),
+    DO_REGION: z.string().min(1),
+    DO_ACCESS_KEY: z.string().min(1),
+    DO_SECRET_KEY: z.string().min(1),
+    DO_BUCKET: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -44,5 +49,10 @@ export const env = createEnv({
       process.env.STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID,
     STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID:
       process.env.STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID,
+    DO_ENDPOINT: process.env.DO_ENDPOINT,
+    DO_REGION: process.env.DO_REGION,
+    DO_ACCESS_KEY: process.env.DO_ACCESS_KEY,
+    DO_SECRET_KEY: process.env.DO_SECRET_KEY,
+    DO_BUCKET: process.env.DO_BUCKET,
   },
 });

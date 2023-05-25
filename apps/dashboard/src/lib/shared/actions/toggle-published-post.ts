@@ -45,7 +45,7 @@ export const togglePublishedPost = zact(
       }
     }),
 )(async ({ projectId, postId }) => {
-  const { published } = await prisma.post.findUniqueOrThrow({
+  const { hidden } = await prisma.post.findUniqueOrThrow({
     where: {
       id: postId,
     },
@@ -56,7 +56,7 @@ export const togglePublishedPost = zact(
       id: postId,
     },
     data: {
-      published: !published,
+      hidden: !hidden,
     },
   });
 

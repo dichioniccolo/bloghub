@@ -13,20 +13,21 @@ import {
 
 type Props = {
   projectId: string;
+  postId: string;
 };
 
-export function ProjectNavigationMenu({ projectId }: Props) {
+export function PostNavigationMenu({ projectId, postId }: Props) {
   const pathname = usePathname();
 
-  const basePath = `/projects/${projectId}`;
+  const basePath = `/projects/${projectId}/post/${postId}`;
 
   return (
     <NavigationMenu className="justify-start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
+          <Link href={`/projects/${projectId}`} legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              ← Projects
+              ← Posts
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -36,17 +37,7 @@ export function ProjectNavigationMenu({ projectId }: Props) {
               active={pathname === basePath}
               className={navigationMenuTriggerStyle()}
             >
-              Posts
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href={`${basePath}/settings`} legacyBehavior passHref>
-            <NavigationMenuLink
-              active={pathname?.startsWith(`${basePath}/settings`)}
-              className={navigationMenuTriggerStyle()}
-            >
-              Settings
+              Editor
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

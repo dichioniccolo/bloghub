@@ -39,7 +39,7 @@ export function PostCardTogglePublishedButton({ project, post }: Props) {
           }
         >
           <span className="sr-only">
-            {post.published ? "Unpublish" : "Publish"}
+            {!post.hidden ? "Unpublish" : "Publish"}
           </span>
           {loading ? (
             <Icons.spinner className="animate-spin text-gray-700 transition-colors dark:text-gray-100" />
@@ -47,17 +47,15 @@ export function PostCardTogglePublishedButton({ project, post }: Props) {
             <Icons.share
               className={cn("text-gray-700 transition-all dark:text-gray-100", {
                 "rotate-0 group-hover:text-blue-800 dark:group-hover:text-blue-300":
-                  !post.published,
+                  post.hidden,
                 "rotate-180 group-hover:text-red-800 dark:group-hover:text-red-300":
-                  post.published,
+                  !post.hidden,
               })}
             />
           )}
         </PostCardButton>
       </TooltipTrigger>
-      <TooltipContent>
-        {post.published ? "Unpublish" : "Publish"}
-      </TooltipContent>
+      <TooltipContent>{!post.hidden ? "Unpublish" : "Publish"}</TooltipContent>
     </Tooltip>
   );
 }

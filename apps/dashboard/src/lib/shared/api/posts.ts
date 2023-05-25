@@ -31,7 +31,7 @@ export async function getPosts(projectId: string) {
       slug: true,
       createdAt: true,
       clicks: true,
-      published: true,
+      hidden: true,
     },
   });
 
@@ -39,3 +39,37 @@ export async function getPosts(projectId: string) {
 }
 
 export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
+
+export async function getPost(projectId: string, postId: string) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    throw new Error("You must be authenticated");
+  }
+
+  const { user } = session;
+
+  const post = await prisma.post.findFirst({
+    where: {
+      id: postId,
+      projectId,
+      project: {
+        users: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      projectId: true,
+    },
+  });
+
+  return post;
+}
+
+export type GetPost = Awaited<ReturnType<typeof getPost>>;

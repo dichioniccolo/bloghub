@@ -3,15 +3,15 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  previewFeatures = ["jsonProtocol", "fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL") // uses connection pooling
-  directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
-  shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
-  relationMode      = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL") // uses connection pooling
+  // directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+  // shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
+  relationMode = "prisma"
 }
 
 // NextAuth.js Models
@@ -127,20 +127,24 @@ model Invite {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  projectId String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  title     String
-  content   Bytes?
-  slug      String
-  clicks    Int      @default(0)
-  published Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  visit     Visit[]
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String
+  content     String   @db.Text
+  contentHtml String   @db.Text
+  hidden      Boolean  @default(false)
+  clicks      Int      @default(0)
+  likes       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  visit       Visit[]
 
   @@unique([projectId, slug])
   @@index([projectId])
+  @@index([hidden, createdAt(sort: Desc)])
+  @@fulltext([title, content])
 }
 
 enum MediaType {

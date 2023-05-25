@@ -45,3 +45,10 @@ export const InviteMemberSchema = z.object({
 });
 
 export type InviteMemberSchemaType = z.infer<typeof InviteMemberSchema>;
+
+export const EditPostSchema = z.object({
+  title: z.string().min(3).max(128),
+  content: z.string(),
+});
+
+export type EditPostSchemaType = z.infer<typeof EditPostSchema>;

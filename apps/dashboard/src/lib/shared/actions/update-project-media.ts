@@ -1,22 +1,21 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { nanoid } from "nanoid";
 import { z } from "zod";
 
 import { prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
-export const createPost = zact(
+export const updateProjectMedia = zact(
   z
     .object({
       userId: z.string(),
       projectId: z.string(),
-      title: z.string().min(3),
+      mediaId: z.string(),
+      url: z.string().url(),
     })
     .superRefine(async (input, ctx) => {
-      const { projectId, userId } = input;
+      const { projectId, userId, mediaId } = input;
 
       const count = await prisma.project.count({
         where: {
@@ -36,26 +35,31 @@ export const createPost = zact(
           path: ["projectId"],
         });
       }
-    }),
-)(async ({ projectId, title }) => {
-  const slug = nanoid().toLowerCase();
 
-  const post = await prisma.post.create({
-    data: {
-      title,
-      slug,
-      project: {
-        connect: {
-          id: projectId,
+      const mediaCount = await prisma.media.count({
+        where: {
+          id: mediaId,
+          projectId,
         },
-      },
-      hidden: true,
-      content: "",
-      contentHtml: "",
+      });
+
+      if (mediaCount === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Media does not exist",
+          path: ["mediaId"],
+        });
+      }
+    }),
+)(async ({ mediaId, url }) => {
+  const media = await prisma.media.update({
+    where: {
+      id: mediaId,
+    },
+    data: {
+      url,
     },
   });
 
-  revalidatePath(`/projects/${projectId}`);
-
-  return post;
+  return media;
 });
