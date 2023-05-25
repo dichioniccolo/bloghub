@@ -6,6 +6,7 @@ import { prisma } from "@acme/db";
 
 import { markdownToHtml } from "~/lib/utils";
 import { zact } from "~/lib/zact/server";
+import { deleteUnusedMediaInPost } from "./delete-unused-media-in-post";
 
 export const updatePost = zact(
   z
@@ -15,7 +16,7 @@ export const updatePost = zact(
       postId: z.string(),
       body: z.object({
         title: z.string().min(3).max(128),
-        content: z.string().min(3),
+        content: z.string(),
       }),
     })
     .superRefine(async (input, ctx) => {
@@ -66,6 +67,8 @@ export const updatePost = zact(
       contentHtml: markdownToHtml(body.content),
     },
   });
+
+  await deleteUnusedMediaInPost(post.id);
 
   return post;
 });

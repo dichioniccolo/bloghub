@@ -18,6 +18,7 @@ export const env = createEnv({
     VERCEL_PROJECT_ID: z.string().min(1),
     VERCEL_TEAM_ID: z.string().min(1),
     NEXTAUTH_SECRET: z.string().min(1),
+    DO_CDN_URL: z.string().url(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -41,5 +42,6 @@ export const env = createEnv({
     VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
     VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    DO_CDN_URL: process.env.DO_CDN_URL,
   },
 });

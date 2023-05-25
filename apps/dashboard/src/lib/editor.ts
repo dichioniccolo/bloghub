@@ -35,10 +35,10 @@ function determineMediaType(file: File): MediaType | null {
   return null;
 }
 
-export function getHtmlByMedia(media: Media) {
+export function getHtmlByMedia(file: File, media: Media) {
   switch (media.type) {
     case "IMAGE":
-      return `<img alt="${media.id}" src="${media.url}">`;
+      return `<img alt="${file.name}" src="${media.url}">`;
     case "VIDEO":
       return `<video controls src="${media.url}"></video>`;
     case "AUDIO":
@@ -56,6 +56,7 @@ type FileWithType = {
 export async function uploadFiles(
   userId: string,
   projectId: string,
+  postId: string,
   textarea: HTMLTextAreaElement,
   files: FileWithType[],
 ) {
@@ -75,15 +76,11 @@ export async function uploadFiles(
         formData.append("type", type);
         formData.append("userId", userId);
         formData.append("projectId", projectId);
+        formData.append("postId", postId);
 
         const media = await createProjectMedia(formData);
 
-        replacePlaceholder(
-          cursor,
-          placeholder,
-          getHtmlByMedia(media),
-          // `<img alt="${file.name}" src="${media.url}">`,
-        );
+        replacePlaceholder(cursor, placeholder, getHtmlByMedia(file, media));
       } catch {
         replacePlaceholder(cursor, placeholder, "");
         toast({

@@ -140,6 +140,7 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   visit       Visit[]
+  media       Media[]
 
   @@unique([projectId, slug])
   @@index([projectId])
@@ -157,16 +158,18 @@ model Media {
   id           String    @id @default(cuid())
   projectId    String?
   project      Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
-  uploadedBy   User?     @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
   uploadedById String?
+  uploadedBy   User?     @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  postId       String?
+  post         Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
   type         MediaType
   url          String
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  @@unique([projectId, url])
   @@index([projectId])
   @@index([uploadedById])
+  @@index([postId])
 }
 
 enum EmailType {

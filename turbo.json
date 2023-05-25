@@ -87,6 +87,7 @@
     "DO_REGION",
     "DO_ACCESS_KEY",
     "DO_SECRET_KEY",
-    "DO_BUCKET"
+    "DO_BUCKET",
+    "DO_CRN_URL"
   ]
 }

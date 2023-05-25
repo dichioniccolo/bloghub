@@ -6,7 +6,8 @@ import { env } from "../../env.mjs";
 import { s3 } from "../media";
 
 export async function deleteMedia(url: string) {
-  const fileName = url.split("/").pop();
+  // take only last part of url after the first slash without https://
+  const fileName = url.split("/").slice(3).join("/");
 
   return await s3.send(
     new DeleteObjectCommand({

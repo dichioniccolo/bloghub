@@ -24,6 +24,7 @@ import { Icons } from "./icons";
 type MarkdownEditorProps = {
   userId: string;
   projectId: string;
+  postId: string;
   value?: string;
   onChange(value: string): void;
   onSubmit(): void;
@@ -142,6 +143,7 @@ function MarkdownPreview({ markdown }: { markdown?: string }) {
 export function MarkdownEditor({
   userId,
   projectId,
+  postId,
   value,
   minRows = 15,
   onChange,
@@ -183,9 +185,7 @@ export function MarkdownEditor({
 
     event.preventDefault();
 
-    await uploadFiles(userId, projectId, event.currentTarget, files);
-
-    onSubmit();
+    await uploadFiles(userId, projectId, postId, event.currentTarget, files);
   }
 
   async function onPaste(event: ClipboardEvent<HTMLTextAreaElement>) {
@@ -203,9 +203,7 @@ export function MarkdownEditor({
 
     event.preventDefault();
 
-    await uploadFiles(userId, projectId, event.currentTarget, files);
-
-    onSubmit();
+    await uploadFiles(userId, projectId, postId, event.currentTarget, files);
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {

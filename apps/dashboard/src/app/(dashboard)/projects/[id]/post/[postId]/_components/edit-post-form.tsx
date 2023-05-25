@@ -84,6 +84,7 @@ export function EditPostForm({ post }: Props) {
                     <MarkdownEditor
                       userId={user.id}
                       projectId={post.projectId}
+                      postId={post.id}
                       value={field.value}
                       onChange={field.onChange}
                       onSubmit={handleSubmit(onSubmit)}
