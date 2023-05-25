@@ -1,6 +1,5 @@
 "use server";
 
-import { readFileSync } from "fs";
 import { nanoid } from "nanoid";
 
 import { uploadFile } from "@acme/common/external/media/actions";
@@ -51,6 +50,18 @@ import { prisma, type Media, type MediaType } from "@acme/db";
 //   return media;
 // });
 
+function arrayBufferToBuffer(ab: ArrayBuffer) {
+  const buffer = Buffer.alloc(ab.byteLength);
+  const view = new Uint8Array(ab);
+
+  for (let i = 0; i < buffer.length; ++i) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    buffer[i] = view[i]!;
+  }
+
+  return buffer;
+}
+
 export async function createProjectMedia(formData: FormData): Promise<Media> {
   const userId = formData.get("userId") as string;
   const projectId = formData.get("projectId") as string;
@@ -74,9 +85,7 @@ export async function createProjectMedia(formData: FormData): Promise<Media> {
   const file = formData.get("file") as File;
   const type = formData.get("type") as MediaType;
 
-  const fileAsBuffer = readFileSync(file.name);
-
-  // file.toString('binary')
+  const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
   try {
     const uploadedFile = await uploadFile(fileName, fileAsBuffer);

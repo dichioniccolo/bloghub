@@ -1,6 +1,6 @@
 import { Cursor } from "textarea-markdown-editor";
 
-import { type MediaType } from "@acme/db";
+import { type Media, type MediaType } from "@acme/db";
 import { toast } from "@acme/ui";
 
 import { createProjectMedia } from "./shared/actions/create-project-media";
@@ -33,6 +33,19 @@ function determineMediaType(file: File): MediaType | null {
     return "AUDIO";
   }
   return null;
+}
+
+export function getHtmlByMedia(media: Media) {
+  switch (media.type) {
+    case "IMAGE":
+      return `<img alt="${media.id}" src="${media.url}">`;
+    case "VIDEO":
+      return `<video controls src="${media.url}"></video>`;
+    case "AUDIO":
+      return `<audio controls src="${media.url}"></audio>`;
+    default:
+      return "";
+  }
 }
 
 type FileWithType = {
@@ -68,7 +81,8 @@ export async function uploadFiles(
         replacePlaceholder(
           cursor,
           placeholder,
-          `<img alt="${file.name}" src="${media.url}">`,
+          getHtmlByMedia(media),
+          // `<img alt="${file.name}" src="${media.url}">`,
         );
       } catch {
         replacePlaceholder(cursor, placeholder, "");
