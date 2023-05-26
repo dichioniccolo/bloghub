@@ -14,6 +14,9 @@ import {
   Download,
   Edit,
   ExternalLink,
+  Heading1,
+  Heading2,
+  Heading3,
   HelpCircle,
   Image,
   Italic,
@@ -31,9 +34,6 @@ import {
   SunMedium,
   Trash2,
   type Icon as LucideIcon,
-  Heading1,
-  Heading2,
-  Heading3,
 } from "lucide-react";
 
 import { cn } from "~/lib/utils";
