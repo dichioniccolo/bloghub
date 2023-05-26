@@ -5,8 +5,6 @@ import { marked } from "marked";
 import ms from "ms";
 import { twMerge } from "tailwind-merge";
 
-import { ccTLDs } from "./constants";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -32,33 +30,6 @@ export function getSubDomain(name?: string, apexName?: string) {
   }
 
   return name.slice(0, name.length - apexName.length - 1);
-}
-
-export function generateDomainFromName(name: string) {
-  const normalizedName = name
-    .trim()
-    .toLowerCase()
-    .replace(/[\W_]+/g, "");
-
-  if (normalizedName.length < 3) {
-    return "";
-  }
-
-  if (ccTLDs.has(normalizedName.slice(-2))) {
-    return `${normalizedName.slice(0, -2)}.${normalizedName.slice(-2)}`;
-  }
-
-  // remove vowels
-  const devowel = normalizedName.replace(/[aeiou]/g, "");
-  if (devowel.length >= 3 && ccTLDs.has(devowel.slice(-2))) {
-    return `${devowel.slice(0, -2)}.${devowel.slice(-2)}`;
-  }
-
-  const shortestString = [normalizedName, devowel].reduce((a, b) =>
-    a.length < b.length ? a : b,
-  );
-
-  return `${shortestString}.to`;
 }
 
 export function getDefaultAvatarImage(text: string) {

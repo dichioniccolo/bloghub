@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Button,
   Dialog,
@@ -32,6 +34,8 @@ type Props = {
 };
 
 export function InviteMemberDialog({ projectId }: Props) {
+  const [open, setOpen] = useState(false);
+
   const user = useUser();
 
   const { toast } = useToast();
@@ -48,10 +52,12 @@ export function InviteMemberDialog({ projectId }: Props) {
     toast({
       title: "Invitation sent",
     });
+
+    setOpen(false);
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Invite</Button>
       </DialogTrigger>

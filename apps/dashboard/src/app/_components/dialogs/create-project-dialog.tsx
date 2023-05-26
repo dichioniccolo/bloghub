@@ -26,7 +26,6 @@ import {
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { createProject } from "~/lib/shared/actions/create-project";
-import { generateDomainFromName } from "~/lib/utils";
 import {
   CreateProjectSchema,
   type CreateProjectSchemaType,
@@ -72,7 +71,7 @@ function CreateProjectDialog({ open, setOpen }: Props) {
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
-          {({ setValue, formState: { isSubmitting } }) => (
+          {({ formState: { isSubmitting } }) => (
             <>
               <FormField
                 name="name"
@@ -86,12 +85,6 @@ function CreateProjectDialog({ open, setOpen }: Props) {
                         autoCorrect="off"
                         disabled={isSubmitting}
                         {...field}
-                        onChange={(e: { target: { value: string } }) => {
-                          const value = e.target.value;
-
-                          setValue("domain", generateDomainFromName(value));
-                          field.onChange(e);
-                        }}
                       />
                     </FormControl>
                     <FormMessage />

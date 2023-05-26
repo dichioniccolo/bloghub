@@ -82,6 +82,19 @@ const config = {
       headers: securityHeaders,
     },
   ],
+  webpack: (config) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    config.externals.push(
+      {
+        "utf-8-validate": "commonjs utf-8-validate",
+        bufferutil: "commonjs bufferutil",
+      },
+      "canvas",
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return config;
+  },
 };
 
 export default config;
