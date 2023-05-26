@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Role, prisma } from "@acme/db";
 import { ProjectInvite, sendMail } from "@acme/emails";
 
+import { revalidatePath } from "next/cache";
 import { env } from "~/env.mjs";
 import { zact } from "~/lib/zact/server";
 
@@ -119,4 +120,6 @@ export const inviteUser = zact(
       },
     });
   });
+
+  revalidatePath(`/projects/${projectId}/settings/members`);
 });

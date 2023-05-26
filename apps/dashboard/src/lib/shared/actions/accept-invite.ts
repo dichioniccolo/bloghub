@@ -24,8 +24,6 @@ export const acceptInvite = zact(
         },
       });
 
-      console.log(user);
-
       if (!user) {
         ctx.addIssue({
           code: "custom",
@@ -62,8 +60,6 @@ export const acceptInvite = zact(
     },
   });
 
-  console.log(user);
-
   await prisma.$transaction(async (tx) => {
     await tx.invite.deleteMany({
       where: {
@@ -80,7 +76,6 @@ export const acceptInvite = zact(
     });
   });
 
-  revalidatePath(`/projects/${projectId}`);
   revalidatePath("/");
   redirect(`/projects/${projectId}`);
 });

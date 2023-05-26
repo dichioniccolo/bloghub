@@ -44,47 +44,49 @@ export function AcceptInviteDialog({ project, expired }: Props) {
   };
 
   return (
-    <Dialog open>
-      <DialogContent>
-        {!expired ? (
-          <DialogHeader>
-            <DialogTitle>Project Invitation</DialogTitle>
-            <DialogDescription>
-              You&apos;ve been invited to join and collaborate on the{" "}
-              <span className="font-mono text-purple-600">
-                {project.name || "......"}
-              </span>{" "}
-              project
-            </DialogDescription>
-            <DialogFooter>
-              <Button
-                className="mt-4 w-full"
-                disabled={loading}
-                onClick={onSubmit}
-              >
-                {loading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Accept invite
-              </Button>
-            </DialogFooter>
-          </DialogHeader>
-        ) : (
-          <>
+    <div>
+      <Dialog open>
+        <DialogContent>
+          {!expired ? (
             <DialogHeader>
-              <DialogTitle>Project Invitation Expired</DialogTitle>
+              <DialogTitle>Project Invitation</DialogTitle>
               <DialogDescription>
-                This invite has expired or is no longer valid.
+                You&apos;ve been invited to join and collaborate on the{" "}
+                <span className="font-mono text-purple-600">
+                  {project.name || "......"}
+                </span>{" "}
+                project
               </DialogDescription>
               <DialogFooter>
-                <Link href="/" className={buttonVariants()}>
-                  Back to dashboard
-                </Link>
+                <Button
+                  className="mt-4 w-full"
+                  disabled={loading}
+                  onClick={onSubmit}
+                >
+                  {loading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Accept invite
+                </Button>
               </DialogFooter>
             </DialogHeader>
-          </>
-        )}
-      </DialogContent>
-    </Dialog>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Project Invitation Expired</DialogTitle>
+                <DialogDescription>
+                  This invite has expired or is no longer valid.
+                </DialogDescription>
+                <DialogFooter>
+                  <Link href="/" className={buttonVariants()}>
+                    Back to dashboard
+                  </Link>
+                </DialogFooter>
+              </DialogHeader>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }
