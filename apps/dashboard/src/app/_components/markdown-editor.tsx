@@ -12,6 +12,7 @@ import TextareaAutosize, {
   type TextareaAutosizeProps,
 } from "react-textarea-autosize";
 import TextareaMarkdown, {
+  type CommandType,
   type TextareaMarkdownRef,
 } from "textarea-markdown-editor";
 
@@ -19,7 +20,7 @@ import { HtmlView, Label, Switch } from "@acme/ui";
 
 import { filesWithTypes, uploadFiles } from "~/lib/editor";
 import { cn, markdownToHtml } from "~/lib/utils";
-import { Icons } from "./icons";
+import { Icons, type Icon } from "./icons";
 
 type MarkdownEditorProps = {
   userId: string;
@@ -105,7 +106,28 @@ type MarkdownEditorProps = {
 //   }
 // }
 
+type ToolbarItem = {
+  commandTrigger: CommandType;
+  icon: Icon;
+  name: string;
+};
+
 const TOOLBAR_ITEMS = [
+  {
+    commandTrigger: "h1",
+    icon: <Icons.h1 className="h-4 w-4" />,
+    name: "Heading 1",
+  },
+  {
+    commandTrigger: "h2",
+    icon: <Icons.h2 className="h-4 w-4" />,
+    name: "Heading 2",
+  },
+  {
+    commandTrigger: "h3",
+    icon: <Icons.h2 className="h-4 w-4" />,
+    name: "Heading 3",
+  },
   {
     commandTrigger: "bold",
     icon: <Icons.bold className="h-4 w-4" />,
@@ -126,7 +148,12 @@ const TOOLBAR_ITEMS = [
     icon: <Icons.link className="h-4 w-4" />,
     name: "Link",
   },
-];
+  {
+    commandTrigger: "code-block",
+    icon: <Icons.code className="h-4 w-4" />,
+    name: "Code block",
+  },
+] satisfies ToolbarItem[];
 
 function MarkdownPreview({ markdown }: { markdown?: string }) {
   return (

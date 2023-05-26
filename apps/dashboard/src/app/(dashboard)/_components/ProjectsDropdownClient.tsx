@@ -67,7 +67,9 @@ export function ProjectsDropdownClient({ projects }: Props) {
                 {selectedProject?.name[0] ?? user.name?.[0] ?? user.email[0]}
               </AvatarFallback>
             </Avatar>
-            {selectedProject?.name ?? user?.name ?? user.email}
+            <span className="truncate">
+              {selectedProject?.name ?? user?.name ?? user.email}
+            </span>
             <Icons.chevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -93,7 +95,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
                       {user.name?.[0] ?? user.email[0]}
                     </AvatarFallback>
                   </Avatar>
-                  {user.name ?? user.email}
+                  <span className="truncate">{user.name ?? user.email}</span>
                   <Icons.check
                     className={cn("ml-auto h-4 w-4", {
                       "opacity-100": !selectedProject,
@@ -121,7 +123,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
                       />
                       <AvatarFallback>{project.name[0]}</AvatarFallback>
                     </Avatar>
-                    {project.name}
+                    <span className="truncate">{project.name}</span>
                     <Icons.check
                       className={cn("ml-auto h-4 w-4", {
                         "opacity-100": selectedProject?.id === project.id,

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import {
   Button,
   Form,
@@ -104,17 +106,15 @@ export function EditPostForm({ post }: Props) {
                 Save
               </Button>
             </div>
-            {!formState.isSubmitting && (
-              <a
-                href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-blue flex items-center gap-2 transition-colors"
-              >
-                <Icons.markdown />
-                <span className="text-xs">Markdown supported</span>
-              </a>
-            )}
+            <Link
+              href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-blue flex items-center gap-2 transition-colors"
+            >
+              <Icons.markdown />
+              <span className="text-xs">Markdown supported</span>
+            </Link>
           </div>
         </>
       )}

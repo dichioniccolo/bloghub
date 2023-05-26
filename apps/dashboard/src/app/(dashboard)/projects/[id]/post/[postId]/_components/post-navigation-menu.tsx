@@ -11,6 +11,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@acme/ui";
 
+import { Icons } from "~/app/_components/icons";
+
 type Props = {
   projectId: string;
   postId: string;
@@ -27,7 +29,7 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
         <NavigationMenuItem>
           <Link href={`/projects/${projectId}`} legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              ← Posts
+              <Icons.arrowLeft className="mr-2 h-4 w-4" /> Posts
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

@@ -2,12 +2,14 @@ import { type ReactNode } from "react";
 import {
   Infinity as InfinityIcon,
   AlertCircle,
+  ArrowLeft,
   BarChart,
   Bold,
   Check,
   CheckCircle,
   ChevronsUpDown,
   Clipboard,
+  Code,
   Copy,
   Download,
   Edit,
@@ -29,6 +31,9 @@ import {
   SunMedium,
   Trash2,
   type Icon as LucideIcon,
+  Heading1,
+  Heading2,
+  Heading3,
 } from "lucide-react";
 
 import { cn } from "~/lib/utils";
@@ -45,6 +50,7 @@ export const Icons = {
   link: Link,
   moreH: MoreHorizontal,
   share: Share,
+  code: Code,
   alertCircle: AlertCircle,
   externalLink: ExternalLink,
   checkCircle: CheckCircle,
@@ -64,6 +70,10 @@ export const Icons = {
   clipboard: Clipboard,
   download: Download,
   image: Image,
+  arrowLeft: ArrowLeft,
+  h1: Heading1,
+  h2: Heading2,
+  h3: Heading3,
   divider: ({ className, ...props }) => (
     <svg
       {...props}
