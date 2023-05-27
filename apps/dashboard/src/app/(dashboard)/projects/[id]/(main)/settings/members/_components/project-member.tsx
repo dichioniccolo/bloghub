@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage, Skeleton } from "@acme/ui";
+import { Avatar, AvatarImage } from "@acme/ui";
 
 import { getDefaultAvatarImage, timeAgo } from "~/lib/utils";
 
@@ -41,20 +41,5 @@ export function ProjectMember({ role, createdAt, user }: Props) {
 }
 
 export function ProjectMemberSkeleton() {
-  return (
-    <div className="flex items-center justify-between space-x-3">
-      <div className="flex items-center space-x-3">
-        <Avatar>
-          <AvatarFallback />
-        </Avatar>
-        <div className="flex flex-col">
-          <Skeleton />
-        </div>
-      </div>
-      <div className="flex w-24 flex-col">
-        <Skeleton />
-        <Skeleton />
-      </div>
-    </div>
-  );
+  return <div>loading</div>;
 }

@@ -13,10 +13,10 @@ const sidebarNavItems = [
     title: "Notifications",
     href: "/settings/notifications",
   },
-  {
-    title: "Billing",
-    href: "/settings/billing",
-  },
+  // {
+  //   title: "Billing",
+  //   href: "/settings/billing",
+  // },
 ];
 
 export default function Layout({ children }: PropsWithChildren) {

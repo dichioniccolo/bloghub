@@ -1,4 +1,3 @@
-import { PlaceholderWithIllustration } from "~/app/_components/placeholder-with-image";
 import { getPosts } from "~/lib/shared/api/posts";
 import {
   getProjectOwner,
@@ -31,12 +30,15 @@ export async function PostsCards({ project }: Props) {
         />
       ))}
       {posts.length === 0 && (
-        <PlaceholderWithIllustration
-          text="You don't have any posts yet!"
-          src="/static/illustrations/call-waiting.svg"
-        >
-          <CreatePostButton projectId={project.id} />
-        </PlaceholderWithIllustration>
+        <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">
+          <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+            <h3 className="mt-4 text-lg font-semibold">No posts created</h3>
+            <p className="mb-4 mt-2 text-sm text-muted-foreground">
+              You have not created any posts. Add one below.
+            </p>
+            <CreatePostButton projectId={project.id} />
+          </div>
+        </div>
       )}
     </ul>
   );

@@ -1,8 +1,6 @@
 import Link from "next/link";
 
 import {
-  Avatar,
-  AvatarFallback,
   BlurImage,
   Card,
   Tooltip,
@@ -61,20 +59,5 @@ export function ProjectCard({ project }: Props) {
 }
 
 export function ProjectCardSkeleton() {
-  return (
-    <Card className="flex justify-between p-6 transition-all hover:shadow-md">
-      <div className="flex items-center space-x-3">
-        <Avatar>
-          <AvatarFallback className="h-9 w-9 flex-shrink-0 overflow-hidden rounded-full" />
-        </Avatar>
-        <div>
-          <h2 className="animated w-10 animate-pulse text-lg font-medium text-gray-700 dark:text-gray-300"></h2>
-          <div className="flex items-center">
-            <p className="w-16 text-gray-500"></p>
-          </div>
-        </div>
-      </div>
-      <div className="flex h-5 w-5 animate-pulse items-center space-x-2 rounded-md"></div>
-    </Card>
-  );
+  return <div>loading</div>;
 }

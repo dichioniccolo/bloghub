@@ -134,52 +134,5 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
 }
 
 export function BillingFormSkeleton() {
-  return (
-    <div className="rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-      <div className="flex flex-col space-y-3 p-10">
-        <h2 className="text-xl font-medium">Plan &amp; Usage</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          You are currently on the <Badge /> plan.
-        </p>
-      </div>
-      <div className="border-b border-gray-200 dark:border-gray-700" />
-      <div className="grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-        <div className="flex flex-col space-y-2 p-10">
-          <div className="flex items-center">
-            <h3>Total Post Clicks</h3>
-            <Tooltip>
-              <TooltipContent>
-                Number of billable post clicks across all your projects
-              </TooltipContent>
-              <TooltipTrigger>
-                <div className="flex h-4 w-8 justify-center">
-                  <Icons.helpCircle className="h-4 w-4 text-gray-500" />
-                </div>
-              </TooltipTrigger>
-            </Tooltip>
-          </div>
-          <p className="text-sm text-gray-500">... / ... clicks (...%)</p>
-          <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600">
-            <div className="h-3 rounded-full" />
-          </div>
-        </div>
-        <div className="p-10">
-          <h3 className="font-medium">Number of Projects</h3>
-          <div className="mt-4 flex items-center">
-            <p className="text-2xl font-semibold text-black dark:text-gray-50">
-              ...
-            </p>
-            <Icons.divider className="h-8 w-8 text-gray-500" />
-            <Icons.infinite className="h-8 w-8 text-gray-500" />
-          </div>
-        </div>
-      </div>
-      <div className="border-b border-gray-200 dark:border-gray-700"></div>
-      <div className="flex flex-col items-center justify-between space-y-3 px-10 py-4 text-center sm:flex-row sm:space-y-0 sm:text-left">
-        <div className="flex space-x-3">
-          <Button className="w-16 animate-pulse" disabled></Button>
-        </div>
-      </div>
-    </div>
-  );
+  return <div>loading</div>;
 }

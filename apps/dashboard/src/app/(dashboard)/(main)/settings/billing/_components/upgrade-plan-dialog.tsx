@@ -117,7 +117,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
               </p>
             </div>
           </div>
-          <div className="flex w-full flex-col items-center space-y-1 rounded-b-lg border-t border-gray-200 bg-gray-50 p-5 text-center dark:border-gray-800 dark:bg-gray-800">
+          <div className="flex w-full flex-col items-center space-y-1 p-5 text-center">
             {proPlans.length > 1 && (
               <Slider
                 onValueChange={(value) => setTier(value[0] ?? 0)}

@@ -89,14 +89,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html
-      lang="en"
-      className={cn(
-        "bg-white text-slate-900 antialiased",
-        inter.variable,
-        roboto_mono.variable,
-      )}
-    >
+    <html lang="en" className={cn(inter.variable, roboto_mono.variable)}>
       <head />
       <body>
         <Providers session={session}>{children}</Providers>

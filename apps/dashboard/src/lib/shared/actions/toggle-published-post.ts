@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { prisma } from "@acme/db";
+import { Role, prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -31,6 +31,7 @@ export const togglePublishedPost = zact(
           users: {
             some: {
               userId,
+              role: Role.OWNER,
             },
           },
         },
@@ -39,7 +40,8 @@ export const togglePublishedPost = zact(
       if (count === 0) {
         ctx.addIssue({
           code: "custom",
-          message: "You must be a member of the project",
+          message:
+            "You must be a member of the project or you do not have the required permissions to perform this action",
           path: ["projectId"],
         });
       }
@@ -60,5 +62,5 @@ export const togglePublishedPost = zact(
     },
   });
 
-  revalidatePath(`/projects/${projectId}`);
+  revalidatePath(`/projects/${projectId}/post/${postId}`);
 });

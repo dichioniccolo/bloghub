@@ -1,4 +1,3 @@
-import { PlaceholderWithIllustration } from "~/app/_components/placeholder-with-image";
 import { getProjects } from "~/lib/shared/api/projects";
 import { cn } from "~/lib/utils";
 import { CreateProjectButton } from "./create-project-button";
@@ -17,12 +16,15 @@ export async function ProjectsCards() {
         <ProjectCard key={project.id} project={project} />
       ))}
       {projects.length === 0 && (
-        <PlaceholderWithIllustration
-          text="You don't have any projects yet!"
-          src="/static/illustrations/shopping-call.svg"
-        >
-          <CreateProjectButton />
-        </PlaceholderWithIllustration>
+        <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">
+          <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+            <h3 className="mt-4 text-lg font-semibold">No projects created</h3>
+            <p className="mb-4 mt-2 text-sm text-muted-foreground">
+              You have not created any projects. Add one below.
+            </p>
+            <CreateProjectButton />
+          </div>
+        </div>
       )}
     </div>
   );

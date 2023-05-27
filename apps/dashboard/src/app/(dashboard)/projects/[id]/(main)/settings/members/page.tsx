@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Role } from "@acme/db";
 import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
 
-import { PlaceholderWithIllustration } from "~/app/_components/placeholder-with-image";
 import {
   getProject,
   getProjectInvites,
@@ -81,10 +80,16 @@ export default async function AppDashboardProjectSettingsMembersPage({
             />
           ))}
           {invites.length === 0 && (
-            <PlaceholderWithIllustration
-              text="There are no pending invitations."
-              src="/static/illustrations/video-park.svg"
-            />
+            <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">
+              <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+                <h3 className="mt-4 text-lg font-semibold">
+                  No invitations sent
+                </h3>
+                <p className="mb-4 mt-2 text-sm text-muted-foreground">
+                  There are no invitations sent.
+                </p>
+              </div>
+            </div>
           )}
         </TabsContent>
       </Tabs>

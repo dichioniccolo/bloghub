@@ -26,7 +26,6 @@ import { constructPostUrl } from "~/lib/url";
 import { cn, formatNumber, timeAgo } from "~/lib/utils";
 import { PostCardButton } from "./post-card-button";
 import { PostCardCopyButton } from "./post-card-copy-button";
-import { PostCardTogglePublishedButton } from "./post-card-toggle-published-button.tsx";
 import { QrOptionsDialog } from "./qr-options-dialog";
 
 type Props = {
@@ -48,7 +47,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
         />
       </div>
       <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
+        <CardTitle className="text-2xl">{post.title}</CardTitle>
         <CardDescription>
           {project.domainVerified ? (
             <Link
@@ -72,7 +71,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
           ) : (
             <Tooltip>
               <TooltipTrigger>
-                <span className="w-24 cursor-not-allowed truncate text-sm font-semibold text-gray-400 line-through sm:w-full sm:text-base">
+                <span className="w-24 cursor-not-allowed truncate text-sm font-semibold line-through sm:w-full sm:text-base">
                   <span className="hidden lg:block">
                     {constructPostUrl(project.domain, post.slug)}
                   </span>
@@ -85,7 +84,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 </span>
               </TooltipTrigger>
               <TooltipContent className="flex flex-col gap-4 p-4">
-                <span className="text-sm text-gray-700 dark:text-gray-300">
+                <span className="text-sm">
                   Your post won&apos;t work until you verify your domain.
                 </span>
                 <Link
@@ -114,7 +113,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
               trigger={
                 <PostCardButton>
                   <span className="sr-only">Download QR</span>
-                  <Icons.qr className="text-gray-700 transition-colors group-hover:text-blue-800 dark:text-gray-100 dark:group-hover:text-blue-300" />
+                  <Icons.qr />
                 </PostCardButton>
               }
             />
@@ -122,20 +121,21 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
               href={{
                 pathname: `/${project.id}/post/${post.id}/stats`,
               }}
-              className="flex items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 dark:bg-gray-700"
             >
-              <Icons.chart className="text-gray-700 transition-colors group-hover:text-blue-800 dark:text-gray-100 dark:group-hover:text-blue-300" />
-              <p className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                {formatNumber(post.clicks)}
-                <span className="ml-1 hidden sm:inline-block">clicks</span>
-              </p>
+              <PostCardButton className="space-x-1">
+                <Icons.chart />
+                <p className="whitespace-nowrap text-sm">
+                  {formatNumber(post.clicks)}
+                  <span className="ml-1 hidden sm:inline-block">clicks</span>
+                </p>
+              </PostCardButton>
             </Link>
           </div>
           <div className="flex items-center">
-            <p className="mr-3 hidden whitespace-nowrap text-sm text-gray-500 sm:block">
+            <p className="mr-3 hidden whitespace-nowrap text-sm sm:block">
               Added {timeAgo(post.createdAt)}
             </p>
-            <p className="mr-1 whitespace-nowrap text-sm text-gray-500 sm:hidden">
+            <p className="mr-1 whitespace-nowrap text-sm sm:hidden">
               {timeAgo(post.createdAt, true)}
             </p>
             <div className="flex items-center gap-1">
@@ -147,11 +147,11 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                       <TooltipTrigger asChild>
                         <PostCardButton>
                           <p className="sr-only">Edit</p>
-                          <Icons.edit className="h-4 w-4" />
+                          <Icons.edit />
                         </PostCardButton>
                       </TooltipTrigger>
                       <TooltipContent className="flex flex-col gap-4 p-4">
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-sm">
                           {currentUserRole === "OWNER"
                             ? "You have exceeded your usage limit. We're still collecting data on your existing pots, but you need to upgrade to edit them."
                             : "The owner of this project has exceeded their usage limit. We're still collecting data on all existing posts, but they need to upgrade their plan to edit them."}
@@ -167,14 +167,12 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                       </TooltipContent>
                     </Tooltip>
                   ) : (
-                    <>
-                      <Link href={`/projects/${project.id}/post/${post.id}`}>
-                        <PostCardButton>
-                          <Icons.edit className="text-gray-700 transition-colors group-hover:text-blue-800 dark:text-gray-100 dark:group-hover:text-blue-300" />
-                          <p className="sr-only">Edit</p>
-                        </PostCardButton>
-                      </Link>
-                    </>
+                    <Link href={`/projects/${project.id}/post/${post.id}`}>
+                      <PostCardButton>
+                        <Icons.edit />
+                        <p className="sr-only">Edit</p>
+                      </PostCardButton>
+                    </Link>
                   )}
                 </>
               )}
@@ -184,21 +182,16 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                   id={post.id}
                   projectId={project.id}
                   trigger={(loading) => (
-                    <PostCardButton>
+                    <PostCardButton variant="destructive">
                       {loading ? (
-                        <Icons.spinner className="animate-spin text-gray-700 transition-colors dark:text-gray-100" />
+                        <Icons.spinner className="animate-spin" />
                       ) : (
-                        <Icons.delete className="text-red-700 transition-colors group-hover:text-blue-800 dark:text-red-100 dark:group-hover:text-blue-300" />
+                        <Icons.delete />
                       )}
                       <p className="sr-only">Delete</p>
                     </PostCardButton>
                   )}
                 />
-              )}
-
-              {(currentUserRole === "OWNER" ||
-                currentUserRole === "EDITOR") && (
-                <PostCardTogglePublishedButton project={project} post={post} />
               )}
             </div>
           </div>

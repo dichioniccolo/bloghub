@@ -53,6 +53,7 @@ export async function getPost(projectId: string, postId: string) {
       title: true,
       content: true,
       projectId: true,
+      hidden: true,
     },
   });
 

@@ -78,7 +78,7 @@ export default function Layout({ children }: PropsWithChildren) {
     <html
       lang="en"
       className={cn(
-        "bg-white font-sans text-slate-900 antialiased",
+        "bg-primary font-sans text-slate-900 antialiased",
         fontInter.variable,
       )}
     >

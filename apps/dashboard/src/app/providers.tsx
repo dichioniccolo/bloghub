@@ -15,7 +15,7 @@ type Props = {
 export function Providers({ session, children }: PropsWithChildren<Props>) {
   return (
     <SessionProvider session={session}>
-      <ThemeProvider>
+      <ThemeProvider attribute="class">
         <TooltipProvider>{children}</TooltipProvider>
         <Toaster />
       </ThemeProvider>

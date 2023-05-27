@@ -54,7 +54,7 @@ export function UserDropdown() {
           </Link>
           <DropdownMenuItem onClick={onLogout}>
             <Icons.logOut className="mr-2 h-4 w-4" />
-            <span>Logout</span>
+            <span>Log Out</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

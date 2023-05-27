@@ -121,26 +121,27 @@ export function CustomDomain({ project }: Props) {
 
 export function CustomDomainPlaceholder() {
   return (
-    <div className="min-w-full rounded-lg border border-gray-200 bg-white py-5 dark:border-gray-700 dark:bg-gray-800 sm:py-10">
-      <div className="flex flex-col space-y-3 px-5 sm:px-10">
-        <h2 className="text-xl font-medium">Custom Domain</h2>
-        <p className="w-80 animate-pulse text-sm text-gray-500">
+    <Card className="animate-pulse">
+      <CardHeader>
+        <CardTitle>Custom Domain</CardTitle>
+        <CardDescription>
           This is the custom domain associated with your project.
-        </p>
-      </div>
-      <div className="my-4 border-b border-gray-200 dark:border-gray-700 sm:my-8" />
-      <div className="flex flex-col space-y-3 px-5 sm:px-10">
-        <div className="flex flex-col justify-between space-y-4 sm:flex-row sm:space-x-4">
-          <div className="h-8 w-32 animate-pulse rounded-md bg-gray-200" />
-          <div className="flex space-x-3">
-            <div className="h-9 w-24 animate-pulse rounded-md bg-gray-200" />
-            <div className="h-9 w-24 animate-pulse rounded-md bg-gray-200" />
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col space-y-3 px-5 sm:px-10">
+          <div className="flex flex-col justify-between space-y-4 sm:flex-row sm:space-x-4">
+            <div className="h-8 w-32 rounded-md bg-gray-200" />
+            <div className="flex space-x-3">
+              <div className="h-9 w-24 rounded-md bg-gray-200" />
+              <div className="h-9 w-24 rounded-md bg-gray-200" />
+            </div>
+          </div>
+          <div className="flex h-10 items-center space-x-2">
+            <Icons.spinner className="mr-1 h-5 w-5 animate-spin" />
           </div>
         </div>
-        <div className="flex h-10 items-center space-x-2">
-          <Icons.spinner className="mr-1 h-5 w-5 animate-spin" />
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
