@@ -1,10 +1,8 @@
-import { Suspense } from "react";
 import { type Metadata } from "next";
 
-import { DashboardHeader } from "~/app/_components/dashboard-header";
-import { DashboardShell } from "~/app/_components/dashboard-shell";
-import { PlanUsage, PlanUsageSkeleton } from "../_components/plan-usage";
-import { UserNameForm } from "../_components/user-form";
+import { Separator } from "@acme/ui";
+
+import { ProfileForm } from "./_components/profile-form";
 
 export const metadata = {
   title: "Settings",
@@ -12,13 +10,15 @@ export const metadata = {
 
 export default function AppDashboardMainSettingsPage() {
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Settings" />
-      <UserNameForm />
-      <Suspense fallback={<PlanUsageSkeleton />}>
-        {/* @ts-expect-error react async component */}
-        <PlanUsage />
-      </Suspense>
-    </DashboardShell>
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Profile</h3>
+        <p className="text-sm text-muted-foreground">
+          This is how others will see you on the site.
+        </p>
+      </div>
+      <Separator />
+      <ProfileForm />
+    </div>
   );
 }

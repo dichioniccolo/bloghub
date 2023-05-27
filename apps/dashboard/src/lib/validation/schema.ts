@@ -52,3 +52,13 @@ export const EditPostSchema = z.object({
 });
 
 export type EditPostSchemaType = z.infer<typeof EditPostSchema>;
+
+export const EditNotificationsSchema = z.object({
+  communication_emails: z.boolean().default(true),
+  marketing_emails: z.boolean().default(true),
+  social_emails: z.boolean().default(true),
+});
+
+export type EditNotificationsSchemaType = z.infer<
+  typeof EditNotificationsSchema
+>;

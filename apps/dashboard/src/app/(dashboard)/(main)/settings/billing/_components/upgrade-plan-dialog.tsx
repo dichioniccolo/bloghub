@@ -46,7 +46,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
     startTransition(async () => {
       const url = await mutate({
         userId: user.id,
-        callbackUrl: absoluteUrl("/settings"),
+        callbackUrl: absoluteUrl("/settings/billing"),
         name: plan?.name,
         period,
       });

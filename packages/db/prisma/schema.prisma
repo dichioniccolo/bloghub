@@ -60,11 +60,28 @@ model User {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 
-  accounts Account[]
-  sessions Session[]
-  projects ProjectUser[]
-  emails   Emails[]
-  media    Media[]
+  accounts      Account[]
+  sessions      Session[]
+  projects      ProjectUser[]
+  emails        Emails[]
+  media         Media[]
+  emailSettings EmailNotificationSetting[]
+}
+
+enum EmailNotificationSettingType {
+  COMMUNICATION
+  MARKETING
+  SOCIAL
+}
+
+model EmailNotificationSetting {
+  userId String
+  user   User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type   EmailNotificationSettingType
+  value  Boolean                      @default(true)
+
+  @@id([userId, type])
+  @@index([userId])
 }
 
 model VerificationToken {

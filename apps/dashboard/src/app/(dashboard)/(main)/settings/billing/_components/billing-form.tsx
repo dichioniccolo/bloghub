@@ -46,7 +46,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
     startTransition(async () => {
       const url = await mutate({
         userId: user.id,
-        callbackUrl: absoluteUrl("/settings"),
+        callbackUrl: absoluteUrl("/settings/billing"),
       });
 
       if (!url) {

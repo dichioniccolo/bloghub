@@ -30,7 +30,7 @@ export function MainNavigationMenu() {
         <NavigationMenuItem>
           <Link href="/settings" legacyBehavior passHref>
             <NavigationMenuLink
-              active={pathname === "/settings"}
+              active={pathname.startsWith("/settings")}
               className={navigationMenuTriggerStyle()}
             >
               Settings

@@ -4,12 +4,10 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,7 +24,7 @@ import {
 } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-export function UserNameForm() {
+export function ProfileForm() {
   const user = useUser();
 
   const { mutate } = useZact(updateUser);
@@ -39,14 +37,14 @@ export function UserNameForm() {
   }
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="border-none shadow-none">
+      {/* <CardHeader className="px-0">
         <CardTitle>Your Name</CardTitle>
         <CardDescription>
           Please enter your full name or a display name you are comfortable
           with.
         </CardDescription>
-      </CardHeader>
+      </CardHeader> */}
       <Form
         onSubmit={onSubmit}
         schema={UserNameSchema}
@@ -56,12 +54,17 @@ export function UserNameForm() {
       >
         {({ formState: { isSubmitting } }) => (
           <>
-            <CardContent>
+            <CardContent className="px-0">
               <FormField
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <div className="space-y-0.5">
+                      <FormLabel>Name</FormLabel>
+                      <FormDescription>
+                        This is the name that will be displayed on your profile.
+                      </FormDescription>
+                    </div>
                     <FormControl>
                       <Input
                         className="w-[400px]"
@@ -75,7 +78,7 @@ export function UserNameForm() {
                 )}
               />
             </CardContent>
-            <CardFooter>
+            <CardFooter className="px-0">
               <Button disabled={isSubmitting}>
                 {isSubmitting && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

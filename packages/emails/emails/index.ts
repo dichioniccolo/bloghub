@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const markeringTransporter = nodemailer.createTransport({
+const marketingTransporter = nodemailer.createTransport({
   host: env.SMTP_BROADCAST_HOST,
   port: env.SMTP_BROADCAST_PORT,
   auth: {
@@ -50,4 +50,4 @@ function buildSendMail(
 
 export const sendMail = buildSendMail(transporter);
 
-export const sendMarketingMail = buildSendMail(markeringTransporter);
+export const sendMarketingMail = buildSendMail(marketingTransporter);

@@ -37,6 +37,7 @@ export const metadata = {
     "Server Actions",
     "Edge Runtime",
     "Radix UI",
+    "shadcn/ui",
   ],
   authors: [
     {
@@ -65,12 +66,12 @@ export const metadata = {
     //   },
     // ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: env.NEXT_PUBLIC_APP_NAME,
-    // description: env.NEXT_PUBLIC_APP_DESCRIPTION,
-    // images: [subdomainUrl("api", "og")],
-  },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   title: env.NEXT_PUBLIC_APP_NAME,
+  //   description: env.NEXT_PUBLIC_APP_DESCRIPTION,
+  //   images: [subdomainUrl("api", "og")],
+  // },
   robots: {
     index: true,
     follow: true,
