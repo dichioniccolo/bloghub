@@ -1,5 +1,7 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 import {
   Button,
   Card,
@@ -17,7 +19,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { updateUser } from "~/lib/shared/actions/update-user-name";
+import { updateUser } from "~/lib/shared/actions/update-user";
 import {
   UserNameSchema,
   type UserNameSchemaType,
@@ -26,10 +28,14 @@ import { useZact } from "~/lib/zact/client";
 
 export function ProfileForm() {
   const user = useUser();
+  const { update } = useSession();
 
   const { mutate } = useZact(updateUser);
 
   async function onSubmit({ name }: UserNameSchemaType) {
+    await update({
+      name,
+    });
     await mutate({
       userId: user.id,
       name,
@@ -38,13 +44,6 @@ export function ProfileForm() {
 
   return (
     <Card className="border-none shadow-none">
-      {/* <CardHeader className="px-0">
-        <CardTitle>Your Name</CardTitle>
-        <CardDescription>
-          Please enter your full name or a display name you are comfortable
-          with.
-        </CardDescription>
-      </CardHeader> */}
       <Form
         onSubmit={onSubmit}
         schema={UserNameSchema}

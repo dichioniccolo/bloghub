@@ -1,13 +1,19 @@
 import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash";
 
+import { getLoginUrl } from "@acme/auth";
 import { deleteProject } from "@acme/common/actions";
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
-import { EmailType, Role, prisma } from "@acme/db";
+import {
+  EmailNotificationSettingType,
+  EmailType,
+  Role,
+  prisma,
+} from "@acme/db";
 import {
   AutomaticProjectDeletion,
   InvalidDomain,
-  sendMarketingMail,
+  sendMail,
 } from "@acme/emails";
 
 import { env } from "~/env.mjs";
@@ -95,7 +101,17 @@ export async function POST(req: Request) {
         }
 
         await prisma.$transaction(async (tx) => {
-          await sendMarketingMail({
+          const expiresAt = new Date();
+          expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+
+          const unsubscribeUrl = await getLoginUrl(
+            projectOwnerEmail,
+            expiresAt,
+            `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+          );
+
+          await sendMail({
+            type: EmailNotificationSettingType.COMMUNICATION,
             to: projectOwnerEmail,
             subject: `Your domain ${project.domain} is not configured`,
             component: (
@@ -106,6 +122,7 @@ export async function POST(req: Request) {
                 domain={project.domain}
                 invalidDays={invalidDays}
                 ownerEmail={projectOwnerEmail}
+                unsubscribeUrl={unsubscribeUrl}
               />
             ),
           });
@@ -127,7 +144,17 @@ export async function POST(req: Request) {
           });
         });
       } else if (invalidDays > 7) {
-        await sendMarketingMail({
+        const expiresAt = new Date();
+        expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+
+        const unsubscribeUrl = await getLoginUrl(
+          projectOwnerEmail,
+          expiresAt,
+          `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+        );
+
+        await sendMail({
+          type: EmailNotificationSettingType.COMMUNICATION,
           to: projectOwnerEmail,
           subject: `Your ${project.domain} domain is not configured`,
           component: (
@@ -137,6 +164,7 @@ export async function POST(req: Request) {
               domain={project.domain}
               invalidDays={invalidDays}
               ownerEmail={projectOwnerEmail}
+              unsubscribeUrl={unsubscribeUrl}
             />
           ),
         });

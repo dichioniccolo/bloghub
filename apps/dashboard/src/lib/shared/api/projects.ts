@@ -1,20 +1,13 @@
 "use server";
 
-import { getServerSession } from "next-auth";
-
-import { authOptions } from "@acme/auth";
 import { getUserTotalUsage } from "@acme/common/actions";
 import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
 
+import { $getUser } from "../get-user";
+
 export async function getProjects() {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const projects = await prisma.project.findMany({
     where: {
@@ -38,13 +31,7 @@ export async function getProjects() {
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 
 export async function getProject(id: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const project = await prisma.project.findFirst({
     where: {
@@ -70,13 +57,7 @@ export async function getProject(id: string) {
 export type GetProject = Awaited<ReturnType<typeof getProject>>;
 
 export async function getProjectUserRole(projectId: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const { role } = await prisma.projectUser.findFirstOrThrow({
     where: {
@@ -92,13 +73,7 @@ export async function getProjectUserRole(projectId: string) {
 }
 
 export async function getProjectsCount() {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const projects = await prisma.project.count({
     where: {
@@ -114,13 +89,7 @@ export async function getProjectsCount() {
 }
 
 export async function getProjectUsers(projectId: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const users = await prisma.projectUser.findMany({
     where: {
@@ -152,13 +121,7 @@ export async function getProjectUsers(projectId: string) {
 export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
 
 export async function getProjectInvites(projectId: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const invites = await prisma.invite.findMany({
     where: {
@@ -182,13 +145,7 @@ export async function getProjectInvites(projectId: string) {
 }
 
 export async function getProjectOwner(projectId: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const owner = await prisma.projectUser.findFirstOrThrow({
     where: {

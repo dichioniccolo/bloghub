@@ -1,18 +1,11 @@
 "use server";
 
-import { getServerSession } from "next-auth";
-
-import { authOptions } from "@acme/auth";
 import { prisma } from "@acme/db";
 
+import { $getUser } from "../get-user";
+
 export async function getPosts(projectId: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const posts = await prisma.post.findMany({
     where: {
@@ -41,13 +34,7 @@ export async function getPosts(projectId: string) {
 export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
 
 export async function getPost(projectId: string, postId: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    throw new Error("You must be authenticated");
-  }
-
-  const { user } = session;
+  const user = await $getUser();
 
   const post = await prisma.post.findFirst({
     where: {

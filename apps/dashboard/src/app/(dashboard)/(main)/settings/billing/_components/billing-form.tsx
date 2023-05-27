@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
   Progress,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -64,8 +65,8 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
     });
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="border-none shadow-none">
+      <CardHeader className="px-0">
         <CardTitle>Plan & Usage</CardTitle>
         <CardDescription>
           You are currently on the{" "}
@@ -75,8 +76,8 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
           plan.
         </CardDescription>
       </CardHeader>
-      <div className="border-b border-gray-200 dark:border-gray-700" />
-      <CardContent className="grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+      <Separator />
+      <CardContent className="grid grid-cols-1 divide-y divide-gray-200 px-0 dark:divide-gray-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
         <div className="flex flex-col space-y-2 p-10">
           <div className="flex items-center">
             <h3>Total Post Clicks</h3>
@@ -114,7 +115,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="px-0">
         {!userPlan.plan.isPro ? (
           <UpgradePlanDialog proPlans={proPlans} />
         ) : (

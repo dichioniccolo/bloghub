@@ -72,15 +72,17 @@ enum EmailNotificationSettingType {
   COMMUNICATION
   MARKETING
   SOCIAL
+  SECURITY
 }
 
 model EmailNotificationSetting {
+  id     String                       @id @default(cuid())
   userId String
   user   User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
   type   EmailNotificationSettingType
   value  Boolean                      @default(true)
 
-  @@id([userId, type])
+  @@unique([userId, type])
   @@index([userId])
 }
 

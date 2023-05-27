@@ -17,11 +17,13 @@ import Head from "./components/Head";
 interface WelcomeEmailProps {
   siteName: string;
   userEmail?: string;
+  unsubscribeUrl: string;
 }
 
 export const WelcomeEmail = ({
   siteName = "MyBlog",
   userEmail = "me@email.com",
+  unsubscribeUrl = "https://example.com/unsubscribe",
 }: WelcomeEmailProps) => {
   const previewText = `Welcome on ${siteName}`;
 
@@ -34,7 +36,7 @@ export const WelcomeEmail = ({
           <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${env.APP_BASE_URL}/static/logo.png`}
+                src={`${env.NEXT_PUBLIC_APP_URL}/static/logo.png`}
                 width="40"
                 height="37"
                 alt={siteName}
@@ -72,7 +74,7 @@ export const WelcomeEmail = ({
             </Text> */}
             <Link
               className="text-center text-xs"
-              href="{{{ pm:unsubscribe }}}"
+              href={unsubscribeUrl}
               target="_blank"
             >
               Unsubscribe

@@ -24,6 +24,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@acme/auth": "^0.1.0",
+    "@acme/db": "^0.1.0",
     "@react-email/components": "^0.0.6",
     "@t3-oss/env-nextjs": "^0.3.1",
     "nodemailer": "^6.9.2",

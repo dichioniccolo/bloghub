@@ -2,17 +2,7 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Role } from "@acme/db";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@acme/ui";
+import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
 
 import { PlaceholderWithIllustration } from "~/app/_components/placeholder-with-image";
 import {
@@ -54,49 +44,50 @@ export default async function AppDashboardProjectSettingsMembersPage({
   ]);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Project Members</CardTitle>
-        <CardDescription>
-          Team mates or friends that have access to this project.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="min-h-[300px] space-y-4">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-medium">Project Members</h3>
+          <p className="text-sm text-muted-foreground">
+            Team mates or friends that have access to this project.{" "}
+          </p>
+        </div>
         {roleOfUser === Role.OWNER && <InviteMemberDialog projectId={id} />}
-        <Tabs defaultValue="members">
-          <TabsList>
-            <TabsTrigger value="members">Members</TabsTrigger>
-            <TabsTrigger value="invitations">Invitations</TabsTrigger>
-          </TabsList>
-          <TabsContent value="members" className="space-y-2 divide-y">
-            {users.map((user) => (
-              <ProjectMember
-                key={user.id}
-                role={user.role}
-                createdAt={user.createdAt}
-                user={user.user}
-              />
-            ))}
-          </TabsContent>
-          <TabsContent value="invitations" className="space-y-2 divide-y">
-            {invites.map((invite) => (
-              <ProjectMember
-                key={invite.id}
-                createdAt={invite.createdAt}
-                user={{
-                  email: invite.email,
-                }}
-              />
-            ))}
-            {invites.length === 0 && (
-              <PlaceholderWithIllustration
-                text="There are no pending invitations."
-                src="/static/illustrations/video-park.svg"
-              />
-            )}
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+      </div>
+      <Separator />
+      <Tabs defaultValue="members">
+        <TabsList>
+          <TabsTrigger value="members">Members</TabsTrigger>
+          <TabsTrigger value="invitations">Invitations</TabsTrigger>
+        </TabsList>
+        <TabsContent value="members" className="space-y-2 divide-y">
+          {users.map((user) => (
+            <ProjectMember
+              key={user.id}
+              role={user.role}
+              createdAt={user.createdAt}
+              user={user.user}
+            />
+          ))}
+        </TabsContent>
+        <TabsContent value="invitations" className="space-y-2 divide-y">
+          {invites.map((invite) => (
+            <ProjectMember
+              key={invite.id}
+              createdAt={invite.createdAt}
+              user={{
+                email: invite.email,
+              }}
+            />
+          ))}
+          {invites.length === 0 && (
+            <PlaceholderWithIllustration
+              text="There are no pending invitations."
+              src="/static/illustrations/video-park.svg"
+            />
+          )}
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }

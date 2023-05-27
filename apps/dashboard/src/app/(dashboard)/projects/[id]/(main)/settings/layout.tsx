@@ -12,9 +12,13 @@ export default function Layout({
 }: PropsWithChildren<Props>) {
   return (
     <DashboardShell>
-      <DashboardHeader heading="Settings" />
-      <ProjectSettingsNavigationMenu projectId={id} />
-      {children}
+      <DashboardHeader heading="Project Settings" />
+      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+        <aside className="-mx-4 lg:w-1/5">
+          <ProjectSettingsNavigationMenu projectId={id} />
+        </aside>
+        <div className="flex-1">{children}</div>
+      </div>
     </DashboardShell>
   );
 }

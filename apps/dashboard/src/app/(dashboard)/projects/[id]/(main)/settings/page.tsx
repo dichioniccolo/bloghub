@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { Separator } from "@acme/ui";
+
 import { getProject } from "~/lib/shared/api/projects";
 import {
   GeneralSettings,
@@ -30,9 +32,18 @@ export default async function Page({ params: { id } }: Props) {
   if (!project) return notFound();
 
   return (
-    <Suspense fallback={<GeneralSettingsPlaceholder />}>
-      {/* @ts-expect-error react async component */}
-      <GeneralSettings project={project} />
-    </Suspense>
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">General</h3>
+        <p className="text-sm text-muted-foreground">
+          Configure your project settings.
+        </p>
+      </div>
+      <Separator />
+      <Suspense fallback={<GeneralSettingsPlaceholder />}>
+        {/* @ts-expect-error react async component */}
+        <GeneralSettings project={project} />
+      </Suspense>
+    </div>
   );
 }

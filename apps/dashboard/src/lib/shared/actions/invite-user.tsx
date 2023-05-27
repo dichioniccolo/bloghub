@@ -1,12 +1,12 @@
 "use server";
 
-import { createHash, randomBytes } from "crypto";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { Role, prisma } from "@acme/db";
+import { getLoginUrl } from "@acme/auth";
+import { EmailNotificationSettingType, Role, prisma } from "@acme/db";
 import { ProjectInvite, sendMail } from "@acme/emails";
 
-import { revalidatePath } from "next/cache";
 import { env } from "~/env.mjs";
 import { zact } from "~/lib/zact/server";
 
@@ -67,8 +67,6 @@ export const inviteUser = zact(
       }
     }),
 )(async ({ email, projectId }) => {
-  const token = randomBytes(32).toString("hex");
-
   const ONE_WEEK_IN_SECONDS = 604800;
 
   await prisma.$transaction(async (tx) => {
@@ -83,27 +81,14 @@ export const inviteUser = zact(
       },
     });
 
-    await tx.verificationToken.create({
-      data: {
-        identifier: email,
-        expires: invite.expiresAt,
-        token: createHash("sha256")
-          .update(`${token}${env.NEXTAUTH_SECRET}`)
-          .digest("hex"),
-      },
-    });
-
-    const params = new URLSearchParams({
-      callbackUrl: `${env.NEXT_PUBLIC_APP_DOMAIN}/projects/${projectId}/accept`,
+    const url = await getLoginUrl(
       email,
-      token,
-    });
-
-    const url = `${
-      env.NEXT_PUBLIC_APP_DOMAIN
-    }/api/auth/callback/email?${params.toString()}`;
+      invite.expiresAt,
+      `${env.NEXT_PUBLIC_APP_URL}/projects/${projectId}/accept`,
+    );
 
     await sendMail({
+      type: EmailNotificationSettingType.SOCIAL,
       to: email,
       subject: "You've been invited to a project",
       component: (

@@ -2,14 +2,9 @@ import { get, has } from "@vercel/edge-config";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
-import { authOptions } from "@acme/auth";
-import { prisma } from "@acme/db";
-import {
-  LoginLink,
-  WelcomeEmail,
-  sendMail,
-  sendMarketingMail,
-} from "@acme/emails";
+import { authOptions, getLoginUrl } from "@acme/auth";
+import { EmailNotificationSettingType, prisma } from "@acme/db";
+import { LoginLink, WelcomeEmail, sendMail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
 
@@ -42,6 +37,7 @@ const handler = NextAuth({
         });
 
         await sendMail({
+          type: EmailNotificationSettingType.SECURITY,
           to: identifier,
           subject: "Your login link",
           component: (
@@ -76,13 +72,24 @@ const handler = NextAuth({
         return;
       }
 
-      await sendMarketingMail({
+      const expiresAt = new Date();
+      expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+
+      const unsubscribeUrl = await getLoginUrl(
+        user.email,
+        expiresAt,
+        `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+      );
+
+      await sendMail({
+        type: EmailNotificationSettingType.COMMUNICATION,
         to: user.email,
         subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
         component: (
           <WelcomeEmail
             siteName={env.NEXT_PUBLIC_APP_NAME}
             userEmail={user.email}
+            unsubscribeUrl={unsubscribeUrl}
           />
         ),
       });

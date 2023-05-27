@@ -40,7 +40,7 @@ export const LoginLink = ({
           <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${env.APP_BASE_URL}/static/logo.png`}
+                src={`${env.NEXT_PUBLIC_APP_URL}/static/logo.png`}
                 width="40"
                 height="37"
                 alt={siteName}

@@ -43,6 +43,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@acme/auth':
+        specifier: ^0.1.0
+        version: link:../../packages/auth
       '@acme/common':
         specifier: ^0.1.0
         version: link:../../packages/common
@@ -249,9 +252,6 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../db
-      '@acme/emails':
-        specifier: ^0.1.0
-        version: link:../emails
       '@next-auth/prisma-adapter':
         specifier: ^1.0.6
         version: 1.0.6(@prisma/client@4.14.1)(next-auth@4.22.1)
@@ -391,6 +391,12 @@ importers:
 
   packages/emails:
     dependencies:
+      '@acme/auth':
+        specifier: ^0.1.0
+        version: link:../auth
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../db
       '@react-email/components':
         specifier: ^0.0.6
         version: 0.0.6(ts-node@10.9.1)

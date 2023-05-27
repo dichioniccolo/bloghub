@@ -16,17 +16,14 @@ export const env = createEnv({
       (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
       z.string().email(),
     ),
-    SMTP_BROADCAST_HOST: z.string().min(1),
-    SMTP_BROADCAST_PORT: z.string().min(1).transform(Number),
-    SMTP_BROADCAST_USER: z.string().min(1),
-    SMTP_BROADCAST_PASSWORD: z.string().min(1),
-    APP_BASE_URL: z.string().url(),
   },
   /**
    * Specify your client-side environment variables schema here.
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
-  client: {},
+  client: {
+    NEXT_PUBLIC_APP_URL: z.string().url(),
+  },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
@@ -36,10 +33,6 @@ export const env = createEnv({
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_FROM: process.env.SMTP_FROM,
-    SMTP_BROADCAST_HOST: process.env.SMTP_BROADCAST_HOST,
-    SMTP_BROADCAST_PORT: process.env.SMTP_BROADCAST_PORT,
-    SMTP_BROADCAST_USER: process.env.SMTP_BROADCAST_USER,
-    SMTP_BROADCAST_PASSWORD: process.env.SMTP_BROADCAST_PASSWORD,
-    APP_BASE_URL: process.env.APP_BASE_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
 });

@@ -10,7 +10,7 @@ export const UserAuthSchema = z.object({
 export type UserAuthSchemaType = z.infer<typeof UserAuthSchema>;
 
 export const UserNameSchema = z.object({
-  name: z.string(),
+  name: z.string().nonempty(),
 });
 
 export type UserNameSchemaType = z.infer<typeof UserNameSchema>;
@@ -57,6 +57,7 @@ export const EditNotificationsSchema = z.object({
   communication_emails: z.boolean().default(true),
   marketing_emails: z.boolean().default(true),
   social_emails: z.boolean().default(true),
+  security_emails: z.literal(true),
 });
 
 export type EditNotificationsSchemaType = z.infer<

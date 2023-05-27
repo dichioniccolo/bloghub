@@ -22,6 +22,7 @@ interface AutomaticProjectDeletionProps {
   domain: string;
   invalidDays: number;
   ownerEmail: string;
+  unsubscribeUrl: string;
 }
 
 export const AutomaticProjectDeletion = ({
@@ -30,6 +31,7 @@ export const AutomaticProjectDeletion = ({
   domain = "google.com",
   invalidDays = 3,
   ownerEmail = "me@email.com",
+  unsubscribeUrl = "https://example.com/unsubscribe",
 }: AutomaticProjectDeletionProps) => {
   const previewText = `Your ${siteName} project with domain ${domain} was deleted`;
 
@@ -42,7 +44,7 @@ export const AutomaticProjectDeletion = ({
           <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${env.APP_BASE_URL}/static/logo.png`}
+                src={`${env.NEXT_PUBLIC_APP_URL}/static/logo.png`}
                 width="40"
                 height="37"
                 alt={siteName}
@@ -70,7 +72,7 @@ export const AutomaticProjectDeletion = ({
                 pX={20}
                 pY={12}
                 className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
-                href={env.APP_BASE_URL}
+                href={env.NEXT_PUBLIC_APP_URL}
               >
                 Create project
               </Button>
@@ -85,7 +87,7 @@ export const AutomaticProjectDeletion = ({
             </Text>
             <Link
               className="text-center text-xs"
-              href="{{{ pm:unsubscribe }}}"
+              href={unsubscribeUrl}
               target="_blank"
             >
               Unsubscribe
