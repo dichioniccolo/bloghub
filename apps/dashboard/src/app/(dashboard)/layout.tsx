@@ -5,6 +5,8 @@ import { Skeleton } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { CommandMenu } from "../_components/command-menu";
+import { Notifications } from "../_components/notifications";
+import { NotificationsPlaceholder } from "../_components/notifications-placeholder";
 import { ProjectsDropdown } from "./_components/ProjectsDropdown";
 import { UserDropdown } from "./_components/UserDropdown";
 
@@ -23,8 +25,12 @@ export default function Layout({ children }: PropsWithChildren) {
               <ProjectsDropdown />
             </Suspense>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <CommandMenu />
+            <Suspense fallback={<NotificationsPlaceholder />}>
+              {/* @ts-expect-error react async component */}
+              <Notifications />
+            </Suspense>
             <UserDropdown />
           </div>
         </div>

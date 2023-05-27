@@ -86,6 +86,14 @@ model EmailNotificationSetting {
   @@index([userId])
 }
 
+// enum NotificationType {
+
+// }
+
+// model Notification {
+
+// }
+
 model VerificationToken {
   identifier String
   token      String   @unique
