@@ -63,6 +63,8 @@ export default async function AppDashboardProjectSettingsMembersPage({
           {users.map((user) => (
             <ProjectMember
               key={user.id}
+              projectId={project.id}
+              currentUserRole={roleOfUser}
               role={user.role}
               createdAt={user.createdAt}
               user={user.user}
@@ -73,6 +75,8 @@ export default async function AppDashboardProjectSettingsMembersPage({
           {invites.map((invite) => (
             <ProjectMember
               key={invite.id}
+              projectId={project.id}
+              currentUserRole={roleOfUser}
               createdAt={invite.createdAt}
               user={{
                 email: invite.email,

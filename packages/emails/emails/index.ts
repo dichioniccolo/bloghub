@@ -53,15 +53,19 @@ function buildSendMail(
     const toFinal = filterEmailsBySettings(emails, emailSettingsMap);
 
     try {
-      const emailOptions = {
+      const result = await transporter.sendMail({
         ...defaultOptions,
         ...rest,
+        headers: {
+          ...rest.headers,
+          // Set this to prevent Gmail from threading emails.
+          // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
+          "X-Entity-Ref-ID": `${new Date().getTime()}`,
+        },
         to: toFinal.map((email) => email.address),
         html: render(component, { pretty: false }),
         text: render(component, { plainText: true }),
-      };
-
-      const result = await transporter.sendMail(emailOptions);
+      });
       return result;
     } catch (error) {
       // Handle error appropriately

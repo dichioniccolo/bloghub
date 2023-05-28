@@ -108,6 +108,7 @@ export async function getProjectUsers(projectId: string) {
       createdAt: true,
       user: {
         select: {
+          id: true,
           name: true,
           email: true,
         },

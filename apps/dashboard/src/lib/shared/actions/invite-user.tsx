@@ -3,11 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { getLoginUrl } from "@acme/auth";
-import { EmailNotificationSettingType, Role, prisma } from "@acme/db";
-import { ProjectInvite, sendMail } from "@acme/emails";
+import { type AppNotification } from "@acme/common/notifications";
+import { Role, prisma } from "@acme/db";
 
-import { env } from "~/env.mjs";
+import { qstashClient } from "~/lib/qstash-client";
 import { zact } from "~/lib/zact/server";
 
 export const inviteUser = zact(
@@ -70,39 +69,23 @@ export const inviteUser = zact(
   const ONE_WEEK_IN_SECONDS = 604800;
 
   await prisma.$transaction(async (tx) => {
-    const invite = await tx.invite.create({
+    await tx.invite.create({
       data: {
         email,
         projectId,
         expiresAt: new Date(Date.now() + ONE_WEEK_IN_SECONDS * 1000),
       },
-      select: {
-        expiresAt: true,
-      },
     });
 
-    const url = await getLoginUrl(
-      email,
-      invite.expiresAt,
-      `${env.NEXT_PUBLIC_APP_URL}/projects/${projectId}/accept`,
-    );
-
-    await sendMail({
-      type: EmailNotificationSettingType.SOCIAL,
-      to: email,
-      subject: "You've been invited to a project",
-      component: (
-        <ProjectInvite
-          siteName={env.NEXT_PUBLIC_APP_NAME}
-          url={url}
-          userEmail={email}
-        />
-      ),
-      headers: {
-        // Set this to prevent Gmail from threading emails.
-        // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
-        "X-Entity-Ref-ID": `${new Date().getTime()}`,
-      },
+    await qstashClient.publishJSON({
+      topic: "notifications",
+      body: {
+        type: "project-invitation",
+        data: {
+          projectId,
+          userEmail: email,
+        },
+      } satisfies AppNotification,
     });
   });
 

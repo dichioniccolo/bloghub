@@ -131,6 +131,9 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
+      '@upstash/qstash':
+        specifier: ^0.3.6
+        version: 0.3.6
       '@vercel/edge-config':
         specifier: ^0.2.0
         version: 0.2.0
