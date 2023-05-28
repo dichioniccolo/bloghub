@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { type AppNotification } from "@acme/common/notifications";
-import { Role, prisma } from "@acme/db";
+import { NotificationType, Role, prisma } from "@acme/db";
 
 import { qstashClient } from "~/lib/qstash-client";
 import { zact } from "~/lib/zact/server";
@@ -106,7 +106,7 @@ export const deleteProjectUser = zact(
   await qstashClient.publishJSON({
     topic: "notifications",
     body: {
-      type: "removed-from-project",
+      type: NotificationType.REMOVED_FROM_PROJECT,
       data: {
         projectName: project.name,
         userEmail: user.email,

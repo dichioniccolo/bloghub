@@ -66,6 +66,7 @@ model User {
   emails        Emails[]
   media         Media[]
   emailSettings EmailNotificationSetting[]
+  notifications Notification[]
 }
 
 enum EmailNotificationSettingType {
@@ -86,13 +87,22 @@ model EmailNotificationSetting {
   @@index([userId])
 }
 
-// enum NotificationType {
+enum NotificationType {
+  PROJECT_INVITATION
+  REMOVED_FROM_PROJECT
+}
 
-// }
+model Notification {
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       NotificationType
+  body       Json
+  archivedAt DateTime?
 
-// model Notification {
-
-// }
+  @@index([userId])
+  @@index([archivedAt])
+}
 
 model VerificationToken {
   identifier String

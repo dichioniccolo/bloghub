@@ -1,12 +1,14 @@
 import { z } from "zod";
 
+import { type NotificationType } from "@acme/db";
+
 export type AppNotification =
   | {
-      type: "project-invitation";
+      type: typeof NotificationType.PROJECT_INVITATION;
       data: ProjectInvitationNotificationData;
     }
   | {
-      type: "removed-from-project";
+      type: typeof NotificationType.REMOVED_FROM_PROJECT;
       data: RemovedFromProjectNotificationData;
     };
 

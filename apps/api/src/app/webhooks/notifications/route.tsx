@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash/nodejs";
 
 import { type AppNotification } from "@acme/common/notifications";
+import { NotificationType } from "@acme/db";
 
 import { env } from "~/env.mjs";
 import { handleProjectInvitationNotification } from "./handlers/project-invitation";
@@ -33,11 +34,11 @@ export async function POST(req: Request) {
   let response: Response;
 
   switch (type) {
-    case "project-invitation": {
+    case NotificationType.PROJECT_INVITATION: {
       response = await handleProjectInvitationNotification(data);
       break;
     }
-    case "removed-from-project": {
+    case NotificationType.REMOVED_FROM_PROJECT: {
       response = await handleRemovedFromProjectNotification(data);
       break;
     }

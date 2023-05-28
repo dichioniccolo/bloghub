@@ -3,7 +3,11 @@ import {
   ProjectInvitationNotificationSchema,
   type ProjectInvitationNotificationData,
 } from "@acme/common/notifications";
-import { EmailNotificationSettingType, prisma } from "@acme/db";
+import {
+  EmailNotificationSettingType,
+  NotificationType,
+  prisma,
+} from "@acme/db";
 import { ProjectInvite, sendMail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
@@ -29,7 +33,17 @@ export async function handleProjectInvitationNotification(
     `${env.NEXT_PUBLIC_APP_URL}/projects/${projectId}/accept`,
   );
 
-  // TODO: Create notification in database
+  await prisma.notification.create({
+    data: {
+      type: NotificationType.PROJECT_INVITATION,
+      body,
+      user: {
+        connect: {
+          email: userEmail,
+        },
+      },
+    },
+  });
 
   await sendMail({
     type: EmailNotificationSettingType.SOCIAL,

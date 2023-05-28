@@ -3,7 +3,11 @@ import {
   RemovedFromProjectNotificationSchema,
   type RemovedFromProjectNotificationData,
 } from "@acme/common/notifications";
-import { EmailNotificationSettingType } from "@acme/db";
+import {
+  EmailNotificationSettingType,
+  NotificationType,
+  prisma,
+} from "@acme/db";
 import { RemovedFromProject, sendMail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
@@ -23,7 +27,17 @@ export async function handleRemovedFromProjectNotification(
     `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
   );
 
-  // TODO: Create notification in database
+  await prisma.notification.create({
+    data: {
+      type: NotificationType.REMOVED_FROM_PROJECT,
+      body,
+      user: {
+        connect: {
+          email: userEmail,
+        },
+      },
+    },
+  });
 
   await sendMail({
     type: EmailNotificationSettingType.SOCIAL,
