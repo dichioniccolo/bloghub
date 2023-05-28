@@ -49,15 +49,40 @@ export const deleteProjectUser = zact(
         });
       }
 
-      const userToDelete = await prisma.user.findFirst({
+      const userToDelete = await prisma.projectUser.findFirst({
         where: {
-          id: userIdToDelete,
-          projects: {
-            some: {
-              projectId,
-            },
-          },
+          userId: userIdToDelete,
+          projectId,
+        },
+        select: {
+          id: true,
+          role: true,
         },
       });
+
+      if (!userToDelete) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["userIdToDelete"],
+          message: "User not found",
+        });
+      }
+
+      if (userToDelete?.role === Role.OWNER) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["userIdToDelete"],
+          message: "You can't delete the owner of the project",
+        });
+      }
     }),
-)(async ({ userId, projectId, userIdToDelete }) => {});
+)(async ({ projectId, userIdToDelete }) => {
+  await prisma.projectUser.delete({
+    where: {
+      projectId_userId: {
+        projectId,
+        userId: userIdToDelete,
+      },
+    },
+  });
+});

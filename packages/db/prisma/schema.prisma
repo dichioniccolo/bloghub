@@ -192,7 +192,6 @@ model Media {
   type         MediaType
   url          String
   createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
 
   @@index([projectId])
   @@index([uploadedById])

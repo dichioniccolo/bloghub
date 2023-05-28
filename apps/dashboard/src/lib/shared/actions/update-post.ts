@@ -2,11 +2,11 @@
 
 import { z } from "zod";
 
+import { deleteUnusedMediaInPost } from "@acme/common/actions";
 import { prisma } from "@acme/db";
 
 import { markdownToHtml } from "~/lib/utils";
 import { zact } from "~/lib/zact/server";
-import { deleteUnusedMediaInPost } from "./delete-unused-media-in-post";
 
 export const updatePost = zact(
   z
