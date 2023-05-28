@@ -1,7 +1,7 @@
 "use client";
 
-import { type Dispatch, type SetStateAction } from "react";
 import Link from "next/link";
+import { type Dispatch, type SetStateAction } from "react";
 import { HexColorInput } from "react-colorful";
 
 import {
@@ -61,7 +61,7 @@ export function AdvancedSettings({
                     like to remove the {env.NEXT_PUBLIC_APP_NAME} logo/upload
                     your own, please consider upgrading to a Pro plan.
                   </p>
-                  <Link href="/settings" className={cn(buttonVariants())}>
+                  <Link href="/settings/billing" className={cn(buttonVariants())}>
                     Upgrade to Pro
                   </Link>
                 </TooltipContent>

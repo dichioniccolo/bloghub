@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { type DialogProps } from "@radix-ui/react-alert-dialog";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   Button,
@@ -94,8 +94,16 @@ export function CommandMenu({ ...props }: DialogProps) {
           </CommandGroup>
           <CommandGroup heading="General">
             <CommandItem onSelect={runCommand(() => router.push("/settings"))}>
-              <Icons.settings className="mr-2 h-4 w-4" />
-              Settings
+              <Icons.user className="mr-2 h-4 w-4" />
+              Profile Settings
+            </CommandItem>
+            <CommandItem onSelect={runCommand(() => router.push("/settings/notifications"))}>
+              <Icons.bellRing className="mr-2 h-4 w-4" />
+              Email Notifications
+            </CommandItem>
+            <CommandItem onSelect={runCommand(() => router.push("/settings/billing"))}>
+              <Icons.euro className="mr-2 h-4 w-4" />
+              Billing
             </CommandItem>
             <CommandItem onSelect={runCommand(() => signOut())}>
               <Icons.logOut className="mr-2 h-4 w-4" />

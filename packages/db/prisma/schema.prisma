@@ -98,6 +98,7 @@ model Notification {
   user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   type       NotificationType
   body       Json
+  createdAt  DateTime         @default(now())
   archivedAt DateTime?
 
   @@index([userId])

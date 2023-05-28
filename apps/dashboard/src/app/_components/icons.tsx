@@ -1,9 +1,8 @@
-import { type ReactNode } from "react";
 import {
-  Infinity as InfinityIcon,
   AlertCircle,
   ArrowLeft,
   BarChart,
+  BellRing,
   Bold,
   Check,
   CheckCircle,
@@ -13,12 +12,14 @@ import {
   Copy,
   Download,
   Edit,
+  Euro,
   ExternalLink,
   Heading1,
   Heading2,
   Heading3,
   HelpCircle,
   Image,
+  Infinity as InfinityIcon,
   Italic,
   Laptop,
   Link,
@@ -35,7 +36,9 @@ import {
   SunMedium,
   Trash2,
   type Icon as LucideIcon,
+  User,
 } from "lucide-react";
+import { type ReactNode } from "react";
 
 import { cn } from "~/lib/utils";
 
@@ -43,7 +46,10 @@ export type Icon = LucideIcon | ReactNode;
 
 export const Icons = {
   add: Plus,
+  bellRing: BellRing,
   edit: Edit,
+  euro: Euro,
+  user: User,
   delete: Trash2,
   bold: Bold,
   italic: Italic,
