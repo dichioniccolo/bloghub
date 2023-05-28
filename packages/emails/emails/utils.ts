@@ -24,7 +24,7 @@ export async function fetchEmailNotificationSettings(
 export function createEmailSettingsMap(
   usersSettings: Awaited<ReturnType<typeof fetchEmailNotificationSettings>>,
 ) {
-  const emailSettingsMap = new Map();
+  const emailSettingsMap = new Map<string, boolean>();
   for (const setting of usersSettings) {
     emailSettingsMap.set(setting.user.email, setting.value);
   }
@@ -36,7 +36,9 @@ export function filterEmailsBySettings(
   emailSettingsMap: ReturnType<typeof createEmailSettingsMap>,
 ) {
   return emails.filter((email) => {
-    const userSetting = emailSettingsMap.get(email.address);
-    return !userSetting || userSetting !== false;
+    return (
+      !emailSettingsMap.has(email.address) ||
+      emailSettingsMap.get(email.address) !== false
+    );
   });
 }

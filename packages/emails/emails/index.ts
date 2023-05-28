@@ -52,6 +52,10 @@ function buildSendMail(
 
     const toFinal = filterEmailsBySettings(emails, emailSettingsMap);
 
+    if (toFinal.length === 0) {
+      return null;
+    }
+
     try {
       const result = await transporter.sendMail({
         ...defaultOptions,

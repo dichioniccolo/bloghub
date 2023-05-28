@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const { type, data } = (await req.json()) as AppNotification;
+  const { type, data } = JSON.parse(body) as AppNotification;
 
   let response: Response;
 
