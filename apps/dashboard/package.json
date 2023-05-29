@@ -57,7 +57,7 @@
     "autoprefixer": "^10.4.14",
     "dotenv-cli": "^7.2.1",
     "eslint": "^8.41.0",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",
     "textarea-markdown-editor": "^1.0.4",
     "typescript": "^5.0.4"
