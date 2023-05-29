@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash/nodejs";
 
-import { type AppNotification } from "@acme/common/notifications";
 import { NotificationType } from "@acme/db";
+import { type AppNotification } from "@acme/notifications";
 
 import { env } from "~/env.mjs";
 import { handleProjectInvitationNotification } from "./handlers/project-invitation";

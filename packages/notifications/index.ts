@@ -1,6 +1,10 @@
+"use server";
+
 import { z } from "zod";
 
 import { type NotificationType } from "@acme/db";
+
+import { qstashClient } from "./lib/client";
 
 export type AppNotification =
   | {
@@ -29,3 +33,16 @@ export const RemovedFromProjectNotificationSchema = z.object({
 export type RemovedFromProjectNotificationData = z.infer<
   typeof RemovedFromProjectNotificationSchema
 >;
+
+export async function publishNotification<T extends AppNotification["type"]>(
+  type: T,
+  data?: Extract<AppNotification, { type: T }>["data"],
+) {
+  await qstashClient.publishJSON({
+    topic: "notifications",
+    body: {
+      type,
+      data,
+    },
+  });
+}

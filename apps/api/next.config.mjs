@@ -3,6 +3,7 @@
  * This is especially useful for Docker builds and Linting.
  */
 import "@acme/common/env.mjs";
+import "@acme/notifications/env.mjs";
 import "./src/env.mjs";
 
 const ContentSecurityPolicy = `
@@ -59,7 +60,13 @@ const securityHeaders = [
 const config = {
   reactStrictMode: true,
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ["@acme/db", "@acme/common"],
+  transpilePackages: [
+    "@acme/auth",
+    "@acme/common",
+    "@acme/db",
+    "@acme/emails",
+    "@acme/notifications",
+  ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: !!process.env.CI },
   typescript: { ignoreBuildErrors: !!process.env.CI },

@@ -1,14 +1,14 @@
 import { getLoginUrl } from "@acme/auth";
 import {
-  ProjectInvitationNotificationSchema,
-  type ProjectInvitationNotificationData,
-} from "@acme/common/notifications";
-import {
   EmailNotificationSettingType,
   NotificationType,
   prisma,
 } from "@acme/db";
 import { ProjectInvite, sendMail } from "@acme/emails";
+import {
+  ProjectInvitationNotificationSchema,
+  type ProjectInvitationNotificationData,
+} from "@acme/notifications";
 
 import { env } from "~/env.mjs";
 
@@ -33,17 +33,26 @@ export async function handleProjectInvitationNotification(
     `${env.NEXT_PUBLIC_APP_URL}/projects/${projectId}/accept`,
   );
 
-  await prisma.notification.create({
-    data: {
-      type: NotificationType.PROJECT_INVITATION,
-      body,
-      user: {
-        connect: {
-          email: userEmail,
-        },
-      },
+  // here the user might not exist, so we need to check for that
+  const userExists = await prisma.user.count({
+    where: {
+      email: userEmail,
     },
   });
+
+  if (userExists > 0) {
+    await prisma.notification.create({
+      data: {
+        type: NotificationType.PROJECT_INVITATION,
+        body,
+        user: {
+          connect: {
+            email: userEmail,
+          },
+        },
+      },
+    });
+  }
 
   await sendMail({
     type: EmailNotificationSettingType.SOCIAL,
@@ -57,6 +66,15 @@ export async function handleProjectInvitationNotification(
       />
     ),
   });
+
+  // TODO: uncomment this when we have pusher
+  // await pusherServer.trigger(
+  //   `user:${userEmail}:project-invitations`,
+  //   "project-invitation",
+  //   {
+  //     projectId,
+  //   },
+  // );
 
   return new Response(null, {
     status: 200,

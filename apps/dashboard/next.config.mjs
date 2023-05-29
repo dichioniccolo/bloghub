@@ -3,6 +3,7 @@ import "@acme/auth/env.mjs";
 import "@acme/common/env.mjs";
 import "@acme/db/env.mjs";
 import "@acme/emails/env.mjs";
+import "@acme/notifications/env.mjs";
 import "./src/env.mjs";
 
 const ContentSecurityPolicy = `
@@ -68,6 +69,7 @@ const config = {
     "@acme/db",
     "@acme/ui",
     "@acme/common",
+    "@acme/notifications",
   ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },

@@ -1,13 +1,13 @@
 "use server";
 
-import { type AppNotification } from "@acme/common/notifications";
-import { NotificationType, Role, prisma } from "@acme/db";
+import { NotificationType, prisma, Role } from "@acme/db";
+import { publishNotification } from "@acme/notifications";
 
 import "isomorphic-fetch";
+
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { qstashClient } from "~/lib/qstash-client";
 import { zact } from "~/lib/zact/server";
 
 export const inviteUser = zact(
@@ -78,15 +78,9 @@ export const inviteUser = zact(
       },
     });
 
-    await qstashClient.publishJSON({
-      topic: "notifications",
-      body: {
-        type: NotificationType.PROJECT_INVITATION,
-        data: {
-          projectId,
-          userEmail: email,
-        },
-      } satisfies AppNotification,
+    await publishNotification(NotificationType.PROJECT_INVITATION, {
+      projectId,
+      userEmail: email,
     });
   });
 

@@ -1,14 +1,14 @@
 import { getLoginUrl } from "@acme/auth";
 import {
-  RemovedFromProjectNotificationSchema,
-  type RemovedFromProjectNotificationData,
-} from "@acme/common/notifications";
-import {
   EmailNotificationSettingType,
   NotificationType,
   prisma,
 } from "@acme/db";
 import { RemovedFromProject, sendMail } from "@acme/emails";
+import {
+  RemovedFromProjectNotificationSchema,
+  type RemovedFromProjectNotificationData,
+} from "@acme/notifications";
 
 import { env } from "~/env.mjs";
 

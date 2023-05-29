@@ -8,4 +8,5 @@ packages:
   - packages/db
   - packages/emails
   - packages/common
+  - packages/notifications
   - packages/ui

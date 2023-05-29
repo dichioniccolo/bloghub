@@ -1,13 +1,13 @@
 "use server";
 
-import { type AppNotification } from "@acme/common/notifications";
-import { NotificationType, Role, prisma } from "@acme/db";
+import { NotificationType, prisma, Role } from "@acme/db";
+import { publishNotification } from "@acme/notifications";
 
 import "isomorphic-fetch";
+
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { qstashClient } from "~/lib/qstash-client";
 import { zact } from "~/lib/zact/server";
 
 export const deleteProjectUser = zact(
@@ -104,15 +104,9 @@ export const deleteProjectUser = zact(
     },
   });
 
-  await qstashClient.publishJSON({
-    topic: "notifications",
-    body: {
-      type: NotificationType.REMOVED_FROM_PROJECT,
-      data: {
-        projectName: project.name,
-        userEmail: user.email,
-      },
-    } satisfies AppNotification,
+  await publishNotification(NotificationType.REMOVED_FROM_PROJECT, {
+    projectName: project.name,
+    userEmail: user.email,
   });
 
   revalidatePath(`/projects/${projectId}/settings/members`);
