@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 importers:
 
@@ -413,8 +417,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
       nodemailer:
-        specifier: ^6.9.2
-        version: 6.9.2
+        specifier: ^6.9.3
+        version: 6.9.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -7905,8 +7909,8 @@ packages:
   /node-releases@2.0.12:
     resolution: {integrity: sha512-QzsYKWhXTWx8h1kIvqfnC++o0pEmpRQA/aenALsL2F4pqNVr7YzcdMlDij5WBnwftRbJCNJL/O7zdKaxKPHqgQ==}
 
-  /nodemailer@6.9.2:
-    resolution: {integrity: sha512-4+TYaa/e1nIxQfyw/WzNPYTEZ5OvHIDEnmjs4LPmIfccPQN+2CYKmGHjWixn/chzD3bmUTu5FMfpltizMxqzdg==}
+  /nodemailer@6.9.3:
+    resolution: {integrity: sha512-fy9v3NgTzBngrMFkDsKEj0r02U7jm6XfC3b52eoNV+GCrGj+s8pt5OqhiJdWKuw51zCTdiNR/IUD1z33LIIGpg==}
     engines: {node: '>=6.0.0'}
     dev: false
 
