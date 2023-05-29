@@ -127,7 +127,7 @@ importers:
         version: link:../../packages/ui
       '@hookform/resolvers':
         specifier: ^3.1.0
-        version: 3.1.0(react-hook-form@7.44.1)
+        version: 3.1.0(react-hook-form@7.44.2)
       '@t3-oss/env-nextjs':
         specifier: ^0.3.1
         version: 0.3.1(typescript@5.0.4)(zod@3.21.4)
@@ -183,8 +183,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       react-hook-form:
-        specifier: ^7.44.1
-        version: 7.44.1(react@18.2.0)
+        specifier: ^7.44.2
+        version: 7.44.2(react@18.2.0)
       react-textarea-autosize:
         specifier: ^8.4.1
         version: 8.4.1(@types/react@18.2.7)(react@18.2.0)
@@ -478,7 +478,7 @@ importers:
         version: link:../config/tailwind
       '@hookform/resolvers':
         specifier: ^3.1.0
-        version: 3.1.0(react-hook-form@7.44.1)
+        version: 3.1.0(react-hook-form@7.44.2)
       '@radix-ui/react-accordion':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
@@ -585,8 +585,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       react-hook-form:
-        specifier: ^7.44.1
-        version: 7.44.1(react@18.2.0)
+        specifier: ^7.44.2
+        version: 7.44.2(react@18.2.0)
       tailwind-merge:
         specifier: ^1.12.0
         version: 1.12.0
@@ -2278,12 +2278,12 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  /@hookform/resolvers@3.1.0(react-hook-form@7.44.1):
+  /@hookform/resolvers@3.1.0(react-hook-form@7.44.2):
     resolution: {integrity: sha512-z0A8K+Nxq+f83Whm/ajlwE6VtQlp/yPHZnXw7XWVPIGm1Vx0QV8KThU3BpbBRfAZ7/dYqCKKBNnQh85BkmBKkA==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.44.1(react@18.2.0)
+      react-hook-form: 7.44.2(react@18.2.0)
     dev: false
 
   /@httptoolkit/websocket-stream@6.0.1:
@@ -8682,8 +8682,8 @@ packages:
       - encoding
     dev: false
 
-  /react-hook-form@7.44.1(react@18.2.0):
-    resolution: {integrity: sha512-ZVmDuQQCq6agpVE2eoGjH3ZMDgo/aFV4JVobUQGOQ0/tgfcY/WY30mBSVnxmFOpzS+iSqD2ax7hw9Thg5F931A==}
+  /react-hook-form@7.44.2(react@18.2.0):
+    resolution: {integrity: sha512-IyihmIbCwzDI/iqlecTRa7+4BCnzNx40upSlGvIU7qwENhTf6APatm4bmL9ANtWKPYlD67SIlxfls7GwCUe+Lg==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
