@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { Role, prisma } from "@acme/db";
+import { prisma, Role } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -31,10 +31,12 @@ export const quitProject = zact(
       }
     }),
 )(async ({ userId, projectId }) => {
-  await prisma.projectUser.deleteMany({
+  await prisma.projectUser.delete({
     where: {
-      userId,
-      projectId,
+      projectId_userId: {
+        userId,
+        projectId,
+      },
     },
   });
 

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { Role, prisma } from "@acme/db";
+import { prisma, Role } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -61,10 +61,12 @@ export const acceptInvite = zact(
   });
 
   await prisma.$transaction(async (tx) => {
-    await tx.invite.deleteMany({
+    await tx.invite.delete({
       where: {
-        projectId,
-        email: user.email,
+        projectId_email: {
+          projectId,
+          email: user.email,
+        },
       },
     });
     await tx.projectUser.create({
