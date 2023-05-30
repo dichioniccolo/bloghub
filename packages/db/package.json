@@ -10,13 +10,13 @@
     "db:push": "prisma db push --skip-generate"
   },
   "dependencies": {
-    "@prisma/client": "^4.14.1",
+    "@prisma/client": "^4.15.0",
     "@t3-oss/env-nextjs": "^0.4.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",
-    "prisma": "^4.14.1",
+    "prisma": "^4.15.0",
     "typescript": "^5.0.4"
   }
 }
