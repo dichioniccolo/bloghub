@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   const { type, data } = JSON.parse(body) as AppNotification;
 
   let response: Response;
-
+  //
   switch (type) {
     case NotificationType.PROJECT_INVITATION: {
       response = await handleProjectInvitationNotification(data);
