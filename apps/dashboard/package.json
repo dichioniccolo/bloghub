@@ -26,7 +26,7 @@
     "@vercel/kv": "^0.2.1",
     "clsx": "^1.2.1",
     "html-escaper": "^3.0.3",
-    "isomorphic-dompurify": "^1.5.0",
+    "isomorphic-dompurify": "^1.6.0",
     "lucide-react": "^0.224.0",
     "marked": "^5.0.4",
     "ms": "^2.1.3",

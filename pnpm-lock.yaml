@@ -156,8 +156,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       isomorphic-dompurify:
-        specifier: ^1.5.0
-        version: 1.5.0
+        specifier: ^1.6.0
+        version: 1.6.0
       lucide-react:
         specifier: ^0.224.0
         version: 0.224.0(react@18.2.0)
@@ -7280,8 +7280,8 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  /isomorphic-dompurify@1.5.0:
-    resolution: {integrity: sha512-1fK9Uoo/OWdl7qOAW+/+msUgja8pQy82wW8bmywO39+suOPU3tZL6kCgJRezITCHirPvICqBVG8AmlJ1lw96Qw==}
+  /isomorphic-dompurify@1.6.0:
+    resolution: {integrity: sha512-ghd7K3FKk+/gLlK7UBJ6xmCho+NggmDwucEa9MZ/qERMigaLbkaARZ5srw1ZSksEIp9MnNIZFnkxe2+lgNgIrA==}
     dependencies:
       '@types/dompurify': 3.0.2
       dompurify: 3.0.3
