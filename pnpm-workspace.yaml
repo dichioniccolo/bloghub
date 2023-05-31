@@ -1,6 +1,6 @@
 packages:
   - apps/api
-  # - apps/blog
+  - apps/blog
   - apps/dashboard
   # - apps/landing
   - packages/auth

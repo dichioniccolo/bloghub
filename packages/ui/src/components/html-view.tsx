@@ -8,7 +8,7 @@ type HtmlViewProps = {
 export function HtmlView({ html, className }: HtmlViewProps) {
   return (
     <div
-      className={cn("prose max-w-none", className)}
+      className={cn("prose max-w-none text-primary", className)}
       dangerouslySetInnerHTML={{
         __html: html,
       }}

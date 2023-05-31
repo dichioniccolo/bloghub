@@ -2,7 +2,6 @@ import { type NextRequest } from "next/server";
 import { clsx, type ClassValue } from "clsx";
 import DOMPurify from "isomorphic-dompurify";
 import { marked } from "marked";
-import ms from "ms";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -66,20 +65,3 @@ export function formatNumber(num: number, digits?: number): string {
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
     : "0";
 }
-
-export const timeAgo = (
-  timestamp: Date | string,
-  timeOnly?: boolean,
-): string => {
-  if (!timestamp) return "never";
-
-  const now = Date.now();
-
-  if (now - new Date(timestamp).getTime() < 60000) {
-    return "just now";
-  }
-
-  return `${ms(Date.now() - new Date(timestamp).getTime())}${
-    timeOnly ? "" : " ago"
-  }`;
-};

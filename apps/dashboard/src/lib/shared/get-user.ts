@@ -1,10 +1,11 @@
 "use server";
 
+import { cache } from "react";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@acme/auth";
 
-export async function $getUser() {
+export const $getUser = cache(async () => {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
@@ -12,4 +13,4 @@ export async function $getUser() {
   }
 
   return session.user;
-}
+});

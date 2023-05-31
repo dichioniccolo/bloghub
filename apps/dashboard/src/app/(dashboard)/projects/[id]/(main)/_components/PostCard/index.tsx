@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { formatDistance } from "date-fns";
 
 import { type Role } from "@acme/db";
 import {
+  buttonVariants,
   Card,
   CardContent,
   CardDescription,
@@ -12,7 +14,6 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  buttonVariants,
 } from "@acme/ui";
 
 import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
@@ -23,7 +24,7 @@ import {
   type GetProjectOwner,
 } from "~/lib/shared/api/projects";
 import { constructPostUrl } from "~/lib/url";
-import { cn, formatNumber, timeAgo } from "~/lib/utils";
+import { cn, formatNumber } from "~/lib/utils";
 import { PostCardButton } from "./post-card-button";
 import { PostCardCopyButton } from "./post-card-copy-button";
 import { QrOptionsDialog } from "./qr-options-dialog";
@@ -133,10 +134,11 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
           </div>
           <div className="flex items-center">
             <p className="mr-3 hidden whitespace-nowrap text-sm sm:block">
-              Added {timeAgo(post.createdAt)}
+              Added{" "}
+              {formatDistance(post.createdAt, new Date(), { addSuffix: true })}
             </p>
             <p className="mr-1 whitespace-nowrap text-sm sm:hidden">
-              {timeAgo(post.createdAt, true)}
+              {formatDistance(post.createdAt, new Date(), { addSuffix: false })}
             </p>
             <div className="flex items-center gap-1">
               {(currentUserRole === "OWNER" ||

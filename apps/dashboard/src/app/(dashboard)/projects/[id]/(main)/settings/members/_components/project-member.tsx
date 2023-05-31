@@ -1,14 +1,16 @@
+import { formatDistance } from "date-fns";
+
 import { type Role } from "@acme/db";
 import { Avatar, AvatarImage } from "@acme/ui";
 
-import { getDefaultAvatarImage, timeAgo } from "~/lib/utils";
+import { getDefaultAvatarImage } from "~/lib/utils";
 import { DeleteMemberDialog } from "./delete-member-dialog";
 
 type Props = {
   projectId: string;
   currentUserRole: Role;
   role?: Role;
-  createdAt: string | Date;
+  createdAt: Date;
   user: {
     id?: string;
     name?: string | null;
@@ -46,7 +48,9 @@ export function ProjectMember({
       <div className="flex items-center justify-center space-x-2">
         <div className="flex w-24 flex-col">
           <p className="text-sm text-gray-500">{role}</p>
-          <p className="text-xs text-gray-500">Joined {timeAgo(createdAt)}</p>
+          <p className="text-xs text-gray-500">
+            Joined {formatDistance(createdAt, new Date(), { addSuffix: true })}
+          </p>
         </div>
         <div className="flex items-center justify-center">
           {currentUserRole === "OWNER" && user?.id && role !== "OWNER" && (

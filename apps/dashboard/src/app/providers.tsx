@@ -4,9 +4,7 @@ import { type PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 
 import { type Session } from "@acme/auth";
-import { Toaster, TooltipProvider } from "@acme/ui";
-
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider, Toaster, TooltipProvider } from "@acme/ui";
 
 type Props = {
   session?: Session | null;

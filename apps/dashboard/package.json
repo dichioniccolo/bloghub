@@ -25,6 +25,7 @@
     "@vercel/edge-config": "^0.2.1",
     "@vercel/kv": "^0.2.1",
     "clsx": "^1.2.1",
+    "date-fns": "^2.30.0",
     "html-escaper": "^3.0.3",
     "isomorphic-dompurify": "^1.6.0",
     "lucide-react": "^0.229.0",
