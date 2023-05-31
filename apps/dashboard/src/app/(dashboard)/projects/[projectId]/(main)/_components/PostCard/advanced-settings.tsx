@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { type Dispatch, type SetStateAction } from "react";
+import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
 import {
@@ -9,15 +9,16 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  buttonVariants,
+  inputVariants,
   Label,
   Switch,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  buttonVariants,
-  inputVariants,
 } from "@acme/ui";
 
+import { Routes } from "~/app/routes";
 import { env } from "~/env.mjs";
 import { type QRProps } from "~/lib/qr";
 import { cn } from "~/lib/utils";
@@ -61,7 +62,10 @@ export function AdvancedSettings({
                     like to remove the {env.NEXT_PUBLIC_APP_NAME} logo/upload
                     your own, please consider upgrading to a Pro plan.
                   </p>
-                  <Link href="/settings/billing" className={cn(buttonVariants())}>
+                  <Link
+                    href={Routes.BillingSettings}
+                    className={cn(buttonVariants())}
+                  >
                     Upgrade to Pro
                   </Link>
                 </TooltipContent>

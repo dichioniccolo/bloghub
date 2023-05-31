@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Billing</h3>
+        <h2 className="text-lg font-medium">Billing</h2>
         <p className="text-sm text-muted-foreground">
           Check your current plan and usage.
         </p>

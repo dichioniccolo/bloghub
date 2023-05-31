@@ -11,6 +11,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@acme/ui";
 
+import { Routes } from "~/app/routes";
+
 export function MainNavigationMenu() {
   const pathname = usePathname();
 
@@ -18,9 +20,9 @@ export function MainNavigationMenu() {
     <NavigationMenu className="justify-start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
+          <Link href={Routes.Dashboard} legacyBehavior passHref>
             <NavigationMenuLink
-              active={pathname === "/"}
+              active={pathname === Routes.Dashboard}
               className={navigationMenuTriggerStyle()}
             >
               Projects
@@ -28,9 +30,9 @@ export function MainNavigationMenu() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/settings" legacyBehavior passHref>
+          <Link href={Routes.Settings} legacyBehavior passHref>
             <NavigationMenuLink
-              active={pathname.startsWith("/settings")}
+              active={pathname.startsWith(Routes.Settings)}
               className={navigationMenuTriggerStyle()}
             >
               Settings

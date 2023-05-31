@@ -9,7 +9,9 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
+import { Routes } from "~/app/routes";
 import { type GetProjects } from "~/lib/shared/api/projects";
+import { getDefaultAvatarImage } from "~/lib/utils";
 
 type Props = {
   project: GetProjects[number];
@@ -17,25 +19,20 @@ type Props = {
 
 export function ProjectCard({ project }: Props) {
   return (
-    <Link href={`/projects/${project.id}`}>
+    <Link href={Routes.ProjectDashboard(project.id)}>
       <Card className="flex justify-between p-6 transition-all hover:shadow-md">
         <div className="flex items-center space-x-3">
           <BlurImage
-            src={
-              project.logo ??
-              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAIhJREFUaEPt0sEJACEQBEHNP7XNSYOohwh9/1mw6/bMnPXxt3vAY70EHgOsBBLAAv1CGJDnCXBCPJAABuR5ApwQDySAAXmeACfEAwlgQJ4nwAnxQAIYkOcJcEI8kAAG5HkCnBAPJIABeZ4AJ8QDCWBAnifACfFAAhiQ5wlwQjyQAAbkeQKcEA9cSuOiwSGdZ9oAAAAASUVORK5CYII="
-            }
+            src={project.logo ?? getDefaultAvatarImage(project.name)}
             alt={project.name}
             className="h-9 w-9 flex-shrink-0 overflow-hidden rounded-full"
             width={48}
             height={48}
           />
           <div>
-            <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-              {project.name}
-            </h2>
+            <h2 className="text-lg font-medium text-primary">{project.name}</h2>
             <div className="flex items-center">
-              <p className="text-gray-500">{project.domain}</p>
+              <p className="text-muted-foreground">{project.domain}</p>
             </div>
           </div>
         </div>

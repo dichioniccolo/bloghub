@@ -4,17 +4,18 @@ import Link from "next/link";
 
 import {
   Button,
+  buttonVariants,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  buttonVariants,
   useToast,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
+import { Routes } from "~/app/routes";
 import { useUser } from "~/hooks/use-user";
 import { acceptInvite } from "~/lib/shared/actions/accept-invite";
 import { type GetPendingInvite } from "~/lib/shared/api/projects";
@@ -78,7 +79,7 @@ export function AcceptInviteDialog({ project, expired }: Props) {
                   This invite has expired or is no longer valid.
                 </DialogDescription>
                 <DialogFooter>
-                  <Link href="/" className={buttonVariants()}>
+                  <Link href={Routes.Dashboard} className={buttonVariants()}>
                     Back to dashboard
                   </Link>
                 </DialogFooter>

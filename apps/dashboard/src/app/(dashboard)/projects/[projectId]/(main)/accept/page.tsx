@@ -9,12 +9,12 @@ import { AcceptInviteDialog } from "./_components/accept-invite-dialog";
 
 type Props = {
   params: {
-    id: string;
+    projectId: string;
   };
 };
 
 export async function generateMetadata({
-  params: { id },
+  params: { projectId },
 }: Props): Promise<Metadata> {
   const session = await getServerSession(authOptions);
 
@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   const { user } = session;
 
-  const pendingInvite = await getPendingInvite(user.email, id);
+  const pendingInvite = await getPendingInvite(user.email, projectId);
 
   return {
     title: `Accept invitation to project ${pendingInvite?.project?.name}`,
@@ -32,7 +32,7 @@ export async function generateMetadata({
 }
 
 export default async function AcceptProjectInvitationPage({
-  params: { id },
+  params: { projectId },
 }: Props) {
   const session = await getServerSession(authOptions);
 
@@ -42,7 +42,7 @@ export default async function AcceptProjectInvitationPage({
 
   const { user } = session;
 
-  const pendingInvite = await getPendingInvite(user.email, id);
+  const pendingInvite = await getPendingInvite(user.email, projectId);
 
   if (!pendingInvite) {
     return redirect("/");

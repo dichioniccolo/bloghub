@@ -12,29 +12,29 @@ import {
 
 type Props = {
   params: {
-    id: string;
+    projectId: string;
   };
 };
 
 export async function generateMetadata({
-  params: { id },
+  params: { projectId },
 }: Props): Promise<Metadata> {
-  const projectById = await getProject(id);
+  const projectById = await getProject(projectId);
 
   return {
     title: `${projectById?.name} settings`,
   };
 }
 
-export default async function Page({ params: { id } }: Props) {
-  const project = await getProject(id);
+export default async function Page({ params: { projectId } }: Props) {
+  const project = await getProject(projectId);
 
   if (!project) return notFound();
 
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">General</h3>
+        <h2 className="text-lg font-medium">General</h2>
         <p className="text-sm text-muted-foreground">
           Configure your project settings.
         </p>

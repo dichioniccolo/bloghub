@@ -7,15 +7,15 @@ import { EditPostFormToolbar } from "./_components/edit-post-form-toolbar";
 
 type Props = {
   params: {
-    id: string;
+    projectId: string;
     postId: string;
   };
 };
 
-export default async function Page({ params: { id, postId } }: Props) {
+export default async function Page({ params: { projectId, postId } }: Props) {
   const [post, currentUserRole] = await Promise.all([
-    getPost(id, postId),
-    getProjectUserRole(id),
+    getPost(projectId, postId),
+    getProjectUserRole(projectId),
   ]);
 
   if (!post) {

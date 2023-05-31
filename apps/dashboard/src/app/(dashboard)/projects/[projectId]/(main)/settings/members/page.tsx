@@ -15,14 +15,14 @@ import { ProjectMember } from "./_components/project-member";
 
 type Props = {
   params: {
-    id: string;
+    projectId: string;
   };
 };
 
 export async function generateMetadata({
-  params: { id },
+  params: { projectId },
 }: Props): Promise<Metadata> {
-  const project = await getProject(id);
+  const project = await getProject(projectId);
 
   return {
     title: `${project?.name} members`,
@@ -30,28 +30,30 @@ export async function generateMetadata({
 }
 
 export default async function AppDashboardProjectSettingsMembersPage({
-  params: { id },
+  params: { projectId },
 }: Props) {
-  const project = await getProject(id);
+  const project = await getProject(projectId);
 
   if (!project) return notFound();
 
   const [roleOfUser, users, invites] = await Promise.all([
-    getProjectUserRole(id),
-    getProjectUsers(id),
-    getProjectInvites(id),
+    getProjectUserRole(projectId),
+    getProjectUsers(projectId),
+    getProjectInvites(projectId),
   ]);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-medium">Project Members</h3>
+          <h2 className="text-lg font-medium">Project Members</h2>
           <p className="text-sm text-muted-foreground">
             Team mates or friends that have access to this project.{" "}
           </p>
         </div>
-        {roleOfUser === Role.OWNER && <InviteMemberDialog projectId={id} />}
+        {roleOfUser === Role.OWNER && (
+          <InviteMemberDialog projectId={projectId} />
+        )}
       </div>
       <Separator />
       <Tabs defaultValue="members">

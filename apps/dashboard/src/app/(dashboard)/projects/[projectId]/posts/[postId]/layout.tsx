@@ -4,18 +4,18 @@ import { PostNavigationMenu } from "./_components/post-navigation-menu";
 
 type Props = {
   params: {
-    id: string;
+    projectId: string;
     postId: string;
   };
 };
 
 export default function Layout({
-  params: { id, postId },
+  params: { projectId, postId },
   children,
 }: PropsWithChildren<Props>) {
   return (
     <>
-      <PostNavigationMenu projectId={id} postId={postId} />
+      <PostNavigationMenu projectId={projectId} postId={postId} />
       {children}
     </>
   );

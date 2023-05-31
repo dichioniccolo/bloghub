@@ -12,43 +12,55 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
+import { Routes } from "~/app/routes";
 
 type Props = {
   projectId: string;
+  postId: string;
 };
 
-export function ProjectNavigationMenu({ projectId }: Props) {
+export function PostNavigationMenu({ projectId, postId }: Props) {
   const pathname = usePathname();
-
-  const basePath = `/projects/${projectId}`;
 
   return (
     <NavigationMenu className="justify-start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
+          <Link
+            href={Routes.ProjectDashboard(projectId)}
+            legacyBehavior
+            passHref
+          >
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Icons.arrowLeft className="mr-2 h-4 w-4" /> Projects
+              <Icons.arrowLeft className="mr-2 h-4 w-4" /> Posts
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href={basePath} legacyBehavior passHref>
+          <Link
+            href={Routes.PostEditor(projectId, postId)}
+            legacyBehavior
+            passHref
+          >
             <NavigationMenuLink
-              active={pathname === basePath}
+              active={pathname === Routes.PostEditor(projectId, postId)}
               className={navigationMenuTriggerStyle()}
             >
-              Posts
+              Editor
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href={`${basePath}/settings`} legacyBehavior passHref>
+          <Link
+            href={Routes.PostStats(projectId, postId)}
+            legacyBehavior
+            passHref
+          >
             <NavigationMenuLink
-              active={pathname?.startsWith(`${basePath}/settings`)}
+              active={pathname === Routes.PostStats(projectId, postId)}
               className={navigationMenuTriggerStyle()}
             >
-              Settings
+              Stats
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

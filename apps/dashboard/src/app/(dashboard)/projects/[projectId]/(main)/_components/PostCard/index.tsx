@@ -18,6 +18,7 @@ import {
 
 import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
 import { Icons } from "~/app/_components/icons";
+import { Routes } from "~/app/routes";
 import { type GetPosts } from "~/lib/shared/api/posts";
 import {
   type GetProject,
@@ -89,7 +90,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                   Your post won&apos;t work until you verify your domain.
                 </span>
                 <Link
-                  href={`/projects/${project.id}/settings`}
+                  href={Routes.ProjectSettings(project.id)}
                   className={cn(buttonVariants())}
                 >
                   Verify your domain
@@ -118,11 +119,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 </PostCardButton>
               }
             />
-            <Link
-              href={{
-                pathname: `/${project.id}/post/${post.id}/stats`,
-              }}
-            >
+            <Link href={Routes.PostStats(project.id, post.id)}>
               <PostCardButton className="space-x-1">
                 <Icons.chart />
                 <p className="whitespace-nowrap text-sm">
@@ -133,11 +130,11 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
             </Link>
           </div>
           <div className="flex items-center">
-            <p className="mr-3 hidden whitespace-nowrap text-sm sm:block">
+            <p className="mr-3 hidden whitespace-nowrap text-sm text-muted-foreground sm:block">
               Added{" "}
               {formatDistance(post.createdAt, new Date(), { addSuffix: true })}
             </p>
-            <p className="mr-1 whitespace-nowrap text-sm sm:hidden">
+            <p className="mr-1 whitespace-nowrap text-sm text-muted-foreground sm:hidden">
               {formatDistance(post.createdAt, new Date(), { addSuffix: false })}
             </p>
             <div className="flex items-center gap-1">
@@ -160,7 +157,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                         </span>
                         {currentUserRole === "OWNER" && (
                           <Link
-                            href="/settings"
+                            href={Routes.Settings}
                             className={cn(buttonVariants())}
                           >
                             Upgrade
@@ -169,7 +166,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                       </TooltipContent>
                     </Tooltip>
                   ) : (
-                    <Link href={`/projects/${project.id}/post/${post.id}`}>
+                    <Link href={Routes.PostEditor(project.id, post.id)}>
                       <PostCardButton>
                         <Icons.edit />
                         <p className="sr-only">Edit</p>
@@ -181,7 +178,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
 
               {currentUserRole === "OWNER" && (
                 <DeletePostDialog
-                  id={post.id}
+                  postId={post.id}
                   projectId={project.id}
                   trigger={(loading) => (
                     <PostCardButton variant="destructive">

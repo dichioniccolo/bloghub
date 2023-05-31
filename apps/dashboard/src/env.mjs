@@ -27,6 +27,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
+    NEXT_PUBLIC_APP_DESCRIPTION: z.string().min(1),
     NEXT_PUBLIC_APP_DOMAIN: z.string().min(1),
     NEXT_PUBLIC_APP_URL: z.string().url(),
   },
@@ -35,6 +36,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+    NEXT_PUBLIC_APP_DESCRIPTION: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
     NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     EDGE_CONFIG: process.env.EDGE_CONFIG,

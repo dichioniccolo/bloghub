@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { getServerSession } from "next-auth";
 
 import "@acme/ui/styles/globals.css";
+
 import { Inter, Roboto_Mono } from "next/font/google";
 
 import { authOptions } from "@acme/auth";
@@ -28,6 +29,7 @@ export const metadata = {
     default: env.NEXT_PUBLIC_APP_NAME,
     template: `%s | ${env.NEXT_PUBLIC_APP_NAME}`,
   },
+  description: env.NEXT_PUBLIC_APP_DESCRIPTION,
   keywords: [
     "Next.js",
     "React",

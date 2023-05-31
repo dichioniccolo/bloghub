@@ -2,20 +2,21 @@ import { type PropsWithChildren } from "react";
 
 import { DashboardHeader } from "~/app/_components/dashboard-header";
 import { DashboardShell } from "~/app/_components/dashboard-shell";
+import { Routes } from "~/app/routes";
 import { SidebarNav } from "../../../_components/sidebar-nav";
 
 const sidebarNavItems = [
   {
     title: "Profile",
-    href: "/settings",
+    href: Routes.Settings,
   },
   {
     title: "Email Notifications",
-    href: "/settings/notifications",
+    href: Routes.NotificationsSettings,
   },
   {
     title: "Billing",
-    href: "/settings/billing",
+    href: Routes.BillingSettings,
   },
 ];
 

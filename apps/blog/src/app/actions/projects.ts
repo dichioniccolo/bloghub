@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma, Role } from "@acme/db";
+import { prisma } from "@acme/db";
 
 const POSTS_PER_PAGE = 20;
 
@@ -61,4 +61,6 @@ export async function getProjectByDomain(domain: string, page = 1) {
 
 export type GetProjectByDomain = Awaited<ReturnType<typeof getProjectByDomain>>;
 
-export type GetPostsProjectByDomain = NonNullable<GetProjectByDomain["project"]>["posts"];
+export type GetPostsProjectByDomain = NonNullable<
+  GetProjectByDomain["project"]
+>["posts"];

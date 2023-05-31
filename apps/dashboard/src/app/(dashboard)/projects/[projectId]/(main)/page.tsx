@@ -10,12 +10,12 @@ import { PostsCardsPlaceholder } from "./_components/posts-cards-placeholder";
 
 type Props = {
   params: {
-    id: string;
+    projectId: string;
   };
 };
 
-export default async function Page({ params: { id } }: Props) {
-  const project = await getProject(id);
+export default async function Page({ params: { projectId } }: Props) {
+  const project = await getProject(projectId);
 
   if (!project) {
     return notFound();

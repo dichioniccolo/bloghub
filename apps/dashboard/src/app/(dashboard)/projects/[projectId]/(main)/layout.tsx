@@ -4,14 +4,14 @@ import { ProjectNavigationMenu } from "./_components/project-navigation-menu";
 
 type Props = PropsWithChildren<{
   params: {
-    id: string;
+    projectId: string;
   };
 }>;
 
-export default function Layout({ children, params: { id } }: Props) {
+export default function Layout({ children, params: { projectId } }: Props) {
   return (
     <>
-      <ProjectNavigationMenu projectId={id} />
+      <ProjectNavigationMenu projectId={projectId} />
       {children}
     </>
   );

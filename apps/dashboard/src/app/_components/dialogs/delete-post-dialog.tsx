@@ -20,11 +20,11 @@ import { deletePost } from "~/lib/shared/actions/delete-post";
 
 type Props = {
   projectId: string;
-  id: string;
+  postId: string;
   trigger(loading: boolean): ReactNode;
 };
 
-export function DeletePostDialog({ projectId, id, trigger }: Props) {
+export function DeletePostDialog({ projectId, postId, trigger }: Props) {
   const user = useUser();
 
   const { toast } = useToast();
@@ -33,7 +33,7 @@ export function DeletePostDialog({ projectId, id, trigger }: Props) {
   const onDelete = () =>
     startTransition(async () => {
       await deletePost({
-        postId: id,
+        postId,
         projectId,
         userId: user.id,
       });

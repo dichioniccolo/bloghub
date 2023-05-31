@@ -4,9 +4,11 @@ import Link from "next/link";
 import { Skeleton } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
+import { env } from "~/env.mjs";
 import { CommandMenu } from "../_components/command-menu";
 import { Notifications } from "../_components/notifications";
 import { NotificationsPlaceholder } from "../_components/notifications-placeholder";
+import { Routes } from "../routes";
 import { ProjectsDropdown } from "./_components/ProjectsDropdown";
 import { UserDropdown } from "./_components/UserDropdown";
 
@@ -16,7 +18,10 @@ export default function Layout({ children }: PropsWithChildren) {
       <header className="container sticky top-0 z-40 bg-background">
         <div className="flex h-16 items-center justify-between py-4">
           <div className="flex items-center">
-            <Link href="/">
+            <Link
+              href={Routes.Dashboard}
+              aria-label={`${env.NEXT_PUBLIC_APP_NAME} logo`}
+            >
               <Icons.logo className="h-10 w-10 rounded-full transition-all duration-75 active:scale-95" />
             </Link>
             <Icons.divider className="h-10 w-10 text-primary sm:ml-3" />

@@ -3,26 +3,25 @@
 import { useMemo } from "react";
 
 import { SidebarNav } from "~/app/_components/sidebar-nav";
+import { Routes } from "~/app/routes";
 
 type Props = {
   projectId: string;
 };
 
 export function ProjectSettingsNavigationMenu({ projectId }: Props) {
-  const basePath = `/projects/${projectId}/settings`;
-
   const sidebarNavItems = useMemo(
     () => [
       {
         title: "General",
-        href: basePath,
+        href: Routes.ProjectSettings(projectId),
       },
       {
         title: "Members",
-        href: `${basePath}/members`,
+        href: Routes.ProjectSettingsMembers(projectId),
       },
     ],
-    [basePath],
+    [projectId],
   );
 
   return <SidebarNav items={sidebarNavItems} />;

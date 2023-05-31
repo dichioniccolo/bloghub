@@ -68,6 +68,14 @@
 
     --radius: 0.5rem;
   }
+
+  .prose {
+    --tw-prose-headings: 222.2 47.4% 11.2%;
+  }
+
+  .dark .prose {
+    --tw-prose-headings: 210 40% 98%;
+  }
 }
 
 @layer base {
