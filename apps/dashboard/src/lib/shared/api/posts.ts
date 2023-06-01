@@ -23,8 +23,12 @@ export async function getPosts(projectId: string) {
       title: true,
       slug: true,
       createdAt: true,
-      clicks: true,
       hidden: true,
+      _count: {
+        select: {
+          visit: true,
+        },
+      },
     },
   });
 

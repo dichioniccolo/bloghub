@@ -123,7 +123,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
               <PostCardButton className="space-x-1">
                 <Icons.chart />
                 <p className="whitespace-nowrap text-sm">
-                  {formatNumber(post.clicks)}
+                  {formatNumber(post._count.visit)}
                   <span className="ml-1 hidden sm:inline-block">clicks</span>
                 </p>
               </PostCardButton>

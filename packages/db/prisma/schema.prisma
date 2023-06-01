@@ -67,6 +67,7 @@ model User {
   media         Media[]
   emailSettings EmailNotificationSetting[]
   notifications Notification[]
+  likes         Like[]
 }
 
 enum EmailNotificationSettingType {
@@ -173,17 +174,28 @@ model Post {
   content     String   @db.Text
   contentHtml String   @db.Text
   hidden      Boolean  @default(false)
-  clicks      Int      @default(0)
-  likes       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   visit       Visit[]
   media       Media[]
+  likedBy     Like[]
 
   @@unique([projectId, slug])
   @@index([projectId])
   @@index([hidden, createdAt(sort: Desc)])
   @@fulltext([title, content])
+}
+
+model Like {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
 }
 
 enum MediaType {

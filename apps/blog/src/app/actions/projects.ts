@@ -1,66 +1,65 @@
 "use server";
 
-import { prisma } from "@acme/db";
+import { prisma, type Prisma } from "@acme/db";
 
-const POSTS_PER_PAGE = 20;
+const skip = (page: number, perPage: number) => (page - 1) * perPage;
+const take = (perPage: number) => perPage;
 
-const skip = (page: number) => (page - 1) * POSTS_PER_PAGE;
-const take = POSTS_PER_PAGE + 1;
-
-export async function getProjectByDomain(domain: string, page = 1) {
+export async function getProjectByDomain(
+  domain: string,
+  page = 1,
+  perPage = 20,
+) {
   const project = await prisma.project.findUnique({
     where: {
       domain,
     },
     select: {
       name: true,
-      // users: {
-      //   where: {
-      //     role: Role.OWNER,
-      //   },
-      //   take: 1,
-      //   select: {
-      //     user: {
-      //       select: {
-      //         name: true,
-      //       }
-      //     }
-      //   }
-      // },
-      posts: {
-        skip: skip(page),
-        take,
-        orderBy: {
-          createdAt: "desc",
-        },
-        where: {
-          hidden: false,
-        },
-        select: {
-          id: true,
-          slug: true,
-          title: true,
-          contentHtml: true,
-          likes: true,
-          createdAt: true,
-        },
-      },
     },
   });
 
-  return {
-    project: project
-      ? {
-          ...project,
-          posts: project.posts.filter((_, i) => i < POSTS_PER_PAGE),
-        }
-      : null,
-    hasMorePages: project?.posts.length === take - 1,
-  };
+  if (!project) {
+    return {
+      project: null,
+      posts: null,
+      postsCount: 0,
+    };
+  }
+
+  const postsWhere = {
+    hidden: false,
+  } satisfies Prisma.PostSelect;
+
+  const [posts, postsCount] = await Promise.all([
+    prisma.post.findMany({
+      skip: skip(page, perPage),
+      take: take(perPage),
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: postsWhere,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        contentHtml: true,
+        createdAt: true,
+        _count: {
+          select: {
+            likedBy: true,
+          },
+        },
+      },
+    }),
+    prisma.post.count({
+      where: postsWhere,
+    }),
+  ]);
+
+  return { project, posts, postsCount };
 }
 
 export type GetProjectByDomain = Awaited<ReturnType<typeof getProjectByDomain>>;
 
-export type GetPostsProjectByDomain = NonNullable<
-  GetProjectByDomain["project"]
->["posts"];
+export type GetPostsProjectByDomain = NonNullable<GetProjectByDomain["posts"]>;
