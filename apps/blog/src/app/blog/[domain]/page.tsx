@@ -1,5 +1,7 @@
+import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { getPostsByDomain } from "~/app/actions/posts";
 import { getProjectByDomain } from "~/app/actions/projects";
 import { Pagination } from "./pagination";
 import { PostSummary } from "./post-summary";
@@ -17,21 +19,33 @@ export const dynamic = "force-dynamic";
 
 const POSTS_PER_PAGE = 1;
 
+export async function generateMetadata({
+  params: { domain },
+}: Props): Promise<Metadata> {
+  const project = await getProjectByDomain(domain);
+
+  return {
+    title: project?.name,
+  };
+}
+
 export default async function Page({
   params: { domain },
   searchParams,
 }: Props) {
   const page = parseInt(searchParams?.page ?? "1");
 
-  const { project, posts, postsCount } = await getProjectByDomain(
-    domain,
-    page,
-    POSTS_PER_PAGE,
-  );
+  const project = await getProjectByDomain(domain);
 
   if (!project) {
     return notFound();
   }
+
+  const { posts, postsCount } = await getPostsByDomain(
+    domain,
+    page,
+    POSTS_PER_PAGE,
+  );
 
   if (posts.length === 0) {
     return (

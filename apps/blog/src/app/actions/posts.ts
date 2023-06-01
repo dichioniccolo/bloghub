@@ -1,6 +1,46 @@
 "use server";
 
-import { prisma } from "@acme/db";
+import { prisma, type Prisma } from "@acme/db";
+
+const skip = (page: number, perPage: number) => (page - 1) * perPage;
+const take = (perPage: number) => perPage;
+
+export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
+  const postsWhere = {
+    hidden: false,
+  } satisfies Prisma.PostSelect;
+
+  const [posts, postsCount] = await Promise.all([
+    prisma.post.findMany({
+      skip: skip(page, perPage),
+      take: take(perPage),
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: postsWhere,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        contentHtml: true,
+        createdAt: true,
+        _count: {
+          select: {
+            likedBy: true,
+          },
+        },
+      },
+    }),
+    prisma.post.count({
+      where: postsWhere,
+    }),
+  ]);
+
+  return { posts, postsCount };
+}
+export type GetPostsProjectByDomain = Awaited<
+  ReturnType<typeof getPostsByDomain>
+>["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {
   return await prisma.post.findFirst({
@@ -14,6 +54,12 @@ export async function getPostBySlug(domain: string, slug: string) {
       title: true,
       contentHtml: true,
       createdAt: true,
+      project: {
+        select: {
+          name: true,
+          logo: true,
+        },
+      },
     },
   });
 }
