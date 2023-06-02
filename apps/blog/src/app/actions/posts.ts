@@ -69,7 +69,7 @@ export async function getPostBySlug(domain: string, slug: string) {
 
 export async function getRandomPostsByDomain(
   domain: string,
-  currentPostId: string,
+  currentPostSlug: string,
 ) {
   const posts = await prisma.post.findMany({
     where: {
@@ -77,7 +77,7 @@ export async function getRandomPostsByDomain(
         domain,
       },
       NOT: {
-        id: currentPostId,
+        slug: currentPostSlug,
       },
     },
     select: {

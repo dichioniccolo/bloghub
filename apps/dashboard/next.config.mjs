@@ -60,7 +60,7 @@ const securityHeaders = [
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["avatar.vercel.sh"],
+    domains: ["avatar.vercel.sh", "cdn.bloghub.it"],
   },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [

@@ -55,6 +55,9 @@ const securityHeaders = [
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  images: {
+    domains: ["avatar.vercel.sh", "cdn.bloghub.it"],
+  },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: ["@acme/db"],
   /** We already do linting and typechecking as separate tasks in CI */

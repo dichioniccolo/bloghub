@@ -9,6 +9,7 @@ export async function getProjectByDomain(domain: string) {
     },
     select: {
       name: true,
+      logo: true,
     },
   });
 
