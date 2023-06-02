@@ -4,6 +4,7 @@ import { type Dispatch, type SetStateAction } from "react";
 import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   Accordion,
   AccordionContent,
@@ -18,7 +19,6 @@ import {
   TooltipTrigger,
 } from "@acme/ui";
 
-import { Routes } from "~/app/routes";
 import { env } from "~/env.mjs";
 import { type QRProps } from "~/lib/qr";
 import { cn } from "~/lib/utils";
@@ -63,7 +63,7 @@ export function AdvancedSettings({
                     your own, please consider upgrading to a Pro plan.
                   </p>
                   <Link
-                    href={Routes.BillingSettings}
+                    href={AppRoutes.BillingSettings}
                     className={cn(buttonVariants())}
                   >
                     Upgrade to Pro

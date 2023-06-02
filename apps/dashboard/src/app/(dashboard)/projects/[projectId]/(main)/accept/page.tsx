@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@acme/auth";
+import { AppRoutes } from "@acme/common/routes";
 
 import { getPendingInvite } from "~/lib/shared/api/projects";
 import { AcceptInviteDialog } from "./_components/accept-invite-dialog";
@@ -19,7 +20,7 @@ export async function generateMetadata({
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return redirect("/login");
+    return redirect(AppRoutes.Login);
   }
 
   const { user } = session;
@@ -37,7 +38,7 @@ export default async function AcceptProjectInvitationPage({
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return redirect("/login");
+    return redirect(AppRoutes.Login);
   }
 
   const { user } = session;
@@ -45,7 +46,7 @@ export default async function AcceptProjectInvitationPage({
   const pendingInvite = await getPendingInvite(user.email, projectId);
 
   if (!pendingInvite) {
-    return redirect("/");
+    return redirect(AppRoutes.Dashboard);
   }
 
   return (

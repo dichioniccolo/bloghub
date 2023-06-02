@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@acme/auth": "^0.1.0",
+    "@acme/common": "^0.1.0",
     "@acme/db": "^0.1.0",
     "@acme/tailwind-config": "^0.1.0",
     "@acme/ui": "^0.1.0",

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,7 +13,6 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { Routes } from "~/app/routes";
 
 type Props = {
   projectId: string;
@@ -25,7 +25,7 @@ export function ProjectNavigationMenu({ projectId }: Props) {
     <NavigationMenu className="justify-start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href={Routes.Dashboard} legacyBehavior passHref>
+          <Link href={AppRoutes.Dashboard} legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Icons.arrowLeft className="mr-2 h-4 w-4" /> Projects
             </NavigationMenuLink>
@@ -33,12 +33,12 @@ export function ProjectNavigationMenu({ projectId }: Props) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href={Routes.ProjectDashboard(projectId)}
+            href={AppRoutes.ProjectDashboard(projectId)}
             legacyBehavior
             passHref
           >
             <NavigationMenuLink
-              active={pathname === Routes.ProjectDashboard(projectId)}
+              active={pathname === AppRoutes.ProjectDashboard(projectId)}
               className={navigationMenuTriggerStyle()}
             >
               Posts
@@ -47,12 +47,14 @@ export function ProjectNavigationMenu({ projectId }: Props) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href={Routes.ProjectSettings(projectId)}
+            href={AppRoutes.ProjectSettings(projectId)}
             legacyBehavior
             passHref
           >
             <NavigationMenuLink
-              active={pathname?.startsWith(Routes.ProjectSettings(projectId))}
+              active={pathname?.startsWith(
+                AppRoutes.ProjectSettings(projectId),
+              )}
               className={navigationMenuTriggerStyle()}
             >
               Settings

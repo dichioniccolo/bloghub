@@ -85,11 +85,19 @@ export default async function Page({ params: { domain, slug } }: Props) {
           <span className="bg-background px-2 text-sm">Continue Reading</span>
         </div>
       </div>
-      <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
-        {randomPosts.map((randomPost) => (
-          <PostCard key={randomPost.id} post={randomPost} />
-        ))}
-      </div>
+      {randomPosts.length === 0 ? (
+        <div className="mb-20 flex w-full items-center justify-center">
+          <p className="text-2xl font-semibold text-muted-foreground">
+            No posts found
+          </p>
+        </div>
+      ) : (
+        <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
+          {randomPosts.map((randomPost) => (
+            <PostCard key={randomPost.id} post={randomPost} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

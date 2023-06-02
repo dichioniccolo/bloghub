@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   Button,
   buttonVariants,
@@ -15,7 +17,6 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { Routes } from "~/app/routes";
 import { useUser } from "~/hooks/use-user";
 import { acceptInvite } from "~/lib/shared/actions/accept-invite";
 import { type GetPendingInvite } from "~/lib/shared/api/projects";
@@ -31,6 +32,8 @@ export function AcceptInviteDialog({ project, expired }: Props) {
 
   const { toast } = useToast();
 
+  const router = useRouter();
+
   const { mutate, isRunning: loading } = useZact(acceptInvite);
 
   const onSubmit = async () => {
@@ -42,6 +45,8 @@ export function AcceptInviteDialog({ project, expired }: Props) {
     toast({
       description: "You now are a part of this project!",
     });
+
+    router.push(AppRoutes.ProjectDashboard(project.id));
   };
 
   return (
@@ -79,7 +84,7 @@ export function AcceptInviteDialog({ project, expired }: Props) {
                   This invite has expired or is no longer valid.
                 </DialogDescription>
                 <DialogFooter>
-                  <Link href={Routes.Dashboard} className={buttonVariants()}>
+                  <Link href={AppRoutes.Dashboard} className={buttonVariants()}>
                     Back to dashboard
                   </Link>
                 </DialogFooter>

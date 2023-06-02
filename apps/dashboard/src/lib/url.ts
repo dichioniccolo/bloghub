@@ -57,7 +57,7 @@ export function constructPostUrl(
     return `/${slug}`;
   }
 
-  const link = `https://${domain}/${slug}`;
+  const link = `https://${domain}/posts/${slug}`;
 
   return options?.withProtocol ? link : link.replace(/^https?:\/\//, "");
 }

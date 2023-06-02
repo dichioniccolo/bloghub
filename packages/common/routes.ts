@@ -1,4 +1,4 @@
-export const Routes = {
+export const AppRoutes = {
   Login: "/login",
   Dashboard: "/",
   Settings: "/settings",
@@ -12,4 +12,9 @@ export const Routes = {
     `/projects/${projectId}/posts/${postId}`,
   PostStats: (projectId: string, postId: string) =>
     `/projects/${projectId}/posts/${postId}/stats`,
+};
+
+export const BlogRoutes = {
+  Home: `/`,
+  Post: (slug: string) => `/posts/${slug}`,
 };

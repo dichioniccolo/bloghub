@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,7 +13,6 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { Routes } from "~/app/routes";
 
 type Props = {
   projectId: string;
@@ -27,7 +27,7 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link
-            href={Routes.ProjectDashboard(projectId)}
+            href={AppRoutes.ProjectDashboard(projectId)}
             legacyBehavior
             passHref
           >
@@ -38,12 +38,12 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href={Routes.PostEditor(projectId, postId)}
+            href={AppRoutes.PostEditor(projectId, postId)}
             legacyBehavior
             passHref
           >
             <NavigationMenuLink
-              active={pathname === Routes.PostEditor(projectId, postId)}
+              active={pathname === AppRoutes.PostEditor(projectId, postId)}
               className={navigationMenuTriggerStyle()}
             >
               Editor
@@ -52,12 +52,12 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href={Routes.PostStats(projectId, postId)}
+            href={AppRoutes.PostStats(projectId, postId)}
             legacyBehavior
             passHref
           >
             <NavigationMenuLink
-              active={pathname === Routes.PostStats(projectId, postId)}
+              active={pathname === AppRoutes.PostStats(projectId, postId)}
               className={navigationMenuTriggerStyle()}
             >
               Stats

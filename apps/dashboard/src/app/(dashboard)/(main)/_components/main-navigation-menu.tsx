@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -11,8 +12,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@acme/ui";
 
-import { Routes } from "~/app/routes";
-
 export function MainNavigationMenu() {
   const pathname = usePathname();
 
@@ -20,9 +19,9 @@ export function MainNavigationMenu() {
     <NavigationMenu className="justify-start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href={Routes.Dashboard} legacyBehavior passHref>
+          <Link href={AppRoutes.Dashboard} legacyBehavior passHref>
             <NavigationMenuLink
-              active={pathname === Routes.Dashboard}
+              active={pathname === AppRoutes.Dashboard}
               className={navigationMenuTriggerStyle()}
             >
               Projects
@@ -30,9 +29,9 @@ export function MainNavigationMenu() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href={Routes.Settings} legacyBehavior passHref>
+          <Link href={AppRoutes.Settings} legacyBehavior passHref>
             <NavigationMenuLink
-              active={pathname.startsWith(Routes.Settings)}
+              active={pathname.startsWith(AppRoutes.Settings)}
               className={navigationMenuTriggerStyle()}
             >
               Settings

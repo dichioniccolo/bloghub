@@ -1,22 +1,23 @@
 import { type PropsWithChildren } from "react";
 
+import { AppRoutes } from "@acme/common/routes";
+
 import { DashboardHeader } from "~/app/_components/dashboard-header";
 import { DashboardShell } from "~/app/_components/dashboard-shell";
-import { Routes } from "~/app/routes";
-import { SidebarNav } from "../../../_components/sidebar-nav";
+import { SidebarNav } from "~/app/_components/sidebar-nav";
 
 const sidebarNavItems = [
   {
     title: "Profile",
-    href: Routes.Settings,
+    href: AppRoutes.Settings,
   },
   {
     title: "Email Notifications",
-    href: Routes.NotificationsSettings,
+    href: AppRoutes.NotificationsSettings,
   },
   {
     title: "Billing",
-    href: Routes.BillingSettings,
+    href: AppRoutes.BillingSettings,
   },
 ];
 

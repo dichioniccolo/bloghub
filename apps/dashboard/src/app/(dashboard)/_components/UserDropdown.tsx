@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   Avatar,
   AvatarFallback,
@@ -18,7 +19,6 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { Routes } from "~/app/routes";
 import { useUser } from "~/hooks/use-user";
 import { getDefaultAvatarImage } from "~/lib/utils";
 
@@ -47,7 +47,7 @@ export function UserDropdown() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={Routes.Settings}>
+          <Link href={AppRoutes.Settings}>
             <DropdownMenuItem>
               <Icons.settings className="mr-2 h-4 w-4" />
               <span>Settings</span>

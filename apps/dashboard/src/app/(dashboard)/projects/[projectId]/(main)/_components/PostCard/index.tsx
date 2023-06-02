@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { formatDistance } from "date-fns";
 
+import { AppRoutes } from "@acme/common/routes";
 import { type Role } from "@acme/db";
 import {
   buttonVariants,
@@ -18,7 +19,6 @@ import {
 
 import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
 import { Icons } from "~/app/_components/icons";
-import { Routes } from "~/app/routes";
 import { type GetPosts } from "~/lib/shared/api/posts";
 import {
   type GetProject,
@@ -90,7 +90,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                   Your post won&apos;t work until you verify your domain.
                 </span>
                 <Link
-                  href={Routes.ProjectSettings(project.id)}
+                  href={AppRoutes.ProjectSettings(project.id)}
                   className={cn(buttonVariants())}
                 >
                   Verify your domain
@@ -119,7 +119,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 </PostCardButton>
               }
             />
-            <Link href={Routes.PostStats(project.id, post.id)}>
+            <Link href={AppRoutes.PostStats(project.id, post.id)}>
               <PostCardButton className="space-x-1">
                 <Icons.chart />
                 <p className="whitespace-nowrap text-sm">
@@ -157,7 +157,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                         </span>
                         {currentUserRole === "OWNER" && (
                           <Link
-                            href={Routes.Settings}
+                            href={AppRoutes.Settings}
                             className={cn(buttonVariants())}
                           >
                             Upgrade
@@ -166,7 +166,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                       </TooltipContent>
                     </Tooltip>
                   ) : (
-                    <Link href={Routes.PostEditor(project.id, post.id)}>
+                    <Link href={AppRoutes.PostEditor(project.id, post.id)}>
                       <PostCardButton>
                         <Icons.edit />
                         <p className="sr-only">Edit</p>

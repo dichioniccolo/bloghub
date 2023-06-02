@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { deleteProject as deleteProjectBase } from "@acme/common/actions";
-import { Role, prisma } from "@acme/db";
+import { AppRoutes } from "@acme/common/routes";
+import { prisma, Role } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -37,6 +38,6 @@ export const deleteProject = zact(
 
   await deleteProjectBase(project);
 
-  revalidatePath("/");
-  redirect("/");
+  revalidatePath(AppRoutes.Dashboard);
+  redirect(AppRoutes.Dashboard);
 });

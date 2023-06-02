@@ -2,8 +2,9 @@
 
 import { useMemo } from "react";
 
+import { AppRoutes } from "@acme/common/routes";
+
 import { SidebarNav } from "~/app/_components/sidebar-nav";
-import { Routes } from "~/app/routes";
 
 type Props = {
   projectId: string;
@@ -14,11 +15,11 @@ export function ProjectSettingsNavigationMenu({ projectId }: Props) {
     () => [
       {
         title: "General",
-        href: Routes.ProjectSettings(projectId),
+        href: AppRoutes.ProjectSettings(projectId),
       },
       {
         title: "Members",
-        href: Routes.ProjectSettingsMembers(projectId),
+        href: AppRoutes.ProjectSettingsMembers(projectId),
       },
     ],
     [projectId],

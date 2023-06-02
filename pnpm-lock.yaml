@@ -119,6 +119,9 @@ importers:
       '@acme/auth':
         specifier: ^0.1.0
         version: link:../../packages/auth
+      '@acme/common':
+        specifier: ^0.1.0
+        version: link:../../packages/common
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db

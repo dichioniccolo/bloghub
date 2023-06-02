@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   BlurImage,
   Card,
@@ -9,7 +10,6 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { Routes } from "~/app/routes";
 import { type GetProjects } from "~/lib/shared/api/projects";
 import { getDefaultAvatarImage } from "~/lib/utils";
 
@@ -19,7 +19,7 @@ type Props = {
 
 export function ProjectCard({ project }: Props) {
   return (
-    <Link href={Routes.ProjectDashboard(project.id)}>
+    <Link href={AppRoutes.ProjectDashboard(project.id)}>
       <Card className="flex justify-between p-6 transition-all hover:shadow-md">
         <div className="flex items-center space-x-3">
           <BlurImage

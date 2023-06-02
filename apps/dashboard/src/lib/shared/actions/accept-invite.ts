@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { prisma, Role } from "@acme/db";
@@ -77,7 +75,4 @@ export const acceptInvite = zact(
       },
     });
   });
-
-  revalidatePath("/");
-  redirect(`/projects/${projectId}`);
 });

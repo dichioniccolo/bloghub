@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { AppRoutes } from "@acme/common/routes";
 import { prisma, Role } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
@@ -40,6 +41,5 @@ export const quitProject = zact(
     },
   });
 
-  // revalidatePath("/");
-  redirect("/");
+  redirect(AppRoutes.Dashboard);
 });

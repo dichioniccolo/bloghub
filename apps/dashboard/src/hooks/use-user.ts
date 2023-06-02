@@ -3,11 +3,13 @@
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { AppRoutes } from "@acme/common/routes";
+
 export function useUser() {
   const { data } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/login");
+      redirect(AppRoutes.Login);
     },
   });
 
