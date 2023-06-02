@@ -4,11 +4,12 @@ import { Receiver } from "@upstash/qstash";
 import { getLoginUrl } from "@acme/auth";
 import { deleteProject } from "@acme/common/actions";
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
+import { AppRoutes } from "@acme/common/routes";
 import {
   EmailNotificationSettingType,
   EmailType,
-  Role,
   prisma,
+  Role,
 } from "@acme/db";
 import {
   AutomaticProjectDeletion,
@@ -107,7 +108,7 @@ export async function POST(req: Request) {
           const unsubscribeUrl = await getLoginUrl(
             projectOwnerEmail,
             expiresAt,
-            `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+            `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
           );
 
           await sendMail({
@@ -150,7 +151,7 @@ export async function POST(req: Request) {
         const unsubscribeUrl = await getLoginUrl(
           projectOwnerEmail,
           expiresAt,
-          `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+          `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
         );
 
         await sendMail({

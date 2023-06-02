@@ -585,6 +585,9 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../db
+      '@paralleldrive/cuid2':
+        specifier: ^2.2.0
+        version: 2.2.0
       '@t3-oss/env-nextjs':
         specifier: ^0.4.0
         version: 0.4.0(typescript@5.1.3)(zod@3.21.4)
@@ -2664,6 +2667,10 @@ packages:
     dev: false
     optional: true
 
+  /@noble/hashes@1.3.0:
+    resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
+    dev: false
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2805,6 +2812,12 @@ packages:
 
   /@panva/hkdf@1.1.1:
     resolution: {integrity: sha512-dhPeilub1NuIG0X5Kvhh9lH4iW3ZsHlnzwgwbOlgwQ2wG1IqFzsgHqmKPk3WzsdWAeaxKJxgM0+W433RmN45GA==}
+    dev: false
+
+  /@paralleldrive/cuid2@2.2.0:
+    resolution: {integrity: sha512-CVQDpPIUHrUGGLdrMGz1NmqZvqmsB2j2rCIQEu1EvxWjlFh4fhvEGmgR409cY20/67/WlJsggenq0no3p3kYsw==}
+    dependencies:
+      '@noble/hashes': 1.3.0
     dev: false
 
   /@pkgr/utils@2.4.1:

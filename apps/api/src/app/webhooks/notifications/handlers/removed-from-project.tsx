@@ -1,4 +1,5 @@
 import { getLoginUrl } from "@acme/auth";
+import { AppRoutes } from "@acme/common/routes";
 import {
   EmailNotificationSettingType,
   NotificationType,
@@ -13,6 +14,7 @@ import {
 import { env } from "~/env.mjs";
 
 export async function handleRemovedFromProjectNotification(
+  notificationId: string,
   body: RemovedFromProjectNotificationData,
 ): Promise<Response> {
   const { projectName, userEmail } =
@@ -24,33 +26,36 @@ export async function handleRemovedFromProjectNotification(
   const unsubscribeUrl = await getLoginUrl(
     userEmail,
     expiresAt,
-    `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+    `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
   );
 
-  await prisma.notification.create({
-    data: {
-      type: NotificationType.REMOVED_FROM_PROJECT,
-      body,
-      user: {
-        connect: {
-          email: userEmail,
+  await prisma.$transaction(async (tx) => {
+    await tx.notification.create({
+      data: {
+        notificationId,
+        type: NotificationType.REMOVED_FROM_PROJECT,
+        body,
+        user: {
+          connect: {
+            email: userEmail,
+          },
         },
       },
-    },
-  });
+    });
 
-  await sendMail({
-    type: EmailNotificationSettingType.SOCIAL,
-    to: userEmail,
-    subject: "You have been removed from a project",
-    component: (
-      <RemovedFromProject
-        siteName={env.NEXT_PUBLIC_APP_NAME}
-        projectName={projectName}
-        unsubscribeUrl={unsubscribeUrl}
-        userEmail={userEmail}
-      />
-    ),
+    await sendMail({
+      type: EmailNotificationSettingType.SOCIAL,
+      to: userEmail,
+      subject: "You have been removed from a project",
+      component: (
+        <RemovedFromProject
+          siteName={env.NEXT_PUBLIC_APP_NAME}
+          projectName={projectName}
+          unsubscribeUrl={unsubscribeUrl}
+          userEmail={userEmail}
+        />
+      ),
+    });
   });
 
   return new Response(null, {

@@ -53,7 +53,7 @@ export function EditPostFormToolbar({ post, currentUserRole }: Props) {
               })}
             />
           )}
-          {post.hidden ? "Publish" : "Unpublish"}
+          {post.hidden ? "Publish" : "Draft"}
         </Button>
       )}
     </div>

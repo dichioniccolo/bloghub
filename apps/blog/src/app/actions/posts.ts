@@ -76,6 +76,7 @@ export async function getRandomPostsByDomain(
       project: {
         domain,
       },
+      hidden: false,
       NOT: {
         slug: currentPostSlug,
       },

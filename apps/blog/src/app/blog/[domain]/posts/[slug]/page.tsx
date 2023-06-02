@@ -60,7 +60,6 @@ export default async function Page({ params: { domain, slug } }: Props) {
           {/** add who created this post */}
         </div>
       </div>
-
       {img && (
         <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
           <BlurImage
@@ -77,26 +76,28 @@ export default async function Page({ params: { domain, slug } }: Props) {
         className="m-auto w-11/12 sm:w-3/4"
         as="article"
       />
-      <div className="relative mb-20 mt-10 sm:mt-20">
-        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-border"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <span className="bg-background px-2 text-sm">Continue Reading</span>
-        </div>
-      </div>
-      {randomPosts.length === 0 ? (
-        <div className="mb-20 flex w-full items-center justify-center">
-          <p className="text-2xl font-semibold text-muted-foreground">
-            No posts found
-          </p>
-        </div>
-      ) : (
-        <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
-          {randomPosts.map((randomPost) => (
-            <PostCard key={randomPost.id} post={randomPost} />
-          ))}
-        </div>
+      {randomPosts.length > 0 && (
+        <>
+          <div className="relative mb-20 mt-10 sm:mt-20">
+            <div
+              className="absolute inset-0 flex items-center"
+              aria-hidden="true"
+            >
+              <div className="w-full border-t border-border"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-background px-2 text-sm">
+                Continue Reading
+              </span>
+            </div>
+          </div>
+
+          <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
+            {randomPosts.map((randomPost) => (
+              <PostCard key={randomPost.id} post={randomPost} />
+            ))}
+          </div>
+        </>
       )}
     </>
   );

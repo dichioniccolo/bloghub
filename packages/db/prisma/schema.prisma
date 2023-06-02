@@ -93,17 +93,23 @@ enum NotificationType {
   REMOVED_FROM_PROJECT
 }
 
+enum NotificationStatus {
+  UNREAD
+  READ
+  ARCHIVED
+}
+
 model Notification {
-  id         String           @id @default(cuid())
-  userId     String
-  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type       NotificationType
-  body       Json
-  createdAt  DateTime         @default(now())
-  archivedAt DateTime?
+  id             String             @id @default(cuid())
+  notificationId String             @unique
+  userId         String
+  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           NotificationType
+  body           Json
+  status         NotificationStatus @default(UNREAD)
+  createdAt      DateTime           @default(now())
 
   @@index([userId])
-  @@index([archivedAt])
 }
 
 model VerificationToken {

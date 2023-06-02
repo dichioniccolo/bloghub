@@ -6,6 +6,7 @@ import { authOptions, getLoginUrl } from "@acme/auth";
 import { EmailNotificationSettingType, prisma } from "@acme/db";
 import { LoginLink, WelcomeEmail, sendMail } from "@acme/emails";
 
+import { AppRoutes } from "@acme/common/routes";
 import { env } from "~/env.mjs";
 
 const handler = NextAuth({
@@ -78,7 +79,7 @@ const handler = NextAuth({
       const unsubscribeUrl = await getLoginUrl(
         user.email,
         expiresAt,
-        `${env.NEXT_PUBLIC_APP_URL}/settings/notifications`,
+        `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
       );
 
       await sendMail({

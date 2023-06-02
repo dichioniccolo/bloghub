@@ -1,10 +1,11 @@
+import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
 import { type NotificationType } from "@acme/db";
 
 import { qstashClient } from "./lib/client";
 
-export type AppNotification =
+export type AppNotification = { id: string } & (
   | {
       type: typeof NotificationType.PROJECT_INVITATION;
       data: ProjectInvitationNotificationData;
@@ -12,7 +13,8 @@ export type AppNotification =
   | {
       type: typeof NotificationType.REMOVED_FROM_PROJECT;
       data: RemovedFromProjectNotificationData;
-    };
+    }
+);
 
 export const ProjectInvitationNotificationSchema = z.object({
   projectId: z.string().nonempty(),
@@ -39,6 +41,7 @@ export async function publishNotification<T extends AppNotification["type"]>(
   await qstashClient.publishJSON({
     topic: "notifications",
     body: {
+      id: createId(),
       type,
       data,
     },
