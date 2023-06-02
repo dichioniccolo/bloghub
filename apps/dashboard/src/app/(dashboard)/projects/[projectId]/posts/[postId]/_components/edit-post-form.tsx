@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 
+import { type Role } from "@acme/db";
 import {
-  Button,
   Form,
   FormControl,
   FormField,
@@ -24,12 +24,14 @@ import {
   type EditPostSchemaType,
 } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
+import { EditPostFormToolbar } from "./edit-post-form-toolbar";
 
 type Props = {
   post: NonNullable<GetPost>;
+  currentUserRole: Role;
 };
 
-export function EditPostForm({ post }: Props) {
+export function EditPostForm({ post, currentUserRole }: Props) {
   const user = useUser();
   const { mutate } = useZact(updatePost);
 
@@ -56,6 +58,7 @@ export function EditPostForm({ post }: Props) {
     >
       {({ formState, handleSubmit }) => (
         <>
+          <EditPostFormToolbar post={post} currentUserRole={currentUserRole} />
           <LeaveConfirm formState={formState} />
           <FormField
             name="title"
@@ -98,14 +101,6 @@ export function EditPostForm({ post }: Props) {
             />
           </div>
           <div className="my-4 flex items-center justify-between gap-4">
-            <div className="flex gap-4">
-              <Button type="submit">
-                {formState.isSubmitting && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Save
-              </Button>
-            </div>
             <Link
               href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
               target="_blank"

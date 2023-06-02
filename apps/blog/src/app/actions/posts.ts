@@ -2,6 +2,8 @@
 
 import { prisma, type Prisma } from "@acme/db";
 
+import { generateRandomIndices } from "~/lib/utils";
+
 const skip = (page: number, perPage: number) => (page - 1) * perPage;
 const take = (perPage: number) => perPage;
 
@@ -51,6 +53,7 @@ export async function getPostBySlug(domain: string, slug: string) {
       },
     },
     select: {
+      id: true,
       title: true,
       contentHtml: true,
       createdAt: true,
@@ -62,4 +65,51 @@ export async function getPostBySlug(domain: string, slug: string) {
       },
     },
   });
+}
+
+export async function getRandomPostsByDomain(
+  domain: string,
+  currentPostId: string,
+) {
+  const posts = await prisma.post.findMany({
+    where: {
+      project: {
+        domain,
+      },
+      NOT: {
+        id: currentPostId,
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const postIds = posts.map((post) => post.id);
+
+  const randomIndices = generateRandomIndices(postIds.length, 3);
+
+  const ids = randomIndices.map((index) => postIds[index]).filter(Boolean);
+
+  const selectedPosts = await prisma.post.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      contentHtml: true,
+      createdAt: true,
+      _count: {
+        select: {
+          likedBy: true,
+        },
+      },
+    },
+  });
+
+  return selectedPosts;
 }

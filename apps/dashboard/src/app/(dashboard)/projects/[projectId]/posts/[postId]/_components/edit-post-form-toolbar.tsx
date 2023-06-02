@@ -1,5 +1,7 @@
 "use client";
 
+import { useFormContext } from "react-hook-form";
+
 import { type Role } from "@acme/db";
 import { Button } from "@acme/ui";
 
@@ -17,6 +19,9 @@ type Props = {
 
 export function EditPostFormToolbar({ post, currentUserRole }: Props) {
   const user = useUser();
+  const {
+    formState: { isSubmitting },
+  } = useFormContext();
 
   const { mutate, isRunning } = useZact(togglePublishedPost);
 
@@ -30,8 +35,14 @@ export function EditPostFormToolbar({ post, currentUserRole }: Props) {
 
   return (
     <div className="flex justify-end gap-2">
+      <Button type="submit">
+        {isSubmitting && (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        )}
+        Save
+      </Button>
       {currentUserRole === "OWNER" && (
-        <Button disabled={isRunning} onClick={onToggleHidden}>
+        <Button type="button" disabled={isRunning} onClick={onToggleHidden}>
           {isRunning ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : (

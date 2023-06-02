@@ -16,3 +16,24 @@ export function parseRequest(req: NextRequest) {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+/**
+ *
+ * @param range the number of indicies to generate from
+ * @param count the number of indicies to generate
+ */
+export function generateRandomIndices(range: number, count: number): number[] {
+  const indicies = new Set<number>();
+
+  if (range < count) {
+    count = range;
+  }
+
+  while (indicies.size < count) {
+    const randomIndex = Math.floor(Math.random() * range);
+
+    indicies.add(randomIndex);
+  }
+
+  return Array.from(indicies);
+}

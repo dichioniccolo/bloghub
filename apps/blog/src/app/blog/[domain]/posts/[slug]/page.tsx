@@ -5,7 +5,7 @@ import { format } from "date-fns";
 
 import { BlurImage, HtmlView } from "@acme/ui";
 
-import { getPostBySlug } from "~/app/actions/posts";
+import { getPostBySlug, getRandomPostsByDomain } from "~/app/actions/posts";
 import { summarize } from "~/lib/text";
 
 type Props = {
@@ -34,6 +34,8 @@ export default async function Page({ params: { domain, slug } }: Props) {
   if (!post) {
     return notFound();
   }
+
+  const randomPosts = await getRandomPostsByDomain(domain, post.id);
 
   const { summary } = summarize(post?.contentHtml || "");
 
@@ -79,6 +81,13 @@ export default async function Page({ params: { domain, slug } }: Props) {
           {/** add who created this post */}
         </div>
       </div>
+      {/* <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
+        <BlurImage
+          alt={post.title}
+          src={post.thumbnail}
+          className="h-full w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
+        />
+      </div> */}
       <HtmlView
         html={post.contentHtml}
         className="m-auto w-11/12 sm:w-3/4"
@@ -91,6 +100,32 @@ export default async function Page({ params: { domain, slug } }: Props) {
         <div className="relative flex justify-center">
           <span className="bg-background px-2 text-sm">Continue Reading</span>
         </div>
+      </div>
+      <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
+        {randomPosts.map((randomPost) => {
+          const { summary } = summarize(randomPost?.contentHtml || "");
+
+          return (
+            <Link key={randomPost.id} href={`/posts/${randomPost.slug}`}>
+              <div className="ease overflow-hidden rounded-2xl border-2 border-border bg-card shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
+                {/* <BlurImage alt={randomPost.title} src={randomPost.thumbnail} /> */}
+                <div className="h-36 border-t border-border px-5 py-8">
+                  <h3 className="font-cal text-xl tracking-wide">
+                    {randomPost.title}
+                  </h3>
+                  <HtmlView
+                    html={summary}
+                    as="p"
+                    className="text-md my-2 truncate italic"
+                  />
+                  <p className="my-2 text-sm text-muted-foreground">
+                    Published {format(randomPost.createdAt, "MMMM dd, yyyy")}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
     // <article>
