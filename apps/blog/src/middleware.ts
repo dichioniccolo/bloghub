@@ -1,9 +1,14 @@
-import { NextResponse, type NextRequest } from "next/server";
+import {
+  NextResponse,
+  type NextFetchEvent,
+  type NextRequest,
+} from "next/server";
 
 import { env } from "./env.mjs";
+import { recordVisit } from "./lib/middleware-utils";
 import { parseRequest } from "./lib/utils";
 
-export default function middleware(req: NextRequest) {
+export default function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain, keys } = parseRequest(req);
 
   const testDomain = "test.niccolodichio.it";
@@ -14,15 +19,15 @@ export default function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // if (keys === "/") {
-  //   return NextResponse.rewrite(new URL(`/blog/${finalDomain}`, req.url));
-  // }
-
   const url = new URL(req.url);
 
-  return NextResponse.rewrite(
+  const response = NextResponse.rewrite(
     new URL(`/blog/${finalDomain}${keys}?${url.searchParams.toString()}`, url),
   );
+
+  ev.waitUntil(recordVisit(req, finalDomain));
+
+  return response;
 }
 
 export const config = {

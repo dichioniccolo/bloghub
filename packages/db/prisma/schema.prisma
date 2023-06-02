@@ -9,7 +9,7 @@ generator client {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL") // uses connection pooling
-  // directUrl         = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+  directUrl    = env("DATABASE_URL_DIRECT") // uses a direct connection
   // shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
   relationMode = "prisma"
 }
