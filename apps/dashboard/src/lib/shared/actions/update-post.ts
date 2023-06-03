@@ -5,7 +5,6 @@ import { z } from "zod";
 import { deleteUnusedMediaInPost } from "@acme/common/actions";
 import { prisma } from "@acme/db";
 
-import { markdownToHtml } from "~/lib/utils";
 import { zact } from "~/lib/zact/server";
 
 export const updatePost = zact(
@@ -16,6 +15,7 @@ export const updatePost = zact(
       postId: z.string(),
       body: z.object({
         title: z.string().min(3).max(128),
+        description: z.string().optional(),
         content: z.string(),
       }),
     })
@@ -63,8 +63,8 @@ export const updatePost = zact(
     },
     data: {
       title: body.title,
+      description: body.description,
       content: body.content,
-      contentHtml: markdownToHtml(body.content),
     },
   });
 

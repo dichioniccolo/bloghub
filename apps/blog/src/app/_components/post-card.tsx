@@ -3,22 +3,16 @@ import { format } from "date-fns";
 
 import { BlogRoutes } from "@acme/common/routes";
 import { type Post } from "@acme/db";
-import { BlurImage, HtmlView } from "@acme/ui";
-
-import { summarize, thumbnail } from "~/lib/text";
 
 type Props = {
-  post: Pick<Post, "slug" | "title" | "contentHtml" | "createdAt">;
+  post: Pick<Post, "slug" | "title" | "content" | "createdAt">;
 };
 
 export function PostCard({ post }: Props) {
-  const { summary } = summarize(post?.contentHtml || "");
-  const img = thumbnail(post?.contentHtml || "");
-
   return (
     <Link href={BlogRoutes.Post(post.slug)}>
       <div className="ease overflow-hidden rounded-2xl border border-border bg-card shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
-        {img && (
+        {/* {img && (
           <BlurImage
             alt={post.title}
             src={img}
@@ -26,10 +20,10 @@ export function PostCard({ post }: Props) {
             height={400}
             className="h-64 w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
           />
-        )}
+        )} */}
         <div className="h-36 border-t border-border px-5 py-8">
           <h3 className="font-cal text-xl tracking-wide">{post.title}</h3>
-          <HtmlView html={summary} className="text-md my-2 truncate italic" />
+          {/* <HtmlView html={summary} className="text-md my-2 truncate italic" /> */}
           <p className="my-2 text-sm text-muted-foreground">
             Published {format(post.createdAt, "MMMM dd, yyyy")}
           </p>

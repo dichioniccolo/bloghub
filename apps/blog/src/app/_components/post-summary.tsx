@@ -2,18 +2,15 @@ import Link from "next/link";
 import { formatDistance, formatISO } from "date-fns";
 
 import { BlogRoutes } from "@acme/common/routes";
-import { HtmlView } from "@acme/ui";
 
-import { Icons } from "~/components/icons";
 import { type GetPostsProjectByDomain } from "~/app/actions/posts";
-import { summarize } from "~/lib/text";
 
 type Props = {
   post: GetPostsProjectByDomain[number];
 };
 
 export function PostSummary({ post }: Props) {
-  const { summary, hasMore } = summarize(post.contentHtml);
+  // const { summary, hasMore } = summarize(post.contentHtml);
 
   return (
     <div>
@@ -31,17 +28,17 @@ export function PostSummary({ post }: Props) {
         </p>
       </div>
 
-      <HtmlView html={summary} className="mt-4" />
+      {/* <HtmlView html={summary} className="mt-4" /> */}
 
       <div className="clear-both mt-4 flex items-center gap-4">
-        {hasMore && (
+        {/* {hasMore && (
           <Link
             href={BlogRoutes.Post(post.slug)}
             className="text-blue inline-flex items-center font-medium transition-colors"
           >
             Continue reading <Icons.chevronRight className="ml-2 h-4 w-4" />
           </Link>
-        )}
+        )} */}
 
         {/* <div className="ml-auto flex gap-6">
             <Tooltip>

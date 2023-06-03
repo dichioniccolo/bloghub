@@ -1,15 +1,9 @@
 import { type NextRequest } from "next/server";
 import { clsx, type ClassValue } from "clsx";
-import DOMPurify from "isomorphic-dompurify";
-import { marked } from "marked";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-export function markdownToHtml(markdown: string) {
-  return DOMPurify.sanitize(marked.parse(markdown, { breaks: true }));
 }
 
 export function parseRequest(req: NextRequest) {

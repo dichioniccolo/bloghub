@@ -56,7 +56,12 @@ const securityHeaders = [
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ["avatar.vercel.sh", "cdn.bloghub.it"],
+    domains: [
+      "avatar.vercel.sh",
+      "cdn.bloghub.it",
+      "abs.twimg.com",
+      "pbs.twimg.com",
+    ],
   },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: ["@acme/db"],

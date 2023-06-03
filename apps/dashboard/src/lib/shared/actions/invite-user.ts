@@ -1,5 +1,6 @@
 "use server";
 
+import { AppRoutes } from "@acme/common/routes";
 import { NotificationType, prisma, Role } from "@acme/db";
 import { publishNotification } from "@acme/notifications";
 
@@ -84,5 +85,5 @@ export const inviteUser = zact(
     });
   });
 
-  revalidatePath(`/projects/${projectId}/settings/members`);
+  revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));
 });

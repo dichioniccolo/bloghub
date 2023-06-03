@@ -172,19 +172,20 @@ model Invite {
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  projectId   String
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  title       String
-  slug        String
-  content     String   @db.Text
-  contentHtml String   @db.Text
-  hidden      Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  visit       Visit[]
-  media       Media[]
-  likedBy     Like[]
+  id           String   @id @default(cuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  thumbnailUrl String?
+  slug         String
+  content      String   @db.Text
+  hidden       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  visit        Visit[]
+  media        Media[]
+  likedBy      Like[]
 
   @@unique([projectId, slug])
   @@index([projectId])

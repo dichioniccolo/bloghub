@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useRef,
   useState,
   type ChangeEvent,
@@ -8,6 +9,7 @@ import {
   type DragEvent,
   type KeyboardEvent,
 } from "react";
+import { type MDXRemoteSerializeResult } from "next-mdx-remote";
 import TextareaAutosize, {
   type TextareaAutosizeProps,
 } from "react-textarea-autosize";
@@ -16,10 +18,10 @@ import TextareaMarkdown, {
   type TextareaMarkdownRef,
 } from "textarea-markdown-editor";
 
-import { HtmlView, Label, Switch } from "@acme/ui";
+import { Label, MdxContent, Switch } from "@acme/ui";
 
 import { filesWithTypes, uploadFiles } from "~/lib/editor";
-import { cn, markdownToHtml } from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { Icons, type Icon } from "./icons";
 
 type MarkdownEditorProps = {
@@ -33,78 +35,6 @@ type MarkdownEditorProps = {
   TextareaAutosizeProps,
   "value" | "onChange" | "onKeyDown" | "onInput" | "onPaste" | "onDrop"
 >;
-
-// type SuggestionResult = {
-//   value: string;
-//   label: string;
-// };
-
-// type SuggestionPosition = {
-//   top: number;
-//   left: number;
-// };
-
-// type SuggestionType = "mention" | "emoji";
-
-// type SuggestionState = {
-//   isOpen: boolean;
-//   type: SuggestionType | null;
-//   position: SuggestionPosition | null;
-//   triggerIndex: number | null;
-//   query: string;
-// };
-
-// type SuggestionActionType =
-//   | {
-//       type: "open";
-//       payload: {
-//         type: SuggestionType;
-//         position: SuggestionPosition;
-//         triggerIndex: number;
-//         query: string;
-//       };
-//     }
-//   | {
-//       type: "close";
-//     }
-//   | {
-//       type: "updateQuery";
-//       payload: string;
-//     };
-
-// function suggestionReducer(
-//   state: SuggestionState,
-//   action: SuggestionActionType,
-// ): SuggestionState {
-//   switch (action.type) {
-//     case "open": {
-//       return {
-//         ...state,
-//         isOpen: true,
-//         type: action.payload.type,
-//         position: action.payload.position,
-//         triggerIndex: action.payload.triggerIndex,
-//         query: action.payload.query,
-//       };
-//     }
-//     case "close": {
-//       return {
-//         ...state,
-//         isOpen: false,
-//         type: null,
-//         position: null,
-//         triggerIndex: null,
-//         query: "",
-//       };
-//     }
-//     case "updateQuery": {
-//       return {
-//         ...state,
-//         query: action.payload,
-//       };
-//     }
-//   }
-// }
 
 type ToolbarItem = {
   commandTrigger: CommandType;
@@ -155,18 +85,6 @@ const TOOLBAR_ITEMS = [
   },
 ] satisfies ToolbarItem[];
 
-function MarkdownPreview({ markdown }: { markdown?: string }) {
-  return (
-    <div className="mt-8 border-b pb-6">
-      {markdown ? (
-        <HtmlView html={markdownToHtml(markdown)} />
-      ) : (
-        <p>Nothing to preview</p>
-      )}
-    </div>
-  );
-}
-
 export function MarkdownEditor({
   userId,
   projectId,
@@ -178,24 +96,44 @@ export function MarkdownEditor({
   ...props
 }: MarkdownEditorProps) {
   const textareaMarkdownRef = useRef<TextareaMarkdownRef>(null);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>();
   const [showPreview, setShowPreview] = useState(false);
-  // const [suggestionState, dispatchSuggestion] = useReducer(suggestionReducer, {
-  //   isOpen: false,
-  //   type: null,
-  //   position: null,
-  //   triggerIndex: null,
-  //   query: "",
-  // });
-
-  // function closeSuggestion() {
-  //   dispatchSuggestion({ type: "close" });
-  // }
 
   function onValueChange(event: ChangeEvent<HTMLTextAreaElement>) {
     onChange(event.target.value);
-
-    // const {} = getSuggestionData(event.currentTarget);
   }
+
+  const onTogglePreview = useCallback(async () => {
+    if (showPreview) {
+      setShowPreview((showPreview) => !showPreview);
+      return;
+    }
+
+    if (!value) {
+      setShowPreview((showPreview) => !showPreview);
+      return;
+    }
+
+    setLoadingPreview(true);
+    const response = await fetch("/api/mdx/preview", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ value }),
+    });
+
+    const { mdxSource } = (await response.json()) as {
+      mdxSource: MDXRemoteSerializeResult | null;
+    };
+
+    setMdxSource(mdxSource);
+
+    setShowPreview((showPreview) => !showPreview);
+
+    setLoadingPreview(false);
+  }, [showPreview, value]);
 
   async function onDrop(event: DragEvent<HTMLTextAreaElement>) {
     const filesArray = Array.from(event.dataTransfer.files);
@@ -257,7 +195,7 @@ export function MarkdownEditor({
                 textareaMarkdownRef.current?.trigger(item.commandTrigger);
               }}
               className={cn(
-                "focus-ring inline-flex h-8 w-8 items-center justify-center rounded focus:border disabled:cursor-default disabled:opacity-50",
+                "inline-flex h-8 w-8 items-center justify-center rounded focus:border disabled:cursor-default disabled:opacity-50",
                 !showPreview && "hover:text-blue transition-colors",
               )}
               disabled={showPreview}
@@ -272,7 +210,7 @@ export function MarkdownEditor({
           <Switch
             id="preview"
             checked={showPreview}
-            onCheckedChange={setShowPreview}
+            onCheckedChange={onTogglePreview}
           />
           <Label htmlFor="preview">Switch Preview</Label>
         </div>
@@ -291,25 +229,16 @@ export function MarkdownEditor({
             onPaste={onPaste}
             onDrop={onDrop}
             onKeyDown={onKeyDown}
-            className="focus-ring block w-full rounded border-secondary bg-secondary shadow-sm"
+            className="block w-full rounded border-secondary bg-secondary shadow-sm"
             minRows={minRows}
           />
         </TextareaMarkdown.Wrapper>
       </div>
 
-      {showPreview && <MarkdownPreview markdown={value} />}
+      {loadingPreview && <Icons.spinner className="h-12 w-12 animate-spin" />}
+      {!loadingPreview && showPreview && mdxSource && (
+        <MdxContent source={mdxSource} />
+      )}
     </div>
   );
 }
-
-// type SuggestionProps = {
-//   state: SuggestionState,
-//   onSelect(state: SuggestionResult): void;
-//   onClose(): void;
-// }
-
-// function Suggestion({ state, onSelect, onClose }: SuggestionProps) {
-//   const isMentionType = state.type === 'mention';
-//   const isEmojiType = state.type === 'emoji';
-
-// }

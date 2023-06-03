@@ -1,12 +1,12 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
+import { serialize } from "next-mdx-remote/serialize";
 
-import { BlurImage, HtmlView } from "@acme/ui";
+import { MdxContent } from "@acme/ui";
 
 import { PostCard } from "~/app/_components/post-card";
 import { getPostBySlug, getRandomPostsByDomain } from "~/app/actions/posts";
-import { summarize, thumbnail } from "~/lib/text";
 
 type Props = {
   params: {
@@ -20,11 +20,11 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const post = await getPostBySlug(domain, slug);
 
-  const { summary } = summarize(post?.contentHtml || "");
+  // const { summary } = summarize(post?.contentHtml || "");
 
   return {
     title: `${post?.title} | ${post?.project.name}'s Blog`,
-    description: summary,
+    // description: summary,
   };
 }
 
@@ -38,8 +38,10 @@ export default async function Page({ params: { domain, slug } }: Props) {
     return notFound();
   }
 
-  const { summary } = summarize(post?.contentHtml || "");
-  const img = thumbnail(post?.contentHtml || "");
+  const mdxSource = await serialize(post.content);
+
+  // const { summary } = summarize(post?.contentHtml || "");
+  // const img = thumbnail(post?.contentHtml || "");
 
   return (
     <>
@@ -52,15 +54,15 @@ export default async function Page({ params: { domain, slug } }: Props) {
             <h1 className="font-cal mb-10 text-3xl font-bold text-primary md:text-6xl">
               {post.title}
             </h1>
-            <HtmlView
+            {/* <HtmlView
               html={summary}
               className="text-md m-auto w-10/12 text-secondary-foreground md:text-lg"
-            />
+            /> */}
           </div>
           {/** add who created this post */}
         </div>
       </div>
-      {img && (
+      {/* {img && (
         <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
           <BlurImage
             alt={post.title}
@@ -70,12 +72,8 @@ export default async function Page({ params: { domain, slug } }: Props) {
             className="h-full w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
           />
         </div>
-      )}
-      <HtmlView
-        html={post.contentHtml}
-        className="m-auto w-11/12 sm:w-3/4"
-        as="article"
-      />
+      )} */}
+      <MdxContent source={mdxSource} className="m-auto w-11/12 sm:w-3/4" />
       {randomPosts.length > 0 && (
         <>
           <div className="relative mb-20 mt-10 sm:mt-20">

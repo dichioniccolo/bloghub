@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { createDomain } from "@acme/common/external/vercel";
-import { Role, prisma } from "@acme/db";
+import { AppRoutes } from "@acme/common/routes";
+import { prisma, Role } from "@acme/db";
 
 import { zact } from "../../zact/server";
 import { DomainSchema } from "./schemas";
@@ -33,7 +34,7 @@ export const createProject = zact(
     },
   });
 
-  revalidatePath("/");
+  revalidatePath(AppRoutes.Dashboard);
 
   return project;
 });

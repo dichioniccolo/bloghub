@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 import {
   Button,
@@ -15,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
+  inputVariants,
 } from "@acme/ui";
 
 import { useUser } from "~/hooks/use-user";
@@ -36,29 +37,14 @@ type Props = {
 function CreatePostDialog({ projectId, open, setOpen }: Props) {
   const user = useUser();
 
-  const { toast } = useToast();
-
   const { mutate } = useZact(createPost);
 
-  async function onSubmit({ title }: CreatePostSchemaType) {
-    const post = await mutate({
+  async function onSubmit({ title, description }: CreatePostSchemaType) {
+    await mutate({
       userId: user.id,
       projectId,
       title,
-    });
-
-    if (!post) {
-      toast({
-        title: "Post could not be created",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setOpen(false);
-
-    toast({
-      title: "Post created",
+      description,
     });
   }
 
@@ -89,6 +75,24 @@ function CreatePostDialog({ projectId, open, setOpen }: Props) {
                         autoCorrect="off"
                         disabled={isSubmitting}
                         {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <TextareaAutosize
+                        {...field}
+                        disabled={isSubmitting}
+                        placeholder="A description for your post"
+                        className={inputVariants({})}
+                        minRows={4}
                       />
                     </FormControl>
                     <FormMessage />

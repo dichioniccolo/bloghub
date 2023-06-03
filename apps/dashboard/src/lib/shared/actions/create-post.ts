@@ -1,9 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { nanoid } from "nanoid";
+import { redirect } from "next/navigation";
+import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
+import { AppRoutes } from "@acme/common/routes";
 import { prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
@@ -13,7 +14,8 @@ export const createPost = zact(
     .object({
       userId: z.string(),
       projectId: z.string(),
-      title: z.string().min(3),
+      title: z.string().min(3).max(128),
+      description: z.string().optional(),
     })
     .superRefine(async (input, ctx) => {
       const { projectId, userId } = input;
@@ -37,12 +39,13 @@ export const createPost = zact(
         });
       }
     }),
-)(async ({ projectId, title }) => {
-  const slug = nanoid().toLowerCase();
+)(async ({ projectId, title, description }) => {
+  const slug = createId().toLowerCase();
 
   const post = await prisma.post.create({
     data: {
       title,
+      description,
       slug,
       project: {
         connect: {
@@ -51,11 +54,11 @@ export const createPost = zact(
       },
       hidden: true,
       content: "",
-      contentHtml: "",
     },
   });
 
-  revalidatePath(`/projects/${projectId}`);
+  // revalidatePath(AppRoutes.ProjectDashboard(projectId));
+  redirect(AppRoutes.PostEditor(projectId, post.id));
 
-  return post;
+  // return post;
 });

@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { Role, prisma } from "@acme/db";
+import { AppRoutes } from "@acme/common/routes";
+import { prisma, Role } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -58,5 +59,5 @@ export const deletePost = zact(
     },
   });
 
-  revalidatePath(`/projects/${projectId}`);
+  revalidatePath(AppRoutes.ProjectDashboard(projectId));
 });

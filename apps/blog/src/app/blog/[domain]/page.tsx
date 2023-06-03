@@ -1,10 +1,10 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { Pagination } from "~/app/_components/pagination";
+import { PostSummary } from "~/app/_components/post-summary";
 import { getPostsByDomain } from "~/app/actions/posts";
 import { getProjectByDomain } from "~/app/actions/projects";
-import { Pagination } from "./pagination";
-import { PostSummary } from "./post-summary";
 
 type Props = {
   params: {

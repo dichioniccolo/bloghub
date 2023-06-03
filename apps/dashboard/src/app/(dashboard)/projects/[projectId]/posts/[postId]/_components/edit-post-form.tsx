@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import TextareaAutosize from "react-textarea-autosize";
 
 import { type Role } from "@acme/db";
 import {
@@ -11,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  inputVariants,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -35,7 +37,7 @@ export function EditPostForm({ post, currentUserRole }: Props) {
   const user = useUser();
   const { mutate } = useZact(updatePost);
 
-  async function onSubmit({ title, content }: EditPostSchemaType) {
+  async function onSubmit({ title, content, description }: EditPostSchemaType) {
     await mutate({
       userId: user.id,
       projectId: post.projectId,
@@ -43,6 +45,7 @@ export function EditPostForm({ post, currentUserRole }: Props) {
       body: {
         title,
         content,
+        description,
       },
     });
   }
@@ -72,6 +75,24 @@ export function EditPostForm({ post, currentUserRole }: Props) {
                     autoComplete="title"
                     autoCorrect="off"
                     disabled={formState.isSubmitting}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <TextareaAutosize
+                    disabled={formState.isSubmitting}
+                    placeholder="A description for your post"
+                    className={inputVariants({})}
+                    minRows={4}
                     {...field}
                   />
                 </FormControl>

@@ -1,6 +1,6 @@
 "use server";
 
-import { nanoid } from "nanoid";
+import { createId } from "@paralleldrive/cuid2";
 
 import { uploadFile } from "@acme/common/external/media/actions";
 import { prisma, type Media, type MediaType } from "@acme/db";
@@ -41,7 +41,7 @@ export async function createProjectMedia(formData: FormData): Promise<Media> {
 
   const file = formData.get("file") as File;
 
-  const fileName = `projects/${projectId}/posts/${postId}/assets/${nanoid()}`;
+  const fileName = `projects/${projectId}/posts/${postId}/assets/${createId()}`;
 
   const type = formData.get("type") as MediaType;
 

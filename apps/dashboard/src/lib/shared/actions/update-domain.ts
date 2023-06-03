@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { createDomain, deleteDomain } from "@acme/common/external/vercel";
+import { AppRoutes } from "@acme/common/routes";
 import { prisma } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
@@ -29,5 +30,5 @@ export const updateDomain = zact(
     },
   });
 
-  revalidatePath(`/projects/${projectId}/settings`);
+  revalidatePath(AppRoutes.ProjectSettings(projectId));
 });
