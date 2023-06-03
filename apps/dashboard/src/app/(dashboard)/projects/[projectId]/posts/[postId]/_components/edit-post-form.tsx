@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  inputVariants,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -56,6 +55,7 @@ export function EditPostForm({ post, currentUserRole }: Props) {
       initialValues={{
         title: post.title ?? "",
         content: post.content ?? "",
+        description: post.description ?? "",
       }}
       onSubmit={onSubmit}
     >
@@ -91,7 +91,7 @@ export function EditPostForm({ post, currentUserRole }: Props) {
                   <TextareaAutosize
                     disabled={formState.isSubmitting}
                     placeholder="A description for your post"
-                    className={inputVariants({})}
+                    className="block w-full rounded border-secondary bg-transparent shadow-sm"
                     minRows={4}
                     {...field}
                   />

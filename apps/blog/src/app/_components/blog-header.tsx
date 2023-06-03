@@ -17,7 +17,7 @@ export async function BlogHeader({ domain }: Props) {
   }
 
   return (
-    <div className="ease sticky left-0 right-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20">
+    <div className="ease sticky left-0 right-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20 shadow-md">
       <div className="flex h-full">
         <Link
           href="/"

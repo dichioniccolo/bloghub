@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { serialize } from "next-mdx-remote/serialize";
 
-import { MdxContent } from "@acme/ui";
+import { BlurImage, MdxContent } from "@acme/ui";
 
 import { PostCard } from "~/app/_components/post-card";
 import { getPostBySlug, getRandomPostsByDomain } from "~/app/actions/posts";
@@ -20,11 +20,9 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const post = await getPostBySlug(domain, slug);
 
-  // const { summary } = summarize(post?.contentHtml || "");
-
   return {
     title: `${post?.title} | ${post?.project.name}'s Blog`,
-    // description: summary,
+    description: post?.description,
   };
 }
 
@@ -40,9 +38,6 @@ export default async function Page({ params: { domain, slug } }: Props) {
 
   const mdxSource = await serialize(post.content);
 
-  // const { summary } = summarize(post?.contentHtml || "");
-  // const img = thumbnail(post?.contentHtml || "");
-
   return (
     <>
       <div className="my-20">
@@ -54,25 +49,24 @@ export default async function Page({ params: { domain, slug } }: Props) {
             <h1 className="font-cal mb-10 text-3xl font-bold text-primary md:text-6xl">
               {post.title}
             </h1>
-            {/* <HtmlView
-              html={summary}
-              className="text-md m-auto w-10/12 text-secondary-foreground md:text-lg"
-            /> */}
+            <p className="text-md m-auto w-10/12 text-secondary-foreground md:text-lg">
+              {post.description}
+            </p>
           </div>
           {/** add who created this post */}
         </div>
       </div>
-      {/* {img && (
+      {post.thumbnailUrl && (
         <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
           <BlurImage
             alt={post.title}
-            src={img}
+            src={post.thumbnailUrl}
             width={1280}
             height={720}
             className="h-full w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
           />
         </div>
-      )} */}
+      )}
       <MdxContent source={mdxSource} className="m-auto w-11/12 sm:w-3/4" />
       {randomPosts.length > 0 && (
         <>

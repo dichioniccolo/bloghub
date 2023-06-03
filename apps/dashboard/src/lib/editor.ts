@@ -38,7 +38,7 @@ function determineMediaType(file: File): MediaType | null {
 export function getHtmlByMedia(file: File, media: Media) {
   switch (media.type) {
     case "IMAGE":
-      return `<img alt="${file.name}" src="${media.url}">`;
+      return `<img alt="${file.name}" src="${media.url}" />`;
     case "VIDEO":
       return `<video controls src="${media.url}"></video>`;
     case "AUDIO":

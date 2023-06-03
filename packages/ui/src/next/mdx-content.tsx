@@ -1,6 +1,6 @@
 "use client";
 
-import { type HTMLProps } from "react";
+import { type DetailedHTMLProps, type PropsWithoutRef } from "react";
 import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 
 import { BlurImage } from "../components";
@@ -15,14 +15,21 @@ type MdxContentProps = {
 /** Place your custom MDX components here */
 const MdxComponents = {
   a: replaceLinks,
-  img: (props: HTMLProps<HTMLImageElement>) => (
+  img: (
+    props: PropsWithoutRef<
+      DetailedHTMLProps<
+        React.ImgHTMLAttributes<HTMLImageElement>,
+        HTMLImageElement
+      >
+    >,
+  ) => (
     <BlurImage
       {...props}
       src={props.src ?? ""}
       alt={props.alt ?? ""}
-      width={1280}
-      height={720}
-      placeholder="blur"
+      width={1920}
+      height={1080}
+      placeholder="empty"
     />
   ),
   /** h1 colored in yellow */
@@ -35,12 +42,12 @@ export function MdxContent({ source, className }: MdxContentProps) {
   return (
     <article
       className={cn(
-        "prose-md prose mx-auto mt-8 border-b pb-6 text-primary sm:prose-lg",
+        "prose-md dark:prose-dark prose mx-auto mt-8 pb-6 text-primary sm:prose-lg",
         className,
       )}
       suppressHydrationWarning={true}
     >
-      <MDXRemote {...source} components={MdxComponents} />
+      <MDXRemote {...source} components={MdxComponents} lazy />
     </article>
   );
 }

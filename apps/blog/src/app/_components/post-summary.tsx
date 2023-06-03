@@ -3,6 +3,7 @@ import { formatDistance, formatISO } from "date-fns";
 
 import { BlogRoutes } from "@acme/common/routes";
 
+import { Icons } from "~/components/icons";
 import { type GetPostsProjectByDomain } from "~/app/actions/posts";
 
 type Props = {
@@ -10,8 +11,6 @@ type Props = {
 };
 
 export function PostSummary({ post }: Props) {
-  // const { summary, hasMore } = summarize(post.contentHtml);
-
   return (
     <div>
       <Link href={BlogRoutes.Post(post.slug)}>
@@ -27,26 +26,14 @@ export function PostSummary({ post }: Props) {
           </time>
         </p>
       </div>
-
-      {/* <HtmlView html={summary} className="mt-4" /> */}
-
+      <p className="mt-4">{post.description}</p>
       <div className="clear-both mt-4 flex items-center gap-4">
-        {/* {hasMore && (
-          <Link
-            href={BlogRoutes.Post(post.slug)}
-            className="text-blue inline-flex items-center font-medium transition-colors"
-          >
-            Continue reading <Icons.chevronRight className="ml-2 h-4 w-4" />
-          </Link>
-        )} */}
-
-        {/* <div className="ml-auto flex gap-6">
-            <Tooltip>
-              <TooltipTrigger>
-
-              </TooltipTrigger>
-            </Tooltip>
-          </div> */}
+        <Link
+          href={BlogRoutes.Post(post.slug)}
+          className="text-blue inline-flex items-center font-medium transition-colors"
+        >
+          Continue reading <Icons.chevronRight className="ml-2 h-4 w-4" />
+        </Link>
       </div>
     </div>
   );

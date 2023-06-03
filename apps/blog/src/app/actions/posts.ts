@@ -24,6 +24,7 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
         id: true,
         slug: true,
         title: true,
+        description: true,
         content: true,
         createdAt: true,
         _count: {
@@ -55,6 +56,8 @@ export async function getPostBySlug(domain: string, slug: string) {
     select: {
       id: true,
       title: true,
+      description: true,
+      thumbnailUrl: true,
       content: true,
       createdAt: true,
       project: {
@@ -102,6 +105,8 @@ export async function getRandomPostsByDomain(
       id: true,
       slug: true,
       title: true,
+      description: true,
+      thumbnailUrl: true,
       content: true,
       createdAt: true,
       _count: {

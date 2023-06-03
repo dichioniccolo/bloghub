@@ -176,7 +176,7 @@ model Post {
   projectId    String
   project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   title        String
-  description  String?
+  description  String?  @db.Text
   thumbnailUrl String?
   slug         String
   content      String   @db.Text

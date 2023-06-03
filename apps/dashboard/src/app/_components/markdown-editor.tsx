@@ -207,6 +207,7 @@ export function MarkdownEditor({
         </div>
 
         <div className="flex items-center gap-2">
+          {loadingPreview && <Icons.spinner className="h-4 w-4 animate-spin" />}
           <Switch
             id="preview"
             checked={showPreview}
@@ -229,13 +230,11 @@ export function MarkdownEditor({
             onPaste={onPaste}
             onDrop={onDrop}
             onKeyDown={onKeyDown}
-            className="block w-full rounded border-secondary bg-secondary shadow-sm"
+            className="block w-full rounded border-secondary bg-transparent shadow-sm"
             minRows={minRows}
           />
         </TextareaMarkdown.Wrapper>
       </div>
-
-      {loadingPreview && <Icons.spinner className="h-12 w-12 animate-spin" />}
       {!loadingPreview && showPreview && mdxSource && (
         <MdxContent source={mdxSource} />
       )}

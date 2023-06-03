@@ -56,6 +56,7 @@ export async function getPost(projectId: string, postId: string) {
       id: true,
       title: true,
       content: true,
+      description: true,
       projectId: true,
       hidden: true,
     },

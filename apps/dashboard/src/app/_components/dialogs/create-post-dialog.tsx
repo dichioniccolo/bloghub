@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  inputVariants,
 } from "@acme/ui";
 
 import { useUser } from "~/hooks/use-user";
@@ -88,11 +87,11 @@ function CreatePostDialog({ projectId, open, setOpen }: Props) {
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <TextareaAutosize
-                        {...field}
                         disabled={isSubmitting}
                         placeholder="A description for your post"
-                        className={inputVariants({})}
+                        className="block w-full rounded border-secondary bg-transparent shadow-sm"
                         minRows={4}
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
