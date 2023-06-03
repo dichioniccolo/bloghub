@@ -36,7 +36,12 @@ export default async function Page({ params: { domain, slug } }: Props) {
     return notFound();
   }
 
-  const mdxSource = await serialize(post.content);
+  const mdxSource = await serialize(post.content, {
+    mdxOptions: {
+      remarkPlugins: [],
+      rehypePlugins: [],
+    },
+  });
 
   return (
     <>

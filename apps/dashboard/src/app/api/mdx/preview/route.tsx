@@ -9,7 +9,12 @@ export async function POST(req: Request) {
     });
   }
 
-  const mdxSource = await serialize(value);
+  const mdxSource = await serialize(value, {
+    mdxOptions: {
+      remarkPlugins: [],
+      rehypePlugins: [],
+    },
+  });
 
   return new Response(JSON.stringify({ mdxSource }), {
     status: 200,
