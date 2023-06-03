@@ -19,7 +19,7 @@
     "@t3-oss/env-nextjs": "^0.4.0",
     "aws-crt": "^1.15.17",
     "next-mdx-remote": "^4.4.1",
-    "stripe": "^12.7.0",
+    "stripe": "^12.8.0",
     "unist-util-visit": "^4.1.2",
     "zod": "^3.21.4"
   },
