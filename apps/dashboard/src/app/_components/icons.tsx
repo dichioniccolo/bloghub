@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import {
   AlertCircle,
   ArrowLeft,
@@ -28,6 +29,7 @@ import {
   LogOut,
   Moon,
   MoreHorizontal,
+  MoreVertical,
   Plus,
   PlusCircle,
   QrCode,
@@ -35,10 +37,9 @@ import {
   Share,
   SunMedium,
   Trash2,
-  type Icon as LucideIcon,
   User,
+  type Icon as LucideIcon,
 } from "lucide-react";
-import { type ReactNode } from "react";
 
 import { cn } from "~/lib/utils";
 
@@ -57,6 +58,7 @@ export const Icons = {
   link: Link,
   laptop: Laptop,
   moreH: MoreHorizontal,
+  moreV: MoreVertical,
   share: Share,
   code: Code,
   alertCircle: AlertCircle,

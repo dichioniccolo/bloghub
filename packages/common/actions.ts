@@ -1,6 +1,6 @@
 "use server";
 
-import { Role, prisma } from "@acme/db";
+import { prisma, Role } from "@acme/db";
 
 import { deleteMedias } from "./external/media/actions";
 import { deleteDomain } from "./external/vercel";
@@ -17,7 +17,7 @@ export async function deleteProject(project: { id: string; domain: string }) {
   });
 }
 
-export async function getUserTotalUsage(userId: string) {
+export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
   const usage = await prisma.visit.count({
     where: {
       project: {
@@ -27,6 +27,10 @@ export async function getUserTotalUsage(userId: string) {
             userId,
           },
         },
+      },
+      createdAt: {
+        gte: from,
+        lte: to,
       },
     },
   });

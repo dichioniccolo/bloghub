@@ -2,6 +2,7 @@ import {
   Body,
   Container,
   Heading,
+  Hr,
   Html,
   Img,
   Link,
@@ -52,8 +53,18 @@ export const RemovedFromProject = ({
               Hello {userEmail},
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              you have been removed from project <strong>{projectName}</strong>{" "}
-              on {siteName}.
+              this email is to inform you that you have been removed from
+              project <strong>{projectName}</strong> on {siteName}.
+            </Text>
+            <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
+            <Text className="text-[12px] leading-[24px] text-[#666666]">
+              This email was intended for{" "}
+              <span className="text-black">{userEmail}</span>.
+              {/* This link was
+              sent from <span className="text-black">{linkFromIp}</span> located
+              in <span className="text-black">{linkFromLocation}</span>. */}{" "}
+              If you are concerned about your account&apos;s safety, please
+              reply to this email to get in touch with us.
             </Text>
             <Link
               className="text-center text-xs"

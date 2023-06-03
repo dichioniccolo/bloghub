@@ -11,6 +11,7 @@ import {
   getProjectUsers,
 } from "~/lib/shared/api/projects";
 import { InviteMemberDialog } from "./_components/invite-member-dialog";
+import { ProjectInvitation } from "./_components/project-invitation";
 import { ProjectMember } from "./_components/project-member";
 
 type Props = {
@@ -67,22 +68,17 @@ export default async function AppDashboardProjectSettingsMembersPage({
               key={user.id}
               projectId={project.id}
               currentUserRole={roleOfUser}
-              role={user.role}
-              createdAt={user.createdAt}
-              user={user.user}
+              member={user}
             />
           ))}
         </TabsContent>
         <TabsContent value="invitations" className="space-y-2 divide-y">
           {invites.map((invite) => (
-            <ProjectMember
+            <ProjectInvitation
               key={invite.id}
               projectId={project.id}
               currentUserRole={roleOfUser}
-              createdAt={invite.createdAt}
-              user={{
-                email: invite.email,
-              }}
+              invite={invite}
             />
           ))}
           {invites.length === 0 && (

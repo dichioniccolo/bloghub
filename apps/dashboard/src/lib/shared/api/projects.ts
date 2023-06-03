@@ -5,6 +5,7 @@ import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
 import { prisma } from "@acme/db";
 
 import { $getUser } from "../get-user";
+import { getBillingPeriod } from "./user";
 
 export async function getProjects() {
   const user = await $getUser();
@@ -139,11 +140,14 @@ export async function getProjectInvites(projectId: string) {
       id: true,
       email: true,
       createdAt: true,
+      expiresAt: true,
     },
   });
 
   return invites;
 }
+
+export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 
 export async function getProjectOwner(projectId: string) {
   const user = await $getUser();
@@ -164,12 +168,19 @@ export async function getProjectOwner(projectId: string) {
       user: {
         select: {
           stripePriceId: true,
+          dayWhenbillingStarts: true,
         },
       },
     },
   });
 
-  const usage = await getUserTotalUsage(user.id);
+  const billingPeriod = await getBillingPeriod(owner.user.dayWhenbillingStarts);
+
+  const usage = await getUserTotalUsage(
+    user.id,
+    billingPeriod[0],
+    billingPeriod[1],
+  );
 
   const plan = await determinePlanByPriceId(owner.user.stripePriceId);
 

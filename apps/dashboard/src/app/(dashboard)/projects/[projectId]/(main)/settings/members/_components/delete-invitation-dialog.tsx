@@ -20,30 +20,33 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { deleteProjectUser } from "~/lib/shared/actions/delete-project-user";
+import { deleteProjectInvitation } from "~/lib/shared/actions/delete-project-invitation";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   projectId: string;
-  userToDelete: {
-    id: string;
-    name?: string | null;
-    email?: string | null;
+  invitationToDelete: {
+    email: string;
   };
 };
 
-function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
+function DeleteInvitationDialog({
+  open,
+  setOpen,
+  projectId,
+  invitationToDelete,
+}: Props) {
   const user = useUser();
 
-  const { mutate, isRunning } = useZact(deleteProjectUser);
+  const { mutate, isRunning } = useZact(deleteProjectInvitation);
 
   async function onDelete() {
     await mutate({
       userId: user.id,
       projectId,
-      userIdToDelete: userToDelete.id,
+      email: invitationToDelete.email,
     });
 
     setOpen(false);
@@ -55,8 +58,8 @@ function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>Remove Member</AlertDialogTitle>
           <AlertDialogDescription>
-            This will remove {userToDelete.name ?? userToDelete.email} from your
-            project. Are you sure you want to continue?
+            This will remove {invitationToDelete.email} from your project. Are
+            you sure you want to continue?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -73,30 +76,28 @@ function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
   );
 }
 
-export function useDeleteMemberDialog(
+export function useDeleteInvitationDialog(
   projectId: string,
-  userToDelete: {
-    id: string;
-    name?: string | null;
-    email?: string | null;
+  invitationToDelete: {
+    email: string;
   },
 ) {
   const [open, setOpen] = useState(false);
 
-  const DeleteMemberDialogCallback = useCallback(
+  const DeleteInvitationDialogCallback = useCallback(
     () => (
-      <DeleteMemberDialog
+      <DeleteInvitationDialog
         open={open}
         setOpen={setOpen}
         projectId={projectId}
-        userToDelete={userToDelete}
+        invitationToDelete={invitationToDelete}
       />
     ),
-    [open, projectId, userToDelete],
+    [open, projectId, invitationToDelete],
   );
 
   return {
     setOpen,
-    DeleteMemberDialog: DeleteMemberDialogCallback,
+    DeleteInvitationDialog: DeleteInvitationDialogCallback,
   };
 }

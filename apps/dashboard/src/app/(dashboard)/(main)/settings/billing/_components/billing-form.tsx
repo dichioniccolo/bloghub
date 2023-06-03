@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import { format } from "date-fns";
 
 import {
   Badge,
@@ -64,6 +65,8 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
       location.href = url;
     });
 
+  console.log(userPlan);
+
   return (
     <Card className="border-none shadow-none">
       <CardHeader className="px-0">
@@ -73,7 +76,11 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
           <Badge variant={userPlan.plan.isPro ? "destructive" : "default"}>
             {userPlan.plan.name}
           </Badge>{" "}
-          plan.
+          plan. Current billing cycle:{" "}
+          <span className="font-medium">
+            {format(userPlan.billingPeriod[0], "MMM dd")} -{" "}
+            {format(userPlan.billingPeriod[1], "MMM dd")}
+          </span>
         </CardDescription>
       </CardHeader>
       <Separator />
