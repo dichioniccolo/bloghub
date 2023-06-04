@@ -29,33 +29,31 @@ export async function handleRemovedFromProjectNotification(
     `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
   );
 
-  await prisma.$transaction(async (tx) => {
-    await tx.notification.create({
-      data: {
-        notificationId,
-        type: NotificationType.REMOVED_FROM_PROJECT,
-        body,
-        user: {
-          connect: {
-            email: userEmail,
-          },
+  await prisma.notification.create({
+    data: {
+      notificationId,
+      type: NotificationType.REMOVED_FROM_PROJECT,
+      body,
+      user: {
+        connect: {
+          email: userEmail,
         },
       },
-    });
+    },
+  });
 
-    await sendMail({
-      type: EmailNotificationSettingType.SOCIAL,
-      to: userEmail,
-      subject: "You have been removed from a project",
-      component: (
-        <RemovedFromProject
-          siteName={env.NEXT_PUBLIC_APP_NAME}
-          projectName={projectName}
-          unsubscribeUrl={unsubscribeUrl}
-          userEmail={userEmail}
-        />
-      ),
-    });
+  await sendMail({
+    type: EmailNotificationSettingType.SOCIAL,
+    to: userEmail,
+    subject: "You have been removed from a project",
+    component: (
+      <RemovedFromProject
+        siteName={env.NEXT_PUBLIC_APP_NAME}
+        projectName={projectName}
+        unsubscribeUrl={unsubscribeUrl}
+        userEmail={userEmail}
+      />
+    ),
   });
 
   return new Response(null, {

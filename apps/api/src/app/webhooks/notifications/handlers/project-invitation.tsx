@@ -35,41 +35,39 @@ export async function handleProjectInvitationNotification(
     `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.ProjectAcceptInvitation(projectId)}`,
   );
 
-  await prisma.$transaction(async (tx) => {
-    // here the user might not exist, so we need to check for that
-    const userExists = await tx.user.count({
-      where: {
-        email: userEmail,
-      },
-    });
+  // here the user might not exist, so we need to check for that
+  const userExists = await prisma.user.count({
+    where: {
+      email: userEmail,
+    },
+  });
 
-    if (userExists > 0) {
-      await tx.notification.create({
-        data: {
-          notificationId,
-          type: NotificationType.PROJECT_INVITATION,
-          body,
-          user: {
-            connect: {
-              email: userEmail,
-            },
+  if (userExists > 0) {
+    await prisma.notification.create({
+      data: {
+        notificationId,
+        type: NotificationType.PROJECT_INVITATION,
+        body,
+        user: {
+          connect: {
+            email: userEmail,
           },
         },
-      });
-    }
-
-    await sendMail({
-      type: EmailNotificationSettingType.SOCIAL,
-      to: userEmail,
-      subject: "You have been invited to a project",
-      component: (
-        <ProjectInvite
-          siteName={env.NEXT_PUBLIC_APP_NAME}
-          url={url}
-          userEmail={userEmail}
-        />
-      ),
+      },
     });
+  }
+
+  await sendMail({
+    type: EmailNotificationSettingType.SOCIAL,
+    to: userEmail,
+    subject: "You have been invited to a project",
+    component: (
+      <ProjectInvite
+        siteName={env.NEXT_PUBLIC_APP_NAME}
+        url={url}
+        userEmail={userEmail}
+      />
+    ),
   });
 
   // TODO: uncomment this when we have pusher

@@ -44,23 +44,45 @@ export async function POST(req: Request) {
     });
   }
 
-  let response: Response;
-  //
-  switch (type) {
-    case NotificationType.PROJECT_INVITATION: {
-      response = await handleProjectInvitationNotification(id, data);
-      break;
+  try {
+    let response: Response;
+    //
+    switch (type) {
+      case NotificationType.PROJECT_INVITATION: {
+        response = await handleProjectInvitationNotification(id, data);
+        break;
+      }
+      case NotificationType.REMOVED_FROM_PROJECT: {
+        response = await handleRemovedFromProjectNotification(id, data);
+        break;
+      }
+      default: {
+        response = new Response("Invalid notification type", {
+          status: 400,
+        });
+      }
     }
-    case NotificationType.REMOVED_FROM_PROJECT: {
-      response = await handleRemovedFromProjectNotification(id, data);
-      break;
-    }
-    default: {
-      response = new Response("Invalid notification type", {
-        status: 400,
-      });
-    }
-  }
 
-  return response;
+    return response;
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return new Response(
+        JSON.stringify({
+          error: e.message,
+        }),
+        {
+          status: 500,
+        },
+      );
+    }
+
+    return new Response(
+      JSON.stringify({
+        error: "Unknown error",
+      }),
+      {
+        status: 500,
+      },
+    );
+  }
 }
