@@ -74,7 +74,7 @@ export function ProjectInvitation({
                 {currentUserRole === "OWNER" && (
                   <DropdownMenuItem onClick={() => setOpen(true)}>
                     <Icons.delete className="mr-2 h-4 w-4" />
-                    <span>Rmeove</span>
+                    <span>Remove</span>
                   </DropdownMenuItem>
                 )}
               </DropdownMenuGroup>

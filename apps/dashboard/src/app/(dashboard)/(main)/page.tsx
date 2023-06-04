@@ -1,5 +1,5 @@
-import { Suspense } from "react";
 import { type Metadata } from "next";
+import { Suspense } from "react";
 
 import { DashboardHeader } from "~/app/_components/dashboard-header";
 import { DashboardShell } from "~/app/_components/dashboard-shell";
@@ -22,7 +22,6 @@ export default function AppDashboardMainPage() {
         <CreateProjectButton />
       </DashboardHeader>
       <Suspense fallback={<ProjectsCardsSkeleton />}>
-        {/* @ts-expect-error react async component */}
         <ProjectsCards />
       </Suspense>
     </DashboardShell>

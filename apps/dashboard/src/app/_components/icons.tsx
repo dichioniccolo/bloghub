@@ -1,6 +1,10 @@
 import { type ReactNode } from "react";
 import {
   AlertCircle,
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
   ArrowLeft,
   BarChart,
   BellRing,
@@ -18,6 +22,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Heading4,
   HelpCircle,
   Image,
   Infinity as InfinityIcon,
@@ -84,6 +89,11 @@ export const Icons = {
   h1: Heading1,
   h2: Heading2,
   h3: Heading3,
+  h4: Heading4,
+  alignLeft: AlignLeft,
+  alignCenter: AlignCenter,
+  alignRight: AlignRight,
+  alignJustify: AlignJustify,
   divider: ({ className, ...props }) => (
     <svg
       {...props}

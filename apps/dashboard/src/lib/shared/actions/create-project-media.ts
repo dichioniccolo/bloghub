@@ -41,13 +41,15 @@ export async function createProjectMedia(formData: FormData): Promise<Media> {
 
   const file = formData.get("file") as File;
 
-  const fileName = `projects/${projectId}/posts/${postId}/assets/${createId()}`;
+  const extension = file.name.split(".").pop();
+
+  const fileName = `projects/${projectId}/posts/${postId}/assets/${createId()}.${extension}`;
 
   const type = formData.get("type") as MediaType;
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
-  const uploadedFile = await uploadFile(fileName, fileAsBuffer, {
+  const uploadedFile = await uploadFile(fileName, fileAsBuffer, file.type, {
     projectId,
     postId,
   });

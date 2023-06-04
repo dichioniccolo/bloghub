@@ -1,23 +1,29 @@
+"use client";
+
 import Link from "next/link";
 
-import { BlurImage } from "@acme/ui";
+import { BlurImage, useScroll } from "@acme/ui";
 
-import { getProjectByDomain } from "../actions/projects";
+import { cn } from "~/lib/utils";
+import { type GetProjectByDomain } from "../actions/projects";
 import { ToggleTheme } from "./toggle-theme";
 
 type Props = {
-  domain: string;
+  project: NonNullable<GetProjectByDomain>;
 };
 
-export async function BlogHeader({ domain }: Props) {
-  const project = await getProjectByDomain(domain);
-
-  if (!project) {
-    return null;
-  }
+export function BlogHeader({ project }: Props) {
+  const scrolled = useScroll(80);
 
   return (
-    <div className="ease sticky left-0 right-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20 shadow-md">
+    <div
+      className={cn(
+        "ease sticky inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20 transition-all",
+        {
+          "border-b border-border bg-background/75 backdrop-blur-lg": scrolled,
+        },
+      )}
+    >
       <div className="flex h-full">
         <Link
           href="/"

@@ -4,8 +4,8 @@ import {
   getProjectUserRole,
   type GetProject,
 } from "~/lib/shared/api/projects";
-import { PostCard } from "./PostCard";
 import { CreatePostButton } from "./create-post-button";
+import { PostCard } from "./post-card";
 
 type Props = {
   project: NonNullable<GetProject>;

@@ -41,7 +41,6 @@ export default async function Page({ params: { projectId } }: Props) {
       </div>
       <Separator />
       <Suspense fallback={<GeneralSettingsPlaceholder />}>
-        {/* @ts-expect-error react async component */}
         <GeneralSettings project={project} />
       </Suspense>
     </div>

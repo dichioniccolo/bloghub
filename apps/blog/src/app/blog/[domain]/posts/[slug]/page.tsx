@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { serialize } from "next-mdx-remote/serialize";
+import rehypeHighlight from "rehype-highlight";
 
 import { BlurImage, MdxContent } from "@acme/ui";
 
@@ -39,7 +40,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
   const mdxSource = await serialize(post.content, {
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [],
+      rehypePlugins: [rehypeHighlight],
     },
   });
 

@@ -30,7 +30,7 @@ export type SubscriptionPlan = {
 export const freePlan = {
   name: "Free",
   description:
-    "The free plan is limited in clicks you can get per month. Upgrade to the PRO plan for unlimited clicks.",
+    "The free plan is limited in clicks you can get per month. Upgrade to one of the PRO plans to increase your limits.",
   quota: 1000,
   isPro: false,
 } satisfies SubscriptionPlan;

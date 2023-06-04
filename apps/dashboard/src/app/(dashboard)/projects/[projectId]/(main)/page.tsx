@@ -27,7 +27,6 @@ export default async function Page({ params: { projectId } }: Props) {
         <CreatePostButton projectId={project.id} />
       </DashboardHeader>
       <Suspense fallback={<PostsCardsPlaceholder />}>
-        {/* @ts-expect-error react async component */}
         <PostsCards project={project} />
       </Suspense>
     </DashboardShell>

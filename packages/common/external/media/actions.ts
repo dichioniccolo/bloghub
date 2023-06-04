@@ -24,6 +24,7 @@ export async function deleteMedias(urls: string[]) {
 export async function uploadFile(
   name: string,
   file: Buffer,
+  contentType: string,
   metadata?: Record<string, string>,
 ) {
   const command = new PutObjectCommand({
@@ -32,6 +33,7 @@ export async function uploadFile(
     Body: file,
     ACL: "public-read",
     Metadata: metadata,
+    ContentType: contentType,
   });
 
   return await s3.send(command);

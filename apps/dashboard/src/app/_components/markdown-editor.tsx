@@ -8,12 +8,14 @@ import {
   type ClipboardEvent,
   type DragEvent,
   type KeyboardEvent,
+  type ReactNode,
 } from "react";
 import { type MDXRemoteSerializeResult } from "next-mdx-remote";
 import TextareaAutosize, {
   type TextareaAutosizeProps,
 } from "react-textarea-autosize";
 import TextareaMarkdown, {
+  type CommandHandler,
   type CommandType,
   type TextareaMarkdownRef,
 } from "textarea-markdown-editor";
@@ -22,7 +24,7 @@ import { Label, MdxContent, Switch } from "@acme/ui";
 
 import { filesWithTypes, uploadFiles } from "~/lib/editor";
 import { cn } from "~/lib/utils";
-import { Icons, type Icon } from "./icons";
+import { Icons } from "./icons";
 
 type MarkdownEditorProps = {
   userId: string;
@@ -37,26 +39,80 @@ type MarkdownEditorProps = {
 >;
 
 type ToolbarItem = {
-  commandTrigger: CommandType;
-  icon: Icon;
+  commandTrigger:
+    | CommandType
+    | "align-center"
+    | "align-right"
+    | "align-left"
+    | "align-justify";
+  icon: ReactNode;
   name: string;
 };
 
-const TOOLBAR_ITEMS = [
+type ToolbarGroup = {
+  items: ToolbarItem[];
+};
+
+const alignCenterCommandHandler: CommandHandler = () => {
+  // cursor.replaceCurrentLines(
+  //   (line) => `<div class="text-center">\n${line.text}\n</div>`,
+  //   {
+  //     selectReplaced: true,
+  //   },
+  // );
+};
+
+const alignRightCommandHandler: CommandHandler = () => {
+  // cursor.replaceCurrentLines(
+  //   (line) => `<div class="text-right">\n${line.text}\n</div>`,
+  //   {
+  //     selectReplaced: true,
+  //   },
+  // );
+};
+
+const alignLeftCommandHandler: CommandHandler = () => {
+  // cursor.replaceCurrentLines(
+  //   (line) => `<div class="text-left">\n${line.text}\n</div>`,
+  //   {
+  //     selectReplaced: true,
+  //   },
+  // );
+};
+
+const alignJustifyCommandHandler: CommandHandler = () => {
+  // cursor.replaceCurrentLines(
+  //   (line) => `<div class="text-justify">\n${line.text}\n</div>`,
+  //   {
+  //     selectReplaced: true,
+  //   },
+  // );
+};
+
+const TOOLBAR_ITEMS: (ToolbarItem | ToolbarGroup)[] = [
   {
-    commandTrigger: "h1",
-    icon: <Icons.h1 className="h-4 w-4" />,
-    name: "Heading 1",
-  },
-  {
-    commandTrigger: "h2",
-    icon: <Icons.h2 className="h-4 w-4" />,
-    name: "Heading 2",
-  },
-  {
-    commandTrigger: "h3",
-    icon: <Icons.h2 className="h-4 w-4" />,
-    name: "Heading 3",
+    items: [
+      {
+        commandTrigger: "h1",
+        icon: <Icons.h1 className="h-4 w-4" />,
+        name: "Heading 1",
+      },
+      {
+        commandTrigger: "h2",
+        icon: <Icons.h2 className="h-4 w-4" />,
+        name: "Heading 2",
+      },
+      {
+        commandTrigger: "h3",
+        icon: <Icons.h3 className="h-4 w-4" />,
+        name: "Heading 3",
+      },
+      {
+        commandTrigger: "h4",
+        icon: <Icons.h4 className="h-4 w-4" />,
+        name: "Heading 4",
+      },
+    ],
   },
   {
     commandTrigger: "bold",
@@ -83,7 +139,31 @@ const TOOLBAR_ITEMS = [
     icon: <Icons.code className="h-4 w-4" />,
     name: "Code block",
   },
-] satisfies ToolbarItem[];
+  {
+    items: [
+      {
+        commandTrigger: "align-left",
+        icon: <Icons.alignLeft className="h-4 w-4" />,
+        name: "Align left",
+      },
+      {
+        commandTrigger: "align-center",
+        icon: <Icons.alignCenter className="h-4 w-4" />,
+        name: "Align center",
+      },
+      {
+        commandTrigger: "align-right",
+        icon: <Icons.alignRight className="h-4 w-4" />,
+        name: "Align right",
+      },
+      {
+        commandTrigger: "align-justify",
+        icon: <Icons.alignJustify className="h-4 w-4" />,
+        name: "Justify",
+      },
+    ],
+  },
+];
 
 export function MarkdownEditor({
   userId,
@@ -185,25 +265,56 @@ export function MarkdownEditor({
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-4 rounded border px-4 py-px">
-        <div className="-ml-2 flex gap-2">
-          {TOOLBAR_ITEMS.map((item) => (
-            <button
-              key={item.commandTrigger}
-              type="button"
-              onClick={() => {
-                textareaMarkdownRef.current?.trigger(item.commandTrigger);
-              }}
-              className={cn(
-                "inline-flex h-8 w-8 items-center justify-center rounded focus:border disabled:cursor-default disabled:opacity-50",
-                !showPreview && "hover:text-blue transition-colors",
-              )}
-              disabled={showPreview}
-              title={item.name}
-            >
-              {item.icon}
-            </button>
-          ))}
+      <div className="flex items-center justify-between gap-4 rounded border px-4">
+        <div className="-ml-2 flex gap-2 py-2">
+          {TOOLBAR_ITEMS.map((item, index) => {
+            if ("items" in item) {
+              return (
+                <div
+                  key={index}
+                  className="flex divide-x rounded-md border border-border"
+                >
+                  {item.items.map((item, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        textareaMarkdownRef.current?.trigger(
+                          item.commandTrigger,
+                        );
+                      }}
+                      className={cn(
+                        "inline-flex h-8 w-8 items-center justify-center rounded focus:border disabled:cursor-default disabled:opacity-50",
+                        !showPreview && "hover:text-blue transition-colors",
+                      )}
+                      disabled={showPreview}
+                      title={item.name}
+                    >
+                      {item.icon}
+                    </button>
+                  ))}
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => {
+                  textareaMarkdownRef.current?.trigger(item.commandTrigger);
+                }}
+                className={cn(
+                  "inline-flex h-8 w-8 items-center justify-center rounded focus:border disabled:cursor-default disabled:opacity-50",
+                  !showPreview && "hover:text-blue transition-colors",
+                )}
+                disabled={showPreview}
+                title={item.name}
+              >
+                {item.icon}
+              </button>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-2">
@@ -222,7 +333,27 @@ export function MarkdownEditor({
           "sr-only": showPreview,
         })}
       >
-        <TextareaMarkdown.Wrapper ref={textareaMarkdownRef}>
+        <TextareaMarkdown.Wrapper
+          ref={textareaMarkdownRef}
+          commands={[
+            {
+              name: "align-center",
+              handler: alignCenterCommandHandler,
+            },
+            {
+              name: "align-left",
+              handler: alignLeftCommandHandler,
+            },
+            {
+              name: "align-right",
+              handler: alignRightCommandHandler,
+            },
+            {
+              name: "align-justify",
+              handler: alignJustifyCommandHandler,
+            },
+          ]}
+        >
           <TextareaAutosize
             {...props}
             value={value}

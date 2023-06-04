@@ -1,4 +1,5 @@
 import { serialize } from "next-mdx-remote/serialize";
+import rehypeHighlight from "rehype-highlight";
 
 export async function POST(req: Request) {
   const { value } = (await req.json()) as { value?: string };
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
   const mdxSource = await serialize(value, {
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [],
+      rehypePlugins: [rehypeHighlight],
     },
   });
 

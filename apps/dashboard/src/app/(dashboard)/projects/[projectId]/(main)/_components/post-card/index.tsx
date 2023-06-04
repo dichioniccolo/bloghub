@@ -85,7 +85,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                   </span>
                 </span>
               </TooltipTrigger>
-              <TooltipContent className="flex flex-col gap-4 p-4">
+              <TooltipContent className="flex max-w-xs flex-col gap-4 p-4">
                 <span className="text-sm">
                   Your post won&apos;t work until you verify your domain.
                 </span>
@@ -119,15 +119,46 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 </PostCardButton>
               }
             />
-            <Link href={AppRoutes.PostStats(project.id, post.id)}>
-              <PostCardButton className="space-x-1">
-                <Icons.chart />
-                <p className="whitespace-nowrap text-sm">
-                  {formatNumber(post._count.visit)}
-                  <span className="ml-1 hidden sm:inline-block">clicks</span>
-                </p>
-              </PostCardButton>
-            </Link>
+            {owner.usage > owner.quota ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PostCardButton className="space-x-1">
+                    <Icons.chart />
+                    <p className="whitespace-nowrap text-sm">
+                      {formatNumber(post._count.visit)}
+                      <span className="ml-1 hidden sm:inline-block">
+                        clicks
+                      </span>
+                    </p>
+                  </PostCardButton>
+                </TooltipTrigger>
+                <TooltipContent className="flex max-w-xs flex-col gap-4 p-4">
+                  <span className="text-sm">
+                    {currentUserRole === "OWNER"
+                      ? "You have exceeded your usage limit. We're still collecting data on your existing posts, but you need to upgrade to view the stats them."
+                      : "The owner of this project has exceeded their usage limit. We're still collecting data on all existing posts, but they need to upgrade their plan to view the stats on them."}
+                  </span>
+                  {currentUserRole === "OWNER" && (
+                    <Link
+                      href={AppRoutes.BillingSettings}
+                      className={buttonVariants()}
+                    >
+                      Upgrade
+                    </Link>
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Link href={AppRoutes.PostStats(project.id, post.id)}>
+                <PostCardButton className="space-x-1">
+                  <Icons.chart />
+                  <p className="whitespace-nowrap text-sm">
+                    {formatNumber(post._count.visit)}
+                    <span className="ml-1 hidden sm:inline-block">clicks</span>
+                  </p>
+                </PostCardButton>
+              </Link>
+            )}
           </div>
           <div className="flex items-center">
             <p className="mr-3 hidden whitespace-nowrap text-sm text-muted-foreground sm:block">
@@ -138,60 +169,27 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
               {formatDistance(post.createdAt, new Date(), { addSuffix: false })}
             </p>
             <div className="flex items-center gap-1">
-              {(currentUserRole === "OWNER" ||
-                currentUserRole === "EDITOR") && (
-                <>
-                  {owner.usage > owner.quota ? (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <PostCardButton>
-                          <p className="sr-only">Edit</p>
-                          <Icons.edit />
-                        </PostCardButton>
-                      </TooltipTrigger>
-                      <TooltipContent className="flex flex-col gap-4 p-4">
-                        <span className="text-sm">
-                          {currentUserRole === "OWNER"
-                            ? "You have exceeded your usage limit. We're still collecting data on your existing pots, but you need to upgrade to edit them."
-                            : "The owner of this project has exceeded their usage limit. We're still collecting data on all existing posts, but they need to upgrade their plan to edit them."}
-                        </span>
-                        {currentUserRole === "OWNER" && (
-                          <Link
-                            href={AppRoutes.Settings}
-                            className={cn(buttonVariants())}
-                          >
-                            Upgrade
-                          </Link>
-                        )}
-                      </TooltipContent>
-                    </Tooltip>
-                  ) : (
-                    <Link href={AppRoutes.PostEditor(project.id, post.id)}>
-                      <PostCardButton>
-                        <Icons.edit />
-                        <p className="sr-only">Edit</p>
-                      </PostCardButton>
-                    </Link>
-                  )}
-                </>
-              )}
+              <Link href={AppRoutes.PostEditor(project.id, post.id)}>
+                <PostCardButton>
+                  <Icons.edit />
+                  <p className="sr-only">Edit</p>
+                </PostCardButton>
+              </Link>
 
-              {currentUserRole === "OWNER" && (
-                <DeletePostDialog
-                  postId={post.id}
-                  projectId={project.id}
-                  trigger={(loading) => (
-                    <PostCardButton variant="destructive">
-                      {loading ? (
-                        <Icons.spinner className="animate-spin" />
-                      ) : (
-                        <Icons.delete />
-                      )}
-                      <p className="sr-only">Delete</p>
-                    </PostCardButton>
-                  )}
-                />
-              )}
+              <DeletePostDialog
+                postId={post.id}
+                projectId={project.id}
+                trigger={(loading) => (
+                  <PostCardButton variant="destructive">
+                    {loading ? (
+                      <Icons.spinner className="animate-spin" />
+                    ) : (
+                      <Icons.delete />
+                    )}
+                    <p className="sr-only">Delete</p>
+                  </PostCardButton>
+                )}
+              />
             </div>
           </div>
         </div>

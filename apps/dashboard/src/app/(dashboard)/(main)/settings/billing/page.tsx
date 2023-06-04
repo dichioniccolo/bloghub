@@ -20,7 +20,6 @@ export default function Page() {
       </div>
       <Separator />
       <Suspense fallback={<PlanUsageSkeleton />}>
-        {/* @ts-expect-error react async component */}
         <PlanUsage />
       </Suspense>
     </div>

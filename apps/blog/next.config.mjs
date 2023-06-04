@@ -9,7 +9,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   base-uri 'self';
-  media-src 'none';
+  media-src https://cdn.bloghub.it;
   connect-src *;
   font-src 'self';
 `;

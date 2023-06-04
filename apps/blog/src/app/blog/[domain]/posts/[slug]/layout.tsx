@@ -1,6 +1,7 @@
-import { Suspense, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
 import { BlogHeader } from "~/app/_components/blog-header";
+import { getProjectByDomain } from "~/app/actions/projects";
 
 type Props = {
   params: {
@@ -9,16 +10,19 @@ type Props = {
   };
 };
 
-export default function Layout({
+export default async function Layout({
   children,
   params: { domain },
 }: PropsWithChildren<Props>) {
+  const project = await getProjectByDomain(domain);
+
+  if (!project) {
+    return null;
+  }
+
   return (
     <div>
-      <Suspense fallback={<p>loading</p>}>
-        {/* @ts-expect-error react async component */}
-        <BlogHeader domain={domain} />
-      </Suspense>
+      <BlogHeader project={project} />
       {children}
     </div>
   );

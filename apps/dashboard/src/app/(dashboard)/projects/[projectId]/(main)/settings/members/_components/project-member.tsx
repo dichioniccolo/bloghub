@@ -63,7 +63,6 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
               })}
             </p>
           </div>
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="xxs">
@@ -75,7 +74,7 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
                 {currentUserRole === "OWNER" && member.role !== "OWNER" && (
                   <DropdownMenuItem onClick={() => setOpen(true)}>
                     <Icons.delete className="mr-2 h-4 w-4" />
-                    <span>Rmeove</span>
+                    <span>Remove</span>
                   </DropdownMenuItem>
                 )}
               </DropdownMenuGroup>

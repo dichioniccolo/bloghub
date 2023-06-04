@@ -26,14 +26,12 @@ export default function Layout({ children }: PropsWithChildren) {
             </Link>
             <Icons.divider className="h-10 w-10 text-primary sm:ml-3" />
             <Suspense fallback={<Skeleton className="h-12 w-48 rounded-3xl" />}>
-              {/* @ts-expect-error react async component */}
               <ProjectsDropdown />
             </Suspense>
           </div>
           <div className="flex items-center gap-2">
             <CommandMenu />
             <Suspense fallback={<NotificationsPlaceholder />}>
-              {/* @ts-expect-error react async component */}
               <Notifications />
             </Suspense>
             <UserDropdown />
