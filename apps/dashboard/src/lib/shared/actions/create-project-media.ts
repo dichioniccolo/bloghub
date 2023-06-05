@@ -3,7 +3,7 @@
 import { createId } from "@paralleldrive/cuid2";
 
 import { uploadFile } from "@acme/common/external/media/actions";
-import { prisma, type Media, type MediaType } from "@acme/db";
+import { prisma, type MediaType } from "@acme/db";
 
 import { env } from "~/env.mjs";
 
@@ -19,7 +19,7 @@ function arrayBufferToBuffer(ab: ArrayBuffer) {
   return buffer;
 }
 
-export async function createProjectMedia(formData: FormData): Promise<Media> {
+export async function createProjectMedia(formData: FormData) {
   const userId = formData.get("userId") as string;
   const projectId = formData.get("projectId") as string;
   const postId = formData.get("postId") as string;
@@ -65,6 +65,9 @@ export async function createProjectMedia(formData: FormData): Promise<Media> {
       type,
       url: `${env.DO_CDN_URL}/${fileName}`,
       uploadedById: userId,
+    },
+    select: {
+      url: true,
     },
   });
 

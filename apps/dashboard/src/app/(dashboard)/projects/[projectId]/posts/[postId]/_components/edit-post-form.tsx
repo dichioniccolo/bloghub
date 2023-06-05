@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { type Role } from "@acme/db";
@@ -14,8 +13,7 @@ import {
   Input,
 } from "@acme/ui";
 
-import { Icons } from "~/app/_components/icons";
-import { MarkdownEditor } from "~/app/_components/markdown-editor";
+import { Tiptap } from "~/app/_components/tiptap";
 import { LeaveConfirm } from "~/hooks/use-leave-confirm";
 import { useUser } from "~/hooks/use-user";
 import { updatePost } from "~/lib/shared/actions/update-post";
@@ -59,7 +57,7 @@ export function EditPostForm({ post, currentUserRole }: Props) {
       }}
       onSubmit={onSubmit}
     >
-      {({ formState, handleSubmit }) => (
+      {({ formState }) => (
         <>
           <EditPostFormToolbar post={post} currentUserRole={currentUserRole} />
           <LeaveConfirm formState={formState} />
@@ -107,30 +105,18 @@ export function EditPostForm({ post, currentUserRole }: Props) {
                 <FormItem>
                   <FormLabel>Post</FormLabel>
                   <FormControl>
-                    <MarkdownEditor
+                    <Tiptap
                       userId={user.id}
                       projectId={post.projectId}
                       postId={post.id}
                       value={field.value}
                       onChange={field.onChange}
-                      onSubmit={handleSubmit(onSubmit)}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          </div>
-          <div className="my-4 flex items-center justify-between gap-4">
-            <Link
-              href="https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-blue flex items-center gap-2 transition-colors"
-            >
-              <Icons.markdown />
-              <span className="text-xs">Markdown supported</span>
-            </Link>
           </div>
         </>
       )}

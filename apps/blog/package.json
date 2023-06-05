@@ -24,11 +24,9 @@
     "jsdom": "^22.1.0",
     "lucide-react": "^0.236.0",
     "next": "^13.4.3",
-    "next-mdx-remote": "^4.4.1",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rehype-highlight": "^6.0.0",
     "tailwind-merge": "^1.13.0",
     "zod": "^3.21.4"
   },

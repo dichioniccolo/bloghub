@@ -1,10 +1,8 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { serialize } from "next-mdx-remote/serialize";
-import rehypeHighlight from "rehype-highlight";
 
-import { BlurImage, MdxContent } from "@acme/ui";
+import { BlurImage, HtmlView } from "@acme/ui";
 
 import { PostCard } from "~/app/_components/post-card";
 import { getPostBySlug, getRandomPostsByDomain } from "~/app/actions/posts";
@@ -37,13 +35,6 @@ export default async function Page({ params: { domain, slug } }: Props) {
     return notFound();
   }
 
-  const mdxSource = await serialize(post.content, {
-    mdxOptions: {
-      remarkPlugins: [],
-      rehypePlugins: [rehypeHighlight],
-    },
-  });
-
   return (
     <>
       <div className="my-20">
@@ -73,7 +64,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
           />
         </div>
       )}
-      <MdxContent source={mdxSource} className="m-auto w-11/12 sm:w-3/4" />
+      <HtmlView html={post.content} />
       {randomPosts.length > 0 && (
         <>
           <div className="relative mb-20 mt-10 sm:mt-20">
