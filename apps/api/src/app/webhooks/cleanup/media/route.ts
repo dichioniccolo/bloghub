@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash/nodejs";
 
 import { deleteMedias } from "@acme/common/external/media/actions";
-import { prisma } from "@acme/db";
+import { asc, db, inArray, isNull, media, or } from "@acme/db";
 
 import { env } from "~/env.mjs";
 
@@ -27,36 +27,25 @@ export async function POST(req: Request) {
     });
   }
 
-  const medias = await prisma.media.findMany({
-    where: {
-      OR: [
-        {
-          postId: null,
-        },
-        {
-          projectId: null,
-        },
-      ],
-    },
-    select: {
-      id: true,
-      url: true,
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-    take: 100,
-  });
+  const medias = await db
+    .select({
+      id: media.id,
+      url: media.url,
+    })
+    .from(media)
+    .where(or(isNull(media.postId), isNull(media.projectId)))
+    .orderBy(asc(media.createdAt))
+    .limit(100)
+    .execute();
 
   try {
-    await deleteMedias(medias.map((media) => media.url));
-    await prisma.media.deleteMany({
-      where: {
-        id: {
-          in: medias.map((media) => media.id),
-        },
-      },
-    });
+    await deleteMedias(medias.map((x) => x.url));
+    await db.delete(media).where(
+      inArray(
+        media.id,
+        medias.map((x) => x.id),
+      ),
+    );
 
     return new Response(null, {
       status: 200,

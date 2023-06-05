@@ -5,6 +5,8 @@ import * as schema from "./schema";
 
 export * from "./schema";
 
+export * from "drizzle-orm";
+
 // const globalForDrizzle = globalThis as {
 //   db?: ReturnType<typeof drizzle<typeof schema>>;
 // };

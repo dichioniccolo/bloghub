@@ -5,12 +5,7 @@ import { getLoginUrl } from "@acme/auth";
 import { deleteProject } from "@acme/common/actions";
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
 import { AppRoutes } from "@acme/common/routes";
-import {
-  EmailNotificationSettingType,
-  EmailType,
-  prisma,
-  Role,
-} from "@acme/db";
+import { projects } from "@acme/db";
 import {
   AutomaticProjectDeletion,
   InvalidDomain,
@@ -40,33 +35,33 @@ export async function POST(req: Request) {
     });
   }
 
-  const projects = await prisma.project.findMany({
-    select: {
-      id: true,
-      name: true,
-      domain: true,
-      domainVerified: true,
-      domainUnverifiedAt: true,
-      createdAt: true,
-      users: {
-        where: {
-          role: Role.OWNER,
-        },
-        take: 1,
-        select: {
-          user: {
-            select: {
-              email: true,
-            },
-          },
-        },
-      },
-    },
-    orderBy: {
-      domainLastCheckedAt: "asc",
-    },
-    take: 100,
-  });
+  // const projects = await prisma.project.findMany({
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     domain: true,
+  //     domainVerified: true,
+  //     domainUnverifiedAt: true,
+  //     createdAt: true,
+  //     users: {
+  //       where: {
+  //         role: Role.OWNER,
+  //       },
+  //       take: 1,
+  //       select: {
+  //         user: {
+  //           select: {
+  //             email: true,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  //   orderBy: {
+  //     domainLastCheckedAt: "asc",
+  //   },
+  //   take: 100,
+  // });
 
   try {
     for await (const project of projects) {
