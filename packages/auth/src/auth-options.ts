@@ -1,8 +1,8 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { DrizzleAdapter } from "@auth/adapter-drizzle";
 import { type DefaultSession, type NextAuthOptions } from "next-auth";
 import { type DefaultJWT, type JWT } from "next-auth/jwt";
 
-import { prisma } from "@acme/db";
+import { accounts, db, sessions, users, verificationTokens } from "@acme/db";
 
 /**
  * Module augmentation for `next-auth` types
@@ -57,10 +57,8 @@ export const authOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      const dbUser = await prisma.user.findUnique({
-        where: {
-          email: token.email,
-        },
+      const dbUser = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.email, token.email),
       });
 
       if (!dbUser) {
@@ -83,7 +81,12 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: DrizzleAdapter(db, {
+    users,
+    accounts,
+    sessions,
+    verificationTokens,
+  }),
   pages: {
     signIn: "/login",
     signOut: "/login",

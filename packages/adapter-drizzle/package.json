@@ -1,0 +1,50 @@
+{
+  "name": "@auth/adapter-drizzle",
+  "version": "0.1.0",
+  "description": "Drizzle adapter for Auth.js.",
+  "homepage": "https://authjs.dev",
+  "repository": "https://github.com/nextauthjs/next-auth",
+  "bugs": {
+    "url": "https://github.com/nextauthjs/next-auth/issues"
+  },
+  "author": "Anthony Shew",
+  "type": "module",
+  "types": "./src/index.d.ts",
+  "main": "./src/index.ts",
+  "files": [
+    "*.js",
+    "*.d.ts*",
+    "lib",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "license": "ISC",
+  "keywords": [
+    "next-auth",
+    "@auth",
+    "Auth.js",
+    "next.js",
+    "oauth",
+    "drizzle"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./.drizzle .turbo node_modules"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "^0.26.3"
+  },
+  "dependencies": {
+    "next-auth": "^4.22.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.3",
+    "drizzle-kit": "^0.18.1",
+    "drizzle-orm": "^0.26.3",
+    "@vercel/postgres": "^0.3.0"
+  }
+}

@@ -10,3 +10,5 @@ packages:
   - packages/common
   - packages/notifications
   - packages/ui
+  # TODO: REMOVE
+  - packages/adapter-drizzle
