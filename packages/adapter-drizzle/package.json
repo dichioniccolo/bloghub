@@ -8,7 +8,6 @@
     "url": "https://github.com/nextauthjs/next-auth/issues"
   },
   "author": "Anthony Shew",
-  "type": "module",
   "types": "./src/index.d.ts",
   "main": "./src/index.ts",
   "files": [
@@ -17,12 +16,6 @@
     "lib",
     "src"
   ],
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.js"
-    }
-  },
   "license": "ISC",
   "keywords": [
     "next-auth",

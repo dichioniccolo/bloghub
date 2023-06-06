@@ -2,7 +2,6 @@
 
 import TextareaAutosize from "react-textarea-autosize";
 
-import { type Role } from "@acme/db";
 import {
   Form,
   FormControl,
@@ -27,10 +26,9 @@ import { EditPostFormToolbar } from "./edit-post-form-toolbar";
 
 type Props = {
   post: NonNullable<GetPost>;
-  currentUserRole: Role;
 };
 
-export function EditPostForm({ post, currentUserRole }: Props) {
+export function EditPostForm({ post }: Props) {
   const user = useUser();
   const { mutate } = useZact(updatePost);
 
@@ -59,7 +57,7 @@ export function EditPostForm({ post, currentUserRole }: Props) {
     >
       {({ formState }) => (
         <>
-          <EditPostFormToolbar post={post} currentUserRole={currentUserRole} />
+          <EditPostFormToolbar post={post} />
           <LeaveConfirm formState={formState} />
           <FormField
             name="title"

@@ -29,7 +29,7 @@ export const inviteUser = zact(
     .superRefine(async ({ projectId, userId, email }, ctx) => {
       const projectMemberCount = await db
         .select({
-          count: sql<number>`count(${projectMembers.userId})`,
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
         })
         .from(projectMembers)
         .where(
@@ -51,7 +51,7 @@ export const inviteUser = zact(
 
       const existingUser = await db
         .select({
-          count: sql<number>`count(*)`,
+          count: sql<number>`count(*)`.mapWith(Number),
         })
         .from(projectMembers)
         .where(eq(projectMembers.projectId, projectId))
@@ -68,7 +68,7 @@ export const inviteUser = zact(
 
       const existingInvite = await db
         .select({
-          count: sql<number>`count(*)`,
+          count: sql<number>`count(*)`.mapWith(Number),
         })
         .from(projectInvitations)
         .where(

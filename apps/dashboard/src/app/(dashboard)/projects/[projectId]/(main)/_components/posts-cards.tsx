@@ -1,9 +1,5 @@
 import { getPosts } from "~/lib/shared/api/posts";
-import {
-  getProjectOwner,
-  getProjectUserRole,
-  type GetProject,
-} from "~/lib/shared/api/projects";
+import { getProjectOwner, type GetProject } from "~/lib/shared/api/projects";
 import { CreatePostButton } from "./create-post-button";
 import { PostCard } from "./post-card";
 
@@ -12,22 +8,15 @@ type Props = {
 };
 
 export async function PostsCards({ project }: Props) {
-  const [posts, owner, currentUserRole] = await Promise.all([
+  const [posts, owner] = await Promise.all([
     getPosts(project.id),
     getProjectOwner(project.id),
-    getProjectUserRole(project.id),
   ]);
 
   return (
     <ul className="grid grid-cols-1 gap-4">
       {posts.map((post) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          project={project}
-          owner={owner}
-          currentUserRole={currentUserRole}
-        />
+        <PostCard key={post.id} post={post} project={project} owner={owner} />
       ))}
       {posts.length === 0 && (
         <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">

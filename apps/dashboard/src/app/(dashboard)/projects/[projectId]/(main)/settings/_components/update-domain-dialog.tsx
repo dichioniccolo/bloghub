@@ -20,6 +20,7 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
+import { useUser } from "~/hooks/use-user";
 import { updateDomain } from "~/lib/shared/actions/update-domain";
 import { type GetProject } from "~/lib/shared/api/projects";
 import {
@@ -33,16 +34,18 @@ type Props = {
 };
 
 export function UpdateDomainDialog({ project }: Props) {
+  const user = useUser();
+
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const { mutate } = useZact(updateDomain);
 
-  const onSubmit = async ({ oldDomain, newDomain }: UpdateDomainSchemaType) => {
+  const onSubmit = async ({ newDomain }: UpdateDomainSchemaType) => {
     try {
       await mutate({
+        userId: user.id,
         projectId: project.id,
-        oldDomain,
         newDomain,
       });
 

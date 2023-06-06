@@ -14,7 +14,7 @@ export const togglePublishedPost = zact(
       postId: z.string().refine(async (postId) => {
         const post = await db
           .select({
-            count: sql<number>`count(*)`,
+            count: sql<number>`count(*)`.mapWith(Number),
           })
           .from(posts)
           .where(eq(posts.id, postId))
@@ -30,7 +30,7 @@ export const togglePublishedPost = zact(
 
       const projectMember = await db
         .select({
-          count: sql<number>`count(*)`,
+          count: sql<number>`count(*)`.mapWith(Number),
         })
         .from(projectMembers)
         .where(

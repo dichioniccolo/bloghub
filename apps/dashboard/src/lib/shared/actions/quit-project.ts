@@ -17,7 +17,7 @@ export const quitProject = zact(
     .superRefine(async ({ userId, projectId }, ctx) => {
       const isOwnerCount = await db
         .select({
-          count: sql<number>`count(${projectMembers.userId})`,
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
         })
         .from(projectMembers)
         .where(

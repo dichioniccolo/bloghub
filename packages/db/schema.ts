@@ -10,7 +10,6 @@ import {
   text,
   timestamp,
   uniqueIndex,
-  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
@@ -26,9 +25,11 @@ export const users = pgTable(
     stripeCustomerId: varchar("stripeCustomerId", { length: 256 }),
     stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 256 }),
     stripePriceId: varchar("stripePriceId", { length: 256 }),
-    dayWhenbillingStarts: timestamp("dayWhenbillingStarts", { mode: "date" }),
-    createdAt: timestamp("createdAt").defaultNow(),
-    updatedAt: timestamp("updatedAt").defaultNow(),
+    dayWhenbillingStarts: timestamp("dayWhenbillingStarts", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
   },
   (users) => {
     return {
@@ -84,15 +85,24 @@ export const emailNotificationSettingTypeEnum = pgEnum(
   ["communication", "marketing", "social", "security"],
 );
 
-export const emailNotificationSettings = pgTable("emailNotificationSettings", {
-  userId: varchar("userId", { length: 256 })
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade",
-    }),
-  type: emailNotificationSettingTypeEnum("type").notNull(),
-  value: boolean("value").notNull().default(true),
-});
+export const emailNotificationSettings = pgTable(
+  "emailNotificationSettings",
+  {
+    userId: varchar("userId", { length: 256 })
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
+    type: emailNotificationSettingTypeEnum("type").notNull(),
+    value: boolean("value").notNull().default(true),
+  },
+  (emailNotificationSettings) => ({
+    compoundKey: primaryKey(
+      emailNotificationSettings.userId,
+      emailNotificationSettings.type,
+    ),
+  }),
+);
 
 export const notificationTypeEnum = pgEnum("NotificationType", [
   "project_invitation",
@@ -118,7 +128,7 @@ export const notifications = pgTable(
     type: notificationTypeEnum("type").notNull(),
     status: notificationStatus("status").notNull().default("unread"),
     body: json("body").notNull(),
-    createdAt: timestamp("createdAt").defaultNow(),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
   },
   (notifications) => ({
     uniqueIndex: uniqueIndex("notifications_unique_index").on(
@@ -133,7 +143,7 @@ export const projects = pgTable("projects", {
   name: varchar("name", { length: 256 }).notNull(),
   logo: text("logo"),
   domain: varchar("domain", { length: 256 }).notNull(),
-  domainVerified: boolean("domainVerified").default(false),
+  domainVerified: boolean("domainVerified").notNull().default(false),
   domainLastCheckedAt: timestamp("domainLastCheckedAt", { mode: "date" }),
   domainUnverifiedAt: timestamp("domainUnverifiedAt", { mode: "date" }),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
@@ -201,7 +211,7 @@ export const posts = pgTable(
     content: text("content").notNull(),
     thumbnailUrl: text("thumbnailUrl"),
     slug: varchar("slug", { length: 256 }).notNull(),
-    hidden: boolean("hidden").default(true),
+    hidden: boolean("hidden").notNull().default(true),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
   },
@@ -234,7 +244,7 @@ export const likes = pgTable(
 );
 
 export const comments = pgTable("comments", {
-  id: uuid("id").primaryKey(),
+  id: varchar("id", { length: 256 }).primaryKey(),
   userId: varchar("userId", { length: 256 })
     .notNull()
     .references(() => users.id, {
@@ -289,8 +299,14 @@ export const emails = pgTable("emails", {
 
 export const visits = pgTable("visits", {
   id: serial("id").primaryKey(),
-  projectId: uuid("projectId").notNull(),
-  postId: uuid("postId").references(() => posts.id, { onDelete: "set null" }),
+  projectId: varchar("projectId", { length: 256 })
+    .notNull()
+    .references(() => projects.id, {
+      onDelete: "cascade",
+    }),
+  postId: varchar("postId", { length: 256 }).references(() => posts.id, {
+    onDelete: "set null",
+  }),
   browserName: varchar("browserName", { length: 256 }),
   browserVersion: varchar("browserVersion", { length: 256 }),
   osName: varchar("osName", { length: 256 }),
@@ -306,7 +322,7 @@ export const visits = pgTable("visits", {
   country: varchar("country", { length: 256 }),
   latitude: varchar("latitude", { length: 256 }),
   longitude: varchar("longitude", { length: 256 }),
-  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
 // export const postTags = pgTable(

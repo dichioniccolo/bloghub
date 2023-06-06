@@ -26,16 +26,25 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
       description: posts.description,
       content: posts.content,
       createdAt: posts.createdAt,
-      likesCount: sql<number>`count(${likes.userId})`,
+      likesCount: sql<number>`count(${likes.userId})`.mapWith(Number),
     })
     .from(posts)
     .where(eq(posts.hidden, false))
     .offset(skip(page, perPage))
     .leftJoin(likes, eq(likes.postId, posts.id))
-    .limit(take(perPage));
+    .limit(take(perPage))
+    .groupBy(
+      posts.id,
+      posts.slug,
+      posts.title,
+      posts.description,
+      posts.thumbnailUrl,
+      posts.content,
+      posts.createdAt,
+    );
 
   const postsCount = await db
-    .select({ count: sql<number>`count(*)` })
+    .select({ count: sql<number>`count(*)`.mapWith(Number) })
     .from(posts)
     .where(eq(posts.hidden, false));
 
@@ -89,7 +98,11 @@ export async function getRandomPostsByDomain(
 
   const ids = randomIndices.map((index) => postIds[index]).filter(Boolean);
 
-  const selectedPosts = await db
+  if (ids.length === 0) {
+    return [];
+  }
+
+  return await db
     .select({
       id: posts.id,
       slug: posts.slug,
@@ -102,7 +115,14 @@ export async function getRandomPostsByDomain(
     })
     .from(posts)
     .where(inArray(posts.id, ids))
-    .leftJoin(likes, eq(likes.postId, posts.id));
-
-  return selectedPosts;
+    .leftJoin(likes, eq(likes.postId, posts.id))
+    .groupBy(
+      posts.id,
+      posts.slug,
+      posts.title,
+      posts.description,
+      posts.thumbnailUrl,
+      posts.content,
+      posts.createdAt,
+    );
 }

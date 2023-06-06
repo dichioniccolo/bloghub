@@ -2,23 +2,22 @@
 
 import { getUserTotalUsage } from "@acme/common/actions";
 import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
-import { prisma } from "@acme/db";
+import { db, eq, users } from "@acme/db";
 
 import { $getUser } from "../get-user";
 
 export async function getUserPlan() {
   const user = await $getUser();
 
-  const dbUser = await prisma.user.findUniqueOrThrow({
-    where: {
-      id: user.id,
-    },
-    select: {
-      stripeSubscriptionId: true,
-      stripePriceId: true,
-      dayWhenbillingStarts: true,
-    },
-  });
+  const dbUser = await db
+    .select({
+      stripeSubscriptionId: users.stripeSubscriptionId,
+      stripePriceId: users.stripePriceId,
+      dayWhenbillingStarts: users.dayWhenbillingStarts,
+    })
+    .from(users)
+    .where(eq(users.id, user.id))
+    .then((x) => x[0]!);
 
   const billingPeriod = await getBillingPeriod(dbUser.dayWhenbillingStarts);
 

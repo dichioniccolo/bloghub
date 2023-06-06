@@ -1,13 +1,11 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Role } from "@acme/db";
 import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
 
 import {
   getProject,
   getProjectInvites,
-  getProjectUserRole,
   getProjectUsers,
 } from "~/lib/shared/api/projects";
 import { InviteMemberDialog } from "./_components/invite-member-dialog";
@@ -37,8 +35,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
 
   if (!project) return notFound();
 
-  const [roleOfUser, users, invites] = await Promise.all([
-    getProjectUserRole(projectId),
+  const [users, invites] = await Promise.all([
     getProjectUsers(projectId),
     getProjectInvites(projectId),
   ]);
@@ -52,7 +49,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
             Team mates or friends that have access to this project.{" "}
           </p>
         </div>
-        {roleOfUser === Role.OWNER && (
+        {project.currentUserRole === "owner" && (
           <InviteMemberDialog projectId={projectId} />
         )}
       </div>
@@ -63,21 +60,21 @@ export default async function AppDashboardProjectSettingsMembersPage({
           <TabsTrigger value="invitations">Invitations</TabsTrigger>
         </TabsList>
         <TabsContent value="members" className="space-y-2 divide-y">
-          {users.map((user) => (
+          {users.map((user, index) => (
             <ProjectMember
-              key={user.id}
+              key={index}
               projectId={project.id}
-              currentUserRole={roleOfUser}
+              currentUserRole={project.currentUserRole}
               member={user}
             />
           ))}
         </TabsContent>
         <TabsContent value="invitations" className="space-y-2 divide-y">
-          {invites.map((invite) => (
+          {invites.map((invite, index) => (
             <ProjectInvitation
-              key={invite.id}
+              key={index}
               projectId={project.id}
-              currentUserRole={roleOfUser}
+              currentUserRole={project.currentUserRole}
               invite={invite}
             />
           ))}

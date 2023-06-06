@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { EmailNotificationSettingType, prisma } from "@acme/db";
+import { and, db, emailNotificationSettings, eq } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -22,74 +22,90 @@ export const updateNotificationSettings = zact(
     social_emails,
     security_emails,
   }) => {
-    await prisma.$transaction(async (tx) => {
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          userId_type: {
-            userId,
-            type: EmailNotificationSettingType.COMMUNICATION,
-          },
-        },
-        create: {
+    await db.transaction(async (tx) => {
+      await tx
+        .insert(emailNotificationSettings)
+        .values({
           userId,
-          type: EmailNotificationSettingType.COMMUNICATION,
+          type: "communication",
           value: communication_emails,
-        },
-        update: {
-          value: communication_emails,
-        },
-      });
-
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          userId_type: {
-            userId,
-            type: EmailNotificationSettingType.MARKETING,
+        })
+        .onConflictDoUpdate({
+          target: [
+            emailNotificationSettings.userId,
+            emailNotificationSettings.type,
+          ],
+          set: {
+            value: communication_emails,
           },
-        },
-        create: {
+          where: and(
+            eq(emailNotificationSettings.userId, userId),
+            eq(emailNotificationSettings.type, "communication"),
+          ),
+        });
+
+      await tx
+        .insert(emailNotificationSettings)
+        .values({
           userId,
-          type: EmailNotificationSettingType.MARKETING,
+          type: "marketing",
           value: marketing_emails,
-        },
-        update: {
-          value: marketing_emails,
-        },
-      });
-
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          userId_type: {
-            userId,
-            type: EmailNotificationSettingType.SOCIAL,
+        })
+        .onConflictDoUpdate({
+          target: [
+            emailNotificationSettings.userId,
+            emailNotificationSettings.type,
+          ],
+          set: {
+            value: marketing_emails,
           },
-        },
-        create: {
-          userId,
-          type: EmailNotificationSettingType.SOCIAL,
-          value: social_emails,
-        },
-        update: {
-          value: social_emails,
-        },
-      });
+          where: and(
+            eq(emailNotificationSettings.userId, userId),
+            eq(emailNotificationSettings.type, "marketing"),
+          ),
+        });
 
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          userId_type: {
-            userId,
-            type: EmailNotificationSettingType.SECURITY,
-          },
-        },
-        create: {
+      await tx
+        .insert(emailNotificationSettings)
+        .values({
           userId,
-          type: EmailNotificationSettingType.SECURITY,
+          type: "social",
+          value: social_emails,
+        })
+        .onConflictDoUpdate({
+          target: [
+            emailNotificationSettings.userId,
+            emailNotificationSettings.type,
+          ],
+          set: {
+            value: social_emails,
+          },
+          where: and(
+            eq(emailNotificationSettings.userId, userId),
+            eq(emailNotificationSettings.type, "social"),
+          ),
+        });
+
+      await tx
+        .insert(emailNotificationSettings)
+        .values({
+          userId,
+          type: "security",
           value: security_emails,
-        },
-        update: {
-          value: security_emails,
-        },
-      });
+        })
+        .onConflictDoUpdate({
+          target: [
+            emailNotificationSettings.userId,
+            emailNotificationSettings.type,
+          ],
+          set: {
+            value: security_emails,
+          },
+          where: and(
+            eq(emailNotificationSettings.userId, userId),
+            eq(emailNotificationSettings.type, "security"),
+          ),
+        });
     });
   },
 );

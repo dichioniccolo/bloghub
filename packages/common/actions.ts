@@ -29,7 +29,7 @@ export async function deleteProject(project: { id: string; domain: string }) {
 export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
   const visit = await db
     .select({
-      count: sql<number>`count(${visits.id})`,
+      count: sql<number>`count(${visits.id})`.mapWith(Number),
     })
     .from(visits)
     .where(and(gte(visits.createdAt, from), lte(visits.createdAt, to)))

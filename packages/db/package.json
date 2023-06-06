@@ -6,11 +6,10 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "db:generate": "prisma generate --data-proxy",
-    "db:push": "prisma db push --skip-generate"
+    "db:generate": "drizzle-kit generate:pg",
+    "db:push": "echo 1"
   },
   "dependencies": {
-    "@prisma/client": "^4.15.0",
     "@t3-oss/env-nextjs": "^0.4.0",
     "@vercel/postgres": "^0.3.0",
     "drizzle-orm": "^0.26.3",
@@ -20,7 +19,6 @@
   "devDependencies": {
     "dotenv-cli": "^7.2.1",
     "drizzle-kit": "^0.18.1",
-    "prisma": "^4.15.0",
     "typescript": "^5.1.3"
   }
 }

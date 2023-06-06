@@ -1,0 +1,1 @@
+ALTER TABLE "emailNotificationSettings" ADD CONSTRAINT "emailNotificationSettings_userId_type" PRIMARY KEY("userId","type");

@@ -9,7 +9,7 @@ export const DomainSchema = z
   .refine(async (domain) => {
     const domains = await db
       .select({
-        count: sql`count(*)`,
+        count: sql<number>`count(*)`.mapWith(Number),
       })
       .from(projects)
       .where(eq(projects.domain, domain))

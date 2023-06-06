@@ -4,7 +4,6 @@ import Link from "next/link";
 import { formatDistance } from "date-fns";
 
 import { AppRoutes } from "@acme/common/routes";
-import { type Role } from "@acme/db";
 import {
   buttonVariants,
   Card,
@@ -34,10 +33,9 @@ type Props = {
   post: GetPosts[number];
   project: NonNullable<GetProject>;
   owner: GetProjectOwner;
-  currentUserRole: Role;
 };
 
-export function PostCard({ post, project, owner, currentUserRole }: Props) {
+export function PostCard({ post, project, owner }: Props) {
   return (
     <Card className="relative overflow-hidden">
       <div className="absolute left-0 top-0 flex h-full w-2 flex-col">
@@ -125,7 +123,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                   <PostCardButton className="space-x-1">
                     <Icons.chart />
                     <p className="whitespace-nowrap text-sm">
-                      {formatNumber(post._count.visit)}
+                      {formatNumber(post.visitsCount)}
                       <span className="ml-1 hidden sm:inline-block">
                         clicks
                       </span>
@@ -134,11 +132,11 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 </TooltipTrigger>
                 <TooltipContent className="flex max-w-xs flex-col gap-4 p-4">
                   <span className="text-sm">
-                    {currentUserRole === "OWNER"
+                    {project.currentUserRole === "owner"
                       ? "You have exceeded your usage limit. We're still collecting data on your existing posts, but you need to upgrade to view the stats them."
                       : "The owner of this project has exceeded their usage limit. We're still collecting data on all existing posts, but they need to upgrade their plan to view the stats on them."}
                   </span>
-                  {currentUserRole === "OWNER" && (
+                  {project.currentUserRole === "owner" && (
                     <Link
                       href={AppRoutes.BillingSettings}
                       className={buttonVariants()}
@@ -153,7 +151,7 @@ export function PostCard({ post, project, owner, currentUserRole }: Props) {
                 <PostCardButton className="space-x-1">
                   <Icons.chart />
                   <p className="whitespace-nowrap text-sm">
-                    {formatNumber(post._count.visit)}
+                    {formatNumber(post.visitsCount)}
                     <span className="ml-1 hidden sm:inline-block">clicks</span>
                   </p>
                 </PostCardButton>

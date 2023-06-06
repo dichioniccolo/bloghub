@@ -1,14 +1,16 @@
-import { type MediaType } from "@acme/db";
+import { type mediaTypeEnum } from "@acme/db";
 
-export function determineMediaType(file: File): MediaType | null {
+export function determineMediaType(
+  file: File,
+): (typeof mediaTypeEnum.enumValues)[number] | null {
   if (/image/i.test(file.type)) {
-    return "IMAGE";
+    return "image";
   }
   if (/video/i.test(file.type)) {
-    return "VIDEO";
+    return "video";
   }
   if (/audio/i.test(file.type)) {
-    return "AUDIO";
+    return "audio";
   }
   return null;
 }

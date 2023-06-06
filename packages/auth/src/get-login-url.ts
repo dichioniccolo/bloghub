@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from "crypto";
 
-import { prisma } from "@acme/db";
+import { db, verificationTokens } from "@acme/db";
 
 import { env } from "../env.mjs";
 
@@ -11,14 +11,12 @@ export async function getLoginUrl(
 ) {
   const token = randomBytes(32).toString("hex");
 
-  await prisma.verificationToken.create({
-    data: {
-      identifier,
-      expires,
-      token: createHash("sha256")
-        .update(`${token}${env.NEXTAUTH_SECRET}`)
-        .digest("hex"),
-    },
+  await db.insert(verificationTokens).values({
+    identifier,
+    expires,
+    token: createHash("sha256")
+      .update(`${token}${env.NEXTAUTH_SECRET}`)
+      .digest("hex"),
   });
 
   const params = new URLSearchParams({

@@ -2,7 +2,6 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { type Role } from "@acme/db";
 import { Button } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -14,10 +13,9 @@ import { useZact } from "~/lib/zact/client";
 
 type Props = {
   post: NonNullable<GetPost>;
-  currentUserRole: Role;
 };
 
-export function EditPostFormToolbar({ post, currentUserRole }: Props) {
+export function EditPostFormToolbar({ post }: Props) {
   const user = useUser();
   const {
     formState: { isSubmitting },
@@ -41,21 +39,19 @@ export function EditPostFormToolbar({ post, currentUserRole }: Props) {
         )}
         Save
       </Button>
-      {currentUserRole === "OWNER" && (
-        <Button type="button" disabled={isRunning} onClick={onToggleHidden}>
-          {isRunning ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Icons.share
-              className={cn("mr-2 h-4 w-4 transition-all", {
-                "rotate-0": post.hidden,
-                "rotate-180": !post.hidden,
-              })}
-            />
-          )}
-          {post.hidden ? "Publish" : "Draft"}
-        </Button>
-      )}
+      <Button type="button" disabled={isRunning} onClick={onToggleHidden}>
+        {isRunning ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.share
+            className={cn("mr-2 h-4 w-4 transition-all", {
+              "rotate-0": post.hidden,
+              "rotate-180": !post.hidden,
+            })}
+          />
+        )}
+        {post.hidden ? "Publish" : "Draft"}
+      </Button>
     </div>
   );
 }

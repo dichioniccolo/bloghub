@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
-import { Role, prisma } from "@acme/db";
+import { and, db, eq, projectMembers, projects } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -13,20 +13,21 @@ export const verifyDomain = zact(
     projectId: z.string(),
   }),
 )(async ({ userId, projectId }) => {
-  const project = await prisma.project.findFirst({
-    where: {
-      id: projectId,
-      users: {
-        some: {
-          userId,
-          role: Role.OWNER,
-        },
-      },
-    },
-    select: {
-      domain: true,
-    },
-  });
+  const project = await db
+    .select({
+      domain: projects.domain,
+    })
+    .from(projects)
+    .where(eq(projects.id, projectId))
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, projects.id),
+        eq(projectMembers.userId, userId),
+        eq(projectMembers.role, "owner"),
+      ),
+    )
+    .then((x) => x[0]);
 
   if (!project) {
     throw new Error("Project not found");

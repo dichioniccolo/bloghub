@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { prisma } from "@acme/db";
+import { db, eq, users } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -12,12 +12,10 @@ export const updateUser = zact(
     name: z.string().nonempty(),
   }),
 )(async ({ userId, name }) => {
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
+  await db
+    .update(users)
+    .set({
       name,
-    },
-  });
+    })
+    .where(eq(users.id, userId));
 });

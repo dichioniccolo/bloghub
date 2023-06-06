@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
 import { getPost } from "~/lib/shared/api/posts";
-import { getProjectUserRole } from "~/lib/shared/api/projects";
 import { EditPostForm } from "./_components/edit-post-form";
 
 type Props = {
@@ -12,10 +11,7 @@ type Props = {
 };
 
 export default async function Page({ params: { projectId, postId } }: Props) {
-  const [post, currentUserRole] = await Promise.all([
-    getPost(projectId, postId),
-    getProjectUserRole(projectId),
-  ]);
+  const post = await getPost(projectId, postId);
 
   if (!post) {
     return notFound();
@@ -23,7 +19,7 @@ export default async function Page({ params: { projectId, postId } }: Props) {
 
   return (
     <div className="mt-4 space-y-4">
-      <EditPostForm post={post} currentUserRole={currentUserRole} />
+      <EditPostForm post={post} />
     </div>
   );
 }

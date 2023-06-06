@@ -7,7 +7,8 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(["development", "production", "test"]),
+    POSTGRES_URL: z.string().url(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -18,6 +19,7 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
+    NODE_ENV: process.env.NODE_ENV,
+    POSTGRES_URL: process.env.POSTGRES_URL,
   },
 });
