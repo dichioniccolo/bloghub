@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 /**
  * @license qrcode.react
  * Copyright (c) Paul O'Shannessy
@@ -10,8 +8,8 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type ComponentProps,
+  type CSSProperties,
 } from "react";
 import NextImage from "next/image";
 import { escape } from "html-escaper";

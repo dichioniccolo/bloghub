@@ -2,14 +2,12 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 import { BlogRoutes } from "@acme/common/routes";
-import { type Post } from "@acme/db";
 import { BlurImage } from "@acme/ui";
 
+import { type GetRandomPostsByDomain } from "../actions/posts";
+
 type Props = {
-  post: Pick<
-    Post,
-    "slug" | "title" | "description" | "thumbnailUrl" | "content" | "createdAt"
-  >;
+  post: GetRandomPostsByDomain[number];
 };
 
 export function PostCard({ post }: Props) {

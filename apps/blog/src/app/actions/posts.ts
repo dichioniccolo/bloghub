@@ -126,3 +126,7 @@ export async function getRandomPostsByDomain(
       posts.createdAt,
     );
 }
+
+export type GetRandomPostsByDomain = Awaited<
+  ReturnType<typeof getRandomPostsByDomain>
+>;
