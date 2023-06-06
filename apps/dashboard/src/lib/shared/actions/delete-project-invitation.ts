@@ -1,7 +1,14 @@
 "use server";
 
 import { AppRoutes } from "@acme/common/routes";
-import { NotificationType, prisma, Role } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  projectInvitations,
+  projectMembers,
+  projects,
+} from "@acme/db";
 import { publishNotification } from "@acme/notifications";
 
 import "isomorphic-fetch";
@@ -19,27 +26,22 @@ export const deleteProjectInvitation = zact(
       email: z.string().email(),
     })
     .superRefine(async ({ userId, projectId, email }, ctx) => {
-      const project = await prisma.project.findFirst({
-        where: {
-          id: projectId,
-          users: {
-            some: {
-              userId,
-            },
+      const project = await db
+        .select({
+          member: {
+            role: projectMembers.role,
           },
-        },
-        select: {
-          users: {
-            select: {
-              role: true,
-            },
-            where: {
-              userId,
-            },
-          },
-        },
-      });
-
+        })
+        .from(projects)
+        .where(eq(projects.id, projectId))
+        .innerJoin(
+          projectMembers,
+          and(
+            eq(projectMembers.projectId, projects.id),
+            eq(projectMembers.userId, userId),
+          ),
+        )
+        .then((x) => x[0]);
       if (!project) {
         ctx.addIssue({
           code: "custom",
@@ -48,7 +50,7 @@ export const deleteProjectInvitation = zact(
         });
       }
 
-      if (project?.users[0]?.role !== Role.OWNER) {
+      if (project?.member?.role !== "owner") {
         ctx.addIssue({
           code: "custom",
           path: ["userId"],
@@ -56,15 +58,16 @@ export const deleteProjectInvitation = zact(
         });
       }
 
-      const invitationToDelete = await prisma.invite.findFirst({
-        where: {
-          email,
-          projectId,
-        },
-        select: {
-          id: true,
-        },
-      });
+      const invitationToDelete = await db
+        .select()
+        .from(projectInvitations)
+        .where(
+          and(
+            eq(projectInvitations.projectId, projectId),
+            eq(projectInvitations.email, email),
+          ),
+        )
+        .then((x) => x[0]);
 
       if (!invitationToDelete) {
         ctx.addIssue({
@@ -75,23 +78,22 @@ export const deleteProjectInvitation = zact(
       }
     }),
 )(async ({ projectId, email }) => {
-  const { project } = await prisma.invite.delete({
-    where: {
-      projectId_email: {
-        projectId,
-        email,
-      },
-    },
-    select: {
-      project: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+  await db
+    .delete(projectInvitations)
+    .where(
+      and(
+        eq(projectInvitations.projectId, projectId),
+        eq(projectInvitations.email, email),
+      ),
+    );
 
-  await publishNotification(NotificationType.REMOVED_FROM_PROJECT, {
+  const project = await db
+    .select()
+    .from(projects)
+    .where(eq(projects.id, projectId))
+    .then((x) => x[0]!);
+
+  await publishNotification("removed_from_project", {
     projectName: project.name,
     userEmail: email,
   });

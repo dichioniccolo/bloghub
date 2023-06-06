@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: 16}}>
  *  <p style={{fontWeight: "normal"}}>Official <a href="https://github.com/drizzle-team/drizzle-orm">Drizzle ORM</a> adapter for Auth.js / NextAuth.js.</p>
@@ -15,6 +16,7 @@
  *
  * @module @auth/drizzle-adapter
  */
+import { createId } from "@paralleldrive/cuid2";
 import { and, eq } from "drizzle-orm";
 import type { Adapter } from "next-auth/adapters";
 
@@ -117,47 +119,41 @@ export function PgAdapter(
     createUser: async (data) => {
       return client
         .insert(users)
-        .values({ ...data, id: crypto.randomUUID() })
+        .values({ ...data, id: createId() })
         .returning()
-        .then((res) => res[0]);
+        .then((res) => res[0]!);
     },
     getUser: async (data) => {
-      return (
-        client
-          .select()
-          .from(users)
-          .where(eq(users.id, data))
-          .then((res) => res[0]) ?? null
-      );
+      return client
+        .select()
+        .from(users)
+        .where(eq(users.id, data))
+        .then((res) => res[0] ?? null);
     },
     getUserByEmail: async (data) => {
-      return (
-        client
-          .select()
-          .from(users)
-          .where(eq(users.email, data))
-          .then((res) => res[0]) ?? null
-      );
+      return client
+        .select()
+        .from(users)
+        .where(eq(users.email, data))
+        .then((res) => res[0] ?? null);
     },
     createSession: async (data) => {
       return client
         .insert(sessions)
         .values(data)
         .returning()
-        .then((res) => res[0]);
+        .then((res) => res[0]!);
     },
     getSessionAndUser: async (data) => {
-      return (
-        client
-          .select({
-            session: sessions,
-            user: users,
-          })
-          .from(sessions)
-          .where(eq(sessions.sessionToken, data))
-          .innerJoin(users, eq(users.id, sessions.userId))
-          .then((res) => res[0]) ?? null
-      );
+      return client
+        .select({
+          session: sessions,
+          user: users,
+        })
+        .from(sessions)
+        .where(eq(sessions.sessionToken, data))
+        .innerJoin(users, eq(users.id, sessions.userId))
+        .then((res) => res[0] ?? null);
     },
     updateUser: async (data) => {
       if (!data.id) {
@@ -169,7 +165,7 @@ export function PgAdapter(
         .set(data)
         .where(eq(users.id, data.id))
         .returning()
-        .then((res) => res[0]);
+        .then((res) => res[0]!);
     },
     updateSession: async (data) => {
       return client
@@ -177,14 +173,14 @@ export function PgAdapter(
         .set(data)
         .where(eq(sessions.sessionToken, data.sessionToken))
         .returning()
-        .then((res) => res[0]);
+        .then((res) => res[0] ?? null);
     },
     linkAccount: async (rawAccount) => {
       const updatedAccount = await client
         .insert(accounts)
         .values(rawAccount)
         .returning()
-        .then((res) => res[0]);
+        .then((res) => res[0]!);
 
       // Drizzle will return `null` for fields that are not defined.
       // However, the return type is expecting `undefined`.
@@ -214,7 +210,7 @@ export function PgAdapter(
         .leftJoin(users, eq(accounts.userId, users.id))
         .then((res) => res[0]);
 
-      return dbAccount.users;
+      return dbAccount!.users;
     },
     deleteSession: async (sessionToken) => {
       await client
@@ -230,18 +226,16 @@ export function PgAdapter(
     },
     useVerificationToken: async (token) => {
       try {
-        return (
-          client
-            .delete(verificationTokens)
-            .where(
-              and(
-                eq(verificationTokens.identifier, token.identifier),
-                eq(verificationTokens.token, token.token),
-              ),
-            )
-            .returning()
-            .then((res) => res[0]) ?? null
-        );
+        return client
+          .delete(verificationTokens)
+          .where(
+            and(
+              eq(verificationTokens.identifier, token.identifier),
+              eq(verificationTokens.token, token.token),
+            ),
+          )
+          .returning()
+          .then((res) => res[0] ?? null);
       } catch (err) {
         throw new Error("No verification token found.");
       }

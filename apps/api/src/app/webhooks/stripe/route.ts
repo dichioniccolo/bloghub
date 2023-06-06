@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { stripe, type Stripe } from "@acme/common/external/stripe";
 import { getUserSubscription } from "@acme/common/external/stripe/actions";
-import { prisma } from "@acme/db";
+import { db, eq, users } from "@acme/db";
 
 import { env } from "~/env.mjs";
 
@@ -72,55 +72,39 @@ export async function POST(req: Request) {
       // Update the user stripe into our database.
       // Since this is the initial subscription, we need to update
       // the subscription id and customer id.
-      await prisma.user.update({
-        where: {
-          id: session.client_reference_id,
-        },
-        data: {
+      await db
+        .update(users)
+        .set({
           stripeCustomerId: subscription.customer.toString(),
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscription.items.data[0]?.price.id,
           dayWhenbillingStarts: new Date(),
-        },
-      });
+        })
+        .where(eq(users.id, session.client_reference_id));
     } else if (event.type === "invoice.payment_succeeded") {
-      // Retrieve the subscription details from Stripe.
-      // const subscription = await stripe.subscriptions.retrieve(
-      //   session.subscription as string
-      // );
-      // Update the price id and set the new period end.
-      // await prisma.user.update({
-      //   where: {
-      //     stripeSubscriptionId: subscription.id,
-      //   },
-      //   data: {},
-      // });
+      //
     } else if (event.type === "customer.subscription.updated") {
       const subscription = event.data.object as Stripe.Subscription;
 
-      await prisma.user.update({
-        where: {
-          stripeCustomerId: subscription.customer.toString(),
-        },
-        data: {
+      await db
+        .update(users)
+        .set({
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscription.items.data[0]?.price.id,
           dayWhenbillingStarts: new Date(),
-        },
-      });
+        })
+        .where(eq(users.stripeCustomerId, subscription.customer.toString()));
     } else if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object as Stripe.Subscription;
 
-      await prisma.user.update({
-        where: {
-          stripeCustomerId: subscription.customer.toString(),
-        },
-        data: {
+      await db
+        .update(users)
+        .set({
           stripeSubscriptionId: null,
           stripePriceId: null,
           dayWhenbillingStarts: new Date(),
-        },
-      });
+        })
+        .where(eq(users.stripeCustomerId, subscription.customer.toString()));
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {

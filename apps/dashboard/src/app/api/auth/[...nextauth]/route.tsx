@@ -3,10 +3,10 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
 import { authOptions, getLoginUrl } from "@acme/auth";
-import { EmailNotificationSettingType, prisma } from "@acme/db";
-import { LoginLink, WelcomeEmail, sendMail } from "@acme/emails";
-
 import { AppRoutes } from "@acme/common/routes";
+import { db, eq, users } from "@acme/db";
+import { LoginLink, sendMail, WelcomeEmail } from "@acme/emails";
+
 import { env } from "~/env.mjs";
 
 const handler = NextAuth({
@@ -28,17 +28,16 @@ const handler = NextAuth({
           return;
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: identifier,
-          },
-          select: {
-            name: true,
-          },
-        });
+        const user = await db
+          .select({
+            name: users.name,
+          })
+          .from(users)
+          .where(eq(users.email, identifier))
+          .then((x) => x[0]);
 
         await sendMail({
-          type: EmailNotificationSettingType.SECURITY,
+          type: "security",
           to: identifier,
           subject: "Your login link",
           component: (
@@ -83,7 +82,7 @@ const handler = NextAuth({
       );
 
       await sendMail({
-        type: EmailNotificationSettingType.COMMUNICATION,
+        type: "communication",
         to: user.email,
         subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
         component: (

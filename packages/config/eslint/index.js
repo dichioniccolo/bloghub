@@ -24,6 +24,7 @@ const config = {
     ],
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
   },
   ignorePatterns: ["**/*.config.js", "**/*.config.cjs", "packages/config/**"],
   reportUnusedDisableDirectives: true,

@@ -2,7 +2,15 @@
 
 import { z } from "zod";
 
-import { prisma, Role } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  gte,
+  projectInvitations,
+  projectMembers,
+  users,
+} from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -13,14 +21,13 @@ export const acceptInvite = zact(
       projectId: z.string(),
     })
     .superRefine(async ({ userId, projectId }, ctx) => {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-        select: {
-          email: true,
-        },
-      });
+      const user = await db
+        .select({
+          email: users.email,
+        })
+        .from(users)
+        .where(eq(users.id, userId))
+        .then((x) => x[0]);
 
       if (!user) {
         ctx.addIssue({
@@ -29,17 +36,21 @@ export const acceptInvite = zact(
           path: ["userId"],
         });
       } else {
-        const invite = await prisma.invite.count({
-          where: {
-            projectId,
-            email: user.email,
-            expiresAt: {
-              gte: new Date(),
-            },
-          },
-        });
+        const invite = await db
+          .select({
+            email: projectInvitations.email,
+          })
+          .from(projectInvitations)
+          .where(
+            and(
+              eq(projectInvitations.projectId, projectId),
+              eq(projectInvitations.email, user.email),
+              gte(projectInvitations.expiresAt, new Date()),
+            ),
+          )
+          .then((x) => x[0]);
 
-        if (invite === 0) {
+        if (!invite) {
           ctx.addIssue({
             code: "custom",
             message: "Invite not found",
@@ -49,30 +60,32 @@ export const acceptInvite = zact(
       }
     }),
 )(async ({ userId, projectId }) => {
-  const user = await prisma.user.findUniqueOrThrow({
-    where: {
-      id: userId,
-    },
-    select: {
-      email: true,
-    },
-  });
+  const user = await db
+    .select({
+      email: users.email,
+    })
+    .from(users)
+    .where(eq(users.id, userId))
+    .then((x) => x[0]);
 
-  await prisma.$transaction(async (tx) => {
-    await tx.invite.delete({
-      where: {
-        projectId_email: {
-          projectId,
-          email: user.email,
-        },
-      },
-    });
-    await tx.projectUser.create({
-      data: {
-        role: Role.EDITOR,
-        projectId,
-        userId,
-      },
+  if (!user) {
+    return;
+  }
+
+  await db.transaction(async (tx) => {
+    await tx
+      .delete(projectInvitations)
+      .where(
+        and(
+          eq(projectInvitations.projectId, projectId),
+          eq(projectInvitations.email, user.email),
+        ),
+      );
+
+    await tx.insert(projectMembers).values({
+      projectId,
+      userId,
+      role: "editor",
     });
   });
 });

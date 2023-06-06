@@ -1,10 +1,6 @@
 import { getLoginUrl } from "@acme/auth";
 import { AppRoutes } from "@acme/common/routes";
-import {
-  EmailNotificationSettingType,
-  NotificationType,
-  prisma,
-} from "@acme/db";
+import { db, eq, notifications, users } from "@acme/db";
 import { RemovedFromProject, sendMail } from "@acme/emails";
 import {
   RemovedFromProjectNotificationSchema,
@@ -29,21 +25,24 @@ export async function handleRemovedFromProjectNotification(
     `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
   );
 
-  await prisma.notification.create({
-    data: {
+  // here the user might not exist, so we need to check for that
+  const userExists = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.email, userEmail))
+    .execute();
+
+  if (userExists.length > 0) {
+    await db.insert(notifications).values({
       notificationId,
-      type: NotificationType.REMOVED_FROM_PROJECT,
+      type: "removed_from_project",
       body,
-      user: {
-        connect: {
-          email: userEmail,
-        },
-      },
-    },
-  });
+      userId: userExists[0]!.id,
+    });
+  }
 
   await sendMail({
-    type: EmailNotificationSettingType.SOCIAL,
+    type: "social",
     to: userEmail,
     subject: "You have been removed from a project",
     component: (

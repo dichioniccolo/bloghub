@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { AppRoutes } from "@acme/common/routes";
-import { prisma, Role } from "@acme/db";
+import { and, db, eq, posts, projectMembers, projects } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -15,49 +15,27 @@ export const deletePost = zact(
     projectId: z.string(),
   }),
 )(async ({ userId, projectId, postId }) => {
-  const post = await prisma.post.findFirst({
-    where: {
-      id: postId,
-      project: {
-        id: projectId,
-        users: {
-          some: {
-            userId,
-          },
-        },
-      },
-    },
-    select: {
-      id: true,
-      project: {
-        select: {
-          users: {
-            select: {
-              role: true,
-            },
-            where: {
-              userId,
-            },
-          },
-        },
-      },
-    },
-  });
+  const post = await db
+    .select({
+      id: posts.id,
+    })
+    .from(posts)
+    .where(eq(posts.id, postId))
+    .innerJoin(projects, eq(projects.id, posts.projectId))
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, projects.id),
+        eq(projectMembers.userId, userId),
+      ),
+    )
+    .then((x) => x[0]);
 
   if (!post) {
     throw new Error("Post not found");
   }
 
-  if (post.project.users[0]?.role !== Role.OWNER) {
-    throw new Error("You must be the owner of the project");
-  }
-
-  // TODO: Delete medias for this post
-  await prisma.post.delete({
-    where: {
-      id: postId,
-    },
-  });
+  await db.delete(posts).where(eq(posts.id, post.id));
 
   revalidatePath(AppRoutes.ProjectDashboard(projectId));
 });

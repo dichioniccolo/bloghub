@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { stripe } from "@acme/common/external/stripe";
 import { determinePlanPriceId } from "@acme/common/external/stripe/actions";
-import { prisma } from "@acme/db";
+import { db, eq, users } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -16,16 +16,19 @@ export const createCheckoutSession = zact(
     period: z.enum(["monthly", "yearly"]).nullable().optional(),
   }),
 )(async ({ userId, callbackUrl, period, name }) => {
-  const dbUser = await prisma.user.findUniqueOrThrow({
-    where: {
-      id: userId,
-    },
-    select: {
-      stripeSubscriptionId: true,
-      stripeCustomerId: true,
-      email: true,
-    },
-  });
+  const dbUser = await db
+    .select({
+      stripeCustomerId: users.stripeCustomerId,
+      stripeSubscriptionId: users.stripeSubscriptionId,
+      email: users.email,
+    })
+    .from(users)
+    .where(eq(users.id, userId))
+    .then((x) => x[0]);
+
+  if (!dbUser) {
+    return;
+  }
 
   if (dbUser.stripeCustomerId && dbUser.stripeSubscriptionId) {
     // The user is on the pro plan.
@@ -60,7 +63,7 @@ export const createCheckoutSession = zact(
     success_url: callbackUrl,
     cancel_url: callbackUrl,
     billing_address_collection: "required",
-    customer_email: dbUser.email?.toString(),
+    customer_email: dbUser.email,
     tax_id_collection: {
       enabled: true,
     },

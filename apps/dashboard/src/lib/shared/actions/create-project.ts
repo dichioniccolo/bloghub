@@ -1,11 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
 import { createDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
-import { prisma, Role } from "@acme/db";
+import { db, projectMembers, projects } from "@acme/db";
 
 import { zact } from "../../zact/server";
 import { DomainSchema } from "./schemas";
@@ -19,19 +20,26 @@ export const createProject = zact(
 )(async (input) => {
   const { userId, name, domain } = input;
 
-  await createDomain(domain);
+  const project = await db.transaction(async (tx) => {
+    await createDomain(domain);
 
-  const project = await prisma.project.create({
-    data: {
-      name,
-      domain,
-      users: {
-        create: {
-          role: Role.OWNER,
-          userId,
-        },
-      },
-    },
+    const project = await tx
+      .insert(projects)
+      .values({
+        id: createId(),
+        name,
+        domain,
+      })
+      .returning()
+      .then((x) => x[0]!);
+
+    await tx.insert(projectMembers).values({
+      projectId: project.id,
+      userId,
+      role: "owner",
+    });
+
+    return project;
   });
 
   revalidatePath(AppRoutes.Dashboard);

@@ -1,17 +1,17 @@
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
-import { type NotificationType } from "@acme/db";
+import { type notificationTypeEnum } from "@acme/db";
 
 import { qstashClient } from "./lib/client";
 
 export type AppNotification = { id: string } & (
   | {
-      type: typeof NotificationType.PROJECT_INVITATION;
+      type: (typeof notificationTypeEnum.enumValues)[0];
       data: ProjectInvitationNotificationData;
     }
   | {
-      type: typeof NotificationType.REMOVED_FROM_PROJECT;
+      type: (typeof notificationTypeEnum.enumValues)[1];
       data: RemovedFromProjectNotificationData;
     }
 );

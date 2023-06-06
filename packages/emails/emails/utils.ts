@@ -1,23 +1,27 @@
 import type Mail from "nodemailer/lib/mailer";
 
-import { prisma, type EmailNotificationSettingType } from "@acme/db";
+import {
+  db,
+  emailNotificationSettings,
+  eq,
+  inArray,
+  users,
+  type emailNotificationSettingTypeEnum,
+} from "@acme/db";
 
 export async function fetchEmailNotificationSettings(
-  type: EmailNotificationSettingType,
+  type: (typeof emailNotificationSettingTypeEnum.enumValues)[number],
   emailAddresses: string[],
 ) {
-  const usersSettings = await prisma.emailNotificationSetting.findMany({
-    where: {
-      type,
-      user: {
-        email: { in: emailAddresses },
-      },
-    },
-    select: {
-      user: { select: { email: true } },
-      value: true,
-    },
-  });
+  const usersSettings = await db
+    .select({
+      value: emailNotificationSettings.value,
+      email: users.email,
+    })
+    .from(emailNotificationSettings)
+    .innerJoin(users, inArray(users.email, emailAddresses))
+    .where(eq(emailNotificationSettings.type, type));
+
   return usersSettings;
 }
 
@@ -26,7 +30,7 @@ export function createEmailSettingsMap(
 ) {
   const emailSettingsMap = new Map<string, boolean>();
   for (const setting of usersSettings) {
-    emailSettingsMap.set(setting.user.email, setting.value);
+    emailSettingsMap.set(setting.email, setting.value);
   }
   return emailSettingsMap;
 }

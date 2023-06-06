@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@acme/db";
+import { db, eq, projects } from "@acme/db";
 
 import { getConfigResponse, getDomainResponse, verifyDomain } from "../vercel";
 
@@ -25,35 +25,43 @@ export async function verifyProjectDomain(domain: string) {
     };
   }
 
-  const project = await prisma.project.update({
-    where: {
-      domain,
-    },
-    data: {
-      domainLastCheckedAt: new Date(),
-    },
-    select: {
-      domainUnverifiedAt: true,
-    },
-  });
-
   const domainResponse = domainResponsePromise.value;
   const configResponse = configResponsePromise.value;
+
+  const project = await db
+    .update(projects)
+    .set({
+      domainLastCheckedAt: new Date(),
+    })
+    .where(eq(projects.domain, domain))
+    .returning({
+      domainUnverifiedAt: projects.domainUnverifiedAt,
+    })
+    .then((x) => x[0]);
+
+  if (!project) {
+    return {
+      invalid: true,
+      notFound: false,
+      verified: false,
+      pending: false,
+      domainJson: domainResponse,
+      configJson: configResponse,
+    };
+  }
 
   if (!domainResponse?.verified) {
     try {
       const verificationResponse = await verifyDomain(domain);
 
       if (verificationResponse?.verified) {
-        await prisma.project.update({
-          where: {
-            domain,
-          },
-          data: {
+        await db
+          .update(projects)
+          .set({
             domainVerified: true,
             domainUnverifiedAt: null,
-          },
-        });
+          })
+          .where(eq(projects.domain, domain));
 
         return {
           verified: true,
@@ -79,17 +87,15 @@ export async function verifyProjectDomain(domain: string) {
   }
 
   if (configResponse?.misconfigured) {
-    await prisma.project.update({
-      where: {
-        domain,
-      },
-      data: {
+    await db
+      .update(projects)
+      .set({
         domainVerified: false,
         domainUnverifiedAt: !project.domainUnverifiedAt
           ? new Date()
           : undefined,
-      },
-    });
+      })
+      .where(eq(projects.domain, domain));
 
     return {
       invalid: true,
@@ -100,15 +106,13 @@ export async function verifyProjectDomain(domain: string) {
       configJson: configResponse,
     };
   } else {
-    await prisma.project.update({
-      where: {
-        domain,
-      },
-      data: {
+    await db
+      .update(projects)
+      .set({
         domainVerified: true,
         domainUnverifiedAt: null,
-      },
-    });
+      })
+      .where(eq(projects.domain, domain));
 
     return {
       invalid: false,

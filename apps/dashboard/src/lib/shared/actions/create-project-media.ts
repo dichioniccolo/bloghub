@@ -3,7 +3,14 @@
 import { createId } from "@paralleldrive/cuid2";
 
 import { uploadFile } from "@acme/common/external/media/actions";
-import { prisma, type MediaType } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  media,
+  projectMembers,
+  type mediaTypeEnum,
+} from "@acme/db";
 
 import { env } from "~/env.mjs";
 
@@ -12,7 +19,6 @@ function arrayBufferToBuffer(ab: ArrayBuffer) {
   const view = new Uint8Array(ab);
 
   for (let i = 0; i < buffer.length; ++i) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     buffer[i] = view[i]!;
   }
 
@@ -24,18 +30,17 @@ export async function createProjectMedia(formData: FormData) {
   const projectId = formData.get("projectId") as string;
   const postId = formData.get("postId") as string;
 
-  const count = await prisma.project.count({
-    where: {
-      id: projectId,
-      users: {
-        some: {
-          userId,
-        },
-      },
-    },
-  });
+  const projectMember = await db
+    .select()
+    .from(projectMembers)
+    .where(
+      and(
+        eq(projectMembers.projectId, projectId),
+        eq(projectMembers.userId, userId),
+      ),
+    );
 
-  if (count === 0) {
+  if (projectMember.length === 0) {
     throw new Error("You must be a member of the project");
   }
 
@@ -45,7 +50,9 @@ export async function createProjectMedia(formData: FormData) {
 
   const fileName = `projects/${projectId}/posts/${postId}/assets/${createId()}.${extension}`;
 
-  const type = formData.get("type") as MediaType;
+  const type = formData.get(
+    "type",
+  ) as (typeof mediaTypeEnum.enumValues)[number];
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
@@ -58,18 +65,30 @@ export async function createProjectMedia(formData: FormData) {
     throw new Error("Failed to upload file");
   }
 
-  const media = await prisma.media.create({
-    data: {
+  return await db
+    .insert(media)
+    .values({
+      id: createId(),
       projectId,
       postId,
       type,
       url: `${env.DO_CDN_URL}/${fileName}`,
-      uploadedById: userId,
-    },
-    select: {
-      url: true,
-    },
-  });
+    })
+    .returning({
+      url: media.url,
+    })
+    .then((x) => x[0]!);
 
-  return media;
+  //     projectId,
+  //     postId,
+  //     type,
+  //     url: `${env.DO_CDN_URL}/${fileName}`,
+  //     uploadedById: userId,
+  //   },
+  //   select: {
+  //     url: true,
+  //   },
+  // });
+
+  // return media;
 }

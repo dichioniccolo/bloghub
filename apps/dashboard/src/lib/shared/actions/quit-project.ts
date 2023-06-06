@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { AppRoutes } from "@acme/common/routes";
-import { prisma, Role } from "@acme/db";
+import { and, db, eq, projectMembers, sql } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -15,15 +15,21 @@ export const quitProject = zact(
       projectId: z.string(),
     })
     .superRefine(async ({ userId, projectId }, ctx) => {
-      const isOwnerCount = await prisma.projectUser.count({
-        where: {
-          userId,
-          projectId,
-          role: Role.OWNER,
-        },
-      });
+      const isOwnerCount = await db
+        .select({
+          count: sql<number>`count(${projectMembers.userId})`,
+        })
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.projectId, projectId),
+            eq(projectMembers.userId, userId),
+            eq(projectMembers.role, "owner"),
+          ),
+        )
+        .then((x) => x[0]!);
 
-      if (isOwnerCount > 0) {
+      if (isOwnerCount.count > 0) {
         ctx.addIssue({
           code: "custom",
           message: "You cannot quit a project you own.",
@@ -32,14 +38,14 @@ export const quitProject = zact(
       }
     }),
 )(async ({ userId, projectId }) => {
-  await prisma.projectUser.delete({
-    where: {
-      projectId_userId: {
-        userId,
-        projectId,
-      },
-    },
-  });
+  await db
+    .delete(projectMembers)
+    .where(
+      and(
+        eq(projectMembers.projectId, projectId),
+        eq(projectMembers.userId, userId),
+      ),
+    );
 
   redirect(AppRoutes.Dashboard);
 });

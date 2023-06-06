@@ -1,7 +1,7 @@
 import { render } from "@react-email/render";
 import nodemailer, { type SendMailOptions } from "nodemailer";
 
-import { type EmailNotificationSettingType } from "@acme/db";
+import { type emailNotificationSettingTypeEnum } from "@acme/db";
 
 import { env } from "../env.mjs";
 import {
@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 
 type MailOptions = Omit<SendMailOptions, "html" | "text"> & {
   component: JSX.Element;
-  type: EmailNotificationSettingType;
+  type: (typeof emailNotificationSettingTypeEnum.enumValues)[number];
 };
 
 const defaultOptions = {

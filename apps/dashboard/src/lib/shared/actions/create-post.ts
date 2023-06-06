@@ -5,7 +5,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
 import { AppRoutes } from "@acme/common/routes";
-import { prisma } from "@acme/db";
+import { and, db, eq, posts, projectMembers } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
@@ -20,18 +20,17 @@ export const createPost = zact(
     .superRefine(async (input, ctx) => {
       const { projectId, userId } = input;
 
-      const count = await prisma.project.count({
-        where: {
-          id: projectId,
-          users: {
-            some: {
-              userId,
-            },
-          },
-        },
-      });
+      const projectMember = await db
+        .select()
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.projectId, projectId),
+            eq(projectMembers.userId, userId),
+          ),
+        );
 
-      if (count === 0) {
+      if (projectMember.length === 0) {
         ctx.addIssue({
           code: "custom",
           message: "You must be a member of the project",
@@ -40,25 +39,26 @@ export const createPost = zact(
       }
     }),
 )(async ({ projectId, title, description }) => {
-  const slug = createId().toLowerCase();
+  const slug = createId();
 
-  const post = await prisma.post.create({
-    data: {
+  const post = await db
+    .insert(posts)
+    .values({
+      id: createId(),
+      projectId,
       title,
       description,
       slug,
-      project: {
-        connect: {
-          id: projectId,
-        },
-      },
-      hidden: true,
       content: "",
-    },
-  });
+    })
+    .returning({
+      id: posts.id,
+    })
+    .then((x) => x[0]);
 
-  // revalidatePath(AppRoutes.ProjectDashboard(projectId));
+  if (!post) {
+    return;
+  }
+
   redirect(AppRoutes.PostEditor(projectId, post.id));
-
-  // return post;
 });

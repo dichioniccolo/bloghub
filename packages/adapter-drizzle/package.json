@@ -42,6 +42,7 @@
     "next-auth": "^4.22.1"
   },
   "devDependencies": {
+    "@paralleldrive/cuid2": "^2.2.1",
     "@types/uuid": "^8.3.3",
     "drizzle-kit": "^0.18.1",
     "drizzle-orm": "^0.26.3",

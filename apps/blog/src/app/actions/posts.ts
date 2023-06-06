@@ -1,6 +1,16 @@
 "use server";
 
-import { prisma, type Prisma } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  inArray,
+  likes,
+  ne,
+  posts,
+  projects,
+  sql,
+} from "@acme/db";
 
 import { generateRandomIndices } from "~/lib/utils";
 
@@ -8,114 +18,91 @@ const skip = (page: number, perPage: number) => (page - 1) * perPage;
 const take = (perPage: number) => perPage;
 
 export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
-  const postsWhere = {
-    hidden: false,
-  } satisfies Prisma.PostSelect;
+  const postsList = await db
+    .select({
+      id: posts.id,
+      slug: posts.slug,
+      title: posts.title,
+      description: posts.description,
+      content: posts.content,
+      createdAt: posts.createdAt,
+      likesCount: sql<number>`count(${likes.userId})`,
+    })
+    .from(posts)
+    .where(eq(posts.hidden, false))
+    .offset(skip(page, perPage))
+    .leftJoin(likes, eq(likes.postId, posts.id))
+    .limit(take(perPage));
 
-  const [posts, postsCount] = await Promise.all([
-    prisma.post.findMany({
-      skip: skip(page, perPage),
-      take: take(perPage),
-      orderBy: {
-        createdAt: "desc",
-      },
-      where: postsWhere,
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        description: true,
-        content: true,
-        createdAt: true,
-        _count: {
-          select: {
-            likedBy: true,
-          },
-        },
-      },
-    }),
-    prisma.post.count({
-      where: postsWhere,
-    }),
-  ]);
+  const postsCount = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(posts)
+    .where(eq(posts.hidden, false));
 
-  return { posts, postsCount };
+  return { posts: postsList, postsCount: postsCount[0]?.count ?? 0 };
 }
 export type GetPostsProjectByDomain = Awaited<
   ReturnType<typeof getPostsByDomain>
 >["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {
-  return await prisma.post.findFirst({
-    where: {
-      slug,
+  return await db
+    .select({
+      id: posts.id,
+      title: posts.title,
+      description: posts.description,
+      thumbnailUrl: posts.thumbnailUrl,
+      content: posts.content,
+      createdAt: posts.createdAt,
       project: {
-        domain,
+        name: projects.name,
+        logo: projects.logo,
       },
-    },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      thumbnailUrl: true,
-      content: true,
-      createdAt: true,
-      project: {
-        select: {
-          name: true,
-          logo: true,
-        },
-      },
-    },
-  });
+    })
+    .from(posts)
+    .where(eq(posts.slug, slug))
+    .innerJoin(
+      projects,
+      and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
+    )
+    .then((x) => x[0]);
 }
 
 export async function getRandomPostsByDomain(
   domain: string,
   currentPostSlug: string,
 ) {
-  const posts = await prisma.post.findMany({
-    where: {
-      project: {
-        domain,
-      },
-      hidden: false,
-      NOT: {
-        slug: currentPostSlug,
-      },
-    },
-    select: {
-      id: true,
-    },
-  });
+  const postsList = await db
+    .select({
+      id: posts.id,
+    })
+    .from(posts)
+    .where(and(eq(posts.hidden, false), ne(posts.slug, currentPostSlug)))
+    .innerJoin(
+      projects,
+      and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
+    );
 
-  const postIds = posts.map((post) => post.id);
+  const postIds = postsList.map((post) => post.id);
 
   const randomIndices = generateRandomIndices(postIds.length, 3);
 
   const ids = randomIndices.map((index) => postIds[index]).filter(Boolean);
 
-  const selectedPosts = await prisma.post.findMany({
-    where: {
-      id: {
-        in: ids,
-      },
-    },
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      description: true,
-      thumbnailUrl: true,
-      content: true,
-      createdAt: true,
-      _count: {
-        select: {
-          likedBy: true,
-        },
-      },
-    },
-  });
+  const selectedPosts = await db
+    .select({
+      id: posts.id,
+      slug: posts.slug,
+      title: posts.title,
+      description: posts.description,
+      thumbnailUrl: posts.thumbnailUrl,
+      content: posts.content,
+      createdAt: posts.createdAt,
+      likesCount: sql<number>`count(${likes.userId})`.mapWith(Number),
+    })
+    .from(posts)
+    .where(inArray(posts.id, ids))
+    .leftJoin(likes, eq(likes.postId, posts.id));
 
   return selectedPosts;
 }

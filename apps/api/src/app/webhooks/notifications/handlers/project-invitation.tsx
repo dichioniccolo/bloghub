@@ -1,9 +1,12 @@
 import { getLoginUrl } from "@acme/auth";
 import { AppRoutes } from "@acme/common/routes";
 import {
-  EmailNotificationSettingType,
-  NotificationType,
-  prisma,
+  and,
+  db,
+  eq,
+  notifications,
+  projectInvitations,
+  users,
 } from "@acme/db";
 import { ProjectInvite, sendMail } from "@acme/emails";
 import {
@@ -20,14 +23,21 @@ export async function handleProjectInvitationNotification(
   const { projectId, userEmail } =
     await ProjectInvitationNotificationSchema.parseAsync(body);
 
-  const invite = await prisma.invite.findUniqueOrThrow({
-    where: {
-      projectId_email: {
-        email: userEmail,
-        projectId,
-      },
+  const invite = await db.query.projectInvitations.findFirst({
+    where: and(
+      eq(projectInvitations.projectId, projectId),
+      eq(projectInvitations.email, userEmail),
+    ),
+    columns: {
+      expiresAt: true,
     },
   });
+
+  if (!invite) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
 
   const url = await getLoginUrl(
     userEmail,
@@ -36,29 +46,23 @@ export async function handleProjectInvitationNotification(
   );
 
   // here the user might not exist, so we need to check for that
-  const userExists = await prisma.user.count({
-    where: {
-      email: userEmail,
-    },
-  });
+  const userExists = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.email, userEmail))
+    .execute();
 
-  if (userExists > 0) {
-    await prisma.notification.create({
-      data: {
-        notificationId,
-        type: NotificationType.PROJECT_INVITATION,
-        body,
-        user: {
-          connect: {
-            email: userEmail,
-          },
-        },
-      },
+  if (userExists.length > 0) {
+    await db.insert(notifications).values({
+      notificationId,
+      type: "project_invitation",
+      body,
+      userId: userExists[0]!.id,
     });
   }
 
   await sendMail({
-    type: EmailNotificationSettingType.SOCIAL,
+    type: "social",
     to: userEmail,
     subject: "You have been invited to a project",
     component: (

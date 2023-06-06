@@ -5,7 +5,16 @@ import { getLoginUrl } from "@acme/auth";
 import { deleteProject } from "@acme/common/actions";
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
 import { AppRoutes } from "@acme/common/routes";
-import { projects } from "@acme/db";
+import {
+  and,
+  asc,
+  db,
+  emails,
+  eq,
+  projectMembers,
+  projects,
+  users,
+} from "@acme/db";
 import {
   AutomaticProjectDeletion,
   InvalidDomain,
@@ -35,80 +44,82 @@ export async function POST(req: Request) {
     });
   }
 
-  // const projects = await prisma.project.findMany({
-  //   select: {
-  //     id: true,
-  //     name: true,
-  //     domain: true,
-  //     domainVerified: true,
-  //     domainUnverifiedAt: true,
-  //     createdAt: true,
-  //     users: {
-  //       where: {
-  //         role: Role.OWNER,
-  //       },
-  //       take: 1,
-  //       select: {
-  //         user: {
-  //           select: {
-  //             email: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  //   orderBy: {
-  //     domainLastCheckedAt: "asc",
-  //   },
-  //   take: 100,
-  // });
+  const projectsToVerify = await db
+    .select({
+      id: projects.id,
+      name: projects.name,
+      domain: projects.domain,
+      domainVerified: projects.domainVerified,
+      domainUnverifiedAt: projects.domainUnverifiedAt,
+      createdAt: projects.createdAt,
+      owner: {
+        id: users.id,
+        email: users.email,
+      },
+    })
+    .from(projects)
+    .orderBy(asc(projects.domainLastCheckedAt))
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projects.id, projectMembers.projectId),
+        eq(projectMembers.role, "owner"),
+      ),
+    )
+    .innerJoin(users, eq(users.id, projectMembers.userId))
+    .limit(100)
+    .execute();
 
   try {
-    for await (const project of projects) {
+    for await (const project of projectsToVerify) {
       const verificationResult = await verifyProjectDomain(project.domain);
 
       if (verificationResult.verified) {
+        await db
+          .delete(emails)
+          .where(eq(emails.projectId, project.id))
+          .execute();
         continue;
       }
 
       const invalidDays = Math.floor(
         Math.floor(
           new Date().getTime() -
-            new Date(project.domainUnverifiedAt ?? project.createdAt).getTime(),
+            (project.domainUnverifiedAt ?? project.createdAt).getTime(),
         ) /
           (1000 * 3600 * 24),
       );
 
-      const projectOwnerEmail = project.users[0]?.user.email ?? "";
-
       if (invalidDays > 3 && invalidDays <= 7) {
-        const invalidDomainEmailCount = await prisma.emails.count({
-          where: {
-            projectId: project.id,
-            type: EmailType.INVALID_DOMAIN,
-            user: {
-              email: projectOwnerEmail,
-            },
-          },
-        });
+        const invalidDomainEmails = await db
+          .select()
+          .from(emails)
+          .where(
+            and(
+              eq(emails.projectId, project.id),
+              eq(emails.type, "invalid_domain"),
+              eq(emails.userId, project.owner.id),
+            ),
+          )
+          .execute();
 
-        if (invalidDomainEmailCount > 0) {
+        if (invalidDomainEmails.length > 0) {
           continue;
         }
 
-        await prisma.$transaction(async (tx) => {
+        await db.transaction(async (tx) => {
           const expiresAt = new Date();
           expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
           const unsubscribeUrl = await getLoginUrl(
-            projectOwnerEmail,
+            project.owner.email,
             expiresAt,
             `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
           );
 
           await sendMail({
-            type: EmailNotificationSettingType.COMMUNICATION,
-            to: projectOwnerEmail,
+            type: "communication",
+            to: project.owner.email,
             subject: `Your domain ${project.domain} is not configured`,
             component: (
               <InvalidDomain
@@ -117,41 +128,34 @@ export async function POST(req: Request) {
                 projectName={project.name}
                 domain={project.domain}
                 invalidDays={invalidDays}
-                ownerEmail={projectOwnerEmail}
+                ownerEmail={project.owner.email}
                 unsubscribeUrl={unsubscribeUrl}
               />
             ),
           });
 
-          await tx.emails.create({
-            data: {
-              project: {
-                connect: {
-                  id: project.id,
-                },
-              },
-              type: EmailType.INVALID_DOMAIN,
-              user: {
-                connect: {
-                  email: projectOwnerEmail,
-                },
-              },
-            },
-          });
+          await tx
+            .insert(emails)
+            .values({
+              type: "invalid_domain",
+              projectId: project.id,
+              userId: project.owner.id,
+            })
+            .execute();
         });
       } else if (invalidDays > 7) {
         const expiresAt = new Date();
         expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
         const unsubscribeUrl = await getLoginUrl(
-          projectOwnerEmail,
+          project.owner.email,
           expiresAt,
           `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
         );
 
         await sendMail({
-          type: EmailNotificationSettingType.COMMUNICATION,
-          to: projectOwnerEmail,
+          type: "communication",
+          to: project.owner.email,
           subject: `Your ${project.domain} domain is not configured`,
           component: (
             <AutomaticProjectDeletion
@@ -159,7 +163,7 @@ export async function POST(req: Request) {
               projectName={project.name}
               domain={project.domain}
               invalidDays={invalidDays}
-              ownerEmail={projectOwnerEmail}
+              ownerEmail={project.owner.email}
               unsubscribeUrl={unsubscribeUrl}
             />
           ),

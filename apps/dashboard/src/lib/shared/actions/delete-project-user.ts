@@ -1,7 +1,7 @@
 "use server";
 
 import { AppRoutes } from "@acme/common/routes";
-import { NotificationType, prisma, Role } from "@acme/db";
+import { and, db, eq, projectMembers, projects, users } from "@acme/db";
 import { publishNotification } from "@acme/notifications";
 
 import "isomorphic-fetch";
@@ -19,26 +19,22 @@ export const deleteProjectUser = zact(
       userIdToDelete: z.string(),
     })
     .superRefine(async ({ userId, projectId, userIdToDelete }, ctx) => {
-      const project = await prisma.project.findFirst({
-        where: {
-          id: projectId,
-          users: {
-            some: {
-              userId,
-            },
+      const project = await db
+        .select({
+          member: {
+            role: projectMembers.role,
           },
-        },
-        select: {
-          users: {
-            select: {
-              role: true,
-            },
-            where: {
-              userId,
-            },
-          },
-        },
-      });
+        })
+        .from(projects)
+        .where(eq(projects.id, projectId))
+        .innerJoin(
+          projectMembers,
+          and(
+            eq(projectMembers.projectId, projects.id),
+            eq(projectMembers.userId, userId),
+          ),
+        )
+        .then((x) => x[0]);
 
       if (!project) {
         ctx.addIssue({
@@ -48,7 +44,7 @@ export const deleteProjectUser = zact(
         });
       }
 
-      if (project?.users[0]?.role !== Role.OWNER) {
+      if (project?.member?.role !== "owner") {
         ctx.addIssue({
           code: "custom",
           path: ["userId"],
@@ -56,16 +52,18 @@ export const deleteProjectUser = zact(
         });
       }
 
-      const userToDelete = await prisma.projectUser.findFirst({
-        where: {
-          userId: userIdToDelete,
-          projectId,
-        },
-        select: {
-          id: true,
-          role: true,
-        },
-      });
+      const userToDelete = await db
+        .select({
+          role: projectMembers.role,
+        })
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.userId, userIdToDelete),
+            eq(projectMembers.projectId, projectId),
+          ),
+        )
+        .then((x) => x[0]);
 
       if (!userToDelete) {
         ctx.addIssue({
@@ -75,7 +73,7 @@ export const deleteProjectUser = zact(
         });
       }
 
-      if (userToDelete?.role === Role.OWNER) {
+      if (userToDelete?.role === "owner") {
         ctx.addIssue({
           code: "custom",
           path: ["userIdToDelete"],
@@ -84,30 +82,34 @@ export const deleteProjectUser = zact(
       }
     }),
 )(async ({ projectId, userIdToDelete }) => {
-  const { user, project } = await prisma.projectUser.delete({
-    where: {
-      projectId_userId: {
-        projectId,
-        userId: userIdToDelete,
-      },
-    },
-    select: {
-      user: {
-        select: {
-          email: true,
-        },
-      },
-      project: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+  const { userEmail, projectName } = await db
+    .select({
+      userEmail: users.email,
+      projectName: projects.name,
+    })
+    .from(projectMembers)
+    .where(
+      and(
+        eq(projectMembers.projectId, projectId),
+        eq(projectMembers.userId, userIdToDelete),
+      ),
+    )
+    .innerJoin(projects, eq(projects.id, projectMembers.projectId))
+    .innerJoin(users, eq(users.id, projectMembers.userId))
+    .then((x) => x[0]!);
 
-  await publishNotification(NotificationType.REMOVED_FROM_PROJECT, {
-    projectName: project.name,
-    userEmail: user.email,
+  await db
+    .delete(projectMembers)
+    .where(
+      and(
+        eq(projectMembers.projectId, projectId),
+        eq(projectMembers.userId, userIdToDelete),
+      ),
+    );
+
+  await publishNotification("removed_from_project", {
+    projectName,
+    userEmail,
   });
 
   revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));

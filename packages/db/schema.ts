@@ -18,7 +18,7 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const users = pgTable(
   "users",
   {
-    id: uuid("id").primaryKey(),
+    id: varchar("id", { length: 256 }).primaryKey(),
     name: text("name"),
     email: text("email").notNull(),
     emailVerified: timestamp("emailVerified", { mode: "date" }),
@@ -40,7 +40,7 @@ export const users = pgTable(
 export const accounts = pgTable(
   "accounts",
   {
-    userId: text("userId")
+    userId: varchar("userId", { length: 256 })
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
@@ -61,7 +61,7 @@ export const accounts = pgTable(
 
 export const sessions = pgTable("sessions", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
-  userId: text("userId")
+  userId: varchar("userId", { length: 256 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
@@ -85,9 +85,13 @@ export const emailNotificationSettingTypeEnum = pgEnum(
 );
 
 export const emailNotificationSettings = pgTable("emailNotificationSettings", {
-  userId: uuid("userId").notNull(),
+  userId: varchar("userId", { length: 256 })
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
   type: emailNotificationSettingTypeEnum("type").notNull(),
-  value: boolean("value").default(false),
+  value: boolean("value").notNull().default(true),
 });
 
 export const notificationTypeEnum = pgEnum("NotificationType", [
@@ -101,26 +105,39 @@ export const notificationStatus = pgEnum("NotificationStatus", [
   "archived",
 ]);
 
-export const notifications = pgTable("notifications", {
-  id: serial("id").primaryKey(),
-  notificationId: uuid("notificationId").notNull(),
-  userId: uuid("userId").notNull(),
-  type: notificationTypeEnum("type").notNull(),
-  status: notificationStatus("status").notNull().default("unread"),
-  body: json("body").notNull(),
-  createdAt: timestamp("createdAt").defaultNow(),
-});
+export const notifications = pgTable(
+  "notifications",
+  {
+    id: serial("id").primaryKey(),
+    notificationId: varchar("notificationId", { length: 256 }).notNull(),
+    userId: varchar("userId", { length: 256 })
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
+    type: notificationTypeEnum("type").notNull(),
+    status: notificationStatus("status").notNull().default("unread"),
+    body: json("body").notNull(),
+    createdAt: timestamp("createdAt").defaultNow(),
+  },
+  (notifications) => ({
+    uniqueIndex: uniqueIndex("notifications_unique_index").on(
+      notifications.notificationId,
+      notifications.userId,
+    ),
+  }),
+);
 
 export const projects = pgTable("projects", {
-  id: uuid("id").primaryKey(),
+  id: varchar("id", { length: 256 }).primaryKey(),
   name: varchar("name", { length: 256 }).notNull(),
   logo: text("logo"),
-  domain: varchar("domain", { length: 256 }),
+  domain: varchar("domain", { length: 256 }).notNull(),
   domainVerified: boolean("domainVerified").default(false),
   domainLastCheckedAt: timestamp("domainLastCheckedAt", { mode: "date" }),
   domainUnverifiedAt: timestamp("domainUnverifiedAt", { mode: "date" }),
-  createdAt: timestamp("createdAt").defaultNow(),
-  updatedAt: timestamp("updatedAt").defaultNow(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
 export const roleEnum = pgEnum("Role", ["owner", "editor"]);
@@ -128,10 +145,18 @@ export const roleEnum = pgEnum("Role", ["owner", "editor"]);
 export const projectMembers = pgTable(
   "projectMembers",
   {
-    projectId: uuid("projectId").notNull(),
-    userId: uuid("userId").notNull(),
+    projectId: varchar("projectId", { length: 256 })
+      .notNull()
+      .references(() => projects.id, {
+        onDelete: "cascade",
+      }),
+    userId: varchar("userId", { length: 256 })
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
     role: roleEnum("role").notNull().default("editor"),
-    createdAt: timestamp("createdAt").defaultNow(),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
   (projectMembers) => ({
     compoundKey: primaryKey(projectMembers.projectId, projectMembers.userId),
@@ -145,14 +170,17 @@ export const projectMembers = pgTable(
 export const projectInvitations = pgTable(
   "projectInvitations",
   {
-    id: serial("id").primaryKey(),
-    projectId: uuid("projectId").notNull(),
+    projectId: varchar("projectId", { length: 256 })
+      .notNull()
+      .references(() => projects.id, {
+        onDelete: "cascade",
+      }),
     email: varchar("email", { length: 256 }).notNull(),
     expiresAt: timestamp("expiresAt", { mode: "date" }).notNull(),
-    createdAt: timestamp("createdAt").defaultNow(),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
   (projectInvitations) => ({
-    uniqueIndex: uniqueIndex("projectInvitations_unique_index").on(
+    compoundKey: primaryKey(
       projectInvitations.projectId,
       projectInvitations.email,
     ),
@@ -162,16 +190,20 @@ export const projectInvitations = pgTable(
 export const posts = pgTable(
   "posts",
   {
-    id: uuid("id").primaryKey(),
-    projectId: uuid("projectId").notNull(),
+    id: varchar("id", { length: 256 }).primaryKey(),
+    projectId: varchar("projectId", { length: 256 })
+      .notNull()
+      .references(() => projects.id, {
+        onDelete: "cascade",
+      }),
     title: varchar("title", { length: 256 }).notNull(),
     description: text("description"),
     content: text("content").notNull(),
     thumbnailUrl: text("thumbnailUrl"),
     slug: varchar("slug", { length: 256 }).notNull(),
     hidden: boolean("hidden").default(true),
-    createdAt: timestamp("createdAt").defaultNow(),
-    updatedAt: timestamp("updatedAt").defaultNow(),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
   },
   (posts) => ({
     uniqueIndex: uniqueIndex("posts_unique_index").on(
@@ -184,9 +216,17 @@ export const posts = pgTable(
 export const likes = pgTable(
   "likes",
   {
-    userId: uuid("userId").notNull(),
-    postId: uuid("postId").notNull(),
-    createdAt: timestamp("createdAt").defaultNow(),
+    userId: varchar("userId", { length: 256 })
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
+    postId: varchar("postId", { length: 256 })
+      .notNull()
+      .references(() => posts.id, {
+        onDelete: "cascade",
+      }),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
   (likes) => ({
     compoundKey: primaryKey(likes.userId, likes.postId),
@@ -195,24 +235,37 @@ export const likes = pgTable(
 
 export const comments = pgTable("comments", {
   id: uuid("id").primaryKey(),
-  userId: uuid("userId").notNull(),
-  postId: uuid("postId").notNull(),
+  userId: varchar("userId", { length: 256 })
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  postId: varchar("postId", { length: 256 })
+    .notNull()
+    .references(() => posts.id, {
+      onDelete: "cascade",
+    }),
   content: text("content").notNull(),
-  parentId: uuid("parentId"),
-  createdAt: timestamp("createdAt").defaultNow(),
+  parentId: varchar("parentId", { length: 256 }),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
 export const mediaTypeEnum = pgEnum("MediaType", ["image", "video", "audio"]);
 
 export const media = pgTable("media", {
-  id: uuid("id").primaryKey(),
-  projectId: uuid("projectId").references(() => projects.id, {
+  id: varchar("id", { length: 256 }).primaryKey(),
+  projectId: varchar("projectId", { length: 256 }).references(
+    () => projects.id,
+    {
+      onDelete: "set null",
+    },
+  ),
+  postId: varchar("postId", { length: 256 }).references(() => posts.id, {
     onDelete: "set null",
   }),
-  postId: uuid("postId").references(() => posts.id, { onDelete: "set null" }),
   type: mediaTypeEnum("type").notNull(),
   url: text("url").notNull(),
-  createdAt: timestamp("createdAt").defaultNow(),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
 export const emailTypeEnum = pgEnum("EmailType", [
@@ -222,16 +275,20 @@ export const emailTypeEnum = pgEnum("EmailType", [
 ]);
 
 export const emails = pgTable("emails", {
-  id: uuid("id").primaryKey(),
+  id: serial("id").primaryKey(),
   type: emailTypeEnum("type").notNull(),
-  userId: uuid("userId").references(() => users.id, { onDelete: "set null" }),
-  projectId: uuid("projectId").references(() => projects.id, {
-    onDelete: "set null",
-  }),
+  userId: varchar("userId", { length: 256 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  projectId: varchar("projectId", { length: 256 })
+    .notNull()
+    .references(() => projects.id, {
+      onDelete: "cascade",
+    }),
 });
 
 export const visits = pgTable("visits", {
-  id: uuid("id").primaryKey(),
+  id: serial("id").primaryKey(),
   projectId: uuid("projectId").notNull(),
   postId: uuid("postId").references(() => posts.id, { onDelete: "set null" }),
   browserName: varchar("browserName", { length: 256 }),

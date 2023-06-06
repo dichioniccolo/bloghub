@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash/nodejs";
 
-import { NotificationType, prisma } from "@acme/db";
+import { db, eq, notifications } from "@acme/db";
 import { type AppNotification } from "@acme/notifications";
 
 import { env } from "~/env.mjs";
@@ -31,14 +31,16 @@ export async function POST(req: Request) {
 
   const { id, type, data } = JSON.parse(body) as AppNotification;
 
-  const notificationExists = await prisma.notification.count({
-    where: {
-      notificationId: id,
-    },
-  });
+  const notificationAlreadyExists = await db
+    .select({
+      notificationId: notifications.notificationId,
+    })
+    .from(notifications)
+    .where(eq(notifications.notificationId, id))
+    .execute();
 
   // notification has already been processed
-  if (notificationExists > 0) {
+  if (notificationAlreadyExists.length > 0) {
     return new Response(null, {
       status: 200,
     });
@@ -46,13 +48,12 @@ export async function POST(req: Request) {
 
   try {
     let response: Response;
-    //
     switch (type) {
-      case NotificationType.PROJECT_INVITATION: {
+      case "project_invitation": {
         response = await handleProjectInvitationNotification(id, data);
         break;
       }
-      case NotificationType.REMOVED_FROM_PROJECT: {
+      case "removed_from_project": {
         response = await handleRemovedFromProjectNotification(id, data);
         break;
       }

@@ -1,105 +1,72 @@
 "use server";
 
-import { prisma, Role } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  gte,
+  inArray,
+  lte,
+  media,
+  posts,
+  projectMembers,
+  projects,
+  sql,
+  visits,
+} from "@acme/db";
 
 import { deleteMedias } from "./external/media/actions";
 import { deleteDomain } from "./external/vercel";
 
 export async function deleteProject(project: { id: string; domain: string }) {
-  await prisma.$transaction(async (tx) => {
+  await db.transaction(async (tx) => {
     await deleteDomain(project.domain);
 
-    await tx.project.delete({
-      where: {
-        id: project.id,
-      },
-    });
+    await tx.delete(projects).where(eq(projects.id, project.id));
   });
 }
 
 export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
-  const usage = await prisma.visit.count({
-    where: {
-      project: {
-        users: {
-          some: {
-            role: Role.OWNER,
-            userId,
-          },
-        },
-      },
-      createdAt: {
-        gte: from,
-        lte: to,
-      },
-    },
-  });
+  const visit = await db
+    .select({
+      count: sql<number>`count(${visits.id})`,
+    })
+    .from(visits)
+    .where(and(gte(visits.createdAt, from), lte(visits.createdAt, to)))
+    .innerJoin(projects, eq(projects.id, visits.projectId))
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, projects.id),
+        eq(projectMembers.userId, userId),
+        eq(projectMembers.role, "owner"),
+      ),
+    )
+    .then((x) => x[0]!);
 
-  return usage;
-}
-
-export async function getProjectTotalUsage(userId: string, projectId: string) {
-  const usage = await prisma.visit.count({
-    where: {
-      project: {
-        id: projectId,
-        users: {
-          some: {
-            userId,
-          },
-        },
-      },
-    },
-  });
-
-  return usage;
-}
-
-export async function getPostTotalUsage(
-  userId: string,
-  projectId: string,
-  postId: string,
-) {
-  const usage = await prisma.visit.count({
-    where: {
-      postId,
-      project: {
-        id: projectId,
-        users: {
-          some: {
-            role: Role.OWNER,
-            userId,
-          },
-        },
-      },
-    },
-  });
-
-  return usage;
+  return visit.count;
 }
 
 export async function deleteUnusedMediaInPost(postId: string) {
-  const post = await prisma.post.findUnique({
-    where: {
-      id: postId,
-    },
-  });
+  const post = await db
+    .select()
+    .from(posts)
+    .where(eq(posts.id, postId))
+    .then((x) => x[0]);
 
   if (!post) {
     return;
   }
 
-  const media = await prisma.media.findMany({
-    where: {
-      postId,
-    },
-    select: {
-      id: true,
-      url: true,
-    },
-  });
+  const mediaList = await db
+    .select({
+      id: media.id,
+      url: media.url,
+    })
+    .from(media)
+    .where(eq(media.postId, postId));
 
-  if (media.length === 0) {
+  if (mediaList.length === 0) {
     return;
   }
 
@@ -117,18 +84,17 @@ export async function deleteUnusedMediaInPost(postId: string) {
     matches.push(match[1]);
   }
 
-  const deletedMedias = media.filter((m) => !matches.includes(m.url));
+  const deletedMedias = mediaList.filter((m) => !matches.includes(m.url));
 
   if (deletedMedias.length === 0) {
     return;
   }
 
   await deleteMedias(deletedMedias.map((m) => m.url));
-  await prisma.media.deleteMany({
-    where: {
-      id: {
-        in: deletedMedias.map((m) => m.id),
-      },
-    },
-  });
+  await db.delete(media).where(
+    inArray(
+      media.id,
+      deletedMedias.map((m) => m.id),
+    ),
+  );
 }

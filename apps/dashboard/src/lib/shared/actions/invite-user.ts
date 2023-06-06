@@ -1,7 +1,15 @@
 "use server";
 
 import { AppRoutes } from "@acme/common/routes";
-import { NotificationType, prisma, Role } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  projectInvitations,
+  projectMembers,
+  sql,
+  users,
+} from "@acme/db";
 import { publishNotification } from "@acme/notifications";
 
 import "isomorphic-fetch";
@@ -19,15 +27,21 @@ export const inviteUser = zact(
       email: z.string().email(),
     })
     .superRefine(async ({ projectId, userId, email }, ctx) => {
-      const isOwnerCount = await prisma.projectUser.count({
-        where: {
-          projectId,
-          userId,
-          role: Role.OWNER,
-        },
-      });
+      const projectMemberCount = await db
+        .select({
+          count: sql<number>`count(${projectMembers.userId})`,
+        })
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.projectId, projectId),
+            eq(projectMembers.userId, userId),
+            eq(projectMembers.role, "owner"),
+          ),
+        )
+        .then((x) => x[0]!);
 
-      if (isOwnerCount === 0) {
+      if (projectMemberCount.count === 0) {
         ctx.addIssue({
           code: "custom",
           message: "You do not have permission to invite users to this project",
@@ -35,16 +49,16 @@ export const inviteUser = zact(
         });
       }
 
-      const existingUser = await prisma.projectUser.count({
-        where: {
-          projectId,
-          user: {
-            email,
-          },
-        },
-      });
+      const existingUser = await db
+        .select({
+          count: sql<number>`count(*)`,
+        })
+        .from(projectMembers)
+        .where(eq(projectMembers.projectId, projectId))
+        .innerJoin(users, eq(users.email, email))
+        .then((x) => x[0]!);
 
-      if (existingUser > 0) {
+      if (existingUser.count > 0) {
         ctx.addIssue({
           code: "custom",
           message: "A user with this email already exists in this project",
@@ -52,14 +66,20 @@ export const inviteUser = zact(
         });
       }
 
-      const existingInvite = await prisma.invite.count({
-        where: {
-          projectId,
-          email,
-        },
-      });
+      const existingInvite = await db
+        .select({
+          count: sql<number>`count(*)`,
+        })
+        .from(projectInvitations)
+        .where(
+          and(
+            eq(projectInvitations.projectId, projectId),
+            eq(projectInvitations.email, email),
+          ),
+        )
+        .then((x) => x[0]!);
 
-      if (existingInvite > 0) {
+      if (existingInvite.count > 0) {
         ctx.addIssue({
           code: "custom",
           message: "An invitation has already been sent to this email",
@@ -70,16 +90,14 @@ export const inviteUser = zact(
 )(async ({ email, projectId }) => {
   const ONE_WEEK_IN_SECONDS = 604800;
 
-  await prisma.$transaction(async (tx) => {
-    await tx.invite.create({
-      data: {
-        email,
-        projectId,
-        expiresAt: new Date(Date.now() + ONE_WEEK_IN_SECONDS * 1000),
-      },
+  await db.transaction(async (tx) => {
+    await tx.insert(projectInvitations).values({
+      email,
+      projectId,
+      expiresAt: new Date(Date.now() + ONE_WEEK_IN_SECONDS * 1000),
     });
 
-    await publishNotification(NotificationType.PROJECT_INVITATION, {
+    await publishNotification("project_invitation", {
       projectId,
       userEmail: email,
     });
