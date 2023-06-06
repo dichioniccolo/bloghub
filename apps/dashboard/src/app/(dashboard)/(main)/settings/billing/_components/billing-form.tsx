@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import { format } from "date-fns";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   Badge,
   Button,
@@ -48,7 +49,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
     startTransition(async () => {
       const url = await mutate({
         userId: user.id,
-        callbackUrl: absoluteUrl("/settings/billing"),
+        callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
       });
 
       if (!url) {

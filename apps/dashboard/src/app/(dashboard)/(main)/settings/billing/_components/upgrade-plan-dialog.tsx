@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   Button,
   Dialog,
@@ -46,7 +47,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
     startTransition(async () => {
       const url = await mutate({
         userId: user.id,
-        callbackUrl: absoluteUrl("/settings/billing"),
+        callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
         name: plan?.name,
         period,
       });

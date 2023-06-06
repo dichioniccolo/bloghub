@@ -55,8 +55,13 @@ export const inviteUser = zact(
         })
         .from(projectMembers)
         .where(eq(projectMembers.projectId, projectId))
-        .innerJoin(users, eq(users.email, email))
+        .innerJoin(
+          users,
+          and(eq(users.id, projectMembers.userId), eq(users.email, email)),
+        )
         .then((x) => x[0]!);
+
+      console.log(existingUser);
 
       if (existingUser.count > 0) {
         ctx.addIssue({

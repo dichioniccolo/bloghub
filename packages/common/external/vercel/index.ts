@@ -52,7 +52,7 @@ export async function createDomain(name: string): Promise<DomainJSON> {
     };
   }
 
-  return await fetch(
+  const response = await fetch(
     `${env.VERCEL_API_URL}/v9/projects/${env.VERCEL_PROJECT_ID}/domains?teamId=${env.VERCEL_TEAM_ID}`,
     {
       method: "POST",
@@ -61,7 +61,13 @@ export async function createDomain(name: string): Promise<DomainJSON> {
         name,
       }),
     },
-  ).then((r) => r.json() as Promise<DomainJSON>);
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to create domain");
+  }
+
+  return (await response.json()) as Promise<DomainJSON>;
 }
 
 export async function deleteDomain(name: string): Promise<DomainJSON> {
