@@ -357,8 +357,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       '@types/uuid':
-        specifier: ^8.3.3
-        version: 8.3.3
+        specifier: ^8.3.4
+        version: 8.3.4
       '@vercel/postgres':
         specifier: ^0.3.0
         version: 0.3.0
@@ -5082,8 +5082,8 @@ packages:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
 
-  /@types/uuid@8.3.3:
-    resolution: {integrity: sha512-0LbEEx1zxrYB3pgpd1M5lEhLcXjKJnYghvhTRgaBeUivLHMDM1TzF3IJ6hXU2+8uA4Xz+5BA63mtZo5DjVT8iA==}
+  /@types/uuid@8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: true
 
   /@types/ws@8.5.4:
