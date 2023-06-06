@@ -25,7 +25,7 @@ declare module "@tiptap/core" {
 const VIDEO_INPUT_REGEX =
   /!\[(.*?)\]\((\S+\.(?:mp4|avi|mov|mkv|wmv))(?:\s+"(.*?)")?\)/;
 
-export const createVideoExtension = (
+export const VideoExtension = (
   userId: string,
   projectId: string,
   postId: string,

@@ -1,11 +1,12 @@
+import { Suspense } from "react";
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
 import { BlurImage, HtmlView } from "@acme/ui";
 
-import { PostCard } from "~/app/_components/post-card";
-import { getPostBySlug, getRandomPostsByDomain } from "~/app/actions/posts";
+import { getPostBySlug } from "~/app/actions/posts";
+import { RandomPosts } from "./_components/random-posts";
 
 type Props = {
   params: {
@@ -26,10 +27,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params: { domain, slug } }: Props) {
-  const [post, randomPosts] = await Promise.all([
-    getPostBySlug(domain, slug),
-    getRandomPostsByDomain(domain, slug),
-  ]);
+  const post = await getPostBySlug(domain, slug);
 
   if (!post) {
     return notFound();
@@ -64,30 +62,12 @@ export default async function Page({ params: { domain, slug } }: Props) {
           />
         </div>
       )}
-      <HtmlView html={post.content} />
-      {randomPosts.length > 0 && (
-        <>
-          <div className="relative mb-20 mt-10 sm:mt-20">
-            <div
-              className="absolute inset-0 flex items-center"
-              aria-hidden="true"
-            >
-              <div className="w-full border-t border-border"></div>
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-background px-2 text-sm">
-                Continue Reading
-              </span>
-            </div>
-          </div>
-
-          <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
-            {randomPosts.map((randomPost) => (
-              <PostCard key={randomPost.id} post={randomPost} />
-            ))}
-          </div>
-        </>
-      )}
+      <div className="m-10">
+        <HtmlView html={post.content} />
+      </div>
+      <Suspense fallback={<p>loading...</p>}>
+        <RandomPosts domain={domain} slug={slug} />
+      </Suspense>
     </>
   );
 }

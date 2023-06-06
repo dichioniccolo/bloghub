@@ -1,12 +1,15 @@
 "use client";
 
+import Typography from "@tiptap/extension-typography";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
 import { cn } from "~/lib/utils";
 import { EditorMenuBar } from "./editor-menu-bar";
-import { createImageExtension } from "./extensions/image";
-import { createVideoExtension } from "./extensions/video";
+import { ColorHighlighter } from "./extensions/color-highlighter";
+import { ImageExtension } from "./extensions/image";
+import { SmilieReplacer } from "./extensions/smile-replacer";
+import { VideoExtension } from "./extensions/video";
 
 type Props = {
   userId: string;
@@ -20,8 +23,11 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({}),
-      createImageExtension(userId, projectId, postId),
-      createVideoExtension(userId, projectId, postId),
+      Typography,
+      ColorHighlighter,
+      SmilieReplacer,
+      ImageExtension(userId, projectId, postId),
+      VideoExtension(userId, projectId, postId),
     ],
     editorProps: {
       attributes: {

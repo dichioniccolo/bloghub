@@ -51,7 +51,12 @@ export function PostCard({ post, project, owner }: Props) {
         <CardDescription>
           {project.domainVerified ? (
             <Link
-              className="text-blue w-24 truncate text-sm font-semibold dark:text-blue-400 sm:w-full sm:text-base"
+              className={cn(
+                "text-blue w-24 truncate text-sm font-semibold dark:text-blue-400 sm:w-full sm:text-base",
+                {
+                  "cursor-not-allowed": post.hidden,
+                },
+              )}
               href={constructPostUrl(project.domain, post.slug, {
                 withProtocol: true,
               })}

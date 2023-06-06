@@ -28,7 +28,7 @@ declare module "@tiptap/core" {
 const IMAGE_INPUT_REGEX =
   /!\[(.*?)\]\((\S+\.(?:png|jpe?g|gif|bmp|ico|webp))(?:\s+"(.*?)")?\)/;
 
-export const createImageExtension = (
+export const ImageExtension = (
   userId: string,
   projectId: string,
   postId: string,

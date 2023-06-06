@@ -37,8 +37,8 @@
   "devDependencies": {
     "@paralleldrive/cuid2": "^2.2.1",
     "@types/uuid": "^8.3.3",
+    "@vercel/postgres": "^0.3.0",
     "drizzle-kit": "^0.18.1",
-    "drizzle-orm": "^0.26.3",
-    "@vercel/postgres": "^0.3.0"
+    "drizzle-orm": "^0.26.3"
   }
 }

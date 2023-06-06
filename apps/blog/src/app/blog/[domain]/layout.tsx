@@ -6,7 +6,6 @@ import { getProjectByDomain } from "~/app/actions/projects";
 type Props = {
   params: {
     domain: string;
-    slug: string;
   };
 };
 

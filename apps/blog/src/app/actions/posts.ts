@@ -69,7 +69,7 @@ export async function getPostBySlug(domain: string, slug: string) {
       },
     })
     .from(posts)
-    .where(eq(posts.slug, slug))
+    .where(and(eq(posts.slug, slug), eq(posts.hidden, false)))
     .innerJoin(
       projects,
       and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
@@ -80,6 +80,7 @@ export async function getPostBySlug(domain: string, slug: string) {
 export async function getRandomPostsByDomain(
   domain: string,
   currentPostSlug: string,
+  toGenerate = 3,
 ) {
   const postsList = await db
     .select({
@@ -94,7 +95,7 @@ export async function getRandomPostsByDomain(
 
   const postIds = postsList.map((post) => post.id);
 
-  const randomIndices = generateRandomIndices(postIds.length, 3);
+  const randomIndices = generateRandomIndices(postIds.length, toGenerate);
 
   const ids = randomIndices.map((index) => postIds[index]).filter(Boolean);
 

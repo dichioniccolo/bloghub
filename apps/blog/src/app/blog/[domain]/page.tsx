@@ -24,8 +24,17 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const project = await getProjectByDomain(domain);
 
+  if (!project) {
+    return {};
+  }
+
   return {
-    title: project?.name,
+    title: `${project.name}'s Blog`,
+    themeColor: [
+      { media: "(prefers-color-scheme: light)", color: "white" },
+      { media: "(prefers-color-scheme: dark)", color: "black" },
+    ],
+    metadataBase: new URL(`https://${domain}`),
   };
 }
 

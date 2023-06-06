@@ -33,7 +33,7 @@ export const metadata = {
   keywords: [
     "Next.js",
     "React",
-    "Prisma",
+    "Drizzle ORM",
     "Tailwind CSS",
     "Server Components",
     "Server Actions",
@@ -57,7 +57,7 @@ export const metadata = {
     locale: "en_US",
     // url: absoluteUrl(),
     title: env.NEXT_PUBLIC_APP_NAME,
-    // description: env.NEXT_PUBLIC_APP_DESCRIPTION,
+    description: env.NEXT_PUBLIC_APP_DESCRIPTION,
     siteName: env.NEXT_PUBLIC_APP_NAME,
     // images: [
     //   {
@@ -85,6 +85,8 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
+  // TODO: change
+  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
 } satisfies Metadata;
 
 export default async function Layout({ children }: PropsWithChildren) {

@@ -99,7 +99,6 @@ export async function getProjectUsers(projectId: string) {
       },
     })
     .from(projectMembers)
-    // .innerJoin(projects, eq(projects.id, projectMembers.projectId))
     .innerJoin(
       projectMembersAlias,
       and(
@@ -109,33 +108,6 @@ export async function getProjectUsers(projectId: string) {
     )
     .innerJoin(users, eq(users.id, projectMembers.userId))
     .where(eq(projectMembers.projectId, projectId));
-
-  // const users = await prisma.projectUser.findMany({
-  //   where: {
-  //     projectId,
-  //     project: {
-  //       users: {
-  //         some: {
-  //           userId: user.id,
-  //         },
-  //       },
-  //     },
-  //   },
-  //   select: {
-  //     id: true,
-  //     role: true,
-  //     createdAt: true,
-  //     user: {
-  //       select: {
-  //         id: true,
-  //         name: true,
-  //         email: true,
-  //       },
-  //     },
-  //   },
-  // });
-
-  // return users;
 }
 
 export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;

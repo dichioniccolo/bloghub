@@ -11,7 +11,10 @@ export function HtmlView({ html, className, as = "div" }: HtmlViewProps) {
 
   return (
     <Comp
-      className={cn("prose max-w-none text-primary sm:prose-lg", className)}
+      className={cn(
+        "prose mx-auto max-w-none text-primary sm:prose-lg",
+        className,
+      )}
       dangerouslySetInnerHTML={{
         __html: html,
       }}

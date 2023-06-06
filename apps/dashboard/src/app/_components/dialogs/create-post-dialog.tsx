@@ -58,6 +58,10 @@ function CreatePostDialog({ projectId, open, setOpen }: Props) {
         <Form
           schema={CreatePostSchema}
           onSubmit={onSubmit}
+          initialValues={{
+            title: "",
+            description: "",
+          }}
           className="flex flex-col space-y-6 text-left"
         >
           {({ formState: { isSubmitting } }) => (
