@@ -17,7 +17,7 @@
     "@aws-sdk/s3-request-presigner": "^3.347.1",
     "@aws-sdk/signature-v4-crt": "^3.347.0",
     "@t3-oss/env-nextjs": "^0.4.0",
-    "aws-crt": "^1.15.17",
+    "aws-crt": "^1.15.18",
     "cheerio": "1.0.0-rc.12",
     "stripe": "^12.8.0",
     "zod": "^3.21.4"
