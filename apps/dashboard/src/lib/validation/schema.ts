@@ -22,13 +22,6 @@ export const CreateProjectSchema = z.object({
 
 export type CreateProjectSchemaType = z.infer<typeof CreateProjectSchema>;
 
-export const CreatePostSchema = z.object({
-  title: z.string().min(3).max(128),
-  description: z.string().optional(),
-});
-
-export type CreatePostSchemaType = z.infer<typeof CreatePostSchema>;
-
 export const UpdateDomainSchema = z.object({
   oldDomain: z.string().regex(domainRegex),
   newDomain: z.string().regex(domainRegex),
@@ -48,8 +41,6 @@ export const InviteMemberSchema = z.object({
 export type InviteMemberSchemaType = z.infer<typeof InviteMemberSchema>;
 
 export const EditPostSchema = z.object({
-  title: z.string().min(3).max(128),
-  description: z.string().optional(),
   content: z.string(),
 });
 

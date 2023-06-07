@@ -1,5 +1,7 @@
 "use client";
 
+import Document from "@tiptap/extension-document";
+import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -19,10 +21,26 @@ type Props = {
   onChange(value: string): void;
 };
 
+export const ForceTitle = Document.extend({
+  content: "heading block*",
+});
+
 export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({}),
+      ForceTitle,
+      StarterKit.configure({
+        document: false,
+      }),
+      Placeholder.configure({
+        placeholder: ({ node }) => {
+          if (node.type.name === "heading") {
+            return "What's the title?";
+          }
+
+          return "";
+        },
+      }),
       Typography,
       ColorHighlighter,
       SmilieReplacer,
@@ -33,7 +51,7 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
       attributes: {
         class: cn(
           // input styles
-          "rounded-md border border-input px-3 py-2 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          "rounded-md border border-input px-3 py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
           "prose prose-md max-w-none sm:prose-lg min-h-[500px] dark:prose-invert",
         ),
       },

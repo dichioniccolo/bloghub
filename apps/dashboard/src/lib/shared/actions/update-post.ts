@@ -3,6 +3,7 @@
 import { z } from "zod";
 
 import { deleteUnusedMediaInPost } from "@acme/common/actions";
+import { getPostTitleAndDescriptionByContent } from "@acme/common/utils/post";
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
@@ -13,11 +14,7 @@ export const updatePost = zact(
       userId: z.string(),
       projectId: z.string(),
       postId: z.string(),
-      body: z.object({
-        title: z.string().min(3).max(128),
-        description: z.string().optional(),
-        content: z.string(),
-      }),
+      content: z.string(),
     })
     .superRefine(async (input, ctx) => {
       const { projectId, userId, postId } = input;
@@ -61,13 +58,15 @@ export const updatePost = zact(
         });
       }
     }),
-)(async ({ postId, body }) => {
+)(async ({ postId, content }) => {
+  const { title, description } = getPostTitleAndDescriptionByContent(content);
+
   const post = await db
     .update(posts)
     .set({
-      title: body.title,
-      description: body.description,
-      content: body.content,
+      title,
+      description,
+      content,
     })
     .where(eq(posts.id, postId))
     .returning({

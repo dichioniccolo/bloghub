@@ -1,7 +1,5 @@
 "use client";
 
-import TextareaAutosize from "react-textarea-autosize";
-
 import {
   Form,
   FormControl,
@@ -9,7 +7,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
 } from "@acme/ui";
 
 import { Tiptap } from "~/app/_components/tiptap";
@@ -32,16 +29,12 @@ export function EditPostForm({ post }: Props) {
   const user = useUser();
   const { mutate } = useZact(updatePost);
 
-  async function onSubmit({ title, content, description }: EditPostSchemaType) {
+  async function onSubmit({ content }: EditPostSchemaType) {
     await mutate({
       userId: user.id,
       projectId: post.projectId,
       postId: post.id,
-      body: {
-        title,
-        content,
-        description,
-      },
+      content,
     });
   }
 
@@ -49,9 +42,7 @@ export function EditPostForm({ post }: Props) {
     <Form
       schema={EditPostSchema}
       initialValues={{
-        title: post.title ?? "",
         content: post.content ?? "",
-        description: post.description ?? "",
       }}
       onSubmit={onSubmit}
     >
@@ -60,62 +51,23 @@ export function EditPostForm({ post }: Props) {
           <EditPostFormToolbar post={post} />
           <LeaveConfirm formState={formState} />
           <FormField
-            name="title"
+            name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Post</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Your project title"
-                    autoCapitalize="none"
-                    autoComplete="title"
-                    autoCorrect="off"
-                    disabled={formState.isSubmitting}
-                    {...field}
+                  <Tiptap
+                    userId={user.id}
+                    projectId={post.projectId}
+                    postId={post.id}
+                    value={field.value}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <TextareaAutosize
-                    disabled={formState.isSubmitting}
-                    placeholder="A description for your post"
-                    className="block w-full rounded border-secondary bg-transparent shadow-sm"
-                    minRows={4}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="mt-6">
-            <FormField
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Post</FormLabel>
-                  <FormControl>
-                    <Tiptap
-                      userId={user.id}
-                      projectId={post.projectId}
-                      postId={post.id}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
         </>
       )}
     </Form>

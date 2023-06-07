@@ -42,7 +42,6 @@ export async function getPost(projectId: string, postId: string) {
       slug: posts.slug,
       createdAt: posts.createdAt,
       hidden: posts.hidden,
-      description: posts.description,
       content: posts.content,
     })
     .from(posts)

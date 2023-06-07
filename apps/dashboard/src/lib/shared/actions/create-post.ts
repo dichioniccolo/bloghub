@@ -14,8 +14,6 @@ export const createPost = zact(
     .object({
       userId: z.string(),
       projectId: z.string(),
-      title: z.string().min(3).max(128),
-      description: z.string().optional(),
     })
     .superRefine(async (input, ctx) => {
       const { projectId, userId } = input;
@@ -38,7 +36,7 @@ export const createPost = zact(
         });
       }
     }),
-)(async ({ projectId, title, description }) => {
+)(async ({ projectId }) => {
   const slug = createId();
 
   const post = await db
@@ -46,9 +44,8 @@ export const createPost = zact(
     .values({
       id: createId(),
       projectId,
-      title,
-      description,
       slug,
+      title: "",
       content: "",
     })
     .returning({
