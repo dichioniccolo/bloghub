@@ -29,7 +29,7 @@
     "clean": "rm -rf ./.drizzle .turbo node_modules"
   },
   "peerDependencies": {
-    "drizzle-orm": "^0.26.3"
+    "drizzle-orm": "^0.26.5"
   },
   "dependencies": {
     "next-auth": "^4.22.1"
@@ -39,6 +39,6 @@
     "@types/uuid": "^8.3.4",
     "@vercel/postgres": "^0.3.0",
     "drizzle-kit": "^0.18.1",
-    "drizzle-orm": "^0.26.3"
+    "drizzle-orm": "^0.26.5"
   }
 }
