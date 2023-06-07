@@ -78,7 +78,7 @@ export async function POST(req: Request) {
           stripeCustomerId: subscription.customer.toString(),
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscription.items.data[0]?.price.id,
-          dayWhenbillingStarts: new Date(),
+          dayWhenBillingStarts: new Date(),
         })
         .where(eq(users.id, session.client_reference_id));
     } else if (event.type === "invoice.payment_succeeded") {
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
         .set({
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscription.items.data[0]?.price.id,
-          dayWhenbillingStarts: new Date(),
+          dayWhenBillingStarts: new Date(),
         })
         .where(eq(users.stripeCustomerId, subscription.customer.toString()));
     } else if (event.type === "customer.subscription.deleted") {
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
         .set({
           stripeSubscriptionId: null,
           stripePriceId: null,
-          dayWhenbillingStarts: new Date(),
+          dayWhenBillingStarts: new Date(),
         })
         .where(eq(users.stripeCustomerId, subscription.customer.toString()));
     }

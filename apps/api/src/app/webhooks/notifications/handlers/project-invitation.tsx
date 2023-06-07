@@ -23,15 +23,18 @@ export async function handleProjectInvitationNotification(
   const { projectId, userEmail } =
     await ProjectInvitationNotificationSchema.parseAsync(body);
 
-  const invite = await db.query.projectInvitations.findFirst({
-    where: and(
-      eq(projectInvitations.projectId, projectId),
-      eq(projectInvitations.email, userEmail),
-    ),
-    columns: {
-      expiresAt: true,
-    },
-  });
+  const invite = await db
+    .select({
+      expiresAt: projectInvitations.expiresAt,
+    })
+    .from(projectInvitations)
+    .where(
+      and(
+        eq(projectInvitations.projectId, projectId),
+        eq(projectInvitations.email, userEmail),
+      ),
+    )
+    .then((x) => x[0]);
 
   if (!invite) {
     return new Response(null, {
@@ -46,18 +49,18 @@ export async function handleProjectInvitationNotification(
   );
 
   // here the user might not exist, so we need to check for that
-  const userExists = await db
+  const user = await db
     .select({ id: users.id })
     .from(users)
     .where(eq(users.email, userEmail))
-    .execute();
+    .then((x) => x[0]);
 
-  if (userExists.length > 0) {
+  if (user) {
     await db.insert(notifications).values({
       notificationId,
       type: "project_invitation",
       body,
-      userId: userExists[0]!.id,
+      userId: user.id,
     });
   }
 

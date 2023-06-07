@@ -46,9 +46,10 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
   const postsCount = await db
     .select({ count: sql<number>`count(*)`.mapWith(Number) })
     .from(posts)
-    .where(eq(posts.hidden, false));
+    .where(eq(posts.hidden, false))
+    .then((x) => x[0]!);
 
-  return { posts: postsList, postsCount: postsCount[0]?.count ?? 0 };
+  return { posts: postsList, postsCount: postsCount.count };
 }
 export type GetPostsProjectByDomain = Awaited<
   ReturnType<typeof getPostsByDomain>

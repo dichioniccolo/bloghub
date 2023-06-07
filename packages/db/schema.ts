@@ -25,7 +25,7 @@ export const users = pgTable(
     stripeCustomerId: varchar("stripeCustomerId", { length: 256 }),
     stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 256 }),
     stripePriceId: varchar("stripePriceId", { length: 256 }),
-    dayWhenbillingStarts: timestamp("dayWhenbillingStarts", { mode: "date" })
+    dayWhenBillingStarts: timestamp("dayWhenBillingStarts", { mode: "date" })
       .notNull()
       .defaultNow(),
     createdAt: timestamp("createdAt").notNull().defaultNow(),

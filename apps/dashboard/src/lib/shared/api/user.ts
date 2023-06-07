@@ -13,13 +13,13 @@ export async function getUserPlan() {
     .select({
       stripeSubscriptionId: users.stripeSubscriptionId,
       stripePriceId: users.stripePriceId,
-      dayWhenbillingStarts: users.dayWhenbillingStarts,
+      dayWhenBillingStarts: users.dayWhenBillingStarts,
     })
     .from(users)
     .where(eq(users.id, user.id))
     .then((x) => x[0]!);
 
-  const billingPeriod = await getBillingPeriod(dbUser.dayWhenbillingStarts);
+  const billingPeriod = await getBillingPeriod(dbUser.dayWhenBillingStarts);
 
   const usage = await getUserTotalUsage(
     user.id,
@@ -39,12 +39,12 @@ export async function getUserPlan() {
 export type GetUserPlan = Awaited<ReturnType<typeof getUserPlan>>;
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export async function getBillingPeriod(dayWhenbillingStarts: Date) {
+export async function getBillingPeriod(dayWhenBillingStarts: Date) {
   const today = new Date();
   const currentDay = today.getDate();
   const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
-  const day = dayWhenbillingStarts.getDate();
+  const day = dayWhenBillingStarts.getDate();
 
   if (currentDay >= day) {
     return [

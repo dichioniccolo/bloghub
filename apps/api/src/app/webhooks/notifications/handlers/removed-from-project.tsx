@@ -26,18 +26,18 @@ export async function handleRemovedFromProjectNotification(
   );
 
   // here the user might not exist, so we need to check for that
-  const userExists = await db
-    .select({ id: users.id })
+  const user = await db
+    .select({ id: users.id, name: users.name })
     .from(users)
     .where(eq(users.email, userEmail))
-    .execute();
+    .then((x) => x[0]);
 
-  if (userExists.length > 0) {
+  if (user) {
     await db.insert(notifications).values({
       notificationId,
       type: "removed_from_project",
       body,
-      userId: userExists[0]!.id,
+      userId: user.id,
     });
   }
 

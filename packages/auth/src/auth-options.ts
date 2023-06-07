@@ -2,7 +2,14 @@ import { DrizzleAdapter } from "@auth/adapter-drizzle";
 import { type DefaultSession, type NextAuthOptions } from "next-auth";
 import { type DefaultJWT, type JWT } from "next-auth/jwt";
 
-import { accounts, db, sessions, users, verificationTokens } from "@acme/db";
+import {
+  accounts,
+  db,
+  eq,
+  sessions,
+  users,
+  verificationTokens,
+} from "@acme/db";
 
 /**
  * Module augmentation for `next-auth` types
@@ -57,9 +64,16 @@ export const authOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      const dbUser = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.email, token.email),
-      });
+      const dbUser = await db
+        .select({
+          id: users.id,
+          email: users.email,
+          name: users.name,
+          image: users.image,
+        })
+        .from(users)
+        .where(eq(users.email, token.email))
+        .then((x) => x[0]);
 
       if (!dbUser) {
         if (user) {

@@ -142,7 +142,7 @@ export async function getProjectOwner(projectId: string) {
   const owner = await db
     .select({
       stripePriceId: users.stripePriceId,
-      dayWhenbillingStarts: users.dayWhenbillingStarts,
+      dayWhenBillingStarts: users.dayWhenBillingStarts,
     })
     .from(projectMembers)
     .innerJoin(
@@ -161,7 +161,7 @@ export async function getProjectOwner(projectId: string) {
     )
     .then((x) => x[0]!);
 
-  const billingPeriod = await getBillingPeriod(owner.dayWhenbillingStarts);
+  const billingPeriod = await getBillingPeriod(owner.dayWhenBillingStarts);
 
   const usage = await getUserTotalUsage(
     user.id,
