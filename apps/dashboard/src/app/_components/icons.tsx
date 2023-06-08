@@ -5,6 +5,7 @@ import {
   AlignJustify,
   AlignLeft,
   AlignRight,
+  Archive,
   ArrowLeft,
   BarChart,
   BellRing,
@@ -53,6 +54,7 @@ export type Icon = LucideIcon | ReactNode;
 
 export const Icons = {
   add: Plus,
+  archive: Archive,
   bellRing: BellRing,
   edit: Edit,
   euro: Euro,

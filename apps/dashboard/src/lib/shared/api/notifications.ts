@@ -9,8 +9,10 @@ export async function getNotifications() {
 
   const list = await db
     .select({
+      id: notifications.id,
       type: notifications.type,
       data: notifications.body,
+      createdAt: notifications.createdAt,
     })
     .from(notifications)
     .where(

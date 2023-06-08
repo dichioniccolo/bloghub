@@ -25,41 +25,51 @@ export async function Notifications() {
     <Popover>
       <PopoverTrigger asChild>
         <Button size="xs" variant="secondary" className="rounded-full">
-          <Bell className="mr-1 h-4 w-4" />
+          <Bell className="h-4 w-4" />
           {unreadCount > 0 && (
-            <Badge variant="info" size="sm">
+            <Badge variant="info" size="sm" className="ml-1">
               {unreadCount}
             </Badge>
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="h-96 w-80">
-        <div className="flex items-center justify-between">
-          <div className="text-sm font-medium">Notifications</div>
-          <Link href={AppRoutes.NotificationsSettings}>
-            <Button size="xs" variant="secondary" className="rounded-full">
-              <Icons.settings className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-        <div className="mt-4 divide-y divide-border">
-          {notifications.map((notification, index) => {
-            if (isProjectInvitationNotification(notification)) {
-              return (
-                <ProjectInvitationNotification
-                  key={index}
-                  type={notification.type}
-                  data={notification.data}
-                />
-              );
-            }
+      <PopoverContent
+        align="end"
+        className="h-[500px] w-[400px] overflow-hidden p-0"
+      >
+        <div className="flex h-full flex-col">
+          <div className="flex items-center justify-between border-b border-border p-2">
+            <div className="text-sm font-medium">Notifications</div>
+            <Link href={AppRoutes.NotificationsSettings}>
+              <Button size="xs" variant="secondary" className="rounded-full">
+                <Icons.settings className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          <div className="relative block flex-1 divide-y divide-border self-start overflow-y-auto">
+            {notifications.map((notification, index) => {
+              if (isProjectInvitationNotification(notification)) {
+                return (
+                  <ProjectInvitationNotification
+                    key={index}
+                    type={notification.type}
+                    data={notification.data}
+                    createdAt={notification.createdAt}
+                    notificationId={notification.id}
+                  />
+                );
+              }
 
-            if (isRemovedFromProjectNotification(notification)) {
-              return "2";
-            }
+              if (isRemovedFromProjectNotification(notification)) {
+                return "2";
+              }
 
-            return null;
-          })}
+              return null;
+            })}
+          </div>
+          <div className="sticky bottom-0 flex justify-center border-t border-border p-2">
+            Archive all
+          </div>
         </div>
       </PopoverContent>
     </Popover>
