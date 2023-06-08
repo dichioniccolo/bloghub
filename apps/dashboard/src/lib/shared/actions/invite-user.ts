@@ -7,6 +7,7 @@ import {
   eq,
   projectInvitations,
   projectMembers,
+  projects,
   sql,
   users,
 } from "@acme/db";
@@ -96,6 +97,14 @@ export const inviteUser = zact(
   const ONE_WEEK_IN_SECONDS = 604800;
 
   await db.transaction(async (tx) => {
+    const project = await tx
+      .select({
+        name: projects.name,
+      })
+      .from(projects)
+      .where(eq(projects.id, projectId))
+      .then((x) => x[0]!);
+
     await tx.insert(projectInvitations).values({
       email,
       projectId,
@@ -104,6 +113,7 @@ export const inviteUser = zact(
 
     await publishNotification("project_invitation", {
       projectId,
+      projectName: project.name,
       userEmail: email,
     });
   });

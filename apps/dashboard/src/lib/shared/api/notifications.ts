@@ -1,16 +1,16 @@
 "use server";
 
-import { and, db, desc, eq, inArray, notifications } from "@acme/db";
+import { and, db, desc, eq, inArray, notifications, sql } from "@acme/db";
 
 import { $getUser } from "../get-user";
 
 export async function getNotifications() {
   const user = await $getUser();
 
-  return await db
+  const list = await db
     .select({
       type: notifications.type,
-      body: notifications.body,
+      data: notifications.body,
     })
     .from(notifications)
     .where(
@@ -21,4 +21,22 @@ export async function getNotifications() {
     )
     .limit(20)
     .orderBy(desc(notifications.createdAt));
+
+  const unread = await db
+    .select({
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(notifications)
+    .where(
+      and(
+        eq(notifications.userId, user.id),
+        eq(notifications.status, "unread"),
+      ),
+    )
+    .then((x) => x[0]!);
+
+  return {
+    notifications: list,
+    unreadCount: unread.count,
+  };
 }

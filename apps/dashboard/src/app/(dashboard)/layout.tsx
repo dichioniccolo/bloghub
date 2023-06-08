@@ -8,7 +8,7 @@ import { Icons } from "~/app/_components/icons";
 import { env } from "~/env.mjs";
 import { CommandMenu } from "../_components/command-menu";
 import { Notifications } from "../_components/notifications";
-import { NotificationsPlaceholder } from "../_components/notifications-placeholder";
+import { NotificationsPlaceholder } from "../_components/notifications/notifications-placeholder";
 import { ProjectsDropdown } from "./_components/ProjectsDropdown";
 import { UserDropdown } from "./_components/UserDropdown";
 

@@ -127,7 +127,7 @@ export const notifications = pgTable(
       }),
     type: notificationTypeEnum("type").notNull(),
     status: notificationStatus("status").notNull().default("unread"),
-    body: json("body").notNull(),
+    body: json("body").$type<any>().notNull(),
     createdAt: timestamp("createdAt").notNull().defaultNow(),
   },
   (notifications) => ({
