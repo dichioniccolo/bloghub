@@ -19,7 +19,7 @@
     "@t3-oss/env-nextjs": "^0.4.0",
     "aws-crt": "^1.15.18",
     "cheerio": "1.0.0-rc.12",
-    "stripe": "^12.8.0",
+    "stripe": "^12.9.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
