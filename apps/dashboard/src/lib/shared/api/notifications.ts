@@ -44,10 +44,6 @@ export async function getNotifications() {
   };
 }
 
-type BaseNotification = Awaited<
-  ReturnType<typeof getNotifications>
->["notifications"][number];
-
 export type Notification = Awaited<
   ReturnType<typeof getNotifications>
 >["notifications"][number];

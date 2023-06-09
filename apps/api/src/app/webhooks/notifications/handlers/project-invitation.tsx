@@ -74,7 +74,7 @@ export async function handleProjectInvitationNotification(
       })
       .then((x) => x[0]!);
 
-    await pusherServer.trigger(`user:${user.id}`, "notifications", {
+    await pusherServer.trigger(`user__${user.id}`, "notifications", {
       id: notification.id,
       type: notification.type,
       data: notification.body,

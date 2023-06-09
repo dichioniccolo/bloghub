@@ -6,7 +6,7 @@ import { and, db, eq, notifications } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
 
-export const archiveNotification = zact(
+export const markNotificationAsRead = zact(
   z.object({
     userId: z.string().nonempty(),
     notificationId: z.number().int(),
@@ -15,7 +15,7 @@ export const archiveNotification = zact(
   await db
     .update(notifications)
     .set({
-      status: "archived",
+      status: "read",
     })
     .where(
       and(
@@ -23,6 +23,4 @@ export const archiveNotification = zact(
         eq(notifications.userId, userId),
       ),
     );
-
-  // TODO: revalidate notifications query
 });

@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 
+import { AppRoutes } from "@acme/common/routes";
 import { type ProjectInvitationNotificationData } from "@acme/notifications";
 
 import { Icons } from "~/app/_components/icons";
@@ -14,19 +16,20 @@ type Props = {
 export function ProjectInvitationNotification({ notification, data }: Props) {
   return (
     <BaseNotification
-      // href={AppRoutes.ProjectAcceptInvitation(data.projectId)}
       icon={<Icons.invitation className="h-6 w-6" />}
       notification={notification}
     >
-      <div className="flex flex-col">
-        <div className="text-sm">
-          You were invited you to join the project{" "}
-          <span className="font-bold">{data.projectName}</span>
+      <Link href={AppRoutes.ProjectAcceptInvitation(data.projectId)}>
+        <div className="flex flex-col">
+          <div className="text-sm">
+            You were invited you to join the project{" "}
+            <span className="font-bold">{data.projectName}</span>
+          </div>
+          <span className="text-xs">
+            {formatDistanceToNow(notification.createdAt)} ago
+          </span>
         </div>
-        <span className="text-xs">
-          {formatDistanceToNow(notification.createdAt)} ago
-        </span>
-      </div>
+      </Link>
     </BaseNotification>
   );
 }

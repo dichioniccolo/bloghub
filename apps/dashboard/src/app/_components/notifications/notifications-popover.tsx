@@ -17,6 +17,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import {
+  NotificationActionTypes,
   useNotifications,
   useNotificationsDispatch,
 } from "~/app/_components/notifications/notifications-provider";
@@ -34,13 +35,13 @@ export function NotificationsPopover() {
 
   const onNewNotification = (notification: Notification) => {
     dispatch({
-      type: "ADD_NOTIFICATION",
+      type: NotificationActionTypes.ADD_NOTIFICATION,
       payload: notification,
     });
   };
 
   useRealtimeNotification(
-    `user:${user.id}`,
+    `user__${user.id}`,
     "notifications",
     onNewNotification,
   );
@@ -72,7 +73,7 @@ export function NotificationsPopover() {
           </div>
           {notifications.length > 0 ? (
             <>
-              <div className="relative block flex-1 divide-y divide-border self-start overflow-y-auto">
+              <div className="relative block flex-1 divide-y divide-border overflow-y-auto">
                 {notifications.map((notification) => {
                   if (isProjectInvitationNotification(notification)) {
                     return (
@@ -88,10 +89,8 @@ export function NotificationsPopover() {
                     return (
                       <RemovedFromProject
                         key={notification.id}
-                        notificationId={notification.id}
-                        type={notification.type}
+                        notification={notification}
                         data={notification.data}
-                        createdAt={notification.createdAt}
                       />
                     );
                   }

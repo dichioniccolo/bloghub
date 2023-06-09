@@ -23,6 +23,7 @@ export enum NotificationActionTypes {
   ADD_NOTIFICATION = "ADD_NOTIFICATION",
   REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION",
   MARK_AS_READ = "MARK_AS_READ",
+  MARK_AS_UNREAD = "MARK_AS_UNREAD",
 }
 
 type NotificationsAction = {
@@ -49,8 +50,13 @@ const notificationsReducer = (
     case NotificationActionTypes.ADD_NOTIFICATION:
       return {
         ...state,
-        notifications: [payload, ...state.notifications],
-        unreadCount: state.unreadCount + 1,
+        notifications: [payload, ...state.notifications].sort(
+          (a, b) => b.createdAt - a.createdAt,
+        ),
+        unreadCount:
+          payload.status === "unread"
+            ? state.unreadCount + 1
+            : state.unreadCount,
       };
     case NotificationActionTypes.REMOVE_NOTIFICATION:
       return {
@@ -58,12 +64,40 @@ const notificationsReducer = (
         notifications: state.notifications.filter(
           (notification) => notification.id !== payload.id,
         ),
-        unreadCount: state.unreadCount - 1,
+        unreadCount:
+          payload.status === "unread"
+            ? state.unreadCount - 1
+            : state.unreadCount,
       };
     case NotificationActionTypes.MARK_AS_READ:
       return {
         ...state,
+        notifications: state.notifications.map((notification) => {
+          if (notification.id === payload.id) {
+            return {
+              ...notification,
+              status: "read",
+            };
+          }
+
+          return notification;
+        }),
         unreadCount: state.unreadCount - 1,
+      };
+    case NotificationActionTypes.MARK_AS_UNREAD:
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) => {
+          if (notification.id === payload.id) {
+            return {
+              ...notification,
+              status: "unread",
+            };
+          }
+
+          return notification;
+        }),
+        unreadCount: state.unreadCount + 1,
       };
     default:
       return state;
