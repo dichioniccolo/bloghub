@@ -26,7 +26,7 @@ export function ProjectInvitationNotification({ notification, data }: Props) {
             <span className="font-bold">{data.projectName}</span>
           </div>
           <span className="text-xs">
-            {formatDistanceToNow(notification.createdAt)} ago
+            {formatDistanceToNow(new Date(notification.createdAt))} ago
           </span>
         </div>
       </Link>
