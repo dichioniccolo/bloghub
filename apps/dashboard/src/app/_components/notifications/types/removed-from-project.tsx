@@ -1,22 +1,20 @@
 import { formatDistanceToNow } from "date-fns";
 
-import { type notificationTypeEnum } from "@acme/db";
 import { type RemovedFromProjectNotificationData } from "@acme/notifications";
 
 import { Icons } from "~/app/_components/icons";
 import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
+import { type Notification } from "~/lib/shared/api/notifications";
 
 type Props = {
-  notificationId: number;
-  type: (typeof notificationTypeEnum.enumValues)[1];
+  notification: Notification;
   data: RemovedFromProjectNotificationData;
-  createdAt: Date;
 };
 
-export function RemovedFromProject({ notificationId, data, createdAt }: Props) {
+export function RemovedFromProject({ notification, data }: Props) {
   return (
     <BaseNotification
-      notificationId={notificationId}
+      notification={notification}
       icon={<Icons.delete className="h-6 w-6" />}
     >
       <div className="flex flex-col">
@@ -24,7 +22,9 @@ export function RemovedFromProject({ notificationId, data, createdAt }: Props) {
           You were removed from project{" "}
           <span className="font-bold">{data.projectName}</span>
         </div>
-        <span className="text-xs">{formatDistanceToNow(createdAt)} ago</span>
+        <span className="text-xs">
+          {formatDistanceToNow(notification.createdAt)} ago
+        </span>
       </div>
     </BaseNotification>
   );

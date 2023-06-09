@@ -10,10 +10,6 @@ export function useRealtimeNotification<T>(
   event: string,
   handler: (notification: Notification) => T,
 ) {
-  if (channel.includes(":")) {
-    throw new Error("Invalid channel name.");
-  }
-
   useEffect(() => {
     pusherClient.subscribe(channel);
     pusherClient.bind(event, handler);

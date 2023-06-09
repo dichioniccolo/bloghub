@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+
 import Link from "next/link";
 
 import { AppRoutes } from "@acme/common/routes";
@@ -15,28 +16,27 @@ import {
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
+import {
+  useNotifications,
+  useNotificationsDispatch,
+} from "~/app/_components/notifications/notifications-provider";
 import { ProjectInvitationNotification } from "~/app/_components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/app/_components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { type Notification } from "~/lib/shared/api/notifications";
 
-type Props = {
-  notifications: Notification[];
-  unreadCount: number;
-};
+export function NotificationsPopover() {
+  const { notifications, unreadCount } = useNotifications();
+  const dispatch = useNotificationsDispatch();
 
-export function NotificationsPopover({
-  notifications: notificationsProp,
-  unreadCount: unreadCountProp,
-}: Props) {
   const user = useUser();
-  const [notifications, setNotifications] = useState(notificationsProp);
-  const [unreadCount, setUnreadCount] = useState(unreadCountProp);
 
   const onNewNotification = (notification: Notification) => {
-    setNotifications((notifications) => [notification, ...notifications]);
-    setUnreadCount((unreadCount) => unreadCount + 1);
+    dispatch({
+      type: "ADD_NOTIFICATION",
+      payload: notification,
+    });
   };
 
   useRealtimeNotification(
@@ -78,10 +78,8 @@ export function NotificationsPopover({
                     return (
                       <ProjectInvitationNotification
                         key={notification.id}
-                        type={notification.type}
+                        notification={notification}
                         data={notification.data}
-                        createdAt={notification.createdAt}
-                        notificationId={notification.id}
                       />
                     );
                   }

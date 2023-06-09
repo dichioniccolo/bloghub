@@ -11,6 +11,6 @@ export const config = {
      * 6. /favicon.ico, /sitemap.xml (static files)
      */
 
-    "/((?!api/|_next/|_static|_vercel|favicon.ico|sitemap.xml).*)",
+    "/((?!api/|_next/|login|_static|_vercel|favicon.ico|sitemap.xml).*)",
   ],
 };
