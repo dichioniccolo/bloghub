@@ -13,6 +13,7 @@ export async function getNotifications() {
       type: notifications.type,
       data: notifications.body,
       createdAt: notifications.createdAt,
+      status: notifications.status,
     })
     .from(notifications)
     .where(
@@ -42,3 +43,7 @@ export async function getNotifications() {
     unreadCount: unread.count,
   };
 }
+
+export type Notification = Awaited<
+  ReturnType<typeof getNotifications>
+>["notifications"][number];

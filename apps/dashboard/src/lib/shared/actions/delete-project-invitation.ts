@@ -9,7 +9,7 @@ import {
   projectMembers,
   projects,
 } from "@acme/db";
-import { publishNotification } from "@acme/notifications";
+import { publishNotification } from "@acme/notifications/publish";
 
 import "isomorphic-fetch";
 

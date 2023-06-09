@@ -1,9 +1,6 @@
-import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
 import { type notificationTypeEnum } from "@acme/db";
-
-import { qstashClient } from "./lib/client";
 
 export type ProjectInvitationNotification = {
   type: (typeof notificationTypeEnum.enumValues)[0];
@@ -50,17 +47,3 @@ export const RemovedFromProjectNotificationSchema = z.object({
 export type RemovedFromProjectNotificationData = z.infer<
   typeof RemovedFromProjectNotificationSchema
 >;
-
-export async function publishNotification<T extends AppNotification["type"]>(
-  type: T,
-  data?: Extract<AppNotification, { type: T }>["data"],
-) {
-  await qstashClient.publishJSON({
-    topic: "notifications",
-    body: {
-      id: createId(),
-      type,
-      data,
-    },
-  });
-}

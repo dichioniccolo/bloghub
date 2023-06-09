@@ -8,6 +8,7 @@ import {
 } from "@acme/notifications";
 
 import { env } from "~/env.mjs";
+import { pusherServer } from "~/lib/pusher";
 
 export async function handleRemovedFromProjectNotification(
   notificationId: string,
@@ -33,11 +34,29 @@ export async function handleRemovedFromProjectNotification(
     .then((x) => x[0]);
 
   if (user) {
-    await db.insert(notifications).values({
-      notificationId,
-      type: "removed_from_project",
-      body,
-      userId: user.id,
+    const notification = await db
+      .insert(notifications)
+      .values({
+        notificationId,
+        type: "removed_from_project",
+        body,
+        userId: user.id,
+      })
+      .returning({
+        id: notifications.id,
+        type: notifications.type,
+        body: notifications.body,
+        createdAt: notifications.createdAt,
+        status: notifications.status,
+      })
+      .then((x) => x[0]!);
+
+    await pusherServer.trigger(`user:${user.id}`, "notifications", {
+      id: notification.id,
+      type: notification.type,
+      data: notification.body,
+      createdAt: notification.createdAt,
+      status: notification.status,
     });
   }
 

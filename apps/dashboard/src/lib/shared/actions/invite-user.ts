@@ -11,7 +11,7 @@ import {
   sql,
   users,
 } from "@acme/db";
-import { publishNotification } from "@acme/notifications";
+import { publishNotification } from "@acme/notifications/publish";
 
 import "isomorphic-fetch";
 

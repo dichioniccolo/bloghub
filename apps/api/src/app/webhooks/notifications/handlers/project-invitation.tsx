@@ -15,6 +15,7 @@ import {
 } from "@acme/notifications";
 
 import { env } from "~/env.mjs";
+import { pusherServer } from "~/lib/pusher";
 
 export async function handleProjectInvitationNotification(
   notificationId: string,
@@ -56,11 +57,29 @@ export async function handleProjectInvitationNotification(
     .then((x) => x[0]);
 
   if (user) {
-    await db.insert(notifications).values({
-      notificationId,
-      type: "project_invitation",
-      body,
-      userId: user.id,
+    const notification = await db
+      .insert(notifications)
+      .values({
+        notificationId,
+        type: "project_invitation",
+        body,
+        userId: user.id,
+      })
+      .returning({
+        id: notifications.id,
+        type: notifications.type,
+        body: notifications.body,
+        createdAt: notifications.createdAt,
+        status: notifications.status,
+      })
+      .then((x) => x[0]!);
+
+    await pusherServer.trigger(`user:${user.id}`, "notifications", {
+      id: notification.id,
+      type: notification.type,
+      data: notification.body,
+      createdAt: notification.createdAt,
+      status: notification.status,
     });
   }
 
@@ -76,15 +95,6 @@ export async function handleProjectInvitationNotification(
       />
     ),
   });
-
-  // TODO: uncomment this when we have pusher
-  // await pusherServer.trigger(
-  //   `user:${userEmail}:project-invitations`,
-  //   "project-invitation",
-  //   {
-  //     projectId,
-  //   },
-  // );
 
   return new Response(null, {
     status: 200,
