@@ -54,7 +54,7 @@
     "@acme/eslint-config": "^0.1.0",
     "@total-typescript/ts-reset": "^0.4.2",
     "@types/html-escaper": "^3.0.0",
-    "@types/node": "^18.16.16",
+    "@types/node": "^18.16.17",
     "@types/react": "^18.2.9",
     "@types/react-dom": "^18.2.4",
     "autoprefixer": "^10.4.14",
