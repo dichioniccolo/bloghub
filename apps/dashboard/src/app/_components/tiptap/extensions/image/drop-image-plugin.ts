@@ -1,7 +1,7 @@
 import { Plugin } from "@tiptap/pm/state";
 
 import { determineMediaType } from "~/lib/editor";
-import { createProjectMedia } from "~/lib/shared/actions/create-project-media";
+import { createProjectMedia } from "~/lib/shared/actions/project/create-project-media";
 
 export function dropImagePlugin(
   userId: string,

@@ -19,7 +19,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { updateUser } from "~/lib/shared/actions/update-user";
+import { updateUser } from "~/lib/shared/actions/user/update-user";
 import {
   UserNameSchema,
   type UserNameSchemaType,

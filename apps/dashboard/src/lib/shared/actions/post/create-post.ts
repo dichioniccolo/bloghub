@@ -12,8 +12,8 @@ import { zact } from "~/lib/zact/server";
 export const createPost = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
     })
     .superRefine(async (input, ctx) => {
       const { projectId, userId } = input;
@@ -51,11 +51,7 @@ export const createPost = zact(
     .returning({
       id: posts.id,
     })
-    .then((x) => x[0]);
-
-  if (!post) {
-    return;
-  }
+    .then((x) => x[0]!);
 
   redirect(AppRoutes.PostEditor(projectId, post.id));
 });

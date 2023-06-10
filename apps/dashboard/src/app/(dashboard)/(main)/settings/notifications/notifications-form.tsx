@@ -18,7 +18,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { updateNotificationSettings } from "~/lib/shared/actions/update-notifications-settings";
+import { updateNotificationSettings } from "~/lib/shared/actions/user/update-notifications-settings";
 import {
   EditNotificationsSchema,
   type EditNotificationsSchemaType,

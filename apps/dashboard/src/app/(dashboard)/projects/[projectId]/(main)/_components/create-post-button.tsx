@@ -4,7 +4,7 @@ import { Button } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createPost } from "~/lib/shared/actions/create-post";
+import { createPost } from "~/lib/shared/actions/post/create-post";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {

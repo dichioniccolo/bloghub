@@ -6,7 +6,7 @@ import { Button } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { togglePublishedPost } from "~/lib/shared/actions/toggle-published-post";
+import { togglePublishedPost } from "~/lib/shared/actions/post/toggle-published-post";
 import { type GetPost } from "~/lib/shared/api/posts";
 import { cn } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";

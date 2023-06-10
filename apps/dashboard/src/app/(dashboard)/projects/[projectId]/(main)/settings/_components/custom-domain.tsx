@@ -14,7 +14,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { verifyDomain } from "~/lib/shared/actions/verify-domain";
+import { verifyDomain } from "~/lib/shared/actions/project/verify-domain";
 import { type GetProject } from "~/lib/shared/api/projects";
 import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";

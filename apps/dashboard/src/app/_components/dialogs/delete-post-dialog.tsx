@@ -16,7 +16,7 @@ import {
 } from "@acme/ui";
 
 import { useUser } from "~/hooks/use-user";
-import { deletePost } from "~/lib/shared/actions/delete-post";
+import { deletePost } from "~/lib/shared/actions/post/delete-post";
 
 type Props = {
   projectId: string;

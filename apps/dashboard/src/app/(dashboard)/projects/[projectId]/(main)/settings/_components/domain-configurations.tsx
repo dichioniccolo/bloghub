@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { env } from "~/env.mjs";
-import { type VerifyDomain } from "~/lib/shared/actions/verify-domain";
+import { type VerifyDomain } from "~/lib/shared/actions/project/verify-domain";
 import { cn, getSubDomain } from "~/lib/utils";
 import { type ZactError } from "~/lib/zact/server";
 

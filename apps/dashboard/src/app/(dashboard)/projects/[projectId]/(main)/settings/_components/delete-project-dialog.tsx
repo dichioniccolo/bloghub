@@ -19,7 +19,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { deleteProject } from "~/lib/shared/actions/delete-project";
+import { deleteProject } from "~/lib/shared/actions/project/delete-project";
 import { type GetProject } from "~/lib/shared/api/projects";
 import { useZact } from "~/lib/zact/client";
 

@@ -25,7 +25,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createProject } from "~/lib/shared/actions/create-project";
+import { createProject } from "~/lib/shared/actions/project/create-project";
 import {
   CreateProjectSchema,
   type CreateProjectSchemaType,

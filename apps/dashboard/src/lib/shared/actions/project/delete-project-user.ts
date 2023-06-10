@@ -1,7 +1,7 @@
 "use server";
 
 import { AppRoutes } from "@acme/common/routes";
-import { and, db, eq, projectMembers, projects, users } from "@acme/db";
+import { and, db, eq, projectMembers, projects, sql, users } from "@acme/db";
 import { publishNotification } from "@acme/notifications/publish";
 
 import "isomorphic-fetch";
@@ -14,41 +14,31 @@ import { zact } from "~/lib/zact/server";
 export const deleteProjectUser = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
-      userIdToDelete: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
+      userIdToDelete: z.string().nonempty(),
     })
     .superRefine(async ({ userId, projectId, userIdToDelete }, ctx) => {
-      const project = await db
+      const isOwnerCount = await db
         .select({
-          member: {
-            role: projectMembers.role,
-          },
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
         })
-        .from(projects)
-        .where(eq(projects.id, projectId))
-        .innerJoin(
-          projectMembers,
+        .from(projectMembers)
+        .where(
           and(
-            eq(projectMembers.projectId, projects.id),
+            eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
+            eq(projectMembers.role, "owner"),
           ),
         )
-        .then((x) => x[0]);
+        .then((x) => x[0]!);
 
-      if (!project) {
+      if (isOwnerCount.count === 0) {
         ctx.addIssue({
           code: "custom",
+          message:
+            "You must be the owner of the project to perform this action",
           path: ["projectId"],
-          message: "Project not found",
-        });
-      }
-
-      if (project?.member?.role !== "owner") {
-        ctx.addIssue({
-          code: "custom",
-          path: ["userId"],
-          message: "You must be the owner of the project",
         });
       }
 

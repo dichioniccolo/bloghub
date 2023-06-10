@@ -18,7 +18,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { quitProject } from "~/lib/shared/actions/quit-project";
+import { quitProject } from "~/lib/shared/actions/project/quit-project";
 import { type GetProject } from "~/lib/shared/api/projects";
 import { useZact } from "~/lib/zact/client";
 

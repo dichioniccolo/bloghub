@@ -8,6 +8,7 @@ import {
   projectInvitations,
   projectMembers,
   projects,
+  sql,
 } from "@acme/db";
 import { publishNotification } from "@acme/notifications/publish";
 
@@ -21,40 +22,31 @@ import { zact } from "~/lib/zact/server";
 export const deleteProjectInvitation = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
       email: z.string().email(),
     })
     .superRefine(async ({ userId, projectId, email }, ctx) => {
-      const project = await db
+      const isOwnerCount = await db
         .select({
-          member: {
-            role: projectMembers.role,
-          },
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
         })
-        .from(projects)
-        .where(eq(projects.id, projectId))
-        .innerJoin(
-          projectMembers,
+        .from(projectMembers)
+        .where(
           and(
-            eq(projectMembers.projectId, projects.id),
+            eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
+            eq(projectMembers.role, "owner"),
           ),
         )
-        .then((x) => x[0]);
-      if (!project) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["projectId"],
-          message: "Project not found",
-        });
-      }
+        .then((x) => x[0]!);
 
-      if (project?.member?.role !== "owner") {
+      if (isOwnerCount.count === 0) {
         ctx.addIssue({
           code: "custom",
-          path: ["userId"],
-          message: "You must be the owner of the project",
+          message:
+            "You must be the owner of the project to perform this action",
+          path: ["projectId"],
         });
       }
 

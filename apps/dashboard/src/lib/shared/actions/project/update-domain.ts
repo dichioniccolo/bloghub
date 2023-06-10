@@ -8,21 +8,19 @@ import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
 
 import { zact } from "~/lib/zact/server";
-import { DomainSchema } from "./schemas";
+import { DomainSchema } from "../schemas";
 
 export const updateDomain = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
       newDomain: DomainSchema,
     })
-    .superRefine(async (input, ctx) => {
-      const { projectId, userId } = input;
-
-      const projectMember = await db
+    .superRefine(async ({ projectId, userId }, ctx) => {
+      const isOwnerCount = await db
         .select({
-          count: sql<number>`count(*)`.mapWith(Number),
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
         })
         .from(projectMembers)
         .where(
@@ -34,12 +32,12 @@ export const updateDomain = zact(
         )
         .then((x) => x[0]!);
 
-      if (projectMember.count === 0) {
+      if (isOwnerCount.count === 0) {
         ctx.addIssue({
           code: "custom",
           message:
-            "You must be a member of the project or you don't have the required permissions to perform this action",
-          path: ["newDomain"],
+            "You must be the owner of the project to perform this action",
+          path: ["projectId"],
         });
       }
     }),

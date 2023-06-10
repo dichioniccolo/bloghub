@@ -22,7 +22,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { inviteUser } from "~/lib/shared/actions/invite-user";
+import { inviteUser } from "~/lib/shared/actions/project/invite-user";
 import {
   InviteMemberSchema,
   type InviteMemberSchemaType,

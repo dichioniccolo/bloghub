@@ -12,7 +12,7 @@ import {
 import { Tiptap } from "~/app/_components/tiptap";
 import { LeaveConfirm } from "~/hooks/use-leave-confirm";
 import { useUser } from "~/hooks/use-user";
-import { updatePost } from "~/lib/shared/actions/update-post";
+import { updatePost } from "~/lib/shared/actions/post/update-post";
 import { type GetPost } from "~/lib/shared/api/posts";
 import {
   EditPostSchema,

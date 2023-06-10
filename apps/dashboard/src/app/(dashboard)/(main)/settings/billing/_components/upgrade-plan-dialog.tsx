@@ -18,7 +18,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createCheckoutSession } from "~/lib/shared/actions/create-checkout-session";
+import { createCheckoutSession } from "~/lib/shared/actions/stripe/create-checkout-session";
 import { type GetProPlans } from "~/lib/shared/api/stripe";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";

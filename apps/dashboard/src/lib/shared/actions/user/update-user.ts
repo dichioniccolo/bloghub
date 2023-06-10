@@ -8,7 +8,7 @@ import { zact } from "~/lib/zact/server";
 
 export const updateUser = zact(
   z.object({
-    userId: z.string(),
+    userId: z.string().nonempty(),
     name: z.string().nonempty(),
   }),
 )(async ({ userId, name }) => {

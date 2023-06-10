@@ -17,8 +17,8 @@ import { zact } from "~/lib/zact/server";
 export const acceptInvite = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
     })
     .superRefine(async ({ userId, projectId }, ctx) => {
       const user = await db
@@ -66,11 +66,7 @@ export const acceptInvite = zact(
     })
     .from(users)
     .where(eq(users.id, userId))
-    .then((x) => x[0]);
-
-  if (!user) {
-    return;
-  }
+    .then((x) => x[0]!);
 
   await db.transaction(async (tx) => {
     await tx

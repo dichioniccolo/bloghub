@@ -23,12 +23,12 @@ import { zact } from "~/lib/zact/server";
 export const inviteUser = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
       email: z.string().email(),
     })
     .superRefine(async ({ projectId, userId, email }, ctx) => {
-      const projectMemberCount = await db
+      const isOwnerCount = await db
         .select({
           count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
         })
@@ -42,10 +42,11 @@ export const inviteUser = zact(
         )
         .then((x) => x[0]!);
 
-      if (projectMemberCount.count === 0) {
+      if (isOwnerCount.count === 0) {
         ctx.addIssue({
           code: "custom",
-          message: "You do not have permission to invite users to this project",
+          message:
+            "You must be the owner of the project to perform this action",
           path: ["projectId"],
         });
       }

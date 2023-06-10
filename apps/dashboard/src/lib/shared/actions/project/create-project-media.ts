@@ -78,17 +78,4 @@ export async function createProjectMedia(formData: FormData) {
       url: media.url,
     })
     .then((x) => x[0]!);
-
-  //     projectId,
-  //     postId,
-  //     type,
-  //     url: `${env.DO_CDN_URL}/${fileName}`,
-  //     uploadedById: userId,
-  //   },
-  //   select: {
-  //     url: true,
-  //   },
-  // });
-
-  // return media;
 }

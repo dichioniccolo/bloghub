@@ -21,7 +21,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { updateDomain } from "~/lib/shared/actions/update-domain";
+import { updateDomain } from "~/lib/shared/actions/project/update-domain";
 import { type GetProject } from "~/lib/shared/api/projects";
 import {
   UpdateDomainSchema,

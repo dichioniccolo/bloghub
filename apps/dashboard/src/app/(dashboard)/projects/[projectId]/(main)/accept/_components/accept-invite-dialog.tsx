@@ -18,7 +18,7 @@ import {
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { acceptInvite } from "~/lib/shared/actions/accept-invite";
+import { acceptInvite } from "~/lib/shared/actions/project/accept-invite";
 import { type GetPendingInvite } from "~/lib/shared/api/projects";
 import { useZact } from "~/lib/zact/client";
 

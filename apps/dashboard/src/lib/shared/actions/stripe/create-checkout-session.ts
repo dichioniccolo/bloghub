@@ -10,8 +10,8 @@ import { zact } from "~/lib/zact/server";
 
 export const createCheckoutSession = zact(
   z.object({
-    userId: z.string(),
-    callbackUrl: z.string(),
+    userId: z.string().nonempty(),
+    callbackUrl: z.string().nonempty(),
     name: z.string().nullable().optional(),
     period: z.enum(["monthly", "yearly"]).nullable().optional(),
   }),

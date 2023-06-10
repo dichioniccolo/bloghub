@@ -11,20 +11,22 @@ import { zact } from "~/lib/zact/server";
 export const updatePost = zact(
   z
     .object({
-      userId: z.string(),
-      projectId: z.string(),
-      postId: z.string(),
+      userId: z.string().nonempty(),
+      projectId: z.string().nonempty(),
+      postId: z.string().nonempty(),
       content: z.string(),
     })
-    .superRefine(async (input, ctx) => {
-      const { projectId, userId, postId } = input;
-
-      const projectsCount = await db
+    .superRefine(async ({ postId, projectId, userId }, ctx) => {
+      const post = await db
         .select({
-          count: sql<number>`count(${projects.id})`.mapWith(Number),
+          count: sql<number>`count(*)`.mapWith(Number),
         })
-        .from(projects)
-        .where(eq(projects.id, projectId))
+        .from(posts)
+        .where(eq(posts.id, postId))
+        .innerJoin(
+          projects,
+          and(eq(projects.id, posts.projectId), eq(projects.id, projectId)),
+        )
         .innerJoin(
           projectMembers,
           and(
@@ -34,27 +36,11 @@ export const updatePost = zact(
         )
         .then((x) => x[0]!);
 
-      if (projectsCount.count === 0) {
+      if (post.count === 0) {
         ctx.addIssue({
           code: "custom",
-          message: "You must be a member of the project",
+          message: "You must be a member of the project to perform this action",
           path: ["projectId"],
-        });
-      }
-
-      const postCount = await db
-        .select({
-          count: sql<number>`count(${posts.id})`.mapWith(Number),
-        })
-        .from(posts)
-        .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)))
-        .then((x) => x[0]!);
-
-      if (postCount.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Post not found",
-          path: ["postId"],
         });
       }
     }),
