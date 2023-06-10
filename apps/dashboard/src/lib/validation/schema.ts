@@ -7,20 +7,20 @@ export const UserAuthSchema = z.object({
   email: z.string().email(),
 });
 
-export type UserAuthSchemaType = z.infer<typeof UserAuthSchema>;
+export type UserAuthSchemaType = z.input<typeof UserAuthSchema>;
 
 export const UserNameSchema = z.object({
   name: z.string().nonempty(),
 });
 
-export type UserNameSchemaType = z.infer<typeof UserNameSchema>;
+export type UserNameSchemaType = z.input<typeof UserNameSchema>;
 
 export const CreateProjectSchema = z.object({
   name: z.string().min(3).max(50),
   domain: z.string().regex(domainRegex, { message: "Invalid domain" }),
 });
 
-export type CreateProjectSchemaType = z.infer<typeof CreateProjectSchema>;
+export type CreateProjectSchemaType = z.input<typeof CreateProjectSchema>;
 
 export const UpdateDomainSchema = z.object({
   oldDomain: z.string().regex(domainRegex),
@@ -32,19 +32,19 @@ export const UpdateDomainSchema = z.object({
   }),
 });
 
-export type UpdateDomainSchemaType = z.infer<typeof UpdateDomainSchema>;
+export type UpdateDomainSchemaType = z.input<typeof UpdateDomainSchema>;
 
 export const InviteMemberSchema = z.object({
   email: z.string().email(),
 });
 
-export type InviteMemberSchemaType = z.infer<typeof InviteMemberSchema>;
+export type InviteMemberSchemaType = z.input<typeof InviteMemberSchema>;
 
 export const EditPostSchema = z.object({
   content: z.string(),
 });
 
-export type EditPostSchemaType = z.infer<typeof EditPostSchema>;
+export type EditPostSchemaType = z.input<typeof EditPostSchema>;
 
 export const EditNotificationsSchema = z.object({
   communication_emails: z.boolean().default(true),
@@ -53,6 +53,6 @@ export const EditNotificationsSchema = z.object({
   security_emails: z.literal(true),
 });
 
-export type EditNotificationsSchemaType = z.infer<
+export type EditNotificationsSchemaType = z.input<
   typeof EditNotificationsSchema
 >;

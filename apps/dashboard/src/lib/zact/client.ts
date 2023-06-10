@@ -15,8 +15,14 @@ export function rethrowZactError<InputType extends z.ZodTypeAny, ResponseType>(
   return false;
 }
 
+type CallbackOptions<ResponseType> = {
+  onSuccess?: (data: ResponseType) => void;
+  onError?: () => void;
+};
+
 export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   action: ZactAction<InputType, ResponseType>,
+  callback?: CallbackOptions<ResponseType>,
 ) {
   const doAction = useRef(action);
 
@@ -26,7 +32,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   const [err, setErr] = useState<Error | null>(null);
 
   const mutate = useMemo(
-    () => async (input: z.infer<InputType>) => {
+    () => async (input: z.input<InputType>) => {
       setIsLoading(true);
       setErr(null);
       try {
@@ -39,6 +45,10 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
         setData(result);
         setIsLoading(false);
 
+        if (callback?.onSuccess) {
+          callback.onSuccess(result);
+        }
+
         return result;
       } catch (e) {
         if (rethrowZactError(e)) {
@@ -47,10 +57,15 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
 
         setErr(e as Error);
         setIsLoading(false);
+
+        if (callback?.onError) {
+          callback.onError();
+        }
+
         return null;
       }
     },
-    [],
+    [callback],
   );
 
   return {

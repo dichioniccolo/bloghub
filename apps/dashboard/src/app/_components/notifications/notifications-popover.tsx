@@ -25,7 +25,9 @@ import { ProjectInvitationNotification } from "~/app/_components/notifications/t
 import { RemovedFromProject } from "~/app/_components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
+import { archiveAllNotifications } from "~/lib/shared/actions/notifications/archive-all-notifications";
 import { type Notification } from "~/lib/shared/api/notifications";
+import { useZact } from "~/lib/zact/client";
 
 export function NotificationsPopover() {
   const { notifications, unreadCount } = useNotifications();
@@ -39,6 +41,15 @@ export function NotificationsPopover() {
       payload: notification,
     });
   };
+
+  const { mutate } = useZact(archiveAllNotifications, {
+    onSuccess: () => {
+      dispatch({
+        type: NotificationActionTypes.ARCHIVE_ALL,
+        payload: {} as any,
+      });
+    },
+  });
 
   useRealtimeNotification(
     `user__${user.id}`,
@@ -99,7 +110,17 @@ export function NotificationsPopover() {
                 })}
               </div>
               <div className="sticky bottom-0 flex justify-center border-t border-border p-2">
-                Archive all
+                <Button
+                  size="xs"
+                  variant="secondary"
+                  onClick={() => {
+                    void mutate({
+                      userId: user.id,
+                    });
+                  }}
+                >
+                  Archive all
+                </Button>
               </div>
             </>
           ) : (

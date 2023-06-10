@@ -35,7 +35,7 @@ export const ProjectInvitationNotificationSchema = z.object({
   userEmail: z.string().email(),
 });
 
-export type ProjectInvitationNotificationData = z.infer<
+export type ProjectInvitationNotificationData = z.input<
   typeof ProjectInvitationNotificationSchema
 >;
 
@@ -44,6 +44,6 @@ export const RemovedFromProjectNotificationSchema = z.object({
   userEmail: z.string().email(),
 });
 
-export type RemovedFromProjectNotificationData = z.infer<
+export type RemovedFromProjectNotificationData = z.input<
   typeof RemovedFromProjectNotificationSchema
 >;

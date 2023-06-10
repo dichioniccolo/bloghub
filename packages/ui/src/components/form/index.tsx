@@ -35,16 +35,16 @@ type FormProps<S extends z.ZodType> = Omit<
   "onSubmit" | "children"
 > & {
   schema: S;
-  onSubmit: (values: z.infer<S>) => unknown;
-  initialValues?: UseFormProps<z.infer<S>>["defaultValues"];
-  children?: ReactNode | ((form: UseFormReturn<z.infer<S>>) => ReactNode);
+  onSubmit: (values: z.input<S>) => unknown;
+  initialValues?: UseFormProps<z.input<S>>["defaultValues"];
+  children?: ReactNode | ((form: UseFormReturn<z.input<S>>) => ReactNode);
 };
 
 export function useZodForm<S extends z.ZodType>(
   schema: S,
-  options?: UseFormProps<z.infer<S>>,
-): UseFormReturn<z.infer<S>> {
-  return useForm<z.infer<S>>({
+  options?: UseFormProps<z.input<S>>,
+): UseFormReturn<z.input<S>> {
+  return useForm<z.input<S>>({
     ...options,
     resolver: zodResolver(schema),
   });
@@ -73,9 +73,9 @@ type FormAsPropProps<S extends z.ZodType> = Omit<
   PropsWithoutRef<HTMLAttributes<HTMLFormElement>>,
   "onSubmit" | "children"
 > & {
-  form: UseFormReturn<z.infer<S>>;
-  onSubmit: (data: z.infer<S>) => unknown;
-  children?: ReactNode | ((form: UseFormReturn<z.infer<S>>) => ReactNode);
+  form: UseFormReturn<z.input<S>>;
+  onSubmit: (data: z.input<S>) => unknown;
+  children?: ReactNode | ((form: UseFormReturn<z.input<S>>) => ReactNode);
 };
 
 export function FormAsProp<S extends z.ZodType>({

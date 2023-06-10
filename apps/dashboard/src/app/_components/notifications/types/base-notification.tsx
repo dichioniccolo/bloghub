@@ -33,26 +33,21 @@ export function BaseNotification({
 
   const user = useUser();
 
-  const { mutate: archive } = useZact(archiveNotification);
+  const { mutate: archive } = useZact(archiveNotification, {
+    onSuccess: () => {
+      dispatch({
+        type: NotificationActionTypes.REMOVE_NOTIFICATION,
+        payload: notification,
+      });
+    },
+  });
   const { mutate: markAsRead } = useZact(markNotificationAsRead);
 
   const onArchive = async () => {
-    dispatch({
-      type: NotificationActionTypes.REMOVE_NOTIFICATION,
-      payload: notification,
+    await archive({
+      notificationId: notification.id,
+      userId: user.id,
     });
-
-    try {
-      await archive({
-        notificationId: notification.id,
-        userId: user.id,
-      });
-    } catch {
-      dispatch({
-        type: NotificationActionTypes.ADD_NOTIFICATION,
-        payload: notification,
-      });
-    }
   };
 
   const onInteract = async () => {
@@ -77,7 +72,7 @@ export function BaseNotification({
   return (
     <div
       className={cn(
-        "group relative flex h-20 gap-2 px-2 hover:bg-primary-foreground/90 cursor-pointer",
+        "group relative flex h-20 cursor-pointer gap-2 px-2 hover:bg-primary-foreground/90",
         className,
       )}
       onClick={onInteract}

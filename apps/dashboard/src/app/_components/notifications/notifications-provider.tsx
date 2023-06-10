@@ -20,6 +20,7 @@ export enum NotificationActionTypes {
   REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION",
   MARK_AS_READ = "MARK_AS_READ",
   MARK_AS_UNREAD = "MARK_AS_UNREAD",
+  ARCHIVE_ALL = "ARCHIVE_ALL",
 }
 
 type NotificationsAction = {
@@ -65,6 +66,12 @@ const notificationsReducer = (
           payload.status === "unread"
             ? state.unreadCount - 1
             : state.unreadCount,
+      };
+    case NotificationActionTypes.ARCHIVE_ALL:
+      return {
+        ...state,
+        notifications: [],
+        unreadCount: 0,
       };
     case NotificationActionTypes.MARK_AS_READ:
       return {
