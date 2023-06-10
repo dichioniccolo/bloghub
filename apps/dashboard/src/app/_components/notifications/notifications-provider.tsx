@@ -15,10 +15,6 @@ type NotificationsContext = {
   unreadCount: number;
 };
 
-type Props = {
-  value: NotificationsContext;
-} & PropsWithChildren;
-
 export enum NotificationActionTypes {
   ADD_NOTIFICATION = "ADD_NOTIFICATION",
   REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION",
@@ -43,7 +39,7 @@ const notificationsDispatchContext = createContext<
 const notificationsReducer = (
   state: NotificationsContext,
   action: NotificationsAction,
-) => {
+): NotificationsContext => {
   const { type, payload } = action;
 
   switch (type) {
@@ -51,7 +47,8 @@ const notificationsReducer = (
       return {
         ...state,
         notifications: [payload, ...state.notifications].sort(
-          (a, b) => b.createdAt - a.createdAt,
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         ),
         unreadCount:
           payload.status === "unread"
@@ -103,6 +100,10 @@ const notificationsReducer = (
       return state;
   }
 };
+
+type Props = {
+  value: NotificationsContext;
+} & PropsWithChildren;
 
 export function NotificationsProvider({ value, children }: Props) {
   const [notifications, dispatch] = useReducer(notificationsReducer, value);

@@ -77,7 +77,7 @@ export function BaseNotification({
   return (
     <div
       className={cn(
-        "group relative flex h-20 gap-2 px-2 hover:bg-primary-foreground/90",
+        "group relative flex h-20 gap-2 px-2 hover:bg-primary-foreground/90 cursor-pointer",
         className,
       )}
       onClick={onInteract}

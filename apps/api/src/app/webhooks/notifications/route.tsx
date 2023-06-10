@@ -5,8 +5,8 @@ import { db, eq, notifications } from "@acme/db";
 import { type AppNotification } from "@acme/notifications";
 
 import { env } from "~/env.mjs";
-import { handleProjectInvitationNotification } from "./handlers/project-invitation";
-import { handleRemovedFromProjectNotification } from "./handlers/removed-from-project";
+import { handleProjectInvitationNotification } from "./handlers/project-invitation-handler";
+import { handleRemovedFromProjectNotification } from "./handlers/removed-from-project-handler";
 
 const receiver = new Receiver({
   currentSigningKey: env.QSTASH_CURRENT_SIGNING_KEY,
