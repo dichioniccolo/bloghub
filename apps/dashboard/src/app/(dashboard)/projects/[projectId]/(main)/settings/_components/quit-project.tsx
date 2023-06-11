@@ -20,9 +20,9 @@ export function QuitProject({ project }: Props) {
       <CardHeader>
         <CardTitle>Quit Project</CardTitle>
         <CardDescription>
-          Permanently delete your project, custom domain, and all associated
-          posts + their stats. This action cannot be undone - please proceed
-          with caution.
+          You can quit this project at any time. You will no longer be able to
+          access the project or any of its posts until you get invited back
+          again.
         </CardDescription>
       </CardHeader>
       <CardFooter>
@@ -38,9 +38,9 @@ export function QuitProjectPlaceholder() {
       <CardHeader>
         <CardTitle>Quit Project</CardTitle>
         <CardDescription>
-          Permanently delete your project, custom domain, and all associated
-          posts + their stats. This action cannot be undone - please proceed
-          with caution.
+          You can quit this project at any time. You will no longer be able to
+          access the project or any of its posts until you get invited back
+          again.
         </CardDescription>
       </CardHeader>
       <CardFooter>

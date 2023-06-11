@@ -38,6 +38,8 @@ export const quitProject = zact(
       }
     }),
 )(async ({ userId, projectId }) => {
+  console.log("qui 1");
+
   await db
     .delete(projectMembers)
     .where(
@@ -46,6 +48,7 @@ export const quitProject = zact(
         eq(projectMembers.userId, userId),
       ),
     );
+  console.log("qui 2");
 
   redirect(AppRoutes.Dashboard);
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 
 import {
   AlertDialog,
@@ -29,10 +29,28 @@ type Props = {
 export function QuitProjectDialog({ project }: Props) {
   const user = useUser();
   const [open, setOpen] = useState(false);
-  const [loading, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const { mutate } = useZact(quitProject);
+  const { mutate, isRunning } = useZact(quitProject, {
+    onSuccess: () => {
+      toast({
+        title: "You quit the project.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onDelete = async () => {
+    await mutate({
+      userId: user.id,
+      projectId: project.id,
+    });
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -49,33 +67,10 @@ export function QuitProjectDialog({ project }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            disabled={loading}
-            onClick={() =>
-              startTransition(async () => {
-                try {
-                  const result = await mutate({
-                    userId: user.id,
-                    projectId: project.id,
-                  });
-
-                  if (!result) {
-                    return;
-                  }
-
-                  toast({
-                    title: "You quit the project.",
-                  });
-                } catch {
-                  toast({
-                    title: "Something went wrong.",
-                    variant: "destructive",
-                  });
-                }
-              })
-            }
-          >
-            {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          <AlertDialogAction disabled={isRunning} onClick={onDelete}>
+            {isRunning && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

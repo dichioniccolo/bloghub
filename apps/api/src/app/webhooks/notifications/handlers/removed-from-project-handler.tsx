@@ -37,7 +37,7 @@ export async function handleRemovedFromProjectNotification(
     const notification = await db
       .insert(notifications)
       .values({
-        notificationId,
+        id: notificationId,
         type: "removed_from_project",
         body,
         userId: user.id,

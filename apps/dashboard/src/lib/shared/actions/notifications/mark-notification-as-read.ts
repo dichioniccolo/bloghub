@@ -10,7 +10,7 @@ export const markNotificationAsRead = zact(
   z
     .object({
       userId: z.string().nonempty(),
-      notificationId: z.number().int(),
+      notificationId: z.string().nonempty(),
     })
     .superRefine(async ({ userId, notificationId }, ctx) => {
       const notification = await db

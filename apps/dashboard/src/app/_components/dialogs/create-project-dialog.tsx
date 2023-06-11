@@ -42,19 +42,21 @@ function CreateProjectDialog({ open, setOpen }: Props) {
 
   const { toast } = useToast();
 
-  const { mutate } = useZact(createProject);
+  const { mutate } = useZact(createProject, {
+    onSuccess: () => {
+      setOpen(false);
+
+      toast({
+        title: "Project created",
+      });
+    },
+  });
 
   async function onSubmit({ name, domain }: CreateProjectSchemaType) {
     await mutate({
       userId: user.id,
       name,
       domain,
-    });
-
-    setOpen(false);
-
-    toast({
-      title: "Project created",
     });
   }
 
@@ -70,6 +72,10 @@ function CreateProjectDialog({ open, setOpen }: Props) {
           schema={CreateProjectSchema}
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
+          initialValues={{
+            name: "",
+            domain: "",
+          }}
         >
           {({ formState: { isSubmitting } }) => (
             <>

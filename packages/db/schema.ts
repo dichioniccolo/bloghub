@@ -115,28 +115,19 @@ export const notificationStatus = pgEnum("NotificationStatus", [
   "archived",
 ]);
 
-export const notifications = pgTable(
-  "notifications",
-  {
-    id: serial("id").primaryKey(),
-    notificationId: varchar("notificationId", { length: 256 }).notNull(),
-    userId: varchar("userId", { length: 256 })
-      .notNull()
-      .references(() => users.id, {
-        onDelete: "cascade",
-      }),
-    type: notificationTypeEnum("type").notNull(),
-    status: notificationStatus("status").notNull().default("unread"),
-    body: json("body").$type<any>().notNull(),
-    createdAt: timestamp("createdAt").notNull().defaultNow(),
-  },
-  (notifications) => ({
-    uniqueIndex: uniqueIndex("notifications_unique_index").on(
-      notifications.notificationId,
-      notifications.userId,
-    ),
-  }),
-);
+export const notifications = pgTable("notifications", {
+  id: varchar("id", { length: 256 }).notNull().primaryKey(),
+  userId: varchar("userId", { length: 256 })
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  type: notificationTypeEnum("type").notNull(),
+  status: notificationStatus("status").notNull().default("unread"),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  body: json("body").$type<any>().notNull(),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+});
 
 export const projects = pgTable("projects", {
   id: varchar("id", { length: 256 }).primaryKey(),

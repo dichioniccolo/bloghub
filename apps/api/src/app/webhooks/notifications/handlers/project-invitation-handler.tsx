@@ -60,7 +60,7 @@ export async function handleProjectInvitationNotification(
     const notification = await db
       .insert(notifications)
       .values({
-        notificationId,
+        id: notificationId,
         type: "project_invitation",
         body,
         userId: user.id,

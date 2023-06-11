@@ -1,7 +1,9 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { AppRoutes } from "@acme/common/routes";
 import {
   and,
   db,
@@ -84,4 +86,6 @@ export const acceptInvite = zact(
       role: "editor",
     });
   });
+
+  redirect(AppRoutes.ProjectDashboard(projectId));
 });

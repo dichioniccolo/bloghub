@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { Receiver } from "@upstash/qstash/nodejs";
 
-import { db, eq, notifications } from "@acme/db";
+import { db, eq, notifications, sql } from "@acme/db";
 import { type AppNotification } from "@acme/notifications";
 
 import { env } from "~/env.mjs";
@@ -18,13 +18,19 @@ export async function POST(req: Request) {
 
   const signature = headers().get("Upstash-Signature") ?? "";
 
-  const valid = await receiver.verify({
-    signature,
-    body,
-  });
+  try {
+    const valid = await receiver.verify({
+      signature,
+      body,
+    });
 
-  if (!valid) {
-    return new Response(null, {
+    if (!valid) {
+      return new Response(null, {
+        status: 401,
+      });
+    }
+  } catch (e) {
+    return new Response(JSON.stringify(e), {
       status: 401,
     });
   }
@@ -33,14 +39,14 @@ export async function POST(req: Request) {
 
   const notificationAlreadyExists = await db
     .select({
-      notificationId: notifications.notificationId,
+      count: sql<number>`count(*)`.mapWith(Number),
     })
     .from(notifications)
-    .where(eq(notifications.notificationId, id))
-    .execute();
+    .where(eq(notifications.id, id))
+    .then((x) => x[0]!);
 
   // notification has already been processed
-  if (notificationAlreadyExists.length > 0) {
+  if (notificationAlreadyExists.count > 0) {
     return new Response(null, {
       status: 200,
     });

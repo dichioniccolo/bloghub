@@ -6,6 +6,7 @@ import { AppRoutes } from "@acme/common/routes";
 import {
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
+  type AppNotification,
 } from "@acme/notifications";
 import {
   Badge,
@@ -26,7 +27,6 @@ import { RemovedFromProject } from "~/app/_components/notifications/types/remove
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { archiveAllNotifications } from "~/lib/shared/actions/notifications/archive-all-notifications";
-import { type Notification } from "~/lib/shared/api/notifications";
 import { useZact } from "~/lib/zact/client";
 
 export function NotificationsPopover() {
@@ -35,7 +35,7 @@ export function NotificationsPopover() {
 
   const user = useUser();
 
-  const onNewNotification = (notification: Notification) => {
+  const onNewNotification = (notification: AppNotification) => {
     dispatch({
       type: NotificationActionTypes.ADD_NOTIFICATION,
       payload: notification,
@@ -46,6 +46,7 @@ export function NotificationsPopover() {
     onSuccess: () => {
       dispatch({
         type: NotificationActionTypes.ARCHIVE_ALL,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         payload: {} as any,
       });
     },
@@ -91,7 +92,6 @@ export function NotificationsPopover() {
                       <ProjectInvitationNotification
                         key={notification.id}
                         notification={notification}
-                        data={notification.data}
                       />
                     );
                   }
@@ -101,7 +101,6 @@ export function NotificationsPopover() {
                       <RemovedFromProject
                         key={notification.id}
                         notification={notification}
-                        data={notification.data}
                       />
                     );
                   }

@@ -8,10 +8,10 @@ import {
   type PropsWithChildren,
 } from "react";
 
-import { type Notification } from "~/lib/shared/api/notifications";
+import { type AppNotification } from "@acme/notifications";
 
 type NotificationsContext = {
-  notifications: Notification[];
+  notifications: AppNotification[];
   unreadCount: number;
 };
 
@@ -25,7 +25,7 @@ export enum NotificationActionTypes {
 
 type NotificationsAction = {
   type: NotificationActionTypes;
-  payload: Notification;
+  payload: AppNotification;
 };
 
 const notificationsContext = createContext<NotificationsContext>({

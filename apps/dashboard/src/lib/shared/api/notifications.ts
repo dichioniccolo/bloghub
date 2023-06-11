@@ -44,6 +44,8 @@ export async function getNotifications() {
   };
 }
 
-export type Notification = Awaited<
-  ReturnType<typeof getNotifications>
->["notifications"][number];
+export type Notification<TData> = Omit<Awaited<
+ReturnType<typeof getNotifications>
+>["notifications"][number], 'data'> & {
+  data: TData
+};

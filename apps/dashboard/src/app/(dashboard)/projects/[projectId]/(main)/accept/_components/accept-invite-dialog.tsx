@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { AppRoutes } from "@acme/common/routes";
 import {
@@ -32,21 +31,19 @@ export function AcceptInviteDialog({ project, expired }: Props) {
 
   const { toast } = useToast();
 
-  const router = useRouter();
-
-  const { mutate, isRunning: loading } = useZact(acceptInvite);
+  const { mutate, isRunning: loading } = useZact(acceptInvite, {
+    onSuccess: () => {
+      toast({
+        description: "You now are a part of this project!",
+      });
+    },
+  });
 
   const onSubmit = async () => {
     await mutate({
       userId: user.id,
       projectId: project.id,
     });
-
-    toast({
-      description: "You now are a part of this project!",
-    });
-
-    router.push(AppRoutes.ProjectDashboard(project.id));
   };
 
   return (
