@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
+  toast,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -29,34 +29,25 @@ import {
 type Props = HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: Props) {
-  const { toast } = useToast();
-
   const searchParams = useSearchParams();
 
   const error = searchParams?.get("error");
 
   const isVerificationError = error === "Verification";
 
-  async function onSubmit({ email }: UserAuthSchemaType) {
-    const signInResult = await signIn("email", {
+  const onSubmit = async ({ email }: UserAuthSchemaType) => {
+    const result = await signIn("email", {
       email,
       redirect: false,
       callbackUrl: searchParams?.get("from") || "/",
     });
 
-    if (!signInResult?.ok) {
-      toast({
-        title: "Something went wrong",
-        description: "Your sign in request failed. Please try again.",
-        variant: "destructive",
-      });
+    if (!result?.ok) {
+      return toast.error("Your sign in request failed, please try again");
     }
 
-    toast({
-      title: "Check your email",
-      description: "We sent you a login link. Be sure to check your spam too",
-    });
-  }
+    toast.success("We sent you a login link. Be sure to check your spam too");
+  };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>

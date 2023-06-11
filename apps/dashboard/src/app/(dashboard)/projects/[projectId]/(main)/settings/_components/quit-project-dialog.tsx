@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -29,19 +29,13 @@ type Props = {
 export function QuitProjectDialog({ project }: Props) {
   const user = useUser();
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
 
   const { mutate, isRunning } = useZact(quitProject, {
     onSuccess: () => {
-      toast({
-        title: "You quit the project.",
-      });
+      toast.success("You quit the project");
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+    onServerError: () => {
+      toast.error("Something went wrong");
     },
   });
 

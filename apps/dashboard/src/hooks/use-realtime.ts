@@ -6,10 +6,10 @@ import { type AppNotification } from "@acme/notifications";
 
 import { pusherClient } from "~/lib/pusher";
 
-export function useRealtimeNotification<T>(
+export function useRealtimeNotification(
   channel: string,
   event: string,
-  handler: (notification: AppNotification) => T,
+  handler: (notification: AppNotification) => unknown,
 ) {
   useEffect(() => {
     pusherClient.subscribe(channel);

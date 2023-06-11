@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -29,13 +29,9 @@ type Props = {
 export function AcceptInviteDialog({ project, expired }: Props) {
   const user = useUser();
 
-  const { toast } = useToast();
-
   const { mutate, isRunning: loading } = useZact(acceptInvite, {
     onSuccess: () => {
-      toast({
-        description: "You now are a part of this project!",
-      });
+      toast.success(`You now are a part of ${project.name} project!`);
     },
   });
 

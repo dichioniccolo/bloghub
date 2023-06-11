@@ -14,10 +14,10 @@ import {
   CardTitle,
   Progress,
   Separator,
+  toast,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  useToast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -39,15 +39,10 @@ type Props = {
 export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
   const user = useUser();
 
-  const { toast } = useToast();
-
   const { mutate, isRunning } = useZact(createCheckoutSession, {
     onSuccess: (url) => {
       if (!url) {
-        toast({
-          title: "Something went wrong.",
-          variant: "destructive",
-        });
+        toast.error("Something went wrong");
         return;
       }
 
@@ -56,17 +51,11 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
       // Or portal to manage existing subscription.
       location.href = url;
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+    onServerError: () => {
+      toast.error("Something went wrong");
     },
     onValidationError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+      toast.error("Something went wrong");
     },
   });
 

@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -38,13 +38,9 @@ export function InviteMemberDialog({ projectId }: Props) {
 
   const user = useUser();
 
-  const { toast } = useToast();
-
   const { mutate } = useZact(inviteUser, {
     onSuccess: () => {
-      toast({
-        title: "Invitation sent",
-      });
+      toast.success("Invitation sent");
       setOpen(false);
     },
   });

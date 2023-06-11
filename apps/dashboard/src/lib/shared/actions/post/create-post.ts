@@ -1,10 +1,8 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
-import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, posts, projectMembers } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
@@ -52,5 +50,8 @@ export const createPost = zact(
     })
     .then((x) => x[0]!);
 
-  redirect(AppRoutes.PostEditor(projectId, post.id));
+  return post;
+
+  // TODO: implement when fixed
+  // redirect(AppRoutes.PostEditor(projectId, post.id));
 });

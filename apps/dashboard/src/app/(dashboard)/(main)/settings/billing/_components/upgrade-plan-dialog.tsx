@@ -13,7 +13,7 @@ import {
   DialogTrigger,
   Slider,
   Switch,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -32,7 +32,6 @@ export function UpgradePlanDialog({ proPlans }: Props) {
   const user = useUser();
 
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
 
   const [tier, setTier] = useState(0);
   const [plan, setPlan] = useState(proPlans[tier]);
@@ -43,10 +42,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
   const { mutate, isRunning } = useZact(createCheckoutSession, {
     onSuccess: (url) => {
       if (!url) {
-        toast({
-          title: "Something went wrong.",
-          variant: "destructive",
-        });
+        toast.error("Something went wrong");
         return;
       }
 
@@ -55,17 +51,11 @@ export function UpgradePlanDialog({ proPlans }: Props) {
       // Or portal to manage existing subscription.
       location.href = url;
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+    onServerError: () => {
+      toast.error("Something went wrong");
     },
     onValidationError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+      toast.error("Something went wrong");
     },
   });
 

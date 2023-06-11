@@ -15,15 +15,15 @@ import {
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-  useToast,
+  toast,
 } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import {
-  QRCodeSVG,
   getQRAsCanvas,
-  getQRAsSVGDataUri,
   getQrAsString,
+  getQRAsSVGDataUri,
+  QRCodeSVG,
 } from "~/lib/qr";
 import { type GetPosts } from "~/lib/shared/api/posts";
 import {
@@ -41,8 +41,6 @@ type Props = {
 };
 
 export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
-  const { toast } = useToast();
-
   const anchorRef = useRef<HTMLAnchorElement | null>(null);
 
   const [showLogo, setShowLogo] = useState(true);
@@ -94,12 +92,9 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
 
       canvas.toBlob(async (blob) => {
         if (!blob) {
-          toast({
-            variant: "destructive",
-            title: "Unable to copy",
-            description:
-              "An error occurred while copying the QR code to the clipboard.",
-          });
+          toast.error(
+            "An error occurred while copying the QR code to the clipboard.",
+          );
           return;
         }
 
@@ -111,14 +106,11 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
         });
       });
     } catch {
-      toast({
-        variant: "destructive",
-        title: "Unable to copy",
-        description:
-          "An error occurred while copying the QR code to the clipboard.",
-      });
+      toast.error(
+        "An error occurred while copying the QR code to the clipboard.",
+      );
     }
-  }, [qrData, toast]);
+  }, [qrData]);
 
   return (
     <Dialog>

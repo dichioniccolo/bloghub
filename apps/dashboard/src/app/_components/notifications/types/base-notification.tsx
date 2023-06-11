@@ -48,7 +48,7 @@ export function BaseNotification({
         payload: notification,
       });
     },
-    onError: () => {
+    onServerError: () => {
       dispatch({
         type: NotificationActionTypes.MARK_AS_UNREAD,
         payload: notification,

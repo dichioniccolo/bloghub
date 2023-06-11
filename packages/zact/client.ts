@@ -8,7 +8,7 @@ import type { ZactAction, ZactValidationError } from "./server";
 type CallbackOptions<InputType extends z.ZodTypeAny, ResponseType> = {
   onBeforeAction?: (input: z.input<InputType>) => void;
   onSuccess?: (data: ResponseType) => void;
-  onError?: (e: unknown) => void;
+  onServerError?: () => void;
   onValidationError?: (errors: ZactValidationError<InputType>) => void;
 };
 
@@ -19,7 +19,6 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   const doAction = useRef(action);
 
   const [data, setData] = useState<ResponseType | null>(null);
-  const [error, setError] = useState<unknown | null>(null);
 
   const [isRunning, startTransition] = useTransition();
 
@@ -28,8 +27,6 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
       return new Promise((resolve, reject) => {
         // @ts-expect-error start transition should include a Promise<void>
         startTransition(async () => {
-          setError(null);
-
           if (callback?.onBeforeAction) {
             callback.onBeforeAction(input);
           }
@@ -46,10 +43,8 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
           }
 
           if (result.serverError) {
-            setError(result.serverError);
-
-            if (callback?.onError) {
-              callback.onError(result.serverError);
+            if (callback?.onServerError) {
+              callback.onServerError();
             }
 
             resolve(null);
@@ -71,6 +66,5 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
     mutate,
     data,
     isRunning,
-    error: error,
   };
 }

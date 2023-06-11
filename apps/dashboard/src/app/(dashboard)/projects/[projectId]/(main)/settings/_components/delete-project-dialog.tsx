@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -29,21 +29,14 @@ type Props = {
 export function DeleteProjectDialog({ project }: Props) {
   const user = useUser();
 
-  const { toast } = useToast();
-
   const [open, setOpen] = useState(false);
 
   const { mutate, isRunning } = useZact(deleteProject, {
     onSuccess: () => {
-      toast({
-        title: "Project deleted",
-      });
+      toast.success("Project deleted");
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+    onServerError: () => {
+      toast.error("Something went wrong");
     },
   });
 

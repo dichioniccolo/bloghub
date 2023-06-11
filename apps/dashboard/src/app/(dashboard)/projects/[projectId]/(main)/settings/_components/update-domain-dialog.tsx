@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -37,21 +37,15 @@ export function UpdateDomainDialog({ project }: Props) {
   const user = useUser();
 
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
 
   const { mutate } = useZact(updateDomain, {
     onSuccess: () => {
       setOpen(false);
 
-      toast({
-        title: "Domain updated.",
-      });
+      toast.success("Domain updated");
     },
-    onError: () => {
-      toast({
-        title: "Something went wrong.",
-        variant: "destructive",
-      });
+    onServerError: () => {
+      toast.error("Something went wrong");
     },
   });
 

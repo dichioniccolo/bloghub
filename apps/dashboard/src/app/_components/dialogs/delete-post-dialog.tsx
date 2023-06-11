@@ -12,7 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -28,13 +28,9 @@ type Props = {
 export function DeletePostDialog({ projectId, postId, trigger }: Props) {
   const user = useUser();
 
-  const { toast } = useToast();
-
   const { mutate, isRunning } = useZact(deletePost, {
     onSuccess: () => {
-      toast({
-        title: "Post deleted",
-      });
+      toast.success("Post deleted");
     },
   });
 

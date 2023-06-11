@@ -7,7 +7,7 @@ type ActionType<TInput extends z.ZodTypeAny, TResponse> = (
 type ResponseType<TInput extends z.ZodTypeAny, TResponse> = {
   data?: TResponse;
   validationErrors?: ZactValidationError<TInput>;
-  serverError?: unknown;
+  serverError?: true;
 };
 
 export type ZactValidationError<TInput extends z.ZodTypeAny = z.ZodTypeAny> = {
@@ -51,8 +51,9 @@ export function zact<TInput extends z.ZodTypeAny>(validator?: TInput) {
           data: await action(input),
         };
       } catch (e) {
+        console.error(e);
         return {
-          serverError: e,
+          serverError: true,
         };
       }
     };

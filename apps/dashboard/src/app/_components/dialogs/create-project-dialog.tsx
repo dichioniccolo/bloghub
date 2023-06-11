@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
+  toast,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -40,15 +40,10 @@ type Props = {
 function CreateProjectDialog({ open, setOpen }: Props) {
   const user = useUser();
 
-  const { toast } = useToast();
-
   const { mutate } = useZact(createProject, {
     onSuccess: () => {
+      toast.success("Project created");
       setOpen(false);
-
-      toast({
-        title: "Project created",
-      });
     },
   });
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { Button } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -14,7 +16,13 @@ type Props = {
 export function CreatePostButton({ projectId }: Props) {
   const user = useUser();
 
-  const { mutate, isRunning } = useZact(createPost);
+  const router = useRouter();
+
+  const { mutate, isRunning } = useZact(createPost, {
+    onSuccess: (post) => {
+      router.push(`/projects/${projectId}/posts/${post.id}`);
+    },
+  });
 
   const onCreate = () =>
     mutate({
