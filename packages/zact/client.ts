@@ -17,6 +17,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
 ) {
   const doAction = useRef(action);
 
+  const [data, setData] = useState<ResponseType | null>(null);
   const [error, setError] = useState<unknown | null>(null);
 
   const [isRunning, startTransition] = useTransition();
@@ -24,6 +25,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   const mutate = useCallback(
     (input: z.input<InputType>) => {
       return new Promise((resolve, reject) => {
+        // @ts-expect-error start transition should include a Promise<void>
         startTransition(async () => {
           setError(null);
 
@@ -52,6 +54,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
             callback.onSuccess(result.data);
           }
 
+          setData(result.data ?? null);
           resolve(result.data ?? null);
         });
       });
@@ -61,6 +64,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
 
   return {
     mutate,
+    data,
     isRunning,
     error: error,
   };

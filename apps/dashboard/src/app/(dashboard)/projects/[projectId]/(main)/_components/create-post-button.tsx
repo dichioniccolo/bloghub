@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { createPost } from "~/lib/shared/actions/post/create-post";
-import { useZact } from "~/lib/zact/client";
 
 type Props = {
   projectId: string;

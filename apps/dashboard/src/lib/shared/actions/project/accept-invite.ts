@@ -13,8 +13,7 @@ import {
   projectMembers,
   users,
 } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const acceptInvite = zact(
   z

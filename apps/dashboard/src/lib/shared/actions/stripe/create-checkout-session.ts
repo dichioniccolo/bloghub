@@ -5,8 +5,7 @@ import { z } from "zod";
 import { stripe } from "@acme/common/external/stripe";
 import { determinePlanPriceId } from "@acme/common/external/stripe/actions";
 import { db, eq, users } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const createCheckoutSession = zact(
   z.object({

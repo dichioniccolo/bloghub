@@ -5,8 +5,7 @@ import { z } from "zod";
 import { deleteUnusedMediaInPost } from "@acme/common/actions";
 import { getPostTitleAndDescriptionByContent } from "@acme/common/utils/post";
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const updatePost = zact(
   z

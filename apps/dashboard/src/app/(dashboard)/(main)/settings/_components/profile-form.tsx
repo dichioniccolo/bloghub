@@ -16,6 +16,7 @@ import {
   FormMessage,
   Input,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
@@ -24,7 +25,6 @@ import {
   UserNameSchema,
   type UserNameSchemaType,
 } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 export function ProfileForm() {
   const user = useUser();

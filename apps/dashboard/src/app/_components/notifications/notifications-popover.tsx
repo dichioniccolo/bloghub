@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import {
@@ -27,7 +28,6 @@ import { RemovedFromProject } from "~/app/_components/notifications/types/remove
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { archiveAllNotifications } from "~/lib/shared/actions/notifications/archive-all-notifications";
-import { useZact } from "~/lib/zact/client";
 
 export function NotificationsPopover() {
   const { notifications, unreadCount } = useNotifications();

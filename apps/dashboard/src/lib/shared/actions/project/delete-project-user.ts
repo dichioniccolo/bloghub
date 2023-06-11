@@ -9,7 +9,7 @@ import "isomorphic-fetch";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const deleteProjectUser = zact(
   z

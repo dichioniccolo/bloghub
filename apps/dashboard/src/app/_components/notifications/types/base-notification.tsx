@@ -4,6 +4,7 @@ import { type ReactNode } from "react";
 
 import { type AppNotification } from "@acme/notifications";
 import { Button } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import {
@@ -14,7 +15,6 @@ import { useUser } from "~/hooks/use-user";
 import { archiveNotification } from "~/lib/shared/actions/notifications/archive-notification";
 import { markNotificationAsRead } from "~/lib/shared/actions/notifications/mark-notification-as-read";
 import { cn } from "~/lib/utils";
-import { useZact } from "~/lib/zact/client";
 
 type Props = {
   notification: AppNotification;

@@ -5,8 +5,7 @@ import { z } from "zod";
 
 import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, projectMembers, sql } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const quitProject = zact(
   z

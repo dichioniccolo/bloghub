@@ -3,8 +3,7 @@
 import { z } from "zod";
 
 import { and, db, eq, notifications, or } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const archiveAllNotifications = zact(
   z.object({

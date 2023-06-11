@@ -3,8 +3,7 @@
 import { z } from "zod";
 
 import { and, db, emailNotificationSettings, eq } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const updateNotificationSettings = zact(
   z.object({

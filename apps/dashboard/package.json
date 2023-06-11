@@ -19,6 +19,7 @@
     "@acme/notifications": "^0.1.0",
     "@acme/tailwind-config": "^0.1.0",
     "@acme/ui": "^0.1.0",
+    "@acme/zact": "^0.1.0",
     "@auth/adapter-drizzle": "^0.1.0",
     "@hookform/resolvers": "^3.1.0",
     "@paralleldrive/cuid2": "^2.2.1",

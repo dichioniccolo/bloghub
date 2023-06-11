@@ -15,12 +15,12 @@ import {
   Button,
   useToast,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { deleteProject } from "~/lib/shared/actions/project/delete-project";
 import { type GetProject } from "~/lib/shared/api/projects";
-import { useZact } from "~/lib/zact/client";
 
 type Props = {
   project: NonNullable<GetProject>;

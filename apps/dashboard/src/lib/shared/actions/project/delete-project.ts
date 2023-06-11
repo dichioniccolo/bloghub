@@ -6,8 +6,7 @@ import { z } from "zod";
 import { deleteProject as deleteProjectBase } from "@acme/common/actions";
 import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const deleteProject = zact(
   z

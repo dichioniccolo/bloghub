@@ -4,8 +4,7 @@ import { z } from "zod";
 
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
 import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const verifyDomain = zact(
   z
@@ -57,4 +56,4 @@ export const verifyDomain = zact(
   return await verifyProjectDomain(project.domain);
 });
 
-export type VerifyDomain = Awaited<ReturnType<typeof verifyDomain>>;
+export type VerifyDomain = Awaited<ReturnType<typeof verifyProjectDomain>>;

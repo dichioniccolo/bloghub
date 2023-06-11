@@ -10,5 +10,6 @@ packages:
   - packages/common
   - packages/notifications
   - packages/ui
+  - packages/zact
   # TODO: REMOVE
   - packages/adapter-drizzle

@@ -3,8 +3,7 @@
 import { z } from "zod";
 
 import { db, eq, users } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const updateUser = zact(
   z.object({

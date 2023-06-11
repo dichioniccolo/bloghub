@@ -18,6 +18,7 @@ import {
   Input,
   useToast,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
@@ -27,7 +28,6 @@ import {
   UpdateDomainSchema,
   type UpdateDomainSchemaType,
 } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 type Props = {
   project: NonNullable<GetProject>;

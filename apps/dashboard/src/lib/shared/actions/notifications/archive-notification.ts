@@ -3,8 +3,7 @@
 import { z } from "zod";
 
 import { and, db, eq, notifications } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const archiveNotification = zact(
   z

@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Tiptap } from "~/app/_components/tiptap";
 import { LeaveConfirm } from "~/hooks/use-leave-confirm";
@@ -18,7 +19,6 @@ import {
   EditPostSchema,
   type EditPostSchemaType,
 } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 import { EditPostFormToolbar } from "./edit-post-form-toolbar";
 
 type Props = {

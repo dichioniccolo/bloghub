@@ -6,8 +6,8 @@ import { z } from "zod";
 import { createDomain, deleteDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
+import { zact } from "@acme/zact/server";
 
-import { zact } from "~/lib/zact/server";
 import { DomainSchema } from "../schemas";
 
 export const updateDomain = zact(

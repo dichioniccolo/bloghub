@@ -15,6 +15,7 @@ import {
   Switch,
   useToast,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
@@ -22,7 +23,6 @@ import { createCheckoutSession } from "~/lib/shared/actions/stripe/create-checko
 import { type GetProPlans } from "~/lib/shared/api/stripe";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
-import { useZact } from "~/lib/zact/client";
 
 type Props = {
   proPlans: GetProPlans;

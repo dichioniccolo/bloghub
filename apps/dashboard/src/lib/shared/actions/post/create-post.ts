@@ -6,8 +6,7 @@ import { z } from "zod";
 
 import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, posts, projectMembers } from "@acme/db";
-
-import { zact } from "~/lib/zact/server";
+import { zact } from "@acme/zact/server";
 
 export const createPost = zact(
   z

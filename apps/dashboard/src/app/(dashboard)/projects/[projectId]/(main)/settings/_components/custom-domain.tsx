@@ -11,12 +11,12 @@ import {
   CardTitle,
   useInterval,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { verifyDomain } from "~/lib/shared/actions/project/verify-domain";
 import { type GetProject } from "~/lib/shared/api/projects";
-import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";
 
@@ -27,7 +27,13 @@ type Props = {
 export function CustomDomain({ project }: Props) {
   const user = useUser();
 
-  const { isRunning, mutate, data } = useZact(verifyDomain);
+  const { isRunning, mutate, data } = useZact(verifyDomain, {
+    onSuccess: (data) => {
+      if (data?.verified) {
+        interval.stop();
+      }
+    },
+  });
 
   const handleVerify = async () => {
     await mutate({
@@ -37,12 +43,6 @@ export function CustomDomain({ project }: Props) {
   };
 
   const interval = useInterval(handleVerify, 10000);
-
-  useEffect(() => {
-    if (data?.verified) {
-      interval.stop();
-    }
-  }, [data, interval]);
 
   useEffect(() => {
     void handleVerify();
