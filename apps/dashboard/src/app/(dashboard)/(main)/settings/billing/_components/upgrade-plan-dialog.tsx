@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 
 import { AppRoutes } from "@acme/common/routes";
 import {
@@ -40,18 +40,8 @@ export function UpgradePlanDialog({ proPlans }: Props) {
 
   const period = annualBilling ? "yearly" : "monthly";
 
-  const [loading, startTransition] = useTransition();
-  const { mutate } = useZact(createCheckoutSession);
-
-  const onUpgrade = () =>
-    startTransition(async () => {
-      const url = await mutate({
-        userId: user.id,
-        callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
-        name: plan?.name,
-        period,
-      });
-
+  const { mutate, isRunning } = useZact(createCheckoutSession, {
+    onSuccess: (url) => {
       if (!url) {
         toast({
           title: "Something went wrong.",
@@ -64,6 +54,27 @@ export function UpgradePlanDialog({ proPlans }: Props) {
       // This could be a checkout page for initial upgrade.
       // Or portal to manage existing subscription.
       location.href = url;
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
+    },
+    onValidationError: () => {
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onUpgrade = () =>
+    mutate({
+      userId: user.id,
+      callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
+      name: plan?.name,
+      period,
     });
 
   useEffect(() => {
@@ -132,8 +143,8 @@ export function UpgradePlanDialog({ proPlans }: Props) {
             </p>
           </div>
         </div>
-        <Button disabled={loading} onClick={onUpgrade}>
-          {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+        <Button disabled={isRunning} onClick={onUpgrade}>
+          {isRunning && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
           Upgrade to {plan?.name}
         </Button>
       </DialogContent>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useTransition } from "react";
 import { format } from "date-fns";
 
 import { AppRoutes } from "@acme/common/routes";
@@ -42,16 +41,8 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
 
   const { toast } = useToast();
 
-  const [loading, startTransition] = useTransition();
-  const { mutate } = useZact(createCheckoutSession);
-
-  const onManageSubscription = () =>
-    startTransition(async () => {
-      const url = await mutate({
-        userId: user.id,
-        callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
-      });
-
+  const { mutate, isRunning } = useZact(createCheckoutSession, {
+    onSuccess: (url) => {
       if (!url) {
         toast({
           title: "Something went wrong.",
@@ -64,9 +55,26 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
       // This could be a checkout page for initial upgrade.
       // Or portal to manage existing subscription.
       location.href = url;
-    });
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
+    },
+    onValidationError: () => {
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
+    },
+  });
 
-  console.log(userPlan);
+  const onManageSubscription = () =>
+    mutate({
+      userId: user.id,
+      callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
+    });
 
   return (
     <Card className="border-none shadow-none">
@@ -128,8 +136,8 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
           <UpgradePlanDialog proPlans={proPlans} />
         ) : (
           <div className="flex space-x-3">
-            <Button onClick={onManageSubscription} disabled={loading}>
-              {loading && (
+            <Button onClick={onManageSubscription} disabled={isRunning}>
+              {isRunning && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
               Manage Subscription

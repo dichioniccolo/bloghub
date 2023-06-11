@@ -1,77 +1,67 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState, useTransition } from "react";
 import type z from "zod";
 
-import type { ZactAction, ZactError } from "./server";
+import type { ZactAction, ZactValidationError } from "./server";
 
-export function rethrowZactError<InputType extends z.ZodTypeAny, ResponseType>(
-  result: Awaited<ReturnType<ZactAction<InputType, ResponseType>>>,
-): result is ZactError<InputType> {
-  if (typeof result === "object" && result && "formErrors" in result) {
-    throw result;
-  }
-
-  return false;
-}
-
-type CallbackOptions<ResponseType> = {
+type CallbackOptions<InputType extends z.ZodTypeAny, ResponseType> = {
   onSuccess?: (data: ResponseType) => void;
-  onError?: () => void;
+  onError?: (e: unknown) => void;
+  onValidationError?: (errors: ZactValidationError<InputType>) => void;
 };
 
 export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   action: ZactAction<InputType, ResponseType>,
-  callback?: CallbackOptions<ResponseType>,
+  callback?: CallbackOptions<InputType, ResponseType>,
 ) {
   const doAction = useRef(action);
 
-  const [data, setData] = useState<ResponseType | null>(null);
+  const [error, setError] = useState<unknown | null>(null);
 
-  const [isRunning, setIsLoading] = useState(false);
-  const [err, setErr] = useState<Error | null>(null);
+  const [isRunning, startTransition] = useTransition();
 
-  const mutate = useMemo(
-    () => async (input: z.input<InputType>) => {
-      setIsLoading(true);
-      setErr(null);
-      try {
-        const result = await doAction.current(input);
+  const mutate = useCallback(
+    (input: z.input<InputType>) => {
+      return new Promise((resolve, reject) => {
+        startTransition(async () => {
+          setError(null);
 
-        if (rethrowZactError(result)) {
-          return null;
-        }
+          const result = await doAction.current(input);
 
-        setData(result);
-        setIsLoading(false);
+          if (result.validationErrors) {
+            if (callback?.onValidationError) {
+              callback.onValidationError(result.validationErrors);
+            } else {
+              reject(result.validationErrors);
+              return;
+            }
+          }
 
-        if (callback?.onSuccess) {
-          callback.onSuccess(result);
-        }
+          if (result.serverError) {
+            setError(result.serverError);
 
-        return result;
-      } catch (e) {
-        if (rethrowZactError(e)) {
-          return null;
-        }
+            if (callback?.onError) {
+              callback.onError(result.serverError);
+            }
 
-        setErr(e as Error);
-        setIsLoading(false);
+            resolve(null);
+          }
 
-        if (callback?.onError) {
-          callback.onError();
-        }
+          if (callback?.onSuccess && result.data) {
+            callback.onSuccess(result.data);
+          }
 
-        return null;
-      }
+          resolve(result.data ?? null);
+        });
+      });
     },
     [callback],
   );
 
   return {
     mutate,
-    data,
     isRunning,
-    error: err,
+    error: error,
   };
 }

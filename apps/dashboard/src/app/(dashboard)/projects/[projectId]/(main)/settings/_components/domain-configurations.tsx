@@ -5,10 +5,10 @@ import { useState } from "react";
 import { env } from "~/env.mjs";
 import { type VerifyDomain } from "~/lib/shared/actions/project/verify-domain";
 import { cn, getSubDomain } from "~/lib/utils";
-import { type ZactError } from "~/lib/zact/server";
+import { type ZactValidationError } from "~/lib/zact/server";
 
 type Props = {
-  status: Exclude<VerifyDomain, ZactError>;
+  status: Exclude<VerifyDomain, ZactValidationError>;
 };
 
 export const InlineSnippet = ({ children }: { children: string }) => {

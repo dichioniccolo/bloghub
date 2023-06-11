@@ -63,8 +63,6 @@ export const inviteUser = zact(
         )
         .then((x) => x[0]!);
 
-      console.log(existingUser);
-
       if (existingUser.count > 0) {
         ctx.addIssue({
           code: "custom",

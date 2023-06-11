@@ -1,46 +1,62 @@
 import type z from "zod";
 
-declare const brand: unique symbol;
+type ActionType<TInput extends z.ZodTypeAny, TResponse> = (
+  input: z.input<TInput>,
+) => Promise<TResponse>;
 
-type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
+type ResponseType<TInput extends z.ZodTypeAny, TResponse> = {
+  data?: TResponse;
+  validationErrors?: ZactValidationError<TInput>;
+  serverError?: unknown;
+};
 
-type ActionType<InputType extends z.ZodTypeAny, ResponseType> = (
-  input: z.input<InputType>,
-) => Promise<ResponseType | ZactError<InputType>>;
-
-export type ZactError<InputType extends z.ZodTypeAny = z.ZodTypeAny> = {
+export type ZactValidationError<TInput extends z.ZodTypeAny = z.ZodTypeAny> = {
   formErrors: string[];
   fieldErrors: {
-    [P in keyof InputType]?: string[];
+    [P in keyof TInput]?: string[];
   };
 };
 
-export type ZactAction<InputType extends z.ZodTypeAny, ResponseType> = Brand<
-  ActionType<InputType, ResponseType>,
-  "zact-action"
+export type ZactAction<TInput extends z.ZodTypeAny, TResponse> = ActionType<
+  TInput,
+  ResponseType<TInput, TResponse>
 >;
 
-export function zact<InputType extends z.ZodTypeAny>(validator?: InputType) {
+export function zact<TInput extends z.ZodTypeAny>(validator?: TInput) {
   // This is the "factory" that is created on call of zact. You pass it a "use server" function and it will validate the input before you call it
-  return function <ResponseType>(
-    action: ActionType<InputType, ResponseType>,
-  ): ZactAction<InputType, ResponseType> {
+  return function <TResponse>(
+    action: ActionType<TInput, TResponse>,
+  ): ZactAction<TInput, TResponse> {
     // The wrapper that actually validates
-    const validatedAction = async (input: z.input<InputType>) => {
-      if (validator) {
-        // This will throw if the input is invalid
-        const result = await validator.safeParseAsync(input);
+    const validatedAction: ZactAction<TInput, TResponse> = async (
+      input: z.input<TInput>,
+    ) => {
+      try {
+        if (validator) {
+          // This will throw if the input is invalid
+          const result = await validator.safeParseAsync(input);
 
-        if (!result.success) {
-          return result.error.flatten();
+          if (!result.success) {
+            return {
+              validationErrors: result.error.flatten(),
+            };
+          }
+
+          return {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            data: await action(result.data),
+          };
         }
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        return await action(result.data);
+        return {
+          data: await action(input),
+        };
+      } catch (e) {
+        return {
+          serverError: e,
+        };
       }
-      return await action(input);
     };
 
-    return validatedAction as ZactAction<InputType, ResponseType>;
+    return validatedAction;
   };
 }

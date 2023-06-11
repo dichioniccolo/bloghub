@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import {
   AlertDialog,
@@ -32,32 +31,26 @@ export function DeleteProjectDialog({ project }: Props) {
 
   const { toast } = useToast();
 
-  const router = useRouter();
-
   const [open, setOpen] = useState(false);
-  const [loading, startTransition] = useTransition();
 
-  const { mutate } = useZact(deleteProject);
+  const { mutate, isRunning } = useZact(deleteProject, {
+    onSuccess: () => {
+      toast({
+        title: "Project deleted",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const onDelete = () =>
-    startTransition(async () => {
-      try {
-        await mutate({
-          projectId: project.id,
-          userId: user.id,
-        });
-
-        toast({
-          title: "Project deleted.",
-        });
-
-        router.push("/");
-      } catch {
-        toast({
-          title: "Something went wrong.",
-          variant: "destructive",
-        });
-      }
+    mutate({
+      projectId: project.id,
+      userId: user.id,
     });
 
   return (
@@ -75,8 +68,10 @@ export function DeleteProjectDialog({ project }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>
-            {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          <AlertDialogAction onClick={onDelete} disabled={isRunning}>
+            {isRunning && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>
