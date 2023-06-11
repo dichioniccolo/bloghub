@@ -29,14 +29,13 @@ export function EditPostForm({ post }: Props) {
   const user = useUser();
   const { mutate } = useZact(updatePost);
 
-  async function onSubmit({ content }: EditPostSchemaType) {
-    await mutate({
+  const onSubmit = ({ content }: EditPostSchemaType) =>
+    mutate({
       userId: user.id,
       projectId: post.projectId,
       postId: post.id,
       content,
     });
-  }
 
   return (
     <Form

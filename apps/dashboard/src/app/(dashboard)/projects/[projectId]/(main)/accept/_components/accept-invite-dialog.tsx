@@ -39,12 +39,11 @@ export function AcceptInviteDialog({ project, expired }: Props) {
     },
   });
 
-  const onSubmit = async () => {
-    await mutate({
+  const onSubmit = () =>
+    mutate({
       userId: user.id,
       projectId: project.id,
     });
-  };
 
   return (
     <div>

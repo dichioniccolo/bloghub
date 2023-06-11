@@ -39,24 +39,28 @@ export function UpdateDomainDialog({ project }: Props) {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
-  const { mutate } = useZact(updateDomain);
-
-  const onSubmit = async ({ newDomain }: UpdateDomainSchemaType) => {
-    try {
-      await mutate({
-        userId: user.id,
-        projectId: project.id,
-        newDomain,
-      });
-
+  const { mutate } = useZact(updateDomain, {
+    onSuccess: () => {
       setOpen(false);
-    } catch {
+
+      toast({
+        title: "Domain updated.",
+      });
+    },
+    onError: () => {
       toast({
         title: "Something went wrong.",
         variant: "destructive",
       });
-    }
-  };
+    },
+  });
+
+  const onSubmit = ({ newDomain }: UpdateDomainSchemaType) =>
+    mutate({
+      userId: user.id,
+      projectId: project.id,
+      newDomain,
+    });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

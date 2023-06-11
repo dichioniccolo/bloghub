@@ -35,12 +35,11 @@ export function CustomDomain({ project }: Props) {
     },
   });
 
-  const handleVerify = async () => {
-    await mutate({
+  const handleVerify = () =>
+    mutate({
       projectId: project.id,
       userId: user.id,
     });
-  };
 
   const interval = useInterval(handleVerify, 10000);
 

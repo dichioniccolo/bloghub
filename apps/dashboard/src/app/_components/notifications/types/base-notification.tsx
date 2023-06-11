@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type MouseEventHandler, type ReactNode } from "react";
 
 import { type AppNotification } from "@acme/notifications";
 import { Button } from "@acme/ui";
@@ -41,33 +41,34 @@ export function BaseNotification({
       });
     },
   });
-  const { mutate: markAsRead } = useZact(markNotificationAsRead);
+  const { mutate: markAsRead } = useZact(markNotificationAsRead, {
+    onBeforeAction: () => {
+      dispatch({
+        type: NotificationActionTypes.MARK_AS_READ,
+        payload: notification,
+      });
+    },
+    onError: () => {
+      dispatch({
+        type: NotificationActionTypes.MARK_AS_UNREAD,
+        payload: notification,
+      });
+    },
+  });
 
-  const onArchive = async () => {
+  const onArchive: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.stopPropagation();
     await archive({
       notificationId: notification.id,
       userId: user.id,
     });
   };
 
-  const onInteract = async () => {
-    dispatch({
-      type: NotificationActionTypes.MARK_AS_READ,
-      payload: notification,
+  const onInteract = () =>
+    markAsRead({
+      notificationId: notification.id,
+      userId: user.id,
     });
-
-    try {
-      await markAsRead({
-        notificationId: notification.id,
-        userId: user.id,
-      });
-    } catch {
-      dispatch({
-        type: NotificationActionTypes.MARK_AS_UNREAD,
-        payload: notification,
-      });
-    }
-  };
 
   return (
     <div
@@ -80,14 +81,7 @@ export function BaseNotification({
       <div className="flex w-12 items-center justify-center">{icon}</div>
       <div className="flex flex-1 items-center">{children}</div>
       <div className="invisible flex items-center justify-center transition-all group-hover:visible">
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            void onArchive();
-          }}
-          variant="secondary"
-          size="xs"
-        >
+        <Button onClick={onArchive} variant="secondary" size="xs">
           <Icons.archive className="h-4 w-4" />
         </Button>
       </div>

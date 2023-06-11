@@ -33,11 +33,11 @@ export function ProfileForm() {
   const { mutate } = useZact(updateUser);
 
   async function onSubmit({ name }: UserNameSchemaType) {
-    await update({
-      name,
-    });
     await mutate({
       userId: user.id,
+      name,
+    });
+    await update({
       name,
     });
   }

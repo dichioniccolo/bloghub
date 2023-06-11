@@ -52,13 +52,12 @@ function CreateProjectDialog({ open, setOpen }: Props) {
     },
   });
 
-  async function onSubmit({ name, domain }: CreateProjectSchemaType) {
-    await mutate({
+  const onSubmit = ({ name, domain }: CreateProjectSchemaType) =>
+    mutate({
       userId: user.id,
       name,
       domain,
     });
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

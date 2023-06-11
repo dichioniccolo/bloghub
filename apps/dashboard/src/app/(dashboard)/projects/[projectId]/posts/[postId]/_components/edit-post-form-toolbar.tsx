@@ -23,13 +23,12 @@ export function EditPostFormToolbar({ post }: Props) {
 
   const { mutate, isRunning } = useZact(togglePublishedPost);
 
-  async function onToggleHidden() {
-    await mutate({
+  const onToggleHidden = () =>
+    mutate({
       postId: post.id,
       projectId: post.projectId,
       userId: user.id,
     });
-  }
 
   return (
     <div className="flex justify-end gap-2">

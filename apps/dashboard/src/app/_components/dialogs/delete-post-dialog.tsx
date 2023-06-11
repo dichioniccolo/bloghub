@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import {
   AlertDialog,
@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
   useToast,
 } from "@acme/ui";
+import { useZact } from "@acme/zact/client";
 
 import { useUser } from "~/hooks/use-user";
 import { deletePost } from "~/lib/shared/actions/post/delete-post";
@@ -28,24 +29,25 @@ export function DeletePostDialog({ projectId, postId, trigger }: Props) {
   const user = useUser();
 
   const { toast } = useToast();
-  const [loading, startTransition] = useTransition();
 
-  const onDelete = () =>
-    startTransition(async () => {
-      await deletePost({
-        postId,
-        projectId,
-        userId: user.id,
-      });
-
+  const { mutate, isRunning } = useZact(deletePost, {
+    onSuccess: () => {
       toast({
         title: "Post deleted",
       });
+    },
+  });
+
+  const onDelete = () =>
+    mutate({
+      postId,
+      projectId,
+      userId: user.id,
     });
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{trigger(loading)}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{trigger(isRunning)}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

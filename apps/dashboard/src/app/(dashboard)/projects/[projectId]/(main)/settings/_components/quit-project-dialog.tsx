@@ -45,12 +45,11 @@ export function QuitProjectDialog({ project }: Props) {
     },
   });
 
-  const onDelete = async () => {
-    await mutate({
+  const onDelete = () =>
+    mutate({
       userId: user.id,
       projectId: project.id,
     });
-  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>

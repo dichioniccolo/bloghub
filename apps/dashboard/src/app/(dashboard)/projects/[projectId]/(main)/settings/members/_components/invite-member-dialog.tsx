@@ -40,21 +40,21 @@ export function InviteMemberDialog({ projectId }: Props) {
 
   const { toast } = useToast();
 
-  const { mutate } = useZact(inviteUser);
+  const { mutate } = useZact(inviteUser, {
+    onSuccess: () => {
+      toast({
+        title: "Invitation sent",
+      });
+      setOpen(false);
+    },
+  });
 
-  async function onSubmit({ email }: InviteMemberSchemaType) {
-    await mutate({
+  const onSubmit = ({ email }: InviteMemberSchemaType) =>
+    mutate({
       email,
       projectId,
       userId: user.id,
     });
-
-    toast({
-      title: "Invitation sent",
-    });
-
-    setOpen(false);
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

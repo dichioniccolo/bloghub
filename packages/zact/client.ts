@@ -6,6 +6,7 @@ import type z from "zod";
 import type { ZactAction, ZactValidationError } from "./server";
 
 type CallbackOptions<InputType extends z.ZodTypeAny, ResponseType> = {
+  onBeforeAction?: (input: z.input<InputType>) => void;
   onSuccess?: (data: ResponseType) => void;
   onError?: (e: unknown) => void;
   onValidationError?: (errors: ZactValidationError<InputType>) => void;
@@ -28,6 +29,10 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
         // @ts-expect-error start transition should include a Promise<void>
         startTransition(async () => {
           setError(null);
+
+          if (callback?.onBeforeAction) {
+            callback.onBeforeAction(input);
+          }
 
           const result = await doAction.current(input);
 

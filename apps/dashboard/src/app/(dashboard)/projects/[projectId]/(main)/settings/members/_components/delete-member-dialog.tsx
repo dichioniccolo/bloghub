@@ -37,17 +37,18 @@ type Props = {
 function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
   const user = useUser();
 
-  const { mutate, isRunning } = useZact(deleteProjectUser);
+  const { mutate, isRunning } = useZact(deleteProjectUser, {
+    onSuccess: () => {
+      setOpen(false);
+    },
+  });
 
-  async function onDelete() {
-    await mutate({
+  const onDelete = () =>
+    mutate({
       userId: user.id,
       projectId,
       userIdToDelete: userToDelete.id,
     });
-
-    setOpen(false);
-  }
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>

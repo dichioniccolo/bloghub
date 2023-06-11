@@ -2,13 +2,14 @@
 
 import { useEffect } from "react";
 
+import { type AppNotification } from "@acme/notifications";
+
 import { pusherClient } from "~/lib/pusher";
-import { type Notification } from "~/lib/shared/api/notifications";
 
 export function useRealtimeNotification<T>(
   channel: string,
   event: string,
-  handler: (notification: Notification) => T,
+  handler: (notification: AppNotification) => T,
 ) {
   useEffect(() => {
     pusherClient.subscribe(channel);

@@ -16,15 +16,14 @@ export function CreatePostButton({ projectId }: Props) {
 
   const { mutate, isRunning } = useZact(createPost);
 
+  const onCreate = () =>
+    mutate({
+      userId: user.id,
+      projectId,
+    });
+
   return (
-    <Button
-      onClick={() =>
-        mutate({
-          userId: user.id,
-          projectId,
-        })
-      }
-    >
+    <Button onClick={onCreate}>
       {isRunning ? (
         <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
       ) : (

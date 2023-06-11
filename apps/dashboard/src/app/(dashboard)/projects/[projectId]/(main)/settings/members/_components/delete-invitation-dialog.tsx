@@ -40,17 +40,18 @@ function DeleteInvitationDialog({
 }: Props) {
   const user = useUser();
 
-  const { mutate, isRunning } = useZact(deleteProjectInvitation);
+  const { mutate, isRunning } = useZact(deleteProjectInvitation, {
+    onSuccess: () => {
+      setOpen(false);
+    },
+  });
 
-  async function onDelete() {
-    await mutate({
+  const onDelete = () =>
+    mutate({
       userId: user.id,
       projectId,
       email: invitationToDelete.email,
     });
-
-    setOpen(false);
-  }
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
