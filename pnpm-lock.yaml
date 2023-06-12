@@ -236,8 +236,8 @@ importers:
         specifier: ^0.1.0
         version: link:../../packages/adapter-drizzle
       '@hookform/resolvers':
-        specifier: ^3.1.0
-        version: 3.1.0(react-hook-form@7.44.3)
+        specifier: ^3.1.1
+        version: 3.1.1(react-hook-form@7.44.3)
       '@paralleldrive/cuid2':
         specifier: ^2.2.1
         version: 2.2.1
@@ -652,8 +652,8 @@ importers:
         specifier: ^0.1.0
         version: link:../config/tailwind
       '@hookform/resolvers':
-        specifier: ^3.1.0
-        version: 3.1.0(react-hook-form@7.44.3)
+        specifier: ^3.1.1
+        version: 3.1.1(react-hook-form@7.44.3)
       '@radix-ui/react-accordion':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.2.5)(@types/react@18.2.11)(react-dom@18.2.0)(react@18.2.0)
@@ -2532,8 +2532,8 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  /@hookform/resolvers@3.1.0(react-hook-form@7.44.3):
-    resolution: {integrity: sha512-z0A8K+Nxq+f83Whm/ajlwE6VtQlp/yPHZnXw7XWVPIGm1Vx0QV8KThU3BpbBRfAZ7/dYqCKKBNnQh85BkmBKkA==}
+  /@hookform/resolvers@3.1.1(react-hook-form@7.44.3):
+    resolution: {integrity: sha512-tS16bAUkqjITNSvbJuO1x7MXbn7Oe8ZziDTJdA9mMvsoYthnOOiznOTGBYwbdlYBgU+tgpI/BtTU3paRbCuSlg==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
