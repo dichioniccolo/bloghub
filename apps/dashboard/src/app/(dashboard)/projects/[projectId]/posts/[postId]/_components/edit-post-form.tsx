@@ -1,17 +1,9 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@acme/ui";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
 import { Tiptap } from "~/app/_components/tiptap";
-import { LeaveConfirm } from "~/hooks/use-leave-confirm";
 import { useUser } from "~/hooks/use-user";
 import { updatePost } from "~/lib/shared/actions/post/update-post";
 import { type GetPost } from "~/lib/shared/api/posts";
@@ -37,38 +29,39 @@ export function EditPostForm({ post }: Props) {
       content,
     });
 
+  const initialValues = {
+    content: post.content ?? "",
+  };
+
   return (
     <Form
       schema={EditPostSchema}
-      initialValues={{
-        content: post.content ?? "",
-      }}
       onSubmit={onSubmit}
+      initialValues={initialValues}
+      className="grid grid-cols-1 gap-2"
     >
-      {({ formState }) => (
-        <>
-          <EditPostFormToolbar post={post} />
-          <LeaveConfirm formState={formState} />
-          <FormField
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Post</FormLabel>
-                <FormControl>
-                  <Tiptap
-                    userId={user.id}
-                    projectId={post.projectId}
-                    postId={post.id}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </>
-      )}
+      <EditPostFormToolbar
+        post={post}
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+      />
+      <FormField
+        name="content"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <Tiptap
+                userId={user.id}
+                projectId={post.projectId}
+                postId={post.id}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </Form>
   );
 }

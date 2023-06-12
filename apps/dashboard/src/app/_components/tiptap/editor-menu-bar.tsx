@@ -30,6 +30,72 @@ const TOOLBAR_ITEMS = (editor: Editor) =>
           onClick: () => editor.chain().focus().toggleBold().run(),
           isActive: editor.isActive("bold"),
         },
+        {
+          title: "Italic",
+          icon: <Icons.italic className="h-5 w-5" />,
+          onClick: () => editor.chain().focus().toggleItalic().run(),
+          isActive: editor.isActive("italic"),
+        },
+        {
+          title: "Strike",
+          icon: <Icons.strikeThrough className="h-5 w-5" />,
+          onClick: () => editor.chain().focus().toggleStrike().run(),
+          isActive: editor.isActive("strike"),
+        },
+      ],
+    },
+    {
+      items: [
+        {
+          title: "Heading 1",
+          icon: <Icons.h1 className="h-5 w-5" />,
+          onClick: () =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run(),
+          isActive: editor.isActive("heading", { level: 1 }),
+        },
+        {
+          title: "Heading 2",
+          icon: <Icons.h2 className="h-5 w-5" />,
+          onClick: () =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run(),
+          isActive: editor.isActive("heading", { level: 2 }),
+        },
+        {
+          title: "Heading 3",
+          icon: <Icons.h3 className="h-5 w-5" />,
+          onClick: () =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run(),
+          isActive: editor.isActive("heading", { level: 3 }),
+        },
+        {
+          title: "Heading 4",
+          icon: <Icons.h4 className="h-5 w-5" />,
+          onClick: () =>
+            editor.chain().focus().toggleHeading({ level: 4 }).run(),
+          isActive: editor.isActive("heading", { level: 4 }),
+        },
+        {
+          title: "Paragraph",
+          icon: <Icons.paragraph className="h-5 w-5" />,
+          onClick: () => editor.chain().focus().setParagraph().run(),
+          isActive: editor.isActive("paragraph"),
+        },
+      ],
+    },
+    {
+      items: [
+        {
+          title: "Bullet List",
+          icon: <Icons.list className="h-5 w-5" />,
+          onClick: () => editor.chain().focus().toggleBulletList().run(),
+          isActive: editor.isActive("bulletList"),
+        },
+        {
+          title: "Ordered List",
+          icon: <Icons.listOrdered className="h-5 w-5" />,
+          onClick: () => editor.chain().focus().toggleOrderedList().run(),
+          isActive: editor.isActive("orderedList"),
+        },
       ],
     },
   ] as ToolbarItems;
@@ -60,7 +126,7 @@ export function EditorMenuBar({ editor }: Props) {
 
 function ToolbarGroup({ items }: { items: ToolbarItem[] }) {
   return (
-    <div className="flex divide-x divide-border rounded-sm">
+    <div className="flex divide-x divide-border overflow-hidden rounded-sm border">
       {items.map((item, index) => (
         <ToolbarItem key={index} item={item} />
       ))}
@@ -77,8 +143,8 @@ function ToolbarItem({
     <button
       type="button"
       className={cn(
-        "inline-flex h-8 w-8 items-center justify-center rounded focus:border disabled:cursor-default disabled:opacity-50",
-        isActive ? "bg-background/60" : "bg-transparent",
+        "inline-flex h-8 w-8 items-center justify-center disabled:cursor-default disabled:opacity-50",
+        isActive ? "bg-primary/10" : "bg-transparent",
       )}
       {...item}
     >

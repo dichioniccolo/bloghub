@@ -1,8 +1,9 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, type UseFormProps } from "react-hook-form";
+import { type z } from "zod";
 
-import { Button } from "@acme/ui";
+import { Button, useAutoSaveForm } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
 import { Icons } from "~/app/_components/icons";
@@ -11,15 +12,24 @@ import { togglePublishedPost } from "~/lib/shared/actions/post/toggle-published-
 import { type GetPost } from "~/lib/shared/api/posts";
 import { cn } from "~/lib/utils";
 
-type Props = {
+type Props<S extends z.ZodTypeAny> = {
   post: NonNullable<GetPost>;
+  onSubmit(values: z.input<S>): unknown;
+  initialValues?: UseFormProps<z.input<S>>["defaultValues"];
 };
 
-export function EditPostFormToolbar({ post }: Props) {
+export function EditPostFormToolbar<S extends z.ZodTypeAny>({
+  post,
+  onSubmit,
+  initialValues,
+}: Props<S>) {
   const user = useUser();
-  const {
-    formState: { isSubmitting },
-  } = useFormContext();
+  const form = useFormContext();
+
+  useAutoSaveForm({
+    onSubmit,
+    initialValues,
+  });
 
   const { mutate, isRunning } = useZact(togglePublishedPost);
 
@@ -33,7 +43,7 @@ export function EditPostFormToolbar({ post }: Props) {
   return (
     <div className="flex justify-end gap-2">
       <Button type="submit">
-        {isSubmitting && (
+        {form.formState.isSubmitting && (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         )}
         Save

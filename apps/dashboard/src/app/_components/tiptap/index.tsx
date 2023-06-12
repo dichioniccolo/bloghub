@@ -51,7 +51,7 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
       attributes: {
         class: cn(
           // input styles
-          "rounded-md border border-input px-3 py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          "rounded-md py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
           "prose prose-md max-w-none sm:prose-lg min-h-[500px] dark:prose-invert",
         ),
       },

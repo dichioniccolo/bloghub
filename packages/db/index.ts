@@ -6,8 +6,6 @@ import * as schema from "./schema";
 
 export * from "./schema";
 
-export * from "./types";
-
 export * from "drizzle-orm";
 
 export const db = drizzle(sql, {

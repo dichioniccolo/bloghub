@@ -17,14 +17,14 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const users = pgTable(
   "users",
   {
-    id: varchar("id", { length: 256 }).primaryKey(),
+    id: varchar("id", { length: 255 }).primaryKey(),
     name: text("name"),
     email: text("email").notNull(),
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
-    stripeCustomerId: varchar("stripeCustomerId", { length: 256 }),
-    stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 256 }),
-    stripePriceId: varchar("stripePriceId", { length: 256 }),
+    stripeCustomerId: varchar("stripeCustomerId", { length: 255 }),
+    stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 255 }),
+    stripePriceId: varchar("stripePriceId", { length: 255 }),
     dayWhenBillingStarts: timestamp("dayWhenBillingStarts", { mode: "date" })
       .notNull()
       .defaultNow(),
@@ -41,7 +41,7 @@ export const users = pgTable(
 export const accounts = pgTable(
   "accounts",
   {
-    userId: varchar("userId", { length: 256 })
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
@@ -62,7 +62,7 @@ export const accounts = pgTable(
 
 export const sessions = pgTable("sessions", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
-  userId: varchar("userId", { length: 256 })
+  userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
@@ -88,7 +88,7 @@ export const emailNotificationSettingTypeEnum = pgEnum(
 export const emailNotificationSettings = pgTable(
   "emailNotificationSettings",
   {
-    userId: varchar("userId", { length: 256 })
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
@@ -116,8 +116,8 @@ export const notificationStatus = pgEnum("NotificationStatus", [
 ]);
 
 export const notifications = pgTable("notifications", {
-  id: varchar("id", { length: 256 }).notNull().primaryKey(),
-  userId: varchar("userId", { length: 256 })
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
@@ -130,10 +130,10 @@ export const notifications = pgTable("notifications", {
 });
 
 export const projects = pgTable("projects", {
-  id: varchar("id", { length: 256 }).primaryKey(),
-  name: varchar("name", { length: 256 }).notNull(),
+  id: varchar("id", { length: 255 }).primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
   logo: text("logo"),
-  domain: varchar("domain", { length: 256 }).notNull(),
+  domain: varchar("domain", { length: 255 }).notNull(),
   domainVerified: boolean("domainVerified").notNull().default(false),
   domainLastCheckedAt: timestamp("domainLastCheckedAt", { mode: "date" }),
   domainUnverifiedAt: timestamp("domainUnverifiedAt", { mode: "date" }),
@@ -146,12 +146,12 @@ export const roleEnum = pgEnum("Role", ["owner", "editor"]);
 export const projectMembers = pgTable(
   "projectMembers",
   {
-    projectId: varchar("projectId", { length: 256 })
+    projectId: varchar("projectId", { length: 255 })
       .notNull()
       .references(() => projects.id, {
         onDelete: "cascade",
       }),
-    userId: varchar("userId", { length: 256 })
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
@@ -171,12 +171,12 @@ export const projectMembers = pgTable(
 export const projectInvitations = pgTable(
   "projectInvitations",
   {
-    projectId: varchar("projectId", { length: 256 })
+    projectId: varchar("projectId", { length: 255 })
       .notNull()
       .references(() => projects.id, {
         onDelete: "cascade",
       }),
-    email: varchar("email", { length: 256 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull(),
     expiresAt: timestamp("expiresAt", { mode: "date" }).notNull(),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
@@ -191,18 +191,20 @@ export const projectInvitations = pgTable(
 export const posts = pgTable(
   "posts",
   {
-    id: varchar("id", { length: 256 }).primaryKey(),
-    projectId: varchar("projectId", { length: 256 })
+    id: varchar("id", { length: 255 }).primaryKey(),
+    projectId: varchar("projectId", { length: 255 })
       .notNull()
       .references(() => projects.id, {
         onDelete: "cascade",
       }),
-    title: varchar("title", { length: 256 }).notNull(),
-    description: text("description"),
+    title: varchar("title", { length: 255 }).notNull(),
+    description: varchar("description", { length: 255 }),
     content: text("content").notNull(),
     thumbnailUrl: text("thumbnailUrl"),
-    slug: varchar("slug", { length: 256 }).notNull(),
+    slug: varchar("slug", { length: 255 }).notNull(),
     hidden: boolean("hidden").notNull().default(true),
+    seoTitle: varchar("seoTitle", { length: 255 }),
+    seoDescription: varchar("seoDescription", { length: 255 }),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
   },
@@ -217,12 +219,12 @@ export const posts = pgTable(
 export const likes = pgTable(
   "likes",
   {
-    userId: varchar("userId", { length: 256 })
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
       }),
-    postId: varchar("postId", { length: 256 })
+    postId: varchar("postId", { length: 255 })
       .notNull()
       .references(() => posts.id, {
         onDelete: "cascade",
@@ -235,33 +237,33 @@ export const likes = pgTable(
 );
 
 export const comments = pgTable("comments", {
-  id: varchar("id", { length: 256 }).primaryKey(),
-  userId: varchar("userId", { length: 256 })
+  id: varchar("id", { length: 255 }).primaryKey(),
+  userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
     }),
-  postId: varchar("postId", { length: 256 })
+  postId: varchar("postId", { length: 255 })
     .notNull()
     .references(() => posts.id, {
       onDelete: "cascade",
     }),
   content: text("content").notNull(),
-  parentId: varchar("parentId", { length: 256 }),
+  parentId: varchar("parentId", { length: 255 }),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
 export const mediaTypeEnum = pgEnum("MediaType", ["image", "video", "audio"]);
 
 export const media = pgTable("media", {
-  id: varchar("id", { length: 256 }).primaryKey(),
-  projectId: varchar("projectId", { length: 256 }).references(
+  id: varchar("id", { length: 255 }).primaryKey(),
+  projectId: varchar("projectId", { length: 255 }).references(
     () => projects.id,
     {
       onDelete: "set null",
     },
   ),
-  postId: varchar("postId", { length: 256 }).references(() => posts.id, {
+  postId: varchar("postId", { length: 255 }).references(() => posts.id, {
     onDelete: "set null",
   }),
   type: mediaTypeEnum("type").notNull(),
@@ -278,10 +280,10 @@ export const emailTypeEnum = pgEnum("EmailType", [
 export const emails = pgTable("emails", {
   id: serial("id").primaryKey(),
   type: emailTypeEnum("type").notNull(),
-  userId: varchar("userId", { length: 256 })
+  userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  projectId: varchar("projectId", { length: 256 })
+  projectId: varchar("projectId", { length: 255 })
     .notNull()
     .references(() => projects.id, {
       onDelete: "cascade",
@@ -290,42 +292,31 @@ export const emails = pgTable("emails", {
 
 export const visits = pgTable("visits", {
   id: serial("id").primaryKey(),
-  projectId: varchar("projectId", { length: 256 })
+  projectId: varchar("projectId", { length: 255 })
     .notNull()
     .references(() => projects.id, {
       onDelete: "cascade",
     }),
-  postId: varchar("postId", { length: 256 }).references(() => posts.id, {
+  postId: varchar("postId", { length: 255 }).references(() => posts.id, {
     onDelete: "set null",
   }),
-  browserName: varchar("browserName", { length: 256 }),
-  browserVersion: varchar("browserVersion", { length: 256 }),
-  osName: varchar("osName", { length: 256 }),
-  osVersion: varchar("osVersion", { length: 256 }),
-  deviceType: varchar("deviceType", { length: 256 }),
-  deviceVendor: varchar("deviceVendor", { length: 256 }),
-  deviceModel: varchar("deviceModel", { length: 256 }),
-  engineName: varchar("engineName", { length: 256 }),
-  engineVersion: varchar("engineVersion", { length: 256 }),
-  cpuArchitecture: varchar("cpuArchitecture", { length: 256 }),
-  city: varchar("city", { length: 256 }),
-  region: varchar("region", { length: 256 }),
-  country: varchar("country", { length: 256 }),
-  latitude: varchar("latitude", { length: 256 }),
-  longitude: varchar("longitude", { length: 256 }),
+  browserName: varchar("browserName", { length: 255 }),
+  browserVersion: varchar("browserVersion", { length: 255 }),
+  osName: varchar("osName", { length: 255 }),
+  osVersion: varchar("osVersion", { length: 255 }),
+  deviceType: varchar("deviceType", { length: 255 }),
+  deviceVendor: varchar("deviceVendor", { length: 255 }),
+  deviceModel: varchar("deviceModel", { length: 255 }),
+  engineName: varchar("engineName", { length: 255 }),
+  engineVersion: varchar("engineVersion", { length: 255 }),
+  cpuArchitecture: varchar("cpuArchitecture", { length: 255 }),
+  city: varchar("city", { length: 255 }),
+  region: varchar("region", { length: 255 }),
+  country: varchar("country", { length: 255 }),
+  latitude: varchar("latitude", { length: 255 }),
+  longitude: varchar("longitude", { length: 255 }),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
-
-// export const postTags = pgTable(
-//   "postTags",
-//   {
-//     postId: uuid("postId").notNull(),
-//     tag: varchar("tag", { length: 256 }).notNull(),
-//   },
-//   (postTags) => ({
-//     compoundKey: primaryKey(postTags.postId, postTags.tag),
-//   }),
-// );
 
 /// RELATIONS
 export const userRelations = relations(users, ({ many }) => ({

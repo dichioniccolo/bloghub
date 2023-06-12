@@ -8,11 +8,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FormProvider,
   useForm,
+  useFormContext,
+  useWatch,
   type Path,
   type UseFormProps,
   type UseFormReturn,
 } from "react-hook-form";
 import { type z } from "zod";
+
+import useDebouncedCallback from "../../hooks/use-debounced-callback";
+import { useDeepCompareEffect } from "../../hooks/use-deep-compare-effect";
 
 type ZactError<S extends z.ZodType> = {
   formErrors: string[];
@@ -95,11 +100,7 @@ export function FormAsProp<S extends z.ZodType>({
             await onSubmit(data);
           } catch (e) {
             if (isZactError<S>(e)) {
-              Object.entries(e.fieldErrors).forEach(([key, value]) => {
-                form.setError(key as Path<z.TypeOf<S>>, {
-                  message: value?.join(", "),
-                });
-              });
+              mapZactErrors(form, e);
             }
           }
         })}
@@ -115,3 +116,55 @@ export function FormAsProp<S extends z.ZodType>({
     </FormProvider>
   );
 }
+
+function mapZactErrors<S extends z.ZodType>(
+  form: UseFormReturn<z.input<S>>,
+  error: ZactError<S>,
+) {
+  Object.entries(error.fieldErrors).forEach(([key, value]) => {
+    form.setError(key as Path<z.TypeOf<S>>, {
+      message: value?.join(", "),
+    });
+  });
+}
+
+type AutoSaveProps<S extends z.ZodType> = {
+  onSubmit: (data: z.input<S>) => unknown;
+  initialValues?: UseFormProps<z.input<S>>["defaultValues"];
+};
+
+export const useAutoSaveForm = <S extends z.ZodType>({
+  onSubmit,
+  initialValues,
+}: AutoSaveProps<S>) => {
+  const form = useFormContext();
+
+  const debouncedSave = useDebouncedCallback(() => {
+    void form.handleSubmit(async (data) => {
+      try {
+        await onSubmit(data);
+      } catch (e) {
+        if (isZactError<S>(e)) {
+          mapZactErrors(form, e);
+        }
+      }
+    })();
+  }, 1000);
+
+  // // Watch all the data, provide with defaultValues from server, this way we know if the new data came from server or where actually edited by user
+  // const watchedData = methods.watch(undefined, defaultValues);
+  const watchedData = useWatch({
+    control: form.control,
+    defaultValue: initialValues,
+  });
+
+  useDeepCompareEffect(() => {
+    if (form.formState.isDirty) {
+      debouncedSave();
+    }
+  }, [watchedData]);
+
+  return {
+    isAutosaving: form.formState.isSubmitting,
+  };
+};
