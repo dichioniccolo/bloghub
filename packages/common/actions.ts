@@ -22,6 +22,17 @@ export async function deleteProject(project: { id: string; domain: string }) {
   await db.transaction(async (tx) => {
     await deleteDomain(project.domain);
 
+    const mediaList = await db
+      .select({
+        url: media.url,
+      })
+      .from(media)
+      .where(eq(media.projectId, project.id));
+
+    if (mediaList.length > 0) {
+      await deleteMedias(mediaList.map((m) => m.url));
+    }
+
     await tx.delete(projects).where(eq(projects.id, project.id));
   });
 }
