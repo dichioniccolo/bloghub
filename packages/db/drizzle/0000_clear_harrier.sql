@@ -61,13 +61,13 @@ CREATE TABLE IF NOT EXISTS "comments" (
 
 CREATE TABLE IF NOT EXISTS "emailNotificationSettings" (
 	"userId" varchar(256) NOT NULL,
-	"type" EmailNotificationSettingType NOT NULL,
+	"type" "EmailNotificationSettingType" NOT NULL,
 	"value" boolean DEFAULT true NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "emails" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"type" EmailType NOT NULL,
+	"type" "EmailType" NOT NULL,
 	"userId" varchar(256) NOT NULL,
 	"projectId" varchar(256) NOT NULL
 );
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS "media" (
 	"id" varchar(256) PRIMARY KEY NOT NULL,
 	"projectId" varchar(256),
 	"postId" varchar(256),
-	"type" MediaType NOT NULL,
+	"type" "MediaType" NOT NULL,
 	"url" text NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS "notifications" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"notificationId" varchar(256) NOT NULL,
 	"userId" varchar(256) NOT NULL,
-	"type" NotificationType NOT NULL,
-	"status" NotificationStatus DEFAULT 'unread' NOT NULL,
+	"type" "NotificationType" NOT NULL,
+	"status" "NotificationStatus" DEFAULT 'unread' NOT NULL,
 	"body" json NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
@@ -124,7 +124,7 @@ ALTER TABLE "projectInvitations" ADD CONSTRAINT "projectInvitations_projectId_em
 CREATE TABLE IF NOT EXISTS "projectMembers" (
 	"projectId" varchar(256) NOT NULL,
 	"userId" varchar(256) NOT NULL,
-	"role" Role DEFAULT 'editor' NOT NULL,
+	"role" "Role" DEFAULT 'editor' NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
