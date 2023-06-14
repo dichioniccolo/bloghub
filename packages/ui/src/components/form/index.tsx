@@ -43,6 +43,7 @@ type FormProps<S extends z.ZodType> = Omit<
   onSubmit: (values: z.input<S>) => unknown;
   initialValues?: UseFormProps<z.input<S>>["defaultValues"];
   children?: ReactNode | ((form: UseFormReturn<z.input<S>>) => ReactNode);
+  disableOnSubmitting?: boolean;
 };
 
 export function useZodForm<S extends z.ZodType>(
@@ -81,12 +82,14 @@ type FormAsPropProps<S extends z.ZodType> = Omit<
   form: UseFormReturn<z.input<S>>;
   onSubmit: (data: z.input<S>) => unknown;
   children?: ReactNode | ((form: UseFormReturn<z.input<S>>) => ReactNode);
+  disableOnSubmitting?: boolean;
 };
 
 export function FormAsProp<S extends z.ZodType>({
   form,
   onSubmit,
   children,
+  disableOnSubmitting = true,
   ...props
 }: FormAsPropProps<S>) {
   const resolvedChildren =
@@ -108,7 +111,7 @@ export function FormAsProp<S extends z.ZodType>({
       >
         <fieldset
           className={props.className}
-          disabled={form.formState.isSubmitting}
+          disabled={disableOnSubmitting && form.formState.isSubmitting}
         >
           {resolvedChildren}
         </fieldset>

@@ -1,4 +1,3 @@
-import { type ReactNode } from "react";
 import {
   AlertCircle,
   AlignCenter,
@@ -48,15 +47,18 @@ import {
   Strikethrough,
   SunMedium,
   Trash2,
+  UploadCloud,
   User,
   type Icon as LucideIcon,
 } from "lucide-react";
+import { type ReactNode } from "react";
 
 import { cn } from "~/lib/utils";
 
 export type Icon = LucideIcon | ReactNode;
 
 export const Icons = {
+  uploadCloud: UploadCloud,
   add: Plus,
   archive: Archive,
   bellRing: BellRing,

@@ -1,12 +1,12 @@
 "use client";
 
-import Document from "@tiptap/extension-document";
-import Placeholder from "@tiptap/extension-placeholder";
+import Focus from "@tiptap/extension-focus";
 import Typography from "@tiptap/extension-typography";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
 import { cn } from "~/lib/utils";
+import { Icons } from "../icons";
 import { EditorMenuBar } from "./editor-menu-bar";
 import { ColorHighlighter } from "./extensions/color-highlighter";
 import { ImageExtension } from "./extensions/image";
@@ -21,26 +21,11 @@ type Props = {
   onChange(value: string): void;
 };
 
-export const ForceTitle = Document.extend({
-  content: "heading block*",
-});
-
 export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
   const editor = useEditor({
     extensions: [
-      ForceTitle,
-      StarterKit.configure({
-        document: false,
-      }),
-      Placeholder.configure({
-        placeholder: ({ node }) => {
-          if (node.type.name === "heading") {
-            return "What's the title?";
-          }
-
-          return "";
-        },
-      }),
+      StarterKit.configure({}),
+      Focus,
       Typography,
       ColorHighlighter,
       SmilieReplacer,
@@ -51,7 +36,7 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
       attributes: {
         class: cn(
           // input styles
-          "rounded-md py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
+          "editor rounded-md py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
           "prose prose-md max-w-none sm:prose-lg min-h-[500px] dark:prose-invert",
         ),
       },
@@ -62,8 +47,16 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
     },
   });
 
+  if (!editor) {
+    return (
+      <div className="flex h-full min-h-[500px] w-full items-center justify-center">
+        <Icons.spinner className="h-6 w-6 animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-2 pb-16">
+    <div className="space-y-2 overflow-y-auto pb-16">
       <EditorMenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

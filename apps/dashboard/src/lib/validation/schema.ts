@@ -41,6 +41,7 @@ export const InviteMemberSchema = z.object({
 export type InviteMemberSchemaType = z.input<typeof InviteMemberSchema>;
 
 export const EditPostSchema = z.object({
+  title: z.string(),
   content: z.string(),
 });
 

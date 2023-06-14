@@ -1,6 +1,13 @@
 "use client";
 
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@acme/ui";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  Input,
+} from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
 import { Tiptap } from "~/app/_components/tiptap";
@@ -21,15 +28,19 @@ export function EditPostForm({ post }: Props) {
   const user = useUser();
   const { mutate } = useZact(updatePost);
 
-  const onSubmit = ({ content }: EditPostSchemaType) =>
+  const onSubmit = ({ title, content }: EditPostSchemaType) =>
     mutate({
       userId: user.id,
       projectId: post.projectId,
       postId: post.id,
-      content,
+      body: {
+        title,
+        content,
+      },
     });
 
   const initialValues = {
+    title: post.title ?? "",
     content: post.content ?? "",
   };
 
@@ -38,12 +49,29 @@ export function EditPostForm({ post }: Props) {
       schema={EditPostSchema}
       onSubmit={onSubmit}
       initialValues={initialValues}
-      className="grid grid-cols-1 gap-2"
+      className="grid grid-cols-1 gap-2 overflow-hidden"
+      disableOnSubmitting={false}
     >
       <EditPostFormToolbar
         post={post}
         onSubmit={onSubmit}
         initialValues={initialValues}
+      />
+      <FormField
+        name="title"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <Input
+                value={field.value}
+                onChange={field.onChange}
+                placeholder="What's the title?"
+                className="rounded-md border-0 bg-transparent py-4 text-4xl outline-none focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
       />
       <FormField
         name="content"

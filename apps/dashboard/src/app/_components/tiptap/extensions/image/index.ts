@@ -1,6 +1,8 @@
 import { Node, nodeInputRule } from "@tiptap/core";
+import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import { dropImagePlugin } from "./drop-image-plugin";
+import { ImageExtensionView } from "./ImageExtensionView";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -62,20 +64,20 @@ export const ImageExtension = (
       },
     ],
     renderHTML: ({ HTMLAttributes }) => ["img", HTMLAttributes],
+    addNodeView() {
+      return ReactNodeViewRenderer(
+        ImageExtensionView(userId, projectId, postId),
+      );
+    },
     addCommands() {
       return {
         setImage:
-          (attrs) =>
-          ({ state, dispatch }) => {
-            const { selection } = state;
-            const position = selection.$head
-              ? selection.$head.pos
-              : selection.$to.pos;
-
-            const node = this.type.create(attrs);
-            const transaction = state.tr.insert(position, node);
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            return dispatch?.(transaction);
+          (options) =>
+          ({ commands }) => {
+            return commands.insertContent({
+              type: this.name,
+              attrs: options,
+            });
           },
       };
     },

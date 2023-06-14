@@ -98,6 +98,22 @@ const TOOLBAR_ITEMS = (editor: Editor) =>
         },
       ],
     },
+    {
+      items: [
+        {
+          title: "Image",
+          icon: <Icons.image className="h-5 w-5" />,
+          onClick: () =>
+            editor
+              .chain()
+              .focus()
+              .setImage({
+                src: "",
+              })
+              .run(),
+        },
+      ],
+    },
   ] as ToolbarItems;
 
 type Props = {
@@ -110,7 +126,7 @@ export function EditorMenuBar({ editor }: Props) {
   }
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded border px-4">
+    <div className="sticky top-0 flex items-center justify-between gap-4 rounded border px-4">
       <div className="-ml-2 flex gap-2 py-2">
         {TOOLBAR_ITEMS(editor).map((item, index) => {
           if ("items" in item) {
