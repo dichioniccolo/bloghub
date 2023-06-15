@@ -8,7 +8,7 @@ import { type Node } from "@tiptap/pm/model";
 import { ReactRenderer } from "@tiptap/react";
 import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
 import Fuse from "fuse.js";
-import tippy from "tippy.js";
+import tippy, { type Instance, type Props as TippyProps } from "tippy.js";
 
 import { CommandsList } from "./commands-list";
 import { commands } from "./items";
@@ -70,20 +70,21 @@ export const SlashCommands = Commands.configure({
     },
     render: () => {
       let component: ReactRenderer;
-      let popup: { destroy: () => void }[];
-      let localProps: Record<string, any> | undefined;
+      let popup: Instance<TippyProps>[];
 
       return {
         onStart(props) {
-          localProps = { ...props, event: "" };
-
           component = new ReactRenderer(CommandsList, {
-            props: localProps,
-            editor: localProps?.editor,
+            props: props,
+            editor: props?.editor,
           });
 
+          if (!props.clientRect) {
+            return;
+          }
+
           popup = tippy("body", {
-            getReferenceClientRect: localProps.clientRect,
+            getReferenceClientRect: props.clientRect as any,
             appendTo: () => document.body,
             content: component.element,
             showOnCreate: true,
@@ -95,21 +96,19 @@ export const SlashCommands = Commands.configure({
           });
         },
         onUpdate(props) {
-          localProps = { ...props, event: "" };
+          component.updateProps(props);
 
-          component.updateProps(localProps);
-
-          (popup[0] as any).setProps({
-            getReferenceClientRect: localProps.clientRect,
+          popup[0]?.setProps({
+            getReferenceClientRect: props.clientRect as any,
           });
         },
         onKeyDown(props) {
-          component.updateProps({ ...localProps, event: props.event });
+          component.updateProps({ ...props, event: props.event });
 
           (component.ref as any).onKeyDown({ event: props.event });
 
           if (props.event.key === "Escape") {
-            (popup[0] as any).hide();
+            popup[0]?.hide();
 
             return true;
           }
@@ -124,8 +123,8 @@ export const SlashCommands = Commands.configure({
           return false;
         },
         onExit() {
-          if (popup && popup[0]) popup[0]?.destroy();
-          if (component) component.destroy();
+          popup[0]?.destroy();
+          component?.destroy();
         },
       };
     },

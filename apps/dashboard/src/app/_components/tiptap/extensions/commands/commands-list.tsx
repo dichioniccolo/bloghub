@@ -63,7 +63,7 @@ export const CommandsList = forwardRef(function CommandsListNew(
   };
 
   return (
-    <ul className="max-h-96 w-64 overflow-auto rounded-xl border bg-white py-1.5 shadow-sm dark:border-2 dark:border-gray-800 dark:bg-gray-900">
+    <ul className="max-h-80 w-72 overflow-auto rounded-xl border bg-white py-1.5 shadow-sm dark:border-2 dark:border-gray-800 dark:bg-gray-900">
       {items.length === 0 ? (
         <p className="px-4 py-2 text-gray-500">No commands found</p>
       ) : (
