@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { type ReactNode } from "react";
-import { Extension, type Editor, type Range } from "@tiptap/core";
+import { Extension } from "@tiptap/core";
 import { type Node } from "@tiptap/pm/model";
 import { ReactRenderer } from "@tiptap/react";
 import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
@@ -18,24 +17,6 @@ type CommandsOption = {
   renderLabel?: (props: { options: CommandsOption; node: Node }) => string;
   suggestion: Omit<SuggestionOptions, "editor">;
 };
-
-export type CommandSuggestion = {
-  title: string;
-  description?: string;
-  shortcut?: string;
-  icon: ReactNode;
-  command: (props: { editor: Editor; range: Range }) => void;
-};
-
-// type CommandSuggestionGroup = {
-//   title: string;
-//   items: CommandSuggestion[];
-// };
-
-// export type CommandSuggestionItems = (
-//   | CommandSuggestionGroup
-//   | CommandSuggestion
-// )[];
 
 export const Commands = Extension.create<CommandsOption>({
   name: "slash-commands",

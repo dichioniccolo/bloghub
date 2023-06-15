@@ -1,7 +1,15 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  createRef,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+  type RefObject,
+} from "react";
 
 import { cn } from "~/lib/utils";
-import { type CommandSuggestion } from "./index";
+import { type CommandSuggestion } from "./items";
 
 type Props = {
   items: CommandSuggestion[];
@@ -14,15 +22,39 @@ export const CommandsList = forwardRef(function CommandsListNew(
 ) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const refs = useMemo(
+    () =>
+      items.reduce((acc, _item, index) => {
+        acc[index] = createRef();
+        return acc;
+      }, {} as Record<string, RefObject<HTMLLIElement>>),
+    [items],
+  );
+
   useEffect(() => {
     setSelectedIndex(0);
   }, [items]);
 
+  const scrollTo = (ref?: RefObject<HTMLLIElement>) => {
+    ref?.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  };
+
   const downHandler = () => {
-    setSelectedIndex((selectedIndex + 1) % items.length);
+    setSelectedIndex((selectedIndex) => {
+      const newIndex = (selectedIndex + 1) % items.length;
+      scrollTo(refs[newIndex]);
+      return newIndex;
+    });
   };
   const upHandler = () => {
-    setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+    setSelectedIndex((selectedIndex) => {
+      const newIndex = (selectedIndex + items.length - 1) % items.length;
+      scrollTo(refs[newIndex]);
+      return newIndex;
+    });
   };
 
   const enterHandler = () => {
@@ -68,7 +100,7 @@ export const CommandsList = forwardRef(function CommandsListNew(
         <p className="px-4 py-2 text-gray-500">No commands found</p>
       ) : (
         items.map((item, index) => (
-          <li key={index}>
+          <li key={index} ref={refs[index]}>
             <button
               className={cn(
                 "flex w-full cursor-pointer items-center gap-2 p-2 text-left transition hover:bg-blue-100 focus:outline-none dark:hover:bg-blue-400/10",
@@ -115,11 +147,6 @@ export const CommandsList = forwardRef(function CommandsListNew(
                   )}
                 </div>
               </div>
-              {/* <span className="flex items-center gap-2">
-
-                <span>{item.title}</span>
-              </span>
-              {item.shortcut && <code>{item.shortcut}</code>} */}
             </button>
           </li>
         ))

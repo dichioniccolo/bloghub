@@ -1,5 +1,15 @@
+import { type ReactNode } from "react";
+import { type Editor, type Range } from "@tiptap/core";
+
 import { Icons } from "~/app/_components/icons";
-import { type CommandSuggestion } from ".";
+
+export type CommandSuggestion = {
+  title: string;
+  description?: string;
+  shortcut?: string;
+  icon: ReactNode;
+  command: (props: { editor: Editor; range: Range }) => void;
+};
 
 export const commands = [
   {
