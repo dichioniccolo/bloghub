@@ -150,22 +150,6 @@ export function ProjectsDropdownClient({ projects }: Props) {
             </CommandList>
           </Command>
         </PopoverContent>
-
-        {/* <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <ProjectsDropdownTrigger projects={projects} />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <ProjectsDropdownLinks projects={projects} />
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <span className="flex items-center justify-between space-x-3">
-              <Icons.plusCircle className="h-4 w-4" />
-              <span>Add new project</span>
-            </span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <CreateProjectDialog /> */}
       </Popover>
       <CreateProjectDialog />
     </>

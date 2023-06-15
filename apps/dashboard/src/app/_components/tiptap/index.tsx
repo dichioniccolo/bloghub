@@ -1,6 +1,7 @@
 "use client";
 
 import Focus from "@tiptap/extension-focus";
+import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -9,6 +10,7 @@ import { cn } from "~/lib/utils";
 import { Icons } from "../icons";
 import { EditorMenuBar } from "./editor-menu-bar";
 import { ColorHighlighter } from "./extensions/color-highlighter";
+import { SlashCommands } from "./extensions/commands";
 import { ImageExtension } from "./extensions/image";
 import { SmilieReplacer } from "./extensions/smile-replacer";
 import { VideoExtension } from "./extensions/video";
@@ -29,6 +31,8 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
       Typography,
       ColorHighlighter,
       SmilieReplacer,
+      Placeholder.configure({ placeholder: 'Type "/" for commands' }),
+      SlashCommands,
       ImageExtension(userId, projectId, postId),
       VideoExtension(userId, projectId, postId),
     ],

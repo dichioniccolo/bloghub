@@ -5,9 +5,10 @@ import * as schema from "./schema";
 
 export * from "./schema";
 
+export * from "./types";
+
 export * from "drizzle-orm";
 
 export const db = drizzle(sql, {
   schema,
-  logger: false, //env.NODE_ENV === "development",
 });
