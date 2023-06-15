@@ -10,8 +10,8 @@ import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
 import Fuse from "fuse.js";
 import tippy from "tippy.js";
 
-import { Icons } from "~/app/_components/icons";
 import { CommandsList } from "./commands-list";
+import { commands } from "./items";
 
 type CommandsOption = {
   HTMLAttributes?: Record<string, any>;
@@ -60,59 +60,6 @@ export const Commands = Extension.create<CommandsOption>({
     ];
   },
 });
-
-const commands = [
-  {
-    title: "Bold",
-    shortcut: "**b**",
-    icon: <Icons.bold size={24} />,
-    command: ({ editor, range }: { editor: Editor; range: Range }) => {
-      editor.chain().focus().deleteRange(range).setBold().run();
-    },
-  },
-
-  {
-    title: "Heading 1",
-    description: "Big heading",
-    shortcut: "#",
-    icon: <Icons.h1 size={24} />,
-    command: ({ editor, range }: { editor: Editor; range: Range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .setNode("heading", { level: 1 })
-        .run();
-    },
-  },
-
-  {
-    title: "Heading 2",
-    icon: <Icons.h2 size={24} />,
-    shortcut: "##",
-    command: ({ editor, range }: { editor: Editor; range: Range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .setNode("heading", { level: 2 })
-        .run();
-    },
-  },
-  {
-    title: "Heading 3",
-    icon: <Icons.h3 size={24} />,
-    shortcut: "###",
-    command: ({ editor, range }: { editor: Editor; range: Range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .setNode("heading", { level: 3 })
-        .run();
-    },
-  },
-] as CommandSuggestion[];
 
 const fuse = new Fuse(commands, { keys: ["title", "description", "shortcut"] });
 
