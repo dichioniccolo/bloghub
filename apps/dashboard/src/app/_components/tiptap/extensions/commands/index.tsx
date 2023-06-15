@@ -11,7 +11,7 @@ import Fuse from "fuse.js";
 import tippy from "tippy.js";
 
 import { Icons } from "~/app/_components/icons";
-import { CommandsListNew } from "./commands-list-new";
+import { CommandsList } from "./commands-list";
 
 type CommandsOption = {
   HTMLAttributes?: Record<string, any>;
@@ -130,7 +130,7 @@ export const SlashCommands = Commands.configure({
         onStart(props) {
           localProps = { ...props, event: "" };
 
-          component = new ReactRenderer(CommandsListNew, {
+          component = new ReactRenderer(CommandsList, {
             props: localProps,
             editor: localProps?.editor,
           });

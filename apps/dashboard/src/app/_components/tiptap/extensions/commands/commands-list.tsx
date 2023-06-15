@@ -8,7 +8,7 @@ type Props = {
   command: (props: CommandSuggestion) => void;
 };
 
-export const CommandsListNew = forwardRef(function CommandsListNew(
+export const CommandsList = forwardRef(function CommandsListNew(
   { items, command }: Props,
   ref,
 ) {
