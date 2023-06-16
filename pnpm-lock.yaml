@@ -633,8 +633,8 @@ importers:
         specifier: ^0.1.0
         version: link:../db
       '@react-email/components':
-        specifier: ^0.0.6
-        version: 0.0.6(ts-node@10.9.1)
+        specifier: ^0.0.7
+        version: 0.0.7(ts-node@10.9.1)
       '@t3-oss/env-nextjs':
         specifier: ^0.4.1
         version: 0.4.1(typescript@5.1.3)(zod@3.21.4)
@@ -4446,8 +4446,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@react-email/button@0.0.8:
-    resolution: {integrity: sha512-EOIX/ewPgn/CXUvaAbR92jfWC8EXTSRBafpKtIbxchMcx/iIEG7/JqUndJdZ7BqgON1o6GLm3xP2+AtXtTZJkg==}
+  /@react-email/button@0.0.9:
+    resolution: {integrity: sha512-eYWQ1X4RFlkKYYSPgSrT6rk98wuLOieEAGENrp9j37t1v/1C+jMmBu0UjZvwHsHWdbOMRjbVDFeMI/+MxWKSEg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       react: 18.2.0
@@ -4460,15 +4460,15 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@react-email/components@0.0.6(ts-node@10.9.1):
-    resolution: {integrity: sha512-G58s12BKw5ztdzXNvyi/Z3QryBHjSXx5D2oOcCJd+bEL217mxf7fGqBBUu+2Srs/00k5k3vs9OVLmKfpUgee9g==}
+  /@react-email/components@0.0.7(ts-node@10.9.1):
+    resolution: {integrity: sha512-GpRKV8E7EvK9OPf61f5Z8hliB3p0hTot8tslmEUVCTtX7tdL0wM2YEcZiDWU4PJcudJ/QWHJ7Y5wGzNEARcooA==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@react-email/body': 0.0.2
-      '@react-email/button': 0.0.8
+      '@react-email/button': 0.0.9
       '@react-email/column': 0.0.7
       '@react-email/container': 0.0.8
-      '@react-email/font': 0.0.1
+      '@react-email/font': 0.0.2
       '@react-email/head': 0.0.5
       '@react-email/heading': 0.0.8
       '@react-email/hr': 0.0.5
@@ -4493,8 +4493,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@react-email/font@0.0.1:
-    resolution: {integrity: sha512-n43gjIIBgQse1visYsyk8zADzk1QHVrqLc98rKoQLG3qJwLBGTHYLpMDti/4tCAt54d7Ln1VINipGsyQS8PaqA==}
+  /@react-email/font@0.0.2:
+    resolution: {integrity: sha512-mmkyOCAcbgytE7DfIuOBVG1YVDUZY9rPCor4o7pUEzGJiU2y/TNuV8CgNPSU/VgXeBKL/94QDjB62OrGHlFNMQ==}
     dependencies:
       react: 18.2.0
     dev: false
