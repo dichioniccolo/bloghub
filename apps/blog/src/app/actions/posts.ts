@@ -58,6 +58,7 @@ export async function getPostBySlug(domain: string, slug: string) {
     .select({
       id: posts.id,
       title: posts.title,
+      description: posts.description,
       thumbnailUrl: posts.thumbnailUrl,
       content: posts.content,
       createdAt: posts.createdAt,

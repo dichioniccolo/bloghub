@@ -3,7 +3,8 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
-import { BlurImage, HtmlView } from "@acme/ui";
+import { Editor } from "@acme/editor";
+import { BlurImage } from "@acme/ui";
 
 import { getPostBySlug } from "~/app/actions/posts";
 import { RandomPosts } from "./_components/random-posts";
@@ -63,7 +64,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
         </div>
       )}
       <div className="m-10">
-        <HtmlView html={post.content} />
+        <Editor value={post.content} editable={false} />
       </div>
       <Suspense fallback={<p>loading...</p>}>
         <RandomPosts domain={domain} slug={slug} />

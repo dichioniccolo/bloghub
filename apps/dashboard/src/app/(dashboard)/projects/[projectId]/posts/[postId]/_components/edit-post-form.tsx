@@ -1,5 +1,6 @@
 "use client";
 
+import { Editor } from "@acme/editor";
 import {
   Form,
   FormControl,
@@ -10,7 +11,6 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
-import { Editor } from "~/app/_components/tiptap";
 import { useUser } from "~/hooks/use-user";
 import { updatePost } from "~/lib/shared/actions/post/update-post";
 import { type GetPost } from "~/lib/shared/api/posts";

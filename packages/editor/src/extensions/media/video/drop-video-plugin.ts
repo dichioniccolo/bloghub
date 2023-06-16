@@ -1,9 +1,10 @@
 import { Plugin } from "@tiptap/pm/state";
 
-import { determineMediaType } from "~/lib/editor";
-import { createProjectMedia } from "~/lib/shared/actions/project/create-project-media";
+import { createProjectMedia } from "@acme/common/actions";
 
-export function dropImagePlugin(
+import { determineMediaType } from "../../../lib/utils";
+
+export function dropVideoPlugin(
   userId: string,
   projectId: string,
   postId: string,
@@ -17,7 +18,7 @@ export function dropImagePlugin(
         items.forEach(async (item) => {
           const file = item.getAsFile();
 
-          if (!file || !/image/i.test(file.type)) {
+          if (!file || !/video/i.test(file.type)) {
             return;
           }
 
@@ -33,7 +34,7 @@ export function dropImagePlugin(
 
           const media = await createProjectMedia(formData);
 
-          const node = schema.nodes.image?.create({
+          const node = schema.nodes.video?.create({
             src: media.url,
             alt: file.name,
             title: file.name,
@@ -61,11 +62,11 @@ export function dropImagePlugin(
             return false;
           }
 
-          const images = Array.from(event.dataTransfer.files).filter((file) =>
-            /image/i.test(file.type),
+          const videos = Array.from(event.dataTransfer.files).filter((file) =>
+            /video/i.test(file.type),
           );
 
-          if (images.length === 0) {
+          if (videos.length === 0) {
             return false;
           }
 
@@ -82,7 +83,7 @@ export function dropImagePlugin(
             return false;
           }
 
-          images.forEach(async (file) => {
+          videos.forEach(async (file) => {
             const formData = new FormData();
 
             formData.append("file", file);
@@ -93,7 +94,7 @@ export function dropImagePlugin(
 
             const media = await createProjectMedia(formData);
 
-            const node = schema.nodes.image?.create({
+            const node = schema.nodes.video?.create({
               src: media.url,
               alt: file.name,
               title: file.name,

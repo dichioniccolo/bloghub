@@ -5,24 +5,36 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Loader2 } from "lucide-react";
 
-import { cn } from "~/lib/utils";
-import { Icons } from "../icons";
 import { ColorHighlighter } from "./extensions/color-highlighter";
 import { SlashCommands } from "./extensions/commands";
 import { ImageExtension } from "./extensions/media/image";
 import { VideoExtension } from "./extensions/media/video";
 import { SmilieReplacer } from "./extensions/smile-replacer";
+import { cn } from "./lib/utils";
 
 type Props = {
-  userId: string;
-  projectId: string;
-  postId: string;
+  userId?: string;
+  projectId?: string;
+  postId?: string;
   value: string;
-  onChange(value: string): void;
+  onChange?(value: string): void;
+  editable?: boolean;
 };
 
-export function Editor({ userId, projectId, postId, value, onChange }: Props) {
+export function Editor({
+  userId,
+  projectId,
+  postId,
+  value,
+  onChange,
+  editable = true,
+}: Props) {
+  if (editable && (!userId || !projectId || !postId || !onChange)) {
+    throw new Error("Editor is editable but missing userId, projectId, postId");
+  }
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({}),
@@ -44,16 +56,17 @@ export function Editor({ userId, projectId, postId, value, onChange }: Props) {
         ),
       },
     },
+    editable,
     content: value,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      onChange?.(editor.getHTML());
     },
   });
 
   if (!editor) {
     return (
       <div className="flex h-full min-h-[500px] w-full items-center justify-center">
-        <Icons.spinner className="h-6 w-6 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin" />
       </div>
     );
   }

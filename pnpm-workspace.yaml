@@ -2,12 +2,12 @@ packages:
   - apps/api
   - apps/blog
   - apps/dashboard
-  # - apps/landing
   - packages/auth
+  - packages/common
   - packages/config/*
   - packages/db
+  - packages/editor
   - packages/emails
-  - packages/common
   - packages/notifications
   - packages/ui
   - packages/zact

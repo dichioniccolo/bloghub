@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -126,6 +122,9 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
+      '@acme/editor':
+        specifier: ^0.1.0
+        version: link:../../packages/editor
       '@acme/tailwind-config':
         specifier: ^0.1.0
         version: link:../../packages/config/tailwind
@@ -217,6 +216,9 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
+      '@acme/editor':
+        specifier: ^0.1.0
+        version: link:../../packages/editor
       '@acme/emails':
         specifier: ^0.1.0
         version: link:../../packages/emails
@@ -244,30 +246,6 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.4.0
         version: 0.4.0(typescript@5.1.3)(zod@3.21.4)
-      '@tiptap/core':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/pm@2.0.3)
-      '@tiptap/extension-focus':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
-      '@tiptap/extension-placeholder':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
-      '@tiptap/extension-typography':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/core@2.0.3)
-      '@tiptap/pm':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/core@2.0.3)
-      '@tiptap/react':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)(react-dom@18.2.0)(react@18.2.0)
-      '@tiptap/starter-kit':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/pm@2.0.3)
-      '@tiptap/suggestion':
-        specifier: ^2.0.3
-        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
       '@upstash/qstash':
         specifier: ^0.3.6
         version: 0.3.6
@@ -283,12 +261,6 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
-      fuse.js:
-        specifier: ^6.6.2
-        version: 6.6.2
-      html-escaper:
-        specifier: ^3.0.3
-        version: 3.0.3
       lucide-react:
         specifier: ^0.244.0
         version: 0.244.0(react@18.2.0)
@@ -313,9 +285,6 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
-      react-dropzone:
-        specifier: ^14.2.3
-        version: 14.2.3(react@18.2.0)
       react-hook-form:
         specifier: ^7.44.3
         version: 7.44.3(react@18.2.0)
@@ -331,9 +300,6 @@ importers:
       zod:
         specifier: ^3.21.4
         version: 3.21.4
-      zod-validation-error:
-        specifier: ^1.3.0
-        version: 1.3.0(zod@3.21.4)
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.1.0
@@ -553,6 +519,97 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.18)(typescript@5.1.3)
+      typescript:
+        specifier: ^5.1.3
+        version: 5.1.3
+
+  packages/editor:
+    dependencies:
+      '@acme/common':
+        specifier: ^0.1.0
+        version: link:../common
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../db
+      '@acme/tailwind-config':
+        specifier: ^0.1.0
+        version: link:../config/tailwind
+      '@acme/ui':
+        specifier: ^0.1.0
+        version: link:../ui
+      '@tiptap/core':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/pm@2.0.3)
+      '@tiptap/extension-focus':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
+      '@tiptap/extension-placeholder':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
+      '@tiptap/extension-typography':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)
+      '@tiptap/pm':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)
+      '@tiptap/react':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)(react-dom@18.2.0)(react@18.2.0)
+      '@tiptap/starter-kit':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/pm@2.0.3)
+      '@tiptap/suggestion':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
+      clsx:
+        specifier: ^1.2.1
+        version: 1.2.1
+      fuse.js:
+        specifier: ^6.6.2
+        version: 6.6.2
+      lucide-react:
+        specifier: ^0.244.0
+        version: 0.244.0(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-dropzone:
+        specifier: ^14.2.3
+        version: 14.2.3(react@18.2.0)
+      sonner:
+        specifier: ^0.4.0
+        version: 0.4.0(react-dom@18.2.0)(react@18.2.0)
+      tailwind-merge:
+        specifier: ^1.13.2
+        version: 1.13.2
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: ^0.1.0
+        version: link:../config/eslint
+      '@types/react':
+        specifier: ^18.2.12
+        version: 18.2.12
+      '@types/react-dom':
+        specifier: ^18.2.5
+        version: 18.2.5
+      autoprefixer:
+        specifier: ^10.4.14
+        version: 10.4.14(postcss@8.4.24)
+      eslint:
+        specifier: ^8.42.0
+        version: 8.42.0
+      postcss:
+        specifier: ^8.4.24
+        version: 8.4.24
+      tailwindcss:
+        specifier: ^3.3.2
+        version: 3.3.2(ts-node@10.9.1)
       typescript:
         specifier: ^5.1.3
         version: 5.1.3
@@ -7907,10 +7964,6 @@ packages:
       whatwg-encoding: 2.0.0
     dev: false
 
-  /html-escaper@3.0.3:
-    resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
-    dev: false
-
   /html-react-parser@3.0.9(react@18.2.0):
     resolution: {integrity: sha512-gOPZmaCMXNYu7Y9+58k2tLhTMXQ+QN8ctNFijzLuBxJaLZ6TsN+tUpN+MhbI+6nGaBCRGT2rpw6y/AqkTFZckg==}
     peerDependencies:
@@ -11706,3 +11759,7 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

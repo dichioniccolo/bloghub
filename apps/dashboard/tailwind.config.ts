@@ -9,6 +9,10 @@ export default {
       path.dirname(require.resolve("@acme/ui")),
       "**/*.{js,jsx,ts,tsx}",
     ),
+    path.join(
+      path.dirname(require.resolve("@acme/editor")),
+      "**/*.{js,jsx,ts,tsx}",
+    ),
     "./src/**/*.tsx",
   ],
   presets: [baseConfig],

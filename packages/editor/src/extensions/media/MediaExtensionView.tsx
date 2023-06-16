@@ -2,14 +2,14 @@
 import { useCallback, useState } from "react";
 import { type Editor } from "@tiptap/core";
 import { NodeViewWrapper } from "@tiptap/react";
+import { Loader2, UploadCloud } from "lucide-react";
 import Dropzone from "react-dropzone";
 
+import { createProjectMedia } from "@acme/common/actions";
 import { mediaTypeEnum } from "@acme/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
 
-import { Icons } from "~/app/_components/icons";
-import { determineMediaType } from "~/lib/editor";
-import { createProjectMedia } from "~/lib/shared/actions/project/create-project-media";
+import { determineMediaType } from "../../lib/utils";
 
 type Attrs = {
   id: string;
@@ -111,15 +111,13 @@ export function MediaExtensionView(
                       {...getRootProps()}
                     >
                       <input {...getInputProps()} />
-                      <Icons.uploadCloud size={21} className="mb-2" />
+                      <UploadCloud size={21} className="mb-2" />
 
                       <div className="z-10 flex flex-col justify-center gap-y-1 text-center text-xs">
                         <span className="font-body">Drag and drop or</span>
                         <span className="font-semibold">browse</span>
                       </div>
-                      {loading && (
-                        <Icons.spinner className="mt-2 animate-spin" />
-                      )}
+                      {loading && <Loader2 className="mt-2 animate-spin" />}
                     </div>
                   )}
                 </Dropzone>

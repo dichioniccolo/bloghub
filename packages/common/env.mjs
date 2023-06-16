@@ -26,6 +26,7 @@ export const env = createEnv({
     DO_ACCESS_KEY: z.string().min(1),
     DO_SECRET_KEY: z.string().min(1),
     DO_BUCKET: z.string().min(1),
+    DO_CDN_URL: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -54,5 +55,6 @@ export const env = createEnv({
     DO_ACCESS_KEY: process.env.DO_ACCESS_KEY,
     DO_SECRET_KEY: process.env.DO_SECRET_KEY,
     DO_BUCKET: process.env.DO_BUCKET,
+    DO_CDN_URL: process.env.DO_CDN_URL,
   },
 });

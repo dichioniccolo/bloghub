@@ -1,3 +1,6 @@
+import clsx, { type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 import { type mediaTypeEnum } from "@acme/db";
 
 export function determineMediaType(
@@ -13,4 +16,8 @@ export function determineMediaType(
     return "audio";
   }
   return null;
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
