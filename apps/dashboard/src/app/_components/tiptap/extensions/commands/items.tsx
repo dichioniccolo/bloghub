@@ -55,31 +55,64 @@ export const commands = [
     },
   },
   {
-    title: "Bold",
-    shortcut: "**b**",
-    icon: <Icons.bold size={24} />,
+    title: "Bullet List",
+    description: "Create a simple bullet list",
+    icon: <Icons.list size={24} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setBold().run();
+      editor.chain().focus().deleteRange(range).setNode("bulletList").run();
     },
   },
   {
-    title: "Italic",
-    shortcut: "*i*",
-    icon: <Icons.italic size={24} />,
+    title: "Numbered List",
+    description: "Create a simple numbered list",
+    icon: <Icons.listOrdered size={24} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setItalic().run();
+      editor.chain().focus().deleteRange(range).setNode("orderedList").run();
     },
   },
   {
-    title: "Strike",
-    shortcut: "~~s~~",
-    icon: <Icons.strikeThrough size={24} />,
+    title: "Link",
+    description: "Create a link",
+    icon: <Icons.link size={24} />,
+    // command: ({ editor, range }) => {
+    //   editor.chain().focus().deleteRange(range).setLink({ href: '' }).run();
+    // }
+  },
+  {
+    title: "Divider",
+    description: "insert a dividing line",
+    icon: <Icons.divider size={24} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setStrike().run();
+      editor.chain().focus().deleteRange(range).setHorizontalRule().run();
     },
   },
+  // {
+  //   title: "Bold",
+  //   shortcut: "**b**",
+  //   icon: <Icons.bold size={24} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).setBold().run();
+  //   },
+  // },
+  // {
+  //   title: "Italic",
+  //   shortcut: "*i*",
+  //   icon: <Icons.italic size={24} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).setItalic().run();
+  //   },
+  // },
+  // {
+  //   title: "Strike",
+  //   shortcut: "~~s~~",
+  //   icon: <Icons.strikeThrough size={24} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).setStrike().run();
+  //   },
+  // },
   {
     title: "Image",
+    description: "Upload an image",
     icon: <Icons.image size={24} />,
     command: ({ editor, range }) => {
       editor
@@ -87,6 +120,21 @@ export const commands = [
         .focus()
         .deleteRange(range)
         .setImage({
+          src: "",
+        })
+        .run();
+    },
+  },
+  {
+    title: "Video",
+    description: "Upload a video",
+    icon: <Icons.video size={24} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setVideo({
           src: "",
         })
         .run();

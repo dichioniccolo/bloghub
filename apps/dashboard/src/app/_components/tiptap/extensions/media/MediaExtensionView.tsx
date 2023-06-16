@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useState } from "react";
+import { type Editor } from "@tiptap/core";
 import { NodeViewWrapper } from "@tiptap/react";
 import Dropzone from "react-dropzone";
 
+import { mediaTypeEnum } from "@acme/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -18,23 +20,28 @@ type Attrs = {
 
 type Props = {
   node: {
+    editor: Editor;
     attrs: Attrs;
   };
   updateAttributes: (attrs: Partial<Attrs>) => void;
 };
 
-export function ImageExtensionView(
+export function MediaExtensionView(
   userId: string,
   projectId: string,
   postId: string,
+  mediaType: (typeof mediaTypeEnum.enumValues)[number],
 ) {
-  return function ImageExtensionView({ node, updateAttributes }: Props) {
+  return function MediaExtensionView({ node, updateAttributes }: Props) {
     const { src, alt, title } = node.attrs;
+
+    const accept =
+      mediaType === mediaTypeEnum.enumValues[0] ? "image/*" : "video/*";
 
     const [localSrc, setLocalSrc] = useState<string | null | undefined>(src);
     const [loading, setLoading] = useState(false);
 
-    const uploadImage = useCallback(
+    const uploadMedia = useCallback(
       async (files: File[]) => {
         const file = files[0];
 
@@ -89,8 +96,8 @@ export function ImageExtensionView(
               </TabsList>
               <TabsContent value="local">
                 <Dropzone
-                  onDrop={uploadImage}
-                  accept={{ "image/*": [] }}
+                  onDrop={uploadMedia}
+                  accept={{ [accept]: [] }}
                   maxFiles={1}
                 >
                   {({ getRootProps, getInputProps }) => (

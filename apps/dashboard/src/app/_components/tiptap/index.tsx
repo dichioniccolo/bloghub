@@ -8,12 +8,11 @@ import StarterKit from "@tiptap/starter-kit";
 
 import { cn } from "~/lib/utils";
 import { Icons } from "../icons";
-import { EditorMenuBar } from "./editor-menu-bar";
 import { ColorHighlighter } from "./extensions/color-highlighter";
 import { SlashCommands } from "./extensions/commands";
-import { ImageExtension } from "./extensions/image";
+import { ImageExtension } from "./extensions/media/image";
+import { VideoExtension } from "./extensions/media/video";
 import { SmilieReplacer } from "./extensions/smile-replacer";
-import { VideoExtension } from "./extensions/video";
 
 type Props = {
   userId: string;
@@ -23,7 +22,7 @@ type Props = {
   onChange(value: string): void;
 };
 
-export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
+export function Editor({ userId, projectId, postId, value, onChange }: Props) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({}),
@@ -61,7 +60,7 @@ export function Tiptap({ userId, projectId, postId, value, onChange }: Props) {
 
   return (
     <div className="space-y-2 overflow-y-auto pb-16">
-      <EditorMenuBar editor={editor} />
+      {/* <EditorMenuBar editor={editor} /> */}
       <EditorContent editor={editor} />
     </div>
   );

@@ -1,5 +1,7 @@
 import { Node, nodeInputRule } from "@tiptap/core";
+import { ReactNodeViewRenderer } from "@tiptap/react";
 
+import { MediaExtensionView } from "../MediaExtensionView";
 import { dropVideoPlugin } from "./drop-video-plugin";
 
 declare module "@tiptap/core" {
@@ -66,6 +68,11 @@ export const VideoExtension = (
       },
       ["source", HTMLAttributes],
     ],
+    addNodeView() {
+      return ReactNodeViewRenderer(
+        MediaExtensionView(userId, projectId, postId, "video"),
+      );
+    },
     addCommands() {
       return {
         setVideo:

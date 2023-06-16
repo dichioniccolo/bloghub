@@ -10,7 +10,7 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
-import { Tiptap } from "~/app/_components/tiptap";
+import { Editor } from "~/app/_components/tiptap";
 import { useUser } from "~/hooks/use-user";
 import { updatePost } from "~/lib/shared/actions/post/update-post";
 import { type GetPost } from "~/lib/shared/api/posts";
@@ -78,7 +78,7 @@ export function EditPostForm({ post }: Props) {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <Tiptap
+              <Editor
                 userId={user.id}
                 projectId={post.projectId}
                 postId={post.id}
