@@ -1,8 +1,8 @@
 import { Node, nodeInputRule } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
-import { MediaExtensionView } from "../MediaExtensionView";
 import { dropVideoPlugin } from "./drop-video-plugin";
+import { VideoExtensionView } from "./VideoExtensionView";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -28,9 +28,9 @@ const VIDEO_INPUT_REGEX =
   /!\[(.*?)\]\((\S+\.(?:mp4|avi|mov|mkv|wmv))(?:\s+"(.*?)")?\)/;
 
 export const VideoExtension = (
-  userId: string,
-  projectId: string,
-  postId: string,
+  userId?: string,
+  projectId?: string,
+  postId?: string,
 ) => {
   return Node.create({
     name: "video",
@@ -70,7 +70,7 @@ export const VideoExtension = (
     ],
     addNodeView() {
       return ReactNodeViewRenderer(
-        MediaExtensionView(userId, projectId, postId, "video"),
+        VideoExtensionView(userId, projectId, postId),
       );
     },
     addCommands() {

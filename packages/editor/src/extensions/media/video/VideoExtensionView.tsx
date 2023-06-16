@@ -1,15 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
-import { useCallback, useState } from "react";
-import { type Editor } from "@tiptap/core";
+import { useCallback, useRef, useState } from "react";
 import { NodeViewWrapper } from "@tiptap/react";
 import { Loader2, UploadCloud } from "lucide-react";
 import Dropzone from "react-dropzone";
 
 import { createProjectMedia } from "@acme/common/actions";
-import { mediaTypeEnum } from "@acme/db";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  useEventListener,
+} from "@acme/ui";
 
-import { determineMediaType } from "../../lib/utils";
+import { determineMediaType } from "../../../lib/utils";
+import { type MediaNodeProps } from "../types";
 
 type Attrs = {
   id: string;
@@ -18,31 +22,40 @@ type Attrs = {
   title: string;
 };
 
-type Props = {
-  node: {
-    editor: Editor;
-    attrs: Attrs;
-  };
-  updateAttributes: (attrs: Partial<Attrs>) => void;
-};
-
-export function MediaExtensionView(
-  userId: string,
-  projectId: string,
-  postId: string,
-  mediaType: (typeof mediaTypeEnum.enumValues)[number],
+export function VideoExtensionView(
+  userId?: string,
+  projectId?: string,
+  postId?: string,
 ) {
-  return function MediaExtensionView({ node, updateAttributes }: Props) {
-    const { src, alt, title } = node.attrs;
+  return function VideoExtensionView({
+    node,
+    updateAttributes,
+    deleteNode,
+  }: MediaNodeProps<Attrs>) {
+    const { src, title } = node.attrs;
 
-    const accept =
-      mediaType === mediaTypeEnum.enumValues[0] ? "image/*" : "video/*";
+    const ref = useRef<HTMLDivElement>(null);
 
     const [localSrc, setLocalSrc] = useState<string | null | undefined>(src);
     const [loading, setLoading] = useState(false);
 
+    const onKeyDown = useCallback(
+      (e: KeyboardEvent) => {
+        if (e.key === "Delete") {
+          deleteNode();
+        }
+      },
+      [deleteNode],
+    );
+
+    useEventListener("keydown", onKeyDown, ref);
+
     const uploadMedia = useCallback(
       async (files: File[]) => {
+        if (!userId || !projectId || !postId) {
+          return;
+        }
+
         const file = files[0];
 
         if (!file) {
@@ -80,13 +93,13 @@ export function MediaExtensionView(
 
     return (
       <NodeViewWrapper as="div" id={node.attrs.id}>
-        <div className="relative">
+        <div ref={ref} className="relative">
           {localSrc && (
             <div className="group relative">
-              <img src={localSrc} alt={alt} title={title} />
+              <video controls src={localSrc} title={title} />
             </div>
           )}
-          {!localSrc && (
+          {!localSrc && userId && projectId && postId && (
             <Tabs defaultValue="local">
               <TabsList>
                 <TabsTrigger value="local">Upload</TabsTrigger>
@@ -97,7 +110,7 @@ export function MediaExtensionView(
               <TabsContent value="local">
                 <Dropzone
                   onDrop={uploadMedia}
-                  accept={{ [accept]: [] }}
+                  accept={{ "video/*": [] }}
                   maxFiles={1}
                 >
                   {({ getRootProps, getInputProps }) => (

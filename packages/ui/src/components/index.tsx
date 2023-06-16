@@ -1,6 +1,5 @@
 export * from "./blur-image";
 export * from "./form";
-export * from "./html-view";
 export * from "./ui/accordion";
 export * from "./ui/alert";
 export * from "./ui/alert-dialog";

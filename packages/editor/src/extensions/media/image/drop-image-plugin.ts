@@ -5,13 +5,17 @@ import { createProjectMedia } from "@acme/common/actions";
 import { determineMediaType } from "../../../lib/utils";
 
 export function dropImagePlugin(
-  userId: string,
-  projectId: string,
-  postId: string,
+  userId?: string,
+  projectId?: string,
+  postId?: string,
 ) {
   return new Plugin({
     props: {
       handlePaste(view, event) {
+        if (!userId || !projectId || !postId) {
+          return false;
+        }
+
         const items = Array.from(event.clipboardData?.items ?? []);
         const { schema } = view.state;
 
@@ -53,6 +57,10 @@ export function dropImagePlugin(
       },
       handleDOMEvents: {
         drop: (view, event) => {
+          if (!userId || !projectId || !postId) {
+            return false;
+          }
+
           const hasFiles =
             event.dataTransfer &&
             event.dataTransfer.files &&

@@ -51,7 +51,8 @@ export function Editor({
       attributes: {
         class: cn(
           // input styles
-          "editor rounded-md py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
+          editable &&
+            "editor rounded-md py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
           "prose prose-md max-w-none sm:prose-lg min-h-[500px] dark:prose-invert",
         ),
       },
