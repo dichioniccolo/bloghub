@@ -15,7 +15,7 @@
     "@acme/db": "^0.1.0",
     "@acme/ui": "^0.1.0",
     "@acme/tailwind-config": "^0.1.0",
-    "@t3-oss/env-nextjs": "^0.4.0",
+    "@t3-oss/env-nextjs": "^0.4.1",
     "@vercel/kv": "^0.2.1",
     "lucide-react": "^0.244.0",
     "next": "^13.4.6",

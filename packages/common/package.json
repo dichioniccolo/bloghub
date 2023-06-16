@@ -16,7 +16,7 @@
     "@aws-sdk/client-s3": "^3.353.0",
     "@aws-sdk/s3-request-presigner": "^3.353.0",
     "@aws-sdk/signature-v4-crt": "^3.347.0",
-    "@t3-oss/env-nextjs": "^0.4.0",
+    "@t3-oss/env-nextjs": "^0.4.1",
     "aws-crt": "^1.15.18",
     "stripe": "^12.9.0",
     "zod": "^3.21.4"
