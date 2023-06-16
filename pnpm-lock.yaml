@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -261,6 +265,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      html-escaper:
+        specifier: ^3.0.3
+        version: 3.0.3
       lucide-react:
         specifier: ^0.244.0
         version: 0.244.0(react@18.2.0)
@@ -547,6 +554,9 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
       '@tiptap/extension-typography':
+        specifier: ^2.0.3
+        version: 2.0.3(@tiptap/core@2.0.3)
+      '@tiptap/extension-youtube':
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)
       '@tiptap/pm':
@@ -4917,6 +4927,14 @@ packages:
       '@tiptap/core': 2.0.3(@tiptap/pm@2.0.3)
     dev: false
 
+  /@tiptap/extension-youtube@2.0.3(@tiptap/core@2.0.3):
+    resolution: {integrity: sha512-iZsMr+88I3hvfbJNLmiPsz2/8ZGpMucyCxRbrZGg1D6wBw4oiUhRPHzGJ3APlECzpanCjyQNMHIk/gvSDDX3ig==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.0.3(@tiptap/pm@2.0.3)
+    dev: false
+
   /@tiptap/pm@2.0.3(@tiptap/core@2.0.3):
     resolution: {integrity: sha512-I9dsInD89Agdm1QjFRO9dmJtU1ldVSILNPW0pEhv9wYqYVvl4HUj/JMtYNqu2jWrCHNXQcaX/WkdSdvGJtmg5g==}
     peerDependencies:
@@ -7962,6 +7980,10 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       whatwg-encoding: 2.0.0
+    dev: false
+
+  /html-escaper@3.0.3:
+    resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
     dev: false
 
   /html-react-parser@3.0.9(react@18.2.0):
@@ -11759,7 +11781,3 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

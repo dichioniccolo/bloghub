@@ -16,6 +16,7 @@ const ContentSecurityPolicy = `
   media-src https://cdn.bloghub.it;
   connect-src *;
   font-src 'self';
+  frame-src youtube.com www.youtube.com;
 `;
 
 const securityHeaders = [

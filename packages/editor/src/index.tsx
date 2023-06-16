@@ -3,6 +3,7 @@
 import Focus from "@tiptap/extension-focus";
 import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
+import Youtube from "@tiptap/extension-youtube";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Loader2 } from "lucide-react";
@@ -46,6 +47,7 @@ export function Editor({
       SlashCommands,
       ImageExtension(userId, projectId, postId),
       VideoExtension(userId, projectId, postId),
+      Youtube,
     ],
     editorProps: {
       attributes: {
@@ -53,7 +55,7 @@ export function Editor({
           // input styles
           editable &&
             "editor rounded-md py-4 bg-transparent ring-offset-background focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50",
-          "prose prose-md max-w-none sm:prose-lg min-h-[500px] dark:prose-invert",
+          "prose prose-md max-w-none sm:prose-lg min-h-[500px] dark:prose-invert px-1",
         ),
       },
     },

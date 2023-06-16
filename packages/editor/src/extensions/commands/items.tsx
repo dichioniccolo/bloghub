@@ -67,7 +67,7 @@ export const commands = [
     description: "Create a simple bullet list",
     icon: <List size={24} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setNode("bulletList").run();
+      editor.chain().focus().deleteRange(range).toggleBulletList().run();
     },
   },
   {
@@ -75,7 +75,7 @@ export const commands = [
     description: "Create a simple numbered list",
     icon: <ListOrdered size={24} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setNode("orderedList").run();
+      editor.chain().focus().deleteRange(range).toggleOrderedList().run();
     },
   },
   // {

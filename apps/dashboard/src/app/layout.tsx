@@ -2,8 +2,8 @@ import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
 import { getServerSession } from "next-auth";
 
+import "@acme/editor/styles/tiptap.css";
 import "@acme/ui/styles/globals.css";
-import "~/styles/tiptap.css";
 
 import { Inter, Roboto_Mono } from "next/font/google";
 

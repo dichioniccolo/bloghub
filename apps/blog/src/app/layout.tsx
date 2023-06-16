@@ -1,4 +1,5 @@
 import "@acme/ui/styles/globals.css";
+import "@acme/editor/styles/tiptap.css";
 
 import { type PropsWithChildren } from "react";
 import { Inter, Roboto_Mono } from "next/font/google";

@@ -66,7 +66,7 @@ export function EditPostForm({ post }: Props) {
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the title?"
-                className="rounded-md border-0 bg-transparent px-0 py-4 text-4xl outline-none focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-md border-0 bg-transparent px-0 py-4 text-4xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
               />
             </FormControl>
             <FormMessage />

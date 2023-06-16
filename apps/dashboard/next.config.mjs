@@ -16,6 +16,7 @@ const ContentSecurityPolicy = `
   media-src https://cdn.bloghub.it;
   connect-src *;
   font-src 'self';
+  frame-src youtube.com www.youtube.com;
 `;
 
 const securityHeaders = [
@@ -69,12 +70,13 @@ const config = {
   },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
-    "@acme/emails",
     "@acme/auth",
-    "@acme/db",
-    "@acme/ui",
     "@acme/common",
+    "@acme/db",
+    "@acme/editor",
+    "@acme/emails",
     "@acme/notifications",
+    "@acme/ui",
   ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },

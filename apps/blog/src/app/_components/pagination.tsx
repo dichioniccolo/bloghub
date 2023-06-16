@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { BlogRoutes } from "@acme/common/routes";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/utils";
 
 type Props = {

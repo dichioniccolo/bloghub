@@ -3,7 +3,7 @@ import { formatDistance, formatISO } from "date-fns";
 
 import { BlogRoutes } from "@acme/common/routes";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/app/_components/icons";
 import { type GetPostsProjectByDomain } from "~/app/actions/posts";
 
 type Props = {

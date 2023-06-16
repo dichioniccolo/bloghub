@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 
 import { Button } from "@acme/ui";
 
-import { Icons } from "~/components/icons";
+import { Icons } from "~/app/_components/icons";
 
 export function ToggleTheme() {
   const { setTheme } = useTheme();
