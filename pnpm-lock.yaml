@@ -648,8 +648,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       react-email:
-        specifier: ^1.9.3
-        version: 1.9.3
+        specifier: ^1.9.4
+        version: 1.9.4
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -10131,8 +10131,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-email@1.9.3:
-    resolution: {integrity: sha512-pD+uVG6GoJR03Kzkk5KHPlc/TtUZ/UYs/hfakeRP6Ma/Oja0fOw4gjYGXQo0zwwqEM5OdLQOdS3qBCJyRYrqVw==}
+  /react-email@1.9.4:
+    resolution: {integrity: sha512-DNUQb7xzAlMga2ZppG57bnWhJnqOEcTYzxNvLA4IVCiYJkgPNVukFMOZVG2OuQ0W8ddiF6bLZBKDZHnnIenbpw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     dependencies:
