@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Editor } from "@acme/editor";
 import {
@@ -34,20 +34,24 @@ export function EditPostForm({ post }: Props) {
   );
 
   const { mutate } = useZact(updatePost, {
-    onBeforeAction: () => setFormStatus("saving"),
     onSuccess: () => setFormStatus("saved"),
   });
 
-  const onSubmit = ({ title, content }: EditPostSchemaType) =>
-    mutate({
-      userId: user.id,
-      projectId: post.projectId,
-      postId: post.id,
-      body: {
-        title,
-        content,
-      },
-    });
+  const onSubmit = useCallback(
+    async ({ title, content }: EditPostSchemaType) => {
+      setFormStatus("saving");
+      await mutate({
+        userId: user.id,
+        projectId: post.projectId,
+        postId: post.id,
+        body: {
+          title,
+          content,
+        },
+      });
+    },
+    [mutate, post.id, post.projectId, user.id],
+  );
 
   const initialValues = {
     title: post.title ?? "",
@@ -90,6 +94,7 @@ export function EditPostForm({ post }: Props) {
             <FormControl>
               <Editor
                 status={formStatus}
+                setStatus={setFormStatus}
                 userId={user.id}
                 projectId={post.projectId}
                 postId={post.id}

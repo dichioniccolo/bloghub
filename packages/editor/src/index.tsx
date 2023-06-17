@@ -10,6 +10,7 @@ import { TiptapEditorProps } from "./props";
 
 type Props = {
   status?: "saved" | "unsaved" | "saving";
+  setStatus?(status: "saved" | "unsaved" | "saving"): void;
   userId?: string;
   projectId?: string;
   postId?: string;
@@ -20,6 +21,7 @@ type Props = {
 
 export function Editor({
   status,
+  setStatus,
   userId,
   projectId,
   postId,
@@ -33,9 +35,10 @@ export function Editor({
 
   const onUpdate = useCallback(
     ({ editor }: { editor: EditorType }) => {
+      setStatus?.("unsaved");
       onChange?.(editor.getHTML());
     },
-    [onChange],
+    [onChange, setStatus],
   );
 
   const editor = useEditor({
@@ -106,7 +109,7 @@ export function Editor({
       {editable && status && (
         <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
           {status === "unsaved"
-            ? "Unsaved changes"
+            ? "Unsaved"
             : status === "saving"
             ? "Saving..."
             : "Saved"}
