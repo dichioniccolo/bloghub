@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Editor } from "@acme/editor";
 import {
   Form,
@@ -26,7 +28,15 @@ type Props = {
 
 export function EditPostForm({ post }: Props) {
   const user = useUser();
-  const { mutate } = useZact(updatePost);
+
+  const [formStatus, setFormStatus] = useState<"unsaved" | "saving" | "saved">(
+    "saved",
+  );
+
+  const { mutate } = useZact(updatePost, {
+    onBeforeAction: () => setFormStatus("saving"),
+    onSuccess: () => setFormStatus("saved"),
+  });
 
   const onSubmit = ({ title, content }: EditPostSchemaType) =>
     mutate({
@@ -79,6 +89,7 @@ export function EditPostForm({ post }: Props) {
           <FormItem>
             <FormControl>
               <Editor
+                status={formStatus}
                 userId={user.id}
                 projectId={post.projectId}
                 postId={post.id}

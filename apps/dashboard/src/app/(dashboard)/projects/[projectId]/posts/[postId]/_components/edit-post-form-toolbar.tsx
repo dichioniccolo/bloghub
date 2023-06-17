@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormContext, type UseFormProps } from "react-hook-form";
+import { type UseFormProps } from "react-hook-form";
 import { type z } from "zod";
 
 import { Button, useAutoSaveForm } from "@acme/ui";
@@ -24,7 +24,6 @@ export function EditPostFormToolbar<S extends z.ZodTypeAny>({
   initialValues,
 }: Props<S>) {
   const user = useUser();
-  const form = useFormContext();
 
   useAutoSaveForm({
     onSubmit,
@@ -42,12 +41,6 @@ export function EditPostFormToolbar<S extends z.ZodTypeAny>({
 
   return (
     <div className="flex justify-end gap-2">
-      <Button type="submit">
-        {form.formState.isSubmitting && (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        )}
-        Save
-      </Button>
       <Button type="button" disabled={isRunning} onClick={onToggleHidden}>
         {isRunning ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

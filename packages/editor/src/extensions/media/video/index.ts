@@ -1,8 +1,6 @@
 import { Node, nodeInputRule } from "@tiptap/core";
-import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import { dropVideoPlugin } from "./drop-video-plugin";
-import { VideoExtensionView } from "./VideoExtensionView";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -35,9 +33,6 @@ export const VideoExtension = (
   return Node.create({
     name: "video",
     group: "block",
-    content: "block*",
-    atom: true,
-    isolating: true,
     draggable: true,
     addAttributes: () => ({
       src: {},
@@ -68,11 +63,11 @@ export const VideoExtension = (
       },
       ["source", HTMLAttributes],
     ],
-    addNodeView() {
-      return ReactNodeViewRenderer(
-        VideoExtensionView(userId, projectId, postId),
-      );
-    },
+    // addNodeView() {
+    //   return ReactNodeViewRenderer(
+    //     VideoExtensionView(userId, projectId, postId),
+    //   );
+    // },
     addCommands() {
       return {
         setVideo:

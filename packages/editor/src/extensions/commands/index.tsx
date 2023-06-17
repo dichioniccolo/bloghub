@@ -1,37 +1,41 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Extension } from "@tiptap/core";
-import { type Node } from "@tiptap/pm/model";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { Extension, type Editor, type Range } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
-import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
-import Fuse from "fuse.js";
-import tippy, { type Instance, type Props as TippyProps } from "tippy.js";
+import Suggestion from "@tiptap/suggestion";
+import tippy from "tippy.js";
 
-import { CommandsList } from "./commands-list";
-import { commands } from "./items";
+import { CommandList } from "./commands-list";
+import { getSuggestionItems } from "./items";
 
-type CommandsOption = {
-  HTMLAttributes?: Record<string, any>;
-  renderLabel?: (props: { options: CommandsOption; node: Node }) => string;
-  suggestion: Omit<SuggestionOptions, "editor">;
-};
+interface Command {
+  editor: Editor;
+  range: Range;
+}
 
-export const Commands = Extension.create<CommandsOption>({
-  name: "slash-commands",
+const Command = Extension.create({
+  name: "slash-command",
   addOptions() {
     return {
       suggestion: {
         char: "/",
-        startOfLine: false,
-        command: ({ editor, range, props }) => {
+        command: ({
+          editor,
+          range,
+          props,
+        }: {
+          editor: Editor;
+          range: Range;
+          props: any;
+        }) => {
           props.command({ editor, range });
         },
       },
     };
   },
-
   addProseMirrorPlugins() {
     return [
       Suggestion({
@@ -42,72 +46,56 @@ export const Commands = Extension.create<CommandsOption>({
   },
 });
 
-const fuse = new Fuse(commands, { keys: ["title", "description", "shortcut"] });
+const renderItems = () => {
+  let component: ReactRenderer | null = null;
+  let popup: any | null = null;
 
-export const SlashCommands = Commands.configure({
+  return {
+    onStart: (props: { editor: Editor; clientRect: DOMRect }) => {
+      component = new ReactRenderer(CommandList, {
+        props,
+        editor: props.editor,
+      });
+
+      // @ts-expect-error tippy types are wrong
+      popup = tippy("body", {
+        getReferenceClientRect: props.clientRect,
+        appendTo: () => document.body,
+        content: component.element,
+        showOnCreate: true,
+        interactive: true,
+        trigger: "manual",
+        placement: "bottom-start",
+      });
+    },
+    onUpdate: (props: { editor: Editor; clientRect: DOMRect }) => {
+      component?.updateProps(props);
+
+      popup &&
+        popup[0].setProps({
+          getReferenceClientRect: props.clientRect,
+        });
+    },
+    onKeyDown: (props: { event: KeyboardEvent }) => {
+      if (props.event.key === "Escape") {
+        popup?.[0].hide();
+
+        return true;
+      }
+
+      // @ts-expect-error we don't know the ref
+      return component?.ref?.onKeyDown(props);
+    },
+    onExit: () => {
+      popup?.[0].destroy();
+      component?.destroy();
+    },
+  };
+};
+
+export const SlashCommand = Command.configure({
   suggestion: {
-    items: ({ query }) => {
-      return query ? fuse.search(query).map((x) => x.item) : commands;
-    },
-    render: () => {
-      let component: ReactRenderer;
-      let popup: Instance<TippyProps>[];
-
-      return {
-        onStart(props) {
-          component = new ReactRenderer(CommandsList, {
-            props: props,
-            editor: props?.editor,
-          });
-
-          if (!props.clientRect) {
-            return;
-          }
-
-          popup = tippy("body", {
-            getReferenceClientRect: props.clientRect as any,
-            appendTo: () => document.body,
-            content: component.element,
-            showOnCreate: true,
-            interactive: true,
-            trigger: "manual",
-            placement: "bottom-start",
-            animation: "shift-toward-subtle",
-            duration: 250,
-          });
-        },
-        onUpdate(props) {
-          component.updateProps(props);
-
-          popup[0]?.setProps({
-            getReferenceClientRect: props.clientRect as any,
-          });
-        },
-        onKeyDown(props) {
-          component.updateProps({ ...props, event: props.event });
-
-          (component.ref as any).onKeyDown({ event: props.event });
-
-          if (props.event.key === "Escape") {
-            popup[0]?.hide();
-
-            return true;
-          }
-
-          if (props.event.key === "Enter") {
-            props.event.stopPropagation();
-            props.event.preventDefault();
-
-            return true;
-          }
-
-          return false;
-        },
-        onExit() {
-          popup[0]?.destroy();
-          component?.destroy();
-        },
-      };
-    },
+    items: getSuggestionItems,
+    render: renderItems,
   },
 });

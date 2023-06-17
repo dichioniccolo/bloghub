@@ -16,7 +16,7 @@ import {
 } from "react-hook-form";
 import { type z } from "zod";
 
-import useDebouncedCallback from "../../hooks/use-debounced-callback";
+import { useDebouncedCallback } from "../../hooks/use-debounced-callback";
 import { useDeepCompareEffect } from "../../hooks/use-deep-compare-effect";
 
 type ZactError<S extends z.ZodType> = {
@@ -134,11 +134,13 @@ function mapZactErrors<S extends z.ZodType>(
 type AutoSaveProps<S extends z.ZodType> = {
   onSubmit: (data: z.input<S>) => unknown;
   initialValues?: UseFormProps<z.input<S>>["defaultValues"];
+  delay?: number;
 };
 
 export const useAutoSaveForm = <S extends z.ZodType>({
   onSubmit,
   initialValues,
+  delay = 1000,
 }: AutoSaveProps<S>) => {
   const form = useFormContext();
 
@@ -152,7 +154,7 @@ export const useAutoSaveForm = <S extends z.ZodType>({
         }
       }
     })();
-  }, 1000);
+  }, delay);
 
   // // Watch all the data, provide with defaultValues from server, this way we know if the new data came from server or where actually edited by user
   // const watchedData = methods.watch(undefined, defaultValues);

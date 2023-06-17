@@ -1,8 +1,6 @@
 import { Node, nodeInputRule } from "@tiptap/core";
-import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import { dropImagePlugin } from "./drop-image-plugin";
-import { ImageExtensionView } from "./ImageExtensionView";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -38,9 +36,6 @@ export const ImageExtension = (
   return Node.create({
     name: "image",
     group: "block",
-    content: "block*",
-    atom: true,
-    isolating: true,
     draggable: true,
     addAttributes: () => ({
       src: {},
@@ -64,11 +59,11 @@ export const ImageExtension = (
       },
     ],
     renderHTML: ({ HTMLAttributes }) => ["img", HTMLAttributes],
-    addNodeView() {
-      return ReactNodeViewRenderer(
-        ImageExtensionView(userId, projectId, postId),
-      );
-    },
+    // addNodeView() {
+    //   return ReactNodeViewRenderer(
+    //     ImageExtensionView(userId, projectId, postId),
+    //   );
+    // },
     addCommands() {
       return {
         setImage:

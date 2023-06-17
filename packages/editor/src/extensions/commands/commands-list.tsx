@@ -1,156 +1,116 @@
-import {
-  createRef,
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useState,
-  type RefObject,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
+import { type Editor, type Range } from "@tiptap/core";
 
-import { cn } from "../../lib/utils";
-import { type CommandSuggestion } from "./items";
+import { type CommandItemProps } from "./items";
 
 type Props = {
-  items: CommandSuggestion[];
-  command: (props: CommandSuggestion) => void;
+  items: CommandItemProps[];
+  command: (item: CommandItemProps, editor: Editor, range: Range) => void;
+  editor: Editor;
+  range: Range;
 };
 
-export const CommandsList = forwardRef(function CommandsListNew(
-  { items, command }: Props,
-  ref,
-) {
+export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const refs = useMemo(
-    () =>
-      items.reduce((acc, _item, index) => {
-        acc[index] = createRef();
-        return acc;
-      }, {} as Record<string, RefObject<HTMLLIElement>>),
-    [items],
+  // const { complete, isLoading } = useCompletion({
+  //   id: "novel",
+  //   api: "/api/generate",
+  //   onResponse: (response) => {
+  //     if (response.status === 429) {
+  //       toast.error("You have reached your request limit for the day.");
+  //       va.track("Rate Limit Reached");
+  //       return;
+  //     }
+  //     editor.chain().focus().deleteRange(range).run();
+  //   },
+  //   onFinish: (_prompt, completion) => {
+  //     // highlight the generated text
+  //     editor.commands.setTextSelection({
+  //       from: range.from,
+  //       to: range.from + completion.length,
+  //     });
+  //   },
+  //   onError: () => {
+  //     toast.error("Something went wrong.");
+  //   },
+  // });
+
+  const selectItem = useCallback(
+    (index: number) => {
+      const item = items[index];
+      // va.track("Slash Command Used", {
+      //   command: item.title,
+      // });
+      if (item) {
+        // if (item.title === "Continue writing") {
+        //   const text = editor.getText();
+        //   complete(text);
+        // } else {
+        command(item, editor, range);
+        // }
+      }
+    },
+    [command, items, editor, range],
   );
+
+  useEffect(() => {
+    const navigationKeys = ["ArrowUp", "ArrowDown", "Enter"];
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!navigationKeys.includes(e.key)) {
+        return;
+      }
+      e.preventDefault();
+      if (e.key === "ArrowUp") {
+        setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+        return true;
+      }
+      if (e.key === "ArrowDown") {
+        setSelectedIndex((selectedIndex + 1) % items.length);
+        return true;
+      }
+      if (e.key === "Enter") {
+        selectItem(selectedIndex);
+        return true;
+      }
+      return false;
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [items, selectedIndex, setSelectedIndex, selectItem]);
 
   useEffect(() => {
     setSelectedIndex(0);
   }, [items]);
 
-  const scrollTo = (ref?: RefObject<HTMLLIElement>) => {
-    ref?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    });
-  };
-
-  const downHandler = () => {
-    setSelectedIndex((selectedIndex) => {
-      const newIndex = (selectedIndex + 1) % items.length;
-      scrollTo(refs[newIndex]);
-      return newIndex;
-    });
-  };
-  const upHandler = () => {
-    setSelectedIndex((selectedIndex) => {
-      const newIndex = (selectedIndex + items.length - 1) % items.length;
-      scrollTo(refs[newIndex]);
-      return newIndex;
-    });
-  };
-
-  const enterHandler = () => {
-    selectItem(selectedIndex);
-  };
-
-  useImperativeHandle(ref, () => ({
-    onKeyDown: ({ event }: { event: KeyboardEvent }) => {
-      if (event.key === "ArrowUp") {
-        event.stopPropagation();
-        event.preventDefault();
-        upHandler();
-        return true;
-      }
-
-      if (event.key === "ArrowDown") {
-        event.stopPropagation();
-        event.preventDefault();
-        downHandler();
-        return true;
-      }
-
-      if (event.key === "Enter") {
-        event.stopPropagation();
-        event.preventDefault();
-        enterHandler();
-        return true;
-      }
-
-      return false;
-    },
-  }));
-
-  const selectItem = (index: number) => {
-    const item = items[index];
-
-    if (item) setTimeout(() => command(item));
-  };
-
-  return (
-    <ul className="max-h-80 w-72 overflow-auto rounded-xl border bg-white py-1.5 shadow-sm dark:border-2 dark:border-gray-800 dark:bg-gray-900">
-      {items.length === 0 ? (
-        <p className="px-4 py-2 text-gray-500">No commands found</p>
-      ) : (
-        items.map((item, index) => (
-          <li key={index} ref={refs[index]}>
-            <button
-              className={cn(
-                "flex w-full cursor-pointer items-center gap-2 p-2 text-left transition hover:bg-blue-100 focus:outline-none dark:hover:bg-blue-400/10",
-                {
-                  "bg-blue-100/50 dark:bg-blue-400/10": selectedIndex === index,
-                },
-              )}
-              onClick={() => selectItem(index)}
-              onMouseEnter={() => setSelectedIndex(index)}
-              onKeyDown={(e) => e.code === "Enter" && selectItem(index)}
-            >
-              <div>
-                <span
-                  className={cn(
-                    "flex h-10 w-10 items-center justify-center rounded border border-slate-400 bg-white text-gray-500",
-                    {
-                      "dark:text-blue-300": selectedIndex === index,
-                    },
-                  )}
-                >
-                  {item.icon}
-                </span>
-              </div>
-              <div className="w-full leading-tight">
-                <div
-                  className={
-                    selectedIndex === index
-                      ? "dark:text-blue-300"
-                      : "dark:text-gray-500"
-                  }
-                >
-                  {item.title}
-                </div>
-                <div className="flex w-full justify-between">
-                  {item.description && (
-                    <span className="text-xs text-gray-400">
-                      {item.description}
-                    </span>
-                  )}
-                  {item.shortcut && (
-                    <code className="text-xs text-gray-400">
-                      {item.shortcut}
-                    </code>
-                  )}
-                </div>
-              </div>
-            </button>
-          </li>
-        ))
-      )}
-    </ul>
-  );
-});
+  return items.length > 0 ? (
+    <div className="z-50 h-auto max-h-[350px] w-72 overflow-y-auto rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all">
+      {items.map((item: CommandItemProps, index: number) => {
+        return (
+          <button
+            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
+              index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
+            }`}
+            key={index}
+            onClick={() => selectItem(index)}
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-white">
+              {/* {item.title === "Continue writing" && isLoading ? (
+                <LoadingCircle />
+              ) : (
+                item.icon
+              )} */}
+              {item.icon}
+            </div>
+            <div>
+              <p className="font-medium">{item.title}</p>
+              <p className="text-xs text-stone-500">{item.description}</p>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  ) : null;
+};

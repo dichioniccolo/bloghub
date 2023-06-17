@@ -109,7 +109,7 @@ export interface DebouncedState<T extends (...args: any) => ReturnType<T>>
  * // Check for pending invocations.
  * const status = debounced.pending() ? "Pending..." : "Ready"
  */
-export default function useDebouncedCallback<
+export function useDebouncedCallback<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends (...args: any) => ReturnType<T>,
 >(func: T, wait = 100, options?: Options): DebouncedState<T> {
