@@ -48,6 +48,10 @@
 .ProseMirror div[data-youtube-video] {
   @apply flex w-full items-center justify-center;
 }
-.ProseMirror .ProseMirror-selectednode > * {
-  @apply ring-1 ring-primary;
+
+.ProseMirror img {
+  @apply h-auto max-w-full;
+}
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid #68cef8;
 }

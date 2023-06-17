@@ -1,5 +1,3 @@
-import type Mail from "nodemailer/lib/mailer";
-
 import {
   db,
   emailNotificationSettings,
@@ -36,13 +34,12 @@ export function createEmailSettingsMap(
 }
 
 export function filterEmailsBySettings(
-  emails: Mail.Address[],
+  emails: string[],
   emailSettingsMap: ReturnType<typeof createEmailSettingsMap>,
 ) {
   return emails.filter((email) => {
     return (
-      !emailSettingsMap.has(email.address) ||
-      emailSettingsMap.get(email.address) !== false
+      !emailSettingsMap.has(email) || emailSettingsMap.get(email) !== false
     );
   });
 }

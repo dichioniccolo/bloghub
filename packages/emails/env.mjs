@@ -16,6 +16,7 @@ export const env = createEnv({
       (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
       z.string().email(),
     ),
+    RESEND_API_KEY: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -33,6 +34,7 @@ export const env = createEnv({
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_FROM: process.env.SMTP_FROM,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
 });
