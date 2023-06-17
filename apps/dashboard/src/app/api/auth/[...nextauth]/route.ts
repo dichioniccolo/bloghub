@@ -40,19 +40,12 @@ const handler = NextAuth({
           type: "security",
           to: identifier,
           subject: "Your login link",
-          component: (
-            <LoginLink
-              siteName={env.NEXT_PUBLIC_APP_NAME}
-              url={url}
-              userName={user?.name}
-              userEmail={identifier}
-            />
-          ),
-          headers: {
-            // Set this to prevent Gmail from threading emails.
-            // See https://stackoverflow.com/questions/23434110/force-emails-not-to-be-grouped-into-conversations/25435722.
-            "X-Entity-Ref-ID": `${new Date().getTime()}`,
-          },
+          component: LoginLink({
+            siteName: env.NEXT_PUBLIC_APP_NAME,
+            url,
+            userName: user?.name,
+            userEmail: identifier,
+          }),
         });
       },
     }),
@@ -85,13 +78,11 @@ const handler = NextAuth({
         type: "communication",
         to: user.email,
         subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
-        component: (
-          <WelcomeEmail
-            siteName={env.NEXT_PUBLIC_APP_NAME}
-            userEmail={user.email}
-            unsubscribeUrl={unsubscribeUrl}
-          />
-        ),
+        component: WelcomeEmail({
+          siteName: env.NEXT_PUBLIC_APP_NAME,
+          userEmail: user.email,
+          unsubscribeUrl,
+        }),
       });
     },
   },

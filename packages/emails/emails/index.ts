@@ -21,18 +21,14 @@ const defaultOptions = {
 } satisfies Partial<CreateEmailOptions>;
 
 function buildSendMail() {
-  // const transporter = nodemailer.createTransport({
-  //   host: env.SMTP_HOST,
-  //   port: env.SMTP_PORT,
-  //   auth: {
-  //     user: env.SMTP_USER,
-  //     pass: env.SMTP_PASSWORD,
-  //   },
-  // });
-
   const resend = new Resend(env.RESEND_API_KEY);
 
-  return async ({ component, to, type, ...rest }: MailOptions) => {
+  return async ({
+    component,
+    to,
+    type,
+    ...rest
+  }: Omit<MailOptions, "from">) => {
     if (!to) {
       return null;
     }

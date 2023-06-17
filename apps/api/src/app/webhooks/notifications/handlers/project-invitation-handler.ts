@@ -87,13 +87,11 @@ export async function handleProjectInvitationNotification(
     type: "social",
     to: userEmail,
     subject: "You have been invited to a project",
-    component: (
-      <ProjectInvite
-        siteName={env.NEXT_PUBLIC_APP_NAME}
-        url={url}
-        userEmail={userEmail}
-      />
-    ),
+    component: ProjectInvite({
+      siteName: env.NEXT_PUBLIC_APP_NAME,
+      url,
+      userEmail,
+    }),
   });
 
   return new Response(null, {

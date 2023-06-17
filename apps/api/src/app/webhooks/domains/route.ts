@@ -121,17 +121,15 @@ export async function POST(req: Request) {
             type: "communication",
             to: project.owner.email,
             subject: `Your domain ${project.domain} is not configured`,
-            component: (
-              <InvalidDomain
-                siteName={env.NEXT_PUBLIC_APP_NAME}
-                projectId={project.id}
-                projectName={project.name}
-                domain={project.domain}
-                invalidDays={invalidDays}
-                ownerEmail={project.owner.email}
-                unsubscribeUrl={unsubscribeUrl}
-              />
-            ),
+            component: InvalidDomain({
+              siteName: env.NEXT_PUBLIC_APP_NAME,
+              projectId: project.id,
+              projectName: project.name,
+              domain: project.domain,
+              invalidDays,
+              ownerEmail: project.owner.email,
+              unsubscribeUrl,
+            }),
           });
 
           await tx
@@ -157,16 +155,14 @@ export async function POST(req: Request) {
           type: "communication",
           to: project.owner.email,
           subject: `Your ${project.domain} domain is not configured`,
-          component: (
-            <AutomaticProjectDeletion
-              siteName={env.NEXT_PUBLIC_APP_NAME}
-              projectName={project.name}
-              domain={project.domain}
-              invalidDays={invalidDays}
-              ownerEmail={project.owner.email}
-              unsubscribeUrl={unsubscribeUrl}
-            />
-          ),
+          component: AutomaticProjectDeletion({
+            siteName: env.NEXT_PUBLIC_APP_NAME,
+            projectName: project.name,
+            domain: project.domain,
+            invalidDays,
+            ownerEmail: project.owner.email,
+            unsubscribeUrl,
+          }),
         });
 
         await deleteProject(project);

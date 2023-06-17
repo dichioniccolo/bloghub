@@ -64,14 +64,12 @@ export async function handleRemovedFromProjectNotification(
     type: "social",
     to: userEmail,
     subject: "You have been removed from a project",
-    component: (
-      <RemovedFromProject
-        siteName={env.NEXT_PUBLIC_APP_NAME}
-        projectName={projectName}
-        unsubscribeUrl={unsubscribeUrl}
-        userEmail={userEmail}
-      />
-    ),
+    component: RemovedFromProject({
+      siteName: env.NEXT_PUBLIC_APP_NAME,
+      projectName,
+      unsubscribeUrl,
+      userEmail,
+    }),
   });
 
   return new Response(null, {

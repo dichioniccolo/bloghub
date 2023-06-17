@@ -11,11 +11,12 @@ export const env = createEnv({
     SMTP_PORT: z.string().min(1).transform(Number),
     SMTP_USER: z.string().min(1),
     SMTP_PASSWORD: z.string().min(1),
-    SMTP_FROM: z.preprocess(
-      // get from the string the value between the < and > characters
-      (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
-      z.string().email(),
-    ),
+    SMTP_FROM: z.string().min(1),
+    // z.preprocess(
+    //   // get from the string the value between the < and > characters
+    //   (str) => (typeof str === "string" ? str.match(/<(.*)>/)?.[1] : null),
+    //   z.string().email(),
+    // ),
     RESEND_API_KEY: z.string().min(1),
   },
   /**

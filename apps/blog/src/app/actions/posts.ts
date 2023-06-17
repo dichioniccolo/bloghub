@@ -23,6 +23,7 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
       id: posts.id,
       slug: posts.slug,
       title: posts.title,
+      description: posts.description,
       content: posts.content,
       createdAt: posts.createdAt,
       likesCount: sql<number>`count(${likes.userId})`.mapWith(Number),
@@ -36,7 +37,7 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
       posts.id,
       posts.slug,
       posts.title,
-      posts.thumbnailUrl,
+      posts.description,
       posts.content,
       posts.createdAt,
     );

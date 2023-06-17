@@ -6,12 +6,13 @@
   "packageRules": [
     {
       "matchPackagePatterns": [
-        "^@acme/"
+        "^@acme/",
+        "^@auth/adapter-drizzle"
       ],
       "enabled": false
     }
   ],
   "updateInternalDeps": true,
   "rangeStrategy": "bump",
-  "automerge": true
+  "automerge": false
 }
