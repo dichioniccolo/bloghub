@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import "@acme/editor/styles/tiptap.css";
 import "@acme/ui/styles/globals.css";
 
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import { authOptions } from "@acme/auth";
 
@@ -17,12 +17,6 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
-});
-
-const roboto_mono = Roboto_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto-mono",
 });
 
 export const metadata = {
@@ -94,7 +88,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className={cn(inter.variable, roboto_mono.variable)}>
+    <html lang="en" className={cn(inter.variable)}>
       <head />
       <body>
         <Providers session={session}>{children}</Providers>

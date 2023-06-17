@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  createRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type RefObject,
+} from "react";
 import { type Editor, type Range } from "@tiptap/core";
 
 import { type CommandItemProps } from "./items";
@@ -13,6 +20,20 @@ type Props = {
 export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const refs = useMemo(
+    () =>
+      items.reduce((acc, _item, index) => {
+        acc[index] = createRef();
+        return acc;
+      }, {} as Record<string, RefObject<HTMLButtonElement>>),
+    [items],
+  );
+
+  const scrollTo = (ref?: RefObject<HTMLButtonElement>) => {
+    ref?.current?.scrollIntoView({
+      block: "nearest",
+    });
+  };
   // const { complete, isLoading } = useCompletion({
   //   id: "novel",
   //   api: "/api/generate",
@@ -62,11 +83,15 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
       }
       e.preventDefault();
       if (e.key === "ArrowUp") {
-        setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+        const newIndex = (selectedIndex + items.length - 1) % items.length;
+        scrollTo(refs[newIndex]);
+        setSelectedIndex(newIndex);
         return true;
       }
       if (e.key === "ArrowDown") {
-        setSelectedIndex((selectedIndex + 1) % items.length);
+        const newIndex = (selectedIndex + 1) % items.length;
+        scrollTo(refs[newIndex]);
+        setSelectedIndex(newIndex);
         return true;
       }
       if (e.key === "Enter") {
@@ -79,7 +104,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [items, selectedIndex, setSelectedIndex, selectItem]);
+  }, [items, selectedIndex, setSelectedIndex, selectItem, refs]);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -90,6 +115,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
+            ref={refs[index]}
             className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
               index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
             }`}
