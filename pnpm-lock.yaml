@@ -590,8 +590,8 @@ importers:
         specifier: ^14.2.3
         version: 14.2.3(react@18.2.0)
       sonner:
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^0.5.0
+        version: 0.5.0(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge:
         specifier: ^1.13.2
         version: 1.13.2
@@ -821,8 +821,8 @@ importers:
         specifier: ^7.44.3
         version: 7.44.3(react@18.2.0)
       sonner:
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^0.5.0
+        version: 0.5.0(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge:
         specifier: ^1.13.2
         version: 1.13.2
@@ -10526,8 +10526,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /sonner@0.4.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-zEU/Mzur39xYPpyQOOCmN6YQftl5v+TSmdsmWEbWf6ovnOvnHyRwR7+/6BIBbzwRa8+3v06FJlpF7J3KS4Ll9Q==}
+  /sonner@0.5.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-V5L4918wScYxpe3x1H92MV0vSkUqRREu8dwFf7dDTQmRMQ58r1vzSKCsULZ5HCTqxNkfCdhQXHf7rRMaj/MukQ==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
