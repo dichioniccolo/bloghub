@@ -74,6 +74,8 @@ const config = {
   experimental: {
     serverActions: true,
   },
+  // only if deploying with docker
+  // output: "standalone",
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
     {
