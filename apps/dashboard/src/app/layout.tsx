@@ -19,78 +19,87 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata = {
-  title: {
-    default: env.NEXT_PUBLIC_APP_NAME,
-    template: `%s | ${env.NEXT_PUBLIC_APP_NAME}`,
-  },
-  description: env.NEXT_PUBLIC_APP_DESCRIPTION,
-  keywords: [
-    "Next.js",
-    "React",
-    "Drizzle ORM",
-    "Tailwind CSS",
-    "Server Components",
-    "Server Actions",
-    "Edge Runtime",
-    "Radix UI",
-    "shadcn/ui",
-  ],
-  authors: [
-    {
-      name: "Niccolò Di Chio",
-      url: "https://www.niccolodichio.it",
+export function generateMetadata() {
+  const ogImage = new URL("/api/og", env.NEXT_PUBLIC_APP_URL);
+  ogImage.searchParams.set("title", env.NEXT_PUBLIC_APP_NAME);
+  ogImage.searchParams.set("description", env.NEXT_PUBLIC_APP_DESCRIPTION);
+  ogImage.searchParams.set("theme", "dark");
+
+  return {
+    title: {
+      default: env.NEXT_PUBLIC_APP_NAME,
+      template: `%s | ${env.NEXT_PUBLIC_APP_NAME}`,
     },
-  ],
-  creator: "Niccolò Di Chio",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    // url: absoluteUrl(),
-    title: env.NEXT_PUBLIC_APP_NAME,
     description: env.NEXT_PUBLIC_APP_DESCRIPTION,
-    siteName: env.NEXT_PUBLIC_APP_NAME,
-    // images: [
-    //   {
-    //     url: subdomainUrl("api", "og"),
-    //     width: 1200,
-    //     height: 630,
-    //     alt: env.NEXT_PUBLIC_APP_NAME,
-    //   },
-    // ],
-  },
-  // twitter: {
-  //   card: "summary_large_image",
-  //   title: env.NEXT_PUBLIC_APP_NAME,
-  //   description: env.NEXT_PUBLIC_APP_DESCRIPTION,
-  //   images: [subdomainUrl("api", "og")],
-  // },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    keywords: [
+      "Next.js",
+      "React",
+      "Drizzle ORM",
+      "Tailwind CSS",
+      "Server Components",
+      "Server Actions",
+      "Edge Runtime",
+      "Radix UI",
+      "shadcn/ui",
+    ],
+    authors: [
+      {
+        name: "dichioniccolo",
+        url: "https://github.com/dichioniccolo",
+      },
+    ],
+    creator: "dichioniccolo",
+    themeColor: [
+      { media: "(prefers-color-scheme: light)", color: "white" },
+      { media: "(prefers-color-scheme: dark)", color: "black" },
+    ],
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      url: env.NEXT_PUBLIC_APP_URL,
+      title: env.NEXT_PUBLIC_APP_NAME,
+      description: env.NEXT_PUBLIC_APP_DESCRIPTION,
+      siteName: env.NEXT_PUBLIC_APP_NAME,
+      images: [
+        {
+          url: ogImage,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: env.NEXT_PUBLIC_APP_NAME,
+      description: env.NEXT_PUBLIC_APP_DESCRIPTION,
+      images: [ogImage],
+      creator: "@niccolodichio",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  // TODO: change
-  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-} satisfies Metadata;
+    metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
+  } satisfies Metadata;
+}
 
 export default async function Layout({ children }: PropsWithChildren) {
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className={cn(inter.variable)}>
+    <html lang="en" suppressHydrationWarning>
       <head />
-      <body>
+      <body
+        className={cn(
+          "font-sams min-h-screen bg-background antialiased",
+          inter.variable,
+        )}
+      >
         <Providers session={session}>{children}</Providers>
       </body>
     </html>
