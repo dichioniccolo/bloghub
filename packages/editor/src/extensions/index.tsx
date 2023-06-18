@@ -8,7 +8,6 @@ import StarterKit from "@tiptap/starter-kit";
 import { ColorHighlighter } from "./color-highlighter";
 import { SlashCommand } from "./commands";
 import { ImageExtension } from "./media/image";
-import { VideoExtension } from "./media/video";
 import { SmilieReplacer } from "./smile-replacer";
 
 export const TiptapExtensions = (
@@ -64,7 +63,7 @@ export const TiptapExtensions = (
     includeChildren: true,
   }),
   ImageExtension(userId, projectId, postId),
-  VideoExtension(userId, projectId, postId),
+  // VideoExtension(userId, projectId, postId),
   SlashCommand,
   Youtube,
   TiptapLink.configure({

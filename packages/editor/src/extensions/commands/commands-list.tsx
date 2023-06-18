@@ -8,6 +8,7 @@ import {
 } from "react";
 import { type Editor, type Range } from "@tiptap/core";
 
+import { useUploader } from "../../custom-extensions/uploader/context";
 import { type CommandItemProps } from "./items";
 
 type Props = {
@@ -19,6 +20,8 @@ type Props = {
 
 export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const { setOpen, setRange } = useUploader();
 
   const refs = useMemo(
     () =>
@@ -60,19 +63,21 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
   const selectItem = useCallback(
     (index: number) => {
       const item = items[index];
-      // va.track("Slash Command Used", {
-      //   command: item.title,
-      // });
-      if (item) {
-        // if (item.title === "Continue writing") {
-        //   const text = editor.getText();
-        //   complete(text);
-        // } else {
+      if (!item) {
+        return;
+      }
+
+      if (typeof item.custom !== "undefined") {
+        setRange(range);
+        if (item.custom === "uploader") {
+          setOpen(true);
+          command(item, editor, range);
+        }
+      } else {
         command(item, editor, range);
-        // }
       }
     },
-    [command, items, editor, range],
+    [items, setOpen, setRange, command, editor, range],
   );
 
   useEffect(() => {
