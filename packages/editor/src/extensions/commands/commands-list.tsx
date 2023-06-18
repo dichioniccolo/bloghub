@@ -1,10 +1,9 @@
 import {
-  createRef,
   useCallback,
   useEffect,
-  useMemo,
+  useLayoutEffect,
+  useRef,
   useState,
-  type RefObject,
 } from "react";
 import { type Editor, type Range } from "@tiptap/core";
 
@@ -18,47 +17,24 @@ type Props = {
   range: Range;
 };
 
+const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
+  const containerHeight = container.offsetHeight;
+  const itemHeight = item ? item.offsetHeight : 0;
+
+  const top = item.offsetTop;
+  const bottom = top + itemHeight;
+
+  if (top < container.scrollTop) {
+    container.scrollTop -= container.scrollTop - top + 5;
+  } else if (bottom > containerHeight + container.scrollTop) {
+    container.scrollTop += bottom - containerHeight - container.scrollTop + 5;
+  }
+};
+
 export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { setOpen, setRange } = useUploader();
-
-  const refs = useMemo(
-    () =>
-      items.reduce((acc, _item, index) => {
-        acc[index] = createRef();
-        return acc;
-      }, {} as Record<string, RefObject<HTMLButtonElement>>),
-    [items],
-  );
-
-  const scrollTo = (ref?: RefObject<HTMLButtonElement>) => {
-    ref?.current?.scrollIntoView({
-      block: "nearest",
-    });
-  };
-  // const { complete, isLoading } = useCompletion({
-  //   id: "novel",
-  //   api: "/api/generate",
-  //   onResponse: (response) => {
-  //     if (response.status === 429) {
-  //       toast.error("You have reached your request limit for the day.");
-  //       va.track("Rate Limit Reached");
-  //       return;
-  //     }
-  //     editor.chain().focus().deleteRange(range).run();
-  //   },
-  //   onFinish: (_prompt, completion) => {
-  //     // highlight the generated text
-  //     editor.commands.setTextSelection({
-  //       from: range.from,
-  //       to: range.from + completion.length,
-  //     });
-  //   },
-  //   onError: () => {
-  //     toast.error("Something went wrong.");
-  //   },
-  // });
 
   const selectItem = useCallback(
     (index: number) => {
@@ -88,15 +64,13 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
       }
       e.preventDefault();
       if (e.key === "ArrowUp") {
-        const newIndex = (selectedIndex + items.length - 1) % items.length;
-        scrollTo(refs[newIndex]);
-        setSelectedIndex(newIndex);
+        setSelectedIndex(
+          (selectedIndex) => (selectedIndex + items.length - 1) % items.length,
+        );
         return true;
       }
       if (e.key === "ArrowDown") {
-        const newIndex = (selectedIndex + 1) % items.length;
-        scrollTo(refs[newIndex]);
-        setSelectedIndex(newIndex);
+        setSelectedIndex((selectedIndex) => (selectedIndex + 1) % items.length);
         return true;
       }
       if (e.key === "Enter") {
@@ -109,18 +83,30 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [items, selectedIndex, setSelectedIndex, selectItem, refs]);
+  }, [items, selectedIndex, setSelectedIndex, selectItem]);
 
   useEffect(() => {
     setSelectedIndex(0);
   }, [items]);
 
+  const commandListContainer = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const container = commandListContainer?.current;
+
+    const item = container?.children[selectedIndex] as HTMLElement;
+
+    if (item && container) updateScrollView(container, item);
+  }, [selectedIndex]);
+
   return items.length > 0 ? (
-    <div className="z-50 h-auto max-h-[350px] w-72 overflow-y-auto rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all">
+    <div
+      ref={commandListContainer}
+      className="z-50 h-auto max-h-[350px] w-72 overflow-y-auto rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all"
+    >
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            ref={refs[index]}
             className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
               index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
             }`}
@@ -128,11 +114,6 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
             onClick={() => selectItem(index)}
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-white">
-              {/* {item.title === "Continue writing" && isLoading ? (
-                <LoadingCircle />
-              ) : (
-                item.icon
-              )} */}
               {item.icon}
             </div>
             <div>
