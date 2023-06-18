@@ -10,6 +10,10 @@ export async function recordVisit(req: NextRequest, domain: string) {
   const ua = userAgent(req);
   const isPostPage = keys.startsWith("/posts/");
 
+  if (!isPostPage) {
+    return;
+  }
+
   const project = await db
     .select({
       id: projects.id,
@@ -17,10 +21,6 @@ export async function recordVisit(req: NextRequest, domain: string) {
     .from(projects)
     .where(eq(projects.domain, domain))
     .then((x) => x[0]);
-
-  if (!isPostPage) {
-    return;
-  }
 
   if (!project) {
     return;

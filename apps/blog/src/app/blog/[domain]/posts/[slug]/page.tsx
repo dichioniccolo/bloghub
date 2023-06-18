@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Editor } from "@acme/editor";
 import { BlurImage } from "@acme/ui";
 
-import { getPostBySlug } from "~/app/actions/posts";
+import { getPostBySlug } from "~/app/_actions/posts";
 import { RandomPosts } from "./_components/random-posts";
 
 type Props = {

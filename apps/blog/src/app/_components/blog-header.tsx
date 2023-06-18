@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BlurImage, useScroll } from "@acme/ui";
 
 import { cn } from "~/lib/utils";
-import { type GetProjectByDomain } from "../actions/projects";
+import { type GetProjectByDomain } from "../_actions/projects";
 import { ToggleTheme } from "./toggle-theme";
 
 type Props = {
@@ -16,7 +16,7 @@ export function BlogHeader({ project }: Props) {
   const scrolled = useScroll(80);
 
   return (
-    <div
+    <header
       className={cn(
         "ease sticky inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20 transition-all",
         {
@@ -48,6 +48,6 @@ export function BlogHeader({ project }: Props) {
       <div className="flex h-full ">
         <ToggleTheme />
       </div>
-    </div>
+    </header>
   );
 }

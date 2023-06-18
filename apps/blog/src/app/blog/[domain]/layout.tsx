@@ -1,7 +1,8 @@
 import { type PropsWithChildren } from "react";
 
+import { getProjectByDomain } from "~/app/_actions/projects";
+import { BlogFooter } from "~/app/_components/blog-footer";
 import { BlogHeader } from "~/app/_components/blog-header";
-import { getProjectByDomain } from "~/app/actions/projects";
 
 type Props = {
   params: {
@@ -20,9 +21,10 @@ export default async function Layout({
   }
 
   return (
-    <div>
+    <div className="container">
       <BlogHeader project={project} />
       {children}
+      <BlogFooter project={project} />
     </div>
   );
 }

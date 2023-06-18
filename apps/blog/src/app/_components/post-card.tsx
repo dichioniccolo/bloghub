@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { BlogRoutes } from "@acme/common/routes";
 import { BlurImage } from "@acme/ui";
 
-import { type GetRandomPostsByDomain } from "../actions/posts";
+import { type GetRandomPostsByDomain } from "../_actions/posts";
 
 type Props = {
   post: GetRandomPostsByDomain[number];

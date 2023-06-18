@@ -87,11 +87,3 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
-
-.ProseMirror .is-empty::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #ced4da;
-  pointer-events: none;
-  height: 0;
-}
