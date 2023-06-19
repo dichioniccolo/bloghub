@@ -61,6 +61,18 @@ export function Editor({
     },
     onError: () => {
       toast.error("Something went wrong.");
+      if (
+        editor?.state.doc.textBetween(
+          editor.state.selection.from - 5,
+          editor.state.selection.from,
+          "\n",
+        ) === "🤖..."
+      ) {
+        editor?.commands.deleteRange({
+          from: editor.state.selection.from - 5,
+          to: editor.state.selection.from,
+        });
+      }
     },
   });
 

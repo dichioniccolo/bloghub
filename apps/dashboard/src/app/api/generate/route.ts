@@ -3,7 +3,11 @@ import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
+import { isUserPro } from "@acme/common/external/stripe/actions";
+import { db, eq, users } from "@acme/db";
+
 import { env } from "~/env.mjs";
+import { $getUser } from "~/lib/shared/get-user";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 
 const config = new Configuration({
@@ -11,9 +15,34 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-export const runtime = "edge";
+// until we move to clerk, we cannot use edge
+// export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
+  const user = await $getUser();
+
+  const dbUser = await db
+    .select({
+      stripeSubscriptionId: users.stripeSubscriptionId,
+    })
+    .from(users)
+    .where(eq(users.id, user.id))
+    .then((x) => x[0]!);
+
+  if (!dbUser) {
+    return new Response("Unauthorized", {
+      status: 401,
+    });
+  }
+
+  const isPro = await isUserPro(dbUser.stripeSubscriptionId);
+
+  if (!isPro) {
+    return new Response("Forbidden", {
+      status: 403,
+    });
+  }
+
   if (env.NODE_ENV !== "development") {
     const ip = req.headers.get("x-forwarded-for");
     const ratelimit = new Ratelimit({
