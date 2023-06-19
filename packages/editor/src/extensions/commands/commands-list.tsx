@@ -41,6 +41,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
       }
 
       // ideally here we'd want to call the handler for the selected item.
+      // this could be even put react contexts, in order to be able to use
       command(item, editor, range);
     },
     [items, command, editor, range],
