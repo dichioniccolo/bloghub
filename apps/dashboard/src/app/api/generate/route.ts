@@ -78,10 +78,12 @@ export async function POST(req: Request): Promise<Response> {
 
   // remove line breaks,
   // remove trailing slash
+  // remove "🤖..." if present
   // limit to 5000 characters
   const promptCleaned = prompt
     .replace(/\n/g, " ")
     .replace(/\/$/, "")
+    .replace("🤖...", "")
     .slice(0, 5000);
 
   const response = await openai.createChatCompletion({
