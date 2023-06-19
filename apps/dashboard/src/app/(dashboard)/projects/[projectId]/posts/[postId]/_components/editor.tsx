@@ -1,0 +1,169 @@
+import { useCallback, useEffect, useRef } from "react";
+import { useCompletion } from "ai/react";
+
+import {
+  ColorHighlighter,
+  EditableImageExtension,
+  EditorContent,
+  HorizontalRuleExtension,
+  Placeholder,
+  SlashCommand,
+  SmileReplacer,
+  StarterKit,
+  TiptapLink,
+  useEditor,
+  Youtube,
+  type Editor as EditorType,
+} from "@acme/editor";
+import { toast } from "@acme/ui";
+
+import { Icons } from "~/app/_components/icons";
+import { useUser } from "~/hooks/use-user";
+
+type Props = {
+  setStatus?(status: "saved" | "unsaved" | "saving"): void;
+  value: string;
+  onChange?(value: string): void;
+  projectId: string;
+  postId: string;
+};
+
+export function Editor({
+  setStatus,
+  value,
+  onChange,
+  projectId,
+  postId,
+}: Props) {
+  const user = useUser();
+
+  const { complete, completion, isLoading, stop } = useCompletion({
+    id: "editor",
+    api: "/api/generate",
+    onResponse: (response) => {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
+        return;
+      }
+    },
+    onFinish: (_prompt, completion) => {
+      editor?.commands.setTextSelection({
+        from: editor.state.selection.from - completion.length,
+        to: editor.state.selection.from,
+      });
+    },
+    onError: () => {
+      toast.error("Something went wrong.");
+    },
+  });
+
+  const onUpdate = useCallback(
+    ({ editor }: { editor: EditorType }) => {
+      setStatus?.("unsaved");
+
+      const selection = editor.state.selection;
+      const lastTwo = editor.state.doc.textBetween(
+        selection.from - 2,
+        selection.from,
+        "\n",
+      );
+      if (lastTwo === "++" && !isLoading) {
+        editor.commands.deleteRange({
+          from: selection.from - 2,
+          to: selection.from,
+        });
+        editor.commands.insertContent("🤖...");
+        void complete(editor.getText());
+      } else {
+        onChange?.(editor.getHTML());
+      }
+    },
+    [complete, isLoading, onChange, setStatus],
+  );
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      ColorHighlighter,
+      HorizontalRuleExtension,
+      EditableImageExtension(user.id, projectId, postId),
+      Placeholder,
+      SlashCommand,
+      SmileReplacer,
+      TiptapLink,
+      Youtube,
+    ],
+    content: value,
+    onUpdate,
+    autofocus: "end",
+  });
+
+  const prev = useRef("");
+
+  // Insert chunks of the generated text
+  useEffect(() => {
+    // remove 🤖... and insert the generated text
+    if (
+      completion.length > 0 &&
+      editor?.state.doc.textBetween(
+        editor.state.selection.from - 5,
+        editor.state.selection.from,
+        "\n",
+      ) === "🤖..."
+    ) {
+      editor?.commands.deleteRange({
+        from: editor.state.selection.from - 5,
+        to: editor.state.selection.from,
+      });
+    }
+    const diff = completion.slice(prev.current.length);
+    prev.current = completion;
+    editor?.commands.insertContent(diff, {
+      parseOptions: {
+        preserveWhitespace: "full",
+      },
+    });
+  }, [isLoading, editor, completion]);
+
+  useEffect(() => {
+    // if user presses escape or cmd + z and it's loading,
+    // stop the request, delete the completion, and insert back the "++"
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || (e.metaKey && e.key === "z")) {
+        stop();
+        if (e.key === "Escape") {
+          editor?.commands.deleteRange({
+            from: editor.state.selection.from - completion.length,
+            to: editor.state.selection.from,
+          });
+        }
+        editor?.commands.insertContent("++");
+      }
+    };
+    if (isLoading) {
+      document.addEventListener("keydown", onKeyDown);
+    }
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [stop, isLoading, editor, completion.length]);
+
+  if (!editor) {
+    return (
+      <div className="flex h-full min-h-[500px] w-full items-center justify-center">
+        <Icons.spinner className="h-6 w-6 animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      onClick={() => {
+        editor.chain().focus().run();
+      }}
+      className="relative min-h-[500px] w-full px-0 py-12 sm:mb-[20vh]"
+    >
+      <EditorContent editor={editor} />
+    </div>
+  );
+}

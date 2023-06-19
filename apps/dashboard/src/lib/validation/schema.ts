@@ -57,3 +57,7 @@ export const EditNotificationsSchema = z.object({
 export type EditNotificationsSchemaType = z.input<
   typeof EditNotificationsSchema
 >;
+
+export const AiGenerateSchema = z.object({
+  prompt: z.string().nonempty(),
+});

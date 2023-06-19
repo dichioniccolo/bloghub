@@ -3,6 +3,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Copyright,
+  Loader2,
   Moon,
   SunMedium,
   type Icon as LucideIcon,
@@ -16,7 +17,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   copyright: Copyright,
-
+  spinner: Loader2,
   logo: ({ className, ...props }) => (
     <svg
       {...props}

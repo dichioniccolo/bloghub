@@ -20,6 +20,11 @@ export const env = createEnv({
     NEXTAUTH_SECRET: z.string().min(1),
     DO_CDN_URL: z.string().url(),
     QSTASH_TOKEN: z.string().min(1),
+    OPENAI_API_KEY: z.string().min(1),
+    KV_URL: z.string().url(),
+    KV_REST_API_URL: z.string().url(),
+    KV_REST_API_TOKEN: z.string().min(1),
+    KV_REST_API_READ_ONLY_TOKEN: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -53,5 +58,10 @@ export const env = createEnv({
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     DO_CDN_URL: process.env.DO_CDN_URL,
     QSTASH_TOKEN: process.env.QSTASH_TOKEN,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    KV_URL: process.env.KV_URL,
+    KV_REST_API_URL: process.env.KV_REST_API_URL,
+    KV_REST_API_TOKEN: process.env.KV_REST_API_TOKEN,
+    KV_REST_API_READ_ONLY_TOKEN: process.env.KV_REST_API_READ_ONLY_TOKEN,
   },
 });

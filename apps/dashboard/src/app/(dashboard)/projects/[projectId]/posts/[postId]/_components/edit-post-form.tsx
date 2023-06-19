@@ -2,8 +2,9 @@
 
 import { useCallback, useState } from "react";
 
-import { Editor } from "@acme/editor";
 import {
+  AutoSave,
+  Badge,
   Form,
   FormControl,
   FormField,
@@ -20,7 +21,7 @@ import {
   EditPostSchema,
   type EditPostSchemaType,
 } from "~/lib/validation/schema";
-import { EditPostFormToolbar } from "./edit-post-form-toolbar";
+import { Editor } from "./editor";
 
 type Props = {
   post: NonNullable<GetPost>;
@@ -63,14 +64,17 @@ export function EditPostForm({ post }: Props) {
       schema={EditPostSchema}
       onSubmit={onSubmit}
       initialValues={initialValues}
-      className="grid grid-cols-1 gap-2 overflow-hidden"
+      className="relative grid grid-cols-1 gap-2 overflow-hidden"
       disableOnSubmitting={false}
     >
-      <EditPostFormToolbar
-        post={post}
-        onSubmit={onSubmit}
-        initialValues={initialValues}
-      />
+      <AutoSave onSubmit={onSubmit} initialValues={initialValues} />
+      <Badge className="absolute right-5 top-2">
+        {formStatus === "unsaved"
+          ? "Unsaved"
+          : formStatus === "saving"
+          ? "Saving..."
+          : "Saved"}
+      </Badge>
       <FormField
         name="title"
         render={({ field }) => (
@@ -93,9 +97,7 @@ export function EditPostForm({ post }: Props) {
           <FormItem>
             <FormControl>
               <Editor
-                status={formStatus}
                 setStatus={setFormStatus}
-                userId={user.id}
                 projectId={post.projectId}
                 postId={post.id}
                 value={field.value}

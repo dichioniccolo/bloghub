@@ -173,3 +173,11 @@ export const useAutoSaveForm = <S extends z.ZodType>({
     isAutosaving: form.formState.isSubmitting,
   };
 };
+
+export function AutoSave<S extends z.ZodType>({
+  ...options
+}: AutoSaveProps<S>) {
+  useAutoSaveForm(options);
+
+  return null;
+}
