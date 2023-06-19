@@ -1,12 +1,12 @@
 import Focus from "@tiptap/extension-focus";
 import TiptapLink from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import Typography from "@tiptap/extension-typography";
 import Youtube from "@tiptap/extension-youtube";
 import StarterKit from "@tiptap/starter-kit";
 
 import { ColorHighlighter } from "./color-highlighter";
 import { SlashCommand } from "./commands";
+import { HorizontalRuleExtension } from "./horizontal-rule";
 import { ImageExtension } from "./media/image";
 import { SmilieReplacer } from "./smile-replacer";
 
@@ -48,8 +48,12 @@ export const TiptapExtensions = (
       },
     },
   }),
+  HorizontalRuleExtension.configure({
+    HTMLAttributes: {
+      class: "my-4 border-t border-border",
+    },
+  }),
   Focus,
-  Typography,
   ColorHighlighter,
   SmilieReplacer,
   Placeholder.configure({

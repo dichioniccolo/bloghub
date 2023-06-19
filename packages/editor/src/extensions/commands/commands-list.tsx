@@ -7,7 +7,6 @@ import {
 } from "react";
 import { type Editor, type Range } from "@tiptap/core";
 
-import { useUploader } from "../../custom-extensions/uploader/context";
 import { type CommandItemProps } from "./items";
 
 type Props = {
@@ -34,8 +33,6 @@ const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
 export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const { setOpen, setRange } = useUploader();
-
   const selectItem = useCallback(
     (index: number) => {
       const item = items[index];
@@ -43,17 +40,10 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
         return;
       }
 
-      if (typeof item.custom !== "undefined") {
-        setRange(range);
-        if (item.custom === "uploader") {
-          setOpen(true);
-          command(item, editor, range);
-        }
-      } else {
-        command(item, editor, range);
-      }
+      // ideally here we'd want to call the handler for the selected item.
+      command(item, editor, range);
     },
-    [items, setOpen, setRange, command, editor, range],
+    [items, command, editor, range],
   );
 
   useEffect(() => {

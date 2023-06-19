@@ -81,10 +81,10 @@ const config = {
   // only if deploying with docker
   // output: "standalone",
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
+  // i18n: {
+  //   locales: ["en"],
+  //   defaultLocale: "en",
+  // },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
     {

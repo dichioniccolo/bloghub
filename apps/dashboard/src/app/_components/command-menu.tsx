@@ -84,9 +84,9 @@ export function CommandMenu({ ...props }: DialogProps) {
               <Icons.sun className="mr-2 h-4 w-4" />
               Light
             </CommandItem>
-            <CommandItem disabled onSelect={runCommand(() => setTheme("dark"))}>
+            <CommandItem onSelect={runCommand(() => setTheme("dark"))}>
               <Icons.moon className="mr-2 h-4 w-4" />
-              Dark (WIP)
+              Dark
             </CommandItem>
             <CommandItem onSelect={runCommand(() => setTheme("system"))}>
               <Icons.laptop className="mr-2 h-4 w-4" />

@@ -5,7 +5,6 @@ import { type Editor as EditorType } from "@tiptap/core";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Loader2 } from "lucide-react";
 
-import { Providers } from "./custom-extensions/providers";
 import { TiptapExtensions } from "./extensions";
 import { TiptapEditorProps } from "./props";
 
@@ -101,30 +100,22 @@ export function Editor({
   }
 
   return (
-    <Providers
-      editor={editor}
-      editable={editable}
-      userId={userId}
-      projectId={projectId}
-      postId={postId}
+    <div
+      onClick={() => {
+        editor?.chain().focus().run();
+      }}
+      className="relative min-h-[500px] w-full px-0 py-12 sm:mb-[20vh]"
     >
-      <div
-        onClick={() => {
-          editor?.chain().focus().run();
-        }}
-        className="relative min-h-[500px] w-full px-0 py-12 sm:mb-[20vh]"
-      >
-        {editable && status && (
-          <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
-            {status === "unsaved"
-              ? "Unsaved"
-              : status === "saving"
-              ? "Saving..."
-              : "Saved"}
-          </div>
-        )}
-        <EditorContent editor={editor} />
-      </div>
-    </Providers>
+      {editable && status && (
+        <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
+          {status === "unsaved"
+            ? "Unsaved"
+            : status === "saving"
+            ? "Saving..."
+            : "Saved"}
+        </div>
+      )}
+      <EditorContent editor={editor} />
+    </div>
   );
 }

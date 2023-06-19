@@ -94,23 +94,10 @@ const config = {
   // only if deploying with docker
   // output: "standalone",
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
-  webpack: (config) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    config.externals.push(
-      {
-        "utf-8-validate": "commonjs utf-8-validate",
-        bufferutil: "commonjs bufferutil",
-      },
-      "canvas",
-    );
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return config;
-  },
+  // i18n: {
+  //   locales: ["en"],
+  //   defaultLocale: "en",
+  // },
 };
 
 export default config;

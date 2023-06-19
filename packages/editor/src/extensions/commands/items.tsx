@@ -5,12 +5,10 @@ import {
   Divide,
   Heading1,
   Heading2,
-  Image,
   Italic,
   List,
   ListOrdered,
   Sparkle,
-  Video,
 } from "lucide-react";
 
 type Command = {
@@ -19,7 +17,6 @@ type Command = {
 };
 
 export type CommandItemProps = {
-  custom?: "uploader";
   title: string;
   description: string;
   icon: ReactNode;
@@ -101,31 +98,6 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         icon: <Divide size={24} />,
         command: ({ editor, range }) => {
           editor.chain().focus().deleteRange(range).setHorizontalRule().run();
-        },
-      },
-      {
-        custom: "uploader",
-        title: "Image",
-        description: "Upload an image",
-        // eslint-disable-next-line jsx-a11y/alt-text
-        icon: <Image size={24} />,
-        command: () => {
-          // empty, we handle with key
-        },
-      },
-      {
-        title: "Video",
-        description: "Upload a video",
-        icon: <Video size={24} />,
-        command: ({ editor, range }) => {
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .setVideo({
-              src: "",
-            })
-            .run();
         },
       },
     ] as CommandItemProps[]
