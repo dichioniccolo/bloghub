@@ -11,6 +11,7 @@ import {
   SmileReplacer,
   StarterKit,
   TiptapLink,
+  Underline,
   useEditor,
   Youtube,
   type Editor as EditorType,
@@ -19,6 +20,7 @@ import { toast } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
+import { EditorBubbleMenu } from "./editor-bubble-menu";
 
 type Props = {
   setStatus?(status: "saved" | "unsaved" | "saving"): void;
@@ -62,11 +64,13 @@ export function Editor({
       setStatus?.("unsaved");
 
       const selection = editor.state.selection;
+
       const lastTwo = editor.state.doc.textBetween(
         selection.from - 2,
         selection.from,
         "\n",
       );
+
       if (lastTwo === "++" && !isLoading) {
         editor.commands.deleteRange({
           from: selection.from - 2,
@@ -92,6 +96,7 @@ export function Editor({
       SmileReplacer,
       TiptapLink,
       Youtube,
+      Underline,
     ],
     content: value,
     onUpdate,
@@ -164,6 +169,7 @@ export function Editor({
       className="relative min-h-[500px] w-full px-0 py-12 sm:mb-[20vh]"
     >
       <EditorContent editor={editor} />
+      <EditorBubbleMenu editor={editor} />
     </div>
   );
 }

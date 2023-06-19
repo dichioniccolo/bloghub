@@ -1,5 +1,6 @@
 import TiptapLink from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
 import StarterKit from "@tiptap/starter-kit";
 
@@ -79,5 +80,6 @@ export {
   SmileReplacer,
   StarterKitX as StarterKit,
   TiptapLinkX as TiptapLink,
+  Underline,
   YoutubeX as Youtube,
 };
