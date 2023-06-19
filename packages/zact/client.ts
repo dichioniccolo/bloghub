@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useCallback, useRef, useState, useTransition } from "react";
@@ -25,7 +26,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   const mutate = useCallback(
     (input: z.input<InputType>) => {
       return new Promise((resolve, reject) => {
-        // @ts-expect-error start transition should include a Promise<void>
+        // @ts-ignore
         startTransition(async () => {
           if (callback?.onBeforeAction) {
             callback.onBeforeAction(input);

@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { type DialogProps } from "@radix-ui/react-alert-dialog";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 import { AppRoutes } from "@acme/common/routes";
 import {
@@ -15,13 +14,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  type CommandDialogProps,
 } from "@acme/ui";
 
 import { cn } from "~/lib/utils";
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 import { Icons } from "./icons";
 
-export function CommandMenu({ ...props }: DialogProps) {
+export function CommandMenu({ ...props }: CommandDialogProps) {
   const { setTheme } = useTheme();
 
   const router = useRouter();

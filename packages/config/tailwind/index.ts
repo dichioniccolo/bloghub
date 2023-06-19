@@ -1,5 +1,10 @@
 import type { Config } from "tailwindcss";
 
+import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
+// @ts-expect-error no types
+import animate from 'tailwindcss-animate';
+
 export default {
   darkMode: "class",
   content: [""],
@@ -54,7 +59,6 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
-        mono: ["var(--font-roboto-mono)"],
       },
       keyframes: {
         "accordion-down": {
@@ -76,8 +80,8 @@ export default {
     },
   },
   plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/typography"),
-    require("tailwindcss-animate"),
+    forms,
+    typography,
+    animate,
   ],
 } satisfies Config;

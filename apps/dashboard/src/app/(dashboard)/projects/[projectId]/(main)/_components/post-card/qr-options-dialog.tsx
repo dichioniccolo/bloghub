@@ -101,9 +101,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
         const item = new ClipboardItem({ "image/png": blob });
         await navigator.clipboard.write([item]);
 
-        toast({
-          title: "Copied!",
-        });
+        toast.success("Copied!");
       });
     } catch {
       toast.error(
