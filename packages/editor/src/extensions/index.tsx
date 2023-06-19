@@ -11,6 +11,7 @@ import { EditableImageExtension, ImageExtension } from "./media/image";
 import { SmileReplacer } from "./smile-replacer";
 
 const StarterKitX = StarterKit.configure({
+  history: false,
   bulletList: {
     HTMLAttributes: {
       class: "list-disc list-outside leading-3",
@@ -83,3 +84,5 @@ export {
   Underline,
   YoutubeX as Youtube,
 };
+
+export * from "./collaboration";

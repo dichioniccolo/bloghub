@@ -12,6 +12,8 @@ import {
   StarterKit,
   TiptapLink,
   Underline,
+  // useConnection,
+  // useConnectionStatus,
   useEditor,
   Youtube,
   type Editor as EditorType,
@@ -38,6 +40,9 @@ export function Editor({
   postId,
 }: Props) {
   const user = useUser();
+
+  // useConnection();
+  // const connectionStatus = useConnectionStatus();
 
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "editor",
@@ -170,6 +175,28 @@ export function Editor({
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
+      {/* <footer className="bottom-8 flex flex-row items-center text-sm">
+        <div
+          className={
+            "before:content-[' '] flex items-center gap-1.5 before:block before:h-2 before:w-2 before:rounded-full before:bg-stone-300 data-[status='connected']:before:bg-emerald-500"
+          }
+          data-status={connectionStatus}
+        >
+          {connectionStatus === "connected"
+            ? `${editor.storage.collaborationCursor.users.length} user${
+                editor.storage.collaborationCursor.users.length === 1 ? "" : "s"
+              } online`
+            : "offline"}
+        </div>
+        <div
+          className="ml-auto rounded-lg border border-stone-100 px-2 py-1 transition-colors hover:border-stone-400"
+          style={{
+            opacity: user.name ? 1 : 0,
+          }}
+        >
+          {user.name}
+        </div>
+      </footer> */}
     </div>
   );
 }

@@ -22,4 +22,43 @@ This is an open source blog app built with everything new in Next.js 13. It is b
 - Blog with posts
 - Post editor built with TipTap
 
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/dichioniccolo/bloghub
+```
+
+### 2. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Create a `.env` file or stick with Doppler
+
+Personally I use doppler for all my environment variables,
+but feel free to create a `.env` file in the root directory and add the environment variables there.
+
+### 4. Run the application
+
+```bash
+pnpm run dev
+```
+
+### 5. Push database
+
+```bash
+pnpm run db:push
+```
+
+### 6. Listen for stripe events
+
+```bash
+pnpm run stripe:listen
+```
+
 ## How do I deploy this?
+
+Follow the deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
