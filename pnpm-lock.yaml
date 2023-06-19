@@ -281,8 +281,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(next@13.4.6)(react-dom@18.2.0)(react@18.2.0)
       pusher-js:
-        specifier: ^8.1.0
-        version: 8.1.0
+        specifier: ^8.2.0
+        version: 8.2.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -9925,8 +9925,8 @@ packages:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}
     engines: {node: '>=6'}
 
-  /pusher-js@8.1.0:
-    resolution: {integrity: sha512-uccd3kMmcT4c1WB88/DNm6NZsK2Keu0gcSz68EjNJKyXhGQUFCWf3TFuNOCu8lr2LTSbtt+TES4Lg5Qs46NULA==}
+  /pusher-js@8.2.0:
+    resolution: {integrity: sha512-t3WhhR7vgAr5ARl0VNiAqXOb7g4hyW7CNA9Q11tnlcn8dX+1bFZhgRP6IqWVzTX9n7fgjcji3UQ3y8FEMc1o7Q==}
     dependencies:
       tweetnacl: 1.0.3
     dev: false
