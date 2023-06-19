@@ -1,9 +1,9 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
 
 import { AppRoutes } from "@acme/common/routes";
 import {

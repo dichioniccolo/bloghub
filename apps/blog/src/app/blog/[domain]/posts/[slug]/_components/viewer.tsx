@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ColorHighlighter,
   EditorContent,
@@ -8,6 +10,7 @@ import {
   SmileReplacer,
   StarterKit,
   TiptapLink,
+  Underline,
   useEditor,
   Youtube,
 } from "@acme/editor";
@@ -31,6 +34,7 @@ export function Viewer({ value }: Props) {
       SmileReplacer,
       TiptapLink,
       Youtube,
+      Underline,
     ],
     content: value,
   });

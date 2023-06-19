@@ -66,11 +66,6 @@ export const ImageExtension = Node.create({
     },
   ],
   renderHTML: ({ HTMLAttributes }) => ["img", HTMLAttributes],
-  // addNodeView() {
-  //   return ReactNodeViewRenderer(
-  //     ImageExtensionView(userId, projectId, postId),
-  //   );
-  // },
   addCommands() {
     return {
       setImage:
