@@ -47,7 +47,7 @@ export function EditPostForm({ post }: Props) {
         postId: post.id,
         body: {
           title,
-          content,
+          content: JSON.stringify(content),
         },
       });
     },

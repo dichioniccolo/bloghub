@@ -7,11 +7,10 @@ import StarterKit from "@tiptap/starter-kit";
 import { ColorHighlighter } from "./color-highlighter";
 import { SlashCommand } from "./commands";
 import { HorizontalRuleExtension } from "./horizontal-rule";
-import { EditableImageExtension, ImageExtension } from "./media/image";
+import { ResizableMedia } from "./resizable-media";
 import { SmileReplacer } from "./smile-replacer";
 
 const StarterKitX = StarterKit.configure({
-  history: false,
   horizontalRule: false,
   dropcursor: {
     color: "#DBEAFE",
@@ -78,10 +77,9 @@ const YoutubeX = Youtube.configure({});
 
 export {
   ColorHighlighter,
-  EditableImageExtension,
   HorizontalRuleExtensionX as HorizontalRuleExtension,
-  ImageExtension,
   PlaceholderX as Placeholder,
+  ResizableMedia,
   SlashCommand,
   SmileReplacer,
   StarterKitX as StarterKit,

@@ -1,6 +1,7 @@
 "use server";
 
 import { createId } from "@paralleldrive/cuid2";
+import { type JSONContent } from "@tiptap/react";
 
 import {
   and,
@@ -86,20 +87,7 @@ export async function deleteUnusedMediaInPost(postId: string) {
     return;
   }
 
-  // match all html urls with any characters containing the value of env.DO_CDN_URL
-  // const regex = /<[^>]+src="([^"]+)"/g;
-
-  // let match: RegExpExecArray | null;
-  const matches: string[] = [];
-
-  // TODO: fix this
-  // while ((match = regex.exec(post.content)) !== null) {
-  //   if (!match[1]) {
-  //     continue;
-  //   }
-
-  //   matches.push(match[1]);
-  // }
+  const matches = findMediaInJsonContent(post.content);
 
   const deletedMedias = mediaList.filter((m) => !matches.includes(m.url));
 
@@ -115,6 +103,30 @@ export async function deleteUnusedMediaInPost(postId: string) {
     ),
   );
 }
+
+const findMediaInJsonContent = (content?: JSONContent): string[] => {
+  if (!content) {
+    return [];
+  }
+
+  if (typeof content === "string") {
+    return [];
+  }
+
+  if (Array.isArray(content)) {
+    return content.flatMap(findMediaInJsonContent);
+  }
+
+  if (content.attrs?.src) {
+    const src = content.attrs.src as string;
+
+    if (src.includes(env.DO_CDN_URL)) {
+      return [src];
+    }
+  }
+
+  return findMediaInJsonContent(content.content);
+};
 
 function arrayBufferToBuffer(ab: ArrayBuffer) {
   const buffer = Buffer.alloc(ab.byteLength);

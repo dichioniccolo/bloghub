@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useCompletion } from "ai/react";
 
+import { createProjectMedia } from "@acme/common/actions";
 import {
   ColorHighlighter,
-  EditableImageExtension,
   EditorContent,
   HorizontalRuleExtension,
   Placeholder,
@@ -19,6 +19,8 @@ import {
   type Editor as EditorType,
   type JSONContent,
 } from "@acme/editor";
+import { ResizableMediaWithUploader } from "@acme/editor/src/extensions/resizable-media";
+import { determineMediaType } from "@acme/editor/src/lib/utils";
 import { toast } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
@@ -42,9 +44,6 @@ export function Editor({
   postId,
 }: Props) {
   const user = useUser();
-
-  // useConnection();
-  // const connectionStatus = useConnectionStatus();
 
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "editor",
@@ -91,12 +90,30 @@ export function Editor({
     [complete, isLoading, onChange, setStatus],
   );
 
+  const uploadFile = useCallback(
+    async (file: File) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", determineMediaType(file)?.toString() ?? "");
+      formData.append("userId", user.id);
+      formData.append("projectId", projectId);
+      formData.append("postId", postId);
+
+      const media = await createProjectMedia(formData);
+
+      return media.url;
+    },
+    [postId, projectId, user.id],
+  );
+
   const editor = useEditor({
     extensions: [
       StarterKit,
       ColorHighlighter,
       HorizontalRuleExtension,
-      EditableImageExtension(user.id, projectId, postId),
+      ResizableMediaWithUploader.configure({
+        uploadFn: uploadFile,
+      }),
       Placeholder,
       SlashCommand,
       SmileReplacer,

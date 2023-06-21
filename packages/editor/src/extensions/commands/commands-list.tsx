@@ -48,12 +48,12 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
   );
 
   useEffect(() => {
-    const navigationKeys = ["ArrowUp", "ArrowDown", "Enter"];
     const onKeyDown = (e: KeyboardEvent) => {
-      if (!navigationKeys.includes(e.key)) {
+      if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.key)) {
         return;
       }
       e.preventDefault();
+
       if (e.key === "ArrowUp") {
         setSelectedIndex(
           (selectedIndex) => (selectedIndex + items.length - 1) % items.length,

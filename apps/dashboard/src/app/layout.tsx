@@ -5,19 +5,12 @@ import { getServerSession } from "next-auth";
 import "@acme/editor/styles/tiptap.css";
 import "@acme/ui/styles/globals.css";
 
-import { Inter } from "next/font/google";
-
 import { authOptions } from "@acme/auth";
 
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/utils";
+import { cal, inter } from "./_styles/fonts";
 import { Providers } from "./providers";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 export function generateMetadata() {
   const ogImage = new URL("/api/og", env.NEXT_PUBLIC_APP_URL);
@@ -44,7 +37,7 @@ export function generateMetadata() {
     ],
     authors: [
       {
-        name: "dichioniccolo",
+        name: "Niccolò Di Chio",
         url: "https://github.com/dichioniccolo",
       },
     ],
@@ -96,7 +89,8 @@ export default async function Layout({ children }: PropsWithChildren) {
       <head />
       <body
         className={cn(
-          "font-sams min-h-screen bg-background antialiased",
+          "min-h-screen bg-background antialiased",
+          cal.variable,
           inter.variable,
         )}
       >

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Command } from "cmdk";
 import {
   Check,
   ChevronDown,
@@ -10,7 +11,6 @@ import {
 } from "lucide-react";
 
 import { type Editor } from "@acme/editor";
-import { Command, CommandItem, CommandList } from "@acme/ui";
 
 import { cn } from "~/lib/utils";
 import { type BubbleMenuItem } from "./index";
@@ -99,11 +99,11 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
 
       {isOpen && (
         <Command className="fixed top-full z-[99999] mt-1 flex w-48 flex-col overflow-hidden rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
-          <CommandList>
+          <Command.List>
             {items.map((item, index) => (
-              <CommandItem
+              <Command.Item
                 key={index}
-                onClick={() => {
+                onSelect={() => {
                   item.command();
                   setIsOpen(false);
                 }}
@@ -121,9 +121,9 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
                   <span>{item.name}</span>
                 </div>
                 {item.isActive() && <Check className="h-4 w-4" />}
-              </CommandItem>
+              </Command.Item>
             ))}
-          </CommandList>
+          </Command.List>
         </Command>
       )}
     </div>

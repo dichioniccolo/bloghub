@@ -1,23 +1,11 @@
-import "@acme/ui/styles/globals.css";
 import "@acme/editor/styles/tiptap.css";
+import "@acme/ui/styles/globals.css";
 
 import { type PropsWithChildren } from "react";
-import { Inter, Roboto_Mono } from "next/font/google";
 
 import { cn } from "~/lib/utils";
+import { cal, inter } from "./_styles/fonts";
 import { Providers } from "./providers";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
-const roboto_mono = Roboto_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto-mono",
-});
 
 // export const metadata = {
 //   // TODO: load project name from domain
@@ -83,7 +71,7 @@ const roboto_mono = Roboto_Mono({
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <html lang="en" className={cn(inter.variable, roboto_mono.variable)}>
+    <html lang="en" className={cn(cal.variable, inter.variable)}>
       <head />
       <body>
         <Providers>{children}</Providers>

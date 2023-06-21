@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { deleteUnusedMediaInPost } from "@acme/common/actions";
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
+import { type JSONContent } from "@acme/editor";
 import { zact } from "@acme/zact/server";
 
 export const updatePost = zact(
@@ -14,7 +15,7 @@ export const updatePost = zact(
       postId: z.string().nonempty(),
       body: z.object({
         title: z.string(),
-        content: z.any(),
+        content: z.string(),
       }),
     })
     .superRefine(async ({ postId, projectId, userId }, ctx) => {
@@ -51,7 +52,7 @@ export const updatePost = zact(
     .set({
       title,
       description: "",
-      content,
+      content: JSON.parse(content) as JSONContent,
     })
     .where(eq(posts.id, postId));
 

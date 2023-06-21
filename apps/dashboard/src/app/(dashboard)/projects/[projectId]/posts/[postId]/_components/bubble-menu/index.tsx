@@ -59,6 +59,13 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
   const bubbleMenuProps: EditorBubbleMenuProps = {
     ...props,
     editor,
+    shouldShow: ({ editor }) => {
+      if (editor.isActive("resizableMedia")) {
+        return false;
+      }
+
+      return editor.view.state.selection.content().size > 0;
+    },
     tippyOptions: {
       moveTransition: "transform 0.15s ease-out",
       onHidden: () => {

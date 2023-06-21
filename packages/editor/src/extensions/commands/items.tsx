@@ -8,7 +8,6 @@ import {
   Italic,
   List,
   ListOrdered,
-  Sparkle,
 } from "lucide-react";
 
 type Command = {
@@ -26,14 +25,14 @@ export type CommandItemProps = {
 export const getSuggestionItems = ({ query }: { query: string }) => {
   return (
     [
-      {
-        title: "Continue writing",
-        description: "Use AI to expand your thoughts.",
-        icon: <Sparkle className="w-7 text-black" />,
-        command: () => {
-          //
-        },
-      },
+      // {
+      //   title: "Continue writing",
+      //   description: "Use AI to expand your thoughts.",
+      //   icon: <Sparkle className="w-7 text-black" />,
+      //   command: () => {
+      //     //
+      //   },
+      // },
       {
         title: "Heading 1",
         description: "Big section heading.",

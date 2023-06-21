@@ -8,6 +8,8 @@ export * from "./schema";
 
 export * from "drizzle-orm";
 
+export * from "./types";
+
 export * from "./lib/drizzle-adapter";
 
 const connection = connect({

@@ -18,6 +18,13 @@ export function AIBubbleMenu({ editor }: Props) {
   return (
     <BubbleMenu
       editor={editor}
+      shouldShow={({ editor }) => {
+        if (editor.isActive("resizableMedia")) {
+          return false;
+        }
+
+        return editor.view.state.selection.content().size > 0;
+      }}
       tippyOptions={{
         maxWidth: "100%",
         placement: "bottom",

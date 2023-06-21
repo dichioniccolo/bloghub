@@ -91,13 +91,13 @@ export async function POST(req: Request): Promise<Response> {
         role: "system",
         content:
           "You are an AI writing assistant that continues existing text based on context from prior text. " +
-          "Give more weight/priority to the later characters than the beginning ones. Make sure to construct complete sentences",
+          "Give more weight/priority to the later characters than the beginning ones. Make sure to construct complete sentences. " +
+          "If you need to separate paragraphs, you should use a <p> tag and not a line break.",
       },
       { role: "user", content: promptCleaned },
     ],
     max_tokens: 100,
     temperature: 0.7,
-    top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
     stream: true,
