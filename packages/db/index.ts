@@ -1,14 +1,21 @@
-import { sql } from "@vercel/postgres";
-import { drizzle } from "drizzle-orm/vercel-postgres";
+import { connect } from "@planetscale/database";
+import { drizzle } from "drizzle-orm/planetscale-serverless";
 
+import { env } from "./env.mjs";
 import * as schema from "./schema";
 
 export * from "./schema";
 
-export * from "./types";
-
 export * from "drizzle-orm";
 
-export const db = drizzle(sql, {
+export * from "./lib/drizzle-adapter";
+
+const connection = connect({
+  host: env.DATABASE_HOST,
+  username: env.DATABASE_USERNAME,
+  password: env.DATABASE_PASSWORD,
+});
+
+export const db = drizzle(connection, {
   schema,
 });

@@ -7,7 +7,6 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    POSTGRES_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     STRIPE_WEBHOOK_SECRET: z.string().min(1),
     QSTASH_CURRENT_SIGNING_KEY: z.string().min(1),
@@ -29,7 +28,6 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    POSTGRES_URL: process.env.POSTGRES_URL,
     NODE_ENV: process.env.NODE_ENV,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     QSTASH_CURRENT_SIGNING_KEY: process.env.QSTASH_CURRENT_SIGNING_KEY,

@@ -46,17 +46,21 @@ export const updatePost = zact(
       }
     }),
 )(async ({ postId, body: { title, content } }) => {
-  const post = await db
+  await db
     .update(posts)
     .set({
       title,
       description: "",
       content,
     })
-    .where(eq(posts.id, postId))
-    .returning({
+    .where(eq(posts.id, postId));
+
+  const post = await db
+    .select({
       id: posts.id,
     })
+    .from(posts)
+    .where(eq(posts.id, postId))
     .then((x) => x[0]!);
 
   await deleteUnusedMediaInPost(post.id);

@@ -1,4 +1,3 @@
-import { DrizzleAdapter } from "@auth/adapter-drizzle";
 import { type DefaultSession, type NextAuthOptions } from "next-auth";
 import { type DefaultJWT, type JWT } from "next-auth/jwt";
 
@@ -6,6 +5,7 @@ import {
   accounts,
   db,
   eq,
+  PlanetScaleAdapter,
   sessions,
   users,
   verificationTokens,
@@ -95,7 +95,7 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  adapter: DrizzleAdapter(db, {
+  adapter: PlanetScaleAdapter(db, {
     users,
     accounts,
     sessions,

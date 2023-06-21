@@ -5,5 +5,5 @@
     "module": "commonjs",
     "esModuleInterop": true
   },
-  "include": ["index.ts", "env.mjs"]
+  "include": ["index.ts", "env.mjs", "lib"]
 }

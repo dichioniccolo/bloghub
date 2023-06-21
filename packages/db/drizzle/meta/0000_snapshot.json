@@ -1,96 +1,92 @@
 {
   "version": "5",
-  "dialect": "pg",
-  "id": "66c9e05b-74ce-4c8c-bec6-58d3f6e78cab",
+  "dialect": "mysql",
+  "id": "4734c183-d01f-4a23-bab1-aaa26649b292",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "accounts": {
       "name": "accounts",
-      "schema": "",
       "columns": {
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "type": {
           "name": "type",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "provider": {
           "name": "provider",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "providerAccountId": {
           "name": "providerAccountId",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "refresh_token": {
           "name": "refresh_token",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "access_token": {
           "name": "access_token",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "expires_at": {
           "name": "expires_at",
-          "type": "integer",
+          "type": "int",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "token_type": {
           "name": "token_type",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "scope": {
           "name": "scope",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "id_token": {
           "name": "id_token",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "session_state": {
           "name": "session_state",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "accounts_userId_users_id_fk": {
-          "name": "accounts_userId_users_id_fk",
-          "tableFrom": "accounts",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "accounts_provider_providerAccountId": {
           "name": "accounts_provider_providerAccountId",
@@ -101,459 +97,361 @@
         }
       }
     },
-    "comments": {
-      "name": "comments",
-      "schema": "",
+    "automaticEmails": {
+      "name": "automaticEmails",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(256)",
+          "type": "serial",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": true
+        },
+        "type": {
+          "name": "type",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "comments": {
+      "name": "comments",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "postId": {
           "name": "postId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "content": {
           "name": "content",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "parentId": {
           "name": "parentId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "comments_userId_users_id_fk": {
-          "name": "comments_userId_users_id_fk",
-          "tableFrom": "comments",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "comments_postId_posts_id_fk": {
-          "name": "comments_postId_posts_id_fk",
-          "tableFrom": "comments",
-          "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
     },
     "emailNotificationSettings": {
       "name": "emailNotificationSettings",
-      "schema": "",
       "columns": {
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "EmailNotificationSettingType",
+          "type": "int",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "value": {
           "name": "value",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false,
           "default": true
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "emailNotificationSettings_userId_users_id_fk": {
-          "name": "emailNotificationSettings_userId_users_id_fk",
-          "tableFrom": "emailNotificationSettings",
-          "tableTo": "users",
-          "columnsFrom": [
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "emailNotificationSettings_type_userId": {
+          "name": "emailNotificationSettings_type_userId",
+          "columns": [
+            "type",
             "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          ]
         }
-      },
-      "compositePrimaryKeys": {}
-    },
-    "emails": {
-      "name": "emails",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "EmailType",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "userId": {
-          "name": "userId",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "projectId": {
-          "name": "projectId",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "emails_userId_users_id_fk": {
-          "name": "emails_userId_users_id_fk",
-          "tableFrom": "emails",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "emails_projectId_projects_id_fk": {
-          "name": "emails_projectId_projects_id_fk",
-          "tableFrom": "emails",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "projectId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {}
+      }
     },
     "likes": {
       "name": "likes",
-      "schema": "",
       "columns": {
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "postId": {
           "name": "postId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "likes_userId_users_id_fk": {
-          "name": "likes_userId_users_id_fk",
-          "tableFrom": "likes",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "likes_postId_posts_id_fk": {
-          "name": "likes_postId_posts_id_fk",
-          "tableFrom": "likes",
-          "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {
-        "likes_userId_postId": {
-          "name": "likes_userId_postId",
+        "likes_postId_userId": {
+          "name": "likes_postId_userId",
           "columns": [
-            "userId",
-            "postId"
+            "postId",
+            "userId"
           ]
         }
       }
     },
     "media": {
       "name": "media",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "projectId": {
           "name": "projectId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "postId": {
           "name": "postId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "MediaType",
+          "type": "int",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "url": {
           "name": "url",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "media_projectId_projects_id_fk": {
-          "name": "media_projectId_projects_id_fk",
-          "tableFrom": "media",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "projectId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "media_postId_posts_id_fk": {
-          "name": "media_postId_posts_id_fk",
-          "tableFrom": "media",
-          "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
     },
     "notifications": {
       "name": "notifications",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar(255)",
           "primaryKey": true,
-          "notNull": true
-        },
-        "notificationId": {
-          "name": "notificationId",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "NotificationType",
+          "type": "int",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "status": {
           "name": "status",
-          "type": "NotificationStatus",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
-          "default": "'unread'"
+          "autoincrement": false,
+          "default": 1
         },
         "body": {
           "name": "body",
           "type": "json",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
-      "indexes": {
-        "notifications_unique_index": {
-          "name": "notifications_unique_index",
-          "columns": [
-            "notificationId",
-            "userId"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "notifications_userId_users_id_fk": {
-          "name": "notifications_userId_users_id_fk",
-          "tableFrom": "notifications",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
     },
     "posts": {
       "name": "posts",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "projectId": {
           "name": "projectId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "title": {
           "name": "title",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "description": {
           "name": "description",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "content": {
           "name": "content",
-          "type": "text",
+          "type": "json",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "thumbnailUrl": {
           "name": "thumbnailUrl",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "slug": {
           "name": "slug",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "hidden": {
           "name": "hidden",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false,
           "default": true
+        },
+        "seoTitle": {
+          "name": "seoTitle",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "seoDescription": {
+          "name": "seoDescription",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {
@@ -566,100 +464,77 @@
           "isUnique": true
         }
       },
-      "foreignKeys": {
-        "posts_projectId_projects_id_fk": {
-          "name": "posts_projectId_projects_id_fk",
-          "tableFrom": "posts",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "projectId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
     },
     "projectInvitations": {
       "name": "projectInvitations",
-      "schema": "",
       "columns": {
         "projectId": {
           "name": "projectId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "email": {
           "name": "email",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "expiresAt": {
           "name": "expiresAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "projectInvitations_projectId_projects_id_fk": {
-          "name": "projectInvitations_projectId_projects_id_fk",
-          "tableFrom": "projectInvitations",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "projectId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {
-        "projectInvitations_projectId_email": {
-          "name": "projectInvitations_projectId_email",
+        "projectInvitations_email_projectId": {
+          "name": "projectInvitations_email_projectId",
           "columns": [
-            "projectId",
-            "email"
+            "email",
+            "projectId"
           ]
         }
       }
     },
     "projectMembers": {
       "name": "projectMembers",
-      "schema": "",
       "columns": {
         "projectId": {
           "name": "projectId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "role": {
           "name": "role",
-          "type": "Role",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false,
           "default": "'editor'"
         },
         "createdAt": {
@@ -667,7 +542,8 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {
@@ -680,34 +556,7 @@
           "isUnique": true
         }
       },
-      "foreignKeys": {
-        "projectMembers_projectId_projects_id_fk": {
-          "name": "projectMembers_projectId_projects_id_fk",
-          "tableFrom": "projectMembers",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "projectId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "projectMembers_userId_users_id_fk": {
-          "name": "projectMembers_userId_users_id_fk",
-          "tableFrom": "projectMembers",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "projectMembers_projectId_userId": {
           "name": "projectMembers_projectId_userId",
@@ -720,64 +569,72 @@
     },
     "projects": {
       "name": "projects",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "name": {
           "name": "name",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "logo": {
           "name": "logo",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "domain": {
           "name": "domain",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "domainVerified": {
           "name": "domainVerified",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false,
           "default": false
         },
         "domainLastCheckedAt": {
           "name": "domainLastCheckedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "domainUnverifiedAt": {
           "name": "domainUnverifiedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
@@ -786,117 +643,115 @@
     },
     "sessions": {
       "name": "sessions",
-      "schema": "",
       "columns": {
         "sessionToken": {
           "name": "sessionToken",
-          "type": "text",
+          "type": "varchar(500)",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "userId": {
           "name": "userId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "expires": {
           "name": "expires",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "sessions_userId_users_id_fk": {
-          "name": "sessions_userId_users_id_fk",
-          "tableFrom": "sessions",
-          "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
     },
     "users": {
       "name": "users",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "name": {
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "email": {
           "name": "email",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "emailVerified": {
           "name": "emailVerified",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "image": {
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "stripeCustomerId": {
           "name": "stripeCustomerId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "stripeSubscriptionId": {
           "name": "stripeSubscriptionId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
         "stripePriceId": {
           "name": "stripePriceId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
-        "dayWhenbillingStarts": {
-          "name": "dayWhenbillingStarts",
+        "dayWhenBillingStarts": {
+          "name": "dayWhenBillingStarts",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {
@@ -913,25 +768,27 @@
     },
     "verificationToken": {
       "name": "verificationToken",
-      "schema": "",
       "columns": {
         "identifier": {
           "name": "identifier",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "token": {
           "name": "token",
-          "type": "text",
+          "type": "varchar(500)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "expires": {
           "name": "expires",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -948,203 +805,47 @@
     },
     "visits": {
       "name": "visits",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "serial",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": true
         },
         "projectId": {
           "name": "projectId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "postId": {
           "name": "postId",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "autoincrement": false
         },
-        "browserName": {
-          "name": "browserName",
-          "type": "varchar(256)",
+        "body": {
+          "name": "body",
+          "type": "json",
           "primaryKey": false,
-          "notNull": false
-        },
-        "browserVersion": {
-          "name": "browserVersion",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "osName": {
-          "name": "osName",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "osVersion": {
-          "name": "osVersion",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "deviceType": {
-          "name": "deviceType",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "deviceVendor": {
-          "name": "deviceVendor",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "deviceModel": {
-          "name": "deviceModel",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "engineName": {
-          "name": "engineName",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "engineVersion": {
-          "name": "engineVersion",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "cpuArchitecture": {
-          "name": "cpuArchitecture",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "city": {
-          "name": "city",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "region": {
-          "name": "region",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "country": {
-          "name": "country",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "latitude": {
-          "name": "latitude",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "longitude": {
-          "name": "longitude",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "now()"
+          "autoincrement": false,
+          "default": "(now())"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "visits_projectId_projects_id_fk": {
-          "name": "visits_projectId_projects_id_fk",
-          "tableFrom": "visits",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "projectId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "visits_postId_posts_id_fk": {
-          "name": "visits_postId_posts_id_fk",
-          "tableFrom": "visits",
-          "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
-    }
-  },
-  "enums": {
-    "EmailNotificationSettingType": {
-      "name": "EmailNotificationSettingType",
-      "values": {
-        "communication": "communication",
-        "marketing": "marketing",
-        "social": "social",
-        "security": "security"
-      }
-    },
-    "EmailType": {
-      "name": "EmailType",
-      "values": {
-        "invalid_domain": "invalid_domain",
-        "near_monthly_maximum_usage": "near_monthly_maximum_usage",
-        "monthly_maximum_usage_exceeded": "monthly_maximum_usage_exceeded"
-      }
-    },
-    "MediaType": {
-      "name": "MediaType",
-      "values": {
-        "image": "image",
-        "video": "video",
-        "audio": "audio"
-      }
-    },
-    "NotificationStatus": {
-      "name": "NotificationStatus",
-      "values": {
-        "unread": "unread",
-        "read": "read",
-        "archived": "archived"
-      }
-    },
-    "NotificationType": {
-      "name": "NotificationType",
-      "values": {
-        "project_invitation": "project_invitation",
-        "removed_from_project": "removed_from_project"
-      }
-    },
-    "Role": {
-      "name": "Role",
-      "values": {
-        "owner": "owner",
-        "editor": "editor"
-      }
     }
   },
   "schemas": {},

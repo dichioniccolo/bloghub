@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { createDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
-import { db, projectMembers, projects, Role } from "@acme/db";
+import { db, eq, projectMembers, projects, Role } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 import { DomainSchema } from "../schemas";
@@ -23,14 +23,18 @@ export const createProject = zact(
   const project = await db.transaction(async (tx) => {
     await createDomain(domain);
 
+    const id = createId();
+
+    await tx.insert(projects).values({
+      id,
+      name,
+      domain,
+    });
+
     const project = await tx
-      .insert(projects)
-      .values({
-        id: createId(),
-        name,
-        domain,
-      })
-      .returning()
+      .select()
+      .from(projects)
+      .where(eq(projects.id, id))
       .then((x) => x[0]!);
 
     await tx.insert(projectMembers).values({

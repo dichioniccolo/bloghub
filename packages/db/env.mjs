@@ -7,7 +7,9 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    POSTGRES_URL: z.string().url(),
+    DATABASE_HOST: z.string().nonempty(),
+    DATABASE_USERNAME: z.string().nonempty(),
+    DATABASE_PASSWORD: z.string().nonempty(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -18,6 +20,8 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    POSTGRES_URL: process.env.POSTGRES_URL,
+    DATABASE_HOST: process.env.DATABASE_HOST,
+    DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
   },
 });

@@ -1,41 +1,13 @@
 {
   "version": "5",
-  "dialect": "pg",
+  "dialect": "mysql",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1686076913914,
-      "tag": "0000_clear_harrier",
-      "breakpoints": false
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1686079078738,
-      "tag": "0001_daffy_grey_gargoyle",
-      "breakpoints": false
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1686148115860,
-      "tag": "0002_nice_salo",
-      "breakpoints": false
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1686474572230,
-      "tag": "0003_abandoned_nova",
-      "breakpoints": false
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1686601674536,
-      "tag": "0004_mute_titania",
-      "breakpoints": false
+      "when": 1687360625747,
+      "tag": "0000_glamorous_daimon_hellstrom",
+      "breakpoints": true
     }
   ]
 }

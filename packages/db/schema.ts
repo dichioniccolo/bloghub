@@ -1,38 +1,106 @@
 import { type JSONContent } from "@tiptap/core";
-import { relations } from "drizzle-orm";
+import { relations, type InferModel } from "drizzle-orm";
 import {
   boolean,
-  integer,
+  int,
   json,
-  pgEnum,
-  pgTable,
+  mysqlTable,
   primaryKey,
   serial,
   text,
   timestamp,
   uniqueIndex,
   varchar,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/mysql-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
-import {
-  NotificationStatus,
-  Role,
-  type AutomaticEmailType,
-  type EmailNotificationSettingType,
-  type MediaEnumType,
-  type NotificationStatusType,
-  type NotificationType,
-  type RoleType,
-  type VisitBody,
-} from "./types";
+export const EmailNotificationSetting = {
+  Communication: 1,
+  Marketing: 2,
+  Social: 3,
+  Security: 4,
+} as const;
 
-export const users = pgTable(
+export type EmailNotificationSettingType =
+  (typeof EmailNotificationSetting)[keyof typeof EmailNotificationSetting];
+
+export const Notification = {
+  ProjectInvitation: 1,
+  RemovedFromProject: 2,
+} as const;
+
+export type NotificationType = (typeof Notification)[keyof typeof Notification];
+
+export const NotificationStatus = {
+  Unread: 1,
+  Read: 2,
+  Archvied: 3,
+} as const;
+
+export type NotificationStatusType =
+  (typeof NotificationStatus)[keyof typeof NotificationStatus];
+
+export const Role = {
+  Owner: "owner",
+  Editor: "editor",
+} as const;
+
+export type RoleType = (typeof Role)[keyof typeof Role];
+
+export const MediaEnum = {
+  Image: 1,
+  Video: 2,
+  Audio: 3,
+  Document: 4,
+} as const;
+
+export type MediaEnumType = (typeof MediaEnum)[keyof typeof MediaEnum];
+
+export const AutomaticEmail = {
+  InvalidDomain: 1,
+  NearMonthlyLimit: 2,
+  MonthlyLimitReached: 3,
+} as const;
+
+export type AutomaticEmailType =
+  (typeof AutomaticEmail)[keyof typeof AutomaticEmail];
+
+export type VisitBody = {
+  browser?: {
+    name?: string;
+    version?: string;
+  };
+  os?: {
+    name?: string;
+    version?: string;
+  };
+  device?: {
+    model?: string;
+    type?: string;
+    vendor?: string;
+  };
+  engine?: {
+    name?: string;
+    version?: string;
+  };
+  cpu?: {
+    architecture?: string;
+  };
+  geo?: {
+    country?: string;
+    region?: string;
+    city?: string;
+    latitute?: string;
+    longitude?: string;
+  };
+};
+
+export const users = mysqlTable(
   "users",
   {
     id: varchar("id", { length: 255 }).primaryKey(),
     name: text("name"),
-    email: text("email").notNull(),
+    email: varchar("email", { length: 255 }).notNull(),
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
     stripeCustomerId: varchar("stripeCustomerId", { length: 255 }),
@@ -51,18 +119,16 @@ export const users = pgTable(
   },
 );
 
-export const accounts = pgTable(
+export const accounts = mysqlTable(
   "accounts",
   {
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+    userId: varchar("userId", { length: 255 }).notNull(),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
+    provider: varchar("provider", { length: 255 }).notNull(),
+    providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
-    expires_at: integer("expires_at"),
+    expires_at: int("expires_at"),
     token_type: text("token_type"),
     scope: text("scope"),
     id_token: text("id_token"),
@@ -73,19 +139,21 @@ export const accounts = pgTable(
   }),
 );
 
-export const sessions = pgTable("sessions", {
-  sessionToken: text("sessionToken").notNull().primaryKey(),
-  userId: varchar("userId", { length: 255 })
+export const sessions = mysqlTable("sessions", {
+  sessionToken: varchar("sessionToken", {
+    length: 500,
+  })
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
+    .primaryKey(),
+  userId: varchar("userId", { length: 255 }).notNull(),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export const verificationTokens = pgTable(
+export const verificationTokens = mysqlTable(
   "verificationToken",
   {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
+    identifier: varchar("identifier", { length: 255 }).notNull(),
+    token: varchar("token", { length: 500 }).notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   (vt) => ({
@@ -93,15 +161,11 @@ export const verificationTokens = pgTable(
   }),
 );
 
-export const emailNotificationSettings = pgTable(
+export const emailNotificationSettings = mysqlTable(
   "emailNotificationSettings",
   {
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id, {
-        onDelete: "cascade",
-      }),
-    type: integer("type").$type<EmailNotificationSettingType>().notNull(),
+    userId: varchar("userId", { length: 255 }).notNull(),
+    type: int("type").$type<EmailNotificationSettingType>().notNull(),
     value: boolean("value").notNull().default(true),
   },
   (emailNotificationSettings) => ({
@@ -112,15 +176,11 @@ export const emailNotificationSettings = pgTable(
   }),
 );
 
-export const notifications = pgTable("notifications", {
+export const notifications = mysqlTable("notifications", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  userId: varchar("userId", { length: 255 })
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade",
-    }),
-  type: integer("type").$type<NotificationType>().notNull(),
-  status: integer("status")
+  userId: varchar("userId", { length: 255 }).notNull(),
+  type: int("type").$type<NotificationType>().notNull(),
+  status: int("status")
     .$type<NotificationStatusType>()
     .notNull()
     .default(NotificationStatus.Unread),
@@ -129,7 +189,7 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("createdAt").notNull().defaultNow(),
 });
 
-export const projects = pgTable("projects", {
+export const projects = mysqlTable("projects", {
   id: varchar("id", { length: 255 }).primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   logo: text("logo"),
@@ -141,20 +201,17 @@ export const projects = pgTable("projects", {
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export const projectMembers = pgTable(
+export const projectMembers = mysqlTable(
   "projectMembers",
   {
-    projectId: varchar("projectId", { length: 255 })
+    projectId: varchar("projectId", { length: 255 }).notNull(),
+    userId: varchar("userId", { length: 255 }),
+    role: varchar("role", {
+      length: 255,
+    })
+      .$type<RoleType>()
       .notNull()
-      .references(() => projects.id, {
-        onDelete: "cascade",
-      }),
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id, {
-        onDelete: "cascade",
-      }),
-    role: integer("role").$type<RoleType>().notNull().default(Role.Editor),
+      .default(Role.Editor),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
   (projectMembers) => ({
@@ -166,14 +223,10 @@ export const projectMembers = pgTable(
   }),
 );
 
-export const projectInvitations = pgTable(
+export const projectInvitations = mysqlTable(
   "projectInvitations",
   {
-    projectId: varchar("projectId", { length: 255 })
-      .notNull()
-      .references(() => projects.id, {
-        onDelete: "cascade",
-      }),
+    projectId: varchar("projectId", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
     expiresAt: timestamp("expiresAt", { mode: "date" }).notNull(),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
@@ -186,15 +239,11 @@ export const projectInvitations = pgTable(
   }),
 );
 
-export const posts = pgTable(
+export const posts = mysqlTable(
   "posts",
   {
     id: varchar("id", { length: 255 }).primaryKey(),
-    projectId: varchar("projectId", { length: 255 })
-      .notNull()
-      .references(() => projects.id, {
-        onDelete: "cascade",
-      }),
+    projectId: varchar("projectId", { length: 255 }).notNull(),
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
     content: json("content").$type<JSONContent>().notNull(),
@@ -214,19 +263,11 @@ export const posts = pgTable(
   }),
 );
 
-export const likes = pgTable(
+export const likes = mysqlTable(
   "likes",
   {
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id, {
-        onDelete: "cascade",
-      }),
-    postId: varchar("postId", { length: 255 })
-      .notNull()
-      .references(() => posts.id, {
-        onDelete: "cascade",
-      }),
+    userId: varchar("userId", { length: 255 }).notNull(),
+    postId: varchar("postId", { length: 255 }).notNull(),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
   (likes) => ({
@@ -234,68 +275,35 @@ export const likes = pgTable(
   }),
 );
 
-export const comments = pgTable("comments", {
+export const comments = mysqlTable("comments", {
   id: varchar("id", { length: 255 }).primaryKey(),
-  userId: varchar("userId", { length: 255 })
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade",
-    }),
-  postId: varchar("postId", { length: 255 })
-    .notNull()
-    .references(() => posts.id, {
-      onDelete: "cascade",
-    }),
+  userId: varchar("userId", { length: 255 }).notNull(),
+  postId: varchar("postId", { length: 255 }).notNull(),
   content: text("content").notNull(),
   parentId: varchar("parentId", { length: 255 }),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export const media = pgTable("media", {
+export const media = mysqlTable("media", {
   id: varchar("id", { length: 255 }).primaryKey(),
-  projectId: varchar("projectId", { length: 255 }).references(
-    () => projects.id,
-    {
-      onDelete: "set null",
-    },
-  ),
-  postId: varchar("postId", { length: 255 }).references(() => posts.id, {
-    onDelete: "set null",
-  }),
-  type: integer("type").$type<MediaEnumType>().notNull(),
+  projectId: varchar("projectId", { length: 255 }),
+  postId: varchar("postId", { length: 255 }),
+  type: int("type").$type<MediaEnumType>().notNull(),
   url: text("url").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export const emailTypeEnum = pgEnum("EmailType", [
-  "invalid_domain",
-  "near_monthly_maximum_usage",
-  "monthly_maximum_usage_exceeded",
-]);
-
-export const automaticEmails = pgTable("automaticEmails", {
+export const automaticEmails = mysqlTable("automaticEmails", {
   id: serial("id").primaryKey(),
-  type: integer("type").$type<AutomaticEmailType>().notNull(),
-  userId: varchar("userId", { length: 255 })
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  projectId: varchar("projectId", { length: 255 })
-    .notNull()
-    .references(() => projects.id, {
-      onDelete: "cascade",
-    }),
+  type: int("type").$type<AutomaticEmailType>().notNull(),
+  userId: varchar("userId", { length: 255 }).notNull(),
+  projectId: varchar("projectId", { length: 255 }).notNull(),
 });
 
-export const visits = pgTable("visits", {
+export const visits = mysqlTable("visits", {
   id: serial("id").primaryKey(),
-  projectId: varchar("projectId", { length: 255 })
-    .notNull()
-    .references(() => projects.id, {
-      onDelete: "cascade",
-    }),
-  postId: varchar("postId", { length: 255 }).references(() => posts.id, {
-    onDelete: "set null",
-  }),
+  projectId: varchar("projectId", { length: 255 }).notNull(),
+  postId: varchar("postId", { length: 255 }),
   body: json("body").$type<VisitBody>().notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
@@ -445,3 +453,5 @@ export const visitsRelations = relations(visits, ({ one }) => ({
     references: [posts.id],
   }),
 }));
+
+export type Project = InferModel<typeof projects>;

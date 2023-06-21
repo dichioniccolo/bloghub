@@ -171,17 +171,21 @@ export async function createProjectMedia(formData: FormData) {
     throw new Error("Failed to determine media type");
   }
 
+  const id = createId();
+
+  await db.insert(media).values({
+    id,
+    projectId,
+    postId,
+    type,
+    url: `${env.DO_CDN_URL}/${fileName}`,
+  });
+
   return await db
-    .insert(media)
-    .values({
-      id: createId(),
-      projectId,
-      postId,
-      type,
-      url: `${env.DO_CDN_URL}/${fileName}`,
-    })
-    .returning({
+    .select({
       url: media.url,
     })
+    .from(media)
+    .where(eq(media.id, id))
     .then((x) => x[0]!);
 }

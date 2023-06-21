@@ -6,8 +6,7 @@
   "packageRules": [
     {
       "matchPackagePatterns": [
-        "^@acme/",
-        "^@auth/adapter-drizzle"
+        "^@acme/"
       ],
       "enabled": false
     }

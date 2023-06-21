@@ -7,7 +7,6 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    POSTGRES_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
   },
   /**
@@ -22,7 +21,6 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    POSTGRES_URL: process.env.POSTGRES_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,

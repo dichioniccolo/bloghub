@@ -2,7 +2,7 @@
 
 import { formatDistance } from "date-fns";
 
-import { Role, type RoleType } from "@acme/db/types";
+import { type RoleType } from "@acme/db";
 import {
   Avatar,
   AvatarImage,
@@ -71,13 +71,12 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                {currentUserRole === Role.Owner &&
-                  member.role !== Role.Owner && (
-                    <DropdownMenuItem onClick={() => setOpen(true)}>
-                      <Icons.delete className="mr-2 h-4 w-4" />
-                      <span>Remove</span>
-                    </DropdownMenuItem>
-                  )}
+                {currentUserRole === "owner" && member.role !== "owner" && (
+                  <DropdownMenuItem onClick={() => setOpen(true)}>
+                    <Icons.delete className="mr-2 h-4 w-4" />
+                    <span>Remove</span>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>

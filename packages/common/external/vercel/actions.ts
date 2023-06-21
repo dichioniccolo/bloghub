@@ -28,15 +28,19 @@ export async function verifyProjectDomain(domain: string) {
   const domainResponse = domainResponsePromise.value;
   const configResponse = configResponsePromise.value;
 
-  const project = await db
+  await db
     .update(projects)
     .set({
       domainLastCheckedAt: new Date(),
     })
-    .where(eq(projects.domain, domain))
-    .returning({
+    .where(eq(projects.domain, domain));
+
+  const project = await db
+    .select({
       domainUnverifiedAt: projects.domainUnverifiedAt,
     })
+    .from(projects)
+    .where(eq(projects.domain, domain))
     .then((x) => x[0]);
 
   if (!project) {

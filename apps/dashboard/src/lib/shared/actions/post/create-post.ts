@@ -36,21 +36,23 @@ export const createPost = zact(
 )(async ({ projectId }) => {
   const slug = createId();
 
-  const post = await db
-    .insert(posts)
-    .values({
-      id: createId(),
-      projectId,
-      slug,
-      title: "",
-      content: {},
-    })
-    .returning({
+  const id = createId();
+
+  await db.insert(posts).values({
+    id,
+    projectId,
+    slug,
+    title: "",
+    content: {},
+  });
+
+  return await db
+    .select({
       id: posts.id,
     })
+    .from(posts)
+    .where(eq(posts.id, id))
     .then((x) => x[0]!);
-
-  return post;
 
   // TODO: implement when fixed
   // redirect(AppRoutes.PostEditor(projectId, post.id));

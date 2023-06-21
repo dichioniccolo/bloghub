@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Notification, type NotificationStatusType } from "@acme/db";
+import { type Notification, type NotificationStatusType } from "@acme/db";
 
 export type ProjectInvitationNotification = {
   type: typeof Notification.ProjectInvitation;
@@ -24,7 +24,7 @@ export function isProjectInvitationNotification(
   AppNotification,
   { type: typeof Notification.ProjectInvitation }
 > {
-  return notification.type === Notification.ProjectInvitation;
+  return notification.type === 1;
 }
 
 export function isRemovedFromProjectNotification(
@@ -33,7 +33,7 @@ export function isRemovedFromProjectNotification(
   AppNotification,
   { type: typeof Notification.RemovedFromProject }
 > {
-  return notification.type === Notification.RemovedFromProject;
+  return notification.type === 2;
 }
 
 export const ProjectInvitationNotificationSchema = z.object({

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { formatDistance } from "date-fns";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Role } from "@acme/db/types";
 import {
   buttonVariants,
   Card,
@@ -138,11 +137,11 @@ export function PostCard({ post, project, owner }: Props) {
                 </TooltipTrigger>
                 <TooltipContent className="flex max-w-xs flex-col gap-4 p-4">
                   <span className="text-sm">
-                    {project.currentUserRole === Role.Owner
+                    {project.currentUserRole === "owner"
                       ? "You have exceeded your usage limit. We're still collecting data on your existing posts, but you need to upgrade to view the stats them."
                       : "The owner of this project has exceeded their usage limit. We're still collecting data on all existing posts, but they need to upgrade their plan to view the stats on them."}
                   </span>
-                  {project.currentUserRole === Role.Owner && (
+                  {project.currentUserRole === "owner" && (
                     <Link
                       href={AppRoutes.BillingSettings}
                       className={buttonVariants()}

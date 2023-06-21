@@ -1,5 +1,3 @@
-import { Role } from "@acme/db/types";
-
 import { type GetProject } from "~/lib/shared/api/projects";
 import { CustomDomain, CustomDomainPlaceholder } from "./custom-domain";
 import { DeleteProject, DeleteProjectPlaceholder } from "./delete-project";
@@ -10,7 +8,7 @@ type Props = {
 };
 
 export function GeneralSettings({ project }: Props) {
-  if (project.currentUserRole !== Role.Owner) {
+  if (project.currentUserRole !== "owner") {
     return <QuitProject project={project} />;
   }
 

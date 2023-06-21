@@ -2,7 +2,7 @@
 
 import { formatDistance } from "date-fns";
 
-import { Role, type RoleType } from "@acme/db/types";
+import { type RoleType } from "@acme/db";
 import {
   Avatar,
   AvatarImage,
@@ -71,7 +71,7 @@ export function ProjectInvitation({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                {currentUserRole === Role.Owner && (
+                {currentUserRole === "owner" && (
                   <DropdownMenuItem onClick={() => setOpen(true)}>
                     <Icons.delete className="mr-2 h-4 w-4" />
                     <span>Remove</span>

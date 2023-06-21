@@ -3,6 +3,7 @@
  * This is especially useful for Docker builds and Linting.
  */
 import "@acme/common/env.mjs";
+import "@acme/db/env.mjs";
 import "@acme/notifications/env.mjs";
 import "./src/env.mjs";
 

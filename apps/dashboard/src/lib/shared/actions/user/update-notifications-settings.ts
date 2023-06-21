@@ -3,11 +3,9 @@
 import { z } from "zod";
 
 import {
-  and,
   db,
   EmailNotificationSetting,
   emailNotificationSettings,
-  eq,
 } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
@@ -35,21 +33,10 @@ export const updateNotificationSettings = zact(
           type: EmailNotificationSetting.Communication,
           value: communication_emails,
         })
-        .onConflictDoUpdate({
-          target: [
-            emailNotificationSettings.userId,
-            emailNotificationSettings.type,
-          ],
+        .onDuplicateKeyUpdate({
           set: {
             value: communication_emails,
           },
-          where: and(
-            eq(emailNotificationSettings.userId, userId),
-            eq(
-              emailNotificationSettings.type,
-              EmailNotificationSetting.Communication,
-            ),
-          ),
         });
 
       await tx
@@ -59,21 +46,10 @@ export const updateNotificationSettings = zact(
           type: EmailNotificationSetting.Marketing,
           value: marketing_emails,
         })
-        .onConflictDoUpdate({
-          target: [
-            emailNotificationSettings.userId,
-            emailNotificationSettings.type,
-          ],
+        .onDuplicateKeyUpdate({
           set: {
             value: marketing_emails,
           },
-          where: and(
-            eq(emailNotificationSettings.userId, userId),
-            eq(
-              emailNotificationSettings.type,
-              EmailNotificationSetting.Marketing,
-            ),
-          ),
         });
 
       await tx
@@ -83,18 +59,10 @@ export const updateNotificationSettings = zact(
           type: EmailNotificationSetting.Social,
           value: social_emails,
         })
-        .onConflictDoUpdate({
-          target: [
-            emailNotificationSettings.userId,
-            emailNotificationSettings.type,
-          ],
+        .onDuplicateKeyUpdate({
           set: {
             value: social_emails,
           },
-          where: and(
-            eq(emailNotificationSettings.userId, userId),
-            eq(emailNotificationSettings.type, EmailNotificationSetting.Social),
-          ),
         });
 
       await tx
@@ -104,21 +72,10 @@ export const updateNotificationSettings = zact(
           type: EmailNotificationSetting.Security,
           value: security_emails,
         })
-        .onConflictDoUpdate({
-          target: [
-            emailNotificationSettings.userId,
-            emailNotificationSettings.type,
-          ],
+        .onDuplicateKeyUpdate({
           set: {
             value: security_emails,
           },
-          where: and(
-            eq(emailNotificationSettings.userId, userId),
-            eq(
-              emailNotificationSettings.type,
-              EmailNotificationSetting.Security,
-            ),
-          ),
         });
     });
   },

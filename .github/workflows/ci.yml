@@ -16,8 +16,6 @@ on:
 jobs:
   build-lint:
     if: false
-    env:
-      POSTGRES_URL: file:./db.sqlite
     runs-on: ubuntu-latest
 
     steps:

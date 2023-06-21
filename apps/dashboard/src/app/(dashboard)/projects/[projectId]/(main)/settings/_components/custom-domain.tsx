@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import {
   Button,
   Card,
@@ -9,7 +7,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  useInterval,
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
@@ -27,31 +24,13 @@ type Props = {
 export function CustomDomain({ project }: Props) {
   const user = useUser();
 
-  const { isRunning, mutate, data } = useZact(verifyDomain, {
-    onSuccess: (data) => {
-      if (data?.verified) {
-        interval.stop();
-      }
-    },
-  });
+  const { isRunning, mutate, data } = useZact(verifyDomain);
 
   const handleVerify = () =>
     mutate({
       projectId: project.id,
       userId: user.id,
     });
-
-  const interval = useInterval(handleVerify, 10000);
-
-  useEffect(() => {
-    void handleVerify();
-    interval.start();
-
-    return () => {
-      interval.stop();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Card>
@@ -80,37 +59,40 @@ export function CustomDomain({ project }: Props) {
               onClick={async () => {
                 await handleVerify();
               }}
-              disabled={isRunning || !data}
+              disabled={isRunning}
             >
               {isRunning && (
                 <Icons.spinner className="mr-1 h-5 w-5 animate-spin" />
               )}
-              Refresh
+              Verify
             </Button>
             <UpdateDomainDialog project={project} />
           </div>
         </div>
         <div className="flex h-10 items-center space-x-2">
-          {data ? (
-            data.verified ? (
-              <>
-                <Icons.checkCircle className="h-6 w-6 text-blue-500" />
-                <p className="text-sm text-gray-500">Verified</p>
-              </>
-            ) : data.pending ? (
-              <>
-                <Icons.alertCircle className="h-6 w-6 text-red-500" />
-                <p className="text-sm text-yellow-500">Pending verification</p>
-              </>
-            ) : (
-              <>
-                <Icons.alertCircle className="h-6 w-6 text-red-500" />
-                <p className="text-sm text-red-500">Invalid configuration</p>
-              </>
-            )
-          ) : (
-            <Icons.spinner className="mr-1 h-5 w-5 animate-spin" />
+          {(project.domainVerified || data?.verified === true) && (
+            <>
+              <Icons.checkCircle className="h-6 w-6 text-blue-500" />
+              <p className="text-sm text-gray-500">Verified</p>
+            </>
           )}
+
+          {data
+            ? !data.verified &&
+              (data?.pending ? (
+                <>
+                  <Icons.alertCircle className="h-6 w-6 text-red-500" />
+                  <p className="text-sm text-yellow-500">
+                    Pending verification
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Icons.alertCircle className="h-6 w-6 text-red-500" />
+                  <p className="text-sm text-red-500">Invalid configuration</p>
+                </>
+              ))
+            : null}
         </div>
         {data && !data?.verified && <DomainConfigurations status={data} />}
       </CardContent>
