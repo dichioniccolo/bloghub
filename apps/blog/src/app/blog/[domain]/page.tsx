@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { type Metadata, type ServerRuntime } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -54,11 +55,7 @@ export default async function Page({
     return redirect(env.NEXT_PUBLIC_APP_URL);
   }
 
-  const { posts, postsCount } = await getPostsByDomain(
-    domain,
-    page,
-    POSTS_PER_PAGE,
-  );
+  const { posts } = await getPostsByDomain(domain, page, POSTS_PER_PAGE);
 
   const firstThreePosts = posts.slice(0, 3);
   const otherPosts = posts.slice(3);

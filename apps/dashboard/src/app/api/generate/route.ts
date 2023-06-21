@@ -19,31 +19,31 @@ const openai = new OpenAIApi(config);
 // export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
-  const user = await $getUser();
-
-  const dbUser = await db
-    .select({
-      stripeSubscriptionId: users.stripeSubscriptionId,
-    })
-    .from(users)
-    .where(eq(users.id, user.id))
-    .then((x) => x[0]!);
-
-  if (!dbUser) {
-    return new Response("Unauthorized", {
-      status: 401,
-    });
-  }
-
-  const isPro = await isUserPro(dbUser.stripeSubscriptionId);
-
-  if (!isPro) {
-    return new Response("Forbidden", {
-      status: 403,
-    });
-  }
-
   if (env.NODE_ENV !== "development") {
+    const user = await $getUser();
+
+    const dbUser = await db
+      .select({
+        stripeSubscriptionId: users.stripeSubscriptionId,
+      })
+      .from(users)
+      .where(eq(users.id, user.id))
+      .then((x) => x[0]!);
+
+    if (!dbUser) {
+      return new Response("Unauthorized", {
+        status: 401,
+      });
+    }
+
+    const isPro = await isUserPro(dbUser.stripeSubscriptionId);
+
+    if (!isPro) {
+      return new Response("Forbidden", {
+        status: 403,
+      });
+    }
+
     const ip = req.headers.get("x-forwarded-for");
     const ratelimit = new Ratelimit({
       redis: kv,

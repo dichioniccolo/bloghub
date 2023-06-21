@@ -1,4 +1,4 @@
-import { useEffect, type FC } from "react";
+import { useEffect } from "react";
 import {
   Check,
   ChevronDown,
@@ -21,11 +21,7 @@ interface NodeSelectorProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
-export const NodeSelector: FC<NodeSelectorProps> = ({
-  editor,
-  isOpen,
-  setIsOpen,
-}) => {
+export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
   const items: BubbleMenuItem[] = [
     {
       name: "Text",
@@ -132,4 +128,4 @@ export const NodeSelector: FC<NodeSelectorProps> = ({
       )}
     </div>
   );
-};
+}

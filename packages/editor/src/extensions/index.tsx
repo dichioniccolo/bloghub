@@ -13,6 +13,10 @@ import { SmileReplacer } from "./smile-replacer";
 const StarterKitX = StarterKit.configure({
   history: false,
   horizontalRule: false,
+  dropcursor: {
+    color: "#DBEAFE",
+    width: 4,
+  },
   bulletList: {
     HTMLAttributes: {
       class: "list-disc list-outside leading-3",

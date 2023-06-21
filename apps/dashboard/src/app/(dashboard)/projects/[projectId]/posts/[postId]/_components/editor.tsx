@@ -24,6 +24,7 @@ import { toast } from "@acme/ui";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { EditorBubbleMenu } from "./bubble-menu";
+import { AIBubbleMenu } from "./bubble-menu/ai";
 
 type Props = {
   setStatus?(status: "saved" | "unsaved" | "saving"): void;
@@ -174,6 +175,7 @@ export function Editor({
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
+      <AIBubbleMenu editor={editor} />
       {/* <footer className="bottom-8 flex flex-row items-center text-sm">
         <div
           className={

@@ -1,5 +1,4 @@
-import { type FC } from "react";
-import { useCompletion } from "ai/react/dist";
+import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
 
 import { BubbleMenu, type Editor } from "@acme/editor";
@@ -10,7 +9,7 @@ type Props = {
   editor: Editor;
 };
 
-export const AIBubbleMenu: FC<Props> = ({ editor }) => {
+export function AIBubbleMenu({ editor }: Props) {
   const { completion } = useCompletion({
     id: "editor-edit",
     api: "/api/generate",
@@ -44,4 +43,4 @@ export const AIBubbleMenu: FC<Props> = ({ editor }) => {
       </div>
     </BubbleMenu>
   );
-};
+}

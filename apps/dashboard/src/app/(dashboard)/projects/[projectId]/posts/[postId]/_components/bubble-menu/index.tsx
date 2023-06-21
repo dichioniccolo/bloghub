@@ -1,4 +1,4 @@
-import { useState, type FC } from "react";
+import { useState } from "react";
 import {
   BoldIcon,
   CodeIcon,
@@ -22,10 +22,7 @@ export interface BubbleMenuItem {
 
 type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
 
-export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = ({
-  editor,
-  ...props
-}) => {
+export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
   const items: BubbleMenuItem[] = [
     {
       name: "bold",
@@ -105,4 +102,4 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = ({
       ))}
     </BubbleMenu>
   );
-};
+}
