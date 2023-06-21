@@ -41,21 +41,23 @@ export async function handleRemovedFromProjectNotification(
     .then((x) => x[0]);
 
   if (user) {
+    await db.insert(notifications).values({
+      id: notificationId,
+      type: Notification.RemovedFromProject,
+      body,
+      userId: user.id,
+    });
+
     const notification = await db
-      .insert(notifications)
-      .values({
-        id: notificationId,
-        type: Notification.RemovedFromProject,
-        body,
-        userId: user.id,
-      })
-      .returning({
+      .select({
         id: notifications.id,
         type: notifications.type,
         body: notifications.body,
         createdAt: notifications.createdAt,
         status: notifications.status,
       })
+      .from(notifications)
+      .where(eq(notifications.id, notificationId))
       .then((x) => x[0]!);
 
     await pusherServer.trigger(`user__${user.id}`, "notifications", {
