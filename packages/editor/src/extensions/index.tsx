@@ -1,5 +1,7 @@
+import { Color } from "@tiptap/extension-color";
 import TiptapLink from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
 import StarterKit from "@tiptap/starter-kit";
@@ -12,6 +14,9 @@ import { SmileReplacer } from "./smile-replacer";
 
 const StarterKitX = StarterKit.configure({
   horizontalRule: false,
+  heading: {
+    levels: [1, 2, 3],
+  },
   dropcursor: {
     color: "#DBEAFE",
     width: 4,
@@ -60,8 +65,8 @@ const PlaceholderX = Placeholder.configure({
     if (node.type.name === "heading") {
       return `Heading ${node.attrs.level}`;
     }
-    // return "Press '/' for commands, or '++' for AI autocomplete...";
-    return "Press '/' for commands...";
+
+    return "Press '/' for commands, or '++' for AI autocomplete...";
   },
   includeChildren: true,
 });
@@ -76,6 +81,7 @@ const TiptapLinkX = TiptapLink.configure({
 const YoutubeX = Youtube.configure({});
 
 export {
+  Color,
   ColorHighlighter,
   HorizontalRuleExtensionX as HorizontalRuleExtension,
   PlaceholderX as Placeholder,
@@ -83,6 +89,7 @@ export {
   SlashCommand,
   SmileReplacer,
   StarterKitX as StarterKit,
+  TextStyle,
   TiptapLinkX as TiptapLink,
   Underline,
   YoutubeX as Youtube,

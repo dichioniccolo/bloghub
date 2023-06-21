@@ -10,6 +10,8 @@ import {
   Wand,
 } from "lucide-react";
 
+import { toast } from "@acme/ui";
+
 interface AISelectorProps {
   editor: Editor;
   isOpen: boolean;
@@ -51,6 +53,15 @@ export const AISelector: FC<AISelectorProps> = ({
   const { complete } = useCompletion({
     id: "editor-edit",
     api: "/api/generate",
+    onResponse(response) {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
+        return;
+      } else if (response.status === 403) {
+        toast.error("You are not allowed to use ai until you upgrade to pro.");
+        return;
+      }
+    },
   });
 
   return (

@@ -3,6 +3,7 @@ import { useCompletion } from "ai/react";
 
 import { createProjectMedia } from "@acme/common/actions";
 import {
+  Color,
   ColorHighlighter,
   EditorContent,
   HorizontalRuleExtension,
@@ -10,6 +11,7 @@ import {
   SlashCommand,
   SmileReplacer,
   StarterKit,
+  TextStyle,
   TiptapLink,
   Underline,
   // useConnection,
@@ -51,6 +53,9 @@ export function Editor({
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");
+        return;
+      } else if (response.status === 403) {
+        toast.error("You are not allowed to use ai until you upgrade to pro.");
         return;
       }
     },
@@ -116,10 +121,36 @@ export function Editor({
       }),
       Placeholder,
       SlashCommand,
+      // .configure({
+      //   suggestion: {
+      //     items: ({ query }) =>
+      //       [
+      //         {
+      //           title: "Continue writing",
+      //           description: "Use AI to expand your thoughts",
+      //           icon: <Sparkles className="h-7 w-7" />,
+      //           command: ({ editor }: { editor: EditorType }) => {
+      //             if (isLoading) {
+      //               stop();
+      //             } else {
+      //               void complete(editor.getText());
+      //             }
+      //           },
+      //         },
+      //       ].filter((item) => {
+      //         if (typeof query === "string" && query.length > 0) {
+      //           return item.title.toLowerCase().includes(query.toLowerCase());
+      //         }
+      //         return true;
+      //       }),
+      //   },
+      // }),
       SmileReplacer,
       TiptapLink,
       Youtube,
       Underline,
+      TextStyle,
+      Color,
     ],
     content: value,
     onUpdate,

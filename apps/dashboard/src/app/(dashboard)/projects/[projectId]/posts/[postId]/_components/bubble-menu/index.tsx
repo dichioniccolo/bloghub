@@ -11,6 +11,7 @@ import { BubbleMenu, type BubbleMenuProps } from "@acme/editor";
 
 import { cn } from "~/lib/utils";
 import { AISelector } from "./ai-selector";
+import { ColorSelector } from "./color-selector";
 import { NodeSelector } from "./node-selector";
 
 export interface BubbleMenuItem {
@@ -60,7 +61,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
     ...props,
     editor,
     shouldShow: ({ editor }) => {
-      if (editor.isActive("resizableMedia")) {
+      if (editor.isActive("resizableMedia") || editor.isActive("image")) {
         return false;
       }
 
@@ -71,12 +72,14 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
       onHidden: () => {
         setIsAISelectorOpen(false);
         setIsNodeSelectorOpen(false);
+        setIsColorSelectorOpen(false);
       },
     },
   };
 
   const [isAISelectorOpen, setIsAISelectorOpen] = useState(false);
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
+  const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
 
   return (
     <BubbleMenu
@@ -107,6 +110,11 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
           />
         </button>
       ))}
+      <ColorSelector
+        editor={editor}
+        isOpen={isColorSelectorOpen}
+        setIsOpen={setIsColorSelectorOpen}
+      />
     </BubbleMenu>
   );
 }

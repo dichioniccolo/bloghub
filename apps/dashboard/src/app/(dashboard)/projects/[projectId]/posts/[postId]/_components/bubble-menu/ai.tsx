@@ -2,6 +2,7 @@ import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
 
 import { BubbleMenu, type Editor } from "@acme/editor";
+import { toast } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 
@@ -10,16 +11,25 @@ type Props = {
 };
 
 export function AIBubbleMenu({ editor }: Props) {
-  const { completion } = useCompletion({
+  const { completion, isLoading } = useCompletion({
     id: "editor-edit",
     api: "/api/generate",
+    onResponse(response) {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
+        return;
+      } else if (response.status === 403) {
+        toast.error("You are not allowed to use ai until you upgrade to pro.");
+        return;
+      }
+    },
   });
 
   return (
     <BubbleMenu
       editor={editor}
       shouldShow={({ editor }) => {
-        if (editor.isActive("resizableMedia")) {
+        if (editor.isActive("resizableMedia") || editor.isActive("image")) {
           return false;
         }
 
@@ -38,14 +48,18 @@ export function AIBubbleMenu({ editor }: Props) {
         {completion.length > 0 ? (
           completion
         ) : (
-          <Icons.spinner className="h-4 w-4 animate-spin" />
+          <>
+            <p className="text-sm font-medium text-stone-900">
+              AI is writing...
+            </p>
+          </>
         )}
       </div>
       <div className="flex w-full items-center bg-stone-100 p-2">
         <div className="flex items-center space-x-1 text-stone-500">
           <Sparkles className="h-5 w-5" />
           <p className="text-sm font-medium">AI is writing</p>
-          <Icons.spinner className="h-4 w-4 animate-spin" />
+          {isLoading && <Icons.spinner className="h-4 w-4 animate-spin" />}
         </div>
       </div>
     </BubbleMenu>

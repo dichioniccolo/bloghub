@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Color,
   ColorHighlighter,
   EditorContent,
   HorizontalRuleExtension,
@@ -9,6 +10,7 @@ import {
   SlashCommand,
   SmileReplacer,
   StarterKit,
+  TextStyle,
   TiptapLink,
   Underline,
   useEditor,
@@ -36,6 +38,8 @@ export function Viewer({ value }: Props) {
       TiptapLink,
       Youtube,
       Underline,
+      TextStyle,
+      Color,
     ],
     content: value,
   });
