@@ -28,7 +28,7 @@
     "@upstash/ratelimit": "^0.4.3",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/kv": "^0.2.1",
-    "ai": "^2.1.6",
+    "ai": "^2.1.7",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
     "html-escaper": "^3.0.3",

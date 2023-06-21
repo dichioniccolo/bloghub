@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -256,8 +260,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       ai:
-        specifier: ^2.1.6
-        version: 2.1.6(react@18.2.0)(svelte@3.59.1)(vue@3.3.4)
+        specifier: ^2.1.7
+        version: 2.1.7(react@18.2.0)(svelte@3.59.1)(vue@3.3.4)
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
@@ -5903,8 +5907,8 @@ packages:
       - supports-color
     dev: false
 
-  /ai@2.1.6(react@18.2.0)(svelte@3.59.1)(vue@3.3.4):
-    resolution: {integrity: sha512-YFCy7KEUDvuNGNuD8Bz7BynXB/eW2jJRAxAIM8Hb5/gpppZJs6/nTSdpocROxoGESJchtkFgYdygieG/wciEEQ==}
+  /ai@2.1.7(react@18.2.0)(svelte@3.59.1)(vue@3.3.4):
+    resolution: {integrity: sha512-U4QiYo4/82VwBbWIvT9kAlRl56N9NfL/2ZA3wPWM3IyBkJMb8DTpGlX1GKOeu2BWBGUZttNUDWp4zvP4hzKLJA==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.0.0
@@ -12088,7 +12092,3 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
