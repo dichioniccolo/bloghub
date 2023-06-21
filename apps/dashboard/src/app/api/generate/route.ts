@@ -15,7 +15,7 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-// until we move to clerk, we cannot use edge
+// until we next-auth supports it, we cannot use edge
 // export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
