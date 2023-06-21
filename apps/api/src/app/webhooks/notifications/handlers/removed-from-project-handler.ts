@@ -1,6 +1,13 @@
 import { getLoginUrl } from "@acme/auth";
 import { AppRoutes } from "@acme/common/routes";
-import { db, eq, notifications, users } from "@acme/db";
+import {
+  db,
+  EmailNotificationSetting,
+  eq,
+  Notification,
+  notifications,
+  users,
+} from "@acme/db";
 import { RemovedFromProject, sendMail } from "@acme/emails";
 import {
   RemovedFromProjectNotificationSchema,
@@ -38,7 +45,7 @@ export async function handleRemovedFromProjectNotification(
       .insert(notifications)
       .values({
         id: notificationId,
-        type: "removed_from_project",
+        type: Notification.RemovedFromProject,
         body,
         userId: user.id,
       })
@@ -61,7 +68,7 @@ export async function handleRemovedFromProjectNotification(
   }
 
   await sendMail({
-    type: "social",
+    type: EmailNotificationSetting.Social,
     to: userEmail,
     subject: "You have been removed from a project",
     component: RemovedFromProject({

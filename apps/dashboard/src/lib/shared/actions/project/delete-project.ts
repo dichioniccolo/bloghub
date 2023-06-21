@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { deleteProject as deleteProjectBase } from "@acme/common/actions";
 import { AppRoutes } from "@acme/common/routes";
-import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
+import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const deleteProject = zact(
@@ -24,7 +24,7 @@ export const deleteProject = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);
@@ -51,7 +51,7 @@ export const deleteProject = zact(
       and(
         eq(projects.id, projectMembers.projectId),
         eq(projectMembers.userId, userId),
-        eq(projectMembers.role, "owner"),
+        eq(projectMembers.role, Role.Owner),
       ),
     )
     .then((x) => x[0]!);

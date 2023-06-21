@@ -1,3 +1,4 @@
+import { type JSONContent } from "@tiptap/core";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -13,6 +14,18 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
+
+import {
+  NotificationStatus,
+  Role,
+  type AutomaticEmailType,
+  type EmailNotificationSettingType,
+  type MediaEnumType,
+  type NotificationStatusType,
+  type NotificationType,
+  type RoleType,
+  type VisitBody,
+} from "./types";
 
 export const users = pgTable(
   "users",
@@ -80,11 +93,6 @@ export const verificationTokens = pgTable(
   }),
 );
 
-export const emailNotificationSettingTypeEnum = pgEnum(
-  "EmailNotificationSettingType",
-  ["communication", "marketing", "social", "security"],
-);
-
 export const emailNotificationSettings = pgTable(
   "emailNotificationSettings",
   {
@@ -93,7 +101,7 @@ export const emailNotificationSettings = pgTable(
       .references(() => users.id, {
         onDelete: "cascade",
       }),
-    type: emailNotificationSettingTypeEnum("type").notNull(),
+    type: integer("type").$type<EmailNotificationSettingType>().notNull(),
     value: boolean("value").notNull().default(true),
   },
   (emailNotificationSettings) => ({
@@ -104,17 +112,6 @@ export const emailNotificationSettings = pgTable(
   }),
 );
 
-export const notificationTypeEnum = pgEnum("NotificationType", [
-  "project_invitation",
-  "removed_from_project",
-]);
-
-export const notificationStatus = pgEnum("NotificationStatus", [
-  "unread",
-  "read",
-  "archived",
-]);
-
 export const notifications = pgTable("notifications", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 })
@@ -122,8 +119,11 @@ export const notifications = pgTable("notifications", {
     .references(() => users.id, {
       onDelete: "cascade",
     }),
-  type: notificationTypeEnum("type").notNull(),
-  status: notificationStatus("status").notNull().default("unread"),
+  type: integer("type").$type<NotificationType>().notNull(),
+  status: integer("status")
+    .$type<NotificationStatusType>()
+    .notNull()
+    .default(NotificationStatus.Unread),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: json("body").$type<any>().notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
@@ -141,8 +141,6 @@ export const projects = pgTable("projects", {
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export const roleEnum = pgEnum("Role", ["owner", "editor"]);
-
 export const projectMembers = pgTable(
   "projectMembers",
   {
@@ -156,7 +154,7 @@ export const projectMembers = pgTable(
       .references(() => users.id, {
         onDelete: "cascade",
       }),
-    role: roleEnum("role").notNull().default("editor"),
+    role: integer("role").$type<RoleType>().notNull().default(Role.Editor),
     createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
   },
   (projectMembers) => ({
@@ -199,7 +197,7 @@ export const posts = pgTable(
       }),
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
-    content: text("content").notNull(),
+    content: json("content").$type<JSONContent>().notNull(),
     thumbnailUrl: text("thumbnailUrl"),
     slug: varchar("slug", { length: 255 }).notNull(),
     hidden: boolean("hidden").notNull().default(true),
@@ -253,8 +251,6 @@ export const comments = pgTable("comments", {
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
-export const mediaTypeEnum = pgEnum("MediaType", ["image", "video", "audio"]);
-
 export const media = pgTable("media", {
   id: varchar("id", { length: 255 }).primaryKey(),
   projectId: varchar("projectId", { length: 255 }).references(
@@ -266,7 +262,7 @@ export const media = pgTable("media", {
   postId: varchar("postId", { length: 255 }).references(() => posts.id, {
     onDelete: "set null",
   }),
-  type: mediaTypeEnum("type").notNull(),
+  type: integer("type").$type<MediaEnumType>().notNull(),
   url: text("url").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
@@ -277,9 +273,9 @@ export const emailTypeEnum = pgEnum("EmailType", [
   "monthly_maximum_usage_exceeded",
 ]);
 
-export const emails = pgTable("emails", {
+export const automaticEmails = pgTable("automaticEmails", {
   id: serial("id").primaryKey(),
-  type: emailTypeEnum("type").notNull(),
+  type: integer("type").$type<AutomaticEmailType>().notNull(),
   userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -300,21 +296,7 @@ export const visits = pgTable("visits", {
   postId: varchar("postId", { length: 255 }).references(() => posts.id, {
     onDelete: "set null",
   }),
-  browserName: varchar("browserName", { length: 255 }),
-  browserVersion: varchar("browserVersion", { length: 255 }),
-  osName: varchar("osName", { length: 255 }),
-  osVersion: varchar("osVersion", { length: 255 }),
-  deviceType: varchar("deviceType", { length: 255 }),
-  deviceVendor: varchar("deviceVendor", { length: 255 }),
-  deviceModel: varchar("deviceModel", { length: 255 }),
-  engineName: varchar("engineName", { length: 255 }),
-  engineVersion: varchar("engineVersion", { length: 255 }),
-  cpuArchitecture: varchar("cpuArchitecture", { length: 255 }),
-  city: varchar("city", { length: 255 }),
-  region: varchar("region", { length: 255 }),
-  country: varchar("country", { length: 255 }),
-  latitude: varchar("latitude", { length: 255 }),
-  longitude: varchar("longitude", { length: 255 }),
+  body: json("body").$type<VisitBody>().notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 
@@ -327,7 +309,7 @@ export const userRelations = relations(users, ({ many }) => ({
   emailNotificationSettings: many(emailNotificationSettings),
   likedPosts: many(likes),
   comments: many(comments),
-  emails: many(emails),
+  automaticEmails: many(automaticEmails),
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -366,7 +348,7 @@ export const projectsRelations = relations(projects, ({ many }) => ({
   projectInvitations: many(projectInvitations),
   posts: many(posts),
   media: many(media),
-  emails: many(emails),
+  automaticEmails: many(automaticEmails),
   visits: many(visits),
 }));
 
@@ -439,16 +421,19 @@ export const mediaRelations = relations(media, ({ one }) => ({
   }),
 }));
 
-export const emailsRelations = relations(emails, ({ one }) => ({
-  user: one(users, {
-    fields: [emails.userId],
-    references: [users.id],
+export const automaticEmailsRelations = relations(
+  automaticEmails,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [automaticEmails.userId],
+      references: [users.id],
+    }),
+    project: one(projects, {
+      fields: [automaticEmails.projectId],
+      references: [projects.id],
+    }),
   }),
-  project: one(projects, {
-    fields: [emails.projectId],
-    references: [projects.id],
-  }),
-}));
+);
 
 export const visitsRelations = relations(visits, ({ one }) => ({
   project: one(projects, {

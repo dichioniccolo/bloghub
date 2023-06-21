@@ -42,7 +42,7 @@ export type InviteMemberSchemaType = z.input<typeof InviteMemberSchema>;
 
 export const EditPostSchema = z.object({
   title: z.string(),
-  content: z.string(),
+  content: z.any(),
 });
 
 export type EditPostSchemaType = z.input<typeof EditPostSchema>;

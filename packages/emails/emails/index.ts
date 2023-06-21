@@ -2,7 +2,7 @@ import { type ReactElement } from "react";
 import { Resend } from "resend";
 import { type CreateEmailOptions } from "resend/build/src/emails/interfaces";
 
-import { type emailNotificationSettingTypeEnum } from "@acme/db";
+import { type EmailNotificationSettingType } from "@acme/db";
 
 import { env } from "../env.mjs";
 import {
@@ -13,7 +13,7 @@ import {
 
 type MailOptions = Omit<CreateEmailOptions, "html" | "text"> & {
   component: ReactElement;
-  type: (typeof emailNotificationSettingTypeEnum.enumValues)[number];
+  type: EmailNotificationSettingType;
 };
 
 const defaultOptions = {

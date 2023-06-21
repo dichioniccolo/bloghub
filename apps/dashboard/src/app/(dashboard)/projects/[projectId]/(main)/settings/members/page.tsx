@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { Role } from "@acme/db/types";
 import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui";
 
 import {
@@ -49,7 +50,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
             Team mates or friends that have access to this project.{" "}
           </p>
         </div>
-        {project.currentUserRole === "owner" && (
+        {project.currentUserRole === Role.Owner && (
           <InviteMemberDialog projectId={projectId} />
         )}
       </div>

@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { and, db, eq, notifications } from "@acme/db";
+import { and, db, eq, notifications, NotificationStatus } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const archiveNotification = zact(
@@ -37,7 +37,7 @@ export const archiveNotification = zact(
   await db
     .update(notifications)
     .set({
-      status: "archived",
+      status: NotificationStatus.Archvied,
     })
     .where(
       and(

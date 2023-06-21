@@ -43,7 +43,7 @@ export const createPost = zact(
       projectId,
       slug,
       title: "",
-      content: "",
+      content: {},
     })
     .returning({
       id: posts.id,

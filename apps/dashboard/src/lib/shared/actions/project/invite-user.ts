@@ -5,9 +5,11 @@ import {
   and,
   db,
   eq,
+  Notification,
   projectInvitations,
   projectMembers,
   projects,
+  Role,
   sql,
   users,
 } from "@acme/db";
@@ -37,7 +39,7 @@ export const inviteUser = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);
@@ -110,7 +112,7 @@ export const inviteUser = zact(
       expiresAt: new Date(Date.now() + ONE_WEEK_IN_SECONDS * 1000),
     });
 
-    await publishNotification("project_invitation", {
+    await publishNotification(Notification.ProjectInvitation, {
       projectId,
       projectName: project.name,
       userEmail: email,

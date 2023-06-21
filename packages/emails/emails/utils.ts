@@ -4,11 +4,11 @@ import {
   eq,
   inArray,
   users,
-  type emailNotificationSettingTypeEnum,
+  type EmailNotificationSettingType,
 } from "@acme/db";
 
 export async function fetchEmailNotificationSettings(
-  type: (typeof emailNotificationSettingTypeEnum.enumValues)[number],
+  type: EmailNotificationSettingType,
   emailAddresses: string[],
 ) {
   const usersSettings = await db

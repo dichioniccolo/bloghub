@@ -11,6 +11,7 @@ import {
   gte,
   projectInvitations,
   projectMembers,
+  Role,
   users,
 } from "@acme/db";
 import { zact } from "@acme/zact/server";
@@ -82,7 +83,7 @@ export const acceptInvite = zact(
     await tx.insert(projectMembers).values({
       projectId,
       userId,
-      role: "editor",
+      role: Role.Editor,
     });
   });
 

@@ -2,7 +2,7 @@
 
 import { formatDistance } from "date-fns";
 
-import { type roleEnum } from "@acme/db";
+import { Role, type RoleType } from "@acme/db/types";
 import {
   Avatar,
   AvatarImage,
@@ -21,7 +21,7 @@ import { useDeleteMemberDialog } from "./delete-member-dialog";
 
 type Props = {
   projectId: string;
-  currentUserRole: (typeof roleEnum.enumValues)[number];
+  currentUserRole: RoleType;
   member: GetProjectUsers[number];
 };
 
@@ -71,12 +71,13 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                {currentUserRole === "owner" && member.role !== "owner" && (
-                  <DropdownMenuItem onClick={() => setOpen(true)}>
-                    <Icons.delete className="mr-2 h-4 w-4" />
-                    <span>Remove</span>
-                  </DropdownMenuItem>
-                )}
+                {currentUserRole === Role.Owner &&
+                  member.role !== Role.Owner && (
+                    <DropdownMenuItem onClick={() => setOpen(true)}>
+                      <Icons.delete className="mr-2 h-4 w-4" />
+                      <span>Remove</span>
+                    </DropdownMenuItem>
+                  )}
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>

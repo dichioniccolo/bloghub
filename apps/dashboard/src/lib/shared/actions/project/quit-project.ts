@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { AppRoutes } from "@acme/common/routes";
-import { and, db, eq, projectMembers, sql } from "@acme/db";
+import { and, db, eq, projectMembers, Role, sql } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const quitProject = zact(
@@ -23,7 +23,7 @@ export const quitProject = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);

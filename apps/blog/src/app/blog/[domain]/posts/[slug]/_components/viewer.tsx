@@ -13,12 +13,13 @@ import {
   Underline,
   useEditor,
   Youtube,
+  type JSONContent,
 } from "@acme/editor";
 
 import { Icons } from "~/app/_components/icons";
 
 type Props = {
-  value: string;
+  value: JSONContent;
 };
 
 export function Viewer({ value }: Props) {

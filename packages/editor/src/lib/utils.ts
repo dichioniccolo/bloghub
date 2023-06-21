@@ -1,20 +1,21 @@
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { type mediaTypeEnum } from "@acme/db";
+import { MediaEnum, type MediaEnumType } from "@acme/db";
 
-export function determineMediaType(
-  file: File,
-): (typeof mediaTypeEnum.enumValues)[number] | null {
+export function determineMediaType(file: File): MediaEnumType | null {
   if (/image/i.test(file.type)) {
-    return "image";
+    return MediaEnum.Image;
   }
+
   if (/video/i.test(file.type)) {
-    return "video";
+    return MediaEnum.Video;
   }
+
   if (/audio/i.test(file.type)) {
-    return "audio";
+    return MediaEnum.Audio;
   }
+
   return null;
 }
 

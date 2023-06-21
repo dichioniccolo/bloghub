@@ -3,7 +3,9 @@ import { AppRoutes } from "@acme/common/routes";
 import {
   and,
   db,
+  EmailNotificationSetting,
   eq,
+  Notification,
   notifications,
   projectInvitations,
   users,
@@ -61,7 +63,7 @@ export async function handleProjectInvitationNotification(
       .insert(notifications)
       .values({
         id: notificationId,
-        type: "project_invitation",
+        type: Notification.ProjectInvitation,
         body,
         userId: user.id,
       })
@@ -84,7 +86,7 @@ export async function handleProjectInvitationNotification(
   }
 
   await sendMail({
-    type: "social",
+    type: EmailNotificationSetting.Social,
     to: userEmail,
     subject: "You have been invited to a project",
     component: ProjectInvite({

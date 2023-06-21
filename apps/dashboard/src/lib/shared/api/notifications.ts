@@ -1,6 +1,15 @@
 "use server";
 
-import { and, db, desc, eq, inArray, notifications, sql } from "@acme/db";
+import {
+  and,
+  db,
+  desc,
+  eq,
+  inArray,
+  notifications,
+  NotificationStatus,
+  sql,
+} from "@acme/db";
 
 import { $getUser } from "../get-user";
 
@@ -19,7 +28,10 @@ export async function getNotifications() {
     .where(
       and(
         eq(notifications.userId, user.id),
-        inArray(notifications.status, ["unread", "read"]),
+        inArray(notifications.status, [
+          NotificationStatus.Unread,
+          NotificationStatus.Read,
+        ]),
       ),
     )
     .limit(20)
@@ -33,7 +45,7 @@ export async function getNotifications() {
     .where(
       and(
         eq(notifications.userId, user.id),
-        eq(notifications.status, "unread"),
+        eq(notifications.status, NotificationStatus.Unread),
       ),
     )
     .then((x) => x[0]!);
@@ -44,8 +56,9 @@ export async function getNotifications() {
   };
 }
 
-export type Notification<TData> = Omit<Awaited<
-ReturnType<typeof getNotifications>
->["notifications"][number], 'data'> & {
-  data: TData
+export type Notification<TData> = Omit<
+  Awaited<ReturnType<typeof getNotifications>>["notifications"][number],
+  "data"
+> & {
+  data: TData;
 };

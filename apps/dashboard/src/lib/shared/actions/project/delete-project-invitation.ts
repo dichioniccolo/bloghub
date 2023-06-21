@@ -5,9 +5,11 @@ import {
   and,
   db,
   eq,
+  Notification,
   projectInvitations,
   projectMembers,
   projects,
+  Role,
   sql,
 } from "@acme/db";
 import { publishNotification } from "@acme/notifications/publish";
@@ -36,7 +38,7 @@ export const deleteProjectInvitation = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);
@@ -85,7 +87,7 @@ export const deleteProjectInvitation = zact(
     .where(eq(projects.id, projectId))
     .then((x) => x[0]!);
 
-  await publishNotification("removed_from_project", {
+  await publishNotification(Notification.RemovedFromProject, {
     projectName: project.name,
     userEmail: email,
   });

@@ -31,7 +31,7 @@ export function dropImagePlugin(
           const formData = new FormData();
 
           formData.append("file", file);
-          formData.append("type", determineMediaType(file) ?? "");
+          formData.append("type", determineMediaType(file)?.toString() ?? "");
           formData.append("userId", userId);
           formData.append("projectId", projectId);
           formData.append("postId", postId);
@@ -95,7 +95,7 @@ export function dropImagePlugin(
             const formData = new FormData();
 
             formData.append("file", file);
-            formData.append("type", determineMediaType(file) ?? "");
+            formData.append("type", determineMediaType(file)?.toString() ?? "");
             formData.append("userId", userId);
             formData.append("projectId", projectId);
             formData.append("postId", postId);

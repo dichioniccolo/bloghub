@@ -1,7 +1,17 @@
 "use server";
 
 import { AppRoutes } from "@acme/common/routes";
-import { and, db, eq, projectMembers, projects, sql, users } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  Notification,
+  projectMembers,
+  projects,
+  Role,
+  sql,
+  users,
+} from "@acme/db";
 import { publishNotification } from "@acme/notifications/publish";
 
 import "isomorphic-fetch";
@@ -28,7 +38,7 @@ export const deleteProjectUser = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);
@@ -63,7 +73,7 @@ export const deleteProjectUser = zact(
         });
       }
 
-      if (userToDelete?.role === "owner") {
+      if (userToDelete?.role === Role.Owner) {
         ctx.addIssue({
           code: "custom",
           path: ["userIdToDelete"],
@@ -97,7 +107,7 @@ export const deleteProjectUser = zact(
       ),
     );
 
-  await publishNotification("removed_from_project", {
+  await publishNotification(Notification.RemovedFromProject, {
     projectName,
     userEmail,
   });

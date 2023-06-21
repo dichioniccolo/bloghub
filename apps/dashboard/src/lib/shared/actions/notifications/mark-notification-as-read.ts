@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { and, db, eq, notifications } from "@acme/db";
+import { and, db, eq, notifications, NotificationStatus } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const markNotificationAsRead = zact(
@@ -37,7 +37,7 @@ export const markNotificationAsRead = zact(
   await db
     .update(notifications)
     .set({
-      status: "read",
+      status: NotificationStatus.Read,
     })
     .where(
       and(

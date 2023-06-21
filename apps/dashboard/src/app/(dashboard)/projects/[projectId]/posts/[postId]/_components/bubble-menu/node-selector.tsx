@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import {
   Check,
   ChevronDown,
@@ -10,9 +10,10 @@ import {
 } from "lucide-react";
 
 import { type Editor } from "@acme/editor";
+import { Command, CommandItem, CommandList } from "@acme/ui";
 
 import { cn } from "~/lib/utils";
-import { type BubbleMenuItem } from "./editor-bubble-menu";
+import { type BubbleMenuItem } from "./index";
 
 interface NodeSelectorProps {
   editor: Editor;
@@ -69,45 +70,65 @@ export const NodeSelector: FC<NodeSelectorProps> = ({
     },
   ];
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (["ArrowUp", "ArrowDown", "Enter"].includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", onKeyDown);
+    } else {
+      document.removeEventListener("keydown", onKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen]);
+
   const activeItem = items.find((item) => item.isActive());
 
   return (
     <div className="relative h-full">
       <button
-        className="flex h-full items-center gap-1 p-2 text-sm font-medium text-gray-600 hover:bg-stone-100 active:bg-stone-200"
+        className="flex h-full items-center gap-1 border-r border-border p-2 text-sm font-medium text-gray-600 hover:bg-stone-100 active:bg-stone-200"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{activeItem?.name}</span>
+        <span className="whitespace-nowrap">{activeItem?.name}</span>
 
         <ChevronDown className="h-4 w-4" />
       </button>
 
       {isOpen && (
-        <section className="fixed top-full z-[99999] mt-1 flex w-48 flex-col overflow-hidden rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
-          {items.map((item, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                item.command();
-                setIsOpen(false);
-              }}
-              className={cn(
-                "flex items-center justify-between rounded-sm px-2 py-1 text-sm text-gray-600 hover:bg-stone-100",
-                {
-                  "text-blue-600": item.isActive(),
-                },
-              )}
-            >
-              <div className="flex items-center space-x-2">
-                <div className="rounded-sm border border-stone-200 p-1">
-                  <item.icon className="h-3 w-3" />
+        <Command className="fixed top-full z-[99999] mt-1 flex w-48 flex-col overflow-hidden rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
+          <CommandList>
+            {items.map((item, index) => (
+              <CommandItem
+                key={index}
+                onClick={() => {
+                  item.command();
+                  setIsOpen(false);
+                }}
+                className={cn(
+                  "flex items-center justify-between rounded-sm px-2 py-1 text-sm text-gray-600 hover:bg-stone-100",
+                  {
+                    "text-blue-600": item.isActive(),
+                  },
+                )}
+              >
+                <div className="flex items-center space-x-2">
+                  <div className="rounded-sm border border-stone-200 p-1">
+                    <item.icon className="h-3 w-3" />
+                  </div>
+                  <span>{item.name}</span>
                 </div>
-                <span>{item.name}</span>
-              </div>
-              {item.isActive() && <Check className="h-4 w-4" />}
-            </button>
-          ))}
-        </section>
+                {item.isActive() && <Check className="h-4 w-4" />}
+              </CommandItem>
+            ))}
+          </CommandList>
+        </Command>
       )}
     </div>
   );

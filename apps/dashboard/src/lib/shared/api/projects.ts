@@ -10,6 +10,7 @@ import {
   projectInvitations,
   projectMembers,
   projects,
+  Role,
   sql,
   users,
 } from "@acme/db";
@@ -76,7 +77,10 @@ export async function getProjectsCount() {
     })
     .from(projectMembers)
     .where(
-      and(eq(projectMembers.userId, user.id), eq(projectMembers.role, "owner")),
+      and(
+        eq(projectMembers.userId, user.id),
+        eq(projectMembers.role, Role.Owner),
+      ),
     )
     .then((x) => x[0]!);
 
@@ -149,7 +153,7 @@ export async function getProjectOwner(projectId: string) {
       projectMembersAlias,
       and(
         eq(projectMembersAlias.projectId, projectMembers.projectId),
-        eq(projectMembersAlias.role, "owner"),
+        eq(projectMembersAlias.role, Role.Owner),
       ),
     )
     .innerJoin(users, eq(users.id, projectMembersAlias.userId))

@@ -4,7 +4,7 @@ import EmailProvider from "next-auth/providers/email";
 
 import { authOptions, getLoginUrl } from "@acme/auth";
 import { AppRoutes } from "@acme/common/routes";
-import { db, eq, users } from "@acme/db";
+import { db, EmailNotificationSetting, eq, users } from "@acme/db";
 import { LoginLink, sendMail, WelcomeEmail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
@@ -37,7 +37,7 @@ const handler = NextAuth({
           .then((x) => x[0]);
 
         await sendMail({
-          type: "security",
+          type: EmailNotificationSetting.Security,
           to: identifier,
           subject: "Your login link",
           component: LoginLink({
@@ -66,7 +66,7 @@ const handler = NextAuth({
       );
 
       await sendMail({
-        type: "communication",
+        type: EmailNotificationSetting.Communication,
         to: user.email,
         subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
         component: WelcomeEmail({

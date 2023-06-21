@@ -13,9 +13,10 @@ import {
   posts,
   projectMembers,
   projects,
+  Role,
   sql,
   visits,
-  type mediaTypeEnum,
+  type MediaEnumType,
 } from "@acme/db";
 
 import { env } from "./env.mjs";
@@ -54,7 +55,7 @@ export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
       and(
         eq(projectMembers.projectId, projects.id),
         eq(projectMembers.userId, userId),
-        eq(projectMembers.role, "owner"),
+        eq(projectMembers.role, Role.Owner),
       ),
     )
     .then((x) => x[0]!);
@@ -86,18 +87,19 @@ export async function deleteUnusedMediaInPost(postId: string) {
   }
 
   // match all html urls with any characters containing the value of env.DO_CDN_URL
-  const regex = /<[^>]+src="([^"]+)"/g;
+  // const regex = /<[^>]+src="([^"]+)"/g;
 
-  let match: RegExpExecArray | null;
+  // let match: RegExpExecArray | null;
   const matches: string[] = [];
 
-  while ((match = regex.exec(post.content)) !== null) {
-    if (!match[1]) {
-      continue;
-    }
+  // TODO: fix this
+  // while ((match = regex.exec(post.content)) !== null) {
+  //   if (!match[1]) {
+  //     continue;
+  //   }
 
-    matches.push(match[1]);
-  }
+  //   matches.push(match[1]);
+  // }
 
   const deletedMedias = mediaList.filter((m) => !matches.includes(m.url));
 
@@ -150,9 +152,9 @@ export async function createProjectMedia(formData: FormData) {
 
   const fileName = `projects/${projectId}/posts/${postId}/assets/${createId()}.${extension}`;
 
-  const type = formData.get(
-    "type",
-  ) as (typeof mediaTypeEnum.enumValues)[number];
+  const type = parseInt(
+    formData.get("type")?.toString() ?? "",
+  ) as MediaEnumType;
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
@@ -163,6 +165,10 @@ export async function createProjectMedia(formData: FormData) {
 
   if (!uploadedFile) {
     throw new Error("Failed to upload file");
+  }
+
+  if (!type) {
+    throw new Error("Failed to determine media type");
   }
 
   return await db

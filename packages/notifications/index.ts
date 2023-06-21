@@ -1,20 +1,20 @@
 import { z } from "zod";
 
-import { type notificationStatus, type notificationTypeEnum } from "@acme/db";
+import { Notification, type NotificationStatusType } from "@acme/db";
 
 export type ProjectInvitationNotification = {
-  type: (typeof notificationTypeEnum.enumValues)[0];
+  type: typeof Notification.ProjectInvitation;
   data: ProjectInvitationNotificationData;
 };
 
 export type RemovedFromProjectNotification = {
-  type: (typeof notificationTypeEnum.enumValues)[1];
+  type: typeof Notification.RemovedFromProject;
   data: RemovedFromProjectNotificationData;
 };
 
 export type AppNotification = {
   id: string;
-  status: (typeof notificationStatus.enumValues)[number];
+  status: NotificationStatusType;
   createdAt: Date;
 } & (ProjectInvitationNotification | RemovedFromProjectNotification);
 
@@ -22,18 +22,18 @@ export function isProjectInvitationNotification(
   notification: AppNotification,
 ): notification is Extract<
   AppNotification,
-  { type: (typeof notificationTypeEnum.enumValues)[0] }
+  { type: typeof Notification.ProjectInvitation }
 > {
-  return notification.type === "project_invitation";
+  return notification.type === Notification.ProjectInvitation;
 }
 
 export function isRemovedFromProjectNotification(
   notification: AppNotification,
 ): notification is Extract<
   AppNotification,
-  { type: (typeof notificationTypeEnum.enumValues)[1] }
+  { type: typeof Notification.RemovedFromProject }
 > {
-  return notification.type === "removed_from_project";
+  return notification.type === Notification.RemovedFromProject;
 }
 
 export const ProjectInvitationNotificationSchema = z.object({

@@ -12,6 +12,7 @@ import { SmileReplacer } from "./smile-replacer";
 
 const StarterKitX = StarterKit.configure({
   history: false,
+  horizontalRule: false,
   bulletList: {
     HTMLAttributes: {
       class: "list-disc list-outside leading-3",
@@ -85,4 +86,4 @@ export {
   YoutubeX as Youtube,
 };
 
-export * from "./collaboration";
+// export * from "./collaboration";

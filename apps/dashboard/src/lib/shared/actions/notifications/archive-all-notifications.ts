@@ -2,7 +2,14 @@
 
 import { z } from "zod";
 
-import { and, db, eq, notifications, or } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  inArray,
+  notifications,
+  NotificationStatus,
+} from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const archiveAllNotifications = zact(
@@ -13,15 +20,15 @@ export const archiveAllNotifications = zact(
   await db
     .update(notifications)
     .set({
-      status: "archived",
+      status: NotificationStatus.Archvied,
     })
     .where(
       and(
         eq(notifications.userId, userId),
-        or(
-          eq(notifications.status, "unread"),
-          eq(notifications.status, "read"),
-        ),
+        inArray(notifications.status, [
+          NotificationStatus.Unread,
+          NotificationStatus.Read,
+        ]),
       ),
     );
 });

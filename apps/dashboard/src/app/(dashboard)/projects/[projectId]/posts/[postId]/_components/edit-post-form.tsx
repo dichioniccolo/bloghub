@@ -56,7 +56,7 @@ export function EditPostForm({ post }: Props) {
 
   const initialValues = {
     title: post.title ?? "",
-    content: post.content ?? "",
+    content: post.content ?? {},
   };
 
   return (

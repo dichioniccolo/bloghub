@@ -8,11 +8,14 @@ import { AppRoutes } from "@acme/common/routes";
 import {
   and,
   asc,
+  AutomaticEmail,
+  automaticEmails,
   db,
-  emails,
+  EmailNotificationSetting,
   eq,
   projectMembers,
   projects,
+  Role,
   users,
 } from "@acme/db";
 import {
@@ -63,7 +66,7 @@ export async function POST(req: Request) {
       projectMembers,
       and(
         eq(projects.id, projectMembers.projectId),
-        eq(projectMembers.role, "owner"),
+        eq(projectMembers.role, Role.Owner),
       ),
     )
     .innerJoin(users, eq(users.id, projectMembers.userId))
@@ -76,8 +79,8 @@ export async function POST(req: Request) {
 
       if (verificationResult.verified) {
         await db
-          .delete(emails)
-          .where(eq(emails.projectId, project.id))
+          .delete(automaticEmails)
+          .where(eq(automaticEmails.projectId, project.id))
           .execute();
         continue;
       }
@@ -93,12 +96,12 @@ export async function POST(req: Request) {
       if (invalidDays > 3 && invalidDays <= 7) {
         const invalidDomainEmails = await db
           .select()
-          .from(emails)
+          .from(automaticEmails)
           .where(
             and(
-              eq(emails.projectId, project.id),
-              eq(emails.type, "invalid_domain"),
-              eq(emails.userId, project.owner.id),
+              eq(automaticEmails.projectId, project.id),
+              eq(automaticEmails.type, AutomaticEmail.InvalidDomain),
+              eq(automaticEmails.userId, project.owner.id),
             ),
           )
           .execute();
@@ -118,7 +121,7 @@ export async function POST(req: Request) {
           );
 
           await sendMail({
-            type: "communication",
+            type: EmailNotificationSetting.Communication,
             to: project.owner.email,
             subject: `Your domain ${project.domain} is not configured`,
             component: InvalidDomain({
@@ -133,9 +136,9 @@ export async function POST(req: Request) {
           });
 
           await tx
-            .insert(emails)
+            .insert(automaticEmails)
             .values({
-              type: "invalid_domain",
+              type: AutomaticEmail.InvalidDomain,
               projectId: project.id,
               userId: project.owner.id,
             })
@@ -152,7 +155,7 @@ export async function POST(req: Request) {
         );
 
         await sendMail({
-          type: "communication",
+          type: EmailNotificationSetting.Communication,
           to: project.owner.email,
           subject: `Your ${project.domain} domain is not configured`,
           component: AutomaticProjectDeletion({

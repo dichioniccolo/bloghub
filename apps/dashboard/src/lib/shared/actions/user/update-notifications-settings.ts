@@ -2,7 +2,13 @@
 
 import { z } from "zod";
 
-import { and, db, emailNotificationSettings, eq } from "@acme/db";
+import {
+  and,
+  db,
+  EmailNotificationSetting,
+  emailNotificationSettings,
+  eq,
+} from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const updateNotificationSettings = zact(
@@ -26,7 +32,7 @@ export const updateNotificationSettings = zact(
         .insert(emailNotificationSettings)
         .values({
           userId,
-          type: "communication",
+          type: EmailNotificationSetting.Communication,
           value: communication_emails,
         })
         .onConflictDoUpdate({
@@ -39,7 +45,10 @@ export const updateNotificationSettings = zact(
           },
           where: and(
             eq(emailNotificationSettings.userId, userId),
-            eq(emailNotificationSettings.type, "communication"),
+            eq(
+              emailNotificationSettings.type,
+              EmailNotificationSetting.Communication,
+            ),
           ),
         });
 
@@ -47,7 +56,7 @@ export const updateNotificationSettings = zact(
         .insert(emailNotificationSettings)
         .values({
           userId,
-          type: "marketing",
+          type: EmailNotificationSetting.Marketing,
           value: marketing_emails,
         })
         .onConflictDoUpdate({
@@ -60,7 +69,10 @@ export const updateNotificationSettings = zact(
           },
           where: and(
             eq(emailNotificationSettings.userId, userId),
-            eq(emailNotificationSettings.type, "marketing"),
+            eq(
+              emailNotificationSettings.type,
+              EmailNotificationSetting.Marketing,
+            ),
           ),
         });
 
@@ -68,7 +80,7 @@ export const updateNotificationSettings = zact(
         .insert(emailNotificationSettings)
         .values({
           userId,
-          type: "social",
+          type: EmailNotificationSetting.Social,
           value: social_emails,
         })
         .onConflictDoUpdate({
@@ -81,7 +93,7 @@ export const updateNotificationSettings = zact(
           },
           where: and(
             eq(emailNotificationSettings.userId, userId),
-            eq(emailNotificationSettings.type, "social"),
+            eq(emailNotificationSettings.type, EmailNotificationSetting.Social),
           ),
         });
 
@@ -89,7 +101,7 @@ export const updateNotificationSettings = zact(
         .insert(emailNotificationSettings)
         .values({
           userId,
-          type: "security",
+          type: EmailNotificationSetting.Security,
           value: security_emails,
         })
         .onConflictDoUpdate({
@@ -102,7 +114,10 @@ export const updateNotificationSettings = zact(
           },
           where: and(
             eq(emailNotificationSettings.userId, userId),
-            eq(emailNotificationSettings.type, "security"),
+            eq(
+              emailNotificationSettings.type,
+              EmailNotificationSetting.Security,
+            ),
           ),
         });
     });

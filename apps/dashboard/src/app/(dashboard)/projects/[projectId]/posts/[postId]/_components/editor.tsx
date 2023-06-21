@@ -17,17 +17,18 @@ import {
   useEditor,
   Youtube,
   type Editor as EditorType,
+  type JSONContent,
 } from "@acme/editor";
 import { toast } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { EditorBubbleMenu } from "./editor-bubble-menu";
+import { EditorBubbleMenu } from "./bubble-menu";
 
 type Props = {
   setStatus?(status: "saved" | "unsaved" | "saving"): void;
   value: string;
-  onChange?(value: string): void;
+  onChange?(value: JSONContent): void;
   projectId: string;
   postId: string;
 };
@@ -61,18 +62,6 @@ export function Editor({
     },
     onError: () => {
       toast.error("Something went wrong.");
-      if (
-        editor?.state.doc.textBetween(
-          editor.state.selection.from - 5,
-          editor.state.selection.from,
-          "\n",
-        ) === "🤖..."
-      ) {
-        editor?.commands.deleteRange({
-          from: editor.state.selection.from - 5,
-          to: editor.state.selection.from,
-        });
-      }
     },
   });
 
@@ -93,10 +82,9 @@ export function Editor({
           from: selection.from - 2,
           to: selection.from,
         });
-        editor.commands.insertContent("🤖...");
         void complete(editor.getText());
       } else {
-        onChange?.(editor.getHTML());
+        onChange?.(editor.getJSON());
       }
     },
     [complete, isLoading, onChange, setStatus],
@@ -124,20 +112,6 @@ export function Editor({
 
   // Insert chunks of the generated text
   useEffect(() => {
-    // remove 🤖... and insert the generated text
-    if (
-      completion.length > 0 &&
-      editor?.state.doc.textBetween(
-        editor.state.selection.from - 5,
-        editor.state.selection.from,
-        "\n",
-      ) === "🤖..."
-    ) {
-      editor?.commands.deleteRange({
-        from: editor.state.selection.from - 5,
-        to: editor.state.selection.from,
-      });
-    }
     const diff = completion.slice(prev.current.length);
     prev.current = completion;
     editor?.commands.insertContent(diff, {
@@ -162,13 +136,26 @@ export function Editor({
         editor?.commands.insertContent("++");
       }
     };
+
+    const mouseDownHandler = async (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stop();
+
+      if (window.confirm("AI writing paused. Continue?")) {
+        await complete(editor?.getText() ?? "");
+      }
+    };
+
     if (isLoading) {
       document.addEventListener("keydown", onKeyDown);
+      document.addEventListener("mousedown", mouseDownHandler);
     }
     return () => {
       document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("mousedown", mouseDownHandler);
     };
-  }, [stop, isLoading, editor, completion.length]);
+  }, [stop, isLoading, editor, completion.length, complete]);
 
   if (!editor) {
     return (

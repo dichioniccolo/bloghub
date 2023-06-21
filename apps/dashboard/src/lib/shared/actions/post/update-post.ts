@@ -14,7 +14,7 @@ export const updatePost = zact(
       postId: z.string().nonempty(),
       body: z.object({
         title: z.string(),
-        content: z.string(),
+        content: z.any(),
       }),
     })
     .superRefine(async ({ postId, projectId, userId }, ctx) => {

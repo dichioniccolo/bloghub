@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
-import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
+import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 export const verifyDomain = zact(
@@ -22,7 +22,7 @@ export const verifyDomain = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);
@@ -48,7 +48,7 @@ export const verifyDomain = zact(
       and(
         eq(projectMembers.projectId, projects.id),
         eq(projectMembers.userId, userId),
-        eq(projectMembers.role, "owner"),
+        eq(projectMembers.role, Role.Owner),
       ),
     )
     .then((x) => x[0]!);

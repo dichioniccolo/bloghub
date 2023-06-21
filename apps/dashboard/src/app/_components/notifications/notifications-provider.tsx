@@ -8,6 +8,7 @@ import {
   type PropsWithChildren,
 } from "react";
 
+import { NotificationStatus } from "@acme/db";
 import { type AppNotification } from "@acme/notifications";
 
 type NotificationsContext = {
@@ -52,7 +53,7 @@ const notificationsReducer = (
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         ),
         unreadCount:
-          payload.status === "unread"
+          payload.status === NotificationStatus.Unread
             ? state.unreadCount + 1
             : state.unreadCount,
       };
@@ -63,7 +64,7 @@ const notificationsReducer = (
           (notification) => notification.id !== payload.id,
         ),
         unreadCount:
-          payload.status === "unread"
+          payload.status === NotificationStatus.Unread
             ? state.unreadCount - 1
             : state.unreadCount,
       };
@@ -80,7 +81,7 @@ const notificationsReducer = (
           if (notification.id === payload.id) {
             return {
               ...notification,
-              status: "read",
+              status: NotificationStatus.Read,
             };
           }
 
@@ -95,7 +96,7 @@ const notificationsReducer = (
           if (notification.id === payload.id) {
             return {
               ...notification,
-              status: "unread",
+              status: NotificationStatus.Unread,
             };
           }
 

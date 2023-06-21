@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { createDomain, deleteDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
-import { and, db, eq, projectMembers, projects, sql } from "@acme/db";
+import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 import { DomainSchema } from "../schemas";
@@ -27,7 +27,7 @@ export const updateDomain = zact(
           and(
             eq(projectMembers.projectId, projectId),
             eq(projectMembers.userId, userId),
-            eq(projectMembers.role, "owner"),
+            eq(projectMembers.role, Role.Owner),
           ),
         )
         .then((x) => x[0]!);

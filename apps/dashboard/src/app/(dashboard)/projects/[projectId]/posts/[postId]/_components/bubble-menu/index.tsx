@@ -10,6 +10,7 @@ import {
 import { BubbleMenu, type BubbleMenuProps } from "@acme/editor";
 
 import { cn } from "~/lib/utils";
+import { AISelector } from "./ai-selector";
 import { NodeSelector } from "./node-selector";
 
 export interface BubbleMenuItem {
@@ -63,17 +64,26 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = ({
     editor,
     tippyOptions: {
       moveTransition: "transform 0.15s ease-out",
-      onHidden: () => setIsNodeSelectorOpen(false),
+      onHidden: () => {
+        setIsAISelectorOpen(false);
+        setIsNodeSelectorOpen(false);
+      },
     },
   };
 
+  const [isAISelectorOpen, setIsAISelectorOpen] = useState(false);
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
 
   return (
     <BubbleMenu
       {...bubbleMenuProps}
-      className="flex overflow-hidden rounded border border-stone-200 bg-white shadow-xl"
+      className="flex w-fit overflow-hidden rounded border border-stone-200 bg-white shadow-xl"
     >
+      <AISelector
+        editor={editor}
+        isOpen={isAISelectorOpen}
+        setIsOpen={setIsAISelectorOpen}
+      />
       <NodeSelector
         editor={editor}
         isOpen={isNodeSelectorOpen}

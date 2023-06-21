@@ -2,7 +2,7 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 
 import { AppRoutes } from "@acme/common/routes";
-import { type notificationTypeEnum } from "@acme/db";
+import { type Notification } from "@acme/db";
 import { type AppNotification } from "@acme/notifications";
 
 import { Icons } from "~/app/_components/icons";
@@ -11,7 +11,7 @@ import { BaseNotification } from "~/app/_components/notifications/types/base-not
 type Props = {
   notification: Extract<
     AppNotification,
-    { type: (typeof notificationTypeEnum.enumValues)[0] }
+    { type: typeof Notification.ProjectInvitation }
   >;
 };
 

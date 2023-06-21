@@ -1,6 +1,11 @@
 "use server";
 
-import { db, emailNotificationSettings, eq } from "@acme/db";
+import {
+  db,
+  EmailNotificationSetting,
+  emailNotificationSettings,
+  eq,
+} from "@acme/db";
 
 import { $getUser } from "../get-user";
 
@@ -17,12 +22,14 @@ export async function getNotificationsSettings() {
 
   return {
     communication_emails:
-      settings.find((s) => s.type === "communication")?.value ?? true,
+      settings.find((s) => s.type === EmailNotificationSetting.Communication)
+        ?.value ?? true,
     marketing_emails:
-      settings.find((s) => s.type === "marketing")?.value ?? true,
-    social_emails: settings.find((s) => s.type === "social")?.value ?? true,
+      settings.find((s) => s.type === EmailNotificationSetting.Marketing)
+        ?.value ?? true,
+    social_emails:
+      settings.find((s) => s.type === EmailNotificationSetting.Social)?.value ??
+      true,
     security_emails: true as const,
-    // settings.find((s) => s.type === EmailNotificationSettingType.SECURITY)
-    //   ?.value ?? true,
   };
 }

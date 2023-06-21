@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { createDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
-import { db, projectMembers, projects } from "@acme/db";
+import { db, projectMembers, projects, Role } from "@acme/db";
 import { zact } from "@acme/zact/server";
 
 import { DomainSchema } from "../schemas";
@@ -36,7 +36,7 @@ export const createProject = zact(
     await tx.insert(projectMembers).values({
       projectId: project.id,
       userId,
-      role: "owner",
+      role: Role.Owner,
     });
 
     return project;
