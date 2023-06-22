@@ -19,7 +19,7 @@
     "@acme/notifications": "^0.1.0",
     "@t3-oss/env-nextjs": "^0.4.1",
     "@upstash/qstash": "^0.3.6",
-    "@vercel/kv": "^0.2.1",
+    "@vercel/kv": "^0.2.2",
     "next": "^13.4.7",
     "pusher": "^5.1.3",
     "react": "^18.2.0",

@@ -69,8 +69,8 @@ importers:
         specifier: ^0.3.6
         version: 0.3.6
       '@vercel/kv':
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.2.2
+        version: 0.2.2
       next:
         specifier: ^13.4.7
         version: 13.4.7(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
@@ -139,8 +139,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1(typescript@5.1.3)(zod@3.21.4)
       '@vercel/kv':
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.2.2
+        version: 0.2.2
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
@@ -257,8 +257,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       '@vercel/kv':
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.2.2
+        version: 0.2.2
       ai:
         specifier: ^2.1.7
         version: 2.1.7(react@18.2.0)(svelte@3.59.1)(vue@3.3.4)
@@ -5711,7 +5711,7 @@ packages:
     resolution: {integrity: sha512-cpPSR0XJAJs4Ddz9nq3tINlPS5aLfWVCqhhtHnXt4p7qr5+/Znlt1Es736poB/9rnl1hAHrOsOvVj46NEXcVqA==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@upstash/redis': 1.20.6
+      '@upstash/redis': 1.21.0
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -5730,8 +5730,8 @@ packages:
       - encoding
     dev: false
 
-  /@upstash/redis@1.20.6:
-    resolution: {integrity: sha512-q1izaYEUsq/WiXNOjf4oOjFZe8fIeBSZN8d5cEyOD4nem+zxc4jccieorQQrNlEahKPE1ZYLzVEkMODRUfch2g==}
+  /@upstash/redis@1.21.0:
+    resolution: {integrity: sha512-c6M+cl0LOgGK/7Gp6ooMkIZ1IDAJs8zFR+REPkoSkAq38o7CWFX5FYwYEqGZ6wJpUGBuEOr/7hTmippXGgL25A==}
     dependencies:
       isomorphic-fetch: 3.0.0
     transitivePeerDependencies:
@@ -5749,11 +5749,11 @@ packages:
       '@vercel/edge-config-fs': 0.1.0
     dev: false
 
-  /@vercel/kv@0.2.1:
-    resolution: {integrity: sha512-0O1CVh0maG/bduAE6DPKUTfGSnORgrcS5xBYZCb62sOU7PrVZrXhaPbUSBE4q5PXS5DC+cpN6FY2RWNlslUaWQ==}
+  /@vercel/kv@0.2.2:
+    resolution: {integrity: sha512-mqnQOB6bkp4h5eObxfLNIlhlVqOGSH8cWOlC5pDVWTjX3zL8dETO1ZBl6M74HBmeBjbD5+J7wDJklRigY6UNKw==}
     engines: {node: '>=14.6'}
     dependencies:
-      '@upstash/redis': 1.20.6
+      '@upstash/redis': 1.21.0
     transitivePeerDependencies:
       - encoding
     dev: false
