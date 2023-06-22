@@ -1,5 +1,7 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 
+import { toast } from "@acme/ui";
+
 export type UploadFunctionType = (file: File) => Promise<string>;
 
 export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
@@ -10,7 +12,7 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
         const items = Array.from(event.clipboardData?.items || []);
         const { schema } = view.state;
 
-        items.forEach(async (item) => {
+        items.forEach((item) => {
           const file = item.getAsFile();
 
           const isImageOrVideo =
@@ -21,16 +23,23 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
             event.preventDefault();
 
             if (upload && file) {
-              const src = await upload(file);
+              toast.promise(
+                upload(file).then((src) => {
+                  const node = schema.nodes.resizableMedia!.create({
+                    src,
+                    "media-type":
+                      file.type.indexOf("image") === 0 ? "img" : "video",
+                  });
 
-              const node = schema.nodes.resizableMedia!.create({
-                src,
-                "media-type":
-                  file.type.indexOf("image") === 0 ? "img" : "video",
-              });
-
-              const transaction = view.state.tr.replaceSelectionWith(node);
-              view.dispatch(transaction);
+                  const transaction = view.state.tr.replaceSelectionWith(node);
+                  view.dispatch(transaction);
+                }),
+                {
+                  loading: "Uploading...",
+                  success: "Uploaded",
+                  error: "Failed to upload",
+                },
+              );
             }
           } else {
             const reader = new FileReader();
@@ -80,20 +89,29 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
 
         if (!coordinates) return false;
 
-        imagesAndVideos.forEach(async (imageOrVideo) => {
+        imagesAndVideos.forEach((imageOrVideo) => {
           const reader = new FileReader();
 
           if (upload) {
-            const node = schema.nodes.resizableMedia!.create({
-              src: await upload(imageOrVideo),
-              "media-type": imageOrVideo.type.includes("image")
-                ? "img"
-                : "video",
-            });
+            toast.promise(
+              upload(imageOrVideo).then((src) => {
+                const node = schema.nodes.resizableMedia!.create({
+                  src,
+                  "media-type": imageOrVideo.type.includes("image")
+                    ? "img"
+                    : "video",
+                });
 
-            const transaction = view.state.tr.insert(coordinates.pos, node);
+                const transaction = view.state.tr.insert(coordinates.pos, node);
 
-            view.dispatch(transaction);
+                view.dispatch(transaction);
+              }),
+              {
+                loading: "Uploading...",
+                success: "Uploaded",
+                error: "Failed to upload",
+              },
+            );
           } else {
             reader.onload = (readerEvent) => {
               const node = schema.nodes.resizableMedia!.create({

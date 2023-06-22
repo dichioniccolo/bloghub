@@ -31,7 +31,7 @@ export function DomainConfigurations({ status }: Props) {
     );
 
     return (
-      <div className="border-t border-gray-200 pt-5">
+      <div className="border-t border-border pt-5">
         <p className="text-sm">
           Please set the following TXT record on{" "}
           <InlineSnippet>{status.domainJson.apexName}</InlineSnippet> to prove
@@ -70,15 +70,14 @@ export function DomainConfigurations({ status }: Props) {
   }
 
   return (
-    <div className="border-t border-gray-200 pt-5 dark:border-gray-700">
+    <div className="border-t border-border pt-5">
       <div className="flex justify-start space-x-4">
         <button
           onClick={() => setRecordType("A")}
           className={cn(
             "ease border-b-2 pb-1 text-sm transition-all duration-150",
             {
-              "border-black text-black dark:border-white dark:text-white":
-                recordType === "A",
+              "border-border": recordType === "A",
               "border-none text-gray-400": recordType !== "A",
             },
           )}
@@ -90,8 +89,7 @@ export function DomainConfigurations({ status }: Props) {
           className={cn(
             "ease border-b-2 pb-1 text-sm transition-all duration-150",
             {
-              "border-black text-black dark:border-white dark:text-white":
-                recordType === "CNAME",
+              "border-border": recordType === "CNAME",
               "border-none text-gray-400": recordType !== "CNAME",
             },
           )}

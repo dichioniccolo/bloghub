@@ -88,14 +88,14 @@ export function UpgradePlanDialog({ proPlans }: Props) {
             <span>Upgrade to Pro</span>
           </DialogTitle>
           <DialogDescription className="flex items-center gap-4">
-            <span className="text-sm text-gray-600 dark:text-gray-300">
+            <span className="text-sm text-stone-600 dark:text-stone-300">
               Billed Monthly
             </span>
             <Switch
               checked={annualBilling}
               onCheckedChange={setAnnualBilling}
             />
-            <span className="text-sm text-gray-600 dark:text-gray-300">
+            <span className="text-sm text-stone-600 dark:text-stone-300">
               Billed Annually
             </span>
           </DialogDescription>

@@ -87,7 +87,7 @@ export const AISelector: FC<AISelectorProps> = ({
                   void complete(text);
                   setIsOpen(false);
                 }}
-                className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm text-gray-600 active:bg-stone-200 aria-selected:bg-stone-100"
+                className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 active:bg-stone-200 aria-selected:bg-stone-100"
               >
                 <div className="flex items-center space-x-2">
                   <item.icon className="h-4 w-4 text-purple-500" />

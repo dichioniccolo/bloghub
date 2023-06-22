@@ -38,7 +38,7 @@ const StarterKitX = StarterKit.configure({
   },
   blockquote: {
     HTMLAttributes: {
-      class: "border-l-4 border-gray-300 pl-4",
+      class: "border-l-4 border-stone-300 pl-4",
     },
   },
   codeBlock: {

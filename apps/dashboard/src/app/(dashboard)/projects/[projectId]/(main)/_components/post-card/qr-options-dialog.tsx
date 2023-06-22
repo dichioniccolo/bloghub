@@ -117,7 +117,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
         <DialogHeader>
           <DialogTitle>Generate QR Code</DialogTitle>
         </DialogHeader>
-        <div className="mx-auto rounded-lg border-2 border-gray-200 bg-background p-4">
+        <div className="mx-auto rounded-lg border-2 border-border bg-background p-4">
           <QRCodeSVG
             value={qrData.value}
             size={qrData.size / 8}

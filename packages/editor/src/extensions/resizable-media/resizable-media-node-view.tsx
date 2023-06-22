@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { NodeViewWrapper, type NodeViewProps } from "@tiptap/react";
 import { AlignCenter, AlignLeft, AlignRight, Trash2 } from "lucide-react";
 
@@ -71,27 +71,9 @@ export const ResizableMediaNodeView = ({
 
   const [proseMirrorContainerWidth, setProseMirrorContainerWidth] = useState(0);
 
-  const [mediaActionActiveState, setMediaActionActiveState] = useState<
-    Record<string, boolean>
-  >({});
-
   const resizableMediaRef = useRef<HTMLImageElement | HTMLVideoElement | null>(
     null,
   );
-
-  const calculateMediaActionActiveStates = () => {
-    const activeStates: Record<string, boolean> = {};
-
-    resizableMediaActions.forEach(({ tooltip, isActive }) => {
-      activeStates[tooltip] = !!isActive?.(node.attrs);
-    });
-
-    setMediaActionActiveState(activeStates);
-  };
-
-  useEffect(() => {
-    calculateMediaActionActiveStates();
-  }, [node.attrs]);
 
   const mediaSetupOnLoad = () => {
     // ! TODO: move this to extension storage
@@ -123,8 +105,6 @@ export const ResizableMediaNodeView = ({
         );
       };
     }
-
-    setTimeout(() => calculateMediaActionActiveStates(), 200);
   };
 
   const setLastClientX = (x: number) => {
@@ -135,9 +115,6 @@ export const ResizableMediaNodeView = ({
     mediaSetupOnLoad();
   });
 
-  const [_isHorizontalResizeActive, setIsHorizontalResizeActive] =
-    useState(false);
-
   const limitWidthOrHeightToFiftyPixels = ({ width, height }: WidthAndHeight) =>
     width < 100 || height < 100;
 
@@ -146,7 +123,6 @@ export const ResizableMediaNodeView = ({
   };
 
   const startHorizontalResize = (e: { clientX: number }) => {
-    setIsHorizontalResizeActive(true);
     lastClientX = e.clientX;
 
     setTimeout(() => {
@@ -156,7 +132,6 @@ export const ResizableMediaNodeView = ({
   };
 
   const stopHorizontalResize = () => {
-    setIsHorizontalResizeActive(false);
     lastClientX = -1;
 
     document.removeEventListener("mousemove", documentHorizontalMouseMove);
@@ -217,28 +192,17 @@ export const ResizableMediaNodeView = ({
     });
   };
 
-  const alignClass = useMemo(() => {
-    if (!node.attrs.dataAlign) return "";
-
-    const align = node.attrs.dataAlign;
-
-    if (align === "start") {
-      return "justify-start";
-    } else if (align === "center") {
-      return "justify-center";
-    } else if (align === "end") {
-      return "justify-end";
-    }
-
-    return "";
-  }, [node.attrs.dataAlign]);
-
   return (
     <NodeViewWrapper
       as="article"
       className={cn(
         "not-prose relative my-2 flex w-full transition-all ease-in-out",
-        alignClass,
+        {
+          "justify-center":
+            node.attrs.dataAlign === "center" || !node.attrs.dataAlign,
+          "justify-start": node.attrs.dataAlign === "start",
+          "justify-end": node.attrs.dataAlign === "end",
+        },
       )}
     >
       <div className="group relative flex w-fit transition-all ease-in-out">
@@ -284,7 +248,7 @@ export const ResizableMediaNodeView = ({
                     className={cn(
                       "inline-flex h-8 items-center rounded-none border border-transparent bg-gray-100 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-200",
                       {
-                        "bg-gray-300": mediaActionActiveState[btn.tooltip],
+                        "bg-gray-300": btn.isActive?.(node.attrs),
                       },
                     )}
                     onClick={() =>
