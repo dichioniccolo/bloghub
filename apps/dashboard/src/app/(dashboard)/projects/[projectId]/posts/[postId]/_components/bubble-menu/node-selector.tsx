@@ -3,11 +3,13 @@ import { Command } from "cmdk";
 import {
   Check,
   ChevronDown,
+  Code,
   Heading1,
   Heading2,
   Heading3,
   ListOrdered,
   TextIcon,
+  TextQuote,
 } from "lucide-react";
 
 import { type Editor } from "@acme/editor";
@@ -64,6 +66,24 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
       command: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive("orderedList"),
     },
+    {
+      name: "Quote",
+      icon: TextQuote,
+      command: () =>
+        editor
+          .chain()
+          .focus()
+          .toggleNode("paragraph", "paragraph")
+          .toggleBlockquote()
+          .run(),
+      isActive: () => editor.isActive("blockquote"),
+    },
+    {
+      name: "Code",
+      icon: Code,
+      command: () => editor.chain().focus().toggleCodeBlock().run(),
+      isActive: () => editor.isActive("codeBlock"),
+    },
   ];
 
   useEffect(() => {
@@ -84,7 +104,9 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
     };
   }, [isOpen]);
 
-  const activeItem = items.find((item) => item.isActive()) ?? items[0];
+  const activeItem = items.filter((item) => item.isActive()).pop() ?? {
+    name: "Multiple",
+  };
 
   return (
     <div className="relative h-full">
@@ -120,7 +142,7 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
                   </div>
                   <span>{item.name}</span>
                 </div>
-                {item.isActive() && <Check className="h-4 w-4" />}
+                {activeItem.name === item.name && <Check className="h-4 w-4" />}
               </Command.Item>
             ))}
           </Command.List>

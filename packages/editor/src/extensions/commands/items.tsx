@@ -1,12 +1,14 @@
 import { type ReactNode } from "react";
 import { type Editor, type Range } from "@tiptap/core";
 import {
+  Code,
   Divide,
   Heading1,
   Heading2,
   Heading3,
   List,
   ListOrdered,
+  TextQuote,
 } from "lucide-react";
 
 type Command = {
@@ -94,6 +96,26 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         command: ({ editor, range }) => {
           editor.chain().focus().deleteRange(range).setHorizontalRule().run();
         },
+      },
+      {
+        title: "Quote",
+        description: "Capture a quote.",
+        icon: <TextQuote size={18} />,
+        command: ({ editor, range }: Command) =>
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .toggleNode("paragraph", "paragraph")
+            .toggleBlockquote()
+            .run(),
+      },
+      {
+        title: "Code",
+        description: "Capture a code snippet.",
+        icon: <Code size={18} />,
+        command: ({ editor, range }: Command) =>
+          editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
       },
     ] as CommandItemProps[]
   ).filter((item) => {

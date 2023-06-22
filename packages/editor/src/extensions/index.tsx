@@ -38,12 +38,12 @@ const StarterKitX = StarterKit.configure({
   },
   blockquote: {
     HTMLAttributes: {
-      class: "border-l-4 border-stone-300 pl-4",
+      class: "border-l-4 border-stone-700",
     },
   },
   codeBlock: {
     HTMLAttributes: {
-      class: "rounded-md bg-stone-200 p-5 font-mono font-medium text-gray-800",
+      class: "rounded-sm bg-stone-100 p-5 font-mono font-medium text-gray-800",
     },
   },
   code: {

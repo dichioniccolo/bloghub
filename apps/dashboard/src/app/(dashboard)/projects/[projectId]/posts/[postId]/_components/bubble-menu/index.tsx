@@ -89,12 +89,20 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
       <AISelector
         editor={editor}
         isOpen={isAISelectorOpen}
-        setIsOpen={setIsAISelectorOpen}
+        setIsOpen={() => {
+          setIsAISelectorOpen(!isAISelectorOpen);
+          setIsNodeSelectorOpen(false);
+          setIsColorSelectorOpen(false);
+        }}
       />
       <NodeSelector
         editor={editor}
         isOpen={isNodeSelectorOpen}
-        setIsOpen={setIsNodeSelectorOpen}
+        setIsOpen={() => {
+          setIsNodeSelectorOpen(!isNodeSelectorOpen);
+          setIsColorSelectorOpen(false);
+          setIsAISelectorOpen(false);
+        }}
       />
 
       {items.map((item, index) => (
@@ -113,7 +121,11 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
       <ColorSelector
         editor={editor}
         isOpen={isColorSelectorOpen}
-        setIsOpen={setIsColorSelectorOpen}
+        setIsOpen={() => {
+          setIsColorSelectorOpen(!isColorSelectorOpen);
+          setIsNodeSelectorOpen(false);
+          setIsAISelectorOpen(false);
+        }}
       />
     </BubbleMenu>
   );
