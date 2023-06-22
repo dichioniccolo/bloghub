@@ -84,7 +84,7 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
     };
   }, [isOpen]);
 
-  const activeItem = items.find((item) => item.isActive());
+  const activeItem = items.find((item) => item.isActive()) ?? items[0];
 
   return (
     <div className="relative h-full">

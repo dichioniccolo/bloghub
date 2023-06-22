@@ -37,7 +37,7 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
                 {
                   loading: "Uploading...",
                   success: "Uploaded",
-                  error: "Failed to upload",
+                  error: (e) => `Failed to upload ${e}`,
                 },
               );
             }
@@ -109,7 +109,7 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
               {
                 loading: "Uploading...",
                 success: "Uploaded",
-                error: "Failed to upload",
+                error: (e) => `Failed to upload ${e}`,
               },
             );
           } else {

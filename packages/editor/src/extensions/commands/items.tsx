@@ -1,11 +1,10 @@
 import { type ReactNode } from "react";
 import { type Editor, type Range } from "@tiptap/core";
 import {
-  Bold,
   Divide,
   Heading1,
   Heading2,
-  Italic,
+  Heading3,
   List,
   ListOrdered,
 } from "lucide-react";
@@ -60,19 +59,16 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         },
       },
       {
-        title: "Bold",
-        description: "Make text bold.",
-        icon: <Bold size={18} />,
+        title: "Heading 3",
+        description: "Small section heading.",
+        icon: <Heading3 size={18} />,
         command: ({ editor, range }) => {
-          editor.chain().focus().deleteRange(range).setMark("bold").run();
-        },
-      },
-      {
-        title: "Italic",
-        description: "Make text italic.",
-        icon: <Italic size={18} />,
-        command: ({ editor, range }) => {
-          editor.chain().focus().deleteRange(range).setMark("italic").run();
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .setNode("heading", { level: 2 })
+            .run();
         },
       },
       {

@@ -14,6 +14,21 @@
   height: 0;
 }
 
+.ProseMirror img {
+  transition: filter 0.1s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+
+  &.ProseMirror-selectednode {
+    outline: 3px solid #5abbf7;
+    filter: brightness(90%);
+  }
+}
+
+/*
 .collaboration-cursor__caret {
   border-left: 1px solid #0d0d0d;
   border-right: 1px solid #0d0d0d;
@@ -38,3 +53,4 @@
   user-select: none;
   white-space: nowrap;
 }
+*/

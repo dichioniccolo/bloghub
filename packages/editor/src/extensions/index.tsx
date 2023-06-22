@@ -43,7 +43,7 @@ const StarterKitX = StarterKit.configure({
   },
   codeBlock: {
     HTMLAttributes: {
-      class: "rounded-md bg-gray-200 p-5 font-mono font-medium text-gray-800",
+      class: "rounded-md bg-stone-200 p-5 font-mono font-medium text-gray-800",
     },
   },
   code: {
@@ -52,6 +52,7 @@ const StarterKitX = StarterKit.configure({
         "rounded-md bg-stone-200 px-1.5 py-1 font-mono font-medium text-black",
     },
   },
+  gapcursor: false,
 });
 
 const HorizontalRuleExtensionX = HorizontalRuleExtension.configure({

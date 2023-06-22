@@ -155,7 +155,7 @@ export async function createProjectMedia(formData: FormData) {
     );
 
   if (projectMember.length === 0) {
-    throw new Error("You must be a member of the project");
+    throw "You must be a member of the project";
   }
 
   const file = formData.get("file") as File;
@@ -168,6 +168,10 @@ export async function createProjectMedia(formData: FormData) {
     formData.get("type")?.toString() ?? "",
   ) as MediaEnumType;
 
+  if (!type) {
+    throw "Failed to determine media type";
+  }
+
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
   const uploadedFile = await uploadFile(fileName, fileAsBuffer, file.type, {
@@ -176,11 +180,7 @@ export async function createProjectMedia(formData: FormData) {
   });
 
   if (!uploadedFile) {
-    throw new Error("Failed to upload file");
-  }
-
-  if (!type) {
-    throw new Error("Failed to determine media type");
+    throw "Failed to upload file";
   }
 
   const id = createId();
