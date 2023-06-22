@@ -27,6 +27,8 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
                 upload(file).then((src) => {
                   const node = schema.nodes.resizableMedia!.create({
                     src,
+                    alt: file.name,
+                    title: file.name,
                     "media-type":
                       file.type.indexOf("image") === 0 ? "img" : "video",
                   });
@@ -97,6 +99,8 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
               upload(imageOrVideo).then((src) => {
                 const node = schema.nodes.resizableMedia!.create({
                   src,
+                  alt: imageOrVideo.name,
+                  title: imageOrVideo.name,
                   "media-type": imageOrVideo.type.includes("image")
                     ? "img"
                     : "video",
@@ -109,7 +113,8 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
               {
                 loading: "Uploading...",
                 success: "Uploaded",
-                error: (e) => `Failed to upload ${e}`,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+                error: (e) => e?.message ?? "Failed to upload",
               },
             );
           } else {

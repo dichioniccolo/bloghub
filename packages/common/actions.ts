@@ -4,6 +4,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { type JSONContent } from "@tiptap/react";
 
 import {
+  Role,
   and,
   db,
   eq,
@@ -14,7 +15,6 @@ import {
   posts,
   projectMembers,
   projects,
-  Role,
   sql,
   visits,
   type MediaEnumType,
@@ -155,7 +155,7 @@ export async function createProjectMedia(formData: FormData) {
     );
 
   if (projectMember.length === 0) {
-    throw "You must be a member of the project";
+    throw new Error("You must be a member of the project");
   }
 
   const file = formData.get("file") as File;
@@ -169,7 +169,7 @@ export async function createProjectMedia(formData: FormData) {
   ) as MediaEnumType;
 
   if (!type) {
-    throw "Failed to determine media type";
+    throw new Error( "Failed to determine media type");
   }
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
@@ -180,7 +180,7 @@ export async function createProjectMedia(formData: FormData) {
   });
 
   if (!uploadedFile) {
-    throw "Failed to upload file";
+    throw new Error("Failed to upload file");
   }
 
   const id = createId();
