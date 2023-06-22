@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useCompletion } from "ai/react";
+import { Sparkles } from "lucide-react";
 
 import { createProjectMedia } from "@acme/common/actions";
 import {
@@ -14,12 +15,11 @@ import {
   TextStyle,
   TiptapLink,
   Underline,
-  // useConnection,
-  // useConnectionStatus,
   useEditor,
   Youtube,
   type Editor as EditorType,
   type JSONContent,
+  type Range,
 } from "@acme/editor";
 import { ResizableMediaWithUploader } from "@acme/editor/src/extensions/resizable-media";
 import { determineMediaType } from "@acme/editor/src/lib/utils";
@@ -120,31 +120,41 @@ export function Editor({
         uploadFn: uploadFile,
       }),
       Placeholder,
-      SlashCommand,
-      // .configure({
-      //   suggestion: {
-      //     items: ({ query }) =>
-      //       [
-      //         {
-      //           title: "Continue writing",
-      //           description: "Use AI to expand your thoughts",
-      //           icon: <Sparkles className="h-7 w-7" />,
-      //           command: ({ editor }: { editor: EditorType }) => {
-      //             if (isLoading) {
-      //               stop();
-      //             } else {
-      //               void complete(editor.getText());
-      //             }
-      //           },
-      //         },
-      //       ].filter((item) => {
-      //         if (typeof query === "string" && query.length > 0) {
-      //           return item.title.toLowerCase().includes(query.toLowerCase());
-      //         }
-      //         return true;
-      //       }),
-      //   },
-      // }),
+      SlashCommand.configure({
+        suggestion: {
+          items: async ({ query, editor }) =>
+            [
+              {
+                title: "Continue writing",
+                description: "Use AI to expand your thoughts",
+                icon: <Sparkles className="h-7 w-7" />,
+                command: ({
+                  editor,
+                  range,
+                }: {
+                  editor: EditorType;
+                  range: Range;
+                }) => {
+                  if (isLoading) {
+                    stop();
+                  } else {
+                    editor.commands.deleteRange(range);
+                    void complete(editor.getText());
+                  }
+                },
+              },
+              ...((await SlashCommand.options?.suggestion?.items?.({
+                query,
+                editor,
+              })) ?? []),
+            ].filter((item) => {
+              if (typeof query === "string" && query.length > 0) {
+                return item.title.toLowerCase().includes(query.toLowerCase());
+              }
+              return true;
+            }),
+        },
+      }),
       SmileReplacer,
       TiptapLink,
       Youtube,

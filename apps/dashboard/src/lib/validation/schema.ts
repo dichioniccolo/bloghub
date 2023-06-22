@@ -59,5 +59,6 @@ export type EditNotificationsSchemaType = z.input<
 >;
 
 export const AiGenerateSchema = z.object({
+  // type: z.enum(["completion", "improve_writing", "fix_spelling_grammar"]),
   prompt: z.string().nonempty(),
 });

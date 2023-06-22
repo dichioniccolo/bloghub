@@ -96,6 +96,7 @@ export async function POST(req: Request): Promise<Response> {
       },
       { role: "user", content: promptCleaned },
     ],
+    max_tokens: env.NODE_ENV === "development" ? 5 : 200,
     temperature: 0.7,
     frequency_penalty: 0,
     presence_penalty: 0,

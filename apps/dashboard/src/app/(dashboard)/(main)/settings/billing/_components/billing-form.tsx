@@ -103,7 +103,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
             {((userPlan.usage / (userPlan.plan.quota ?? 0)) * 100).toFixed(1)}
             %)
           </p>
-          <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600">
+          <div className="h-3 w-full overflow-hidden rounded-full">
             <Progress
               value={(userPlan.usage / (userPlan.plan.quota ?? 0)) * 100}
             />

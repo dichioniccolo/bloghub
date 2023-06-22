@@ -42,7 +42,7 @@ export function AIBubbleMenu({ editor }: Props) {
           strategy: "fixed",
         },
       }}
-      className="mt-2 w-full overflow-hidden rounded border border-border bg-white shadow-xl animate-in fade-in slide-in-from-bottom-1"
+      className="mt-2 w-full min-w-[300px] overflow-hidden rounded border border-border bg-white shadow-xl animate-in fade-in slide-in-from-bottom-1"
     >
       <div className="p-4">
         {completion.length > 0 ? (

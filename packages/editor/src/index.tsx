@@ -1,7 +1,7 @@
 export * from "./extensions";
 export * from "./hooks";
 
-export { type Editor } from "@tiptap/core";
+export { type Editor, type Range } from "@tiptap/core";
 export {
   BubbleMenu,
   EditorContent,

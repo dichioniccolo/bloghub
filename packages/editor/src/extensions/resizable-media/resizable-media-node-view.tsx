@@ -246,7 +246,7 @@ export const ResizableMediaNodeView = ({
                     key={btn.tooltip}
                     type="button"
                     className={cn(
-                      "inline-flex h-8 items-center rounded-none border border-transparent bg-gray-100 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-200",
+                      "inline-flex h-8 items-center rounded-none border border-transparent bg-stone-100 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:bg-stone-200",
                       {
                         "bg-gray-300": btn.isActive?.(node.attrs),
                       },

@@ -92,6 +92,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
 
   return items.length > 0 ? (
     <div
+      id="slash-command"
       ref={commandListContainer}
       className="z-50 h-auto max-h-[350px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
     >
