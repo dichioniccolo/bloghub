@@ -11,7 +11,6 @@ import {
   AccordionItem,
   AccordionTrigger,
   buttonVariants,
-  inputVariants,
   Label,
   Switch,
   Tooltip,
@@ -120,7 +119,6 @@ export function AdvancedSettings({
                 prefixed
                 style={{ borderColor: qrData.foregroundColor }}
                 className={cn(
-                  inputVariants(),
                   "block h-9 w-full rounded-l-none rounded-r-md border-2 border-l-0 pl-3 focus:outline-none focus:ring-black sm:text-sm",
                 )}
               />

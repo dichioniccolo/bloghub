@@ -3,7 +3,7 @@ import type * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import {
   Controller,
-  // FormProvider,
+  FormProvider,
   useFormContext,
   type ControllerProps,
   type FieldPath,
@@ -13,7 +13,7 @@ import {
 import { cn } from "../../lib";
 import { Label } from "./label";
 
-// const Form = FormProvider;
+const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -31,12 +31,10 @@ const FormField = <
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...props
-}: Omit<ControllerProps<TFieldValues, TName>, "control">) => {
-  const { control } = useFormContext<TFieldValues>();
-
+}: ControllerProps<TFieldValues, TName>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller control={control} {...props} />
+      <Controller {...props} />
     </FormFieldContext.Provider>
   );
 };
@@ -158,7 +156,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-xs font-medium text-destructive", className)}
+      className={cn("text-sm font-medium text-destructive", className)}
       {...props}
     >
       {body}
@@ -168,12 +166,12 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = "FormMessage";
 
 export {
-  useFormField,
-  // Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Form as FormShad,
+  useFormField,
 };

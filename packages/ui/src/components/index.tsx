@@ -1,5 +1,6 @@
 export * from "./blur-image";
 export * from "./form";
+export * from "./toaster";
 export * from "./ui/accordion";
 export * from "./ui/alert";
 export * from "./ui/alert-dialog";
@@ -34,6 +35,5 @@ export * from "./ui/switch";
 export * from "./ui/table";
 export * from "./ui/tabs";
 export * from "./ui/textarea";
-export * from "./ui/toaster";
 export * from "./ui/toggle";
 export * from "./ui/tooltip";
