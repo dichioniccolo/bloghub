@@ -69,6 +69,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   await db.insert(visits).values({
     projectId: project.id,
     postId: post.id,
+    referer: req.headers.get("referer"),
     browserName: ua.browser.name,
     browserVersion: ua.browser.version,
     osName: ua.os.name,

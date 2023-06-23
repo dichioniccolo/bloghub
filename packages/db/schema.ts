@@ -1,14 +1,14 @@
 import { type JSONContent } from "@tiptap/core";
-import { relations, type InferModel } from "drizzle-orm";
+import { relations, sql, type InferModel } from "drizzle-orm";
 import {
   boolean,
+  datetime,
   int,
   json,
   mysqlTable,
   primaryKey,
   serial,
   text,
-  timestamp,
   uniqueIndex,
   varchar,
 } from "drizzle-orm/mysql-core";
@@ -31,16 +31,23 @@ export const users = mysqlTable(
     id: varchar("id", { length: 255 }).primaryKey(),
     name: text("name"),
     email: varchar("email", { length: 255 }).notNull(),
-    emailVerified: timestamp("emailVerified", { mode: "date" }),
+    emailVerified: datetime("emailVerified", { mode: "string", fsp: 3 }),
     image: text("image"),
     stripeCustomerId: varchar("stripeCustomerId", { length: 255 }),
     stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 255 }),
     stripePriceId: varchar("stripePriceId", { length: 255 }),
-    dayWhenBillingStarts: timestamp("dayWhenBillingStarts", { mode: "date" })
+    dayWhenBillingStarts: datetime("dayWhenBillingStarts", {
+      mode: "string",
+      fsp: 3,
+    })
       .notNull()
-      .defaultNow(),
-    createdAt: timestamp("createdAt").notNull().defaultNow(),
-    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+    updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
   },
   (users) => {
     return {
@@ -76,7 +83,12 @@ export const sessions = mysqlTable("sessions", {
     .notNull()
     .primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
+  expires: datetime("expires", {
+    mode: "string",
+    fsp: 3,
+  })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 export const verificationTokens = mysqlTable(
@@ -84,7 +96,12 @@ export const verificationTokens = mysqlTable(
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),
     token: varchar("token", { length: 500 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
+    expires: datetime("expires", {
+      mode: "string",
+      fsp: 3,
+    })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
   },
   (vt) => ({
     compoundKey: primaryKey(vt.identifier, vt.token),
@@ -116,7 +133,9 @@ export const notifications = mysqlTable("notifications", {
     .default(NotificationStatus.Unread),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: json("body").$type<any>().notNull(),
-  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 export const projects = mysqlTable("projects", {
@@ -125,10 +144,20 @@ export const projects = mysqlTable("projects", {
   logo: text("logo"),
   domain: varchar("domain", { length: 255 }).notNull(),
   domainVerified: boolean("domainVerified").notNull().default(false),
-  domainLastCheckedAt: timestamp("domainLastCheckedAt", { mode: "date" }),
-  domainUnverifiedAt: timestamp("domainUnverifiedAt", { mode: "date" }),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
+  domainLastCheckedAt: datetime("domainLastCheckedAt", {
+    mode: "string",
+    fsp: 3,
+  }),
+  domainUnverifiedAt: datetime("domainUnverifiedAt", {
+    mode: "string",
+    fsp: 3,
+  }),
+  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
+  updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 export const projectMembers = mysqlTable(
@@ -142,7 +171,9 @@ export const projectMembers = mysqlTable(
       .$type<RoleType>()
       .notNull()
       .default(Role.Editor),
-    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
   },
   (projectMembers) => ({
     compoundKey: primaryKey(projectMembers.projectId, projectMembers.userId),
@@ -158,8 +189,10 @@ export const projectInvitations = mysqlTable(
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
-    expiresAt: timestamp("expiresAt", { mode: "date" }).notNull(),
-    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+    expiresAt: datetime("expiresAt", { mode: "string", fsp: 3 }).notNull(),
+    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
   },
   (projectInvitations) => ({
     compoundKey: primaryKey(
@@ -182,8 +215,12 @@ export const posts = mysqlTable(
     hidden: boolean("hidden").notNull().default(true),
     seoTitle: varchar("seoTitle", { length: 255 }),
     seoDescription: varchar("seoDescription", { length: 255 }),
-    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
-    updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
+    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+    updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
   },
   (posts) => ({
     uniqueIndex: uniqueIndex("posts_unique_index").on(
@@ -198,7 +235,9 @@ export const likes = mysqlTable(
   {
     userId: varchar("userId", { length: 255 }).notNull(),
     postId: varchar("postId", { length: 255 }).notNull(),
-    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
   },
   (likes) => ({
     compoundKey: primaryKey(likes.userId, likes.postId),
@@ -211,7 +250,9 @@ export const comments = mysqlTable("comments", {
   postId: varchar("postId", { length: 255 }).notNull(),
   content: text("content").notNull(),
   parentId: varchar("parentId", { length: 255 }),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 export const media = mysqlTable("media", {
@@ -220,7 +261,9 @@ export const media = mysqlTable("media", {
   postId: varchar("postId", { length: 255 }),
   type: int("type").$type<MediaEnumType>().notNull(),
   url: text("url").notNull(),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 export const automaticEmails = mysqlTable("automaticEmails", {
@@ -234,6 +277,7 @@ export const visits = mysqlTable("visits", {
   id: serial("id").primaryKey(),
   projectId: varchar("projectId", { length: 255 }).notNull(),
   postId: varchar("postId", { length: 255 }),
+  referer: varchar("referer", { length: 255 }),
   browserName: varchar("browserName", { length: 255 }),
   browserVersion: varchar("browserVersion", { length: 255 }),
   osName: varchar("osName", { length: 255 }),
@@ -249,7 +293,9 @@ export const visits = mysqlTable("visits", {
   geoCity: varchar("geoCity", { length: 255 }),
   geoLatitude: varchar("geoLatitude", { length: 255 }),
   geoLongitude: varchar("geoLongitude", { length: 255 }),
-  createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
 /// RELATIONS
