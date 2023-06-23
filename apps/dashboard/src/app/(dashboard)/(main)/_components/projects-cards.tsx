@@ -1,4 +1,4 @@
-import { getProjects } from "~/lib/shared/api/projects";
+import { getProjects } from "~/app/_api/projects";
 import { cn } from "~/lib/utils";
 import { CreateProjectButton } from "./create-project-button";
 import { ProjectCard, ProjectCardSkeleton } from "./project-card";

@@ -2,7 +2,7 @@
 
 import { and, db, eq, posts, projectMembers, sql, visits } from "@acme/db";
 
-import { $getUser } from "../get-user";
+import { $getUser } from "./get-user";
 
 export async function getPosts(projectId: string) {
   const user = await $getUser();

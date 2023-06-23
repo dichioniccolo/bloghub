@@ -14,9 +14,9 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { updatePost } from "~/app/_actions/post/update-post";
+import { type GetPost } from "~/app/_api/posts";
 import { useUser } from "~/hooks/use-user";
-import { updatePost } from "~/lib/shared/actions/post/update-post";
-import { type GetPost } from "~/lib/shared/api/posts";
 import {
   EditPostSchema,
   type EditPostSchemaType,

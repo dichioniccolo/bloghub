@@ -14,8 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@acme/ui";
 
+import { type GetProjectUsers } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
-import { type GetProjectUsers } from "~/lib/shared/api/projects";
 import { getDefaultAvatarImage } from "~/lib/utils";
 import { useDeleteMemberDialog } from "./delete-member-dialog";
 

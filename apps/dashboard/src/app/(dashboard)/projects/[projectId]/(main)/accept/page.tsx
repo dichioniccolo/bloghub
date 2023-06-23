@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@acme/auth";
 import { AppRoutes } from "@acme/common/routes";
 
-import { getPendingInvite } from "~/lib/shared/api/projects";
+import { getPendingInvite } from "~/app/_api/projects";
 import { AcceptInviteDialog } from "./_components/accept-invite-dialog";
 
 type Props = {

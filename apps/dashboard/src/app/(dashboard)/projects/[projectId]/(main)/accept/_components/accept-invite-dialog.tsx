@@ -16,10 +16,10 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { acceptInvite } from "~/app/_actions/project/accept-invite";
+import { type GetPendingInvite } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { acceptInvite } from "~/lib/shared/actions/project/accept-invite";
-import { type GetPendingInvite } from "~/lib/shared/api/projects";
 
 type Props = {
   project: NonNullable<GetPendingInvite>["project"];

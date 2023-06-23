@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 
 import { Separator } from "@acme/ui";
 
-import { getNotificationsSettings } from "~/lib/shared/api/settings";
+import { getNotificationsSettings } from "~/app/_api/settings";
 import { NotificationsForm } from "./notifications-form";
 
 export const metadata = {

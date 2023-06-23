@@ -5,7 +5,7 @@ import {
   getProject,
   getProjectAnalytics,
   getProjectOwner,
-} from "~/lib/shared/api/projects";
+} from "~/app/_api/projects";
 import { Analytics } from "./_components/analytics";
 
 type Props = {

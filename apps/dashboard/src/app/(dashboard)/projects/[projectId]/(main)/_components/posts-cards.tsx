@@ -1,5 +1,5 @@
-import { getPosts } from "~/lib/shared/api/posts";
-import { getProjectOwner, type GetProject } from "~/lib/shared/api/projects";
+import { getPosts } from "~/app/_api/posts";
+import { getProjectOwner, type GetProject } from "~/app/_api/projects";
 import { CreatePostButton } from "./create-post-button";
 import { PostCard } from "./post-card";
 

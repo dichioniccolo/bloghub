@@ -19,9 +19,9 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { deleteProjectInvitation } from "~/app/_actions/project/delete-project-invitation";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { deleteProjectInvitation } from "~/lib/shared/actions/project/delete-project-invitation";
 
 type Props = {
   open: boolean;

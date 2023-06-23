@@ -17,10 +17,10 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
+import { type GetProPlans } from "~/app/_api/stripe";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createCheckoutSession } from "~/lib/shared/actions/stripe/create-checkout-session";
-import { type GetProPlans } from "~/lib/shared/api/stripe";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 

@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { createPost } from "~/app/_actions/post/create-post";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createPost } from "~/lib/shared/actions/post/create-post";
 
 type Props = {
   projectId: string;

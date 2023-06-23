@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getPost } from "~/lib/shared/api/posts";
+import { getPost } from "~/app/_api/posts";
 import { EditPostForm } from "./_components/edit-post-form";
 
 type Props = {

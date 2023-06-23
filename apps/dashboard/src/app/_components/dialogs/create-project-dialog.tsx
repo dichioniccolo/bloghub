@@ -24,9 +24,9 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { createProject } from "~/app/_actions/project/create-project";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { createProject } from "~/lib/shared/actions/project/create-project";
 import {
   CreateProjectSchema,
   type CreateProjectSchemaType,

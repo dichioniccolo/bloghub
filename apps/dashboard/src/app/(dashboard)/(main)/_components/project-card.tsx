@@ -9,8 +9,8 @@ import {
   TooltipTrigger,
 } from "@acme/ui";
 
+import { type GetProjects } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
-import { type GetProjects } from "~/lib/shared/api/projects";
 import { getDefaultAvatarImage } from "~/lib/utils";
 
 type Props = {

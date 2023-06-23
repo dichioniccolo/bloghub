@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { type Editor, type Range } from "@tiptap/core";
 import {
+  CheckSquare,
   Code,
   Divide,
   Heading1,
@@ -8,6 +9,7 @@ import {
   Heading3,
   List,
   ListOrdered,
+  Text,
   TextQuote,
 } from "lucide-react";
 
@@ -19,6 +21,7 @@ type Command = {
 export type CommandItemProps = {
   title: string;
   description: string;
+  searchTerms: string[];
   icon: ReactNode;
   command: (command: Command) => unknown;
 };
@@ -26,17 +29,33 @@ export type CommandItemProps = {
 export const getSuggestionItems = ({ query }: { query: string }) => {
   return (
     [
-      // {
-      //   title: "Continue writing",
-      //   description: "Use AI to expand your thoughts.",
-      //   icon: <Sparkle className="w-7 text-black" />,
-      //   command: () => {
-      //     //
-      //   },
-      // },
+      {
+        title: "Text",
+        description: "Just start typing with plain text.",
+        searchTerms: ["p", "paragraph"],
+        icon: <Text size={18} />,
+        command: ({ editor, range }) => {
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .toggleNode("paragraph", "paragraph")
+            .run();
+        },
+      },
+      {
+        title: "To-do List",
+        description: "Track tasks with a to-do list.",
+        searchTerms: ["todo", "task", "list", "check", "checkbox"],
+        icon: <CheckSquare size={18} />,
+        command: ({ editor, range }) => {
+          editor.chain().focus().deleteRange(range).toggleTaskList().run();
+        },
+      },
       {
         title: "Heading 1",
         description: "Big section heading.",
+        searchTerms: ["title", "big", "large"],
         icon: <Heading1 size={18} />,
         command: ({ editor, range }) => {
           editor
@@ -50,6 +69,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Heading 2",
         description: "Medium section heading.",
+        searchTerms: ["subtitle", "medium"],
         icon: <Heading2 size={18} />,
         command: ({ editor, range }) => {
           editor
@@ -63,6 +83,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Heading 3",
         description: "Small section heading.",
+        searchTerms: ["subtitle", "small"],
         icon: <Heading3 size={18} />,
         command: ({ editor, range }) => {
           editor
@@ -76,6 +97,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Bullet List",
         description: "Create a bullet list.",
+        searchTerms: ["unordered", "point"],
         icon: <List size={18} />,
         command: ({ editor, range }) => {
           editor.chain().focus().deleteRange(range).toggleBulletList().run();
@@ -84,6 +106,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Numbered List",
         description: "Create a numbered list.",
+        searchTerms: ["ordered"],
         icon: <ListOrdered size={18} />,
         command: ({ editor, range }) => {
           editor.chain().focus().deleteRange(range).toggleOrderedList().run();
@@ -92,6 +115,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Divider",
         description: "insert a dividing line",
+        searchTerms: ["divide", "split"],
         icon: <Divide size={24} />,
         command: ({ editor, range }) => {
           editor.chain().focus().deleteRange(range).setHorizontalRule().run();
@@ -100,6 +124,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Quote",
         description: "Capture a quote.",
+        searchTerms: ["blockquote"],
         icon: <TextQuote size={18} />,
         command: ({ editor, range }: Command) =>
           editor
@@ -113,14 +138,21 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       {
         title: "Code",
         description: "Capture a code snippet.",
+        searchTerms: ["codeblock"],
         icon: <Code size={18} />,
         command: ({ editor, range }: Command) =>
           editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
       },
-    ] as CommandItemProps[]
+    ] satisfies CommandItemProps[]
   ).filter((item) => {
     if (typeof query === "string" && query.length > 0) {
-      return item.title.toLowerCase().includes(query.toLowerCase());
+      const search = query.toLowerCase();
+      return (
+        item.title.toLowerCase().includes(search) ||
+        item.description.toLowerCase().includes(search) ||
+        (item.searchTerms &&
+          item.searchTerms.some((term: string) => term.includes(search)))
+      );
     }
     return true;
   });

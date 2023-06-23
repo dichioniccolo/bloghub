@@ -30,6 +30,10 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
       likesCount: sql<number>`count(${likes.userId})`.mapWith(Number),
     })
     .from(posts)
+    .innerJoin(
+      projects,
+      and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
+    )
     .where(eq(posts.hidden, false))
     .offset(skip(page, perPage))
     .leftJoin(likes, eq(likes.postId, posts.id))

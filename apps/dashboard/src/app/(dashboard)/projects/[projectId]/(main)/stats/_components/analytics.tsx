@@ -13,8 +13,8 @@ import {
 
 import { BlurImage } from "@acme/ui";
 
+import { type GetProjectAnalytics } from "~/app/_api/projects";
 import countries from "~/lib/countries";
-import { type GetProjectAnalytics } from "~/lib/shared/api/projects";
 import { getMonthByNumber } from "~/lib/utils";
 
 type Props = {

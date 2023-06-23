@@ -1,6 +1,8 @@
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 import { Command } from "cmdk";
 import {
   Check,
+  CheckSquare,
   ChevronDown,
   Code,
   Heading1,
@@ -10,7 +12,6 @@ import {
   TextIcon,
   TextQuote,
 } from "lucide-react";
-import { useEffect, type Dispatch, type SetStateAction } from "react";
 
 import { type Editor } from "@acme/editor";
 
@@ -52,6 +53,12 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
       icon: Heading3,
       command: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
       isActive: () => editor.isActive("heading", { level: 3 }),
+    },
+    {
+      name: "To-do List",
+      icon: CheckSquare,
+      command: () => editor.chain().focus().toggleTaskList().run(),
+      isActive: () => editor.isActive("taskItem"),
     },
     {
       name: "Bullet List",

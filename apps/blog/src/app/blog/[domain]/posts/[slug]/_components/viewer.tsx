@@ -10,6 +10,8 @@ import {
   SlashCommand,
   SmileReplacer,
   StarterKit,
+  TaskItem,
+  TaskList,
   TextStyle,
   TiptapLink,
   Underline,
@@ -40,6 +42,8 @@ export function Viewer({ value }: Props) {
       Underline,
       TextStyle,
       Color,
+      TaskItem,
+      TaskList,
     ],
     content: value,
   });

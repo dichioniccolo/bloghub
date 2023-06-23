@@ -20,10 +20,10 @@ import {
   PopoverTrigger,
 } from "@acme/ui";
 
+import { type GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { type GetProjects } from "~/lib/shared/api/projects";
 import { cn, getDefaultAvatarImage } from "~/lib/utils";
 import { useSelectedProject } from "./useSelectedProject";
 

@@ -4,7 +4,7 @@ import { getUserTotalUsage } from "@acme/common/actions";
 import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
 import { db, eq, users } from "@acme/db";
 
-import { $getUser } from "../get-user";
+import { $getUser } from "./get-user";
 
 export async function getUserPlan() {
   const user = await $getUser();

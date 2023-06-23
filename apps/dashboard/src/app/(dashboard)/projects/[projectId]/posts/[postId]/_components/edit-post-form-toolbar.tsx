@@ -6,10 +6,10 @@ import { type z } from "zod";
 import { Button, useAutoSaveForm } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { togglePublishedPost } from "~/app/_actions/post/toggle-published-post";
+import { type GetPost } from "~/app/_api/posts";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { togglePublishedPost } from "~/lib/shared/actions/post/toggle-published-post";
-import { type GetPost } from "~/lib/shared/api/posts";
 import { cn } from "~/lib/utils";
 
 type Props<S extends z.ZodTypeAny> = {

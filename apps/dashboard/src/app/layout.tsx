@@ -7,9 +7,9 @@ import "@acme/ui/styles/globals.css";
 
 import { authOptions } from "@acme/auth";
 
+import { cal, inter } from "~/styles/fonts";
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/utils";
-import { cal, inter } from "./_styles/fonts";
 import { Providers } from "./providers";
 
 export function generateMetadata() {

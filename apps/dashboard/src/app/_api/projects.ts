@@ -18,7 +18,7 @@ import {
   visits,
 } from "@acme/db";
 
-import { $getUser } from "../get-user";
+import { $getUser } from "./get-user";
 import { getBillingPeriod } from "./user";
 
 export async function getProjects() {

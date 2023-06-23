@@ -7,7 +7,7 @@ import {
   eq,
 } from "@acme/db";
 
-import { $getUser } from "../get-user";
+import { $getUser } from "./get-user";
 
 export async function getNotificationsSettings() {
   const user = await $getUser();

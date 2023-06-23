@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Separator } from "@acme/ui";
 
-import { getProject } from "~/lib/shared/api/projects";
+import { getProject } from "~/app/_api/projects";
 import {
   GeneralSettings,
   GeneralSettingsPlaceholder,

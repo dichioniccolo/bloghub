@@ -21,9 +21,9 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { inviteUser } from "~/app/_actions/project/invite-user";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { inviteUser } from "~/lib/shared/actions/project/invite-user";
 import {
   InviteMemberSchema,
   type InviteMemberSchemaType,

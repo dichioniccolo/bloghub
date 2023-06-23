@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@acme/ui";
 
-import { type GetProject } from "~/lib/shared/api/projects";
+import { type GetProject } from "~/app/_api/projects";
 import { QuitProjectDialog } from "./quit-project-dialog";
 
 type Props = {

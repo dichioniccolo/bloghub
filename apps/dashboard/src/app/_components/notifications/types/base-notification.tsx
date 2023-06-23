@@ -6,14 +6,14 @@ import { type AppNotification } from "@acme/notifications";
 import { Button } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
+import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
 import { Icons } from "~/app/_components/icons";
 import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/app/_components/notifications/notifications-provider";
 import { useUser } from "~/hooks/use-user";
-import { archiveNotification } from "~/lib/shared/actions/notifications/archive-notification";
-import { markNotificationAsRead } from "~/lib/shared/actions/notifications/mark-notification-as-read";
 import { cn } from "~/lib/utils";
 
 type Props = {

@@ -10,10 +10,10 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { verifyDomain } from "~/app/_actions/project/verify-domain";
+import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { verifyDomain } from "~/lib/shared/actions/project/verify-domain";
-import { type GetProject } from "~/lib/shared/api/projects";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";
 

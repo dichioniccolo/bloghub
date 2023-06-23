@@ -1,6 +1,6 @@
-import { getProjectsCount } from "~/lib/shared/api/projects";
-import { getProPlans } from "~/lib/shared/api/stripe";
-import { getUserPlan } from "~/lib/shared/api/user";
+import { getProjectsCount } from "~/app/_api/projects";
+import { getProPlans } from "~/app/_api/stripe";
+import { getUserPlan } from "~/app/_api/user";
 import { BillingForm, BillingFormSkeleton } from "./billing-form";
 
 export async function PlanUsage() {

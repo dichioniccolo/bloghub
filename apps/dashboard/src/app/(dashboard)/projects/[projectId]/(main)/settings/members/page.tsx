@@ -7,7 +7,7 @@ import {
   getProject,
   getProjectInvites,
   getProjectUsers,
-} from "~/lib/shared/api/projects";
+} from "~/app/_api/projects";
 import { InviteMemberDialog } from "./_components/invite-member-dialog";
 import { ProjectInvitation } from "./_components/project-invitation";
 import { ProjectMember } from "./_components/project-member";

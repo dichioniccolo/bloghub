@@ -16,13 +16,10 @@ import {
   TooltipTrigger,
 } from "@acme/ui";
 
+import { type GetPosts } from "~/app/_api/posts";
+import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";
 import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
 import { Icons } from "~/app/_components/icons";
-import { type GetPosts } from "~/lib/shared/api/posts";
-import {
-  type GetProject,
-  type GetProjectOwner,
-} from "~/lib/shared/api/projects";
 import { constructPostUrl } from "~/lib/url";
 import { cn, formatNumber } from "~/lib/utils";
 import { PostCardButton } from "./post-card-button";

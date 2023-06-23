@@ -17,10 +17,10 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { quitProject } from "~/app/_actions/project/quit-project";
+import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { quitProject } from "~/lib/shared/actions/project/quit-project";
-import { type GetProject } from "~/lib/shared/api/projects";
 
 type Props = {
   project: NonNullable<GetProject>;

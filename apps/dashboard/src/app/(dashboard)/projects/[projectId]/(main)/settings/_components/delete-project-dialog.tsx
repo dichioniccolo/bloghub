@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { deleteProject } from "@acme/common/actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,10 +18,9 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { deleteProject } from "~/lib/shared/actions/project/delete-project";
-import { type GetProject } from "~/lib/shared/api/projects";
 
 type Props = {
   project: NonNullable<GetProject>;

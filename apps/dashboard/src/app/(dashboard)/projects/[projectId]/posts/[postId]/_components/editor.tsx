@@ -12,6 +12,8 @@ import {
   SlashCommand,
   SmileReplacer,
   StarterKit,
+  TaskItem,
+  TaskList,
   TextStyle,
   TiptapLink,
   Underline,
@@ -127,6 +129,7 @@ export function Editor({
               {
                 title: "Continue writing",
                 description: "Use AI to expand your thoughts",
+                searchTerms: ["gpt"],
                 icon: <Sparkles className="h-7 w-7" />,
                 command: ({
                   editor,
@@ -149,7 +152,15 @@ export function Editor({
               })) ?? []),
             ].filter((item) => {
               if (typeof query === "string" && query.length > 0) {
-                return item.title.toLowerCase().includes(query.toLowerCase());
+                const search = query.toLowerCase();
+                return (
+                  item.title.toLowerCase().includes(search) ||
+                  item.description.toLowerCase().includes(search) ||
+                  (item.searchTerms &&
+                    item.searchTerms.some((term: string) =>
+                      term.includes(search),
+                    ))
+                );
               }
               return true;
             }),
@@ -161,6 +172,8 @@ export function Editor({
       Underline,
       TextStyle,
       Color,
+      TaskItem,
+      TaskList,
     ],
     content: value,
     onUpdate,

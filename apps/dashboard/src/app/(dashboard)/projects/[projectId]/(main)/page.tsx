@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
+import { getProject } from "~/app/_api/projects";
 import { DashboardHeader } from "~/app/_components/dashboard-header";
 import { DashboardShell } from "~/app/_components/dashboard-shell";
-import { getProject } from "~/lib/shared/api/projects";
 import { CreatePostButton } from "./_components/create-post-button";
 import { PostsCards } from "./_components/posts-cards";
 import { PostsCardsPlaceholder } from "./_components/posts-cards-placeholder";

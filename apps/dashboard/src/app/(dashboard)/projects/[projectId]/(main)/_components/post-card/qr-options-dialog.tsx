@@ -18,6 +18,8 @@ import {
   toast,
 } from "@acme/ui";
 
+import { type GetPosts } from "~/app/_api/posts";
+import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
 import {
   getQRAsCanvas,
@@ -25,11 +27,6 @@ import {
   getQRAsSVGDataUri,
   QRCodeSVG,
 } from "~/lib/qr";
-import { type GetPosts } from "~/lib/shared/api/posts";
-import {
-  type GetProject,
-  type GetProjectOwner,
-} from "~/lib/shared/api/projects";
 import { absoluteUrl, constructPostUrl } from "~/lib/url";
 import { AdvancedSettings } from "./advanced-settings";
 

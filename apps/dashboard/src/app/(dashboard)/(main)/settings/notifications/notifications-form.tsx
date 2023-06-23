@@ -17,9 +17,9 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { updateNotificationSettings } from "~/lib/shared/actions/user/update-notifications-settings";
 import {
   EditNotificationsSchema,
   type EditNotificationsSchemaType,

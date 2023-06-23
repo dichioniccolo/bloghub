@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
+import { type VerifyDomain } from "~/app/_actions/project/verify-domain";
 import { env } from "~/env.mjs";
-import { type VerifyDomain } from "~/lib/shared/actions/project/verify-domain";
 import { cn, getSubDomain } from "~/lib/utils";
 
 type Props = {

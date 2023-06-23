@@ -20,10 +20,10 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { updateDomain } from "~/app/_actions/project/update-domain";
+import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import { updateDomain } from "~/lib/shared/actions/project/update-domain";
-import { type GetProject } from "~/lib/shared/api/projects";
 import {
   UpdateDomainSchema,
   type UpdateDomainSchemaType,

@@ -16,8 +16,8 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { deletePost } from "~/app/_actions/post/delete-post";
 import { useUser } from "~/hooks/use-user";
-import { deletePost } from "~/lib/shared/actions/post/delete-post";
 
 type Props = {
   projectId: string;

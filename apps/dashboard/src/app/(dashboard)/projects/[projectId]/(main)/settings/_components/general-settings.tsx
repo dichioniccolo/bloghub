@@ -1,4 +1,4 @@
-import { type GetProject } from "~/lib/shared/api/projects";
+import { type GetProject } from "~/app/_api/projects";
 import { CustomDomain, CustomDomainPlaceholder } from "./custom-domain";
 import { DeleteProject, DeleteProjectPlaceholder } from "./delete-project";
 import { QuitProject, QuitProjectPlaceholder } from "./quit-project";
