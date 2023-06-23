@@ -268,10 +268,30 @@ export async function getProjectAnalytics(projectId: string) {
     .groupBy(visits.geoCountry)
     .orderBy(desc(sql`count(*)`));
 
+  const topCities = await db
+    .select({
+      country: sql<string>`coalesce(${visits.geoCountry}, 'Other')`,
+      city: sql<string>`coalesce(${visits.geoCity}, 'Other')`,
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(visits)
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, visits.projectId),
+        eq(projectMembers.userId, user.id),
+      ),
+    )
+    .where(eq(visits.projectId, projectId))
+    .limit(5)
+    .groupBy(visits.geoCountry, visits.geoCity)
+    .orderBy(desc(sql`count(*)`));
+
   return {
     clicksMyMonth,
     topPosts,
     topCountries,
+    topCities,
   };
 }
 

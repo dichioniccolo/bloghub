@@ -11,80 +11,19 @@ import {
   Title,
 } from "@tremor/react";
 
+import { BlurImage } from "@acme/ui";
+
+import countries from "~/lib/countries";
 import { type GetProjectAnalytics } from "~/lib/shared/api/projects";
 import { getMonthByNumber } from "~/lib/utils";
-
-const chartdata = [
-  {
-    date: "Jan 23",
-    Visitors: 2890,
-  },
-  {
-    date: "Feb 23",
-    Visitors: 2756,
-  },
-  {
-    date: "Mar 23",
-    Visitors: 3322,
-  },
-  {
-    date: "Apr 23",
-    Visitors: 3470,
-  },
-  {
-    date: "May 23",
-    Visitors: 3475,
-  },
-  {
-    date: "Jun 23",
-    Visitors: 3129,
-  },
-];
-
-// const referrers = [
-//   { name: "t.co", value: 453 },
-//   { name: "vercel.com", value: 351 },
-//   { name: "linkedin.com", value: 271 },
-//   { name: "google.com", value: 191 },
-//   {
-//     name: "news.ycombinator.com",
-//     value: 71,
-//   },
-// ];
-
-// const countries = [
-//   { name: "United States of America", value: 789, code: "US" },
-//   { name: "India", value: 676, code: "IN" },
-//   { name: "Germany", value: 564, code: "DE" },
-//   { name: "United Kingdom", value: 234, code: "GB" },
-//   { name: "Spain", value: 191, code: "ES" },
-// ];
 
 type Props = {
   analytics: GetProjectAnalytics;
 };
 
 export function Analytics({
-  analytics: { topCountries, clicksMyMonth, topPosts },
+  analytics: { topCities, topCountries, clicksMyMonth, topPosts },
 }: Props) {
-  // const categories = [
-  //   {
-  //     title: "Top Pages",
-  //     subtitle: "Page",
-  //     data: topPosts,
-  //   },
-  //   {
-  //     title: "Top Referrers",
-  //     subtitle: "Source",
-  //     data: referrers,
-  //   },
-  //   {
-  //     title: "Countries",
-  //     subtitle: "Country",
-  //     data: countries,
-  //   },
-  // ] as { title: string; subtitle: string; data: Bar[] }[];
-
   return (
     <div className="grid gap-6">
       <Card>
@@ -103,7 +42,7 @@ export function Analytics({
           }
         />
       </Card>
-      <Grid numItemsSm={2} numItemsLg={2} className="gap-6">
+      <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
         <Card className="max-w-lg">
           <Title>Top 5 Posts</Title>
           <Flex className="mt-4">
@@ -134,8 +73,53 @@ export function Analytics({
           </Flex>
           <BarList
             data={topCountries.map((x) => ({
-              name: x.country,
+              name:
+                countries.find((y) => y.code === x.country)?.name ?? x.country,
               value: x.count,
+              icon: () => (
+                <BlurImage
+                  src={
+                    x.country !== "Other"
+                      ? `https://flag.vercel.app/m/${x.country}.svg`
+                      : "https://avatar.vercel.sh/default"
+                  }
+                  className="mr-2.5"
+                  alt={x.country}
+                  width={24}
+                  height={16}
+                />
+              ),
+            }))}
+            className="mt-2"
+          />
+        </Card>
+        <Card className="max-w-lg">
+          <Title>Cities</Title>
+          <Flex className="mt-4">
+            <Text>
+              <Bold>City</Bold>
+            </Text>
+            <Text>
+              <Bold>Clicks</Bold>
+            </Text>
+          </Flex>
+          <BarList
+            data={topCities.map((x) => ({
+              name: x.city,
+              value: x.count,
+              icon: () => (
+                <BlurImage
+                  src={
+                    x.country !== "Other"
+                      ? `https://flag.vercel.app/m/${x.country}.svg`
+                      : "https://avatar.vercel.sh/default"
+                  }
+                  className="mr-2.5"
+                  alt={x.country}
+                  width={24}
+                  height={16}
+                />
+              ),
             }))}
             className="mt-2"
           />
