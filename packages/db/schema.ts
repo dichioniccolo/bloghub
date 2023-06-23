@@ -23,7 +23,6 @@ import {
   type NotificationStatusType,
   type NotificationType,
   type RoleType,
-  type VisitBody,
 } from "./types";
 
 export const users = mysqlTable(
@@ -235,7 +234,21 @@ export const visits = mysqlTable("visits", {
   id: serial("id").primaryKey(),
   projectId: varchar("projectId", { length: 255 }).notNull(),
   postId: varchar("postId", { length: 255 }),
-  body: json("body").$type<VisitBody>().notNull(),
+  browserName: varchar("browserName", { length: 255 }),
+  browserVersion: varchar("browserVersion", { length: 255 }),
+  osName: varchar("osName", { length: 255 }),
+  osVersion: varchar("osVersion", { length: 255 }),
+  deviceModel: varchar("deviceModel", { length: 255 }),
+  deviceType: varchar("deviceType", { length: 255 }),
+  deviceVendor: varchar("deviceVendor", { length: 255 }),
+  engineName: varchar("engineName", { length: 255 }),
+  engineVersion: varchar("engineVersion", { length: 255 }),
+  cpuArchitecture: varchar("cpuArchitecture", { length: 255 }),
+  geoCountry: varchar("geoCountry", { length: 255 }),
+  geoRegion: varchar("geoRegion", { length: 255 }),
+  geoCity: varchar("geoCity", { length: 255 }),
+  geoLatitude: varchar("geoLatitude", { length: 255 }),
+  geoLongitude: varchar("geoLongitude", { length: 255 }),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 });
 

@@ -1,3 +1,4 @@
+import { type Editor, type Range } from "@tiptap/core";
 import {
   useCallback,
   useEffect,
@@ -5,7 +6,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { type Editor, type Range } from "@tiptap/core";
 
 import { type CommandItemProps } from "./items";
 

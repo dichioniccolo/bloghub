@@ -1,5 +1,6 @@
 import { type NextRequest } from "next/server";
 import { clsx, type ClassValue } from "clsx";
+import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -58,4 +59,10 @@ export function formatNumber(num: number, digits?: number): string {
   return item
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
     : "0";
+}
+
+export function getMonthByNumber(month: number, stringFormat = "MMMM") {
+  const date = new Date().setMonth(month - 1);
+
+  return format(date, stringFormat);
 }

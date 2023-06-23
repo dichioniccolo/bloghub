@@ -6,13 +6,16 @@ import {
   aliasedTable,
   and,
   db,
+  desc,
   eq,
+  posts,
   projectInvitations,
   projectMembers,
   projects,
   Role,
   sql,
   users,
+  visits,
 } from "@acme/db";
 
 import { $getUser } from "../get-user";
@@ -205,3 +208,73 @@ export async function getPendingInvite(email: string, projectId: string) {
 }
 
 export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
+
+export async function getProjectAnalytics(projectId: string) {
+  const user = await $getUser();
+
+  const clicksMyMonth = await db
+    .select({
+      year: sql<number>`YEAR(${visits.createdAt})`.mapWith(Number),
+      month: sql<number>`MONTH(${visits.createdAt})`.mapWith(Number),
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(visits)
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, visits.projectId),
+        eq(projectMembers.userId, user.id),
+      ),
+    )
+    .where(eq(visits.projectId, projectId))
+    .orderBy(sql`YEAR(${visits.createdAt})`, sql`MONTH(${visits.createdAt})`)
+    .groupBy(sql`YEAR(${visits.createdAt})`, sql`MONTH(${visits.createdAt})`);
+
+  const topPosts = await db
+    .select({
+      id: visits.postId,
+      slug: sql`coalesce(${posts.slug}, 'DELETED')`,
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(visits)
+    .leftJoin(posts, eq(posts.id, visits.postId))
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, visits.projectId),
+        eq(projectMembers.userId, user.id),
+      ),
+    )
+    .where(eq(visits.projectId, projectId))
+    .limit(5)
+    .groupBy(visits.postId)
+    .orderBy(desc(sql`count(*)`));
+
+  const topCountries = await db
+    .select({
+      country: sql<string>`coalesce(${visits.geoCountry}, 'Other')`,
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(visits)
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, visits.projectId),
+        eq(projectMembers.userId, user.id),
+      ),
+    )
+    .where(eq(visits.projectId, projectId))
+    .limit(5)
+    .groupBy(visits.geoCountry)
+    .orderBy(desc(sql`count(*)`));
+
+  return {
+    clicksMyMonth,
+    topPosts,
+    topCountries,
+  };
+}
+
+export type GetProjectAnalytics = Awaited<
+  ReturnType<typeof getProjectAnalytics>
+>;

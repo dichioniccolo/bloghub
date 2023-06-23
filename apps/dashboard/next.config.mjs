@@ -66,6 +66,9 @@ const config = {
       "cdn.bloghub.it",
       "abs.twimg.com",
       "pbs.twimg.com",
+      "avatars.githubusercontent.com",
+      "www.google.com",
+      "flag.vercel.app",
     ],
   },
   /** Enables hot reloading for local packages without a build step */

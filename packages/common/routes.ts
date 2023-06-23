@@ -5,6 +5,7 @@ export const AppRoutes = {
   NotificationsSettings: "/settings/notifications",
   BillingSettings: "/settings/billing",
   ProjectDashboard: (projectId: string) => `/projects/${projectId}`,
+  ProjectStats: (projectId: string) => `/projects/${projectId}/stats`,
   ProjectAcceptInvitation: (projectId: string) =>
     `/projects/${projectId}/accept`,
   ProjectSettings: (projectId: string) => `/projects/${projectId}/settings`,

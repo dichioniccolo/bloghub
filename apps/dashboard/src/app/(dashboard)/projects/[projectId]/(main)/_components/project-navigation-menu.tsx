@@ -47,6 +47,20 @@ export function ProjectNavigationMenu({ projectId }: Props) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
+            href={AppRoutes.ProjectStats(projectId)}
+            legacyBehavior
+            passHref
+          >
+            <NavigationMenuLink
+              active={pathname === AppRoutes.ProjectStats(projectId)}
+              className={navigationMenuTriggerStyle()}
+            >
+              Stats
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link
             href={AppRoutes.ProjectSettings(projectId)}
             legacyBehavior
             passHref

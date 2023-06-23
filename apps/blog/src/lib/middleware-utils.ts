@@ -44,13 +44,20 @@ export async function recordVisit(req: NextRequest, domain: string) {
   await db.insert(visits).values({
     projectId: project.id,
     postId: post.id,
-    body: {
-      browser: ua.browser,
-      os: ua.os,
-      device: ua.device,
-      engine: ua.engine,
-      cpu: ua.cpu,
-      geo: req.geo,
-    },
+    browserName: ua.browser.name,
+    browserVersion: ua.browser.version,
+    osName: ua.os.name,
+    osVersion: ua.os.version,
+    deviceModel: ua.device.model,
+    deviceType: ua.device.type,
+    deviceVendor: ua.device.vendor,
+    engineName: ua.engine.name,
+    engineVersion: ua.engine.version,
+    cpuArchitecture: ua.cpu.architecture,
+    geoCountry: req.geo?.country,
+    geoRegion: req.geo?.region,
+    geoCity: req.geo?.city,
+    geoLatitude: req.geo?.latitude,
+    geoLongitude: req.geo?.longitude,
   });
 }
