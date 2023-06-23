@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Command } from "cmdk";
 import {
   Check,
@@ -11,6 +10,7 @@ import {
   TextIcon,
   TextQuote,
 } from "lucide-react";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 
 import { type Editor } from "@acme/editor";
 
@@ -20,7 +20,7 @@ import { type BubbleMenuItem } from "./index";
 interface NodeSelectorProps {
   editor: Editor;
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
@@ -30,7 +30,6 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
       icon: TextIcon,
       command: () =>
         editor.chain().focus().toggleNode("paragraph", "paragraph").run(),
-      // I feel like there has to be a more efficient way to do this – feel free to PR if you know how!
       isActive: () =>
         editor.isActive("paragraph") &&
         !editor.isActive("bulletList") &&
