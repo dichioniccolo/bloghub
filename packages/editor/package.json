@@ -36,7 +36,7 @@
     "tailwind-merge": "^1.13.2",
     "tippy.js": "^6.3.7",
     "y-prosemirror": "^1.2.1",
-    "yjs": "^13.6.4",
+    "yjs": "^13.6.5",
     "zod": "^3.21.4"
   },
   "devDependencies": {
