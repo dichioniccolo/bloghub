@@ -108,11 +108,7 @@ export function NotificationsPopover() {
                 <Button
                   size="xs"
                   variant="secondary"
-                  onClick={() => {
-                    void mutate({
-                      userId: user.id,
-                    });
-                  }}
+                  onClick={() => void mutate({})}
                 >
                   Archive all
                 </Button>

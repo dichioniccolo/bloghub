@@ -7,15 +7,12 @@ import { useZact } from "@acme/zact/client";
 
 import { createPost } from "~/app/_actions/post/create-post";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   projectId: string;
 };
 
 export function CreatePostButton({ projectId }: Props) {
-  const user = useUser();
-
   const router = useRouter();
 
   const { mutate, isRunning } = useZact(createPost, {
@@ -26,7 +23,6 @@ export function CreatePostButton({ projectId }: Props) {
 
   const onCreate = () =>
     mutate({
-      userId: user.id,
       projectId,
     });
 

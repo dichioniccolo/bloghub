@@ -14,7 +14,6 @@ import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/app/_components/notifications/notifications-provider";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   notification: AppNotification;
@@ -30,8 +29,6 @@ export function BaseNotification({
   className,
 }: Props) {
   const dispatch = useNotificationsDispatch();
-
-  const user = useUser();
 
   const { mutate: archive } = useZact(archiveNotification, {
     onSuccess: () => {
@@ -60,14 +57,12 @@ export function BaseNotification({
     e.stopPropagation();
     await archive({
       notificationId: notification.id,
-      userId: user.id,
     });
   };
 
   const onInteract = () =>
     markAsRead({
       notificationId: notification.id,
-      userId: user.id,
     });
 
   return (

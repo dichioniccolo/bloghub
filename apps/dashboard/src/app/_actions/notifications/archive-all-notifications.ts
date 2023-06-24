@@ -1,7 +1,5 @@
 "use server";
 
-import { z } from "zod";
-
 import {
   and,
   db,
@@ -10,13 +8,17 @@ import {
   notifications,
   NotificationStatus,
 } from "@acme/db";
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
-export const archiveAllNotifications = zact(
-  z.object({
-    userId: z.string().nonempty(),
-  }),
-)(async ({ userId }) => {
+import { $getUser } from "~/app/_api/get-user";
+
+export const archiveAllNotifications = zactAuthenticated(async () => {
+  const user = await $getUser();
+
+  return {
+    userId: user.id,
+  };
+})(async (_, { userId }) => {
   await db
     .update(notifications)
     .set({

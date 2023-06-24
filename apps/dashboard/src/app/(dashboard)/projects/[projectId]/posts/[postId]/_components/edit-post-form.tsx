@@ -10,7 +10,6 @@ import { useZact } from "@acme/zact/client";
 
 import { updatePost } from "~/app/_actions/post/update-post";
 import { type GetPost } from "~/app/_api/posts";
-import { useUser } from "~/hooks/use-user";
 import {
   EditPostSchema,
   type EditPostSchemaType,
@@ -22,8 +21,6 @@ type Props = {
 };
 
 export function EditPostForm({ post }: Props) {
-  const user = useUser();
-
   const [formStatus, setFormStatus] = useState<"unsaved" | "saving" | "saved">(
     "saved",
   );
@@ -36,7 +33,6 @@ export function EditPostForm({ post }: Props) {
     async ({ title, content }: EditPostSchemaType) => {
       setFormStatus("saving");
       await mutate({
-        userId: user.id,
         projectId: post.projectId,
         postId: post.id,
         body: {
@@ -45,7 +41,7 @@ export function EditPostForm({ post }: Props) {
         },
       });
     },
-    [mutate, post.id, post.projectId, user.id],
+    [mutate, post.id, post.projectId],
   );
 
   const initialValues = {
