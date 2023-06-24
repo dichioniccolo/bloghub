@@ -4,24 +4,23 @@ import Link from "next/link";
 import { formatDistance } from "date-fns";
 
 import { AppRoutes } from "@acme/common/routes";
+import { cn } from "@acme/ui";
+import { buttonVariants } from "@acme/ui/button";
 import {
-  buttonVariants,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@acme/ui";
+} from "@acme/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
 
 import { type GetPosts } from "~/app/_api/posts";
 import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";
 import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
 import { Icons } from "~/app/_components/icons";
 import { constructPostUrl } from "~/lib/url";
-import { cn, formatNumber } from "~/lib/utils";
+import { formatNumber } from "~/lib/utils";
 import { PostCardButton } from "./post-card-button";
 import { PostCardCopyButton } from "./post-card-copy-button";
 import { QrOptionsDialog } from "./qr-options-dialog";

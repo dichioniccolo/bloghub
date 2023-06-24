@@ -2,9 +2,10 @@
 
 import { type PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "sonner";
 
 import { type Session } from "@acme/auth";
-import { ThemeProvider, Toaster, TooltipProvider } from "@acme/ui";
+import { TooltipProvider } from "@acme/ui/tooltip";
 
 type Props = {
   session?: Session | null;
@@ -13,10 +14,8 @@ type Props = {
 export function Providers({ session, children }: PropsWithChildren<Props>) {
   return (
     <SessionProvider session={session}>
-      <ThemeProvider attribute="class">
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster />
-      </ThemeProvider>
+      <TooltipProvider>{children}</TooltipProvider>
+      <Toaster closeButton />
     </SessionProvider>
   );
 }

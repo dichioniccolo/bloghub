@@ -2,20 +2,18 @@
 
 import { useSession } from "next-auth/react";
 
+import { Button } from "@acme/ui/button";
+import { Card, CardContent, CardFooter } from "@acme/ui/card";
 import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@acme/ui";
+} from "@acme/ui/form";
+import { Input } from "@acme/ui/input";
+import { Form } from "@acme/ui/zod-form";
 import { useZact } from "@acme/zact/client";
 
 import { updateUser } from "~/app/_actions/user/update-user";

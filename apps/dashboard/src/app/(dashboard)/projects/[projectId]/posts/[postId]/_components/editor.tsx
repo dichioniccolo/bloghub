@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 import { createProjectMedia } from "@acme/common/actions";
+import type { MediaEnumType } from "@acme/db";
 import {
   Color,
   ColorHighlighter,
   EditorContent,
   HorizontalRuleExtension,
   Placeholder,
+  ResizableMediaWithUploader,
   SlashCommand,
   SmileReplacer,
   StarterKit,
@@ -23,14 +26,27 @@ import {
   type JSONContent,
   type Range,
 } from "@acme/editor";
-import { ResizableMediaWithUploader } from "@acme/editor/src/extensions/resizable-media";
-import { determineMediaType } from "@acme/editor/src/lib/utils";
-import { toast } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { AIBubbleMenu } from "./bubble-menu/ai";
+
+function determineMediaType(file: File): MediaEnumType | null {
+  if (/image/i.test(file.type)) {
+    return 1;
+  }
+
+  if (/video/i.test(file.type)) {
+    return 2;
+  }
+
+  if (/audio/i.test(file.type)) {
+    return 3;
+  }
+
+  return null;
+}
 
 type Props = {
   setStatus?(status: "saved" | "unsaved" | "saving"): void;

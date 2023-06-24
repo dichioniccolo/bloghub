@@ -1,20 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/common/routes";
+import { Button } from "@acme/ui/button";
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Slider,
-  Switch,
-  toast,
-} from "@acme/ui";
+} from "@acme/ui/dialog";
+import { Slider } from "@acme/ui/slider";
+import { Switch } from "@acme/ui/switch";
 import { useZact } from "@acme/zact/client";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";

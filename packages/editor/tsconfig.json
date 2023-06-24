@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  // "compilerOptions": {
-  //   "baseUrl": ".",
-  //   "paths": {
-  //     "@/*": ["./src/*"]
-  //   }
-  // },
-  "include": ["src", "index.tsx", "tailwind.config.ts"]
+  "compilerOptions": {
+    "incremental": false
+  },
+  "include": ["src", "*.ts", "*.cjs"]
 }

@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
-import { BlurImage, useScroll } from "@acme/ui";
+import { cn } from "@acme/ui";
+import { useScroll } from "@acme/ui/hooks";
 
-import { cn } from "~/lib/utils";
 import { type GetProjectByDomain } from "../_actions/projects";
 import { ToggleTheme } from "./toggle-theme";
 
@@ -32,7 +33,7 @@ export function BlogHeader({ project }: Props) {
         >
           {project.logo && (
             <span className="inline-block h-8 w-8 overflow-hidden rounded-full align-middle">
-              <BlurImage
+              <Image
                 height={40}
                 width={40}
                 src={project.logo}

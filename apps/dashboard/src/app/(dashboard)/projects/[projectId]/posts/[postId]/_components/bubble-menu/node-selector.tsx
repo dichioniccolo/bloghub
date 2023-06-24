@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 
 import { type Editor } from "@acme/editor";
+import { cn } from "@acme/ui";
 
-import { cn } from "~/lib/utils";
 import { type BubbleMenuItem } from "./index";
 
 interface NodeSelectorProps {

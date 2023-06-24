@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { useTheme } from "next-themes";
 
 import { AppRoutes } from "@acme/common/routes";
+import { cn } from "@acme/ui";
+import { Button } from "@acme/ui/button";
 import {
-  Button,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -15,15 +15,12 @@ import {
   CommandItem,
   CommandList,
   type CommandDialogProps,
-} from "@acme/ui";
+} from "@acme/ui/command";
 
-import { cn } from "~/lib/utils";
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 import { Icons } from "./icons";
 
 export function CommandMenu({ ...props }: CommandDialogProps) {
-  const { setTheme } = useTheme();
-
   const router = useRouter();
 
   const { setOpen: setCreateProjectDialogOpen, CreateProjectDialog } =
@@ -79,7 +76,7 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
               Create Project
             </CommandItem>
           </CommandGroup>
-          <CommandGroup heading="Theme">
+          {/* <CommandGroup heading="Theme">
             <CommandItem onSelect={runCommand(() => setTheme("light"))}>
               <Icons.sun className="mr-2 h-4 w-4" />
               Light
@@ -92,7 +89,7 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
               <Icons.laptop className="mr-2 h-4 w-4" />
               System
             </CommandItem>
-          </CommandGroup>
+          </CommandGroup> */}
           <CommandGroup heading="General">
             <CommandItem
               onSelect={runCommand(() => router.push(AppRoutes.Settings))}

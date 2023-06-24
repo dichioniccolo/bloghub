@@ -1,9 +1,8 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-
-import { BlurImage } from "@acme/ui";
 
 import { getPostBySlug } from "~/app/_actions/posts";
 import { RandomPosts } from "./_components/random-posts";
@@ -54,7 +53,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
       </div>
       {post.thumbnailUrl && (
         <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
-          <BlurImage
+          <Image
             alt={post.title}
             src={post.thumbnailUrl}
             width={1280}

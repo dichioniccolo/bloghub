@@ -1,5 +1,5 @@
-import { type ReactNode } from "react";
-import { type Editor, type Range } from "@tiptap/core";
+import * as React from "react";
+import type { Editor, Range } from "@tiptap/core";
 import {
   CheckSquare,
   Code,
@@ -22,7 +22,7 @@ export type CommandItemProps = {
   title: string;
   description: string;
   searchTerms: string[];
-  icon: ReactNode;
+  icon: React.ReactNode;
   command: (command: Command) => unknown;
 };
 

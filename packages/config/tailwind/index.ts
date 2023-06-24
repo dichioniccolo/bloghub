@@ -1,12 +1,9 @@
-import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
-// @ts-expect-error no types
-import animate from "tailwindcss-animate";
 
 export default {
   darkMode: "class",
-  content: [""],
+  content: ["**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -75,5 +72,5 @@ export default {
       },
     },
   },
-  plugins: [forms, typography, animate],
+  plugins: [typography, require("tailwindcss-animate")],
 } satisfies Config;

@@ -1,6 +1,5 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-
-import { toast } from "@acme/ui";
+import { toast } from "sonner";
 
 export type UploadFunctionType = (file: File) => Promise<string>;
 

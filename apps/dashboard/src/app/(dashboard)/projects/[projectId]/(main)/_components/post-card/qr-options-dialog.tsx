@@ -1,22 +1,24 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { toast } from "sonner";
 
+import { Button } from "@acme/ui/button";
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+} from "@acme/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-  toast,
-} from "@acme/ui";
+} from "@acme/ui/dropdown-menu";
 
 import { type GetPosts } from "~/app/_api/posts";
 import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";

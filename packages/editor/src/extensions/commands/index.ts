@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import { Extension, type Editor, type Range } from "@tiptap/core";
+import type { Editor, Range } from "@tiptap/core";
+import { Extension } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
-import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
-import tippy, { type Instance } from "tippy.js";
+import type { SuggestionOptions } from "@tiptap/suggestion";
+import Suggestion from "@tiptap/suggestion";
+import type { Instance } from "tippy.js";
+import tippy from "tippy.js";
 
 import { CommandList } from "./commands-list";
-import { getSuggestionItems, type CommandItemProps } from "./items";
+import type { CommandItemProps } from "./items";
+import { getSuggestionItems } from "./items";
 
 interface Command {
   editor: Editor;

@@ -8,13 +8,9 @@ import {
   isRemovedFromProjectNotification,
   type AppNotification,
 } from "@acme/notifications";
-import {
-  Badge,
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@acme/ui";
+import { Badge } from "@acme/ui/badge";
+import { Button } from "@acme/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@acme/ui/popover";
 import { useZact } from "@acme/zact/client";
 
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
@@ -64,7 +60,7 @@ export function NotificationsPopover() {
         <Button size="xs" variant="secondary" className="rounded-full">
           <Icons.bellRing className="h-4 w-4" />
           {unreadCount > 0 && (
-            <Badge variant="info" size="sm" className="ml-1">
+            <Badge variant="outline" size="sm" className="ml-1">
               {unreadCount}
             </Badge>
           )}

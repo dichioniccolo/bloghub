@@ -1,23 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
+import { Badge } from "@acme/ui/badge";
+import { Button } from "@acme/ui/button";
 import {
-  Badge,
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-  Form,
+} from "@acme/ui/dialog";
+import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  toast,
-} from "@acme/ui";
+} from "@acme/ui/form";
+import { Input } from "@acme/ui/input";
+import { Form } from "@acme/ui/zod-form";
 import { useZact } from "@acme/zact/client";
 
 import { updateDomain } from "~/app/_actions/project/update-domain";

@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 
 import { BlogRoutes } from "@acme/common/routes";
-import { BlurImage } from "@acme/ui";
 
 import { type GetRandomPostsByDomain } from "../_actions/posts";
 
@@ -15,7 +15,7 @@ export function PostCard({ post }: Props) {
     <Link href={BlogRoutes.Post(post.slug)}>
       <div className="ease overflow-hidden rounded-2xl border border-border bg-card shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
         {post.thumbnailUrl && (
-          <BlurImage
+          <Image
             alt={post.title}
             src={post.thumbnailUrl}
             width={500}

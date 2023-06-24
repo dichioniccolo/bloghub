@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 
 import { BubbleMenu, type BubbleMenuProps } from "@acme/editor";
+import { cn } from "@acme/ui";
 
-import { cn } from "~/lib/utils";
 import { AISelector } from "./ai-selector";
 import { ColorSelector } from "./color-selector";
 import { NodeSelector } from "./node-selector";

@@ -3,17 +3,16 @@
 import { formatDistance } from "date-fns";
 
 import { type RoleType } from "@acme/db";
+import { Avatar, AvatarImage } from "@acme/ui/avatar";
+import { Badge } from "@acme/ui/badge";
+import { Button } from "@acme/ui/button";
 import {
-  Avatar,
-  AvatarImage,
-  Badge,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@acme/ui";
+} from "@acme/ui/dropdown-menu";
 
 import { type GetProjectInvites } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";

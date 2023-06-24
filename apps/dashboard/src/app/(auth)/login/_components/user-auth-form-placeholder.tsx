@@ -1,23 +1,22 @@
 "use client";
 
+import { Button } from "@acme/ui/button";
 import {
-  Button,
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@acme/ui";
+} from "@acme/ui/form";
+import { Input } from "@acme/ui/input";
+import { Form } from "@acme/ui/zod-form";
 
 import { Icons } from "~/app/_components/icons";
-import { cn } from "~/lib/utils";
 import { UserAuthSchema } from "~/lib/validation/schema";
 
 export function UserAuthFormPlaceholder() {
   return (
-    <div className={cn("grid gap-6")}>
+    <div className="grid gap-6">
       <Form
         schema={UserAuthSchema}
         onSubmit={() => {

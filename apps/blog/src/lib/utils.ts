@@ -1,6 +1,4 @@
 import { type NextRequest } from "next/server";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 
 export function parseRequest(req: NextRequest) {
   const domain = req.headers.get("host") ?? "";
@@ -11,10 +9,6 @@ export function parseRequest(req: NextRequest) {
   const keys = decodeURIComponent(paths.join("/"));
 
   return { domain, path, keys };
-}
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
 }
 
 /**

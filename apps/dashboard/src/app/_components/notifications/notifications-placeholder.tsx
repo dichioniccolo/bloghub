@@ -1,6 +1,6 @@
 import { Bell } from "lucide-react";
 
-import { Button } from "@acme/ui";
+import { Button } from "@acme/ui/button";
 
 export function NotificationsPlaceholder() {
   return (

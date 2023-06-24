@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   AreaChart,
   BarList,
@@ -10,8 +11,6 @@ import {
   Text,
   Title,
 } from "@tremor/react";
-
-import { BlurImage } from "@acme/ui";
 
 import { type GetProjectAnalytics } from "~/app/_api/projects";
 import countries from "~/lib/countries";
@@ -77,7 +76,7 @@ export function Analytics({
                 countries.find((y) => y.code === x.country)?.name ?? x.country,
               value: x.count,
               icon: () => (
-                <BlurImage
+                <Image
                   src={
                     x.country !== "Other"
                       ? `https://flag.vercel.app/m/${x.country}.svg`
@@ -108,7 +107,7 @@ export function Analytics({
               name: x.city,
               value: x.count,
               icon: () => (
-                <BlurImage
+                <Image
                   src={
                     x.country !== "Other"
                       ? `https://flag.vercel.app/m/${x.country}.svg`
@@ -142,7 +141,7 @@ export function Analytics({
                 icon: () => {
                   if (title === "Top Referrers") {
                     return (
-                      <BlurImage
+                      <Image
                         src={`https://www.google.com/s2/favicons?sz=64&domain_url=${name}`}
                         alt={name}
                         className="mr-2.5"
@@ -152,7 +151,7 @@ export function Analytics({
                     );
                   } else if (title === "Countries") {
                     return (
-                      <BlurImage
+                      <Image
                         src={`https://flag.vercel.app/m/${code}.svg`}
                         className="mr-2.5"
                         alt={code}

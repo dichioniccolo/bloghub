@@ -2,7 +2,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  // "prettier.prettierPath": "./node_modules/prettier",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
@@ -10,7 +9,7 @@
     { "pattern": "apps/*/" },
     { "pattern": "packages/*/" }
   ],
+  "tailwindCSS.experimental.configFile": "./packages/config/tailwind/index.ts",
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "tailwindCSS.experimental.configFile": "./packages/config/tailwind/index.ts"
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

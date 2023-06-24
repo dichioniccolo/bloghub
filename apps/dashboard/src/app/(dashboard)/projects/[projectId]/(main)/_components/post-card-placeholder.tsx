@@ -1,13 +1,12 @@
+import { cn } from "@acme/ui";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
-} from "@acme/ui";
-
-import { cn } from "~/lib/utils";
+} from "@acme/ui/card";
+import { Skeleton } from "@acme/ui/skeleton";
 
 export function PostCardPlaceholder() {
   return (

@@ -1,19 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/common/routes";
+import { Button, buttonVariants } from "@acme/ui/button";
 import {
-  Button,
-  buttonVariants,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  toast,
-} from "@acme/ui";
+} from "@acme/ui/dialog";
 import { useZact } from "@acme/zact/client";
 
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
@@ -42,49 +41,47 @@ export function AcceptInviteDialog({ project, expired }: Props) {
     });
 
   return (
-    <div>
-      <Dialog open>
-        <DialogContent>
-          {!expired ? (
+    <Dialog open>
+      <DialogContent>
+        {!expired ? (
+          <DialogHeader>
+            <DialogTitle>Project Invitation</DialogTitle>
+            <DialogDescription>
+              You&apos;ve been invited to join and collaborate on the{" "}
+              <span className="font-mono text-purple-600">
+                {project.name || "......"}
+              </span>{" "}
+              project
+            </DialogDescription>
+            <DialogFooter>
+              <Button
+                className="mt-4 w-full"
+                disabled={loading}
+                onClick={onSubmit}
+              >
+                {loading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Accept invite
+              </Button>
+            </DialogFooter>
+          </DialogHeader>
+        ) : (
+          <>
             <DialogHeader>
-              <DialogTitle>Project Invitation</DialogTitle>
+              <DialogTitle>Project Invitation Expired</DialogTitle>
               <DialogDescription>
-                You&apos;ve been invited to join and collaborate on the{" "}
-                <span className="font-mono text-purple-600">
-                  {project.name || "......"}
-                </span>{" "}
-                project
+                This invite has expired or is no longer valid.
               </DialogDescription>
               <DialogFooter>
-                <Button
-                  className="mt-4 w-full"
-                  disabled={loading}
-                  onClick={onSubmit}
-                >
-                  {loading && (
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  Accept invite
-                </Button>
+                <Link href={AppRoutes.Dashboard} className={buttonVariants()}>
+                  Back to dashboard
+                </Link>
               </DialogFooter>
             </DialogHeader>
-          ) : (
-            <>
-              <DialogHeader>
-                <DialogTitle>Project Invitation Expired</DialogTitle>
-                <DialogDescription>
-                  This invite has expired or is no longer valid.
-                </DialogDescription>
-                <DialogFooter>
-                  <Link href={AppRoutes.Dashboard} className={buttonVariants()}>
-                    Back to dashboard
-                  </Link>
-                </DialogFooter>
-              </DialogHeader>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

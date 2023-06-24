@@ -1,5 +1,5 @@
 import { Extension } from "@tiptap/core";
-import { type Node } from "@tiptap/pm/model";
+import type { Node } from "@tiptap/pm/model";
 import { Plugin } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 

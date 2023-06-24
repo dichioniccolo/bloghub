@@ -10,7 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@acme/ui";
+} from "@acme/ui/navigation-menu";
 
 export function MainNavigationMenu() {
   const pathname = usePathname();

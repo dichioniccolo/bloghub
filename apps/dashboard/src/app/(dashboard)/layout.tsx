@@ -2,7 +2,7 @@ import { Suspense, type PropsWithChildren } from "react";
 import Link from "next/link";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Skeleton } from "@acme/ui";
+import { Skeleton } from "@acme/ui/skeleton";
 
 import { Icons } from "~/app/_components/icons";
 import { env } from "~/env.mjs";

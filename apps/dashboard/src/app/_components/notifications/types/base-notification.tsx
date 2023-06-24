@@ -3,7 +3,8 @@
 import { type MouseEventHandler, type ReactNode } from "react";
 
 import { type AppNotification } from "@acme/notifications";
-import { Button } from "@acme/ui";
+import { cn } from "@acme/ui";
+import { Button } from "@acme/ui/button";
 import { useZact } from "@acme/zact/client";
 
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
@@ -14,7 +15,6 @@ import {
   useNotificationsDispatch,
 } from "~/app/_components/notifications/notifications-provider";
 import { useUser } from "~/hooks/use-user";
-import { cn } from "~/lib/utils";
 
 type Props = {
   notification: AppNotification;

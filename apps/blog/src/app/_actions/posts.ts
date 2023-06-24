@@ -103,7 +103,7 @@ export async function getRandomPostsByDomain(
 
   const randomIndices = generateRandomIndices(postIds.length, toGenerate);
 
-  const ids = randomIndices.map((index) => postIds[index]).filter(Boolean);
+  const ids = randomIndices.map((index) => postIds[index]!).filter(Boolean);
 
   if (ids.length === 0) {
     return [];

@@ -3,12 +3,12 @@ import { type Metadata, type ServerRuntime } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { AspectRatio } from "@acme/ui";
+import { cn } from "@acme/ui";
+import { AspectRatio } from "@acme/ui/aspect-ratio";
 
 import { getPostsByDomain } from "~/app/_actions/posts";
 import { getProjectByDomain } from "~/app/_actions/projects";
 import { env } from "~/env.mjs";
-import { cn } from "~/lib/utils";
 
 type Props = {
   params: {

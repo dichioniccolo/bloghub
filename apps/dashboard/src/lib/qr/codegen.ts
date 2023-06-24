@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-
 /**
  * @license QR Code generator library (TypeScript)
  * Copyright (c) Project Nayuki.

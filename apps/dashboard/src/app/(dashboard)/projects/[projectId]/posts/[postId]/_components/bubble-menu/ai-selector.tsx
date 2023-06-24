@@ -1,3 +1,4 @@
+import { useEffect, type Dispatch, type FC, type SetStateAction } from "react";
 import { type Editor } from "@tiptap/core";
 import { useCompletion } from "ai/react";
 import { Command } from "cmdk";
@@ -8,9 +9,7 @@ import {
   Sparkles,
   Wand,
 } from "lucide-react";
-import { useEffect, type Dispatch, type FC, type SetStateAction } from "react";
-
-import { toast } from "@acme/ui";
+import { toast } from "sonner";
 
 interface AISelectorProps {
   editor: Editor;

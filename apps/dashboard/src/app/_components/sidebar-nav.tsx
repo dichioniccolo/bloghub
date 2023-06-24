@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { buttonVariants } from "@acme/ui";
-
-import { cn } from "~/lib/utils";
+import { cn } from "@acme/ui";
+import { buttonVariants } from "@acme/ui/button";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {

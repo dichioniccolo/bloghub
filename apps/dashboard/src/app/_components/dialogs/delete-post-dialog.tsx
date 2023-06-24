@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode } from "react";
+import { toast } from "sonner";
 
 import {
   AlertDialog,
@@ -12,8 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  toast,
-} from "@acme/ui";
+} from "@acme/ui/alert-dialog";
 import { useZact } from "@acme/zact/client";
 
 import { deletePost } from "~/app/_actions/post/delete-post";

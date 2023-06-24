@@ -76,10 +76,8 @@ const config = {
     "@acme/auth",
     "@acme/common",
     "@acme/db",
-    "@acme/editor",
     "@acme/emails",
     "@acme/notifications",
-    "@acme/ui",
   ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },

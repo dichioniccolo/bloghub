@@ -2,14 +2,14 @@ import { type PropsWithChildren } from "react";
 import { type Metadata } from "next";
 import { getServerSession } from "next-auth";
 
-import "@acme/editor/styles/tiptap.css";
-import "@acme/ui/styles/globals.css";
+import "~/styles/globals.css";
+import "~/styles/tiptap.css";
 
 import { authOptions } from "@acme/auth";
+import { cn } from "@acme/ui";
 
 import { cal, inter } from "~/styles/fonts";
 import { env } from "~/env.mjs";
-import { cn } from "~/lib/utils";
 import { Providers } from "./providers";
 
 export function generateMetadata() {
@@ -87,13 +87,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body
-        className={cn(
-          "min-h-screen bg-background antialiased",
-          cal.variable,
-          inter.variable,
-        )}
-      >
+      <body className={cn(cal.variable, inter.variable)}>
         <Providers session={session}>{children}</Providers>
       </body>
     </html>

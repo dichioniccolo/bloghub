@@ -16,7 +16,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@acme/ui";
+} from "@acme/ui/alert-dialog";
 import { useZact } from "@acme/zact/client";
 
 import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";

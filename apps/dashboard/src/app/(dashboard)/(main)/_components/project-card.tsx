@@ -1,13 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { AppRoutes } from "@acme/common/routes";
-import {
-  BlurImage,
-  Card,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@acme/ui";
+import { Card } from "@acme/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
 
 import { type GetProjects } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
@@ -22,7 +18,7 @@ export function ProjectCard({ project }: Props) {
     <Link href={AppRoutes.ProjectDashboard(project.id)}>
       <Card className="flex justify-between p-6 transition-all hover:shadow-md">
         <div className="flex items-center space-x-3">
-          <BlurImage
+          <Image
             src={project.logo ?? getDefaultAvatarImage(project.name)}
             alt={project.name}
             className="h-9 w-9 flex-shrink-0 overflow-hidden rounded-full"

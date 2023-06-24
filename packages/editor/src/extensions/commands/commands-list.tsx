@@ -1,13 +1,7 @@
-import { type Editor, type Range } from "@tiptap/core";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import * as React from "react";
+import type { Editor, Range } from "@tiptap/core";
 
-import { type CommandItemProps } from "./items";
+import type { CommandItemProps } from "./items";
 
 type Props = {
   items: CommandItemProps[];
@@ -31,9 +25,9 @@ const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
 };
 
 export const CommandList = ({ items, command, editor, range }: Props) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const selectItem = useCallback(
+  const selectItem = React.useCallback(
     (index: number) => {
       const item = items[index];
       if (!item) {
@@ -47,7 +41,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     [items, command, editor, range],
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.key)) {
         return;
@@ -76,13 +70,13 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     };
   }, [items, selectedIndex, setSelectedIndex, selectItem]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setSelectedIndex(0);
   }, [items]);
 
-  const commandListContainer = useRef<HTMLDivElement>(null);
+  const commandListContainer = React.useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     const container = commandListContainer?.current;
 
     const item = container?.children[selectedIndex] as HTMLElement;

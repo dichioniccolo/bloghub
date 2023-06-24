@@ -1,8 +1,8 @@
 import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 import { BubbleMenu, type Editor } from "@acme/editor";
-import { toast } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
 

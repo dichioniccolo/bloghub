@@ -1,8 +1,7 @@
 import { forwardRef, type PropsWithoutRef } from "react";
 
-import { Button, type ButtonProps } from "@acme/ui";
-
-import { cn } from "~/lib/utils";
+import { cn } from "@acme/ui";
+import { Button, type ButtonProps } from "@acme/ui/button";
 
 type PostCardButtonProps = PropsWithoutRef<ButtonProps>;
 

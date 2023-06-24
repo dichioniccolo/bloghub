@@ -1,24 +1,22 @@
 "use client";
 
 import { format } from "date-fns";
+import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/common/routes";
+import { Badge } from "@acme/ui/badge";
+import { Button } from "@acme/ui/button";
 import {
-  Badge,
-  Button,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-  Progress,
-  Separator,
-  toast,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@acme/ui";
+} from "@acme/ui/card";
+import { Progress } from "@acme/ui/progress";
+import { Separator } from "@acme/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
 import { useZact } from "@acme/zact/client";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";

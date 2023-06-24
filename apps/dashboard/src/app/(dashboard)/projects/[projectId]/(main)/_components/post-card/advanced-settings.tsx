@@ -5,22 +5,20 @@ import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
 import { AppRoutes } from "@acme/common/routes";
+import { cn } from "@acme/ui";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  buttonVariants,
-  Label,
-  Switch,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@acme/ui";
+} from "@acme/ui/accordion";
+import { buttonVariants } from "@acme/ui/button";
+import { Label } from "@acme/ui/label";
+import { Switch } from "@acme/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
 
 import { env } from "~/env.mjs";
 import { type QRProps } from "~/lib/qr";
-import { cn } from "~/lib/utils";
 
 type AdvancedSettingsProps = {
   isOwnerPro: boolean;
@@ -63,7 +61,7 @@ export function AdvancedSettings({
                   </p>
                   <Link
                     href={AppRoutes.BillingSettings}
-                    className={cn(buttonVariants())}
+                    className={buttonVariants()}
                   >
                     Upgrade to Pro
                   </Link>

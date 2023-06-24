@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import { BlogRoutes } from "@acme/common/routes";
+import { cn } from "@acme/ui";
 
 import { Icons } from "~/app/_components/icons";
-import { cn } from "~/lib/utils";
 
 type Props = {
   itemCount: number;

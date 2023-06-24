@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 
+import { cn } from "@acme/ui";
+
 import { type VerifyDomain } from "~/app/_actions/project/verify-domain";
 import { env } from "~/env.mjs";
-import { cn, getSubDomain } from "~/lib/utils";
+import { getSubDomain } from "~/lib/utils";
 
 type Props = {
   status: VerifyDomain;

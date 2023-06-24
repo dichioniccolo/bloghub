@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Button } from "@acme/ui";
+import { Button } from "@acme/ui/button";
 import { useZact } from "@acme/zact/client";
 
 import { createPost } from "~/app/_actions/post/create-post";

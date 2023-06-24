@@ -5,19 +5,13 @@ import baseConfig from "@acme/tailwind-config";
 
 export default {
   content: [
-    path.join(
-      path.dirname(require.resolve("@acme/ui")),
-      "**/*.{js,jsx,ts,tsx}",
-    ),
-    path.join(
-      path.dirname(require.resolve("@acme/editor")),
-      "**/*.{js,jsx,ts,tsx}",
-    ),
+    ...baseConfig.content,
+    "../../packages/ui/src/**/*.{ts,tsx}",
+    "../../packages/editor/src/**/*.{ts,tsx}",
     path.join(
       path.dirname(require.resolve("@tremor/react")),
       "**/*.{js,ts,jsx,tsx}",
     ),
-    "./src/**/*.tsx",
   ],
   theme: {
     transparent: "transparent",

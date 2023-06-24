@@ -1,15 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { NodeViewWrapper, type NodeViewProps } from "@tiptap/react";
+import * as React from "react";
+import type { NodeViewProps } from "@tiptap/react";
+import { NodeViewWrapper } from "@tiptap/react";
 import { AlignCenter, AlignLeft, AlignRight, Trash2 } from "lucide-react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "@acme/ui";
 
 interface ResizableMediaAction {
   tooltip: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   action?: (updateAttributes: (o: Record<string, unknown>) => unknown) => void;
   isActive?: (attrs: Record<string, unknown>) => boolean;
   delete?: (d: () => void) => void;
@@ -67,13 +66,14 @@ export const ResizableMediaNodeView = ({
 }: NodeViewProps) => {
   const editable = editor.options.editable;
 
-  const [aspectRatio, setAspectRatio] = useState(0);
+  const [aspectRatio, setAspectRatio] = React.useState(0);
 
-  const [proseMirrorContainerWidth, setProseMirrorContainerWidth] = useState(0);
+  const [proseMirrorContainerWidth, setProseMirrorContainerWidth] =
+    React.useState(0);
 
-  const resizableMediaRef = useRef<HTMLImageElement | HTMLVideoElement | null>(
-    null,
-  );
+  const resizableMediaRef = React.useRef<
+    HTMLImageElement | HTMLVideoElement | null
+  >(null);
 
   const mediaSetupOnLoad = () => {
     // ! TODO: move this to extension storage
@@ -111,7 +111,7 @@ export const ResizableMediaNodeView = ({
     lastClientX = x;
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     mediaSetupOnLoad();
   });
 
