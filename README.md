@@ -1,4 +1,4 @@
-# [BlogHub](https://skateshop13.vercel.app/)
+# [BlogHub](https://app.bloghub.it/)
 
 This is an open source blog app built with everything new in Next.js 13. It is built with the [T3 Turbo Stack](https://github.com/t3-oss/create-t3-turbo).
 
