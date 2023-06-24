@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@commitlint/cli':
-        specifier: ^17.6.5
-        version: 17.6.5
+        specifier: ^17.6.6
+        version: 17.6.6
       '@commitlint/config-conventional':
-        specifier: ^17.6.5
-        version: 17.6.5
+        specifier: ^17.6.6
+        version: 17.6.6
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.0.2
         version: 4.0.2(prettier@2.8.8)
@@ -2125,8 +2125,8 @@ packages:
       commander: 9.4.1
     dev: false
 
-  /@commitlint/cli@17.6.5:
-    resolution: {integrity: sha512-3PQrWr/uo6lzF5k7n5QuosCYnzaxP9qGBp3jhWP0Vmsa7XA6wrl9ccPqfQyXpSbQE3zBROVO3TDqgPKe4tfmLQ==}
+  /@commitlint/cli@17.6.6:
+    resolution: {integrity: sha512-sTKpr2i/Fjs9OmhU+beBxjPavpnLSqZaO6CzwKVq2Tc4UYVTMFgpKOslDhUBVlfAUBfjVO8ParxC/MXkIOevEA==}
     engines: {node: '>=v14'}
     hasBin: true
     dependencies:
@@ -2145,8 +2145,8 @@ packages:
       - '@swc/wasm'
     dev: false
 
-  /@commitlint/config-conventional@17.6.5:
-    resolution: {integrity: sha512-Xl9H9KLl86NZm5CYNTNF9dcz1xelE/EbvhWIWcYxG/rn3UWYWdWmmnX2q6ZduNdLFSGbOxzUpIx61j5zxbeXxg==}
+  /@commitlint/config-conventional@17.6.6:
+    resolution: {integrity: sha512-phqPz3BDhfj49FUYuuZIuDiw+7T6gNAEy7Yew1IBHqSohVUCWOK2FXMSAExzS2/9X+ET93g0Uz83KjiHDOOFag==}
     engines: {node: '>=v14'}
     dependencies:
       conventional-changelog-conventionalcommits: 5.0.0
@@ -7130,7 +7130,7 @@ packages:
   /duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
     dependencies:
-      readable-stream: 2.1.5
+      readable-stream: 2.3.8
     dev: false
 
   /duplexify@3.7.1:
