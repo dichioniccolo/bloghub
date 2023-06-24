@@ -31,21 +31,21 @@ export const users = mysqlTable(
     id: varchar("id", { length: 255 }).primaryKey(),
     name: text("name"),
     email: varchar("email", { length: 255 }).notNull(),
-    emailVerified: datetime("emailVerified", { mode: "string", fsp: 3 }),
+    emailVerified: datetime("emailVerified", { mode: "date", fsp: 3 }),
     image: text("image"),
     stripeCustomerId: varchar("stripeCustomerId", { length: 255 }),
     stripeSubscriptionId: varchar("stripeSubscriptionId", { length: 255 }),
     stripePriceId: varchar("stripePriceId", { length: 255 }),
     dayWhenBillingStarts: datetime("dayWhenBillingStarts", {
-      mode: "string",
+      mode: "date",
       fsp: 3,
     })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
-    updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 })
+    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
   },
@@ -84,7 +84,7 @@ export const sessions = mysqlTable("sessions", {
     .primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
   expires: datetime("expires", {
-    mode: "string",
+    mode: "date",
     fsp: 3,
   })
     .notNull()
@@ -97,7 +97,7 @@ export const verificationTokens = mysqlTable(
     identifier: varchar("identifier", { length: 255 }).notNull(),
     token: varchar("token", { length: 500 }).notNull(),
     expires: datetime("expires", {
-      mode: "string",
+      mode: "date",
       fsp: 3,
     })
       .notNull()
@@ -133,7 +133,7 @@ export const notifications = mysqlTable("notifications", {
     .default(NotificationStatus.Unread),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body: json("body").$type<any>().notNull(),
-  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });
@@ -145,17 +145,17 @@ export const projects = mysqlTable("projects", {
   domain: varchar("domain", { length: 255 }).notNull(),
   domainVerified: boolean("domainVerified").notNull().default(false),
   domainLastCheckedAt: datetime("domainLastCheckedAt", {
-    mode: "string",
+    mode: "date",
     fsp: 3,
   }),
   domainUnverifiedAt: datetime("domainUnverifiedAt", {
-    mode: "string",
+    mode: "date",
     fsp: 3,
   }),
-  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),
-  updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 })
+  updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });
@@ -171,7 +171,7 @@ export const projectMembers = mysqlTable(
       .$type<RoleType>()
       .notNull()
       .default(Role.Editor),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
   },
@@ -189,8 +189,8 @@ export const projectInvitations = mysqlTable(
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
-    expiresAt: datetime("expiresAt", { mode: "string", fsp: 3 }).notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    expiresAt: datetime("expiresAt", { mode: "date", fsp: 3 }).notNull(),
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
   },
@@ -215,10 +215,10 @@ export const posts = mysqlTable(
     hidden: boolean("hidden").notNull().default(true),
     seoTitle: varchar("seoTitle", { length: 255 }),
     seoDescription: varchar("seoDescription", { length: 255 }),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
-    updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 })
+    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
   },
@@ -235,7 +235,7 @@ export const likes = mysqlTable(
   {
     userId: varchar("userId", { length: 255 }).notNull(),
     postId: varchar("postId", { length: 255 }).notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),
   },
@@ -250,7 +250,7 @@ export const comments = mysqlTable("comments", {
   postId: varchar("postId", { length: 255 }).notNull(),
   content: text("content").notNull(),
   parentId: varchar("parentId", { length: 255 }),
-  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });
@@ -261,7 +261,7 @@ export const media = mysqlTable("media", {
   postId: varchar("postId", { length: 255 }),
   type: int("type").$type<MediaEnumType>().notNull(),
   url: text("url").notNull(),
-  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });
@@ -293,7 +293,7 @@ export const visits = mysqlTable("visits", {
   geoCity: varchar("geoCity", { length: 255 }),
   geoLatitude: varchar("geoLatitude", { length: 255 }),
   geoLongitude: varchar("geoLongitude", { length: 255 }),
-  createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });

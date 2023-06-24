@@ -6,8 +6,8 @@ import { Configuration, OpenAIApi } from "openai-edge";
 import { isUserPro } from "@acme/common/external/stripe/actions";
 import { db, eq, users } from "@acme/db";
 
+import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
-import { $getUser } from "~/lib/shared/get-user";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 
 const config = new Configuration({

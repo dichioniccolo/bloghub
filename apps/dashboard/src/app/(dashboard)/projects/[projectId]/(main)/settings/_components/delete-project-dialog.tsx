@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import { deleteProject } from "@acme/common/actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,17 +17,15 @@ import {
 } from "@acme/ui";
 import { useZact } from "@acme/zact/client";
 
+import { deleteProject } from "~/app/_actions/project/delete-project";
 import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   project: NonNullable<GetProject>;
 };
 
 export function DeleteProjectDialog({ project }: Props) {
-  const user = useUser();
-
   const [open, setOpen] = useState(false);
 
   const { mutate, isRunning } = useZact(deleteProject, {
@@ -43,7 +40,6 @@ export function DeleteProjectDialog({ project }: Props) {
   const onDelete = () =>
     mutate({
       projectId: project.id,
-      userId: user.id,
     });
 
   return (

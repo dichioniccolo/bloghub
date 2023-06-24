@@ -7,19 +7,25 @@ import { z } from "zod";
 import { createDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
 import { db, eq, projectMembers, projects, Role } from "@acme/db";
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
+import { $getUser } from "~/app/_api/get-user";
 import { DomainSchema } from "../schemas";
 
-export const createProject = zact(
-  z.object({
-    userId: z.string().nonempty(),
-    name: z.string().min(1),
-    domain: DomainSchema,
-  }),
-)(async (input) => {
-  const { userId, name, domain } = input;
+export const createProject = zactAuthenticated(
+  async () => {
+    const user = await $getUser();
 
+    return {
+      userId: user.id,
+    };
+  },
+  () =>
+    z.object({
+      name: z.string().min(1),
+      domain: DomainSchema,
+    }),
+)(async ({ name, domain }, { userId }) => {
   const project = await db.transaction(async (tx) => {
     await createDomain(domain);
 

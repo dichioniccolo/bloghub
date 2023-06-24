@@ -4,10 +4,18 @@ type ActionType<TInput extends z.ZodTypeAny, TResponse> = (
   input: z.input<TInput>,
 ) => Promise<TResponse>;
 
+type MaybePromise<T> = T | Promise<T>;
+
+type AuthenticatedActionType<TAuth, TInput extends z.ZodTypeAny, TResponse> = (
+  input: z.input<TInput>,
+  auth: TAuth,
+) => Promise<TResponse>;
+
 type ResponseType<TInput extends z.ZodTypeAny, TResponse> = {
   data?: TResponse;
   validationErrors?: ZactValidationError<TInput>;
   serverError?: true;
+  authError?: true;
 };
 
 export type ZactValidationError<TInput extends z.ZodTypeAny = z.ZodTypeAny> = {
@@ -49,6 +57,63 @@ export function zact<TInput extends z.ZodTypeAny>(validator?: TInput) {
         }
         return {
           data: await action(input),
+        };
+      } catch (e) {
+        console.error(e);
+        return {
+          serverError: true,
+        };
+      }
+    };
+
+    return validatedAction;
+  };
+}
+
+export function zactAuthenticated<TAuth, TInput extends z.ZodTypeAny>(
+  auth: () => MaybePromise<TAuth>,
+  validator?: (auth: TAuth) => TInput,
+) {
+  return function <TResponse>(
+    action: AuthenticatedActionType<TAuth, TInput, TResponse>,
+  ): ZactAction<TInput, TResponse> {
+    const validatedAction: ZactAction<TInput, TResponse> = async (
+      input: z.input<TInput>,
+    ) => {
+      let authResult: TAuth;
+
+      try {
+        authResult = await auth();
+
+        if (!authResult) {
+          return {
+            authError: true,
+          };
+        }
+      } catch {
+        return {
+          authError: true,
+        };
+      }
+
+      try {
+        if (validator) {
+          const result = await validator(authResult).safeParseAsync(input);
+
+          if (!result.success) {
+            return {
+              validationErrors: result.error.flatten(),
+            };
+          }
+
+          return {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            data: await action(result.data, authResult),
+          };
+        }
+
+        return {
+          data: await action(input, authResult),
         };
       } catch (e) {
         console.error(e);

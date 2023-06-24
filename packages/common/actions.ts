@@ -4,7 +4,6 @@ import { createId } from "@paralleldrive/cuid2";
 import { type JSONContent } from "@tiptap/react";
 
 import {
-  Role,
   and,
   db,
   eq,
@@ -15,6 +14,7 @@ import {
   posts,
   projectMembers,
   projects,
+  Role,
   sql,
   visits,
   type MediaEnumType,
@@ -25,6 +25,10 @@ import { deleteMedias, uploadFile } from "./external/media/actions";
 import { deleteDomain } from "./external/vercel";
 
 export async function deleteProject(project: { id: string; domain: string }) {
+  if (!project) {
+    throw new Error("Project not given");
+  }
+
   await db.transaction(async (tx) => {
     await deleteDomain(project.domain);
 
@@ -38,6 +42,16 @@ export async function deleteProject(project: { id: string; domain: string }) {
     if (mediaList.length > 0) {
       await deleteMedias(mediaList.map((m) => m.url));
     }
+
+    await tx.delete(media).where(eq(media.projectId, project.id));
+
+    await tx.delete(posts).where(eq(posts.projectId, project.id));
+
+    await tx
+      .delete(projectMembers)
+      .where(eq(projectMembers.projectId, project.id));
+
+    await tx.delete(visits).where(eq(visits.projectId, project.id));
 
     await tx.delete(projects).where(eq(projects.id, project.id));
   });
@@ -169,7 +183,7 @@ export async function createProjectMedia(formData: FormData) {
   ) as MediaEnumType;
 
   if (!type) {
-    throw new Error( "Failed to determine media type");
+    throw new Error("Failed to determine media type");
   }
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());

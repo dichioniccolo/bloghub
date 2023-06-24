@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useCallback, useRef, useState, useTransition } from "react";
@@ -26,7 +25,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   const mutate = useCallback(
     (input: z.input<InputType>) => {
       return new Promise((resolve, reject) => {
-        // @ts-ignore
+        // @ts-expect-error we need to pass an async function here
         startTransition(async () => {
           if (callback?.onBeforeAction) {
             callback.onBeforeAction(input);
@@ -34,7 +33,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
 
           const result = await doAction.current(input);
 
-          if (result.validationErrors) {
+          if (result?.validationErrors) {
             if (callback?.onValidationError) {
               callback.onValidationError(result.validationErrors);
             } else {
@@ -43,7 +42,7 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
             }
           }
 
-          if (result.serverError) {
+          if (result?.serverError) {
             if (callback?.onServerError) {
               callback.onServerError();
             }
@@ -51,12 +50,12 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
             resolve(null);
           }
 
-          if (callback?.onSuccess && result.data) {
+          if (callback?.onSuccess && result?.data) {
             callback.onSuccess(result.data);
           }
 
-          setData(result.data ?? null);
-          resolve(result.data ?? null);
+          setData(result?.data ?? null);
+          resolve(result?.data ?? null);
         });
       });
     },

@@ -26,7 +26,6 @@ import { useZact } from "@acme/zact/client";
 
 import { createProject } from "~/app/_actions/project/create-project";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 import {
   CreateProjectSchema,
   type CreateProjectSchemaType,
@@ -38,8 +37,6 @@ type Props = {
 };
 
 function CreateProjectDialog({ open, setOpen }: Props) {
-  const user = useUser();
-
   const { mutate } = useZact(createProject, {
     onSuccess: () => {
       toast.success("Project created");
@@ -49,7 +46,6 @@ function CreateProjectDialog({ open, setOpen }: Props) {
 
   const onSubmit = ({ name, domain }: CreateProjectSchemaType) =>
     mutate({
-      userId: user.id,
       name,
       domain,
     });
