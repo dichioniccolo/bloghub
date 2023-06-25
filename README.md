@@ -14,6 +14,7 @@ This is an open source blog app built with everything new in Next.js 13. It is b
 - [Drizzle ORM](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Stripe](https://stripe.com)
+- [Novel](https://github.com/steven-tey/novel)
 
 ## Features
 
