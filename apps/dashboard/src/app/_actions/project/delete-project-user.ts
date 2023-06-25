@@ -19,68 +19,77 @@ import "isomorphic-fetch";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
-export const deleteProjectUser = zact(
-  z
-    .object({
-      userId: z.string().nonempty(),
-      projectId: z.string().nonempty(),
-      userIdToDelete: z.string().nonempty(),
-    })
-    .superRefine(async ({ userId, projectId, userIdToDelete }, ctx) => {
-      const isOwnerCount = await db
-        .select({
-          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
+import { $getUser } from "~/app/_api/get-user";
 
-      if (isOwnerCount.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be the owner of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
+export const deleteProjectUser = zactAuthenticated(
+  async () => {
+    const user = await $getUser();
 
-      const userToDelete = await db
-        .select({
-          role: projectMembers.role,
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.userId, userIdToDelete),
-            eq(projectMembers.projectId, projectId),
-          ),
-        )
-        .then((x) => x[0]);
+    return {
+      userId: user.id,
+    };
+  },
+  ({ userId }) =>
+    z
+      .object({
+        projectId: z.string().nonempty(),
+        userIdToDelete: z.string().nonempty(),
+      })
+      .superRefine(async ({ projectId, userIdToDelete }, ctx) => {
+        const isOwnerCount = await db
+          .select({
+            count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
+          })
+          .from(projectMembers)
+          .where(
+            and(
+              eq(projectMembers.projectId, projectId),
+              eq(projectMembers.userId, userId),
+              eq(projectMembers.role, Role.Owner),
+            ),
+          )
+          .then((x) => x[0]!);
 
-      if (!userToDelete) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["userIdToDelete"],
-          message: "User not found",
-        });
-      }
+        if (isOwnerCount.count === 0) {
+          ctx.addIssue({
+            code: "custom",
+            message:
+              "You must be the owner of the project to perform this action",
+            path: ["projectId"],
+          });
+        }
 
-      if (userToDelete?.role === Role.Owner) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["userIdToDelete"],
-          message: "You can't delete the owner of the project",
-        });
-      }
-    }),
+        const userToDelete = await db
+          .select({
+            role: projectMembers.role,
+          })
+          .from(projectMembers)
+          .where(
+            and(
+              eq(projectMembers.userId, userIdToDelete),
+              eq(projectMembers.projectId, projectId),
+            ),
+          )
+          .then((x) => x[0]);
+
+        if (!userToDelete) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["userIdToDelete"],
+            message: "User not found",
+          });
+        }
+
+        if (userToDelete?.role === Role.Owner) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["userIdToDelete"],
+            message: "You can't delete the owner of the project",
+          });
+        }
+      }),
 )(async ({ projectId, userIdToDelete }) => {
   const { userEmail, projectName } = await db
     .select({

@@ -18,7 +18,6 @@ import { useZact } from "@acme/zact/client";
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
 import { type GetPendingInvite } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   project: NonNullable<GetPendingInvite>["project"];
@@ -26,8 +25,6 @@ type Props = {
 };
 
 export function AcceptInviteDialog({ project, expired }: Props) {
-  const user = useUser();
-
   const { mutate, isRunning: loading } = useZact(acceptInvite, {
     onSuccess: () => {
       toast.success(`You now are a part of ${project.name} project!`);
@@ -36,7 +33,6 @@ export function AcceptInviteDialog({ project, expired }: Props) {
 
   const onSubmit = () =>
     mutate({
-      userId: user.id,
       projectId: project.id,
     });
 

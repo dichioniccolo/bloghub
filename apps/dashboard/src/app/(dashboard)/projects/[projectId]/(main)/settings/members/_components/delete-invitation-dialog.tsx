@@ -21,7 +21,6 @@ import { useZact } from "@acme/zact/client";
 
 import { deleteProjectInvitation } from "~/app/_actions/project/delete-project-invitation";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   open: boolean;
@@ -38,8 +37,6 @@ function DeleteInvitationDialog({
   projectId,
   invitationToDelete,
 }: Props) {
-  const user = useUser();
-
   const { mutate, isRunning } = useZact(deleteProjectInvitation, {
     onSuccess: () => {
       setOpen(false);
@@ -48,7 +45,6 @@ function DeleteInvitationDialog({
 
   const onDelete = () =>
     mutate({
-      userId: user.id,
       projectId,
       email: invitationToDelete.email,
     });

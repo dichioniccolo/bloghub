@@ -7,24 +7,30 @@ import {
   EmailNotificationSetting,
   emailNotificationSettings,
 } from "@acme/db";
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
-export const updateNotificationSettings = zact(
-  z.object({
-    userId: z.string().nonempty(),
-    communication_emails: z.boolean().default(true),
-    marketing_emails: z.boolean().default(true),
-    social_emails: z.boolean().default(true),
-    security_emails: z.literal(true),
-  }),
+import { $getUser } from "~/app/_api/get-user";
+
+export const updateNotificationSettings = zactAuthenticated(
+  async () => {
+    const user = await $getUser();
+
+    return {
+      userId: user.id,
+    };
+  },
+  ({ userId }) =>
+    z.object({
+      communication_emails: z.boolean().default(true),
+      marketing_emails: z.boolean().default(true),
+      social_emails: z.boolean().default(true),
+      security_emails: z.literal(true),
+    }),
 )(
-  async ({
-    userId,
-    communication_emails,
-    marketing_emails,
-    social_emails,
-    security_emails,
-  }) => {
+  async (
+    { communication_emails, marketing_emails, social_emails, security_emails },
+    { userId },
+  ) => {
     await db.transaction(async (tx) => {
       await tx
         .insert(emailNotificationSettings)

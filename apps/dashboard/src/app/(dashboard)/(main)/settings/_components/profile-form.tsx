@@ -32,7 +32,6 @@ export function ProfileForm() {
 
   async function onSubmit({ name }: UserNameSchemaType) {
     await mutate({
-      userId: user.id,
       name,
     });
     await update({

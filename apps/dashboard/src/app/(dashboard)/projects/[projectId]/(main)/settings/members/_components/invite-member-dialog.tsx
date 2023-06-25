@@ -25,7 +25,6 @@ import { useZact } from "@acme/zact/client";
 
 import { inviteUser } from "~/app/_actions/project/invite-user";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 import {
   InviteMemberSchema,
   type InviteMemberSchemaType,
@@ -38,8 +37,6 @@ type Props = {
 export function InviteMemberDialog({ projectId }: Props) {
   const [open, setOpen] = useState(false);
 
-  const user = useUser();
-
   const { mutate } = useZact(inviteUser, {
     onSuccess: () => {
       toast.success("Invitation sent");
@@ -51,7 +48,6 @@ export function InviteMemberDialog({ projectId }: Props) {
     mutate({
       email,
       projectId,
-      userId: user.id,
     });
 
   return (

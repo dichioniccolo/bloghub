@@ -5,16 +5,25 @@ import { z } from "zod";
 import { stripe } from "@acme/common/external/stripe";
 import { determinePlanPriceId } from "@acme/common/external/stripe/actions";
 import { db, eq, users } from "@acme/db";
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
-export const createCheckoutSession = zact(
-  z.object({
-    userId: z.string().nonempty(),
-    callbackUrl: z.string().nonempty(),
-    name: z.string().nullable().optional(),
-    period: z.enum(["monthly", "yearly"]).nullable().optional(),
-  }),
-)(async ({ userId, callbackUrl, period, name }) => {
+import { $getUser } from "~/app/_api/get-user";
+
+export const createCheckoutSession = zactAuthenticated(
+  async () => {
+    const user = await $getUser();
+
+    return {
+      userId: user.id,
+    };
+  },
+  ({ userId }) =>
+    z.object({
+      callbackUrl: z.string().nonempty(),
+      name: z.string().nullable().optional(),
+      period: z.enum(["monthly", "yearly"]).nullable().optional(),
+    }),
+)(async ({ callbackUrl, period, name }, { userId }) => {
   const dbUser = await db
     .select({
       stripeCustomerId: users.stripeCustomerId,
@@ -23,11 +32,7 @@ export const createCheckoutSession = zact(
     })
     .from(users)
     .where(eq(users.id, userId))
-    .then((x) => x[0]);
-
-  if (!dbUser) {
-    return;
-  }
+    .then((x) => x[0]!);
 
   if (dbUser.stripeCustomerId && dbUser.stripeSubscriptionId) {
     // The user is on the pro plan.

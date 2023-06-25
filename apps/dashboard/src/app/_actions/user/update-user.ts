@@ -3,14 +3,23 @@
 import { z } from "zod";
 
 import { db, eq, users } from "@acme/db";
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
-export const updateUser = zact(
-  z.object({
-    userId: z.string().nonempty(),
-    name: z.string().nonempty(),
-  }),
-)(async ({ userId, name }) => {
+import { $getUser } from "~/app/_api/get-user";
+
+export const updateUser = zactAuthenticated(
+  async () => {
+    const user = await $getUser();
+
+    return {
+      userId: user.id,
+    };
+  },
+  () =>
+    z.object({
+      name: z.string().nonempty(),
+    }),
+)(async ({ name }, { userId }) => {
   await db
     .update(users)
     .set({

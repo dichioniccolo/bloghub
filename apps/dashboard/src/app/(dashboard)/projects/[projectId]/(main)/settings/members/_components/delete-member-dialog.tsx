@@ -21,7 +21,6 @@ import { useZact } from "@acme/zact/client";
 
 import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   open: boolean;
@@ -35,8 +34,6 @@ type Props = {
 };
 
 function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
-  const user = useUser();
-
   const { mutate, isRunning } = useZact(deleteProjectUser, {
     onSuccess: () => {
       setOpen(false);
@@ -45,7 +42,6 @@ function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
 
   const onDelete = () =>
     mutate({
-      userId: user.id,
       projectId,
       userIdToDelete: userToDelete.id,
     });

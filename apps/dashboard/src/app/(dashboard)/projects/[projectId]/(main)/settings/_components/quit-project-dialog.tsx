@@ -20,14 +20,12 @@ import { useZact } from "@acme/zact/client";
 import { quitProject } from "~/app/_actions/project/quit-project";
 import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 
 type Props = {
   project: NonNullable<GetProject>;
 };
 
 export function QuitProjectDialog({ project }: Props) {
-  const user = useUser();
   const [open, setOpen] = useState(false);
 
   const { mutate, isRunning } = useZact(quitProject, {
@@ -41,7 +39,6 @@ export function QuitProjectDialog({ project }: Props) {
 
   const onDelete = () =>
     mutate({
-      userId: user.id,
       projectId: project.id,
     });
 

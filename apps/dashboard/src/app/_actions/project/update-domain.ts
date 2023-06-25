@@ -6,41 +6,49 @@ import { z } from "zod";
 import { createDomain, deleteDomain } from "@acme/common/external/vercel";
 import { AppRoutes } from "@acme/common/routes";
 import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
-import { zact } from "@acme/zact/server";
+import { zactAuthenticated } from "@acme/zact/server";
 
+import { $getUser } from "~/app/_api/get-user";
 import { DomainSchema } from "../schemas";
 
-export const updateDomain = zact(
-  z
-    .object({
-      userId: z.string().nonempty(),
-      projectId: z.string().nonempty(),
-      newDomain: DomainSchema,
-    })
-    .superRefine(async ({ projectId, userId }, ctx) => {
-      const isOwnerCount = await db
-        .select({
-          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
+export const updateDomain = zactAuthenticated(
+  async () => {
+    const user = await $getUser();
 
-      if (isOwnerCount.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be the owner of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
-    }),
+    return {
+      userId: user.id,
+    };
+  },
+  ({ userId }) =>
+    z
+      .object({
+        projectId: z.string().nonempty(),
+        newDomain: DomainSchema,
+      })
+      .superRefine(async ({ projectId }, ctx) => {
+        const isOwnerCount = await db
+          .select({
+            count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
+          })
+          .from(projectMembers)
+          .where(
+            and(
+              eq(projectMembers.projectId, projectId),
+              eq(projectMembers.userId, userId),
+              eq(projectMembers.role, Role.Owner),
+            ),
+          )
+          .then((x) => x[0]!);
+
+        if (isOwnerCount.count === 0) {
+          ctx.addIssue({
+            code: "custom",
+            message:
+              "You must be the owner of the project to perform this action",
+            path: ["projectId"],
+          });
+        }
+      }),
 )(async ({ projectId, newDomain }) => {
   const project = await db
     .select({

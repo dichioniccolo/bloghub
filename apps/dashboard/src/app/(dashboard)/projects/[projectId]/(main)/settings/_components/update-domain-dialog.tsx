@@ -25,7 +25,6 @@ import { useZact } from "@acme/zact/client";
 import { updateDomain } from "~/app/_actions/project/update-domain";
 import { type GetProject } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 import {
   UpdateDomainSchema,
   type UpdateDomainSchemaType,
@@ -36,8 +35,6 @@ type Props = {
 };
 
 export function UpdateDomainDialog({ project }: Props) {
-  const user = useUser();
-
   const [open, setOpen] = useState(false);
 
   const { mutate } = useZact(updateDomain, {
@@ -53,7 +50,6 @@ export function UpdateDomainDialog({ project }: Props) {
 
   const onSubmit = ({ newDomain }: UpdateDomainSchemaType) =>
     mutate({
-      userId: user.id,
       projectId: project.id,
       newDomain,
     });

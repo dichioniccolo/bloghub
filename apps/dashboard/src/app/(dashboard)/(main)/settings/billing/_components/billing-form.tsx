@@ -23,7 +23,6 @@ import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-ses
 import { type GetProPlans } from "~/app/_api/stripe";
 import { type GetUserPlan } from "~/app/_api/user";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 import { UpgradePlanDialog } from "./upgrade-plan-dialog";
@@ -35,8 +34,6 @@ type Props = {
 };
 
 export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
-  const user = useUser();
-
   const { mutate, isRunning } = useZact(createCheckoutSession, {
     onSuccess: (url) => {
       if (!url) {
@@ -59,7 +56,6 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
 
   const onManageSubscription = () =>
     mutate({
-      userId: user.id,
       callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
     });
 

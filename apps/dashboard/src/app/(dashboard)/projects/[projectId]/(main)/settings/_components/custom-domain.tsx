@@ -29,7 +29,6 @@ export function CustomDomain({ project }: Props) {
   const handleVerify = () =>
     mutate({
       projectId: project.id,
-      userId: user.id,
     });
 
   return (

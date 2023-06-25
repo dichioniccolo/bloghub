@@ -20,7 +20,6 @@ import { useZact } from "@acme/zact/client";
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import { type GetProPlans } from "~/app/_api/stripe";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 
@@ -29,8 +28,6 @@ type Props = {
 };
 
 export function UpgradePlanDialog({ proPlans }: Props) {
-  const user = useUser();
-
   const [open, setOpen] = useState(false);
 
   const [tier, setTier] = useState(0);
@@ -61,7 +58,6 @@ export function UpgradePlanDialog({ proPlans }: Props) {
 
   const onUpgrade = () =>
     mutate({
-      userId: user.id,
       callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
       name: plan?.name,
       period,
