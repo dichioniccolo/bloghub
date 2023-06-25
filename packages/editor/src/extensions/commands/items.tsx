@@ -9,6 +9,7 @@ import {
   Heading3,
   List,
   ListOrdered,
+  Table,
   Text,
   TextQuote,
 } from "lucide-react";
@@ -142,6 +143,20 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         icon: <Code size={18} />,
         command: ({ editor, range }: Command) =>
           editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+      },
+      {
+        title: "Table",
+        description: "Add a table view to organize data.",
+        searchTerms: ["table"],
+        icon: <Table size={18} />,
+        command: ({ editor, range }: Command) => {
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+            .run();
+        },
       },
     ] satisfies CommandItemProps[]
   ).filter((item) => {

@@ -54,7 +54,7 @@ export function EditPostForm({ post }: Props) {
       schema={EditPostSchema}
       onSubmit={onSubmit}
       initialValues={initialValues}
-      className="relative grid grid-cols-1 gap-2 overflow-hidden"
+      className="grid grid-cols-1 gap-2 overflow-hidden"
       disableOnSubmitting={false}
     >
       <AutoSave
@@ -62,13 +62,15 @@ export function EditPostForm({ post }: Props) {
         initialValues={initialValues}
         delay={2500}
       />
-      <Badge className="absolute right-5 top-2">
-        {formStatus === "unsaved"
-          ? "Unsaved"
-          : formStatus === "saving"
-          ? "Saving..."
-          : "Saved"}
-      </Badge>
+      <div className="relative">
+        <Badge className="absolute right-5 top-2">
+          {formStatus === "unsaved"
+            ? "Unsaved"
+            : formStatus === "saving"
+            ? "Saving..."
+            : "Saved"}
+        </Badge>
+      </div>
       <FormField
         name="title"
         render={({ field }) => (

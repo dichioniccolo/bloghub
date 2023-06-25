@@ -26,11 +26,13 @@ import {
   type JSONContent,
   type Range,
 } from "@acme/editor";
+import { Table, TableCell, TableHeader, TableRow } from "@acme/editor/index";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { AIBubbleMenu } from "./bubble-menu/ai";
+import { TableMenu } from "./table-menu";
 
 function determineMediaType(file: File): MediaEnumType | null {
   if (/image/i.test(file.type)) {
@@ -190,6 +192,10 @@ export function Editor({
       Color,
       TaskItem,
       TaskList,
+      Table,
+      TableCell,
+      TableHeader,
+      TableRow,
     ],
     content: value,
     onUpdate,
@@ -258,33 +264,12 @@ export function Editor({
       onClick={() => {
         editor.chain().focus().run();
       }}
-      className="relative min-h-[500px] w-full px-0 py-12 sm:mb-[20vh]"
+      className="min-h-[500px] w-full p-12 px-8 sm:mb-[calc(20vh)] sm:px-12"
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
       <AIBubbleMenu editor={editor} />
-      {/* <footer className="bottom-8 flex flex-row items-center text-sm">
-        <div
-          className={
-            "before:content-[' '] flex items-center gap-1.5 before:block before:h-2 before:w-2 before:rounded-full before:bg-stone-300 data-[status='connected']:before:bg-emerald-500"
-          }
-          data-status={connectionStatus}
-        >
-          {connectionStatus === "connected"
-            ? `${editor.storage.collaborationCursor.users.length} user${
-                editor.storage.collaborationCursor.users.length === 1 ? "" : "s"
-              } online`
-            : "offline"}
-        </div>
-        <div
-          className="ml-auto rounded-lg border border-stone-100 px-2 py-1 transition-colors hover:border-stone-400"
-          style={{
-            opacity: user.name ? 1 : 0,
-          }}
-        >
-          {user.name}
-        </div>
-      </footer> */}
+      {editor.isActive("table") && <TableMenu editor={editor} />}
     </div>
   );
 }

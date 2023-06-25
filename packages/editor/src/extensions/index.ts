@@ -1,6 +1,10 @@
 import { Color } from "@tiptap/extension-color";
 import TiptapLink from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import TextStyle from "@tiptap/extension-text-style";
@@ -52,6 +56,7 @@ const StarterKitX = StarterKit.configure({
     HTMLAttributes: {
       class:
         "rounded-md bg-stone-200 px-1.5 py-1 font-mono font-medium text-black",
+      spellcheck: false,
     },
   },
   gapcursor: false,
@@ -95,6 +100,33 @@ const TaskItemX = TaskItem.configure({
 
 const YoutubeX = Youtube.configure({});
 
+const TableX = Table.configure({
+  HTMLAttributes: {
+    class: "table-fixed m-0 overflow-hidden mx-auto my-3 border-collapse",
+  },
+  allowTableNodeSelection: true,
+});
+
+const TableRowX = TableRow.configure({
+  HTMLAttributes: {
+    class:
+      "border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1",
+  },
+});
+
+const TableCellX = TableCell.configure({
+  HTMLAttributes: {
+    class:
+      "border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1",
+  },
+});
+const TableHeaderX = TableHeader.configure({
+  HTMLAttributes: {
+    class:
+      "border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1",
+  },
+});
+
 export {
   Color,
   ColorHighlighter,
@@ -105,6 +137,10 @@ export {
   SlashCommand,
   SmileReplacer,
   StarterKitX as StarterKit,
+  TableX as Table,
+  TableCellX as TableCell,
+  TableHeaderX as TableHeader,
+  TableRowX as TableRow,
   TaskItemX as TaskItem,
   TaskListX as TaskList,
   TextStyle,
