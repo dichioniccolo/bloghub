@@ -14,7 +14,7 @@ This is an open source blog app built with everything new in Next.js 13. It is b
 - [Drizzle ORM](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Stripe](https://stripe.com)
-- [Novel](https://github.com/steven-tey/novel)
+- [Novel](https://github.com/steven-tey/novel) - editor based on Novel by Steven Tey
 
 ## Features
 
@@ -52,12 +52,6 @@ pnpm run dev
 
 ```bash
 pnpm run db:push
-```
-
-### 6. Listen for stripe events
-
-```bash
-pnpm run stripe:listen
 ```
 
 ## How do I deploy this?

@@ -20,12 +20,6 @@ export function BlogFooter({ project }: Props) {
           </p>
         </div>
         <div className="flex flex-col items-center space-y-4">
-          <AppLink variant="outline">
-            <Icons.logo className="mr-2 inline-block h-6 w-6" />
-            <span className="inline-block">
-              Publish with {env.NEXT_PUBLIC_APP_NAME}
-            </span>
-          </AppLink>
           <p className="text-sm">
             Powered by{" "}
             <AppLink variant="link" className="p-0">
