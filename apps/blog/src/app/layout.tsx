@@ -2,6 +2,7 @@
 // import "~/styles/tiptap.css";
 
 import { type PropsWithChildren } from "react";
+
 import { cn } from "@bloghub/ui";
 
 import { cal, inter } from "./_styles/fonts";
@@ -16,7 +17,7 @@ import { Providers } from "./providers";
 //   keywords: [
 //     "Next.js",
 //     "React",
-//     "Prisma",
+//     "Drizzle ORM",
 //     "Tailwind CSS",
 //     "Server Components",
 //     "Server Actions",
