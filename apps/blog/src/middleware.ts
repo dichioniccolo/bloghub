@@ -22,7 +22,12 @@ export default function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = new URL(req.url);
 
   const response = NextResponse.rewrite(
-    new URL(`/blog/${finalDomain}${keys}?${url.searchParams.toString()}`, url),
+    new URL(
+      `/${finalDomain}${keys}${
+        url.searchParams.size === 0 ? "" : url.searchParams.toString()
+      }`,
+      url,
+    ),
   );
 
   ev.waitUntil(recordVisit(req, finalDomain));

@@ -16,6 +16,6 @@ export async function publishNotification<T extends AppNotification["type"]>(
       type,
       data,
     },
-    delay: 10,
+    delay: 2,
   });
 }

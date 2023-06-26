@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import { cn } from "@bloghub/ui";
 import { useScroll } from "@bloghub/ui/hooks/use-scroll";
 
 import { type GetProjectByDomain } from "../_actions/projects";
-import { ToggleTheme } from "./toggle-theme";
 
 type Props = {
   project: NonNullable<GetProjectByDomain>;
@@ -20,7 +20,7 @@ export function BlogHeader({ project }: Props) {
       className={cn(
         "ease sticky inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20 transition-all",
         {
-          "border-b border-border bg-background/75 backdrop-blur-lg": scrolled,
+          "border-b border-border bg-background/75 shadow-md": scrolled,
         },
       )}
     >
@@ -45,9 +45,7 @@ export function BlogHeader({ project }: Props) {
           </span>
         </Link>
       </div>
-      <div className="flex h-full ">
-        <ToggleTheme />
-      </div>
+      <div className="flex h-full ">{/* <ToggleTheme /> */}</div>
     </header>
   );
 }
