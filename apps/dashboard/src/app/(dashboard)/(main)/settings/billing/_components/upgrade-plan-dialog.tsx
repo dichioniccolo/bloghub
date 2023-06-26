@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
-
-import { AppRoutes } from "@acme/common/routes";
-import { Button } from "@acme/ui/components/button";
+import { AppRoutes } from "@bloghub/common/routes";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,10 +10,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/components/dialog";
-import { Slider } from "@acme/ui/components/slider";
-import { Switch } from "@acme/ui/components/switch";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/dialog";
+import { Slider } from "@bloghub/ui/components/slider";
+import { Switch } from "@bloghub/ui/components/switch";
+import { useZact } from "@bloghub/zact/client";
+import { toast } from "sonner";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import { type GetProPlans } from "~/app/_api/stripe";

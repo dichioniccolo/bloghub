@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@acme/ui/components/navigation-menu";
+} from "@bloghub/ui/components/navigation-menu";
 
 export function MainNavigationMenu() {
   const pathname = usePathname();

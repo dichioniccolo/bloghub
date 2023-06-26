@@ -1,7 +1,5 @@
 "use server";
 
-import { type JSONContent } from "@tiptap/react";
-
 import {
   and,
   db,
@@ -16,7 +14,8 @@ import {
   Role,
   sql,
   visits,
-} from "@acme/db";
+} from "@bloghub/db";
+import { type JSONContent } from "@tiptap/react";
 
 import { env } from "./env.mjs";
 import { deleteMedias } from "./external/media/actions";

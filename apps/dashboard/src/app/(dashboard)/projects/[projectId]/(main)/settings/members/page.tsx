@@ -1,13 +1,12 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
-
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@bloghub/ui/components/separator";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@acme/ui/components/tabs";
+} from "@bloghub/ui/components/tabs";
 
 import {
   getProject,

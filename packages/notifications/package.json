@@ -1,5 +1,5 @@
 {
-  "name": "@acme/notifications",
+  "name": "@bloghub/notifications",
   "version": "0.1.0",
   "main": "./index.ts",
   "types": "./index.ts",
@@ -10,14 +10,14 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/db": "^0.1.0",
+    "@bloghub/db": "^0.1.0",
     "@paralleldrive/cuid2": "^2.2.1",
     "@t3-oss/env-nextjs": "^0.4.1",
     "@upstash/qstash": "^0.3.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
+    "@bloghub/eslint-config": "^0.1.0",
     "eslint": "^8.43.0",
     "typescript": "^5.1.3"
   }

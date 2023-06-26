@@ -1,6 +1,6 @@
 "use server";
 
-import { db, eq, projects } from "@acme/db";
+import { db, eq, projects } from "@bloghub/db";
 
 import { getConfigResponse, getDomainResponse, verifyDomain } from "./index";
 

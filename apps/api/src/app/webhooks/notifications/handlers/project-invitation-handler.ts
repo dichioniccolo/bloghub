@@ -1,5 +1,5 @@
-import { getLoginUrl } from "@acme/auth";
-import { AppRoutes } from "@acme/common/routes";
+import { getLoginUrl } from "@bloghub/auth";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   and,
   db,
@@ -9,12 +9,12 @@ import {
   notifications,
   projectInvitations,
   users,
-} from "@acme/db";
-import { ProjectInvite, sendMail } from "@acme/emails";
+} from "@bloghub/db";
+import { ProjectInvite, sendMail } from "@bloghub/emails";
 import {
   ProjectInvitationNotificationSchema,
   type ProjectInvitationNotificationData,
-} from "@acme/notifications";
+} from "@bloghub/notifications";
 
 import { env } from "~/env.mjs";
 import { pusherServer } from "~/lib/pusher";

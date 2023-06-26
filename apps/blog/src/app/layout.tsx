@@ -2,8 +2,7 @@
 // import "~/styles/tiptap.css";
 
 import { type PropsWithChildren } from "react";
-
-import { cn } from "@acme/ui";
+import { cn } from "@bloghub/ui";
 
 import { cal, inter } from "./_styles/fonts";
 import { Providers } from "./providers";

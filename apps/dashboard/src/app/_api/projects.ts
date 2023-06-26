@@ -1,7 +1,7 @@
 "use server";
 
-import { getUserTotalUsage } from "@acme/common/actions";
-import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
+import { getUserTotalUsage } from "@bloghub/common/actions";
+import { determinePlanByPriceId } from "@bloghub/common/external/stripe/actions";
 import {
   aliasedTable,
   and,
@@ -16,7 +16,7 @@ import {
   sql,
   users,
   visits,
-} from "@acme/db";
+} from "@bloghub/db";
 
 import { $getUser } from "./get-user";
 import { getBillingPeriod } from "./user";

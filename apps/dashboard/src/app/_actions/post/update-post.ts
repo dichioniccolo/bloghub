@@ -1,11 +1,10 @@
 "use server";
 
+import { deleteUnusedMediaInPost } from "@bloghub/common/actions";
+import { and, db, eq, posts, projectMembers, projects, sql } from "@bloghub/db";
+import { type JSONContent } from "@bloghub/editor";
+import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
-
-import { deleteUnusedMediaInPost } from "@acme/common/actions";
-import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
-import { type JSONContent } from "@acme/editor";
-import { zactAuthenticated } from "@acme/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
 

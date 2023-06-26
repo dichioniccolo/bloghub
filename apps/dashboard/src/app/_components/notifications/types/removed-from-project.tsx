@@ -1,7 +1,6 @@
+import { type Notification } from "@bloghub/db";
+import { type AppNotification } from "@bloghub/notifications";
 import { formatDistanceToNow } from "date-fns";
-
-import { type Notification } from "@acme/db";
-import { type AppNotification } from "@acme/notifications";
 
 import { Icons } from "~/app/_components/icons";
 import { BaseNotification } from "~/app/_components/notifications/types/base-notification";

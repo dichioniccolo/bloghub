@@ -1,9 +1,8 @@
 "use server";
 
+import { uploadFile } from "@bloghub/common/external/media/actions";
+import { and, db, eq, media, MediaEnumType, projectMembers } from "@bloghub/db";
 import { createId } from "@paralleldrive/cuid2";
-
-import { uploadFile } from "@acme/common/external/media/actions";
-import { and, db, eq, media, MediaEnumType, projectMembers } from "@acme/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";

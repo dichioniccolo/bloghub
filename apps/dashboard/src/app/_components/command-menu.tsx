@@ -2,11 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
-
-import { AppRoutes } from "@acme/common/routes";
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
+import { AppRoutes } from "@bloghub/common/routes";
+import { cn } from "@bloghub/ui";
+import { Button } from "@bloghub/ui/components/button";
 import {
   CommandDialog,
   CommandEmpty,
@@ -15,7 +13,8 @@ import {
   CommandItem,
   CommandList,
   type CommandDialogProps,
-} from "@acme/ui/components/command";
+} from "@bloghub/ui/components/command";
+import { signOut } from "next-auth/react";
 
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 import { Icons } from "./icons";

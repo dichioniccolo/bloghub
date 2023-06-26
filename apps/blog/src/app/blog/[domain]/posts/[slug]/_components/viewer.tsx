@@ -22,7 +22,7 @@ import {
   useEditor,
   Youtube,
   type JSONContent,
-} from "@acme/editor";
+} from "@bloghub/editor";
 
 import { Icons } from "~/app/_components/icons";
 

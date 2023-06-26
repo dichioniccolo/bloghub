@@ -1,6 +1,5 @@
+import { type Notification, type NotificationStatusType } from "@bloghub/db";
 import { z } from "zod";
-
-import { type Notification, type NotificationStatusType } from "@acme/db";
 
 export type ProjectInvitationNotification = {
   type: typeof Notification.ProjectInvitation;

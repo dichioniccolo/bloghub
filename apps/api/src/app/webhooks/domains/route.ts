@@ -1,10 +1,8 @@
 import { headers } from "next/headers";
-import { Receiver } from "@upstash/qstash";
-
-import { getLoginUrl } from "@acme/auth";
-import { deleteProject } from "@acme/common/actions";
-import { verifyProjectDomain } from "@acme/common/external/vercel/actions";
-import { AppRoutes } from "@acme/common/routes";
+import { getLoginUrl } from "@bloghub/auth";
+import { deleteProject } from "@bloghub/common/actions";
+import { verifyProjectDomain } from "@bloghub/common/external/vercel/actions";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   and,
   asc,
@@ -17,12 +15,13 @@ import {
   projects,
   Role,
   users,
-} from "@acme/db";
+} from "@bloghub/db";
 import {
   AutomaticProjectDeletion,
   InvalidDomain,
   sendMail,
-} from "@acme/emails";
+} from "@bloghub/emails";
+import { Receiver } from "@upstash/qstash";
 
 import { env } from "~/env.mjs";
 

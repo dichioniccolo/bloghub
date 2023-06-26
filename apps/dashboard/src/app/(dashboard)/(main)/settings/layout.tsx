@@ -1,6 +1,5 @@
 import { type PropsWithChildren } from "react";
-
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 
 import { DashboardHeader } from "~/app/_components/dashboard-header";
 import { DashboardShell } from "~/app/_components/dashboard-shell";

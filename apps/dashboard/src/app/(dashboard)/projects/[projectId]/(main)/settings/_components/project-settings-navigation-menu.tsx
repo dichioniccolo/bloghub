@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 
 import { SidebarNav } from "~/app/_components/sidebar-nav";
 

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,9 +11,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@acme/ui/components/alert-dialog";
-import { Button } from "@acme/ui/components/button";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/alert-dialog";
+import { Button } from "@bloghub/ui/components/button";
+import { useZact } from "@bloghub/zact/client";
+import { toast } from "sonner";
 
 import { quitProject } from "~/app/_actions/project/quit-project";
 import { type GetProject } from "~/app/_api/projects";

@@ -1,11 +1,10 @@
 "use client";
 
 import { type PropsWithChildren } from "react";
+import { type Session } from "@bloghub/auth";
+import { TooltipProvider } from "@bloghub/ui/components/tooltip";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
-
-import { type Session } from "@acme/auth";
-import { TooltipProvider } from "@acme/ui/components/tooltip";
 
 type Props = {
   session?: Session | null;

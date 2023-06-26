@@ -1,18 +1,17 @@
 "use client";
 
-import { formatDistance } from "date-fns";
-
-import { type RoleType } from "@acme/db";
-import { Avatar, AvatarImage } from "@acme/ui/components/avatar";
-import { Badge } from "@acme/ui/components/badge";
-import { Button } from "@acme/ui/components/button";
+import { type RoleType } from "@bloghub/db";
+import { Avatar, AvatarImage } from "@bloghub/ui/components/avatar";
+import { Badge } from "@bloghub/ui/components/badge";
+import { Button } from "@bloghub/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@acme/ui/components/dropdown-menu";
+} from "@bloghub/ui/components/dropdown-menu";
+import { formatDistance } from "date-fns";
 
 import { type GetProjectInvites } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";

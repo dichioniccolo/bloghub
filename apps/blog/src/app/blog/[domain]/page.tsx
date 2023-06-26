@@ -2,9 +2,8 @@
 import { type Metadata, type ServerRuntime } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
-import { cn } from "@acme/ui";
-import { AspectRatio } from "@acme/ui/components/aspect-ratio";
+import { cn } from "@bloghub/ui";
+import { AspectRatio } from "@bloghub/ui/components/aspect-ratio";
 
 import { getPostsByDomain } from "~/app/_actions/posts";
 import { getProjectByDomain } from "~/app/_actions/projects";

@@ -7,8 +7,8 @@ import {
   inArray,
   notifications,
   NotificationStatus,
-} from "@acme/db";
-import { zactAuthenticated } from "@acme/zact/server";
+} from "@bloghub/db";
+import { zactAuthenticated } from "@bloghub/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
 

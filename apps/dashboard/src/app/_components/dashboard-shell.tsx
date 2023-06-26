@@ -1,6 +1,5 @@
 import { type ComponentProps } from "react";
-
-import { cn } from "@acme/ui";
+import { cn } from "@bloghub/ui";
 
 type DashboardShellProps = ComponentProps<"div">;
 

@@ -2,21 +2,24 @@
 
 import { type HTMLAttributes } from "react";
 import { useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
-import { toast } from "sonner";
-
-import { cn } from "@acme/ui";
-import { Alert, AlertDescription, AlertTitle } from "@acme/ui/components/alert";
-import { Button } from "@acme/ui/components/button";
+import { cn } from "@bloghub/ui";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@bloghub/ui/components/alert";
+import { Button } from "@bloghub/ui/components/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
-import { Form } from "@acme/ui/components/zod-form";
+} from "@bloghub/ui/components/form";
+import { Input } from "@bloghub/ui/components/input";
+import { Form } from "@bloghub/ui/components/zod-form";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 import { Icons } from "~/app/_components/icons";
 import {

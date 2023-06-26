@@ -1,9 +1,8 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-
-import { stripe, type Stripe } from "@acme/common/external/stripe";
-import { getUserSubscription } from "@acme/common/external/stripe/actions";
-import { db, eq, users } from "@acme/db";
+import { stripe, type Stripe } from "@bloghub/common/external/stripe";
+import { getUserSubscription } from "@bloghub/common/external/stripe/actions";
+import { db, eq, users } from "@bloghub/db";
 
 import { env } from "~/env.mjs";
 

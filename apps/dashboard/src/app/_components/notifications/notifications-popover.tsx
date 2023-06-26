@@ -1,21 +1,20 @@
 "use client";
 
 import Link from "next/link";
-
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
   type AppNotification,
-} from "@acme/notifications";
-import { Badge } from "@acme/ui/components/badge";
-import { Button } from "@acme/ui/components/button";
+} from "@bloghub/notifications";
+import { Badge } from "@bloghub/ui/components/badge";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@acme/ui/components/popover";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/popover";
+import { useZact } from "@bloghub/zact/client";
 
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import { Icons } from "~/app/_components/icons";

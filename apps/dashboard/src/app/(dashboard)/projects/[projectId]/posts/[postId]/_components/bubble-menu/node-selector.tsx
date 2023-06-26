@@ -1,4 +1,6 @@
 import { useEffect, type Dispatch, type SetStateAction } from "react";
+import { type Editor } from "@bloghub/editor";
+import { cn } from "@bloghub/ui";
 import { Command } from "cmdk";
 import {
   Check,
@@ -12,9 +14,6 @@ import {
   TextIcon,
   TextQuote,
 } from "lucide-react";
-
-import { type Editor } from "@acme/editor";
-import { cn } from "@acme/ui";
 
 import { type BubbleMenuItem } from "./index";
 

@@ -1,9 +1,8 @@
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
+import { authOptions } from "@bloghub/auth";
+import { AppRoutes } from "@bloghub/common/routes";
 import { getServerSession } from "next-auth";
-
-import { authOptions } from "@acme/auth";
-import { AppRoutes } from "@acme/common/routes";
 
 import { getPendingInvite } from "~/app/_api/projects";
 import { AcceptInviteDialog } from "./_components/accept-invite-dialog";

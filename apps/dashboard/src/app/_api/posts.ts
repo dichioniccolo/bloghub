@@ -1,6 +1,6 @@
 "use server";
 
-import { and, db, eq, posts, projectMembers, sql, visits } from "@acme/db";
+import { and, db, eq, posts, projectMembers, sql, visits } from "@bloghub/db";
 
 import { $getUser } from "./get-user";
 

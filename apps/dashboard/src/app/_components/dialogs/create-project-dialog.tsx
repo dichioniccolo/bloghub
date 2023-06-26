@@ -6,25 +6,24 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { toast } from "sonner";
-
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/components/dialog";
+} from "@bloghub/ui/components/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
-import { Form } from "@acme/ui/components/zod-form";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/form";
+import { Input } from "@bloghub/ui/components/input";
+import { Form } from "@bloghub/ui/components/zod-form";
+import { useZact } from "@bloghub/zact/client";
+import { toast } from "sonner";
 
 import { createProject } from "~/app/_actions/project/create-project";
 import { Icons } from "~/app/_components/icons";

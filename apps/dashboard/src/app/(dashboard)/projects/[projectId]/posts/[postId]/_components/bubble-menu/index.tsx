@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { BubbleMenu, type BubbleMenuProps } from "@bloghub/editor";
+import { cn } from "@bloghub/ui";
 import {
   BoldIcon,
   CodeIcon,
@@ -6,9 +8,6 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "lucide-react";
-
-import { BubbleMenu, type BubbleMenuProps } from "@acme/editor";
-import { cn } from "@acme/ui";
 
 import { AISelector } from "./ai-selector";
 import { ColorSelector } from "./color-selector";

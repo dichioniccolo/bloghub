@@ -1,5 +1,5 @@
-import { getLoginUrl } from "@acme/auth";
-import { AppRoutes } from "@acme/common/routes";
+import { getLoginUrl } from "@bloghub/auth";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   db,
   EmailNotificationSetting,
@@ -7,12 +7,12 @@ import {
   Notification,
   notifications,
   users,
-} from "@acme/db";
-import { RemovedFromProject, sendMail } from "@acme/emails";
+} from "@bloghub/db";
+import { RemovedFromProject, sendMail } from "@bloghub/emails";
 import {
   RemovedFromProjectNotificationSchema,
   type RemovedFromProjectNotificationData,
-} from "@acme/notifications";
+} from "@bloghub/notifications";
 
 import { env } from "~/env.mjs";
 import { pusherServer } from "~/lib/pusher";

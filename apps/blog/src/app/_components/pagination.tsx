@@ -1,7 +1,6 @@
 import Link from "next/link";
-
-import { BlogRoutes } from "@acme/common/routes";
-import { cn } from "@acme/ui";
+import { BlogRoutes } from "@bloghub/common/routes";
+import { cn } from "@bloghub/ui";
 
 import { Icons } from "~/app/_components/icons";
 

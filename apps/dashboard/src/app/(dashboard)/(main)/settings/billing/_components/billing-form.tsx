@@ -1,11 +1,8 @@
 "use client";
 
-import { format } from "date-fns";
-import { toast } from "sonner";
-
-import { AppRoutes } from "@acme/common/routes";
-import { Badge } from "@acme/ui/components/badge";
-import { Button } from "@acme/ui/components/button";
+import { AppRoutes } from "@bloghub/common/routes";
+import { Badge } from "@bloghub/ui/components/badge";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Card,
   CardContent,
@@ -13,15 +10,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
-import { Progress } from "@acme/ui/components/progress";
-import { Separator } from "@acme/ui/components/separator";
+} from "@bloghub/ui/components/card";
+import { Progress } from "@bloghub/ui/components/progress";
+import { Separator } from "@bloghub/ui/components/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/tooltip";
+import { useZact } from "@bloghub/zact/client";
+import { format } from "date-fns";
+import { toast } from "sonner";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import { type GetProPlans } from "~/app/_api/stripe";

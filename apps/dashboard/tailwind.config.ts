@@ -1,7 +1,6 @@
 import path from "path";
+import baseConfig from "@bloghub/tailwind-config";
 import type { Config } from "tailwindcss";
-
-import baseConfig from "@acme/tailwind-config";
 
 export default {
   content: [

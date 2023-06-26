@@ -1,6 +1,6 @@
 "use server";
 
-import { db, eq, projects } from "@acme/db";
+import { db, eq, projects } from "@bloghub/db";
 
 export async function getProjectByDomain(domain: string) {
   return await db

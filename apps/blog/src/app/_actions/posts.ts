@@ -10,7 +10,7 @@ import {
   posts,
   projects,
   sql,
-} from "@acme/db";
+} from "@bloghub/db";
 
 import { generateRandomIndices } from "~/lib/utils";
 

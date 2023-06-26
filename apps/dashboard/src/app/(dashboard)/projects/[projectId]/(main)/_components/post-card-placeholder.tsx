@@ -1,12 +1,12 @@
-import { cn } from "@acme/ui";
+import { cn } from "@bloghub/ui";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
-import { Skeleton } from "@acme/ui/components/skeleton";
+} from "@bloghub/ui/components/card";
+import { Skeleton } from "@bloghub/ui/components/skeleton";
 
 export function PostCardPlaceholder() {
   return (

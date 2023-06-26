@@ -1,7 +1,7 @@
 /** @type {import('eslint').Linter.Config} */
 const config = {
   root: true,
-  extends: ["@acme/eslint-config/base", "@acme/eslint-config/react"],
+  extends: ["@bloghub/eslint-config/base", "@bloghub/eslint-config/react"],
   parserOptions: {
     project: "./tsconfig.json",
   },

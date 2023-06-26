@@ -1,12 +1,11 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { deleteProject as deleteProjectBase } from "@bloghub/common/actions";
+import { AppRoutes } from "@bloghub/common/routes";
+import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
+import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
-
-import { deleteProject as deleteProjectBase } from "@acme/common/actions";
-import { AppRoutes } from "@acme/common/routes";
-import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
-import { zactAuthenticated } from "@acme/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
 

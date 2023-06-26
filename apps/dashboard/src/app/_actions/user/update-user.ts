@@ -1,9 +1,8 @@
 "use server";
 
+import { db, eq, users } from "@bloghub/db";
+import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
-
-import { db, eq, users } from "@acme/db";
-import { zactAuthenticated } from "@acme/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
 

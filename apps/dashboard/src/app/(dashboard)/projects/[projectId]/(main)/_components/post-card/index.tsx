@@ -1,23 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { formatDistance } from "date-fns";
-
-import { AppRoutes } from "@acme/common/routes";
-import { cn } from "@acme/ui";
-import { buttonVariants } from "@acme/ui/components/button";
+import { AppRoutes } from "@bloghub/common/routes";
+import { cn } from "@bloghub/ui";
+import { buttonVariants } from "@bloghub/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
+} from "@bloghub/ui/components/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@bloghub/ui/components/tooltip";
+import { formatDistance } from "date-fns";
 
 import { type GetPosts } from "~/app/_api/posts";
 import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";

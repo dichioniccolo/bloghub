@@ -2,9 +2,9 @@
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds and Linting.
  */
-import "@acme/common/env.mjs";
-import "@acme/db/env.mjs";
-import "@acme/notifications/env.mjs";
+import "@bloghub/common/env.mjs";
+import "@bloghub/db/env.mjs";
+import "@bloghub/notifications/env.mjs";
 import "./src/env.mjs";
 
 const ContentSecurityPolicy = `
@@ -63,11 +63,11 @@ const config = {
   reactStrictMode: true,
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
-    "@acme/auth",
-    "@acme/common",
-    "@acme/db",
-    "@acme/emails",
-    "@acme/notifications",
+    "@bloghub/auth",
+    "@bloghub/common",
+    "@bloghub/db",
+    "@bloghub/emails",
+    "@bloghub/notifications",
   ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: !!process.env.CI },

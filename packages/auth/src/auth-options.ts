@@ -1,6 +1,3 @@
-import { type DefaultSession, type NextAuthOptions } from "next-auth";
-import { type DefaultJWT, type JWT } from "next-auth/jwt";
-
 import {
   accounts,
   db,
@@ -9,7 +6,9 @@ import {
   sessions,
   users,
   verificationTokens,
-} from "@acme/db";
+} from "@bloghub/db";
+import { type DefaultSession, type NextAuthOptions } from "next-auth";
+import { type DefaultJWT, type JWT } from "next-auth/jwt";
 
 /**
  * Module augmentation for `next-auth` types

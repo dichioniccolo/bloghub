@@ -1,9 +1,8 @@
 "use server";
 
+import { and, db, eq, notifications, NotificationStatus } from "@bloghub/db";
+import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
-
-import { and, db, eq, notifications, NotificationStatus } from "@acme/db";
-import { zactAuthenticated } from "@acme/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
 

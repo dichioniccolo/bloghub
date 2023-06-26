@@ -5,7 +5,7 @@ import {
   EmailNotificationSetting,
   emailNotificationSettings,
   eq,
-} from "@acme/db";
+} from "@bloghub/db";
 
 import { $getUser } from "./get-user";
 

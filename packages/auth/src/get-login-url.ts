@@ -1,6 +1,5 @@
 import { createHash, randomBytes } from "crypto";
-
-import { db, verificationTokens } from "@acme/db";
+import { db, verificationTokens } from "@bloghub/db";
 
 import { env } from "../env.mjs";
 

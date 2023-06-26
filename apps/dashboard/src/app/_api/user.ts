@@ -1,8 +1,8 @@
 "use server";
 
-import { getUserTotalUsage } from "@acme/common/actions";
-import { determinePlanByPriceId } from "@acme/common/external/stripe/actions";
-import { db, eq, users } from "@acme/db";
+import { getUserTotalUsage } from "@bloghub/common/actions";
+import { determinePlanByPriceId } from "@bloghub/common/external/stripe/actions";
+import { db, eq, users } from "@bloghub/db";
 
 import { $getUser } from "./get-user";
 

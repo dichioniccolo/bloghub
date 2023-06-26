@@ -1,4 +1,4 @@
-import { cn } from "@acme/ui";
+import { cn } from "@bloghub/ui";
 
 import { getProjects } from "~/app/_api/projects";
 import { CreateProjectButton } from "./create-project-button";

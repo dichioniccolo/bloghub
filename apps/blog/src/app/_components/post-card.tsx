@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BlogRoutes } from "@bloghub/common/routes";
 import { format } from "date-fns";
-
-import { BlogRoutes } from "@acme/common/routes";
 
 import { type GetRandomPostsByDomain } from "../_actions/posts";
 

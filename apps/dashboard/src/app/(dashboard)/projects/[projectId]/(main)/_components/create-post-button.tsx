@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import { Button } from "@acme/ui/components/button";
-import { useZact } from "@acme/zact/client";
+import { Button } from "@bloghub/ui/components/button";
+import { useZact } from "@bloghub/zact/client";
 
 import { createPost } from "~/app/_actions/post/create-post";
 import { Icons } from "~/app/_components/icons";

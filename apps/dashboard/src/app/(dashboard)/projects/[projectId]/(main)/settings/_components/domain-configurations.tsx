@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-import { cn } from "@acme/ui";
+import { cn } from "@bloghub/ui";
 
 import { type VerifyDomain } from "~/app/_actions/project/verify-domain";
 import { env } from "~/env.mjs";

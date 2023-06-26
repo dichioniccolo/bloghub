@@ -1,16 +1,15 @@
 import path from "path";
+import baseConfig from "@bloghub/tailwind-config";
 import type { Config } from "tailwindcss";
-
-import baseConfig from "@acme/tailwind-config";
 
 export default {
   content: [
     path.join(
-      path.dirname(require.resolve("@acme/ui")),
+      path.dirname(require.resolve("@bloghub/ui")),
       "**/*.{js,jsx,ts,tsx}",
     ),
     path.join(
-      path.dirname(require.resolve("@acme/editor")),
+      path.dirname(require.resolve("@bloghub/editor")),
       "**/*.{js,jsx,ts,tsx}",
     ),
     "./src/**/*.tsx",

@@ -1,6 +1,5 @@
 import { userAgent, type NextRequest } from "next/server";
-
-import { and, db, eq, posts, projects, visits } from "@acme/db";
+import { and, db, eq, posts, projects, visits } from "@bloghub/db";
 
 import { parseRequest } from "./utils";
 

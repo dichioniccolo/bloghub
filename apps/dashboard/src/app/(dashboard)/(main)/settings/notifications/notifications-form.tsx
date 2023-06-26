@@ -1,23 +1,23 @@
 "use client";
 
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
+} from "@bloghub/ui/components/card";
 import {
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-} from "@acme/ui/components/form";
-import { Switch } from "@acme/ui/components/switch";
-import { Form } from "@acme/ui/components/zod-form";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/form";
+import { Switch } from "@bloghub/ui/components/switch";
+import { Form } from "@bloghub/ui/components/zod-form";
+import { useZact } from "@bloghub/zact/client";
 
 import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
 import { Icons } from "~/app/_components/icons";

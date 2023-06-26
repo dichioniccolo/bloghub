@@ -1,5 +1,5 @@
 {
-  "name": "@acme/blog",
+  "name": "@bloghub/blog",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,12 +11,12 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/auth": "^0.1.0",
-    "@acme/common": "^0.1.0",
-    "@acme/db": "^0.1.0",
-    "@acme/editor": "^0.1.0",
-    "@acme/tailwind-config": "^0.1.0",
-    "@acme/ui": "^0.1.0",
+    "@bloghub/auth": "^0.1.0",
+    "@bloghub/common": "^0.1.0",
+    "@bloghub/db": "^0.1.0",
+    "@bloghub/editor": "^0.1.0",
+    "@bloghub/tailwind-config": "^0.1.0",
+    "@bloghub/ui": "^0.1.0",
     "@t3-oss/env-nextjs": "^0.4.1",
     "@vercel/kv": "^0.2.2",
     "clsx": "^1.2.1",
@@ -31,7 +31,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
+    "@bloghub/eslint-config": "^0.1.0",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^18.16.18",
     "@types/react": "^18.2.14",

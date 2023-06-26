@@ -1,26 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
-
-import { Badge } from "@acme/ui/components/badge";
-import { Button } from "@acme/ui/components/button";
+import { Badge } from "@bloghub/ui/components/badge";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/components/dialog";
+} from "@bloghub/ui/components/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
-import { Form } from "@acme/ui/components/zod-form";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/form";
+import { Input } from "@bloghub/ui/components/input";
+import { Form } from "@bloghub/ui/components/zod-form";
+import { useZact } from "@bloghub/zact/client";
+import { toast } from "sonner";
 
 import { updateDomain } from "~/app/_actions/project/update-domain";
 import { type GetProject } from "~/app/_api/projects";

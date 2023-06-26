@@ -1,11 +1,10 @@
+import { authOptions, getLoginUrl } from "@bloghub/auth";
+import { AppRoutes } from "@bloghub/common/routes";
+import { db, EmailNotificationSetting, eq, users } from "@bloghub/db";
+import { LoginLink, sendMail, WelcomeEmail } from "@bloghub/emails";
 import { get, has } from "@vercel/edge-config";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
-
-import { authOptions, getLoginUrl } from "@acme/auth";
-import { AppRoutes } from "@acme/common/routes";
-import { db, EmailNotificationSetting, eq, users } from "@acme/db";
-import { LoginLink, sendMail, WelcomeEmail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
 

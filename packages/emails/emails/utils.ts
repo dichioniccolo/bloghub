@@ -5,7 +5,7 @@ import {
   inArray,
   users,
   type EmailNotificationSettingType,
-} from "@acme/db";
+} from "@bloghub/db";
 
 export async function fetchEmailNotificationSettings(
   type: EmailNotificationSettingType,

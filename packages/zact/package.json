@@ -1,5 +1,5 @@
 {
-  "name": "@acme/zact",
+  "name": "@bloghub/zact",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
@@ -13,7 +13,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
+    "@bloghub/eslint-config": "^0.1.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "eslint": "^8.43.0",

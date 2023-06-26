@@ -1,8 +1,7 @@
 import { headers } from "next/headers";
+import { deleteMedias } from "@bloghub/common/external/media/actions";
+import { asc, db, inArray, isNull, media, or } from "@bloghub/db";
 import { Receiver } from "@upstash/qstash/nodejs";
-
-import { deleteMedias } from "@acme/common/external/media/actions";
-import { asc, db, inArray, isNull, media, or } from "@acme/db";
 
 import { env } from "~/env.mjs";
 

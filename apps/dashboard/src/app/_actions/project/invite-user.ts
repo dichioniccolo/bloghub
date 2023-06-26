@@ -1,6 +1,6 @@
 "use server";
 
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   and,
   db,
@@ -12,15 +12,14 @@ import {
   Role,
   sql,
   users,
-} from "@acme/db";
-import { publishNotification } from "@acme/notifications/publish";
+} from "@bloghub/db";
+import { publishNotification } from "@bloghub/notifications/publish";
 
 import "isomorphic-fetch";
 
 import { revalidatePath } from "next/cache";
+import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
-
-import { zactAuthenticated } from "@acme/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
 

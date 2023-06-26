@@ -1,15 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { signOut } from "next-auth/react";
-
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@acme/ui/components/avatar";
-import { Button } from "@acme/ui/components/button";
+} from "@bloghub/ui/components/avatar";
+import { Button } from "@bloghub/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +16,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@acme/ui/components/dropdown-menu";
+} from "@bloghub/ui/components/dropdown-menu";
+import { signOut } from "next-auth/react";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";

@@ -1,9 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { z } from "zod";
-
-import { AppRoutes } from "@acme/common/routes";
+import { AppRoutes } from "@bloghub/common/routes";
 import {
   and,
   db,
@@ -13,8 +11,9 @@ import {
   projectMembers,
   Role,
   users,
-} from "@acme/db";
-import { zactAuthenticated } from "@acme/zact/server";
+} from "@bloghub/db";
+import { zactAuthenticated } from "@bloghub/zact/server";
+import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
 

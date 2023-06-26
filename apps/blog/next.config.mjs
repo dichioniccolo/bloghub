@@ -1,5 +1,5 @@
 // Importing env files here to validate on build
-import "@acme/db/env.mjs";
+import "@bloghub/db/env.mjs";
 import "./src/env.mjs";
 
 const ContentSecurityPolicy = `
@@ -66,11 +66,11 @@ const config = {
   },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
-    "@acme/auth",
-    "@acme/common",
-    "@acme/db",
-    "@acme/editor",
-    "@acme/ui",
+    "@bloghub/auth",
+    "@bloghub/common",
+    "@bloghub/db",
+    "@bloghub/editor",
+    "@bloghub/ui",
   ],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: !!process.env.CI },

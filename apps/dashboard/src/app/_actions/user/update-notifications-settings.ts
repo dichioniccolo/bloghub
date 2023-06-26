@@ -1,13 +1,12 @@
 "use server";
 
-import { z } from "zod";
-
 import {
   db,
   EmailNotificationSetting,
   emailNotificationSettings,
-} from "@acme/db";
-import { zactAuthenticated } from "@acme/zact/server";
+} from "@bloghub/db";
+import { zactAuthenticated } from "@bloghub/zact/server";
+import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
 

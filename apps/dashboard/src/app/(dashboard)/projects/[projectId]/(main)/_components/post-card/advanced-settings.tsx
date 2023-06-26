@@ -2,24 +2,23 @@
 
 import { type Dispatch, type SetStateAction } from "react";
 import Link from "next/link";
-import { HexColorInput } from "react-colorful";
-
-import { AppRoutes } from "@acme/common/routes";
-import { cn } from "@acme/ui";
+import { AppRoutes } from "@bloghub/common/routes";
+import { cn } from "@bloghub/ui";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@acme/ui/components/accordion";
-import { buttonVariants } from "@acme/ui/components/button";
-import { Label } from "@acme/ui/components/label";
-import { Switch } from "@acme/ui/components/switch";
+} from "@bloghub/ui/components/accordion";
+import { buttonVariants } from "@bloghub/ui/components/button";
+import { Label } from "@bloghub/ui/components/label";
+import { Switch } from "@bloghub/ui/components/switch";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@bloghub/ui/components/tooltip";
+import { HexColorInput } from "react-colorful";
 
 import { env } from "~/env.mjs";
 import { type QRProps } from "~/lib/qr";

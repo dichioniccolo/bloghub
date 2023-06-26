@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-import { cn } from "@acme/ui";
+import { cn } from "@bloghub/ui";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@acme/ui/components/avatar";
-import { Button } from "@acme/ui/components/button";
+} from "@bloghub/ui/components/avatar";
+import { Button } from "@bloghub/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -18,12 +17,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@acme/ui/components/command";
+} from "@bloghub/ui/components/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@acme/ui/components/popover";
+} from "@bloghub/ui/components/popover";
 
 import { type GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";

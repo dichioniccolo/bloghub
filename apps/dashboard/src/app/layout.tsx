@@ -5,8 +5,8 @@ import { getServerSession } from "next-auth";
 import "~/styles/globals.css";
 import "~/styles/tiptap.css";
 
-import { authOptions } from "@acme/auth";
-import { cn } from "@acme/ui";
+import { authOptions } from "@bloghub/auth";
+import { cn } from "@bloghub/ui";
 
 import { cal, inter } from "~/styles/fonts";
 import { env } from "~/env.mjs";

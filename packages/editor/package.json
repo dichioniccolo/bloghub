@@ -1,5 +1,5 @@
 {
-  "name": "@acme/editor",
+  "name": "@bloghub/editor",
   "version": "0.1.0",
   "main": "./index.ts",
   "types": "./index.ts",
@@ -10,7 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/ui": "^0.1.0",
+    "@bloghub/ui": "^0.1.0",
     "@tiptap/core": "^2.0.3",
     "@tiptap/extension-color": "^2.0.3",
     "@tiptap/extension-horizontal-rule": "^2.0.3",
@@ -42,8 +42,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
-    "@acme/tailwind-config": "^0.1.0",
+    "@bloghub/eslint-config": "^0.1.0",
+    "@bloghub/tailwind-config": "^0.1.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "autoprefixer": "^10.4.14",

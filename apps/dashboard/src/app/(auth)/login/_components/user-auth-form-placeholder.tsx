@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@bloghub/ui/components/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
-import { Form } from "@acme/ui/components/zod-form";
+} from "@bloghub/ui/components/form";
+import { Input } from "@bloghub/ui/components/input";
+import { Form } from "@bloghub/ui/components/zod-form";
 
 import { Icons } from "~/app/_components/icons";
 import { UserAuthSchema } from "~/lib/validation/schema";

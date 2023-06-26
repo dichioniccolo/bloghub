@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { toast } from "sonner";
-
-import { AppRoutes } from "@acme/common/routes";
-import { Button, buttonVariants } from "@acme/ui/components/button";
+import { AppRoutes } from "@bloghub/common/routes";
+import { Button, buttonVariants } from "@bloghub/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,8 +10,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/components/dialog";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/dialog";
+import { useZact } from "@bloghub/zact/client";
+import { toast } from "sonner";
 
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
 import { type GetPendingInvite } from "~/app/_api/projects";

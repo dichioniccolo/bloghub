@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-
-import { type Project } from "@acme/db";
+import { type Project } from "@bloghub/db";
 
 export function useSelectedProject(
   projects: Pick<Project, "id" | "logo" | "name">[],

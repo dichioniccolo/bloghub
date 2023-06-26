@@ -6,7 +6,6 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,8 +15,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@acme/ui/components/alert-dialog";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/alert-dialog";
+import { useZact } from "@bloghub/zact/client";
 
 import { deleteProjectInvitation } from "~/app/_actions/project/delete-project-invitation";
 import { Icons } from "~/app/_components/icons";

@@ -1,17 +1,16 @@
 "use client";
 
 import { useCallback, useState } from "react";
-
-import { Badge } from "@acme/ui/components/badge";
+import { Badge } from "@bloghub/ui/components/badge";
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
-import { AutoSave, Form } from "@acme/ui/components/zod-form";
-import { useZact } from "@acme/zact/client";
+} from "@bloghub/ui/components/form";
+import { Input } from "@bloghub/ui/components/input";
+import { AutoSave, Form } from "@bloghub/ui/components/zod-form";
+import { useZact } from "@bloghub/zact/client";
 
 import { updatePost } from "~/app/_actions/post/update-post";
 import { type GetPost } from "~/app/_api/posts";

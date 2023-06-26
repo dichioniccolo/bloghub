@@ -1,7 +1,6 @@
+import { db, eq, projects, sql } from "@bloghub/db";
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
-
-import { db, eq, projects, sql } from "@acme/db";
 
 export const DomainSchema = z
   .string()

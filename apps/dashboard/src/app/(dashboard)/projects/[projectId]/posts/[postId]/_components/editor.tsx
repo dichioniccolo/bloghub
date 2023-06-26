@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useCompletion } from "ai/react";
-import { Sparkles } from "lucide-react";
-import { toast } from "sonner";
-
-import type { MediaEnumType } from "@acme/db";
+import type { MediaEnumType } from "@bloghub/db";
 import {
   Color,
   ColorHighlighter,
@@ -24,8 +20,11 @@ import {
   type Editor as EditorType,
   type JSONContent,
   type Range,
-} from "@acme/editor";
-import { Table, TableCell, TableHeader, TableRow } from "@acme/editor/index";
+} from "@bloghub/editor";
+import { Table, TableCell, TableHeader, TableRow } from "@bloghub/editor/index";
+import { useCompletion } from "ai/react";
+import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { Icons } from "~/app/_components/icons";

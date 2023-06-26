@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
-
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@bloghub/ui/components/separator";
 
 import { getNotificationsSettings } from "~/app/_api/settings";
 import { NotificationsForm } from "./notifications-form";

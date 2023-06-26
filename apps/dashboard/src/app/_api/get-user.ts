@@ -1,10 +1,9 @@
 "use server";
 
-import { getServerSession } from "next-auth";
 import { cache } from "react";
-
-import { authOptions } from "@acme/auth";
 import { notFound } from "next/navigation";
+import { authOptions } from "@bloghub/auth";
+import { getServerSession } from "next-auth";
 
 export const $getUser = cache(async () => {
   const session = await getServerSession(authOptions);

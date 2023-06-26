@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
+import { Editor } from "@bloghub/editor/index";
 import { Columns, Rows, Trash2 } from "lucide-react";
-
-import { Editor } from "@acme/editor/index";
 
 interface TableMenuItem {
   name: string;

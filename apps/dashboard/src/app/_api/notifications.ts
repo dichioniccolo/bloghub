@@ -9,7 +9,7 @@ import {
   notifications,
   NotificationStatus,
   sql,
-} from "@acme/db";
+} from "@bloghub/db";
 
 import { $getUser } from "./get-user";
 

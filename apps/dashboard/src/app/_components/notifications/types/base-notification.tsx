@@ -1,11 +1,10 @@
 "use client";
 
 import { type MouseEventHandler, type ReactNode } from "react";
-
-import { type AppNotification } from "@acme/notifications";
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
-import { useZact } from "@acme/zact/client";
+import { type AppNotification } from "@bloghub/notifications";
+import { cn } from "@bloghub/ui";
+import { Button } from "@bloghub/ui/components/button";
+import { useZact } from "@bloghub/zact/client";
 
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
 import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
