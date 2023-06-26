@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
+} from "@acme/ui/components/card";
 import { useZact } from "@acme/zact/client";
 
 import { verifyDomain } from "~/app/_actions/project/verify-domain";

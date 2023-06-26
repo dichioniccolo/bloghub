@@ -8,9 +8,13 @@ import {
   isRemovedFromProjectNotification,
   type AppNotification,
 } from "@acme/notifications";
-import { Badge } from "@acme/ui/badge";
-import { Button } from "@acme/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@acme/ui/popover";
+import { Badge } from "@acme/ui/components/badge";
+import { Button } from "@acme/ui/components/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@acme/ui/components/popover";
 import { useZact } from "@acme/zact/client";
 
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";

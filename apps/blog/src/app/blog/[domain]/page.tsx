@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { cn } from "@acme/ui";
-import { AspectRatio } from "@acme/ui/aspect-ratio";
+import { AspectRatio } from "@acme/ui/components/aspect-ratio";
 
 import { getPostsByDomain } from "~/app/_actions/posts";
 import { getProjectByDomain } from "~/app/_actions/projects";

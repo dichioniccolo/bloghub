@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 
 import { AppRoutes } from "@acme/common/routes";
 import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   CommandDialog,
   CommandEmpty,
@@ -15,7 +15,7 @@ import {
   CommandItem,
   CommandList,
   type CommandDialogProps,
-} from "@acme/ui/command";
+} from "@acme/ui/components/command";
 
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 import { Icons } from "./icons";

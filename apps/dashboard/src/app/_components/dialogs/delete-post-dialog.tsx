@@ -13,7 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@acme/ui/alert-dialog";
+} from "@acme/ui/components/alert-dialog";
 import { useZact } from "@acme/zact/client";
 
 import { deletePost } from "~/app/_actions/post/delete-post";

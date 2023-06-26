@@ -3,7 +3,6 @@ import { useCompletion } from "ai/react";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
-import { createProjectMedia } from "@acme/common/actions";
 import type { MediaEnumType } from "@acme/db";
 import {
   Color,
@@ -28,8 +27,8 @@ import {
 } from "@acme/editor";
 import { Table, TableCell, TableHeader, TableRow } from "@acme/editor/index";
 
+import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { AIBubbleMenu } from "./bubble-menu/ai";
 import { TableMenu } from "./table-menu";
@@ -65,8 +64,6 @@ export function Editor({
   projectId,
   postId,
 }: Props) {
-  const user = useUser();
-
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "editor",
     api: "/api/generate",
@@ -120,7 +117,6 @@ export function Editor({
       const formData = new FormData();
       formData.append("file", file);
       formData.append("type", determineMediaType(file)?.toString() ?? "");
-      formData.append("userId", user.id);
       formData.append("projectId", projectId);
       formData.append("postId", postId);
 
@@ -128,7 +124,7 @@ export function Editor({
 
       return media.url;
     },
-    [postId, projectId, user.id],
+    [postId, projectId],
   );
 
   const editor = useEditor({
@@ -264,7 +260,7 @@ export function Editor({
       onClick={() => {
         editor.chain().focus().run();
       }}
-      className="min-h-[500px] w-full p-12 px-8 sm:mb-[calc(20vh)] sm:px-12"
+      className="min-h-[500px] w-full py-12 sm:mb-[calc(20vh)]"
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />

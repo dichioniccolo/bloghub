@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 
 import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
 import { Icons } from "~/app/_components/icons";

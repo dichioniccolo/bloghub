@@ -4,7 +4,7 @@ import { type MouseEventHandler, type ReactNode } from "react";
 
 import { type AppNotification } from "@acme/notifications";
 import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 import { useZact } from "@acme/zact/client";
 
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";

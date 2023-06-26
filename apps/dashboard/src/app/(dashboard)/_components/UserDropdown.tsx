@@ -4,8 +4,12 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Avatar, AvatarFallback, AvatarImage } from "@acme/ui/avatar";
-import { Button } from "@acme/ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@acme/ui/components/avatar";
+import { Button } from "@acme/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@acme/ui/dropdown-menu";
+} from "@acme/ui/components/dropdown-menu";
 
 import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";

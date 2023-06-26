@@ -4,8 +4,8 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Badge } from "@acme/ui/badge";
-import { Button } from "@acme/ui/button";
+import { Badge } from "@acme/ui/components/badge";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
@@ -13,10 +13,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
-import { Progress } from "@acme/ui/progress";
-import { Separator } from "@acme/ui/separator";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
+} from "@acme/ui/components/card";
+import { Progress } from "@acme/ui/components/progress";
+import { Separator } from "@acme/ui/components/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@acme/ui/components/tooltip";
 import { useZact } from "@acme/zact/client";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";

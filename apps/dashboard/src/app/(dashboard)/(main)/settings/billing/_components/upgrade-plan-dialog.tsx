@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/dialog";
-import { Slider } from "@acme/ui/slider";
-import { Switch } from "@acme/ui/switch";
+} from "@acme/ui/components/dialog";
+import { Slider } from "@acme/ui/components/slider";
+import { Switch } from "@acme/ui/components/switch";
 import { useZact } from "@acme/zact/client";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";

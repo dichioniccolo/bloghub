@@ -2,10 +2,15 @@
 
 import { useCallback, useState } from "react";
 
-import { Badge } from "@acme/ui/badge";
-import { FormControl, FormField, FormItem, FormMessage } from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
-import { AutoSave, Form } from "@acme/ui/zod-form";
+import { Badge } from "@acme/ui/components/badge";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { AutoSave, Form } from "@acme/ui/components/zod-form";
 import { useZact } from "@acme/zact/client";
 
 import { updatePost } from "~/app/_actions/post/update-post";

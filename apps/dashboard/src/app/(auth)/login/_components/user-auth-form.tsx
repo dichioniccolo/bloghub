@@ -6,17 +6,17 @@ import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
 import { cn } from "@acme/ui";
-import { Alert, AlertDescription, AlertTitle } from "@acme/ui/alert";
-import { Button } from "@acme/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@acme/ui/components/alert";
+import { Button } from "@acme/ui/components/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
-import { Form } from "@acme/ui/zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
 
 import { Icons } from "~/app/_components/icons";
 import {

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@acme/ui";
-import { useScroll } from "@acme/ui/hooks";
+import { useScroll } from "@acme/ui/hooks/use-scroll";
 
 import { type GetProjectByDomain } from "../_actions/projects";
 import { ToggleTheme } from "./toggle-theme";

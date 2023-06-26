@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import Link from "next/link";
 
 import { cn } from "@acme/ui";
-import { buttonVariants } from "@acme/ui/button";
+import { buttonVariants } from "@acme/ui/components/button";
 
 import { env } from "~/env.mjs";
 

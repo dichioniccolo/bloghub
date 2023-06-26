@@ -2,8 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Card } from "@acme/ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
+import { Card } from "@acme/ui/components/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@acme/ui/components/tooltip";
 
 import { type GetProjects } from "~/app/_api/projects";
 import { Icons } from "~/app/_components/icons";

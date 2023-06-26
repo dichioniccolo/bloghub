@@ -5,8 +5,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
-import { Skeleton } from "@acme/ui/skeleton";
+} from "@acme/ui/components/card";
+import { Skeleton } from "@acme/ui/components/skeleton";
 
 export function PostCardPlaceholder() {
   return (

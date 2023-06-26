@@ -11,11 +11,15 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@acme/ui/accordion";
-import { buttonVariants } from "@acme/ui/button";
-import { Label } from "@acme/ui/label";
-import { Switch } from "@acme/ui/switch";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
+} from "@acme/ui/components/accordion";
+import { buttonVariants } from "@acme/ui/components/button";
+import { Label } from "@acme/ui/components/label";
+import { Switch } from "@acme/ui/components/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@acme/ui/components/tooltip";
 
 import { env } from "~/env.mjs";
 import { type QRProps } from "~/lib/qr";

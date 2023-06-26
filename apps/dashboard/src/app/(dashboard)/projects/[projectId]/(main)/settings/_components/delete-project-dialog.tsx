@@ -13,8 +13,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@acme/ui/alert-dialog";
-import { Button } from "@acme/ui/button";
+} from "@acme/ui/components/alert-dialog";
+import { Button } from "@acme/ui/components/button";
 import { useZact } from "@acme/zact/client";
 
 import { deleteProject } from "~/app/_actions/project/delete-project";

@@ -3,23 +3,23 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { Badge } from "@acme/ui/badge";
-import { Button } from "@acme/ui/button";
+import { Badge } from "@acme/ui/components/badge";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/dialog";
+} from "@acme/ui/components/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
-import { Form } from "@acme/ui/zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
 import { useZact } from "@acme/zact/client";
 
 import { updateDomain } from "~/app/_actions/project/update-domain";

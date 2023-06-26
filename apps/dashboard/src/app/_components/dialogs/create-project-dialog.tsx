@@ -8,22 +8,22 @@ import {
 } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/dialog";
+} from "@acme/ui/components/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
-import { Form } from "@acme/ui/zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
 import { useZact } from "@acme/zact/client";
 
 import { createProject } from "~/app/_actions/project/create-project";

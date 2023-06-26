@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Separator } from "@acme/ui/separator";
+import { Separator } from "@acme/ui/components/separator";
 
 import { getProject } from "~/app/_api/projects";
 import {

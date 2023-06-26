@@ -1,4 +1,4 @@
-import { useCopyToClipboard } from "@acme/ui/hooks";
+import { useCopyToClipboard } from "@acme/ui/hooks/use-copy-to-clipboard";
 
 import { Icons } from "~/app/_components/icons";
 import { PostCardButton } from "./post-card-button";

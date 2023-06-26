@@ -5,15 +5,19 @@ import { formatDistance } from "date-fns";
 
 import { AppRoutes } from "@acme/common/routes";
 import { cn } from "@acme/ui";
-import { buttonVariants } from "@acme/ui/button";
+import { buttonVariants } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
+} from "@acme/ui/components/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@acme/ui/components/tooltip";
 
 import { type GetPosts } from "~/app/_api/posts";
 import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";

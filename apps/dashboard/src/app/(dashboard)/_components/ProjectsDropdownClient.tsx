@@ -4,8 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { cn } from "@acme/ui";
-import { Avatar, AvatarFallback, AvatarImage } from "@acme/ui/avatar";
-import { Button } from "@acme/ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@acme/ui/components/avatar";
+import { Button } from "@acme/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -14,8 +18,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@acme/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@acme/ui/popover";
+} from "@acme/ui/components/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@acme/ui/components/popover";
 
 import { type GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";

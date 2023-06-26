@@ -1,11 +1,11 @@
-import { Button } from "@acme/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
+} from "@acme/ui/components/card";
 
 import { type GetProject } from "~/app/_api/projects";
 import { QuitProjectDialog } from "./quit-project-dialog";

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/common/routes";
-import { Button, buttonVariants } from "@acme/ui/button";
+import { Button, buttonVariants } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/dialog";
+} from "@acme/ui/components/dialog";
 import { useZact } from "@acme/zact/client";
 
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
