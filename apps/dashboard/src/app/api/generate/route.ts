@@ -1,9 +1,10 @@
-import { isUserPro } from "@bloghub/common/external/stripe/actions";
-import { db, eq, users } from "@bloghub/db";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
+
+import { isUserPro } from "@bloghub/common/external/stripe/actions";
+import { db, eq, users } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
@@ -77,11 +78,11 @@ export async function POST(req: Request): Promise<Response> {
 
   // remove line breaks,
   // remove trailing slash
-  // limit to 5000 characters
+  // limit to the last 5000 characters
   const promptCleaned = prompt
     .replace(/\n/g, " ")
     .replace(/\/$/, "")
-    .slice(0, 5000);
+    .slice(-5000);
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -91,7 +92,8 @@ export async function POST(req: Request): Promise<Response> {
         content:
           "You are an AI writing assistant that continues existing text based on context from prior text. " +
           "Give more weight/priority to the later characters than the beginning ones. Make sure to construct complete sentences. " +
-          "If you need to separate paragraphs, you should use a <p> tag and not a line break.",
+          "If you need to separate paragraphs, you should use a <p> tag and not a line break. " +
+          "If you want to add a heading or subheading, you should use a <h1> or <h2> tag html. ",
       },
       { role: "user", content: promptCleaned },
     ],
