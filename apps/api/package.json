@@ -16,7 +16,7 @@
     "@bloghub/db": "^0.1.0",
     "@bloghub/emails": "^0.1.0",
     "@bloghub/notifications": "^0.1.0",
-    "@t3-oss/env-nextjs": "^0.4.1",
+    "@t3-oss/env-nextjs": "^0.6.0",
     "@upstash/qstash": "^0.3.6",
     "@vercel/kv": "^0.2.2",
     "next": "^13.4.7",

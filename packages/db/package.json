@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.7.0",
-    "@t3-oss/env-nextjs": "^0.4.1",
+    "@t3-oss/env-nextjs": "^0.6.0",
     "@tiptap/core": "^2.0.3",
     "drizzle-orm": "^0.27.0",
     "next-auth": "^4.22.1",

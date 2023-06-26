@@ -17,7 +17,7 @@
     "@bloghub/editor": "^0.1.0",
     "@bloghub/tailwind-config": "^0.1.0",
     "@bloghub/ui": "^0.1.0",
-    "@t3-oss/env-nextjs": "^0.4.1",
+    "@t3-oss/env-nextjs": "^0.6.0",
     "@vercel/kv": "^0.2.2",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
