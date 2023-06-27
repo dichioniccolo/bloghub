@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import { type Metadata } from "next";
+import { ServerRuntime, type Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
-import { getPostBySlug } from "~/app/_actions/public/posts";
+import { getPostBySlug } from "~/app/_api/public/posts";
 import { RandomPosts } from "./_components/random-posts";
 import { Viewer } from "./_components/viewer";
 
@@ -14,6 +14,8 @@ type Props = {
     slug: string;
   };
 };
+
+export const runtime: ServerRuntime = "edge";
 
 export async function generateMetadata({
   params: { domain, slug },
@@ -48,7 +50,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
               {post.description}
             </p>
           </div>
-          {/** add who created this post */}
+          {/** add who created this post, if it's a team, we need to decide who to show */}
         </div>
       </div>
       {post.thumbnailUrl && (

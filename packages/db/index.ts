@@ -20,5 +20,4 @@ const connection = connect({
 
 export const db = drizzle(connection, {
   schema,
-  logger: process.env.NODE_ENV === "development" ? true : undefined,
 });

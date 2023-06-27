@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { GetProjectByDomain } from "~/app/_actions/public/projects";
+import { GetProjectByDomain } from "~/app/_api/public/projects";
 import { useScroll } from "~/hooks/use-scroll";
 import { cn } from "~/lib/cn";
 

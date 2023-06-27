@@ -4,8 +4,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { AspectRatio } from "~/components/ui/aspect-ratio";
-import { getPostsByDomain } from "~/app/_actions/public/posts";
-import { getProjectByDomain } from "~/app/_actions/public/projects";
+import { getPostsByDomain } from "~/app/_api/public/posts";
+import { getProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/cn";
 
