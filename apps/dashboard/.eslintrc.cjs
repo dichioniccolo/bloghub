@@ -3,7 +3,7 @@ const config = {
   root: true,
   extends: [
     "@bloghub/eslint-config/base",
-    "@bloghub/eslint-config/nextjs",
+    "@bloghub/eslint-config/next",
     "@bloghub/eslint-config/react",
   ],
   parserOptions: {

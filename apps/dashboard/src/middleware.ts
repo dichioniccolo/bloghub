@@ -14,6 +14,8 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   const path = url.pathname;
 
+  console.error(hostname, path);
+
   // TODO: Add vercel url
   if (hostname === `app.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
     const session = await getToken({ req });
@@ -35,7 +37,9 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   ev.waitUntil(recordVisit(req, finalHostname));
 
-  return NextResponse.rewrite(new URL(`/${finalHostname}${path}`, req.url));
+  return NextResponse.rewrite(
+    new URL(`/blog/${finalHostname}${path}`, req.url),
+  );
 }
 
 export const config = {

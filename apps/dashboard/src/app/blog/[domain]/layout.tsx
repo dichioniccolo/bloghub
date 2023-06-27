@@ -1,8 +1,8 @@
 import { type PropsWithChildren } from "react";
 
 import { getProjectByDomain } from "~/app/_api/public/projects";
-import { BlogFooter } from "~/app/[domain]/_components/blog-footer";
-import { BlogHeader } from "~/app/[domain]/_components/blog-header";
+import { BlogFooter } from "~/app/blog/[domain]/_components/blog-footer";
+import { BlogHeader } from "~/app/blog/[domain]/_components/blog-header";
 
 type Props = {
   params: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { JSONContent } from "@tiptap/core";
+import type { JSONContent } from "@tiptap/core";
 import { EditorContent } from "@tiptap/react";
 
 import { Icons } from "~/app/_components/icons";

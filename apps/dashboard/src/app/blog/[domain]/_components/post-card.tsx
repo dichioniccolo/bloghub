@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 
+import type { GetRandomPostsByDomain } from "~/app/_api/public/posts";
 import { BlogRoutes } from "~/lib/common/routes";
-import { type GetRandomPostsByDomain } from "../_actions/posts";
 
 type Props = {
   post: GetRandomPostsByDomain[number];

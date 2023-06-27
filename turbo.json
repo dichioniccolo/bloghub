@@ -1,14 +1,9 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": [
-    "**/.env",
-    "tsconfig.json"
-  ],
+  "globalDependencies": ["**/.env", "tsconfig.json"],
   "pipeline": {
     "db:generate": {
-      "inputs": [
-        "schema.ts"
-      ],
+      "inputs": ["schema.ts"],
       "cache": false
     },
     "db:push": {
@@ -17,18 +12,11 @@
     "dev": {
       "persistent": true,
       "cache": false,
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".next/**",
-        "dist/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**"]
     },
     "lint": {},
     "clean": {

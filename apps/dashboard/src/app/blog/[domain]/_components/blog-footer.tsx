@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
+import { GetProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
-import { type GetProjectByDomain } from "../_actions/projects";
 import { AppLink } from "./app-link";
 import { Icons } from "./icons";
 

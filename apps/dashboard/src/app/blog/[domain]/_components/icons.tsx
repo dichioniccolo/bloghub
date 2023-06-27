@@ -1,4 +1,5 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
+import type { Icon as LucideIcon } from "lucide-react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -6,7 +7,6 @@ import {
   Loader2,
   Moon,
   SunMedium,
-  type Icon as LucideIcon,
 } from "lucide-react";
 
 export type Icon = LucideIcon | ReactNode;
