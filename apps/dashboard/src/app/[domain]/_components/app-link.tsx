@@ -20,11 +20,7 @@ export function AppLink({
 }: Props) {
   return (
     <Link
-      href={
-        env.NODE_ENV === "development"
-          ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-          : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-      }
+      href={`https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`}
       target="_blank"
       className={cn(
         buttonVariants({
