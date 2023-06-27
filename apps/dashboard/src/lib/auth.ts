@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from "crypto";
-import { type DefaultSession, type NextAuthOptions } from "next-auth";
-import { type DefaultJWT, type JWT } from "next-auth/jwt";
+import type { DefaultSession, NextAuthOptions } from "next-auth";
+import type { DefaultJWT, JWT } from "next-auth/jwt";
 
 import {
   accounts,
@@ -58,6 +58,7 @@ export const COOKIE_AUTH_NAME =
 export const authOptions = {
   callbacks: {
     session({ session, token }) {
+      console.log("quiiiii 1");
       if (token) {
         session.user.id = token.sub;
         session.user.name = token.name;
@@ -67,6 +68,7 @@ export const authOptions = {
       return session;
     },
     async jwt({ token, user }) {
+      console.log("quiiiii 2");
       const dbUser = await db
         .select({
           id: users.id,

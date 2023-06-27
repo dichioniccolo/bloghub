@@ -1,4 +1,5 @@
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import type { NextFetchEvent, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 import { env } from "./env.mjs";
@@ -8,13 +9,12 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl;
 
   // TODO: add vercel url
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const hostname = req.headers
     .get("host")!
     .replace(".localhost:3000", `.${env.NEXT_PUBLIC_APP_DOMAIN}`);
 
   const path = url.pathname;
-
-  console.error(hostname, path);
 
   // TODO: Add vercel url
   if (hostname === `app.${env.NEXT_PUBLIC_APP_DOMAIN}`) {

@@ -9,6 +9,7 @@ import { env } from "~/env.mjs";
 import { authOptions, getLoginUrl } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const handler = NextAuth({
   ...authOptions,
   providers: [
