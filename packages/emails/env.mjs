@@ -24,7 +24,7 @@ export const env = createEnv({
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_APP_DOMAIN: z.string().url(),
+    NEXT_PUBLIC_APP_DOMAIN: z.string().min(1),
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
