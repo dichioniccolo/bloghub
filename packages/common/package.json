@@ -10,15 +10,15 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.360.0",
+    "@aws-sdk/s3-request-presigner": "^3.360.0",
+    "@aws-sdk/signature-v4-crt": "^3.357.0",
     "@bloghub/db": "^0.1.0",
     "@bloghub/ui": "^0.1.0",
-    "@aws-sdk/client-s3": "^3.357.0",
-    "@aws-sdk/s3-request-presigner": "^3.357.0",
-    "@aws-sdk/signature-v4-crt": "^3.357.0",
     "@paralleldrive/cuid2": "^2.2.1",
-    "@t3-oss/env-nextjs": "^0.4.1",
+    "@t3-oss/env-nextjs": "^0.6.0",
     "aws-crt": "^1.15.18",
-    "stripe": "^12.9.0",
+    "stripe": "^12.10.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

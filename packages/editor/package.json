@@ -30,7 +30,7 @@
     "@tiptap/starter-kit": "^2.0.3",
     "@tiptap/suggestion": "^2.0.3",
     "clsx": "^1.2.1",
-    "lucide-react": "^0.248.0",
+    "lucide-react": "^0.252.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -38,7 +38,7 @@
     "tailwind-merge": "^1.13.2",
     "tippy.js": "^6.3.7",
     "y-prosemirror": "^1.2.1",
-    "yjs": "^13.6.5",
+    "yjs": "^13.6.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {

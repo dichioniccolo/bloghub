@@ -20,12 +20,12 @@
     "@bloghub/auth": "^0.1.0",
     "@bloghub/db": "^0.1.0",
     "@react-email/components": "^0.0.7",
-    "@t3-oss/env-nextjs": "^0.4.1",
+    "@t3-oss/env-nextjs": "^0.6.0",
     "nodemailer": "^6.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-email": "^1.9.4",
-    "resend": "^0.15.3",
+    "resend": "^0.16.0",
     "zod": "^3.21.4"
   }
 }
