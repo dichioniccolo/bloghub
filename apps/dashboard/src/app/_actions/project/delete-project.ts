@@ -1,13 +1,14 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { deleteProject as deleteProjectBase } from "@bloghub/common/actions";
-import { AppRoutes } from "@bloghub/common/routes";
-import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
 
+import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
+
 import { $getUser } from "~/app/_api/get-user";
+import { deleteProject as deleteProjectBase } from "~/lib/common/actions";
+import { AppRoutes } from "~/lib/common/routes";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const deleteProject = zactAuthenticated(
   async () => {

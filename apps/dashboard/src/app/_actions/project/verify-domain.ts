@@ -1,11 +1,12 @@
 "use server";
 
-import { verifyProjectDomain } from "@bloghub/common/external/vercel/actions";
-import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
 
+import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
+
 import { $getUser } from "~/app/_api/get-user";
+import { verifyProjectDomain } from "~/lib/common/external/vercel/actions";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const verifyDomain = zactAuthenticated(
   async () => {

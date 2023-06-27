@@ -1,14 +1,15 @@
 "use server";
 
+import { z } from "zod";
+
 import {
   db,
   EmailNotificationSetting,
   emailNotificationSettings,
 } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
-import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updateNotificationSettings = zactAuthenticated(
   async () => {
@@ -18,7 +19,7 @@ export const updateNotificationSettings = zactAuthenticated(
       userId: user.id,
     };
   },
-  ({ userId }) =>
+  () =>
     z.object({
       communication_emails: z.boolean().default(true),
       marketing_emails: z.boolean().default(true),

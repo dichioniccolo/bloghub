@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { type AppNotification } from "@bloghub/notifications";
 
+import { type AppNotification } from "~/lib/notifications";
 import { pusherClient } from "~/lib/pusher";
 
 export function useRealtimeNotification(

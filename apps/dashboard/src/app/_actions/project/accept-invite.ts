@@ -1,7 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { AppRoutes } from "@bloghub/common/routes";
+import { z } from "zod";
+
 import {
   and,
   db,
@@ -12,10 +13,10 @@ import {
   Role,
   users,
 } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
-import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
+import { AppRoutes } from "~/lib/common/routes";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const acceptInvite = zactAuthenticated(
   async () => {

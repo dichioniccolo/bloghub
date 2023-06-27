@@ -3,11 +3,11 @@ import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
-import { isUserPro } from "@bloghub/common/external/stripe/actions";
 import { db, eq, users } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
+import { isUserPro } from "~/lib/common/external/stripe/actions";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 
 const config = new Configuration({

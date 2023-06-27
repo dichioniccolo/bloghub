@@ -2,12 +2,12 @@ import { get, has } from "@vercel/edge-config";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
-import { authOptions, getLoginUrl } from "@bloghub/auth";
-import { AppRoutes } from "@bloghub/common/routes";
 import { db, EmailNotificationSetting, eq, users } from "@bloghub/db";
 import { LoginLink, sendMail, WelcomeEmail } from "@bloghub/emails";
 
 import { env } from "~/env.mjs";
+import { authOptions, getLoginUrl } from "~/lib/auth";
+import { AppRoutes } from "~/lib/common/routes";
 
 const handler = NextAuth({
   ...authOptions,
@@ -62,7 +62,11 @@ const handler = NextAuth({
       const unsubscribeUrl = await getLoginUrl(
         user.email,
         expiresAt,
-        `${env.NEXT_PUBLIC_APP_URL}${AppRoutes.NotificationsSettings}`,
+        `${
+          env.NODE_ENV === "development"
+            ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
+            : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
+        }${AppRoutes.NotificationsSettings}`,
       );
 
       await sendMail({

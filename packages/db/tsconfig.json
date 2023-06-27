@@ -1,9 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "esModuleInterop": true
+    "incremental": false
   },
-  "include": ["index.ts", "env.mjs", "lib"]
+  "include": ["*.ts", "*.cjs", "lib"]
 }

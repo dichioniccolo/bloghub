@@ -1,11 +1,8 @@
 "use client";
 
 import { type MouseEventHandler, type ReactNode } from "react";
-import { type AppNotification } from "@bloghub/notifications";
-import { cn } from "@bloghub/ui";
-import { Button } from "@bloghub/ui/components/button";
-import { useZact } from "@bloghub/zact/client";
 
+import { Button } from "~/components/ui/button";
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
 import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
 import { Icons } from "~/app/_components/icons";
@@ -13,6 +10,9 @@ import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/app/_components/notifications/notifications-provider";
+import { cn } from "~/lib/cn";
+import { type AppNotification } from "~/lib/notifications";
+import { useZact } from "~/lib/zact/client";
 
 type Props = {
   notification: AppNotification;

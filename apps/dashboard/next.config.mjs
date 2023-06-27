@@ -1,9 +1,6 @@
 // Importing env files here to validate on build
-import "@bloghub/auth/env.mjs";
-import "@bloghub/common/env.mjs";
 import "@bloghub/db/env.mjs";
 import "@bloghub/emails/env.mjs";
-import "@bloghub/notifications/env.mjs";
 import "./src/env.mjs";
 
 const ContentSecurityPolicy = `
@@ -72,15 +69,7 @@ const config = {
     ],
   },
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: [
-    "@bloghub/auth",
-    "@bloghub/common",
-    "@bloghub/db",
-    "@bloghub/editor",
-    "@bloghub/emails",
-    "@bloghub/notifications",
-    "@bloghub/ui",
-  ],
+  transpilePackages: ["@bloghub/db", "@bloghub/emails"],
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

@@ -1,12 +1,13 @@
 "use server";
 
-import { deleteUnusedMediaInPost } from "@bloghub/common/actions";
-import { and, db, eq, posts, projectMembers, projects, sql } from "@bloghub/db";
-import { type JSONContent } from "@bloghub/editor";
-import { zactAuthenticated } from "@bloghub/zact/server";
+import { JSONContent } from "@tiptap/core";
 import { z } from "zod";
 
+import { and, db, eq, posts, projectMembers, projects, sql } from "@bloghub/db";
+
 import { $getUser } from "~/app/_api/get-user";
+import { deleteUnusedMediaInPost } from "~/lib/common/actions";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePost = zactAuthenticated(
   async () => {

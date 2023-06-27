@@ -1,6 +1,6 @@
 "use server";
 
-import { proPlans, stripe } from "@bloghub/common/external/stripe";
+import { proPlans, stripe } from "~/lib/common/external/stripe";
 
 export async function getProPlans() {
   const allPrices = [

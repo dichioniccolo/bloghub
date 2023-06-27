@@ -1,9 +1,10 @@
-import { type Notification } from "@bloghub/db";
-import { type AppNotification } from "@bloghub/notifications";
 import { formatDistanceToNow } from "date-fns";
+
+import { type Notification } from "@bloghub/db";
 
 import { Icons } from "~/app/_components/icons";
 import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
+import { type AppNotification } from "~/lib/notifications";
 
 type Props = {
   notification: Extract<

@@ -1,5 +1,6 @@
-import { Button } from "@bloghub/ui/components/button";
 import { Bell } from "lucide-react";
+
+import { Button } from "~/components/ui/button";
 
 export function NotificationsPlaceholder() {
   return (

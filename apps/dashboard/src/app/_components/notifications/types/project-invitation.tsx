@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { AppRoutes } from "@bloghub/common/routes";
-import { type Notification } from "@bloghub/db";
-import { type AppNotification } from "@bloghub/notifications";
 import { formatDistanceToNow } from "date-fns";
+
+import { type Notification } from "@bloghub/db";
 
 import { Icons } from "~/app/_components/icons";
 import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
+import { AppRoutes } from "~/lib/common/routes";
+import { type AppNotification } from "~/lib/notifications";
 
 type Props = {
   notification: Extract<

@@ -1,10 +1,11 @@
 "use server";
 
-import { and, db, eq, notifications, NotificationStatus } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
 
+import { and, db, eq, notifications, NotificationStatus } from "@bloghub/db";
+
 import { $getUser } from "~/app/_api/get-user";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const archiveNotification = zactAuthenticated(
   async () => {

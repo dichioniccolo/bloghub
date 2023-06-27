@@ -1,8 +1,9 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { AppRoutes } from "@bloghub/common/routes";
 import { useSession } from "next-auth/react";
+
+import { AppRoutes } from "~/lib/common/routes";
 
 export function useUser() {
   const { data } = useSession({

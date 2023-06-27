@@ -6,31 +6,31 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { Button } from "@bloghub/ui/components/button";
+import { toast } from "sonner";
+
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@bloghub/ui/components/dialog";
+} from "~/components/ui/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bloghub/ui/components/form";
-import { Input } from "@bloghub/ui/components/input";
-import { Form } from "@bloghub/ui/components/zod-form";
-import { useZact } from "@bloghub/zact/client";
-import { toast } from "sonner";
-
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Form } from "~/components/ui/zod-form";
 import { createProject } from "~/app/_actions/project/create-project";
 import { Icons } from "~/app/_components/icons";
 import {
   CreateProjectSchema,
   type CreateProjectSchemaType,
 } from "~/lib/validation/schema";
+import { useZact } from "~/lib/zact/client";
 
 type Props = {
   open: boolean;

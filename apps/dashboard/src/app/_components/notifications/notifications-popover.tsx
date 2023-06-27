@@ -1,21 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { AppRoutes } from "@bloghub/common/routes";
-import {
-  isProjectInvitationNotification,
-  isRemovedFromProjectNotification,
-  type AppNotification,
-} from "@bloghub/notifications";
-import { Badge } from "@bloghub/ui/components/badge";
-import { Button } from "@bloghub/ui/components/button";
+
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@bloghub/ui/components/popover";
-import { useZact } from "@bloghub/zact/client";
-
+} from "~/components/ui/popover";
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import { Icons } from "~/app/_components/icons";
 import {
@@ -27,6 +20,13 @@ import { ProjectInvitationNotification } from "~/app/_components/notifications/t
 import { RemovedFromProject } from "~/app/_components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
+import { AppRoutes } from "~/lib/common/routes";
+import {
+  isProjectInvitationNotification,
+  isRemovedFromProjectNotification,
+  type AppNotification,
+} from "~/lib/notifications";
+import { useZact } from "~/lib/zact/client";
 
 export function NotificationsPopover() {
   const { notifications, unreadCount } = useNotifications();

@@ -1,9 +1,9 @@
 "use server";
 
-import { getUserTotalUsage } from "@bloghub/common/actions";
-import { determinePlanByPriceId } from "@bloghub/common/external/stripe/actions";
 import { db, eq, users } from "@bloghub/db";
 
+import { getUserTotalUsage } from "~/lib/common/actions";
+import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { $getUser } from "./get-user";
 
 export async function getUserPlan() {

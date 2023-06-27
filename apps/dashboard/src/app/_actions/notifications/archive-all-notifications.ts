@@ -8,9 +8,9 @@ import {
   notifications,
   NotificationStatus,
 } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
 
 import { $getUser } from "~/app/_api/get-user";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const archiveAllNotifications = zactAuthenticated(async () => {
   const user = await $getUser();

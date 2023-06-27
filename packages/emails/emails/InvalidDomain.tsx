@@ -46,7 +46,7 @@ export const InvalidDomain = ({
           <Container className="mx-auto my-[40px] w-[500px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${env.NEXT_PUBLIC_APP_URL}/static/logo.png`}
+                src={`${env.NEXT_PUBLIC_APP_DOMAIN}/static/logo.png`}
                 width="40"
                 height="37"
                 alt={siteName}
@@ -74,7 +74,7 @@ export const InvalidDomain = ({
                 pX={20}
                 pY={12}
                 className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
-                href={`${env.NEXT_PUBLIC_APP_URL}/projects/${projectId}/settings`}
+                href={`${env.NEXT_PUBLIC_APP_DOMAIN}/projects/${projectId}/settings`}
               >
                 Configure domain
               </Button>
@@ -88,7 +88,7 @@ export const InvalidDomain = ({
                 pX={20}
                 pY={12}
                 className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
-                href={`${env.NEXT_PUBLIC_APP_URL}/projects/${projectId}/settings`}
+                href={`${env.NEXT_PUBLIC_APP_DOMAIN}/projects/${projectId}/settings`}
               >
                 Delete it
               </Button>

@@ -24,7 +24,7 @@ export const env = createEnv({
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_APP_URL: z.string().url(),
+    NEXT_PUBLIC_APP_DOMAIN: z.string().url(),
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
@@ -36,6 +36,6 @@ export const env = createEnv({
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_FROM: process.env.SMTP_FROM,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
   },
 });

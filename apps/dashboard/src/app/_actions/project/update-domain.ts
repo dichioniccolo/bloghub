@@ -1,13 +1,14 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createDomain, deleteDomain } from "@bloghub/common/external/vercel";
-import { AppRoutes } from "@bloghub/common/routes";
-import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
 import { z } from "zod";
 
+import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
+
 import { $getUser } from "~/app/_api/get-user";
+import { createDomain, deleteDomain } from "~/lib/common/external/vercel";
+import { AppRoutes } from "~/lib/common/routes";
+import { zactAuthenticated } from "~/lib/zact/server";
 import { DomainSchema } from "../schemas";
 
 export const updateDomain = zactAuthenticated(

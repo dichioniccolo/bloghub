@@ -13,7 +13,7 @@
     "db:generate": "pnpm with-env turbo db:generate",
     "db:push": "pnpm with-env turbo db:push",
     "dev": "pnpm with-env turbo dev --parallel --concurrency 20",
-    "dev:dashboard": "pnpm dev --filter @bloghub/dashboard",
+    "dev:app": "pnpm dev --filter @bloghub/app",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
     "lint": "turbo lint",
     "type-check": "turbo type-check",

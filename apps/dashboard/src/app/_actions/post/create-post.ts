@@ -1,11 +1,12 @@
 "use server";
 
-import { and, db, eq, posts, projectMembers } from "@bloghub/db";
-import { zactAuthenticated } from "@bloghub/zact/server";
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 
+import { and, db, eq, posts, projectMembers } from "@bloghub/db";
+
 import { $getUser } from "~/app/_api/get-user";
+import { zactAuthenticated } from "~/lib/zact/server";
 
 export const createPost = zactAuthenticated(
   async () => {

@@ -7,7 +7,8 @@ import {
   type Dispatch,
   type PropsWithChildren,
 } from "react";
-import { type AppNotification } from "@bloghub/notifications";
+
+import { type AppNotification } from "~/lib/notifications";
 
 type NotificationsContext = {
   notifications: AppNotification[];

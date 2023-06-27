@@ -1,5 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["dist", "build", "node_modules"]
+  "compilerOptions": {
+    "incremental": false
+  },
+  "include": ["*.ts", "*.cjs", "emails"]
 }

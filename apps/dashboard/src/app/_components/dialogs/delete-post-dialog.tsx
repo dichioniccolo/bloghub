@@ -1,6 +1,8 @@
 "use client";
 
 import { type ReactNode } from "react";
+import { toast } from "sonner";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,12 +13,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@bloghub/ui/components/alert-dialog";
-import { useZact } from "@bloghub/zact/client";
-import { toast } from "sonner";
-
+} from "~/components/ui/alert-dialog";
 import { deletePost } from "~/app/_actions/post/delete-post";
 import { useUser } from "~/hooks/use-user";
+import { useZact } from "~/lib/zact/client";
 
 type Props = {
   projectId: string;
