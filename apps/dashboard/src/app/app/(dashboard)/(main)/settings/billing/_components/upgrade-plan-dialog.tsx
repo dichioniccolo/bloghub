@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "~/components/ui/button";
@@ -15,8 +16,7 @@ import {
 import { Slider } from "~/components/ui/slider";
 import { Switch } from "~/components/ui/switch";
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
-import { type GetProPlans } from "~/app/_api/stripe";
-import { Icons } from "~/app/_components/icons";
+import type { GetProPlans } from "~/app/_api/stripe";
 import { AppRoutes } from "~/lib/common/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
@@ -129,7 +129,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
           </div>
         </div>
         <Button disabled={isRunning} onClick={onUpgrade}>
-          {isRunning && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Upgrade to {plan?.name}
         </Button>
       </DialogContent>

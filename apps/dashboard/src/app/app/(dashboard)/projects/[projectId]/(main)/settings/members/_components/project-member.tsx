@@ -1,8 +1,9 @@
 "use client";
 
 import { formatDistance } from "date-fns";
+import { MoreVertical, Trash2 } from "lucide-react";
 
-import { type RoleType } from "@bloghub/db";
+import type { RoleType } from "@bloghub/db";
 
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -13,8 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { type GetProjectUsers } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
+import type { GetProjectUsers } from "~/app/_api/projects";
 import { getDefaultAvatarImage } from "~/lib/utils";
 import { useDeleteMemberDialog } from "./delete-member-dialog";
 
@@ -65,14 +65,14 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="xxs">
-                <Icons.moreV className="h-4 w-4" />
+                <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
                 {currentUserRole === "owner" && member.role !== "owner" && (
                   <DropdownMenuItem onClick={() => setOpen(true)}>
-                    <Icons.delete className="mr-2 h-4 w-4" />
+                    <Trash2 className="mr-2 h-4 w-4" />
                     <span>Remove</span>
                   </DropdownMenuItem>
                 )}

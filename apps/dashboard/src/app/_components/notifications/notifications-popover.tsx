@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BellRing, Inbox, Settings } from "lucide-react";
 
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -10,7 +11,6 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
-import { Icons } from "~/app/_components/icons";
 import {
   NotificationActionTypes,
   useNotifications,
@@ -21,10 +21,10 @@ import { RemovedFromProject } from "~/app/_components/notifications/types/remove
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/common/routes";
+import type { AppNotification } from "~/lib/notifications";
 import {
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
-  type AppNotification,
 } from "~/lib/notifications";
 import { useZact } from "~/lib/zact/client";
 
@@ -45,8 +45,6 @@ export function NotificationsPopover() {
     onSuccess: () => {
       dispatch({
         type: NotificationActionTypes.ARCHIVE_ALL,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        payload: {} as any,
       });
     },
   });
@@ -61,7 +59,7 @@ export function NotificationsPopover() {
     <Popover>
       <PopoverTrigger asChild>
         <Button size="xs" variant="secondary" className="rounded-full">
-          <Icons.bellRing className="h-4 w-4" />
+          <BellRing className="h-4 w-4" />
           {unreadCount > 0 && (
             <Badge variant="outline" size="sm" className="ml-1">
               {unreadCount}
@@ -78,7 +76,7 @@ export function NotificationsPopover() {
             <div className="text-sm font-medium">Notifications</div>
             <Link href={AppRoutes.NotificationsSettings}>
               <Button size="xs" variant="secondary" className="rounded-full">
-                <Icons.settings className="h-4 w-4" />
+                <Settings className="h-4 w-4" />
               </Button>
             </Link>
           </div>
@@ -119,7 +117,7 @@ export function NotificationsPopover() {
             </>
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center">
-              <Icons.inbox className="h-6 w-6" />
+              <Inbox className="h-6 w-6" />
               <span>No new notifications</span>
             </div>
           )}

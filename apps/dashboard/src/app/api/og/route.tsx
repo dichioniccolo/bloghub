@@ -2,7 +2,7 @@ import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/server";
 import { z } from "zod";
 
-import { Icons } from "~/app/_components/icons";
+import { Logo } from "~/app/_components/icons/logo";
 
 export const runtime: ServerRuntime = "edge";
 
@@ -35,7 +35,7 @@ export function GET(req: Request) {
           }}
         >
           <div tw="flex items-center text-3xl justify-center flex-col">
-            <Icons.logo size={124} />
+            <Logo size={124} />
 
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"

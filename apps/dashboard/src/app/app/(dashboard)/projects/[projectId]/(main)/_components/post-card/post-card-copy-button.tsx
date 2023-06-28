@@ -1,4 +1,5 @@
-import { Icons } from "~/app/_components/icons";
+import { Check, Copy } from "lucide-react";
+
 import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
 import { PostCardButton } from "./post-card-button";
 
@@ -12,7 +13,7 @@ export function PostCardCopyButton({ url }: Props) {
   return (
     <PostCardButton onClick={() => copy(url)} className="group">
       <span className="sr-only">Copy</span>
-      {copied ? <Icons.check /> : <Icons.copy />}
+      {copied ? <Check /> : <Copy />}
     </PostCardButton>
   );
 }

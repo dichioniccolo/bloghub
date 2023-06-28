@@ -1,15 +1,17 @@
-import { Suspense, type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 
 import { Skeleton } from "~/components/ui/skeleton";
-import { Icons } from "~/app/_components/icons";
+import { Divider } from "~/app/_components/icons/divider";
+import { Logo } from "~/app/_components/icons/logo";
 import { env } from "~/env.mjs";
 import { AppRoutes } from "~/lib/common/routes";
 import { CommandMenu } from "../../_components/command-menu";
 import { Notifications } from "../../_components/notifications";
 import { NotificationsPlaceholder } from "../../_components/notifications/notifications-placeholder";
-import { ProjectsDropdown } from "./_components/ProjectsDropdown";
-import { UserDropdown } from "./_components/UserDropdown";
+import { ProjectsDropdown } from "./_components/projects-dropdown";
+import { UserDropdown } from "./_components/user-dropdown";
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
@@ -21,9 +23,9 @@ export default function Layout({ children }: PropsWithChildren) {
               href={AppRoutes.Dashboard}
               aria-label={`${env.NEXT_PUBLIC_APP_NAME} logo`}
             >
-              <Icons.logo className="h-10 w-10 rounded-full transition-all duration-75 active:scale-95" />
+              <Logo className="h-10 w-10 rounded-full transition-all duration-75 active:scale-95" />
             </Link>
-            <Icons.divider className="h-10 w-10 text-primary sm:ml-3" />
+            <Divider className="h-10 w-10 text-primary sm:ml-3" />
             <Suspense fallback={<Skeleton className="h-12 w-48 rounded-3xl" />}>
               <ProjectsDropdown />
             </Suspense>

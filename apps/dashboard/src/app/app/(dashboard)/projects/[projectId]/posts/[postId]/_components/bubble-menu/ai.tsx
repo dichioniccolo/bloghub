@@ -1,10 +1,8 @@
-import { Editor } from "@tiptap/core";
+import type { Editor } from "@tiptap/core";
 import { BubbleMenu } from "@tiptap/react";
 import { useCompletion } from "ai/react";
-import { Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
-
-import { Icons } from "~/app/_components/icons";
 
 type Props = {
   editor: Editor;
@@ -59,7 +57,7 @@ export function AIBubbleMenu({ editor }: Props) {
         <div className="flex items-center space-x-1 text-stone-500">
           <Sparkles className="h-5 w-5" />
           <p className="text-sm font-medium">AI is writing</p>
-          {isLoading && <Icons.spinner className="h-4 w-4 animate-spin" />}
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
         </div>
       </div>
     </BubbleMenu>

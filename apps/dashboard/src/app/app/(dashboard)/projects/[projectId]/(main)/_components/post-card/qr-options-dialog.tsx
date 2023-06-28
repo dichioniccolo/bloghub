@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "~/components/ui/button";
@@ -19,9 +21,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { type GetPosts } from "~/app/_api/posts";
-import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
+import type { GetPosts } from "~/app/_api/posts";
+import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import {
   getQRAsCanvas,
   getQrAsString,
@@ -144,12 +145,12 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
 
         <DialogFooter className="gap-1">
           <Button onClick={copyToClipboard}>
-            <Icons.clipboard className="mr-2 h-4 w-4" /> Copy
+            <Clipboard className="mr-2 h-4 w-4" /> Copy
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button>
-                <Icons.download className="mr-2 h-4 w-4" />
+                <Download className="mr-2 h-4 w-4" />
                 Export
               </Button>
             </DropdownMenuTrigger>
@@ -174,7 +175,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
               >
                 SVG
                 <DropdownMenuShortcut>
-                  <Icons.image className="h-4 w-4" />
+                  <ImageIcon className="h-4 w-4" />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -184,7 +185,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
               >
                 PNG
                 <DropdownMenuShortcut>
-                  <Icons.image className="h-4 w-4" />
+                  <ImageIcon className="h-4 w-4" />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
 
@@ -195,7 +196,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
               >
                 JPEG
                 <DropdownMenuShortcut>
-                  <Icons.image className="h-4 w-4" />
+                  <ImageIcon className="h-4 w-4" />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>

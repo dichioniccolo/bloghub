@@ -1,11 +1,8 @@
 "use client";
 
-import {
-  useCallback,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useCallback, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 import {
   AlertDialog,
@@ -18,7 +15,6 @@ import {
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
 import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
-import { Icons } from "~/app/_components/icons";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -58,9 +54,7 @@ function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={onDelete}>
-            {isRunning && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Remove
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import { type Project } from "@bloghub/db";
+import type { Project } from "@bloghub/db";
 
 export function useSelectedProject(
   projects: Pick<Project, "id" | "logo" | "name">[],

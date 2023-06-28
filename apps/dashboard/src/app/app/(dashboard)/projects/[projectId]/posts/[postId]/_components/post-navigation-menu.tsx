@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 import {
   NavigationMenu,
@@ -10,7 +11,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
-import { Icons } from "~/app/_components/icons";
 import { AppRoutes } from "~/lib/common/routes";
 
 type Props = {
@@ -31,7 +31,7 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
             passHref
           >
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Icons.arrowLeft className="mr-2 h-4 w-4" /> Posts
+              <ArrowLeft className="mr-2 h-4 w-4" /> Posts
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

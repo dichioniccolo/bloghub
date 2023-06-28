@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "~/components/ui/button";
@@ -22,11 +23,8 @@ import {
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
 import { inviteUser } from "~/app/_actions/project/invite-user";
-import { Icons } from "~/app/_components/icons";
-import {
-  InviteMemberSchema,
-  type InviteMemberSchemaType,
-} from "~/lib/validation/schema";
+import type { InviteMemberSchemaType } from "~/lib/validation/schema";
+import { InviteMemberSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -90,7 +88,7 @@ export function InviteMemberDialog({ projectId }: Props) {
               />
               <Button disabled={isSubmitting}>
                 {isSubmitting && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Invite
               </Button>

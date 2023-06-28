@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+
 import { Button } from "~/components/ui/button";
 import {
   FormControl,
@@ -10,7 +12,6 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
-import { Icons } from "~/app/_components/icons";
 import { UserAuthSchema } from "~/lib/validation/schema";
 
 export function UserAuthFormPlaceholder() {
@@ -45,7 +46,7 @@ export function UserAuthFormPlaceholder() {
             />
             <Button disabled>
               {isSubmitting && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
               Sign In with Email
             </Button>

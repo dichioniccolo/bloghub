@@ -1,11 +1,8 @@
 "use client";
 
-import {
-  useCallback,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useCallback, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "~/components/ui/button";
@@ -25,11 +22,8 @@ import {
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
 import { createProject } from "~/app/_actions/project/create-project";
-import { Icons } from "~/app/_components/icons";
-import {
-  CreateProjectSchema,
-  type CreateProjectSchemaType,
-} from "~/lib/validation/schema";
+import type { CreateProjectSchemaType } from "~/lib/validation/schema";
+import { CreateProjectSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -109,7 +103,7 @@ function CreateProjectDialog({ open, setOpen }: Props) {
               />
               <Button disabled={isSubmitting}>
                 {isSubmitting && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Create project
               </Button>

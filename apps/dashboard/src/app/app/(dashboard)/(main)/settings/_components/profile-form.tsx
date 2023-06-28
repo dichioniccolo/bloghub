@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { Button } from "~/components/ui/button";
@@ -15,12 +16,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
 import { updateUser } from "~/app/_actions/user/update-user";
-import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
-import {
-  UserNameSchema,
-  type UserNameSchemaType,
-} from "~/lib/validation/schema";
+import type { UserNameSchemaType } from "~/lib/validation/schema";
+import { UserNameSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
 export function ProfileForm() {
@@ -76,7 +74,7 @@ export function ProfileForm() {
             <CardFooter className="px-0">
               <Button disabled={isSubmitting}>
                 {isSubmitting && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 <span>Save</span>
               </Button>

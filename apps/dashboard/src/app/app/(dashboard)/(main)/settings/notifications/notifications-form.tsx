@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -18,12 +20,8 @@ import {
 import { Switch } from "~/components/ui/switch";
 import { Form } from "~/components/ui/zod-form";
 import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
-import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
-import {
-  EditNotificationsSchema,
-  type EditNotificationsSchemaType,
-} from "~/lib/validation/schema";
+import type { EditNotificationsSchemaType } from "~/lib/validation/schema";
+import { EditNotificationsSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -31,7 +29,6 @@ type Props = {
 };
 
 export function NotificationsForm({ settings }: Props) {
-  const user = useUser();
   const { mutate } = useZact(updateNotificationSettings);
 
   async function onSubmit({
@@ -146,7 +143,7 @@ export function NotificationsForm({ settings }: Props) {
           <CardFooter className="px-0">
             <Button disabled={isSubmitting}>
               {isSubmitting && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
               <span>Save</span>
             </Button>

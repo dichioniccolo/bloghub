@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { formatDistance } from "date-fns";
+import { BarChart, Edit, Loader2, QrCode, Trash2 } from "lucide-react";
 
 import { buttonVariants } from "~/components/ui/button";
 import {
@@ -16,10 +17,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { type GetPosts } from "~/app/_api/posts";
-import { type GetProject, type GetProjectOwner } from "~/app/_api/projects";
+import type { GetPosts } from "~/app/_api/posts";
+import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
-import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
 import { constructPostUrl } from "~/lib/url";
@@ -117,7 +117,7 @@ export function PostCard({ post, project, owner }: Props) {
               trigger={
                 <PostCardButton>
                   <span className="sr-only">Download QR</span>
-                  <Icons.qr />
+                  <QrCode />
                 </PostCardButton>
               }
             />
@@ -125,7 +125,7 @@ export function PostCard({ post, project, owner }: Props) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <PostCardButton className="space-x-1">
-                    <Icons.chart />
+                    <BarChart />
                     <p className="whitespace-nowrap text-sm">
                       {formatNumber(post.visitsCount)}
                       <span className="ml-1 hidden sm:inline-block">
@@ -153,7 +153,7 @@ export function PostCard({ post, project, owner }: Props) {
             ) : (
               <Link href={AppRoutes.PostStats(project.id, post.id)}>
                 <PostCardButton className="space-x-1">
-                  <Icons.chart />
+                  <BarChart />
                   <p className="whitespace-nowrap text-sm">
                     {formatNumber(post.visitsCount)}
                     <span className="ml-1 hidden sm:inline-block">clicks</span>
@@ -173,7 +173,7 @@ export function PostCard({ post, project, owner }: Props) {
             <div className="flex items-center gap-1">
               <Link href={AppRoutes.PostEditor(project.id, post.id)}>
                 <PostCardButton>
-                  <Icons.edit />
+                  <Edit />
                   <p className="sr-only">Edit</p>
                 </PostCardButton>
               </Link>
@@ -184,9 +184,9 @@ export function PostCard({ post, project, owner }: Props) {
                 trigger={(loading) => (
                   <PostCardButton variant="destructive">
                     {loading ? (
-                      <Icons.spinner className="animate-spin" />
+                      <Loader2 className="animate-spin" />
                     ) : (
-                      <Icons.delete />
+                      <Trash2 />
                     )}
                     <p className="sr-only">Delete</p>
                   </PostCardButton>

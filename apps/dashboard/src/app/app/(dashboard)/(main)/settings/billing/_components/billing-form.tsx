@@ -1,6 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
+import { HelpCircle, InfinityIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "~/components/ui/badge";
@@ -21,9 +22,9 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
-import { type GetProPlans } from "~/app/_api/stripe";
-import { type GetUserPlan } from "~/app/_api/user";
-import { Icons } from "~/app/_components/icons";
+import type { GetProPlans } from "~/app/_api/stripe";
+import type { GetUserPlan } from "~/app/_api/user";
+import { Divider } from "~/app/_components/icons/divider";
 import { AppRoutes } from "~/lib/common/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
@@ -89,7 +90,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
               </TooltipContent>
               <TooltipTrigger>
                 <div className="flex h-4 w-8 justify-center">
-                  <Icons.helpCircle className="h-4 w-4 text-gray-500" />
+                  <HelpCircle className="h-4 w-4 text-gray-500" />
                 </div>
               </TooltipTrigger>
             </Tooltip>
@@ -112,8 +113,8 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
             <p className="text-2xl font-semibold text-black dark:text-gray-50">
               {formatNumber(projectsCount)}
             </p>
-            <Icons.divider className="h-8 w-8 text-gray-500" />
-            <Icons.infinite className="h-8 w-8 text-gray-500" />
+            <Divider className="h-8 w-8 text-gray-500" />
+            <InfinityIcon className="h-8 w-8 text-gray-500" />
           </div>
         </div>
       </CardContent>
@@ -123,9 +124,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
         ) : (
           <div className="flex space-x-3">
             <Button onClick={onManageSubscription} disabled={isRunning}>
-              {isRunning && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Manage Subscription
             </Button>
           </div>

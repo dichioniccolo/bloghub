@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useRef } from "react";
-import { Editor as EditorType, JSONContent, Range } from "@tiptap/core";
+import type { Editor as EditorType, JSONContent, Range } from "@tiptap/core";
 import { EditorContent } from "@tiptap/react";
 import { useCompletion } from "ai/react";
-import { Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 import type { MediaEnumType } from "@bloghub/db";
 
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
-import { Icons } from "~/app/_components/icons";
 import { useEditor } from "~/hooks/use-editor";
 import {
   Color,
@@ -251,7 +250,7 @@ export function Editor({
   if (!editor) {
     return (
       <div className="flex h-full min-h-[500px] w-full items-center justify-center">
-        <Icons.spinner className="h-6 w-6 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin" />
       </div>
     );
   }

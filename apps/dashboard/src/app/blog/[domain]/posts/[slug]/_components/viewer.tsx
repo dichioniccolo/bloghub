@@ -2,8 +2,8 @@
 
 import type { JSONContent } from "@tiptap/core";
 import { EditorContent } from "@tiptap/react";
+import { Loader2 } from "lucide-react";
 
-import { Icons } from "~/app/_components/icons";
 import { useEditor } from "~/hooks/use-editor";
 import {
   Color,
@@ -59,7 +59,7 @@ export function Viewer({ value }: Props) {
   if (!editor) {
     return (
       <div className="flex h-full min-h-[500px] w-full items-center justify-center">
-        <Icons.spinner className="h-6 w-6 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin" />
       </div>
     );
   }

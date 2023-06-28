@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AlertCircle, Check } from "lucide-react";
 
 import { Card } from "~/components/ui/card";
 import {
@@ -7,8 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { type GetProjects } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
+import type { GetProjects } from "~/app/_api/projects";
 import { AppRoutes } from "~/lib/common/routes";
 import { getDefaultAvatarImage } from "~/lib/utils";
 
@@ -37,11 +37,11 @@ export function ProjectCard({ project }: Props) {
         </div>
         <div className="flex items-center space-x-2">
           {project.domainVerified ? (
-            <Icons.check className="h-6 w-6 text-blue-500" />
+            <Check className="h-6 w-6 text-blue-500" />
           ) : (
             <Tooltip>
               <TooltipTrigger>
-                <Icons.alertCircle className="h-6 w-6 text-red-500" />
+                <AlertCircle className="h-6 w-6 text-red-500" />
               </TooltipTrigger>
               <TooltipContent>
                 The domain associated to this project is not verified

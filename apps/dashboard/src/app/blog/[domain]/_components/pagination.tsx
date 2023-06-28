@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/cn";
 import { BlogRoutes } from "~/lib/common/routes";
 
@@ -33,9 +33,7 @@ export function Pagination({
           },
         )}
       >
-        <span className="mr-1">
-          <Icons.chevronLeft />
-        </span>
+        <ChevronLeft className="mr-1" />
         Newer posts
       </Link>
       <Link
@@ -53,9 +51,7 @@ export function Pagination({
         )}
       >
         Older posts
-        <span className="ml-1">
-          <Icons.chevronRight />
-        </span>
+        <ChevronRight className="ml-1" />
       </Link>
     </div>
   );

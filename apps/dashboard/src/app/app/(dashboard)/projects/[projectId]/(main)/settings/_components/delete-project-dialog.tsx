@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -16,8 +17,7 @@ import {
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { deleteProject } from "~/app/_actions/project/delete-project";
-import { type GetProject } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
+import type { GetProject } from "~/app/_api/projects";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -57,9 +57,7 @@ export function DeleteProjectDialog({ project }: Props) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={onDelete} disabled={isRunning}>
-            {isRunning && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

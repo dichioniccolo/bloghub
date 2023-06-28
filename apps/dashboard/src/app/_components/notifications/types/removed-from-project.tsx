@@ -1,10 +1,10 @@
 import { formatDistanceToNow } from "date-fns";
+import { Trash2 } from "lucide-react";
 
-import { type Notification } from "@bloghub/db";
+import type { Notification } from "@bloghub/db";
 
-import { Icons } from "~/app/_components/icons";
 import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
-import { type AppNotification } from "~/lib/notifications";
+import type { AppNotification } from "~/lib/notifications";
 
 type Props = {
   notification: Extract<
@@ -17,7 +17,7 @@ export function RemovedFromProject({ notification }: Props) {
   return (
     <BaseNotification
       notification={notification}
-      icon={<Icons.delete className="h-6 w-6" />}
+      icon={<Trash2 className="h-6 w-6" />}
     >
       <div className="flex flex-col">
         <div className="text-sm">

@@ -1,17 +1,17 @@
 "use client";
 
-import { type MouseEventHandler, type ReactNode } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
+import { Archive } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
 import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
-import { Icons } from "~/app/_components/icons";
 import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/app/_components/notifications/notifications-provider";
 import { cn } from "~/lib/cn";
-import { type AppNotification } from "~/lib/notifications";
+import type { AppNotification } from "~/lib/notifications";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -76,7 +76,7 @@ export function BaseNotification({
       <div className="flex flex-1 items-center">{children}</div>
       <div className="invisible flex items-center justify-center transition-all group-hover:visible">
         <Button onClick={onArchive} variant="secondary" size="xs">
-          <Icons.archive className="h-4 w-4" />
+          <Archive className="h-4 w-4" />
         </Button>
       </div>
     </div>

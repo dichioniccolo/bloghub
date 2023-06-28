@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
+import { MailPlus } from "lucide-react";
 
-import { type Notification } from "@bloghub/db";
+import type { Notification } from "@bloghub/db";
 
-import { Icons } from "~/app/_components/icons";
 import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
 import { AppRoutes } from "~/lib/common/routes";
-import { type AppNotification } from "~/lib/notifications";
+import type { AppNotification } from "~/lib/notifications";
 
 type Props = {
   notification: Extract<
@@ -18,7 +18,7 @@ type Props = {
 export function ProjectInvitationNotification({ notification }: Props) {
   return (
     <BaseNotification
-      icon={<Icons.invitation className="h-6 w-6" />}
+      icon={<MailPlus className="h-6 w-6" />}
       notification={notification}
     >
       <Link

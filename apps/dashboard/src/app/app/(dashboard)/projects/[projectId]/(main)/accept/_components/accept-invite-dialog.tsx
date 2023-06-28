@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button, buttonVariants } from "~/components/ui/button";
@@ -13,8 +14,7 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
-import { type GetPendingInvite } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
+import type { GetPendingInvite } from "~/app/_api/projects";
 import { AppRoutes } from "~/lib/common/routes";
 import { useZact } from "~/lib/zact/client";
 
@@ -54,9 +54,7 @@ export function AcceptInviteDialog({ project, expired }: Props) {
                 disabled={loading}
                 onClick={onSubmit}
               >
-                {loading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Accept invite
               </Button>
             </DialogFooter>

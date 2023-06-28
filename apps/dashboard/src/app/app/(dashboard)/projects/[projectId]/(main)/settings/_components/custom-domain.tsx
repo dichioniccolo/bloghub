@@ -1,5 +1,7 @@
 "use client";
 
+import { AlertCircle, CheckCircle, ExternalLink, Loader2 } from "lucide-react";
+
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -9,9 +11,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { verifyDomain } from "~/app/_actions/project/verify-domain";
-import { type GetProject } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
-import { useUser } from "~/hooks/use-user";
+import type { GetProject } from "~/app/_api/projects";
 import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";
@@ -21,8 +21,6 @@ type Props = {
 };
 
 export function CustomDomain({ project }: Props) {
-  const user = useUser();
-
   const { isRunning, mutate, data } = useZact(verifyDomain);
 
   const handleVerify = () =>
@@ -49,7 +47,7 @@ export function CustomDomain({ project }: Props) {
             <p className="flex items-center text-xl font-semibold">
               {project.domain}
             </p>
-            <Icons.externalLink className="h-5 w-5" />
+            <ExternalLink className="h-5 w-5" />
           </a>
           <div className="flex space-x-3">
             <Button
@@ -59,9 +57,7 @@ export function CustomDomain({ project }: Props) {
               }}
               disabled={isRunning}
             >
-              {isRunning && (
-                <Icons.spinner className="mr-1 h-5 w-5 animate-spin" />
-              )}
+              {isRunning && <Loader2 className="mr-1 h-5 w-5 animate-spin" />}
               Verify
             </Button>
             <UpdateDomainDialog project={project} />
@@ -70,7 +66,7 @@ export function CustomDomain({ project }: Props) {
         <div className="flex h-10 items-center space-x-2">
           {(project.domainVerified || data?.verified === true) && (
             <>
-              <Icons.checkCircle className="h-6 w-6 text-blue-500" />
+              <CheckCircle className="h-6 w-6 text-blue-500" />
               <p className="text-sm text-gray-500">Verified</p>
             </>
           )}
@@ -79,14 +75,14 @@ export function CustomDomain({ project }: Props) {
             ? !data.verified &&
               (data?.pending ? (
                 <>
-                  <Icons.alertCircle className="h-6 w-6 text-red-500" />
+                  <AlertCircle className="h-6 w-6 text-red-500" />
                   <p className="text-sm text-yellow-500">
                     Pending verification
                   </p>
                 </>
               ) : (
                 <>
-                  <Icons.alertCircle className="h-6 w-6 text-red-500" />
+                  <AlertCircle className="h-6 w-6 text-red-500" />
                   <p className="text-sm text-red-500">Invalid configuration</p>
                 </>
               ))
@@ -117,7 +113,7 @@ export function CustomDomainPlaceholder() {
             </div>
           </div>
           <div className="flex h-10 items-center space-x-2">
-            <Icons.spinner className="mr-1 h-5 w-5 animate-spin" />
+            <Loader2 className="mr-1 h-5 w-5 animate-spin" />
           </div>
         </div>
       </CardContent>

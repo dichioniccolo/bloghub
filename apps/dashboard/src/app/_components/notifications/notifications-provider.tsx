@@ -1,14 +1,9 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useReducer,
-  type Dispatch,
-  type PropsWithChildren,
-} from "react";
+import type { Dispatch, PropsWithChildren } from "react";
+import { createContext, useContext, useReducer } from "react";
 
-import { type AppNotification } from "~/lib/notifications";
+import type { AppNotification } from "~/lib/notifications";
 
 type NotificationsContext = {
   notifications: AppNotification[];
@@ -23,10 +18,19 @@ export enum NotificationActionTypes {
   ARCHIVE_ALL = "ARCHIVE_ALL",
 }
 
-type NotificationsAction = {
-  type: NotificationActionTypes;
-  payload: AppNotification;
-};
+type NotificationsAction =
+  | {
+      type:
+        | NotificationActionTypes.ADD_NOTIFICATION
+        | NotificationActionTypes.REMOVE_NOTIFICATION
+        | NotificationActionTypes.MARK_AS_READ
+        | NotificationActionTypes.MARK_AS_UNREAD;
+      payload: AppNotification;
+    }
+  | {
+      type: NotificationActionTypes.ARCHIVE_ALL;
+      payload?: never;
+    };
 
 const notificationsContext = createContext<NotificationsContext>({
   notifications: [],

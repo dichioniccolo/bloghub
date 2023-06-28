@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "~/components/ui/badge";
@@ -21,12 +22,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
 import { updateDomain } from "~/app/_actions/project/update-domain";
-import { type GetProject } from "~/app/_api/projects";
-import { Icons } from "~/app/_components/icons";
-import {
-  UpdateDomainSchema,
-  type UpdateDomainSchemaType,
-} from "~/lib/validation/schema";
+import type { GetProject } from "~/app/_api/projects";
+import type { UpdateDomainSchemaType } from "~/lib/validation/schema";
+import { UpdateDomainSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
@@ -115,7 +113,7 @@ export function UpdateDomainDialog({ project }: Props) {
               />
               <Button disabled={isSubmitting} variant="destructive">
                 {isSubmitting && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Confirm domain change
               </Button>

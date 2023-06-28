@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BellRing, Euro, LogOut, Plus, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import { Button } from "~/components/ui/button";
+import type { CommandDialogProps } from "~/components/ui/command";
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,12 +14,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  type CommandDialogProps,
 } from "~/components/ui/command";
 import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
-import { Icons } from "./icons";
 
 export function CommandMenu({ ...props }: CommandDialogProps) {
   const router = useRouter();
@@ -71,21 +71,21 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
             <CommandItem
               onSelect={runCommand(() => setCreateProjectDialogOpen(true))}
             >
-              <Icons.add className="mr-2 h-4 w-4" />
+              <Plus className="mr-2 h-4 w-4" />
               Create Project
             </CommandItem>
           </CommandGroup>
           {/* <CommandGroup heading="Theme">
             <CommandItem onSelect={runCommand(() => setTheme("light"))}>
-              <Icons.sun className="mr-2 h-4 w-4" />
+              <Sun className="mr-2 h-4 w-4" />
               Light
             </CommandItem>
             <CommandItem onSelect={runCommand(() => setTheme("dark"))}>
-              <Icons.moon className="mr-2 h-4 w-4" />
+              <Moon className="mr-2 h-4 w-4" />
               Dark
             </CommandItem>
             <CommandItem onSelect={runCommand(() => setTheme("system"))}>
-              <Icons.laptop className="mr-2 h-4 w-4" />
+              <Laptop className="mr-2 h-4 w-4" />
               System
             </CommandItem>
           </CommandGroup> */}
@@ -93,7 +93,7 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
             <CommandItem
               onSelect={runCommand(() => router.push(AppRoutes.Settings))}
             >
-              <Icons.user className="mr-2 h-4 w-4" />
+              <User className="mr-2 h-4 w-4" />
               Profile Settings
             </CommandItem>
             <CommandItem
@@ -101,7 +101,7 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
                 router.push(AppRoutes.NotificationsSettings),
               )}
             >
-              <Icons.bellRing className="mr-2 h-4 w-4" />
+              <BellRing className="mr-2 h-4 w-4" />
               Email Notifications
             </CommandItem>
             <CommandItem
@@ -109,11 +109,11 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
                 router.push(AppRoutes.BillingSettings),
               )}
             >
-              <Icons.euro className="mr-2 h-4 w-4" />
+              <Euro className="mr-2 h-4 w-4" />
               Billing
             </CommandItem>
             <CommandItem onSelect={runCommand(() => signOut())}>
-              <Icons.logOut className="mr-2 h-4 w-4" />
+              <LogOut className="mr-2 h-4 w-4" />
               Log Out
             </CommandItem>
           </CommandGroup>

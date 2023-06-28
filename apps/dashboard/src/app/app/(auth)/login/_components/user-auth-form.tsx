@@ -1,7 +1,8 @@
 "use client";
 
-import { type HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import { useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -16,12 +17,9 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
-import { Icons } from "~/app/_components/icons";
 import { cn } from "~/lib/cn";
-import {
-  UserAuthSchema,
-  type UserAuthSchemaType,
-} from "~/lib/validation/schema";
+import type { UserAuthSchemaType } from "~/lib/validation/schema";
+import { UserAuthSchema } from "~/lib/validation/schema";
 
 type Props = HTMLAttributes<HTMLDivElement>;
 
@@ -81,7 +79,7 @@ export function UserAuthForm({ className, ...props }: Props) {
             />
             <Button disabled={isSubmitting}>
               {isSubmitting && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
               Sign In with Email
             </Button>

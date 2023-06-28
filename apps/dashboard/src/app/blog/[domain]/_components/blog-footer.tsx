@@ -1,9 +1,9 @@
 import { format } from "date-fns";
+import { Copyright } from "lucide-react";
 
-import { GetProjectByDomain } from "~/app/_api/public/projects";
+import type { GetProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
 import { AppLink } from "./app-link";
-import { Icons } from "./icons";
 
 type Props = {
   project: NonNullable<GetProjectByDomain>;
@@ -15,7 +15,7 @@ export function BlogFooter({ project }: Props) {
       <div className="flex flex-col items-center justify-center space-y-8">
         <div className="flex items-center">
           <p className="flex">
-            <Icons.copyright className="mr-2" /> {format(new Date(), "yyyy")}{" "}
+            <Copyright className="mr-2" /> {format(new Date(), "yyyy")}{" "}
             {project.name}&apos; blog
           </p>
         </div>
