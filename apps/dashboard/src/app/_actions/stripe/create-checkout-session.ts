@@ -17,7 +17,7 @@ export const createCheckoutSession = zactAuthenticated(
       userId: user.id,
     };
   },
-  ({ userId }) =>
+  () =>
     z.object({
       callbackUrl: z.string().nonempty(),
       name: z.string().nullable().optional(),

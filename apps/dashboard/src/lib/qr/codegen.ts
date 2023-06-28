@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 /**
  * @license QR Code generator library (TypeScript)
  * Copyright (c) Project Nayuki.
@@ -5,6 +6,29 @@
  */
 
 "use strict";
+
+// Appends the given number of low-order bits of the given value
+// to the given buffer. Requires 0 <= len <= 31 and 0 <= val < 2^len.
+function appendBits(val: number, len: number, bb: Array<number>): void {
+  if (len < 0 || len > 31 || val >>> len != 0)
+    throw new RangeError("Value out of range");
+  for (
+    let i = len - 1;
+    i >= 0;
+    i-- // Append bit by bit
+  )
+    bb.push((val >>> i) & 1);
+}
+
+// Returns true iff the i'th bit of x is set to 1.
+function getBit(x: number, i: number): boolean {
+  return ((x >>> i) & 1) != 0;
+}
+
+// Throws an exception if the given condition is false.
+function assert(cond: boolean): void {
+  if (!cond) throw new Error("Assertion error");
+}
 
 namespace qrcodegen {
   type bit = number;
@@ -645,7 +669,7 @@ namespace qrcodegen {
       data: Readonly<Array<byte>>,
       divisor: Readonly<Array<byte>>,
     ): Array<byte> {
-      const result: Array<byte> = divisor.map((_) => 0);
+      const result: Array<byte> = divisor.map(() => 0);
       for (const b of data) {
         // Polynomial division
         const factor: byte = b ^ (result.shift() as byte);
@@ -776,29 +800,6 @@ namespace qrcodegen {
         74, 77, 81,
       ], // High
     ];
-  }
-
-  // Appends the given number of low-order bits of the given value
-  // to the given buffer. Requires 0 <= len <= 31 and 0 <= val < 2^len.
-  function appendBits(val: int, len: int, bb: Array<bit>): void {
-    if (len < 0 || len > 31 || val >>> len != 0)
-      throw new RangeError("Value out of range");
-    for (
-      let i = len - 1;
-      i >= 0;
-      i-- // Append bit by bit
-    )
-      bb.push((val >>> i) & 1);
-  }
-
-  // Returns true iff the i'th bit of x is set to 1.
-  function getBit(x: int, i: int): boolean {
-    return ((x >>> i) & 1) != 0;
-  }
-
-  // Throws an exception if the given condition is false.
-  function assert(cond: boolean): void {
-    if (!cond) throw new Error("Assertion error");
   }
 
   /*---- Data segment class ----*/

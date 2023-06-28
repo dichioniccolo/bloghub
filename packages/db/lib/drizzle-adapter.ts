@@ -15,11 +15,10 @@ export type DbClient = typeof db;
 
 export const defaultSchema = { users, accounts, sessions, verificationTokens };
 export type DefaultSchema = typeof defaultSchema;
-type CustomSchema = DefaultSchema & {};
 
 export function PlanetScaleAdapter(
   client: DbClient,
-  schema?: Partial<CustomSchema>,
+  schema?: Partial<NonNullable<DefaultSchema>>,
 ): Adapter {
   const { users, accounts, sessions, verificationTokens } = {
     users: schema?.users ?? defaultSchema.users,

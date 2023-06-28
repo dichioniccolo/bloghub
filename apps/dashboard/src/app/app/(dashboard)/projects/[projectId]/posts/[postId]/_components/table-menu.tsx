@@ -1,5 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Editor } from "@tiptap/core";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
+import type { Editor } from "@tiptap/core";
 import { Columns, Rows, Trash2 } from "lucide-react";
 
 interface TableMenuItem {
@@ -38,19 +43,19 @@ export const TableMenu = ({ editor }: { editor: Editor }) => {
     },
   ];
 
-  const handleWindowClick = () => {
-    const selection: any = window.getSelection();
-    const range = selection.getRangeAt(0);
-    const tableNode = range.startContainer?.closest?.("table");
-    if (tableNode) {
-      const activeTable = tableNode.getBoundingClientRect(); // get the currently active table position
-      const scrollOffset = window.scrollY; // culculating the current height of the site
-      const tableTop = activeTable.top + scrollOffset;
-      tableLocation !== tableTop && setTableLocation(tableTop);
-    }
-  };
-
   useEffect(() => {
+    const handleWindowClick = () => {
+      const selection: any = window.getSelection();
+      const range = selection.getRangeAt(0);
+      const tableNode = range.startContainer?.closest?.("table");
+      if (tableNode) {
+        const activeTable = tableNode.getBoundingClientRect() as DOMRect; // get the currently active table position
+        const scrollOffset = window.scrollY; // culculating the current height of the site
+        const tableTop = activeTable.top + scrollOffset;
+        tableLocation !== tableTop && setTableLocation(tableTop);
+      }
+    };
+
     // Call the function if user click on the table
     window.addEventListener("click", handleWindowClick);
 
@@ -58,7 +63,7 @@ export const TableMenu = ({ editor }: { editor: Editor }) => {
     return () => {
       window.removeEventListener("click", handleWindowClick);
     };
-  }, []);
+  }, [tableLocation]);
 
   return (
     <section

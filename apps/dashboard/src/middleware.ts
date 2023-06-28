@@ -9,7 +9,6 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl;
 
   // TODO: add vercel url
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const hostname = req.headers
     .get("host")!
     .replace(".localhost:3000", `.${env.NEXT_PUBLIC_APP_DOMAIN}`);
