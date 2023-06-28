@@ -1,5 +1,7 @@
 # [BlogHub](https://app.bloghub.it/)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d3dfa533b1041759f67e230dfc0da5c)](https://app.codacy.com/gh/dichioniccolo/bloghub?utm_source=github.com&utm_medium=referral&utm_content=dichioniccolo/bloghub&utm_campaign=Badge_Grade)
+
 This is an open source blog app built with everything new in Next.js 13. It is built with the [T3 Turbo Stack](https://github.com/t3-oss/create-t3-turbo).
 
 > **Warning**
