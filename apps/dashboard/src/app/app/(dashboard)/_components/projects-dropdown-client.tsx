@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -22,7 +22,6 @@ import {
 } from "~/components/ui/popover";
 import type { GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
-import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { cn } from "~/lib/cn";
 import { getDefaultAvatarImage } from "~/lib/utils";
@@ -97,7 +96,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
                     </AvatarFallback>
                   </Avatar>
                   <span className="truncate">{user.name ?? user.email}</span>
-                  <Icons.check
+                  <Check
                     className={cn("ml-auto h-4 w-4", {
                       "opacity-100": !selectedProject,
                       "opacity-0": !!selectedProject,
@@ -125,7 +124,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
                       <AvatarFallback>{project.name[0]}</AvatarFallback>
                     </Avatar>
                     <span className="truncate">{project.name}</span>
-                    <Icons.check
+                    <Check
                       className={cn("ml-auto h-4 w-4", {
                         "opacity-100": selectedProject?.id === project.id,
                         "opacity-0": selectedProject?.id !== project.id,
@@ -144,7 +143,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
                     setShowCreateProjectDialog(true);
                   }}
                 >
-                  <Icons.plusCircle className="mr-2 h-5 w-5" />
+                  <PlusCircle className="mr-2 h-5 w-5" />
                   Create Project
                 </CommandItem>
               </CommandGroup>

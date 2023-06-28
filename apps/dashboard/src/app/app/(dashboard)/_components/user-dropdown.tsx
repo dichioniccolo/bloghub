@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LogOut, Settings } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -14,7 +15,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Icons } from "~/app/_components/icons";
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/common/routes";
 import { getDefaultAvatarImage } from "~/lib/utils";
@@ -46,12 +46,12 @@ export function UserDropdown() {
         <DropdownMenuGroup>
           <Link href={AppRoutes.Settings}>
             <DropdownMenuItem>
-              <Icons.settings className="mr-2 h-4 w-4" />
+              <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem onClick={onLogout}>
-            <Icons.logOut className="mr-2 h-4 w-4" />
+            <LogOut className="mr-2 h-4 w-4" />
             <span>Log Out</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
