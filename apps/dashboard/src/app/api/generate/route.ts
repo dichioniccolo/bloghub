@@ -79,10 +79,7 @@ export async function POST(req: Request): Promise<Response> {
   // remove line breaks,
   // remove trailing slash
   // limit to the last 5000 characters
-  const promptCleaned = prompt
-    .replace(/\n/g, " ")
-    .replace(/\/$/, "")
-    .slice(-5000);
+  const promptCleaned = prompt.replace(/\/$/, "").slice(-5000);
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -91,13 +88,13 @@ export async function POST(req: Request): Promise<Response> {
         role: "system",
         content:
           "You are an AI writing assistant that continues existing text based on context from prior text. " +
-          "Give more weight/priority to the later characters than the beginning ones. Make sure to construct complete sentences. " +
-          "If you need to separate paragraphs, you should use a <p> tag and not a line break. " +
-          "If you want to add a heading or subheading, you should use a <h1> or <h2> tag html. ",
+          "Give more weight/priority to the later characters than the beginning ones. " +
+          "Limit your response to no more than 200 characters, but make sure to construct complete sentences.",
+        // we're disabling markdown for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
+        // "Use Markdown formatting when appropriate.",
       },
       { role: "user", content: promptCleaned },
     ],
-    max_tokens: env.NODE_ENV === "development" ? 5 : 200,
     temperature: 0.7,
     frequency_penalty: 0,
     presence_penalty: 0,

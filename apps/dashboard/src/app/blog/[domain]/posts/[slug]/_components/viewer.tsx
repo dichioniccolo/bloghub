@@ -9,6 +9,7 @@ import {
   Color,
   ColorHighlighter,
   HorizontalRuleExtension,
+  Markdown,
   Placeholder,
   ResizableMedia,
   SlashCommand,
@@ -52,6 +53,7 @@ export function Viewer({ value }: Props) {
       TableCell,
       TableHeader,
       TableRow,
+      Markdown,
     ],
     content: value,
   });

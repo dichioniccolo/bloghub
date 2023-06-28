@@ -11,6 +11,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Youtube from "@tiptap/extension-youtube";
 import StarterKit from "@tiptap/starter-kit";
+import { Markdown } from "tiptap-markdown";
 
 import { ColorHighlighter } from "./color-highlighter";
 import { SlashCommand } from "./commands";
@@ -29,17 +30,17 @@ const StarterKitX = StarterKit.configure({
   },
   bulletList: {
     HTMLAttributes: {
-      class: "list-disc list-outside leading-3",
+      class: "list-disc list-outside leading-3 -mt-2",
     },
   },
   orderedList: {
     HTMLAttributes: {
-      class: "list-decimal list-outside leading-3",
+      class: "list-decimal list-outside leading-3 -mt-2",
     },
   },
   listItem: {
     HTMLAttributes: {
-      class: "leading-normal",
+      class: "leading-normal -mb-2",
     },
   },
   blockquote: {
@@ -127,10 +128,16 @@ const TableHeaderX = TableHeader.configure({
   },
 });
 
+export const MarkdownX = Markdown.configure({
+  linkify: true,
+  transformCopiedText: true,
+});
+
 export {
   Color,
   ColorHighlighter,
   HorizontalRuleExtensionX as HorizontalRuleExtension,
+  MarkdownX as Markdown,
   PlaceholderX as Placeholder,
   ResizableMedia,
   ResizableMediaWithUploader,
