@@ -192,8 +192,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3(@tiptap/core@2.0.3)(@tiptap/pm@2.0.3)
       '@tremor/react':
-        specifier: ^3.2.5
-        version: 3.2.5(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2)
+        specifier: ^3.2.6
+        version: 3.2.6(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2)
       '@upstash/qstash':
         specifier: ^0.3.6
         version: 0.3.6
@@ -5013,8 +5013,8 @@ packages:
       '@tiptap/pm': 2.0.3(@tiptap/core@2.0.3)
     dev: false
 
-  /@tremor/react@3.2.5(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2):
-    resolution: {integrity: sha512-xTxcd6DHaW1vTPYeUsHJe3PColPbBeIH5R7kbB/Q9DJTVSCHuBxUgp90IEjtwspYiZacbCr6Br5yp0cM8Vd9bA==}
+  /@tremor/react@3.2.6(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2):
+    resolution: {integrity: sha512-RUNMDV6U4C4E2v91wluR8j0XIxTDzk3ca7q5kw4gn99JVomS/cItGVIYaLUrhQzRFjpWa9LVz2SpgbNMrh2K3g==}
     peerDependencies:
       react: ^18.0.0
       react-dom: '>=16.6.0'
