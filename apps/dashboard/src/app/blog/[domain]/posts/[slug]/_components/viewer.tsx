@@ -5,27 +5,7 @@ import { EditorContent } from "@tiptap/react";
 import { Loader2 } from "lucide-react";
 
 import { useEditor } from "~/hooks/use-editor";
-import {
-  Color,
-  ColorHighlighter,
-  HorizontalRuleExtension,
-  Markdown,
-  Placeholder,
-  ResizableMedia,
-  SlashCommand,
-  SmileReplacer,
-  StarterKit,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  TaskItem,
-  TaskList,
-  TextStyle,
-  TiptapLink,
-  Underline,
-  Youtube,
-} from "~/lib/editor";
+import { TiptapExtensions } from "~/lib/editor";
 
 type Props = {
   value: JSONContent;
@@ -34,27 +14,7 @@ type Props = {
 export function Viewer({ value }: Props) {
   const editor = useEditor({
     editable: false,
-    extensions: [
-      StarterKit,
-      ColorHighlighter,
-      HorizontalRuleExtension,
-      ResizableMedia,
-      Placeholder,
-      SlashCommand,
-      SmileReplacer,
-      TiptapLink,
-      Youtube,
-      Underline,
-      TextStyle,
-      Color,
-      TaskItem,
-      TaskList,
-      Table,
-      TableCell,
-      TableHeader,
-      TableRow,
-      Markdown,
-    ],
+    extensions: [...TiptapExtensions],
     content: value,
   });
 

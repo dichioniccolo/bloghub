@@ -1,35 +1,16 @@
 import { useCallback, useEffect, useRef } from "react";
-import type { Editor as EditorType, JSONContent, Range } from "@tiptap/core";
+import type { Editor as EditorType, JSONContent } from "@tiptap/core";
 import { EditorContent } from "@tiptap/react";
 import { useCompletion } from "ai/react";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import type { MediaEnumType } from "@bloghub/db";
 
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { useEditor } from "~/hooks/use-editor";
-import {
-  Color,
-  ColorHighlighter,
-  HorizontalRuleExtension,
-  Markdown,
-  Placeholder,
-  ResizableMediaWithUploader,
-  SlashCommand,
-  SmileReplacer,
-  StarterKit,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  TaskItem,
-  TaskList,
-  TextStyle,
-  TiptapLink,
-  Underline,
-  Youtube,
-} from "~/lib/editor";
+import { TiptapExtensions } from "~/lib/editor";
+import { ResizableMediaWithUploader } from "~/lib/editor/extensions/resizable-media";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { AIBubbleMenu } from "./bubble-menu/ai";
 import { TableMenu } from "./table-menu";
@@ -130,70 +111,10 @@ export function Editor({
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      ColorHighlighter,
-      HorizontalRuleExtension,
+      ...TiptapExtensions,
       ResizableMediaWithUploader.configure({
         uploadFn: uploadFile,
       }),
-      Placeholder,
-      SlashCommand.configure({
-        suggestion: {
-          items: async ({ query, editor }) =>
-            [
-              {
-                title: "Continue writing",
-                description: "Use AI to expand your thoughts",
-                searchTerms: ["gpt"],
-                icon: <Sparkles className="h-7 w-7" />,
-                command: ({
-                  editor,
-                  range,
-                }: {
-                  editor: EditorType;
-                  range: Range;
-                }) => {
-                  if (isLoading) {
-                    stop();
-                  } else {
-                    editor.commands.deleteRange(range);
-                    void complete(editor.getText());
-                  }
-                },
-              },
-              ...((await SlashCommand.options?.suggestion?.items?.({
-                query,
-                editor,
-              })) ?? []),
-            ].filter((item) => {
-              if (typeof query === "string" && query.length > 0) {
-                const search = query.toLowerCase();
-                return (
-                  item.title.toLowerCase().includes(search) ||
-                  item.description.toLowerCase().includes(search) ||
-                  (item.searchTerms &&
-                    item.searchTerms.some((term: string) =>
-                      term.includes(search),
-                    ))
-                );
-              }
-              return true;
-            }),
-        },
-      }),
-      SmileReplacer,
-      TiptapLink,
-      Youtube,
-      Underline,
-      TextStyle,
-      Color,
-      TaskItem,
-      TaskList,
-      Table,
-      TableCell,
-      TableHeader,
-      TableRow,
-      Markdown,
     ],
     content: value,
     onUpdate,

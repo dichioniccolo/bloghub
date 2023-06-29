@@ -12,11 +12,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { AutoSave, Form } from "~/components/ui/zod-form";
 import { updatePost } from "~/app/_actions/post/update-post";
-import { type GetPost } from "~/app/_api/posts";
-import {
-  EditPostSchema,
-  type EditPostSchemaType,
-} from "~/lib/validation/schema";
+import type { GetPost } from "~/app/_api/posts";
+import type { EditPostSchemaType } from "~/lib/validation/schema";
+import { EditPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 import { Editor } from "./editor";
 
@@ -58,7 +56,7 @@ export function EditPostForm({ post }: Props) {
       schema={EditPostSchema}
       onSubmit={onSubmit}
       initialValues={initialValues}
-      className="grid grid-cols-1 gap-2 overflow-hidden"
+      className="grid grid-cols-1 gap-2"
       disableOnSubmitting={false}
     >
       <AutoSave

@@ -1,11 +1,20 @@
-import * as React from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import type { Editor, Range } from "@tiptap/core";
+import { useCompletion } from "ai/react";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import type { CommandItemProps } from "./items";
 
 type Props = {
   items: CommandItemProps[];
-  command: (item: CommandItemProps, editor: Editor, range: Range) => void;
+  command: (item: CommandItemProps) => void;
   editor: Editor;
   range: Range;
 };
@@ -25,23 +34,47 @@ const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
 };
 
 export const CommandList = ({ items, command, editor, range }: Props) => {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const selectItem = React.useCallback(
-    (index: number) => {
-      const item = items[index];
-      if (!item) {
+  const { complete, isLoading } = useCompletion({
+    id: "editor",
+    api: "/api/generate",
+    onResponse: (response) => {
+      if (response.status === 429) {
+        toast.error("You have reached your request limit for the day.");
         return;
       }
-
-      // ideally here we'd want to call the handler for the selected item.
-      // this could be even put react contexts, in order to be able to use
-      command(item, editor, range);
+      editor.chain().focus().deleteRange(range).run();
     },
-    [items, command, editor, range],
+    onFinish: (_prompt, completion) => {
+      // highlight the generated text
+      editor.commands.setTextSelection({
+        from: range.from,
+        to: range.from + completion.length,
+      });
+    },
+    onError: () => {
+      toast.error("Something went wrong.");
+    },
+  });
+
+  const selectItem = useCallback(
+    (index: number) => {
+      const item = items[index];
+      if (item) {
+        if (item.title === "Continue writing") {
+          // we're using this for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
+          void complete(editor.getText());
+          // complete(editor.storage.markdown.getMarkdown());
+        } else {
+          command(item);
+        }
+      }
+    },
+    [complete, command, editor, items],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.key)) {
         return;
@@ -70,13 +103,13 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     };
   }, [items, selectedIndex, setSelectedIndex, selectItem]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedIndex(0);
   }, [items]);
 
-  const commandListContainer = React.useRef<HTMLDivElement>(null);
+  const commandListContainer = useRef<HTMLDivElement>(null);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const container = commandListContainer?.current;
 
     const item = container?.children[selectedIndex] as HTMLElement;
@@ -88,7 +121,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     <div
       id="slash-command"
       ref={commandListContainer}
-      className="z-50 h-auto max-h-[350px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
+      className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto scroll-smooth rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
     >
       {items.map((item: CommandItemProps, index: number) => {
         return (
@@ -100,7 +133,11 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
             onClick={() => selectItem(index)}
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-white">
-              {item.icon}
+              {item.title === "Continue writing" && isLoading ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                item.icon
+              )}
             </div>
             <div>
               <p className="font-medium">{item.title}</p>

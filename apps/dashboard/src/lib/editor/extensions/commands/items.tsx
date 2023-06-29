@@ -9,7 +9,7 @@ import {
   Heading3,
   List,
   ListOrdered,
-  Table,
+  Sparkles,
   Text,
   TextQuote,
 } from "lucide-react";
@@ -30,6 +30,15 @@ export type CommandItemProps = {
 export const getSuggestionItems = ({ query }: { query: string }) => {
   return (
     [
+      {
+        title: "Continue writing",
+        description: "Use AI to expand your thoughts.",
+        searchTerms: ["gpt"],
+        icon: <Sparkles className="w-7 text-black" />,
+        command: () => {
+          //
+        },
+      },
       {
         title: "Text",
         description: "Just start typing with plain text.",
@@ -144,20 +153,20 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         command: ({ editor, range }: Command) =>
           editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
       },
-      {
-        title: "Table",
-        description: "Add a table view to organize data.",
-        searchTerms: ["table"],
-        icon: <Table size={18} />,
-        command: ({ editor, range }: Command) => {
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-            .run();
-        },
-      },
+      // {
+      //   title: "Table",
+      //   description: "Add a table view to organize data.",
+      //   searchTerms: ["table"],
+      //   icon: <Table size={18} />,
+      //   command: ({ editor, range }: Command) => {
+      //     editor
+      //       .chain()
+      //       .focus()
+      //       .deleteRange(range)
+      //       .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+      //       .run();
+      //   },
+      // },
     ] satisfies CommandItemProps[]
   ).filter((item) => {
     if (typeof query === "string" && query.length > 0) {
