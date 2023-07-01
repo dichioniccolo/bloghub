@@ -249,8 +249,8 @@ importers:
         specifier: ^4.22.1
         version: 4.22.1(next@13.4.7)(react-dom@18.2.0)(react@18.2.0)
       openai-edge:
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.1.1
+        version: 1.1.1
       pusher:
         specifier: ^5.1.3
         version: 5.1.3(encoding@0.1.13)
@@ -9049,9 +9049,9 @@ packages:
       mimic-fn: 2.1.0
     dev: false
 
-  /openai-edge@1.1.0:
-    resolution: {integrity: sha512-VkXT7yhKjr1QlC/wIMuPW/s003cPHUtiNjt/kH+54iKDZZ7eiGMPuymhpSWJ/zVZfVz6+94okGd6rNuu7JRBDw==}
-    engines: {node: '>=12'}
+  /openai-edge@1.1.1:
+    resolution: {integrity: sha512-dVbGYFU4kzHeqzUYlJQuLgahB5BvGCjuyVQMiet3WLTq5AIueyS572wLLSn764wKdjWbl8xurFL9cjmwlpAO5w==}
+    engines: {node: '>=18'}
     dev: false
 
   /openid-client@5.4.2:
