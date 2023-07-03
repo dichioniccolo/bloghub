@@ -70,7 +70,7 @@
     "@vercel/edge-config": "^0.2.1",
     "@vercel/kv": "^0.2.2",
     "ai": "^2.1.14",
-    "aws-crt": "^1.15.19",
+    "aws-crt": "^1.15.20",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
