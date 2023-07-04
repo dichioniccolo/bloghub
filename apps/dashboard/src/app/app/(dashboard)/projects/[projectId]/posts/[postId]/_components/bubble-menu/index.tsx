@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BubbleMenu, BubbleMenuProps } from "@tiptap/react";
+import type { BubbleMenuProps } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react";
 import {
   BoldIcon,
   CodeIcon,

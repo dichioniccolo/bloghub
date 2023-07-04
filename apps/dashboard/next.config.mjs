@@ -83,6 +83,18 @@ const config = {
       headers: securityHeaders,
     },
   ],
+  modularizeImports: {
+    "lucide-react": {
+      transform: "lucide-react/{{lowerCase kebabCase member}}",
+      skipDefaultConversion: true,
+      preventFullImport: true,
+    },
+  },
+  compiler: {
+    removeConsole: {
+      exclude: ["error", "warn"],
+    },
+  },
   // only if deploying with docker
   // output: "standalone",
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
