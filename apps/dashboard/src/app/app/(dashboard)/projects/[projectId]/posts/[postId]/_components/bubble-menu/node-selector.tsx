@@ -1,5 +1,6 @@
-import { useEffect, type Dispatch, type SetStateAction } from "react";
-import { Editor } from "@tiptap/core";
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect } from "react";
+import type { Editor } from "@tiptap/core";
 import { Command } from "cmdk";
 import {
   Check,
@@ -15,7 +16,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "~/lib/cn";
-import { type BubbleMenuItem } from "./index";
+import type { BubbleMenuItem } from "./index";
 
 interface NodeSelectorProps {
   editor: Editor;
@@ -116,7 +117,7 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
   return (
     <div className="relative h-full">
       <button
-        className="flex h-full items-center gap-1 border-r border-border p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
+        className="flex h-full items-center gap-1 whitespace-nowrap border-r border-border p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="whitespace-nowrap">{activeItem?.name}</span>

@@ -95,3 +95,8 @@ ul[data-type="taskList"] li[data-checked="true"] > div > p {
 .ProseMirror table * .is-empty::before {
   opacity: 0;
 }
+
+/* Overwrite tippy-box original max-width */
+.tippy-box {
+  max-width: 400px !important;
+}
