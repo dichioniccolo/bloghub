@@ -1,4 +1,4 @@
-import { type Metadata, type ServerRuntime } from "next";
+import type { ServerRuntime } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -23,25 +23,6 @@ export const dynamic = "force-dynamic";
 
 const POSTS_PER_PAGE = 10;
 
-export async function generateMetadata({
-  params: { domain },
-}: Props): Promise<Metadata> {
-  const project = await getProjectByDomain(domain);
-
-  if (!project) {
-    return {};
-  }
-
-  return {
-    title: `${project.name}'s Blog`,
-    themeColor: [
-      { media: "(prefers-color-scheme: light)", color: "white" },
-      { media: "(prefers-color-scheme: dark)", color: "black" },
-    ],
-    metadataBase: new URL(`https://${domain}`),
-  };
-}
-
 export default async function Page({
   params: { domain },
   searchParams,
@@ -51,7 +32,7 @@ export default async function Page({
   const project = await getProjectByDomain(domain);
 
   if (!project) {
-    return redirect(env.NEXT_PUBLIC_APP_DOMAIN);
+    redirect(env.NEXT_PUBLIC_APP_DOMAIN);
   }
 
   const { posts } = await getPostsByDomain(domain, page, POSTS_PER_PAGE);

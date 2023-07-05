@@ -4,6 +4,7 @@ import { getToken } from "next-auth/jwt";
 
 import { env } from "./env.mjs";
 import { recordVisit } from "./lib/middleware-utils";
+import { TEST_HOSTNAME } from "./lib/utils";
 
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl;
@@ -29,10 +30,8 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.rewrite(new URL(`/api${path}`, req.url));
   }
 
-  const testHostname = "test.niccolodichio.it";
-
   const finalHostname =
-    env.NODE_ENV === "development" ? testHostname : hostname;
+    env.NODE_ENV === "development" ? TEST_HOSTNAME : hostname;
 
   ev.waitUntil(recordVisit(req, finalHostname));
 

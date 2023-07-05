@@ -72,6 +72,7 @@ export async function getPostBySlug(domain: string, slug: string) {
       project: {
         name: projects.name,
         logo: projects.logo,
+        domain: projects.domain,
       },
     })
     .from(posts)

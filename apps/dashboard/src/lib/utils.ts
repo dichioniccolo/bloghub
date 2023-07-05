@@ -1,5 +1,15 @@
-import { type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { format } from "date-fns";
+
+export const TEST_HOSTNAME = "test.niccolodichio.it";
+
+export const truncate = (str: string, num: number) => {
+  if (!str) return "";
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + "...";
+};
 
 export function parseRequest(req: NextRequest) {
   const path = req.nextUrl.pathname;

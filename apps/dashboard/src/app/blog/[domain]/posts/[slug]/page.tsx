@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { ServerRuntime, type Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
@@ -22,9 +22,22 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const post = await getPostBySlug(domain, slug);
 
+  const title = `${post?.title} | ${post?.project.name}'s Blog`;
+  const description = post?.description ?? undefined;
+
   return {
-    title: `${post?.title} | ${post?.project.name}'s Blog`,
-    description: post?.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      creator: "@bloghub",
+    },
   };
 }
 
@@ -53,17 +66,15 @@ export default async function Page({ params: { domain, slug } }: Props) {
           {/** add who created this post, if it's a team, we need to decide who to show */}
         </div>
       </div>
-      {post.thumbnailUrl && (
-        <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
-          <Image
-            alt={post.title}
-            src={post.thumbnailUrl}
-            width={1280}
-            height={720}
-            className="h-full w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
-          />
-        </div>
-      )}
+      <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
+        <Image
+          alt={post.title ?? "Post image"}
+          width={1200}
+          height={630}
+          className="h-full w-full object-cover"
+          src={post.thumbnailUrl ?? "/placeholder.png"}
+        />
+      </div>
       <div className="m-10">
         <Viewer value={post.content} />
       </div>
