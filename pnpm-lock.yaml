@@ -423,8 +423,8 @@ importers:
         specifier: ^7.2.1
         version: 7.2.1
       drizzle-kit:
-        specifier: ^0.19.3
-        version: 0.19.3
+        specifier: ^0.19.4
+        version: 0.19.4
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@20.4.1)(typescript@5.1.6)
@@ -6711,8 +6711,8 @@ packages:
       wordwrap: 1.0.0
     dev: true
 
-  /drizzle-kit@0.19.3:
-    resolution: {integrity: sha512-G3Es+gPbQcTka0eKdDyzhgyDAWP5nfZpRXtKEND8Cl1Ww0Tn71yV/CYNbYk+gxg5x5+jeBIN7kM/bZ/agGBxYw==}
+  /drizzle-kit@0.19.4:
+    resolution: {integrity: sha512-mbWdaGcYGLGM+HLGhLv5gH3h4ZMD+dil6T2fS36IAt72XmCn3snw1mVxGVHJPDzSKIzz3W7vABe4PbIpRqLM2A==}
     hasBin: true
     dependencies:
       '@drizzle-team/studio': 0.0.1
