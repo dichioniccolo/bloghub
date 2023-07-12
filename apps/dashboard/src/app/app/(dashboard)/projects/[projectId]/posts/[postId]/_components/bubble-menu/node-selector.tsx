@@ -117,7 +117,7 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
   return (
     <div className="relative h-full">
       <button
-        className="flex h-full items-center gap-1 whitespace-nowrap border-r border-border p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
+        className="flex h-full items-center gap-1 whitespace-nowrap p-2 text-sm font-medium  hover:bg-muted active:bg-muted"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="whitespace-nowrap">{activeItem?.name}</span>
@@ -126,7 +126,7 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
       </button>
 
       {isOpen && (
-        <Command className="fixed top-full z-[99999] mt-1 flex w-48 flex-col overflow-hidden rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
+        <Command className="fixed top-full z-[99999] mt-1 flex w-48 flex-col gap-1 overflow-hidden rounded border bg-background p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
           <Command.List>
             {items.map((item, index) => (
               <Command.Item
@@ -136,14 +136,11 @@ export function NodeSelector({ editor, isOpen, setIsOpen }: NodeSelectorProps) {
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100",
-                  {
-                    "text-blue-600": item.isActive(),
-                  },
+                  "flex items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-muted",
                 )}
               >
                 <div className="flex items-center space-x-2">
-                  <div className="rounded-sm border border-stone-200 p-1">
+                  <div className="rounded-sm border p-1">
                     <item.icon className="h-3 w-3" />
                   </div>
                   <span>{item.name}</span>

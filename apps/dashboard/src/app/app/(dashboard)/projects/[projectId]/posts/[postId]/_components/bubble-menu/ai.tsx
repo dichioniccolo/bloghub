@@ -12,14 +12,8 @@ export function AIBubbleMenu({ editor }: Props) {
   const { completion, isLoading } = useCompletion({
     id: "editor-edit",
     api: "/api/generate",
-    onResponse(response) {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      } else if (response.status === 403) {
-        toast.error("You are not allowed to use ai until you upgrade to pro.");
-        return;
-      }
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

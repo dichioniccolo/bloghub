@@ -86,7 +86,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
   return (
     <BubbleMenu
       {...bubbleMenuProps}
-      className="flex w-fit divide-x divide-stone-200 rounded border border-stone-200 bg-white shadow-xl"
+      className="flex w-fit max-w-[97vw] divide-x overflow-x-auto rounded border bg-background shadow-xl"
     >
       <AISelector
         editor={editor}
@@ -123,7 +123,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
           <button
             key={index}
             onClick={item.command}
-            className="p-2 text-stone-600 hover:bg-stone-100 active:bg-stone-200"
+            className="p-2 hover:bg-muted active:bg-muted"
           >
             <item.icon
               className={cn("h-4 w-4", {

@@ -40,11 +40,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
   const { complete, isLoading } = useCompletion({
     id: "editor",
     api: "/api/generate",
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      }
+    onResponse: () => {
       editor.chain().focus().deleteRange(range).run();
     },
     onFinish: (_prompt, completion) => {
@@ -54,8 +50,8 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
         to: range.from + completion.length,
       });
     },
-    onError: () => {
-      toast.error("Something went wrong.");
+    onError: (e) => {
+      toast.error(e.message);
     },
   });
 
@@ -126,18 +122,18 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     <div
       id="slash-command"
       ref={commandListContainer}
-      className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
+      className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border bg-background px-1 py-2 shadow-md transition-all"
     >
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
+            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-muted ${
               index === selectedIndex ? "bg-stone-100 text-stone-900" : ""
             }`}
             key={index}
             onClick={() => selectItem(index)}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary-foreground text-primary">
               {item.title === "Continue writing" && isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (
@@ -146,7 +142,9 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
             </div>
             <div>
               <p className="font-medium">{item.title}</p>
-              <p className="text-xs text-stone-500">{item.description}</p>
+              <p className="text-xs text-muted-foreground">
+                {item.description}
+              </p>
             </div>
           </button>
         );

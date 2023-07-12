@@ -26,14 +26,14 @@ export const LinkSelector: FC<LinkSelectorProps> = ({
   return (
     <div className="relative">
       <button
-        className="flex h-full items-center space-x-2 px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
+        className="left-0 flex h-full items-center space-x-2 px-3 py-1.5 text-sm font-medium hover:bg-muted active:bg-muted sm:left-auto"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
         <p className="text-base">↗</p>
         <p
-          className={cn("underline decoration-stone-400 underline-offset-4", {
+          className={cn("underline decoration-muted underline-offset-4", {
             "text-blue-500": editor.isActive("link"),
           })}
         >
@@ -41,7 +41,7 @@ export const LinkSelector: FC<LinkSelectorProps> = ({
         </p>
       </button>
       {isOpen && (
-        <div className="fixed top-full z-[99999] mt-1 flex w-60 overflow-hidden rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
+        <div className="fixed top-full z-[99999] mt-1 flex w-60 overflow-hidden rounded border bg-background p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
           <input
             ref={inputRef}
             type="url"

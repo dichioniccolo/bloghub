@@ -31,7 +31,7 @@ export async function POST(req: Request): Promise<Response> {
       .then((x) => x[0]!);
 
     if (!dbUser) {
-      return new Response("Unauthorized", {
+      return new Response("You are unauthorized to perform this action", {
         status: 401,
       });
     }
@@ -39,7 +39,7 @@ export async function POST(req: Request): Promise<Response> {
     const isPro = await isUserPro(dbUser.stripeSubscriptionId);
 
     if (!isPro) {
-      return new Response("Forbidden", {
+      return new Response("You must be a pro member to use AI features", {
         status: 403,
       });
     }
@@ -96,6 +96,13 @@ export async function POST(req: Request): Promise<Response> {
     stream: true,
     n: 1,
   });
+
+  // If the response is unauthorized, return a 500 error
+  if (response.status === 401) {
+    return new Response("You are unauthorized to perform this action", {
+      status: 500,
+    });
+  }
 
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
