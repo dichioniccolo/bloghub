@@ -76,11 +76,6 @@ export async function POST(req: Request): Promise<Response> {
 
   const { prompt } = parsedResult.data;
 
-  // remove line breaks,
-  // remove trailing slash
-  // limit to the last 5000 characters
-  const promptCleaned = prompt.replace(/\/$/, "").slice(-5000);
-
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
@@ -93,7 +88,7 @@ export async function POST(req: Request): Promise<Response> {
         // we're disabling markdown for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
         // "Use Markdown formatting when appropriate.",
       },
-      { role: "user", content: promptCleaned },
+      { role: "user", content: prompt },
     ],
     temperature: 0.7,
     frequency_penalty: 0,

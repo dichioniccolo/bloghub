@@ -54,7 +54,7 @@ export function ProjectInvitation({
         </div>
         <div className="flex items-center justify-center space-x-2">
           <div className="flex flex-col">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-stone-500">
               Invited{" "}
               {formatDistance(invite.createdAt, new Date(), {
                 addSuffix: true,

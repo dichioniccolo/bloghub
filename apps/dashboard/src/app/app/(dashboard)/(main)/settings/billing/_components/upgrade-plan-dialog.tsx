@@ -106,10 +106,10 @@ export function UpgradePlanDialog({ proPlans }: Props) {
               {plan?.name}
             </h3>
             <div className="flex items-center">
-              <p className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
+              <p className="text-2xl font-semibold text-stone-700 dark:text-stone-300">
                 €{plan?.prices[period]?.unit_amount ?? ""}
               </p>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-stone-700 dark:text-stone-300">
                 /{annualBilling ? "yr" : "mo"}
               </p>
             </div>
@@ -123,7 +123,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
                 max={proPlans.length - 1}
               />
             )}
-            <p className="text-sm text-gray-700 dark:text-gray-300">
+            <p className="text-sm text-stone-700 dark:text-stone-300">
               Up to {formatNumber(plan?.quota ?? 0)} post clicks/mo
             </p>
           </div>

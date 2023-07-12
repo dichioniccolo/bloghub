@@ -9,7 +9,7 @@ import type { MediaEnumType } from "@bloghub/db";
 
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { useEditor } from "~/hooks/use-editor";
-import { TiptapExtensions } from "~/lib/editor";
+import { getPrevText, TiptapExtensions } from "~/lib/editor";
 import { ResizableMediaWithUploader } from "~/lib/editor/extensions/resizable-media";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { AIBubbleMenu } from "./bubble-menu/ai";
@@ -49,23 +49,14 @@ export function Editor({
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "editor",
     api: "/api/generate",
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      } else if (response.status === 403) {
-        toast.error("You are not allowed to use ai until you upgrade to pro.");
-        return;
-      }
-    },
     onFinish: (_prompt, completion) => {
       editor?.commands.setTextSelection({
         from: editor.state.selection.from - completion.length,
         to: editor.state.selection.from,
       });
     },
-    onError: () => {
-      toast.error("Something went wrong.");
+    onError: (err) => {
+      toast.error(err.message);
     },
   });
 
@@ -75,18 +66,20 @@ export function Editor({
 
       const selection = editor.state.selection;
 
-      const lastTwo = editor.state.doc.textBetween(
-        selection.from - 2,
-        selection.from,
-        "\n",
-      );
+      const lastTwo = getPrevText(editor, {
+        chars: 2,
+      });
 
       if (lastTwo === "++" && !isLoading) {
         editor.commands.deleteRange({
           from: selection.from - 2,
           to: selection.from,
         });
-        void complete(editor.getText());
+        void complete(
+          getPrevText(editor, {
+            chars: 5000,
+          }),
+        );
       } else {
         onChange?.(editor.getJSON());
       }
@@ -150,13 +143,18 @@ export function Editor({
       }
     };
 
-    const mouseDownHandler = async (e: MouseEvent) => {
+    const mouseDownHandler = (e: MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
       stop();
 
       if (window.confirm("AI writing paused. Continue?")) {
-        await complete(editor?.getText() ?? "");
+        void complete(
+          getPrevText(editor!, {
+            chars: 5000,
+            offset: 0,
+          }),
+        );
       }
     };
 
@@ -183,7 +181,7 @@ export function Editor({
       onClick={() => {
         editor.chain().focus().run();
       }}
-      className="min-h-[500px] w-full py-12 sm:mb-[calc(20vh)]"
+      className="min-h-[500px] w-full bg-background py-12 sm:mb-[calc(20vh)]"
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />

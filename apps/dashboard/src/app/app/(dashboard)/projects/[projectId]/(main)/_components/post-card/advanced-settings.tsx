@@ -1,6 +1,6 @@
 "use client";
 
-import { type Dispatch, type SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
@@ -21,7 +21,7 @@ import {
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
-import { type QRProps } from "~/lib/qr";
+import type { QRProps } from "~/lib/qr";
 
 type AdvancedSettingsProps = {
   isOwnerPro: boolean;
@@ -56,7 +56,7 @@ export function AdvancedSettings({
                   </div>
                 </TooltipTrigger>
                 <TooltipContent className="flex max-w-sm flex-col gap-4 p-4">
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <p className="text-sm text-stone-700 dark:text-stone-300">
                     As a freemium product, we rely on word of mouth to spread
                     the word about {env.NEXT_PUBLIC_APP_NAME}. If you&apos;d
                     like to remove the {env.NEXT_PUBLIC_APP_NAME} logo/upload

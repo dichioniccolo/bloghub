@@ -43,11 +43,11 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
     (
       <div tw="flex flex-col items-center w-full h-full bg-white">
         <div tw="flex flex-col items-center justify-center mt-8">
-          <h1 tw="text-6xl font-bold text-gray-900 leading-none tracking-tight">
+          <h1 tw="text-6xl font-bold text-stone-900 leading-none tracking-tight">
             {post.title}
           </h1>
           {post.description && (
-            <p tw="mt-4 text-xl text-gray-600 max-w-xl text-center">
+            <p tw="mt-4 text-xl text-stone-600 max-w-xl text-center">
               {truncate(post.description, 120)}
             </p>
           )}
@@ -59,11 +59,13 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
                 alt={post.project.name}
               />
             )}
-            <p tw="text-xl font-medium text-gray-900">by {post.project.name}</p>
+            <p tw="text-xl font-medium text-stone-900">
+              by {post.project.name}
+            </p>
           </div>
           {post.thumbnailUrl && (
             <img
-              tw="mt-4 w-5/6 rounded-2xl border border-gray-200 shadow-md"
+              tw="mt-4 w-5/6 rounded-2xl border border-stone-200 shadow-md"
               src={post.thumbnailUrl}
               alt={post.title}
             />

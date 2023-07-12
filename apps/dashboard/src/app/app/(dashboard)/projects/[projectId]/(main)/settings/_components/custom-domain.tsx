@@ -67,7 +67,7 @@ export function CustomDomain({ project }: Props) {
           {(project.domainVerified || data?.verified === true) && (
             <>
               <CheckCircle className="h-6 w-6 text-blue-500" />
-              <p className="text-sm text-gray-500">Verified</p>
+              <p className="text-sm text-stone-500">Verified</p>
             </>
           )}
 
@@ -106,10 +106,10 @@ export function CustomDomainPlaceholder() {
       <CardContent>
         <div className="flex flex-col space-y-3 px-5 sm:px-10">
           <div className="flex flex-col justify-between space-y-4 sm:flex-row sm:space-x-4">
-            <div className="h-8 w-32 rounded-md bg-gray-200" />
+            <div className="h-8 w-32 rounded-md bg-stone-200" />
             <div className="flex space-x-3">
-              <div className="h-9 w-24 rounded-md bg-gray-200" />
-              <div className="h-9 w-24 rounded-md bg-gray-200" />
+              <div className="h-9 w-24 rounded-md bg-stone-200" />
+              <div className="h-9 w-24 rounded-md bg-stone-200" />
             </div>
           </div>
           <div className="flex h-10 items-center space-x-2">

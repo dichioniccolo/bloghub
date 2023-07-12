@@ -45,7 +45,7 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
             {member.user.name ? (
               <>
                 <h3 className="text-sm font-medium">{member.user.name}</h3>
-                <p className="text-xs text-gray-500">{member.user.email}</p>
+                <p className="text-xs text-stone-500">{member.user.email}</p>
               </>
             ) : (
               <h3 className="text-sm font-medium">{member.user.email}</h3>
@@ -54,8 +54,8 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
         </div>
         <div className="flex items-center justify-center space-x-2">
           <div className="flex flex-col">
-            <p className="text-sm text-gray-500">{member.role}</p>
-            <p className="text-xs text-gray-500">
+            <p className="text-sm text-stone-500">{member.role}</p>
+            <p className="text-xs text-stone-500">
               Joined{" "}
               {formatDistance(member.createdAt, new Date(), {
                 addSuffix: true,

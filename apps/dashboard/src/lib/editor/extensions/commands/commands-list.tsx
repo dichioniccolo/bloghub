@@ -10,6 +10,7 @@ import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { getPrevText } from "../..";
 import type { CommandItemProps } from "./items";
 
 type Props = {
@@ -64,8 +65,12 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
       if (item) {
         if (item.title === "Continue writing") {
           // we're using this for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
-          void complete(editor.getText());
-          // complete(editor.storage.markdown.getMarkdown());
+          void complete(
+            getPrevText(editor, {
+              chars: 5000,
+              offset: 1,
+            }),
+          );
         } else {
           command(item);
         }
@@ -121,7 +126,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     <div
       id="slash-command"
       ref={commandListContainer}
-      className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto scroll-smooth rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
+      className="z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all"
     >
       {items.map((item: CommandItemProps, index: number) => {
         return (

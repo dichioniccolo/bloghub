@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { type VerifyDomain } from "~/app/_actions/project/verify-domain";
+import type { VerifyDomain } from "~/app/_actions/project/verify-domain";
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/cn";
 import { getSubDomain } from "~/lib/utils";
@@ -38,7 +38,7 @@ export function DomainConfigurations({ status }: Props) {
           <InlineSnippet>{status.domainJson.apexName}</InlineSnippet> to prove
           ownership of <InlineSnippet>{status.domainJson.name}</InlineSnippet>:
         </p>
-        <div className="my-5 flex items-start justify-start space-x-10 rounded-md bg-gray-50 p-2 dark:bg-gray-700">
+        <div className="my-5 flex items-start justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-700">
           <div>
             <p className="text-sm font-bold">Type</p>
             <p className="mt-2 font-mono text-sm">{txtVerification?.type}</p>
@@ -79,7 +79,7 @@ export function DomainConfigurations({ status }: Props) {
             "ease border-b-2 pb-1 text-sm transition-all duration-150",
             {
               "border-border": recordType === "A",
-              "border-none text-gray-400": recordType !== "A",
+              "border-none text-stone-400": recordType !== "A",
             },
           )}
         >
@@ -91,7 +91,7 @@ export function DomainConfigurations({ status }: Props) {
             "ease border-b-2 pb-1 text-sm transition-all duration-150",
             {
               "border-border": recordType === "CNAME",
-              "border-none text-gray-400": recordType !== "CNAME",
+              "border-none text-stone-400": recordType !== "CNAME",
             },
           )}
         >
@@ -109,7 +109,7 @@ export function DomainConfigurations({ status }: Props) {
           ), set the following {recordType} record on your DNS provider to
           continue:
         </p>
-        <div className="flex items-center justify-start space-x-10 rounded-md bg-gray-50 p-2 dark:bg-gray-700">
+        <div className="flex items-center justify-start space-x-10 rounded-md bg-stone-50 p-2 dark:bg-stone-700">
           <div>
             <p className="text-sm font-bold">Type</p>
             <p className="mt-2 font-mono text-sm">{recordType}</p>

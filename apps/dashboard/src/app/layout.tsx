@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import "~/styles/globals.css";
 import "~/styles/tiptap.css";
