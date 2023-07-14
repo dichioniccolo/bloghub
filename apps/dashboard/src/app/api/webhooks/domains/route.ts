@@ -137,6 +137,9 @@ export async function POST(req: Request) {
               ownerEmail: project.owner.email,
               unsubscribeUrl,
             }),
+            headers: {
+              "List-Unsubscribe": unsubscribeUrl,
+            },
           });
 
           await tx
@@ -174,6 +177,9 @@ export async function POST(req: Request) {
             ownerEmail: project.owner.email,
             unsubscribeUrl,
           }),
+          headers: {
+            "List-Unsubscribe": unsubscribeUrl,
+          },
         });
 
         await deleteProject(project);

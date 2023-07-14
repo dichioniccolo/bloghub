@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { get, has } from "@vercel/edge-config";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
@@ -47,6 +48,9 @@ const handler = NextAuth({
             userName: user?.name,
             userEmail: identifier,
           }),
+          headers: {
+            "X-Entity-Ref-ID": createId(),
+          },
         });
       },
     }),
@@ -79,6 +83,9 @@ const handler = NextAuth({
           userEmail: user.email,
           unsubscribeUrl,
         }),
+        headers: {
+          "List-Unsubscribe": unsubscribeUrl,
+        },
       });
     },
   },

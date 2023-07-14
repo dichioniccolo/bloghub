@@ -1,3 +1,5 @@
+import { createId } from "@paralleldrive/cuid2";
+
 import {
   db,
   EmailNotificationSetting,
@@ -11,10 +13,8 @@ import { RemovedFromProject, sendMail } from "@bloghub/emails";
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
-import {
-  RemovedFromProjectNotificationSchema,
-  type RemovedFromProjectNotificationData,
-} from "~/lib/notifications";
+import type { RemovedFromProjectNotificationData } from "~/lib/notifications";
+import { RemovedFromProjectNotificationSchema } from "~/lib/notifications";
 import { pusherServer } from "~/lib/pusher-server";
 
 export async function handleRemovedFromProjectNotification(
@@ -83,6 +83,10 @@ export async function handleRemovedFromProjectNotification(
       unsubscribeUrl,
       userEmail,
     }),
+    headers: {
+      "X-Entity-Ref-ID": createId(),
+      "List-Unsubscribe": unsubscribeUrl,
+    },
   });
 
   return new Response(null, {

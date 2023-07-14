@@ -1,3 +1,5 @@
+import { createId } from "@paralleldrive/cuid2";
+
 import {
   and,
   db,
@@ -13,10 +15,8 @@ import { ProjectInvite, sendMail } from "@bloghub/emails";
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
-import {
-  ProjectInvitationNotificationSchema,
-  type ProjectInvitationNotificationData,
-} from "~/lib/notifications";
+import type { ProjectInvitationNotificationData } from "~/lib/notifications";
+import { ProjectInvitationNotificationSchema } from "~/lib/notifications";
 import { pusherServer } from "~/lib/pusher-server";
 
 export async function handleProjectInvitationNotification(
@@ -100,6 +100,9 @@ export async function handleProjectInvitationNotification(
       url,
       userEmail,
     }),
+    headers: {
+      "X-Entity-Ref-ID": createId(),
+    },
   });
 
   return new Response(null, {
