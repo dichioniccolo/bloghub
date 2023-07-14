@@ -3,7 +3,7 @@
 import { createId } from "@paralleldrive/cuid2";
 
 import { qstashClient } from "~/lib/qstash";
-import { type AppNotification } from "../notifications";
+import type { AppNotification } from "../notifications";
 
 export async function publishNotification<T extends AppNotification["type"]>(
   type: T,

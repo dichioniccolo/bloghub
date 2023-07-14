@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { type Notification, type NotificationStatusType } from "@bloghub/db";
+import type { Notification, NotificationStatusType } from "@bloghub/db";
 
 export type ProjectInvitationNotification = {
   type: typeof Notification.ProjectInvitation;
@@ -12,11 +12,20 @@ export type RemovedFromProjectNotification = {
   data: RemovedFromProjectNotificationData;
 };
 
+export type InvitationAcceptedNotification = {
+  type: typeof Notification.InvitationAccepted;
+  data: InvitationAcceptedNotificationData;
+};
+
 export type AppNotification = {
   id: string;
   status: NotificationStatusType;
   createdAt: Date;
-} & (ProjectInvitationNotification | RemovedFromProjectNotification);
+} & (
+  | ProjectInvitationNotification
+  | RemovedFromProjectNotification
+  | InvitationAcceptedNotification
+);
 
 export function isProjectInvitationNotification(
   notification: AppNotification,
@@ -36,6 +45,15 @@ export function isRemovedFromProjectNotification(
   return notification.type === 2;
 }
 
+export function isInvitationAcceptedNotification(
+  notification: AppNotification,
+): notification is Extract<
+  AppNotification,
+  { type: typeof Notification.InvitationAccepted }
+> {
+  return notification.type === 3;
+}
+
 export const ProjectInvitationNotificationSchema = z.object({
   projectId: z.string().nonempty(),
   projectName: z.string().nonempty(),
@@ -53,4 +71,14 @@ export const RemovedFromProjectNotificationSchema = z.object({
 
 export type RemovedFromProjectNotificationData = z.input<
   typeof RemovedFromProjectNotificationSchema
+>;
+
+export const InvitationAcceptedNotificationSchema = z.object({
+  projectId: z.string().nonempty(),
+  projectName: z.string().nonempty(),
+  userEmail: z.string().email(),
+});
+
+export type InvitationAcceptedNotificationData = z.input<
+  typeof InvitationAcceptedNotificationSchema
 >;

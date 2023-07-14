@@ -11,6 +11,7 @@ export type EmailNotificationSettingType =
 export const Notification = {
   ProjectInvitation: 1,
   RemovedFromProject: 2,
+  InvitationAccepted: 3,
 } as const;
 
 export type NotificationType = (typeof Notification)[keyof typeof Notification];

@@ -8,14 +8,17 @@ import {
   db,
   eq,
   gte,
+  Notification,
   projectInvitations,
   projectMembers,
+  projects,
   Role,
   users,
 } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { AppRoutes } from "~/lib/common/routes";
+import { publishNotification } from "~/lib/notifications/publish";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const acceptInvite = zactAuthenticated(
@@ -93,6 +96,18 @@ export const acceptInvite = zactAuthenticated(
       projectId,
       userId,
       role: Role.Editor,
+    });
+
+    const project = await tx
+      .select({ name: projects.name })
+      .from(projects)
+      .where(eq(projects.id, projectId))
+      .then((x) => x[0]!);
+
+    await publishNotification(Notification.InvitationAccepted, {
+      projectId,
+      projectName: project.name,
+      userEmail: user.email,
     });
   });
 

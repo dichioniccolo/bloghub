@@ -1,12 +1,10 @@
 import {
   Body,
-  Button,
   Container,
   Heading,
   Hr,
   Html,
   Img,
-  Link,
   Preview,
   Section,
   Tailwind,
@@ -16,17 +14,19 @@ import {
 import { env } from "../env.mjs";
 import Head from "./components/Head";
 
-interface ProjectInviteProps {
+interface ProjectInviteAcceptedProps {
   siteName: string;
-  url: string;
+  ownerEmail: string;
+  ownerName?: string | null;
   userEmail?: string;
 }
 
-export const ProjectInvite = ({
+export const ProjectInviteAccepted = ({
   siteName = "MyBlog",
-  url = "https://google.com",
-  userEmail = "me@email.com",
-}: ProjectInviteProps) => {
+  ownerEmail = "owner@email.com",
+  ownerName = "John Doe",
+  userEmail = "user@email.com",
+}: ProjectInviteAcceptedProps) => {
   const previewText = `You have been invited to join a project on ${siteName}`;
 
   return (
@@ -46,35 +46,19 @@ export const ProjectInvite = ({
               />
             </Section>
             <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
-              Invitation on <strong>{siteName}</strong>
+              Invitation accepted
             </Heading>
             <Text className="text-[14px] leading-[24px] text-black">
-              Hello {userEmail},
+              Hello {ownerName ?? ownerEmail},
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              you have been invited to join a project on{" "}
-              <strong>{siteName}</strong>.
-            </Text>
-            <Section className="mb-[32px] mt-[32px] text-center">
-              <Button
-                pX={20}
-                pY={12}
-                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
-                href={url}
-              >
-                Accept
-              </Button>
-            </Section>
-            <Text className="text-[14px] leading-[24px] text-black">
-              or copy and paste this URL into your browser:{" "}
-              <Link href={url} className="text-blue-600 no-underline">
-                {url}
-              </Link>
+              the user {userEmail} has accepted your invitation to join your
+              project on <strong>{siteName}</strong>.
             </Text>
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">
-              This link was intended for{" "}
-              <span className="text-black">{userEmail}</span>.
+              This email was intended for{" "}
+              <span className="text-black">{ownerEmail}</span>.
               {/* This link was
               sent from <span className="text-black">{linkFromIp}</span> located
               in <span className="text-black">{linkFromLocation}</span>. */}{" "}
@@ -88,4 +72,4 @@ export const ProjectInvite = ({
   );
 };
 
-export default ProjectInvite;
+export default ProjectInviteAccepted;

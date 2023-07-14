@@ -23,10 +23,12 @@ import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/common/routes";
 import type { AppNotification } from "~/lib/notifications";
 import {
+  isInvitationAcceptedNotification,
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
 } from "~/lib/notifications";
 import { useZact } from "~/lib/zact/client";
+import { InvitationAccepted } from "./types/invitation-accepted";
 
 export function NotificationsPopover() {
   const { notifications, unreadCount } = useNotifications();
@@ -96,6 +98,15 @@ export function NotificationsPopover() {
                   if (isRemovedFromProjectNotification(notification)) {
                     return (
                       <RemovedFromProject
+                        key={notification.id}
+                        notification={notification}
+                      />
+                    );
+                  }
+
+                  if (isInvitationAcceptedNotification(notification)) {
+                    return (
+                      <InvitationAccepted
                         key={notification.id}
                         notification={notification}
                       />

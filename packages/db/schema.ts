@@ -164,7 +164,7 @@ export const projectMembers = mysqlTable(
   "projectMembers",
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
-    userId: varchar("userId", { length: 255 }),
+    userId: varchar("userId", { length: 255 }).notNull(),
     role: varchar("role", {
       length: 255,
     })
@@ -244,16 +244,16 @@ export const likes = mysqlTable(
   }),
 );
 
-export const comments = mysqlTable("comments", {
-  id: varchar("id", { length: 255 }).primaryKey(),
-  userId: varchar("userId", { length: 255 }).notNull(),
-  postId: varchar("postId", { length: 255 }).notNull(),
-  content: text("content").notNull(),
-  parentId: varchar("parentId", { length: 255 }),
-  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP(3)`),
-});
+// export const comments = mysqlTable("comments", {
+//   id: varchar("id", { length: 255 }).primaryKey(),
+//   userId: varchar("userId", { length: 255 }).notNull(),
+//   postId: varchar("postId", { length: 255 }).notNull(),
+//   content: text("content").notNull(),
+//   parentId: varchar("parentId", { length: 255 }),
+//   createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
+//     .notNull()
+//     .default(sql`CURRENT_TIMESTAMP(3)`),
+// });
 
 export const media = mysqlTable("media", {
   id: varchar("id", { length: 255 }).primaryKey(),
@@ -306,7 +306,7 @@ export const userRelations = relations(users, ({ many }) => ({
   memberOfProjects: many(projectMembers),
   emailNotificationSettings: many(emailNotificationSettings),
   likedPosts: many(likes),
-  comments: many(comments),
+  // comments: many(comments),
   automaticEmails: many(automaticEmails),
 }));
 
@@ -377,7 +377,7 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
     references: [projects.id],
   }),
   likedBy: many(likes),
-  comments: many(comments),
+  // comments: many(comments),
   media: many(media),
 }));
 
@@ -392,21 +392,24 @@ export const likesRelations = relations(likes, ({ one }) => ({
   }),
 }));
 
-export const commentsRelations = relations(comments, ({ one, many }) => ({
-  user: one(users, {
-    fields: [comments.userId],
-    references: [users.id],
-  }),
-  post: one(posts, {
-    fields: [comments.postId],
-    references: [posts.id],
-  }),
-  parent: one(comments, {
-    fields: [comments.parentId],
-    references: [comments.id],
-  }),
-  children: many(comments),
-}));
+// export const commentsRelations = relations(comments, ({ one, many }) => ({
+//   user: one(users, {
+//     fields: [comments.userId],
+//     references: [users.id],
+//   }),
+//   post: one(posts, {
+//     fields: [comments.postId],
+//     references: [posts.id],
+//   }),
+//   parent: one(comments, {
+//     relationName: "parent",
+//     fields: [comments.parentId],
+//     references: [comments.id],
+//   }),
+//   children: many(comments, {
+//     relationName: "children",
+//   }),
+// }));
 
 export const mediaRelations = relations(media, ({ one }) => ({
   project: one(projects, {
