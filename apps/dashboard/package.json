@@ -93,7 +93,7 @@
     "react-hook-form": "^7.45.1",
     "sonner": "^0.6.2",
     "stripe": "^12.13.0",
-    "tailwind-merge": "^1.13.2",
+    "tailwind-merge": "^1.14.0",
     "tippy.js": "^6.3.7",
     "tiptap-markdown": "^0.8.1",
     "y-prosemirror": "^1.2.1",
