@@ -73,7 +73,7 @@
     "ai": "^2.1.20",
     "aws-crt": "^1.15.20",
     "class-variance-authority": "^0.6.1",
-    "clsx": "^1.2.1",
+    "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "dequal": "^2.0.3",
