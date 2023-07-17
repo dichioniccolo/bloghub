@@ -295,10 +295,10 @@ importers:
         version: 0.8.1(@tiptap/core@2.0.4)
       y-prosemirror:
         specifier: ^1.2.1
-        version: 1.2.1(prosemirror-model@1.19.2)(prosemirror-state@1.4.3)(prosemirror-view@1.31.5)(y-protocols@1.0.5)(yjs@13.6.6)
+        version: 1.2.1(prosemirror-model@1.19.2)(prosemirror-state@1.4.3)(prosemirror-view@1.31.5)(y-protocols@1.0.5)(yjs@13.6.7)
       yjs:
-        specifier: ^13.6.6
-        version: 13.6.6
+        specifier: ^13.6.7
+        version: 13.6.7
       zact:
         specifier: ^0.0.2
         version: 0.0.2(next@13.4.10)
@@ -11601,7 +11601,7 @@ packages:
     engines: {node: '>=0.4'}
     dev: false
 
-  /y-prosemirror@1.2.1(prosemirror-model@1.19.2)(prosemirror-state@1.4.3)(prosemirror-view@1.31.5)(y-protocols@1.0.5)(yjs@13.6.6):
+  /y-prosemirror@1.2.1(prosemirror-model@1.19.2)(prosemirror-state@1.4.3)(prosemirror-view@1.31.5)(y-protocols@1.0.5)(yjs@13.6.7):
     resolution: {integrity: sha512-czMBfB1eL2awqmOSxQM8cS/fsUOGE6fjvyPLInrh4crPxFiw67wDpwIW+EGBYKRa04sYbS0ScGj7ZgvWuDrmBQ==}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -11615,7 +11615,7 @@ packages:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.31.5
       y-protocols: 1.0.5
-      yjs: 13.6.6
+      yjs: 13.6.7
     dev: false
 
   /y-protocols@1.0.5:
@@ -11688,8 +11688,8 @@ packages:
       y18n: 3.2.2
     dev: false
 
-  /yjs@13.6.6:
-    resolution: {integrity: sha512-VTvezMeMuOra9jKG1Ym5XuQ2H4xXOubIIIupv/B5oygasa9IqDE7Ufv93QTSe9uz69J5VZGMQb2WTEmJv4kJFQ==}
+  /yjs@13.6.7:
+    resolution: {integrity: sha512-mCZTh4kjvUS2DnaktsYN6wLH3WZCJBLqrTdkWh1bIDpA/sB/GNFaLA/dyVJj2Hc7KwONuuoC/vWe9bwBBosZLQ==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     dependencies:
       lib0: 0.2.78
