@@ -249,8 +249,8 @@ importers:
         specifier: ^13.4.10
         version: 13.4.10(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
       next-auth:
-        specifier: ^4.22.1
-        version: 4.22.1(next@13.4.10)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^4.22.2
+        version: 4.22.2(next@13.4.10)(react-dom@18.2.0)(react@18.2.0)
       openai-edge:
         specifier: ^1.2.0
         version: 1.2.0
@@ -416,8 +416,8 @@ importers:
         specifier: ^0.27.2
         version: 0.27.2(@planetscale/database@1.8.0)
       next-auth:
-        specifier: ^4.22.1
-        version: 4.22.1(next@13.4.10)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^4.22.2
+        version: 4.22.2(next@13.4.10)(react-dom@18.2.0)(react@18.2.0)
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -9108,8 +9108,8 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  /next-auth@4.22.1(next@13.4.10)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-NTR3f6W7/AWXKw8GSsgSyQcDW6jkslZLH8AiZa5PQ09w1kR8uHtR9rez/E9gAq/o17+p0JYHE8QjF3RoniiObA==}
+  /next-auth@4.22.2(next@13.4.10)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-5JO3onTI0gogG+FkTelBpmZi3inXtfSZvQ4VzS1mxx6LswA42/NPC9qFahjy455AEUCY0hdU4yM5Znf6o3wZPQ==}
     peerDependencies:
       next: ^12.2.5 || ^13
       nodemailer: ^6.6.5
