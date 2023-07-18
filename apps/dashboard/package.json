@@ -72,7 +72,7 @@
     "@vercel/kv": "^0.2.2",
     "ai": "^2.1.21",
     "aws-crt": "^1.15.21",
-    "class-variance-authority": "^0.6.1",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
