@@ -216,8 +216,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(encoding@0.1.13)
       ai:
-        specifier: ^2.1.21
-        version: 2.1.21(react@18.2.0)(svelte@3.59.2)(vue@3.3.4)
+        specifier: ^2.1.22
+        version: 2.1.22(react@18.2.0)(svelte@3.59.2)(vue@3.3.4)
       aws-crt:
         specifier: ^1.15.21
         version: 1.15.21
@@ -5844,8 +5844,8 @@ packages:
       - supports-color
     dev: false
 
-  /ai@2.1.21(react@18.2.0)(svelte@3.59.2)(vue@3.3.4):
-    resolution: {integrity: sha512-0133/3Zn6jO5RxxzDXBdgV5n9BcfQVWAqOdBqJXyctNQUcQ7blpH4YKfqrSZFb3t860Xws3JUhoF2utxxVdk9A==}
+  /ai@2.1.22(react@18.2.0)(svelte@3.59.2)(vue@3.3.4):
+    resolution: {integrity: sha512-aj9cfaEKyqdu1ypNKZ+6bmySp1+EwOokOL62Pmz7RsGSz803H31+z3fzeoPT64s8ARr2SRvIjjhwOEehKYrj2g==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
