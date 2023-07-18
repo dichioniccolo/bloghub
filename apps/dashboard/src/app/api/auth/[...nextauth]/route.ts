@@ -1,5 +1,4 @@
 import { createId } from "@paralleldrive/cuid2";
-import { get, has } from "@vercel/edge-config";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
@@ -16,20 +15,6 @@ const handler = NextAuth({
   providers: [
     EmailProvider({
       async sendVerificationRequest({ identifier, url }) {
-        if (!(await has("emailWhitelist"))) {
-          return;
-        }
-
-        const whitelist = await get("emailWhitelist");
-
-        if (!Array.isArray(whitelist)) {
-          return;
-        }
-
-        if (!whitelist.includes(identifier)) {
-          return;
-        }
-
         const user = await db
           .select({
             name: users.name,

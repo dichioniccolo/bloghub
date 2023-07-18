@@ -1,3 +1,6 @@
+import type { Editor, Range } from "@tiptap/core";
+import { useCompletion } from "ai/react";
+import { Loader2 } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -5,9 +8,6 @@ import {
   useRef,
   useState,
 } from "react";
-import type { Editor, Range } from "@tiptap/core";
-import { useCompletion } from "ai/react";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { getPrevText } from "../..";

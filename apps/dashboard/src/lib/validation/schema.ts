@@ -66,3 +66,5 @@ export const AiGenerateSchema = z.object({
 export const PublishPostSchema = z.object({
   slug: z.string().nonempty(),
 });
+
+export type PublishPostSchemaType = z.input<typeof PublishPostSchema>;
