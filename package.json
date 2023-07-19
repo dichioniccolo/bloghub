@@ -22,8 +22,8 @@
     "with-env": "doppler run --"
   },
   "dependencies": {
-    "@commitlint/cli": "^17.6.6",
-    "@commitlint/config-conventional": "^17.6.6",
+    "@commitlint/cli": "^17.6.7",
+    "@commitlint/config-conventional": "^17.6.7",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@types/prettier": "^2.7.3",
     "husky": "^8.0.3",
