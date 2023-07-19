@@ -64,7 +64,10 @@ export const AiGenerateSchema = z.object({
 });
 
 export const PublishPostSchema = z.object({
-  slug: z.string().nonempty(),
+  slug: z
+    .string()
+    .nonempty()
+    .regex(/^[a-z0-9-]+$/i),
 });
 
 export type PublishPostSchemaType = z.input<typeof PublishPostSchema>;

@@ -1,8 +1,9 @@
 "use client";
 
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { toast } from "sonner";
 
+import { deletePost } from "~/app/_actions/post/delete-post";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,7 +15,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import { deletePost } from "~/app/_actions/post/delete-post";
 import { useUser } from "~/hooks/use-user";
 import { useZact } from "~/lib/zact/client";
 
@@ -37,7 +37,6 @@ export function DeletePostDialog({ projectId, postId, trigger }: Props) {
     mutate({
       postId,
       projectId,
-      userId: user.id,
     });
 
   return (

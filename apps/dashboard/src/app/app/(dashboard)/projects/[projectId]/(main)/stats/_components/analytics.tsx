@@ -12,7 +12,7 @@ import {
   Title,
 } from "@tremor/react";
 
-import { type GetProjectAnalytics } from "~/app/_api/projects";
+import type { GetProjectAnalytics } from "~/app/_api/projects";
 import countries from "~/lib/countries";
 import { getMonthByNumber } from "~/lib/utils";
 

@@ -25,7 +25,6 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   const mutate = useCallback(
     (input: z.input<InputType>) => {
       return new Promise((resolve, reject) => {
-        // @ts-expect-error we need to pass an async function here
         startTransition(async () => {
           if (callback?.onBeforeAction) {
             callback.onBeforeAction(input);

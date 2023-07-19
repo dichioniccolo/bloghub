@@ -30,12 +30,12 @@ export default async function Stats({ params: { projectId, postId } }: Props) {
               Analytics for {post.project.name} - {post.title ?? post.slug}
             </h1>
             <Link
-              href={`https://${post.project.domain}`}
+              href={`https://${post.project.domain}/posts/${post.slug}`}
               target="_blank"
               rel="noreferrer noopener"
               className="bg-stone truncate rounded-md px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200"
             >
-              {post.project.domain} ↗
+              View the post ↗
             </Link>
           </div>
         </div>
@@ -57,12 +57,12 @@ export default async function Stats({ params: { projectId, postId } }: Props) {
             Analytics for {post.project.name} - {post.title ?? post.slug}
           </h1>
           <Link
-            href={`https://${post.project.domain}`}
+            href={`https://${post.project.domain}/posts/${post.slug}`}
             target="_blank"
             rel="noreferrer noopener"
             className="bg-stone truncate rounded-md px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200"
           >
-            {post.project.domain} ↗
+            View the post ↗
           </Link>
         </div>
       </div>
