@@ -1,6 +1,6 @@
 "use server";
 
-import { type JSONContent } from "@tiptap/react";
+import type { JSONContent } from "@tiptap/react";
 
 import {
   and,
@@ -11,6 +11,7 @@ import {
   inArray,
   lte,
   media,
+  MediaForEntity,
   posts,
   projectMembers,
   projects,
@@ -98,7 +99,12 @@ export async function deleteUnusedMediaInPost(postId: string) {
       url: media.url,
     })
     .from(media)
-    .where(eq(media.postId, postId));
+    .where(
+      and(
+        eq(media.postId, postId),
+        eq(media.forEntity, MediaForEntity.PostContent),
+      ),
+    );
 
   if (mediaList.length === 0) {
     return;

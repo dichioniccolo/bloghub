@@ -15,7 +15,7 @@
 
 /* Custom image styles */
 
-.ProseMirror img {
+.ProseMirror:not([contenteditable="false"]) img {
   transition: filter 0.1s ease-in-out;
 
   &:hover {

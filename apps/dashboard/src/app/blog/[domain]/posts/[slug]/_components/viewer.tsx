@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import { useEditor } from "~/hooks/use-editor";
 import { TiptapExtensions } from "~/lib/editor";
+import { ResizableMedia } from "~/lib/editor/extensions/resizable-media";
 
 type Props = {
   value: JSONContent;
@@ -14,7 +15,7 @@ type Props = {
 export function Viewer({ value }: Props) {
   const editor = useEditor({
     editable: false,
-    extensions: [...TiptapExtensions],
+    extensions: [...TiptapExtensions, ResizableMedia],
     content: value,
   });
 

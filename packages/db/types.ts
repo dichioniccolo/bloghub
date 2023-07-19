@@ -41,6 +41,15 @@ export const MediaEnum = {
 
 export type MediaEnumType = (typeof MediaEnum)[keyof typeof MediaEnum];
 
+export const MediaForEntity = {
+  PostContent: 1,
+  PostThumbnail: 2,
+  ProjectLogo: 3,
+} as const;
+
+export type MediaForEntityType =
+  (typeof MediaForEntity)[keyof typeof MediaForEntity];
+
 export const AutomaticEmail = {
   InvalidDomain: 1,
   NearMonthlyLimit: 2,

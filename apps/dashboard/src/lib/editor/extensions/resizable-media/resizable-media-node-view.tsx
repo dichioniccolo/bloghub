@@ -195,15 +195,12 @@ export const ResizableMediaNodeView = ({
   return (
     <NodeViewWrapper
       as="article"
-      className={cn(
-        "not-prose relative my-2 flex w-full transition-all ease-in-out",
-        {
-          "justify-center":
-            node.attrs.dataAlign === "center" || !node.attrs.dataAlign,
-          "justify-start": node.attrs.dataAlign === "start",
-          "justify-end": node.attrs.dataAlign === "end",
-        },
-      )}
+      className={cn("not-prose relative my-2 flex w-full ease-in-out", {
+        "justify-center":
+          node.attrs.dataAlign === "center" || !node.attrs.dataAlign,
+        "justify-start": node.attrs.dataAlign === "start",
+        "justify-end": node.attrs.dataAlign === "end",
+      })}
     >
       <div className="group relative flex w-fit transition-all ease-in-out">
         {node.attrs["media-type"] === "img" && (

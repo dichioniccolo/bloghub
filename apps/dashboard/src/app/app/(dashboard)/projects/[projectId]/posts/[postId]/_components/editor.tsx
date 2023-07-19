@@ -94,6 +94,7 @@ export function Editor({
       formData.append("type", determineMediaType(file)?.toString() ?? "");
       formData.append("projectId", projectId);
       formData.append("postId", postId);
+      formData.append("forEntity", "1"); // MediaForEntity.PostContent
 
       const media = await createProjectMedia(formData);
 

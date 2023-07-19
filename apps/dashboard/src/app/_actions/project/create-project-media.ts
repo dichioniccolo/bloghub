@@ -2,7 +2,7 @@
 
 import { createId } from "@paralleldrive/cuid2";
 
-import type { MediaEnumType } from "@bloghub/db";
+import type { MediaEnumType, MediaForEntityType } from "@bloghub/db";
 import { and, db, eq, media, projectMembers } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
@@ -25,6 +25,17 @@ export async function createProjectMedia(formData: FormData) {
 
   const projectId = formData.get("projectId") as string;
   const postId = formData.get("postId") as string;
+  const forEntity = parseInt(
+    formData.get("forEntity")?.toString() ?? "",
+  ) as MediaForEntityType;
+
+  const type = parseInt(
+    formData.get("type")?.toString() ?? "",
+  ) as MediaEnumType;
+
+  if (!type) {
+    throw new Error("Failed to determine media type");
+  }
 
   const projectMember = await db
     .select()
@@ -44,15 +55,7 @@ export async function createProjectMedia(formData: FormData) {
 
   const extension = file.name.split(".").pop();
 
-  const fileName = `projects/${projectId}/posts/${postId}/assets/${createId()}.${extension}`;
-
-  const type = parseInt(
-    formData.get("type")?.toString() ?? "",
-  ) as MediaEnumType;
-
-  if (!type) {
-    throw new Error("Failed to determine media type");
-  }
+  const fileName = `projects/${projectId}/${createId()}.${extension}`;
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
@@ -69,6 +72,7 @@ export async function createProjectMedia(formData: FormData) {
 
   await db.insert(media).values({
     id,
+    forEntity,
     projectId,
     postId,
     type,

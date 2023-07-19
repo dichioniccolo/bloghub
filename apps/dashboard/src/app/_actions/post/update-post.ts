@@ -1,6 +1,6 @@
 "use server";
 
-import { JSONContent } from "@tiptap/core";
+import type { JSONContent } from "@tiptap/core";
 import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@bloghub/db";

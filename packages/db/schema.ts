@@ -15,6 +15,8 @@ import {
 import { type AdapterAccount } from "next-auth/adapters";
 
 import {
+  MediaForEntity,
+  MediaForEntityType,
   NotificationStatus,
   Role,
   type AutomaticEmailType,
@@ -257,6 +259,10 @@ export const likes = mysqlTable(
 
 export const media = mysqlTable("media", {
   id: varchar("id", { length: 255 }).primaryKey(),
+  forEntity: int("forEntity")
+    .$type<MediaForEntityType>()
+    .notNull()
+    .default(MediaForEntity.PostContent),
   projectId: varchar("projectId", { length: 255 }),
   postId: varchar("postId", { length: 255 }),
   type: int("type").$type<MediaEnumType>().notNull(),
