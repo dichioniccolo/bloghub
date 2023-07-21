@@ -6,6 +6,8 @@ import {
   and,
   db,
   eq,
+  media,
+  MediaForEntity,
   ne,
   posts,
   projectMembers,
@@ -15,6 +17,7 @@ import {
 
 import { $getUser } from "~/app/_api/get-user";
 import { zactAuthenticated } from "~/lib/zact/server";
+import { deleteProjectMedia } from "../project/delete-project-media";
 
 export const updatePostSettings = zactAuthenticated(
   async () => {
@@ -29,12 +32,17 @@ export const updatePostSettings = zactAuthenticated(
       .object({
         projectId: z.string().nonempty(),
         postId: z.string().nonempty(),
-        slug: z
-          .string()
-          .nonempty()
-          .regex(/^[a-z0-9-]+$/i),
+        data: z.object({
+          slug: z
+            .string()
+            .nonempty()
+            .regex(/^[a-z0-9-]+$/i),
+          thumbnailUrl: z.string().url().optional().nullable(),
+          seoTitle: z.string().optional().nullable(),
+          seoDescription: z.string().optional().nullable(),
+        }),
       })
-      .superRefine(async ({ projectId, postId, slug }, ctx) => {
+      .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
         const post = await db
           .select({
             count: sql<number>`count(*)`.mapWith(Number),
@@ -85,11 +93,56 @@ export const updatePostSettings = zactAuthenticated(
           });
         }
       }),
-)(async ({ projectId, postId, slug }) => {
+)(async ({
+  projectId,
+  postId,
+  data: { slug, thumbnailUrl, seoTitle, seoDescription },
+}) => {
+  const post = await db
+    .select({
+      thumbnailUrl: posts.thumbnailUrl,
+    })
+    .from(posts)
+    .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)))
+    .then((x) => x[0]!);
+
+  if (post.thumbnailUrl && post.thumbnailUrl !== thumbnailUrl) {
+    await deleteProjectMedia({
+      projectId,
+      url: post.thumbnailUrl,
+    });
+
+    const allThumbnailMedia = await db
+      .select({
+        id: media.id,
+        url: media.url,
+      })
+      .from(media)
+      .where(
+        and(
+          eq(media.projectId, projectId),
+          eq(media.forEntity, MediaForEntity.PostThumbnail),
+          ne(media.url, thumbnailUrl ?? ""), // keep the new thumbnail
+        ),
+      );
+
+    await Promise.all(
+      allThumbnailMedia.map((media) =>
+        deleteProjectMedia({
+          projectId,
+          url: media.url,
+        }),
+      ),
+    );
+  }
+
   await db
     .update(posts)
     .set({
       slug,
+      thumbnailUrl,
+      seoTitle,
+      seoDescription,
       hidden: false,
     })
     .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)));

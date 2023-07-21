@@ -7,7 +7,7 @@ import type { AppNotification } from "../notifications";
 
 export async function publishNotification<T extends AppNotification["type"]>(
   type: T,
-  data?: Extract<AppNotification, { type: T }>["data"],
+  data: Extract<AppNotification, { type: T }>["data"],
 ) {
   await qstashClient.publishJSON({
     topic: "notifications",

@@ -1,6 +1,8 @@
 import type { NextRequest } from "next/server";
 import { format } from "date-fns";
 
+import type { MediaEnumType } from "@bloghub/db";
+
 export const TEST_HOSTNAME = "test.niccolodichio.it";
 
 export const truncate = (str: string, num: number) => {
@@ -89,4 +91,20 @@ export function generateRandomIndices(range: number, count: number): number[] {
   }
 
   return Array.from(indicies);
+}
+
+export function determineMediaType(file: File): MediaEnumType | null {
+  if (/image/i.test(file.type)) {
+    return 1;
+  }
+
+  if (/video/i.test(file.type)) {
+    return 2;
+  }
+
+  if (/audio/i.test(file.type)) {
+    return 3;
+  }
+
+  return null;
 }

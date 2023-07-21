@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Loader2, Pencil } from "lucide-react";
+import Image from "next/image";
+import { Check, Loader2, Pencil, Trash2, UploadCloud } from "lucide-react";
+import Dropzone from "react-dropzone";
 
 import {
   AlertDialog,
@@ -34,7 +36,10 @@ import {
 } from "~/components/ui/sheet";
 import { Form } from "~/components/ui/zod-form";
 import { updatePostSettings } from "~/app/_actions/post/update-post-settings";
+import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import type { GetPost } from "~/app/_api/posts";
+import { cn } from "~/lib/cn";
+import { determineMediaType } from "~/lib/utils";
 import type { PublishPostSchemaType } from "~/lib/validation/schema";
 import { PublishPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
@@ -51,11 +56,21 @@ export function PublishSheet({ post }: Props) {
 
   const { mutate, isRunning } = useZact(updatePostSettings);
 
-  const onSubmit = ({ slug }: PublishPostSchemaType) =>
+  const onSubmit = ({
+    slug,
+    thumbnailUrl,
+    seoTitle,
+    seoDescription,
+  }: PublishPostSchemaType) =>
     mutate({
       projectId: post.projectId,
       postId: post.id,
-      slug,
+      data: {
+        slug,
+        thumbnailUrl,
+        seoTitle,
+        seoDescription,
+      },
     });
 
   const onEnableSlugEditing = () => {
@@ -71,13 +86,32 @@ export function PublishSheet({ post }: Props) {
     setSlugEditable(true);
   };
 
+  const uploadThumbnail = async (files: File[]) => {
+    const file = files?.[0];
+
+    if (!file) {
+      return null;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("type", determineMediaType(file)?.toString() ?? "");
+    formData.append("projectId", post.projectId);
+    formData.append("postId", post.id);
+    formData.append("forEntity", "2"); // MediaForEntity.PostContent
+
+    const media = await createProjectMedia(formData);
+
+    return media.url;
+  };
+
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="outline">Publish</Button>
         </SheetTrigger>
-        <SheetContent className="w-[400px] sm:w-[540px]">
+        <SheetContent className="w-[400px] max-w-none overflow-y-auto sm:w-[700px] sm:max-w-none">
           <SheetHeader>
             <SheetTitle>Publish {post.title ?? "Post"}</SheetTitle>
             <SheetDescription>
@@ -88,10 +122,13 @@ export function PublishSheet({ post }: Props) {
             schema={PublishPostSchema}
             initialValues={{
               slug: post.slug,
+              thumbnailUrl: post.thumbnailUrl,
+              seoTitle: post.seoTitle,
+              seoDescription: post.seoDescription,
             }}
             onSubmit={onSubmit}
           >
-            {({ formState: { isSubmitting } }) => (
+            {({ formState: { isSubmitting }, setValue, watch }) => (
               <div className="grid gap-2">
                 <FormField
                   name="slug"
@@ -129,6 +166,120 @@ export function PublishSheet({ post }: Props) {
                       <FormDescription>
                         The URL of your post. Only letters, numbers, and dashes
                         are allowed.
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="thumbnailUrl"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Thumbnail</FormLabel>
+                      <FormControl>
+                        <>
+                          {watch("thumbnailUrl") ? (
+                            <div className="group relative flex w-full rounded-md transition-all ease-in-out">
+                              <Image
+                                alt={post.title ?? "Post image"}
+                                width={1200}
+                                height={630}
+                                className="h-full w-full object-cover"
+                                src={
+                                  watch("thumbnailUrl") ?? "/placeholder.png"
+                                }
+                              />
+                              <div className="absolute right-2 top-2 box-border hidden overflow-hidden rounded-sm border border-slate-200 bg-white shadow-xl transition-all duration-200 ease-linear group-hover:flex">
+                                <button
+                                  type="button"
+                                  className={cn(
+                                    "inline-flex h-8 items-center rounded-none border border-transparent bg-stone-100 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:bg-stone-200",
+                                  )}
+                                  onClick={() => {
+                                    setValue("thumbnailUrl", null);
+                                  }}
+                                >
+                                  <Trash2 />
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <Dropzone
+                              onDrop={async (files) => {
+                                const url = await uploadThumbnail(files);
+                                setValue("thumbnailUrl", url);
+                              }}
+                              accept={{ "image/*": [] }}
+                              maxFiles={1}
+                            >
+                              {({ getRootProps, getInputProps }) => (
+                                <div
+                                  tabIndex={-1}
+                                  onKeyUp={() => {
+                                    //
+                                  }}
+                                  role="button"
+                                  className="flex cursor-pointer flex-col items-center rounded-md border border-dashed border-gray-200 p-4"
+                                  {...getRootProps()}
+                                >
+                                  <input {...getInputProps()} />
+                                  <UploadCloud
+                                    size={21}
+                                    className="mb-2 text-gray-600"
+                                  />
+
+                                  <div className="z-10 flex flex-col justify-center gap-y-1 text-center text-xs text-gray-600">
+                                    <span className="font-body">
+                                      Drag and drop or
+                                    </span>
+                                    <span className="font-semibold text-gray-800">
+                                      browse
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+                            </Dropzone>
+                          )}
+                        </>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="seoTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SEO Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          placeholder="My awesome post title"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      <FormDescription>
+                        A custom SEO title for your post.
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="seoDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SEO Description</FormLabel>
+                      <FormControl>
+                        <Input
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          placeholder="My awesome post description"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      <FormDescription>
+                        A custom SEO description for your post.
                       </FormDescription>
                     </FormItem>
                   )}

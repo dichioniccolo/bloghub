@@ -25,12 +25,16 @@ export async function generateMetadata({
   const title = `${post?.title} | ${post?.project.name}'s Blog`;
   const description = post?.description ?? undefined;
 
+  const seoTitle = `${post?.seoTitle ?? post?.title} | ${post?.project
+    .name}'s Blog`;
+  const seoDescription = post?.seoDescription ?? post?.description ?? undefined;
+
   return {
     title,
     description,
     openGraph: {
-      title,
-      description,
+      title: seoTitle,
+      description: seoDescription,
     },
     twitter: {
       card: "summary_large_image",

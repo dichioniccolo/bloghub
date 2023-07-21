@@ -5,31 +5,14 @@ import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import type { MediaEnumType } from "@bloghub/db";
-
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { useEditor } from "~/hooks/use-editor";
 import { getPrevText, TiptapExtensions } from "~/lib/editor";
 import { ResizableMediaWithUploader } from "~/lib/editor/extensions/resizable-media";
+import { determineMediaType } from "~/lib/utils";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { AIBubbleMenu } from "./bubble-menu/ai";
 import { TableMenu } from "./table-menu";
-
-function determineMediaType(file: File): MediaEnumType | null {
-  if (/image/i.test(file.type)) {
-    return 1;
-  }
-
-  if (/video/i.test(file.type)) {
-    return 2;
-  }
-
-  if (/audio/i.test(file.type)) {
-    return 3;
-  }
-
-  return null;
-}
 
 type Props = {
   setStatus?(status: "saved" | "unsaved" | "saving"): void;

@@ -68,6 +68,8 @@ export async function getPostBySlug(domain: string, slug: string) {
       description: posts.description,
       thumbnailUrl: posts.thumbnailUrl,
       content: posts.content,
+      seoTitle: posts.seoTitle,
+      seoDescription: posts.seoDescription,
       createdAt: posts.createdAt,
       project: {
         name: projects.name,

@@ -2,12 +2,13 @@ import type { ServerRuntime } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { format } from "date-fns";
 
-import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { getPostsByDomain } from "~/app/_api/public/posts";
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
-import { cn } from "~/lib/cn";
+import { BlogRoutes } from "~/lib/common/routes";
+import { PostCard } from "./_components/post-card";
 
 type Props = {
   params: {
@@ -37,86 +38,75 @@ export default async function Page({
 
   const { posts } = await getPostsByDomain(domain, page, POSTS_PER_PAGE);
 
-  const firstThreePosts = posts.slice(0, 3);
-  const otherPosts = posts.slice(3);
+  // const firstThreePosts = posts.slice(0, 3);
+  // const otherPosts = posts.slice(3);
 
+  // TODO: make it better, I don't like it at all, but it works just for starters
   return (
     <>
-      <div className="border-b border-border">
-        <div className="grid w-full grid-cols-2 grid-rows-2 gap-8 p-4">
-          {firstThreePosts.map((post, index) => (
-            <div
-              key={post.id}
-              className={cn("col-span-1 flex", {
-                "row-span-2": index === 0,
-                "row-span-1": index > 0,
-              })}
-            >
-              <Link
-                href={`/posts/${post.slug}`}
-                title={`Link to the post titled ${post.title}`}
-                className="group h-full flex-1"
-              >
-                {post.thumbnailUrl && (
-                  <span className="block overflow-hidden">
-                    <AspectRatio ratio={16 / 9}>
-                      <Image src={post.thumbnailUrl} alt={post.title} fill />
-                    </AspectRatio>
-                  </span>
-                )}
-                <h2 className="break-words text-2xl leading-loose group-hover:text-muted-foreground">
-                  {post.title}
+      <div className="mb-20 w-full">
+        {posts.length > 0 ? (
+          <div className="mx-auto w-full max-w-screen-xl md:mb-28 lg:w-5/6">
+            <Link href={BlogRoutes.Post(posts[0]!.slug)}>
+              <div className="sm:h-150 group relative mx-auto h-80 w-full overflow-hidden lg:rounded-xl">
+                <Image
+                  alt={posts[0]!.title ?? ""}
+                  className="h-full w-full object-cover group-hover:scale-105 group-hover:duration-300"
+                  width={1300}
+                  height={630}
+                  src={posts[0]!.thumbnailUrl ?? "/placeholder.png"}
+                />
+              </div>
+              <div className="mx-auto mt-10 w-5/6 lg:w-full">
+                <h2 className="font-title my-10 text-4xl dark:text-white md:text-6xl">
+                  {posts[0]!.title}
                 </h2>
-                {post.description && (
-                  <p className="break-words">{post.description}</p>
-                )}
-                <div className="flex justify-between">
-                  <span></span>
-                  <span>
-                    {post.likesCount} {post.likesCount === 1 ? "like" : "likes"}
-                  </span>
+                <p className="w-full text-base dark:text-white md:text-lg lg:w-2/3">
+                  {posts[0]!.description}
+                </p>
+                <div className="flex w-full items-center justify-start space-x-4">
+                  <p className="my-5 text-sm font-light text-stone-500 dark:text-stone-400 md:text-base">
+                    {format(posts[0]!.createdAt, "MMMM dd, yyyy")}
+                  </p>
                 </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-3 gap-8">
-          {otherPosts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/posts/${post.slug}`}
-              title={`Link to the post titled ${post.title}`}
-              className="group"
-            >
-              {post.thumbnailUrl && (
-                <span className="block overflow-hidden">
-                  <AspectRatio ratio={16 / 9}>
-                    <img src={post.thumbnailUrl} alt={post.title} />
-                  </AspectRatio>
-                </span>
-              )}
-
-              <h2 className="break-words text-2xl leading-loose">
-                {post.title}
-              </h2>
+              </div>
             </Link>
-          ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Image
+              alt="missing post"
+              src="https://illustrations.popsy.co/gray/success.svg"
+              width={400}
+              height={400}
+              className="dark:hidden"
+            />
+            <Image
+              alt="missing post"
+              src="https://illustrations.popsy.co/white/success.svg"
+              width={400}
+              height={400}
+              className="hidden dark:block"
+            />
+            <p className="font-title text-2xl text-stone-600 dark:text-stone-400">
+              No posts yet.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {posts.length > 1 && (
+        <div className="mx-5 mb-20 max-w-screen-xl lg:mx-24 2xl:mx-auto">
+          <h2 className="font-title mb-10 text-4xl dark:text-white md:text-5xl">
+            More posts
+          </h2>
+          <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
+            {posts.slice(1).map((post, index) => (
+              <PostCard key={index} post={post} />
+            ))}
+          </div>
         </div>
-        {/* <div className="flow-root">
-        <ul className="-my-12 divide-y divide-primary">
-          {posts.map((post) => (
-            <li key={post.id} className="py-10">
-              <PostSummary post={post} />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <Pagination
-        currentPageNumber={page}
-        itemCount={postsCount}
-        itemsPerPage={POSTS_PER_PAGE}
-      /> */}
-      </div>
+      )}
     </>
   );
 }

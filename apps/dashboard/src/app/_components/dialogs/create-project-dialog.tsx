@@ -14,6 +14,7 @@ import {
 } from "~/components/ui/dialog";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -98,6 +99,10 @@ function CreateProjectDialog({ open, setOpen }: Props) {
                       />
                     </FormControl>
                     <FormMessage />
+                    <FormDescription>
+                      TIP: If you do not have a custom domain, you can use a
+                      .bloghub.it subdomain as long as it is available.
+                    </FormDescription>
                   </FormItem>
                 )}
               />

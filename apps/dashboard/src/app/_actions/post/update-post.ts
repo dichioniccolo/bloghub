@@ -24,6 +24,7 @@ export const updatePost = zactAuthenticated(
         postId: z.string().nonempty(),
         body: z.object({
           title: z.string(),
+          description: z.string().optional().nullable(),
           content: z.string(),
         }),
       })
@@ -56,12 +57,12 @@ export const updatePost = zactAuthenticated(
           });
         }
       }),
-)(async ({ postId, body: { title, content } }) => {
+)(async ({ postId, body: { title, description, content } }) => {
   await db
     .update(posts)
     .set({
       title,
-      description: "",
+      description,
       content: JSON.parse(content) as JSONContent,
     })
     .where(eq(posts.id, postId));

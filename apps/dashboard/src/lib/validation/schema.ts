@@ -42,6 +42,7 @@ export type InviteMemberSchemaType = z.input<typeof InviteMemberSchema>;
 
 export const EditPostSchema = z.object({
   title: z.string(),
+  description: z.string().optional().nullable(),
   content: z.any(),
 });
 
@@ -68,6 +69,9 @@ export const PublishPostSchema = z.object({
     .string()
     .nonempty()
     .regex(/^[a-z0-9-]+$/i),
+  thumbnailUrl: z.string().url().optional().nullable(),
+  seoTitle: z.string().optional().nullable(),
+  seoDescription: z.string().optional().nullable(),
 });
 
 export type PublishPostSchemaType = z.input<typeof PublishPostSchema>;
