@@ -75,3 +75,9 @@ export const PublishPostSchema = z.object({
 });
 
 export type PublishPostSchemaType = z.input<typeof PublishPostSchema>;
+
+export const ProjectNameSchema = z.object({
+  name: z.string().nonempty(),
+});
+
+export type ProjectNameSchemaType = z.input<typeof ProjectNameSchema>;

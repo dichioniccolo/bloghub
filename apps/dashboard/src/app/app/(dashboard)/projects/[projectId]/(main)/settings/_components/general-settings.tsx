@@ -1,4 +1,5 @@
-import { type GetProject } from "~/app/_api/projects";
+import type { GetProject } from "~/app/_api/projects";
+import { ChangeName } from "./change-name";
 import { CustomDomain, CustomDomainPlaceholder } from "./custom-domain";
 import { DeleteProject, DeleteProjectPlaceholder } from "./delete-project";
 import { QuitProject, QuitProjectPlaceholder } from "./quit-project";
@@ -14,6 +15,7 @@ export function GeneralSettings({ project }: Props) {
 
   return (
     <>
+      <ChangeName project={project} />
       <CustomDomain project={project} />
       <DeleteProject project={project} />
     </>
