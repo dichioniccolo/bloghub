@@ -21,68 +21,66 @@ export const updateNotificationSettings = zactAuthenticated(
   },
   () =>
     z.object({
-      communication_emails: z.boolean().default(true),
-      marketing_emails: z.boolean().default(true),
-      social_emails: z.boolean().default(true),
+      communication_emails: z.coerce.boolean().default(true),
+      marketing_emails: z.coerce.boolean().default(true),
+      social_emails: z.coerce.boolean().default(true),
       security_emails: z.literal(true),
     }),
-)(
-  async (
-    { communication_emails, marketing_emails, social_emails, security_emails },
-    { userId },
-  ) => {
-    await db.transaction(async (tx) => {
-      await tx
-        .insert(emailNotificationSettings)
-        .values({
-          userId,
-          type: EmailNotificationSetting.Communication,
+)(async (
+  { communication_emails, marketing_emails, social_emails, security_emails },
+  { userId },
+) => {
+  await db.transaction(async (tx) => {
+    await tx
+      .insert(emailNotificationSettings)
+      .values({
+        userId,
+        type: EmailNotificationSetting.Communication,
+        value: communication_emails,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
           value: communication_emails,
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            value: communication_emails,
-          },
-        });
+        },
+      });
 
-      await tx
-        .insert(emailNotificationSettings)
-        .values({
-          userId,
-          type: EmailNotificationSetting.Marketing,
+    await tx
+      .insert(emailNotificationSettings)
+      .values({
+        userId,
+        type: EmailNotificationSetting.Marketing,
+        value: marketing_emails,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
           value: marketing_emails,
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            value: marketing_emails,
-          },
-        });
+        },
+      });
 
-      await tx
-        .insert(emailNotificationSettings)
-        .values({
-          userId,
-          type: EmailNotificationSetting.Social,
+    await tx
+      .insert(emailNotificationSettings)
+      .values({
+        userId,
+        type: EmailNotificationSetting.Social,
+        value: social_emails,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
           value: social_emails,
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            value: social_emails,
-          },
-        });
+        },
+      });
 
-      await tx
-        .insert(emailNotificationSettings)
-        .values({
-          userId,
-          type: EmailNotificationSetting.Security,
+    await tx
+      .insert(emailNotificationSettings)
+      .values({
+        userId,
+        type: EmailNotificationSetting.Security,
+        value: security_emails,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
           value: security_emails,
-        })
-        .onDuplicateKeyUpdate({
-          set: {
-            value: security_emails,
-          },
-        });
-    });
-  },
-);
+        },
+      });
+  });
+});

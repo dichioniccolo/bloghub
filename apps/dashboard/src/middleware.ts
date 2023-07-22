@@ -9,14 +9,12 @@ import { TEST_HOSTNAME } from "./lib/utils";
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl;
 
-  // TODO: add vercel url
   const hostname = req.headers
     .get("host")!
     .replace(".localhost:3000", `.${env.NEXT_PUBLIC_APP_DOMAIN}`);
 
   const path = url.pathname;
 
-  // TODO: Add vercel url
   if (hostname === `app.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
     const session = await getToken({ req });
     if (!session && path !== "/login") {
@@ -28,6 +26,8 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.rewrite(new URL(`/app${path}`, req.url));
   } else if (hostname === `api.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
     return NextResponse.rewrite(new URL(`/api${path}`, req.url));
+  } else if (hostname === env.NEXT_PUBLIC_APP_DOMAIN) {
+    return NextResponse.next();
   }
 
   const finalHostname =
@@ -35,9 +35,7 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   ev.waitUntil(recordVisit(req, finalHostname));
 
-  return NextResponse.rewrite(
-    new URL(`/blog/${finalHostname}${path}`, req.url),
-  );
+  return NextResponse.rewrite(new URL(`/${finalHostname}${path}`, req.url));
 }
 
 export const config = {

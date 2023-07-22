@@ -218,20 +218,15 @@ export function PublishSheet({ post }: Props) {
                                     //
                                   }}
                                   role="button"
-                                  className="flex cursor-pointer flex-col items-center rounded-md border border-dashed border-gray-200 p-4"
+                                  className="flex cursor-pointer flex-col items-center rounded-md border border-dashed border-border p-4"
                                   {...getRootProps()}
                                 >
                                   <input {...getInputProps()} />
-                                  <UploadCloud
-                                    size={21}
-                                    className="mb-2 text-gray-600"
-                                  />
+                                  <UploadCloud size={21} className="mb-2" />
 
-                                  <div className="z-10 flex flex-col justify-center gap-y-1 text-center text-xs text-gray-600">
-                                    <span className="font-body">
-                                      Drag and drop or
-                                    </span>
-                                    <span className="font-semibold text-gray-800">
+                                  <div className="z-10 flex flex-col justify-center gap-y-1 text-center text-xs">
+                                    <span>Drag and drop or</span>
+                                    <span className="font-semibold">
                                       browse
                                     </span>
                                   </div>

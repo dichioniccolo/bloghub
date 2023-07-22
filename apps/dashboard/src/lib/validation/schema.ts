@@ -49,9 +49,9 @@ export const EditPostSchema = z.object({
 export type EditPostSchemaType = z.input<typeof EditPostSchema>;
 
 export const EditNotificationsSchema = z.object({
-  communication_emails: z.boolean().default(true),
-  marketing_emails: z.boolean().default(true),
-  social_emails: z.boolean().default(true),
+  communication_emails: z.coerce.boolean().default(true),
+  marketing_emails: z.coerce.boolean().default(true),
+  social_emails: z.coerce.boolean().default(true),
   security_emails: z.literal(true),
 });
 

@@ -2,8 +2,18 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BellRing, Euro, LogOut, Plus, User } from "lucide-react";
+import {
+  BellRing,
+  Euro,
+  LogOut,
+  Monitor,
+  Moon,
+  Plus,
+  SunDim,
+  User,
+} from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
 
 import { Button } from "~/components/ui/button";
 import type { CommandDialogProps } from "~/components/ui/command";
@@ -21,6 +31,8 @@ import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 
 export function CommandMenu({ ...props }: CommandDialogProps) {
   const router = useRouter();
+
+  const { setTheme } = useTheme();
 
   const { setOpen: setCreateProjectDialogOpen, CreateProjectDialog } =
     useCreateProjectDialog();
@@ -75,9 +87,9 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
               Create Project
             </CommandItem>
           </CommandGroup>
-          {/* <CommandGroup heading="Theme">
+          <CommandGroup heading="Theme">
             <CommandItem onSelect={runCommand(() => setTheme("light"))}>
-              <Sun className="mr-2 h-4 w-4" />
+              <SunDim className="mr-2 h-4 w-4" />
               Light
             </CommandItem>
             <CommandItem onSelect={runCommand(() => setTheme("dark"))}>
@@ -85,10 +97,10 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
               Dark
             </CommandItem>
             <CommandItem onSelect={runCommand(() => setTheme("system"))}>
-              <Laptop className="mr-2 h-4 w-4" />
+              <Monitor className="mr-2 h-4 w-4" />
               System
             </CommandItem>
-          </CommandGroup> */}
+          </CommandGroup>
           <CommandGroup heading="General">
             <CommandItem
               onSelect={runCommand(() => router.push(AppRoutes.Settings))}

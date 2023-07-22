@@ -11,7 +11,6 @@ import { getPrevText, TiptapExtensions } from "~/lib/editor";
 import { ResizableMediaWithUploader } from "~/lib/editor/extensions/resizable-media";
 import { determineMediaType } from "~/lib/utils";
 import { EditorBubbleMenu } from "./bubble-menu";
-import { AIBubbleMenu } from "./bubble-menu/ai";
 import { TableMenu } from "./table-menu";
 
 type Props = {
@@ -169,7 +168,7 @@ export function Editor({
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
-      <AIBubbleMenu editor={editor} />
+      {/* <AIBubbleMenu editor={editor} /> */}
       {editor.isActive("table") && <TableMenu editor={editor} />}
     </div>
   );

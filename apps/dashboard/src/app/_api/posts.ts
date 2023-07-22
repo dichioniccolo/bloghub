@@ -155,11 +155,30 @@ export async function getPostAnalytics(projectId: string, postId: string) {
     .groupBy(visits.geoCountry, visits.geoCity)
     .orderBy(desc(sql`count(*)`));
 
+  const topReferers = await db
+    .select({
+      referer: sql<string>`coalesce(${visits.referer}, 'Other')`,
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(visits)
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, visits.projectId),
+        eq(projectMembers.userId, user.id),
+      ),
+    )
+    .where(and(eq(visits.projectId, projectId), eq(visits.postId, postId)))
+    .limit(5)
+    .groupBy(visits.referer)
+    .orderBy(desc(sql`count(*)`));
+
   return {
     clicksMyMonth,
     topPosts,
     topCountries,
     topCities,
+    topReferers,
   };
 }
 

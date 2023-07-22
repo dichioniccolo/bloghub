@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 
 import { cn } from "~/lib/cn";
-import { AISelector } from "./ai-selector";
 import { ColorSelector } from "./color-selector";
 import { LinkSelector } from "./link-selector";
 import { NodeSelector } from "./node-selector";
@@ -88,7 +87,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
       {...bubbleMenuProps}
       className="flex w-fit max-w-[97vw] divide-x overflow-x-auto rounded border bg-background shadow-xl"
     >
-      <AISelector
+      {/* <AISelector
         editor={editor}
         isOpen={isAISelectorOpen}
         setIsOpen={() => {
@@ -97,7 +96,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
           setIsColorSelectorOpen(false);
           setIsLinkSelectorOpen(false);
         }}
-      />
+      /> */}
       <NodeSelector
         editor={editor}
         isOpen={isNodeSelectorOpen}

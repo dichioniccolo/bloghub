@@ -1,5 +1,5 @@
 import { getRandomPostsByDomain } from "~/app/_api/public/posts";
-import { PostCard } from "~/app/blog/[domain]/_components/post-card";
+import { PostCard } from "~/app/[domain]/_components/post-card";
 
 type Props = {
   domain: string;

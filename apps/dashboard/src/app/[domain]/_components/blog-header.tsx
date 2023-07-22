@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { GetProjectByDomain } from "~/app/_api/public/projects";
 import { useScroll } from "~/hooks/use-scroll";
 import { cn } from "~/lib/cn";
+import { ToggleTheme } from "./toggle-theme";
 
 type Props = {
   project: NonNullable<GetProjectByDomain>;
@@ -44,7 +45,9 @@ export function BlogHeader({ project }: Props) {
           </span>
         </Link>
       </div>
-      <div className="flex h-full ">{/* <ToggleTheme /> */}</div>
+      <div className="flex h-full items-center">
+        <ToggleTheme />
+      </div>
     </header>
   );
 }

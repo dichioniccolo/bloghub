@@ -21,7 +21,7 @@ type Props = {
 };
 
 export function Analytics({
-  analytics: { topCities, topCountries, clicksMyMonth, topPosts },
+  analytics: { topCities, topCountries, clicksMyMonth, topPosts, topReferers },
 }: Props) {
   return (
     <div className="grid gap-6">
@@ -41,8 +41,8 @@ export function Analytics({
           }
         />
       </Card>
-      <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
-        <Card className="max-w-lg">
+      <Grid numItems={2} className="gap-6">
+        <Card>
           <Title>Top 5 Posts</Title>
           <Flex className="mt-4">
             <Text>
@@ -60,7 +60,7 @@ export function Analytics({
             className="mt-2"
           />
         </Card>
-        <Card className="max-w-lg">
+        <Card>
           <Title>Countries</Title>
           <Flex className="mt-4">
             <Text>
@@ -92,7 +92,7 @@ export function Analytics({
             className="mt-2"
           />
         </Card>
-        <Card className="max-w-lg">
+        <Card>
           <Title>Cities</Title>
           <Flex className="mt-4">
             <Text>
@@ -123,8 +123,26 @@ export function Analytics({
             className="mt-2"
           />
         </Card>
+        <Card>
+          <Title>Referers</Title>
+          <Flex className="mt-4">
+            <Text>
+              <Bold>Referer</Bold>
+            </Text>
+            <Text>
+              <Bold>Clicks</Bold>
+            </Text>
+          </Flex>
+          <BarList
+            data={topReferers.map((x) => ({
+              name: x.referer,
+              value: x.count,
+            }))}
+            className="mt-2"
+          />
+        </Card>
         {/* {categories.map(({ title, subtitle, data }) => (
-          <Card key={title} className="max-w-lg">
+          <Card key={title}>
             <Title>{title}</Title>
             <Flex className="mt-4">
               <Text>

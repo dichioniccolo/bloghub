@@ -58,14 +58,14 @@ export default async function Page({
                 />
               </div>
               <div className="mx-auto mt-10 w-5/6 lg:w-full">
-                <h2 className="font-title my-10 text-4xl dark:text-white md:text-6xl">
+                <h2 className="font-title my-10 text-4xl md:text-6xl">
                   {posts[0]!.title}
                 </h2>
-                <p className="w-full text-base dark:text-white md:text-lg lg:w-2/3">
+                <p className="w-full text-base md:text-lg lg:w-2/3">
                   {posts[0]!.description}
                 </p>
                 <div className="flex w-full items-center justify-start space-x-4">
-                  <p className="my-5 text-sm font-light text-stone-500 dark:text-stone-400 md:text-base">
+                  <p className="my-5 text-sm font-light text-muted-foreground md:text-base">
                     {format(posts[0]!.createdAt, "MMMM dd, yyyy")}
                   </p>
                 </div>
