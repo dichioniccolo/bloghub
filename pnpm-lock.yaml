@@ -288,8 +288,8 @@ importers:
         specifier: ^6.3.7
         version: 6.3.7
       tiptap-markdown:
-        specifier: ^0.8.1
-        version: 0.8.1(@tiptap/core@2.0.4)
+        specifier: ^0.8.2
+        version: 0.8.2(@tiptap/core@2.0.4)
       y-prosemirror:
         specifier: ^1.2.1
         version: 1.2.1(prosemirror-model@1.19.2)(prosemirror-state@1.4.3)(prosemirror-view@1.31.5)(y-protocols@1.0.5)(yjs@13.6.7)
@@ -9619,6 +9619,13 @@ packages:
       prosemirror-model: 1.19.2
     dev: false
 
+  /prosemirror-markdown@1.11.1:
+    resolution: {integrity: sha512-CLOieKoaSSEusKyYcXIj8v2qHGLW+tnuffci+8678Sen48NEFQE7M3o0Nx0gj9v63iVDj+yLibj2gCe8eb3jIw==}
+    dependencies:
+      markdown-it: 13.0.1
+      prosemirror-model: 1.19.2
+    dev: false
+
   /prosemirror-menu@1.2.2:
     resolution: {integrity: sha512-437HIWTq4F9cTX+kPfqZWWm+luJm95Aut/mLUy+9OMrOml0bmWDS26ceC6SNfb2/S94et1sZ186vLO7pDHzxSw==}
     dependencies:
@@ -10836,8 +10843,8 @@ packages:
       '@popperjs/core': 2.11.8
     dev: false
 
-  /tiptap-markdown@0.8.1(@tiptap/core@2.0.4):
-    resolution: {integrity: sha512-4bg6UHXF+1cIJHcAkcWd0d8zIweCvdIAY2dJjhm/e5oNWprP3gLUYa4aNAEFOKpD/Wh4VBqA7vi7yMj5vIy6xw==}
+  /tiptap-markdown@0.8.2(@tiptap/core@2.0.4):
+    resolution: {integrity: sha512-RyfpnH475+FYVh1fCiWF9+wBvA8T6X3PqxZR1MApEewxkoQ5kREQFiVwjZiez9qUQk/Bxu3RerFSJot65V6cbQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.3
     dependencies:
@@ -10845,7 +10852,7 @@ packages:
       '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
       markdown-it-task-lists: 2.1.1
-      prosemirror-markdown: 1.11.0
+      prosemirror-markdown: 1.11.1
     dev: false
 
   /to-fast-properties@2.0.0:
