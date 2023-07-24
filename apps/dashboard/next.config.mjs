@@ -3,27 +3,26 @@ import "@bloghub/db/env.mjs";
 import "@bloghub/emails/env.mjs";
 import "./src/env.mjs";
 
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval';
-  child-src 'none';
-  style-src 'self' 'unsafe-inline';
-  img-src * blob: data:;
-  base-uri 'self';
-  media-src https://cdn.bloghub.it;
-  connect-src *;
-  font-src 'self';
-  frame-src youtube.com www.youtube.com;
-  worker-src 'self' blob:;
-  child-src 'self' blob:;
-`;
+// const ContentSecurityPolicy = `
+//   default-src 'self';
+//   script-src https://vercel.live/ https://vercel.com unsafe-inline unsafe-eval;
+//   style-src 'self' 'unsafe-inline';
+//   img-src * blob: data:;
+//   base-uri 'self';
+//   media-src https://cdn.bloghub.it;
+//   connect-src *;
+//   font-src 'self';
+//   frame-src youtube.com www.youtube.com https://vercel.live/ https://vercel.com;
+//   worker-src 'self' blob:;
+//   child-src 'self' blob:;
+// `;
 
 const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-  {
-    key: "Content-Security-Policy",
-    value: ContentSecurityPolicy.replace(/\n/g, ""),
-  },
+  // {
+  //   key: "Content-Security-Policy",
+  //   value: ContentSecurityPolicy.replace(/\n/g, ""),
+  // },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
   {
     key: "Referrer-Policy",
@@ -85,13 +84,6 @@ const config = {
       headers: securityHeaders,
     },
   ],
-  modularizeImports: {
-    "lucide-react": {
-      transform: "lucide-react/{{lowerCase kebabCase member}}",
-      skipDefaultConversion: true,
-      preventFullImport: true,
-    },
-  },
   compiler: {
     removeConsole: {
       exclude: ["error", "warn"],

@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { cn } from "~/lib/cn";
 
@@ -18,9 +12,9 @@ export function PostCardPlaceholder() {
         <CardTitle>
           <Skeleton />
         </CardTitle>
-        <CardDescription>
+        <div className="text-sm text-muted-foreground">
           <Skeleton />
-        </CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
@@ -29,12 +23,12 @@ export function PostCardPlaceholder() {
             <Skeleton />
           </div>
           <div className="flex items-center">
-            <p className="mr-3 hidden whitespace-nowrap text-sm text-stone-500 sm:block">
-              Added <Skeleton />
-            </p>
-            <p className="mr-1 whitespace-nowrap text-sm text-stone-500 sm:hidden">
+            <div className="mr-3 hidden whitespace-nowrap text-sm text-stone-500 sm:block">
               <Skeleton />
-            </p>
+            </div>
+            <div className="mr-1 whitespace-nowrap text-sm text-stone-500 sm:hidden">
+              <Skeleton />
+            </div>
             <div className="flex items-center gap-1">
               <Skeleton />
               <Skeleton />

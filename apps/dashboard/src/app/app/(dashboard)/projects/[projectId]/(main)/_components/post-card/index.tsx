@@ -5,13 +5,7 @@ import { formatDistance } from "date-fns";
 import { BarChart, Edit, Loader2, QrCode, Trash2 } from "lucide-react";
 
 import { buttonVariants } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
@@ -47,7 +41,7 @@ export function PostCard({ post, project, owner }: Props) {
       </div>
       <CardHeader>
         <CardTitle className="text-2xl">{post.title}</CardTitle>
-        <CardDescription>
+        <div className="text-sm text-muted-foreground">
           {project.domainVerified ? (
             <Link
               className={cn(
@@ -100,7 +94,7 @@ export function PostCard({ post, project, owner }: Props) {
               </TooltipContent>
             </Tooltip>
           )}
-        </CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
