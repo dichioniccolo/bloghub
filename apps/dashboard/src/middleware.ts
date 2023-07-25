@@ -13,6 +13,7 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
     .get("host")!
     .replace(".localhost:3000", `.${env.NEXT_PUBLIC_APP_DOMAIN}`);
 
+  // Get the pathname of the request (e.g. /, /about, /posts/first-post)
   const path = url.pathname;
 
   if (hostname === `app.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
@@ -23,9 +24,13 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
       return NextResponse.redirect(new URL("/", req.url));
     }
 
-    return NextResponse.rewrite(new URL(`/app${path}`, req.url));
+    return NextResponse.rewrite(
+      new URL(`/app${path === "/" ? "" : path}`, req.url),
+    );
   } else if (hostname === `api.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
-    return NextResponse.rewrite(new URL(`/api${path}`, req.url));
+    return NextResponse.rewrite(
+      new URL(`/api${path === "/" ? "" : path}`, req.url),
+    );
   } else if (hostname === env.NEXT_PUBLIC_APP_DOMAIN) {
     return NextResponse.next();
   }
@@ -35,6 +40,7 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   ev.waitUntil(recordVisit(req, finalHostname));
 
+  // rewrite everything else to `/[domain]/... dynamic route
   return NextResponse.rewrite(new URL(`/${finalHostname}${path}`, req.url));
 }
 
