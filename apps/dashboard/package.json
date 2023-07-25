@@ -106,7 +106,7 @@
     "@bloghub/eslint-config": "^0.1.0",
     "@bloghub/tailwind-config": "^0.1.0",
     "@types/html-escaper": "^3.0.0",
-    "@types/node": "^20.4.4",
+    "@types/node": "^20.4.5",
     "@types/react": "^18.2.16",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.14",
