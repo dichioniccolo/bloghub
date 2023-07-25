@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -212,8 +216,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(encoding@0.1.13)
       ai:
-        specifier: ^2.1.25
-        version: 2.1.25(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4)
+        specifier: ^2.1.26
+        version: 2.1.26(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4)
       aws-crt:
         specifier: ^1.15.22
         version: 1.15.22
@@ -5631,8 +5635,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  /ai@2.1.25(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4):
-    resolution: {integrity: sha512-CPGD/auacetvHbwt9TsnktOtc32A4S/5LT9/W+f1nZz9N1W1V5/WDEcr2jTglLVmvh8mXXFwLbKT/t9erly+Bg==}
+  /ai@2.1.26(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4):
+    resolution: {integrity: sha512-WlE9zausBM6rFvBPpMNsu3MpRY3Q85x9ZsurPWCS0AQ613gTDyuunYTLcBY0+QYWtl2H/8SWx9vyCjgRwwXMqg==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
@@ -11520,7 +11524,3 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
