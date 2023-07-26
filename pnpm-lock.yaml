@@ -462,8 +462,8 @@ importers:
         specifier: ^1.9.4
         version: 1.9.4
       resend:
-        specifier: ^0.17.1
-        version: 0.17.1
+        specifier: ^0.17.2
+        version: 0.17.2
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -10179,8 +10179,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /resend@0.17.1:
-    resolution: {integrity: sha512-cLMaKmAp1sjBJFrTAAi8XYKK1PDmPJ7xTI7lTKlVNCmU3qp5OyNjOYlv/6qQrMEAOQ03jy0c0P0rLIBBKgDzQA==}
+  /resend@0.17.2:
+    resolution: {integrity: sha512-lakm76u4MiIDeMF1s2tCmjtksOhwZOs4WcAXkA7aUTvl+63/h+0h6Q6WnkB8RGtj6GakUhQuUkiZshfXgtIrGw==}
     dependencies:
       '@react-email/render': 0.0.7
       axios: 1.4.0
