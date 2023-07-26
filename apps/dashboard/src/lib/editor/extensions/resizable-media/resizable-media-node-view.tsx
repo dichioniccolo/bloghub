@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
+import Image from "next/image";
 import type { NodeViewProps } from "@tiptap/react";
 import { NodeViewWrapper } from "@tiptap/react";
 import { AlignCenter, AlignLeft, AlignRight, Trash2 } from "lucide-react";
@@ -58,12 +58,22 @@ interface WidthAndHeight {
   height: number;
 }
 
+type Props = NodeViewProps & {
+  node: NodeViewProps["node"] & {
+    attrs: {
+      src: string;
+      width?: number | `${number}` | undefined;
+      height?: number | `${number}` | undefined;
+    };
+  };
+};
+
 export const ResizableMediaNodeView = ({
   editor,
   node,
   updateAttributes,
   deleteNode,
-}: NodeViewProps) => {
+}: Props) => {
   const editable = editor.options.editable;
 
   const [aspectRatio, setAspectRatio] = React.useState(0);
@@ -72,7 +82,7 @@ export const ResizableMediaNodeView = ({
     React.useState(0);
 
   const resizableMediaRef = React.useRef<
-    HTMLImageElement | HTMLVideoElement | null
+    React.ElementRef<"img"> | React.ElementRef<"video">
   >(null);
 
   const mediaSetupOnLoad = () => {
@@ -204,8 +214,8 @@ export const ResizableMediaNodeView = ({
     >
       <div className="group relative flex w-fit transition-all ease-in-out">
         {node.attrs["media-type"] === "img" && (
-          <img
-            ref={resizableMediaRef as any}
+          <Image
+            ref={resizableMediaRef as React.RefObject<HTMLImageElement>}
             src={node.attrs.src}
             className="rounded-lg"
             alt={node.attrs.src}
@@ -216,19 +226,20 @@ export const ResizableMediaNodeView = ({
 
         {node.attrs["media-type"] === "video" && (
           <video
-            ref={resizableMediaRef as any}
+            ref={resizableMediaRef as React.RefObject<HTMLVideoElement>}
             className="rounded-lg"
             controls
             width={node.attrs.width}
             height={node.attrs.height}
           >
             <source src={node.attrs.src} />
+            <track src={node.attrs.src} kind="captions" />
           </video>
         )}
 
         {editable && (
           <>
-            <div
+            <button
               className="absolute right-1 top-[50%] z-50 h-24 w-2.5 translate-y-[-50%] cursor-col-resize rounded opacity-50 group-hover:border-2 group-hover:border-white group-hover:bg-black"
               title="Resize"
               onClick={({ clientX }) => setLastClientX(clientX)}

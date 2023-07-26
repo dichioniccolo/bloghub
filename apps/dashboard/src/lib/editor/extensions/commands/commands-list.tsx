@@ -1,6 +1,4 @@
-import type { Editor, Range } from "@tiptap/core";
-import { useCompletion } from "ai/react";
-import { Loader2 } from "lucide-react";
+import type { ElementRef } from "react";
 import {
   useCallback,
   useEffect,
@@ -8,6 +6,9 @@ import {
   useRef,
   useState,
 } from "react";
+import type { Editor, Range } from "@tiptap/core";
+import { useCompletion } from "ai/react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { getPrevText } from "../..";
@@ -108,7 +109,7 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
     setSelectedIndex(0);
   }, [items]);
 
-  const commandListContainer = useRef<HTMLDivElement>(null);
+  const commandListContainer = useRef<ElementRef<"div">>(null);
 
   useLayoutEffect(() => {
     const container = commandListContainer?.current;

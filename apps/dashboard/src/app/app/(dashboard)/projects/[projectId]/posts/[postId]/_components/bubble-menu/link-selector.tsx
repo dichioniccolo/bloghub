@@ -1,4 +1,4 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, ElementRef, FC, SetStateAction } from "react";
 import { useEffect, useRef } from "react";
 import type { Editor } from "@tiptap/core";
 import { Check, Trash } from "lucide-react";
@@ -16,7 +16,7 @@ export const LinkSelector: FC<LinkSelectorProps> = ({
   isOpen,
   setIsOpen,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<ElementRef<"input">>(null);
 
   // Autofocus on input by default
   useEffect(() => {
@@ -47,6 +47,7 @@ export const LinkSelector: FC<LinkSelectorProps> = ({
             type="url"
             placeholder="Paste a link"
             className="flex-1 bg-background p-1 text-sm outline-none"
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             defaultValue={editor.getAttributes("link").href || ""}
           />
           {editor.getAttributes("link").href ? (

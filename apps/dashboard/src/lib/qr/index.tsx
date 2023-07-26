@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: ISC
  */
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ComponentProps,
-  type CSSProperties,
-} from "react";
+import type { ComponentProps, CSSProperties, ElementRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import NextImage from "next/image";
 import { escape } from "html-escaper";
 
@@ -192,8 +187,8 @@ export function QRCodeCanvas(props: QRPropsCanvas) {
     ...otherProps
   } = props;
   const imgSrc = imageSettings?.src;
-  const _canvas = useRef<HTMLCanvasElement>(null);
-  const _image = useRef<HTMLImageElement>(null);
+  const _canvas = useRef<ElementRef<"canvas">>(null);
+  const _image = useRef<ElementRef<"img">>(null);
 
   // We're just using this state to trigger rerenders when images load. We
   // Don't actually read the value anywhere. A smarter use of useEffect would

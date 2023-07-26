@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ElementRef, ReactNode } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -40,7 +40,7 @@ type Props = {
 };
 
 export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
-  const anchorRef = useRef<HTMLAnchorElement | null>(null);
+  const anchorRef = useRef<ElementRef<"a">>(null);
 
   const [showLogo, setShowLogo] = useState(true);
   const [foregroundColor, setForegroundColor] = useState("#000000");
@@ -204,6 +204,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
         </DialogFooter>
 
         {/* This will be used to prompt downloads. */}
+        {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
         <a
           className="hidden"
           download={`${post.slug}-qrcode.svg`}
