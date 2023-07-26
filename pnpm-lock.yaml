@@ -425,8 +425,8 @@ importers:
   packages/db:
     dependencies:
       '@planetscale/database':
-        specifier: ^1.9.0
-        version: 1.9.0
+        specifier: ^1.10.0
+        version: 1.10.0
       '@t3-oss/env-nextjs':
         specifier: ^0.6.0
         version: 0.6.0(typescript@5.1.6)(zod@3.21.4)
@@ -435,7 +435,7 @@ importers:
         version: 2.0.4(@tiptap/pm@2.0.4)
       drizzle-orm:
         specifier: ^0.27.2
-        version: 0.27.2(@planetscale/database@1.9.0)
+        version: 0.27.2(@planetscale/database@1.10.0)
       next-auth:
         specifier: ^4.22.3
         version: 4.22.3(next@13.4.12)(react-dom@18.2.0)(react@18.2.0)
@@ -2734,8 +2734,8 @@ packages:
       '@noble/hashes': 1.3.1
     dev: false
 
-  /@planetscale/database@1.9.0:
-    resolution: {integrity: sha512-QIAADQeRAb2opiZYrIqhbOfLPx4gFICAZmQBWUMoyvSQr89YQgbb+6UGJHb7zVK6O8YjoR7BjGT/Jh9RC4iSNg==}
+  /@planetscale/database@1.10.0:
+    resolution: {integrity: sha512-XMfNRjIPgGTga6g1YpGr7E21CcnHZcHZdyhRUIiZ/AlpD+ts65UF2B3wKjcu7MKMynmmcOGs6R9kAT6D1OTlZQ==}
     engines: {node: '>=16'}
     dev: false
 
@@ -6945,7 +6945,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.27.2(@planetscale/database@1.9.0):
+  /drizzle-orm@0.27.2(@planetscale/database@1.10.0):
     resolution: {integrity: sha512-ZvBvceff+JlgP7FxHKe0zOU9CkZ4RcOtibumIrqfYzDGuOeF0YUY0F9iMqYpRM7pxnLRfC+oO7rWOUH3T5oFQA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -7007,7 +7007,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      '@planetscale/database': 1.9.0
+      '@planetscale/database': 1.10.0
     dev: false
 
   /duplexer2@0.1.4:
