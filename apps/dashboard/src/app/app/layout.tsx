@@ -1,10 +1,10 @@
-import { PropsWithChildren } from "react";
-import { Metadata } from "next";
+import type { PropsWithChildren } from "react";
+import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 
 import { env } from "~/env.mjs";
 import { authOptions } from "~/lib/auth";
-import { AuthProviders } from "./auth-provider";
+import { AuthProviders } from "./providers";
 
 export function generateMetadata() {
   const appUrl =

@@ -1,8 +1,10 @@
-import { userAgent, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
+import { userAgent } from "next/server";
 
 import { and, db, eq, posts, projects, visits } from "@bloghub/db";
 
-import { parseRequest } from "./utils";
+import { env } from "~/env.mjs";
+import { HOME_HOSTNAMES } from "../constants";
 
 export const detectBot = (req: NextRequest) => {
   const url = req.nextUrl;
@@ -30,10 +32,10 @@ export async function recordVisit(req: NextRequest, domain: string) {
     return;
   }
 
-  const { keys } = parseRequest(req);
+  const { fullKey } = parseRequest(req);
 
   const ua = userAgent(req);
-  const isPostPage = keys.startsWith("/posts/");
+  const isPostPage = fullKey.startsWith("/posts/");
 
   if (!isPostPage) {
     return;
@@ -52,7 +54,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   }
 
   // we need to regex the slug from the url because it can also contain a query string
-  const postSlug = keys.replace("/posts/", "").replace(/\/.*/, "");
+  const postSlug = fullKey.replace("/posts/", "").replace(/\/.*/, "");
 
   const post = await db
     .select({
@@ -86,4 +88,20 @@ export async function recordVisit(req: NextRequest, domain: string) {
     geoLatitude: req.geo?.latitude,
     geoLongitude: req.geo?.longitude,
   });
+}
+
+export function parseRequest(req: NextRequest) {
+  let domain = req.headers.get("host") as string;
+  domain = domain.replace("www.", ""); // remove www. from domain
+  if (HOME_HOSTNAMES.has(domain)) domain = env.NEXT_PUBLIC_APP_DOMAIN; // if domain is a home hostname, set it to NEXT_PUBLIC_APP_DOMAIN
+
+  const path = req.nextUrl.pathname;
+
+  // Here, we are using decodeURIComponent to handle foreign languages like Hebrew
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const key = decodeURIComponent(path.split("/")[1]);
+  const fullKey = decodeURIComponent(path.slice(1));
+
+  return { domain, path, key, fullKey };
 }

@@ -23,7 +23,7 @@ import { UserAuthSchema } from "~/lib/validation/schema";
 
 type Props = HTMLAttributes<HTMLDivElement>;
 
-export function UserAuthForm({ className, ...props }: Props) {
+export function SignInForm({ className, ...props }: Props) {
   const searchParams = useSearchParams();
 
   const error = searchParams?.get("error");
@@ -55,7 +55,13 @@ export function UserAuthForm({ className, ...props }: Props) {
           </AlertDescription>
         </Alert>
       )}
-      <Form schema={UserAuthSchema} onSubmit={onSubmit}>
+      <Form
+        schema={UserAuthSchema}
+        onSubmit={onSubmit}
+        initialValues={{
+          email: "",
+        }}
+      >
         {({ formState: { isSubmitting } }) => (
           <div className="grid gap-2">
             <FormField

@@ -1,9 +1,6 @@
-import type { NextRequest } from "next/server";
 import { format } from "date-fns";
 
 import type { MediaEnumType } from "@bloghub/db";
-
-export const TEST_HOSTNAME = "test.niccolodichio.it";
 
 export const truncate = (str: string, num: number) => {
   if (!str) return "";
@@ -12,16 +9,6 @@ export const truncate = (str: string, num: number) => {
   }
   return str.slice(0, num) + "...";
 };
-
-export function parseRequest(req: NextRequest) {
-  const path = req.nextUrl.pathname;
-
-  const paths = path.split("/");
-
-  const keys = decodeURIComponent(paths.join("/"));
-
-  return { path, keys };
-}
 
 export function getSubDomain(name?: string, apexName?: string) {
   if (!name || !apexName || name === apexName) {

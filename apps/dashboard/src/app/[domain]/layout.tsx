@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 import { db, eq, projects } from "@bloghub/db";
 
@@ -8,6 +7,7 @@ import { fontMapper } from "~/styles/fonts";
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { BlogFooter } from "./_components/blog-footer";
 import { BlogHeader } from "./_components/blog-header";
+import { CustomDomainProviders } from "./providers";
 
 type Props = {
   params: {
@@ -63,14 +63,16 @@ export default async function Layout({
   const project = await getProjectByDomain(domain);
 
   if (!project) {
-    notFound();
+    return null;
   }
 
   return (
-    <div className={fontMapper["font-cal"]}>
-      <BlogHeader project={project} />
-      <div className="mt-20">{children}</div>
-      <BlogFooter project={project} />
-    </div>
+    <CustomDomainProviders>
+      <div className={fontMapper["font-cal"]}>
+        <BlogHeader project={project} />
+        <div className="mt-20">{children}</div>
+        <BlogFooter project={project} />
+      </div>
+    </CustomDomainProviders>
   );
 }

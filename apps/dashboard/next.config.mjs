@@ -3,6 +3,8 @@ import "@bloghub/db/env.mjs";
 import "@bloghub/emails/env.mjs";
 import "./src/env.mjs";
 
+import { env } from "./src/env.mjs";
+
 // const ContentSecurityPolicy = `
 //   default-src 'self';
 //   script-src https://vercel.live/ https://vercel.com unsafe-inline unsafe-eval;
@@ -85,9 +87,12 @@ const config = {
     },
   ],
   compiler: {
-    removeConsole: {
-      exclude: ["error", "warn"],
-    },
+    removeConsole:
+      env.NODE_ENV === "production"
+        ? {
+            exclude: ["error", "warn"],
+          }
+        : undefined,
   },
   // only if deploying with docker
   // output: "standalone",
