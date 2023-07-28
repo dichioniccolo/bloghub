@@ -222,8 +222,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(encoding@0.1.13)
       ai:
-        specifier: ^2.1.27
-        version: 2.1.27(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4)
+        specifier: ^2.1.28
+        version: 2.1.28(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4)
       aws-crt:
         specifier: ^1.17.0
         version: 1.17.0
@@ -5660,8 +5660,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  /ai@2.1.27(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4):
-    resolution: {integrity: sha512-PvttKfrpO86ypG3OL6MO4rSvprto1buvwXH/Sfft7FI2DwUcR+rduaH3WmaIpJ6kv2PH+HrmM1zGW1cyU6XSKA==}
+  /ai@2.1.28(react@18.2.0)(solid-js@1.7.8)(svelte@4.1.1)(vue@3.3.4):
+    resolution: {integrity: sha512-jPMI8UBhRUrr0U+HXPqr45xP7J/Kb13g6B4GRbF37vroOncfSNChCrE6PMS+witFxpD12QZ7T8V4eF8xdpUqXw==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
