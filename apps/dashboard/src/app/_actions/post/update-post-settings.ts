@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import {
@@ -16,6 +17,7 @@ import {
 } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
+import { AppRoutes } from "~/lib/common/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 import { deleteProjectMedia } from "../project/delete-project-media";
 
@@ -146,4 +148,6 @@ export const updatePostSettings = zactAuthenticated(
       hidden: false,
     })
     .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)));
+
+  revalidatePath(AppRoutes.PostEditor(projectId, postId));
 });
