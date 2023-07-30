@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=v18.17.0"
   },
-  "packageManager": "pnpm@8.6.10",
+  "packageManager": "pnpm@8.6.11",
   "scripts": {
     "reinstall": "pnpm clean:workspaces && pnpm i",
     "build": "turbo build",
