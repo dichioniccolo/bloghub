@@ -4,7 +4,7 @@ import { userAgent } from "next/server";
 import { and, db, eq, posts, projects, visits } from "@bloghub/db";
 
 import { env } from "~/env.mjs";
-import { HOME_HOSTNAMES } from "../constants";
+import { HOME_HOSTNAMES, TEST_HOSTNAME } from "../constants";
 
 export const detectBot = (req: NextRequest) => {
   const url = req.nextUrl;
@@ -93,6 +93,10 @@ export async function recordVisit(req: NextRequest, domain: string) {
 export function parseRequest(req: NextRequest) {
   let domain = req.headers.get("host") as string;
   domain = domain.replace("www.", ""); // remove www. from domain
+
+  if (domain.includes("test.localhost") && env.NODE_ENV === "development")
+    domain = TEST_HOSTNAME;
+
   if (HOME_HOSTNAMES.has(domain)) domain = env.NEXT_PUBLIC_APP_DOMAIN; // if domain is a home hostname, set it to NEXT_PUBLIC_APP_DOMAIN
 
   const path = req.nextUrl.pathname;

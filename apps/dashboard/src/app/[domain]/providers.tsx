@@ -8,5 +8,5 @@ type Props = {
 };
 
 export function CustomDomainProviders({ children }: Props) {
-  return <ThemeProvider>{children}</ThemeProvider>;
+  return <ThemeProvider attribute="class">{children}</ThemeProvider>;
 }

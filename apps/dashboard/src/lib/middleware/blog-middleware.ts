@@ -8,7 +8,7 @@ import { parseRequest, recordVisit } from "./utils";
 export function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain, fullKey: key } = parseRequest(req);
 
-  if (!domain || !key) {
+  if (!domain) {
     return NextResponse.next();
   }
 
@@ -16,8 +16,8 @@ export function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
 
   ev.waitUntil(recordVisit(req, finalDomain));
 
-  // // rewrite everything else to `/[domain]/... dynamic route
+  // rewrite everything else to `/[domain]/... dynamic route
   return NextResponse.rewrite(
-    new URL(`/${finalDomain}${key === "/" ? "" : key}`, req.url),
+    new URL(`/${finalDomain}/${key === "/" ? "" : key}`, req.url),
   );
 }

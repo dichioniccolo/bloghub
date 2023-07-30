@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
-import { TEST_HOSTNAME } from "~/lib/utils";
+import { TEST_HOSTNAME } from "~/lib/constants";
 
 export default async function NotFound() {
   const hostname = headers()
