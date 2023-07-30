@@ -34,7 +34,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         title: "Continue writing",
         description: "Use AI to expand your thoughts.",
         searchTerms: ["gpt"],
-        icon: <Sparkles className="w-7 text-black" />,
+        icon: <Sparkles className="w-7" />,
         command: () => {
           //
         },

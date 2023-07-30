@@ -70,11 +70,13 @@ export const LinkSelector: FC<LinkSelectorProps> = ({
                   return;
                 }
 
-                editor
-                  .chain()
-                  .focus()
-                  .setLink({ href: inputRef.current?.value })
-                  .run();
+                let href = inputRef.current.value;
+
+                if (!href.startsWith("http")) {
+                  href = `https://${href}`;
+                }
+
+                editor.chain().focus().setLink({ href }).run();
                 setIsOpen(false);
               }}
             >

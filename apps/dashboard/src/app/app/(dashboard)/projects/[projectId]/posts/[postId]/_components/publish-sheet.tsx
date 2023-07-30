@@ -109,7 +109,9 @@ export function PublishSheet({ post }: Props) {
     <>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline">Publish</Button>
+          <Button variant="outline">
+            {post.hidden ? "Publish" : "Settings"}
+          </Button>
         </SheetTrigger>
         <SheetContent className="w-[400px] max-w-none overflow-y-auto sm:w-[700px] sm:max-w-none">
           <SheetHeader>

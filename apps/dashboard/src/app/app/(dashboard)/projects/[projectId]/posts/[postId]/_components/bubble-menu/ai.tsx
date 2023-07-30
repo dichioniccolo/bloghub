@@ -6,9 +6,10 @@ import { toast } from "sonner";
 
 type Props = {
   editor: Editor;
+  onAccept?: (acceptedText: string) => void;
 };
 
-export function AIBubbleMenu({ editor }: Props) {
+export function AIBubbleMenu({ editor, onAccept }: Props) {
   const { completion, isLoading } = useCompletion({
     id: "editor-edit",
     api: "/api/generate",

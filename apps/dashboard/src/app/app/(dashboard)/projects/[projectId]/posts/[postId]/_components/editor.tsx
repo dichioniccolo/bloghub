@@ -145,6 +145,7 @@ export function Editor({
       document.addEventListener("keydown", onKeyDown);
       document.addEventListener("mousedown", mouseDownHandler);
     }
+
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("mousedown", mouseDownHandler);
@@ -161,10 +162,10 @@ export function Editor({
 
   return (
     <div
-      onClick={() => {
-        editor.chain().focus().run();
-      }}
-      className="min-h-[500px] w-full bg-background py-12 sm:mb-[calc(20vh)]"
+      // onClick={() => {
+      //   editor.chain().focus().run();
+      // }}
+      className="relative min-h-[500px] w-full bg-background py-12 sm:mb-[calc(20vh)]"
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
