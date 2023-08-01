@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Separator } from "~/components/ui/separator";

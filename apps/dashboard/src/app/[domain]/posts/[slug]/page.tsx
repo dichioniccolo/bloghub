@@ -38,10 +38,11 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: seoTitle,
+      description: seoDescription,
       creator: "@bloghub",
     },
+    icons: post?.project.logo ? [post.project.logo] : undefined,
   };
 }
 

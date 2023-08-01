@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { type GetProject } from "~/app/_api/projects";
+import type { GetProject } from "~/app/_api/projects";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 
 type Props = {

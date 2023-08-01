@@ -93,30 +93,3 @@ export function CustomDomain({ project }: Props) {
     </Card>
   );
 }
-
-export function CustomDomainPlaceholder() {
-  return (
-    <Card className="animate-pulse">
-      <CardHeader>
-        <CardTitle>Custom Domain</CardTitle>
-        <CardDescription>
-          This is the custom domain associated with your project.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col space-y-3 px-5 sm:px-10">
-          <div className="flex flex-col justify-between space-y-4 sm:flex-row sm:space-x-4">
-            <div className="h-8 w-32 rounded-md bg-stone-200" />
-            <div className="flex space-x-3">
-              <div className="h-9 w-24 rounded-md bg-stone-200" />
-              <div className="h-9 w-24 rounded-md bg-stone-200" />
-            </div>
-          </div>
-          <div className="flex h-10 items-center space-x-2">
-            <Loader2 className="mr-1 h-5 w-5 animate-spin" />
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}

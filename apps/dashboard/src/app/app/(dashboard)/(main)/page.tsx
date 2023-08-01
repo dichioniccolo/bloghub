@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 
 import { DashboardHeader } from "~/app/_components/dashboard-header";
 import { DashboardShell } from "~/app/_components/dashboard-shell";

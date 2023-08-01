@@ -35,7 +35,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   const { fullKey } = parseRequest(req);
 
   const ua = userAgent(req);
-  const isPostPage = fullKey.startsWith("/posts/");
+  const isPostPage = fullKey.startsWith("posts/");
 
   if (!isPostPage) {
     return;
@@ -54,7 +54,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   }
 
   // we need to regex the slug from the url because it can also contain a query string
-  const postSlug = fullKey.replace("/posts/", "").replace(/\/.*/, "");
+  const postSlug = fullKey.replace("posts/", "").replace(/\/.*/, "");
 
   const post = await db
     .select({

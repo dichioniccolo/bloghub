@@ -53,7 +53,7 @@ export function ChangeName({ project }: Props) {
           name: project.name,
         }}
       >
-        {({ formState: { isSubmitting } }) => (
+        {({ watch, formState: { isSubmitting } }) => (
           <>
             <CardContent>
               <FormField
@@ -80,7 +80,7 @@ export function ChangeName({ project }: Props) {
               />
             </CardContent>
             <CardFooter>
-              <Button disabled={isSubmitting}>
+              <Button disabled={isSubmitting || watch("name") === project.name}>
                 {isSubmitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}

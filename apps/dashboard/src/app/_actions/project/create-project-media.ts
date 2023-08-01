@@ -53,6 +53,10 @@ export async function createProjectMedia(formData: FormData) {
 
   const file = formData.get("file") as File;
 
+  if (file.size / 1024 / 1024 > 5) {
+    throw new Error("File size too big (max 5MB)");
+  }
+
   const extension = file.name.split(".").pop();
 
   const fileName = `projects/${projectId}/${createId()}.${extension}`;
