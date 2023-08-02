@@ -23,6 +23,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
 import { createProject } from "~/app/_actions/project/create-project";
+import { env } from "~/env.mjs";
 import type { CreateProjectSchemaType } from "~/lib/validation/schema";
 import { CreateProjectSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
@@ -100,8 +101,9 @@ function CreateProjectDialog({ open, setOpen }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormDescription>
-                      TIP: If you do not have a custom domain, you can use a
-                      .bloghub.it subdomain as long as it is available.
+                      TIP: If you do not have a custom domain, you can use a .
+                      {env.NEXT_PUBLIC_APP_DOMAIN} subdomain as long as it is
+                      available.
                     </FormDescription>
                   </FormItem>
                 )}

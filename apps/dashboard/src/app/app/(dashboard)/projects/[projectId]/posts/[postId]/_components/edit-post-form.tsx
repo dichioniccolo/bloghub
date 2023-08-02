@@ -85,7 +85,7 @@ export function EditPostForm({ post }: Props) {
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the title?"
-                className="rounded-md border-0 px-0 py-4 text-4xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="border-0 px-0 py-4 text-4xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
               />
             </FormControl>
             <FormMessage />
@@ -101,7 +101,7 @@ export function EditPostForm({ post }: Props) {
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the description?"
-                className="resize-none rounded-md border-0 px-0 py-4 text-2xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="resize-none border-0 px-0 py-4 text-2xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
               />
             </FormControl>
             <FormMessage />

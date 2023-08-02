@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+import { env } from "~/env.mjs";
+
 export const runtime = "edge";
 
 export default function robots(): MetadataRoute.Robots {
@@ -9,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/admin/",
     },
-    sitemap: "https://bloghub.it/sitemap.xml",
+    sitemap: `https://${env.NEXT_PUBLIC_APP_DOMAIN}/sitemap.xml`,
   };
 }
