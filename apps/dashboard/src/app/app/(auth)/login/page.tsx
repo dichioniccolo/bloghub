@@ -1,10 +1,9 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import logo from "public/static/logo.svg";
 
 import { Skeleton } from "~/components/ui/skeleton";
+import { Logo } from "~/app/_components/icons/logo";
 import { env } from "~/env.mjs";
 import { SignInForm } from "./_components/sign-in-form";
 
@@ -45,13 +44,7 @@ export default function Page() {
       <div className="absolute z-50 m-auto flex w-[380px] flex-1 flex-col justify-center p-6 sm:w-[468px] sm:p-10">
         <Link href="/">
           <h1 className="flex flex-col items-center text-3xl">
-            <Image
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              src={logo}
-              width={50}
-              height={50}
-              alt={env.NEXT_PUBLIC_APP_NAME}
-            />
+            <Logo size={50} />
             <span className="mt-2">{env.NEXT_PUBLIC_APP_NAME}</span>
           </h1>
         </Link>

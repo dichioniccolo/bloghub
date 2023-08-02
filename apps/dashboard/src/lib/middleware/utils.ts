@@ -35,7 +35,8 @@ export async function recordVisit(req: NextRequest, domain: string) {
   const { fullKey } = parseRequest(req);
 
   const ua = userAgent(req);
-  const isPostPage = fullKey.startsWith("posts/");
+  const isPostPage =
+    fullKey.startsWith("posts/") && !fullKey.includes("opengraph-image");
 
   if (!isPostPage) {
     return;

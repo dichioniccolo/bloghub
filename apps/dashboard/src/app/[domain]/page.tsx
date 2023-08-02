@@ -54,7 +54,7 @@ export default async function Page({
                   className="h-full w-full object-cover group-hover:scale-105 group-hover:duration-300"
                   width={1300}
                   height={630}
-                  src={posts[0]!.thumbnailUrl ?? "/placeholder.png"}
+                  src={posts[0]!.thumbnailUrl ?? "/_static/placeholder.png"}
                 />
               </div>
               <div className="mx-auto mt-10 w-5/6 lg:w-full">

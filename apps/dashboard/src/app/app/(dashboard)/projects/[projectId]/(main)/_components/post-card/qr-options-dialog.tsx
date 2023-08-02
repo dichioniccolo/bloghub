@@ -52,15 +52,10 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
     anchorRef.current.click();
   }
 
-  const qrLogoUrl = useMemo(() => {
-    if (owner.isPro && project.logo) {
-      return project.logo;
-    }
-
-    return typeof window !== "undefined" && window.location.origin
-      ? new URL("/static/logo.svg", window.location.origin).href
+  const qrLogoUrl =
+    typeof window !== "undefined" && window.location.origin
+      ? new URL("/_static/logo.svg", window.location.origin).href
       : "";
-  }, [owner.isPro, project.logo]);
 
   const qrData = useMemo(
     () => ({

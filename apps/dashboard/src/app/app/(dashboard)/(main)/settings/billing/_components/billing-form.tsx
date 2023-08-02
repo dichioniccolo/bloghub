@@ -110,7 +110,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
         <div className="p-10">
           <h3 className="font-medium">Number of Projects</h3>
           <div className="mt-4 flex items-center">
-            <p className="text-2xl font-semibold text-black dark:text-stone-50">
+            <p className="text-2xl font-semibold text-stone-500">
               {formatNumber(projectsCount)}
             </p>
             <Divider className="h-8 w-8 text-stone-500" />

@@ -187,7 +187,8 @@ export function PublishSheet({ post }: Props) {
                                 height={630}
                                 className="h-full w-full object-cover"
                                 src={
-                                  watch("thumbnailUrl") ?? "/placeholder.png"
+                                  watch("thumbnailUrl") ??
+                                  "/_static/placeholder.png"
                                 }
                               />
                               <div className="absolute right-2 top-2 box-border hidden overflow-hidden rounded-sm border border-slate-200 bg-white shadow-xl transition-all duration-200 ease-linear group-hover:flex">

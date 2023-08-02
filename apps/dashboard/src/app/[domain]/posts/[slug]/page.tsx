@@ -77,7 +77,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
           width={1200}
           height={630}
           className="h-full w-full object-cover"
-          src={post.thumbnailUrl ?? "/placeholder.png"}
+          src={post.thumbnailUrl ?? "/_static/placeholder.png"}
         />
       </div>
       <div className="m-10">

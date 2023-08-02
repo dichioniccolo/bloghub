@@ -27,7 +27,7 @@ export default function Layout({ children }: PropsWithChildren) {
               >
                 <Logo className="h-10 w-10 rounded-full transition-all duration-75 active:scale-95" />
               </Link>
-              <Divider className="h-10 w-10 text-primary sm:ml-3" />
+              <Divider className="h-10 w-10 text-primary" />
               <Suspense
                 fallback={<Skeleton className="h-12 w-48 rounded-3xl" />}
               >
