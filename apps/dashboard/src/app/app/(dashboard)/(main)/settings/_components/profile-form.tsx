@@ -42,7 +42,7 @@ export function ProfileForm() {
         onSubmit={onSubmit}
         schema={UserNameSchema}
         initialValues={{
-          name: user.name ?? "",
+          name: user?.name ?? "",
         }}
       >
         {({ formState: { isSubmitting } }) => (

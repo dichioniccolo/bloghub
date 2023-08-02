@@ -22,9 +22,7 @@ import { getDefaultAvatarImage } from "~/lib/utils";
 export function UserDropdown() {
   const user = useUser();
 
-  const onLogout = async () => {
-    await signOut();
-  };
+  const onLogout = () => signOut();
 
   return (
     <DropdownMenu>
@@ -32,11 +30,13 @@ export function UserDropdown() {
         <Button variant="ghost" className="h-12 w-12 rounded-full">
           <Avatar>
             <AvatarImage
-              alt={user.name ?? user.email}
-              src={user.image ?? getDefaultAvatarImage(user.name ?? user.email)}
+              alt={user?.name ?? user?.email}
+              src={
+                user?.image ?? getDefaultAvatarImage(user?.name ?? user?.email)
+              }
               className="h-10 w-10 rounded-full"
             />
-            <AvatarFallback>{user.name ?? user.email}</AvatarFallback>
+            <AvatarFallback>{user?.name ?? user?.email}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

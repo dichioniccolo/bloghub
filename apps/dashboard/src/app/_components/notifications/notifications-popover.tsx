@@ -52,7 +52,7 @@ export function NotificationsPopover() {
   });
 
   useRealtimeNotification(
-    `user__${user.id}`,
+    `user__${user?.id}`,
     "notifications",
     onNewNotification,
   );

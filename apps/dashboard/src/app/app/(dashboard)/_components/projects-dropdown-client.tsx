@@ -59,16 +59,16 @@ export function ProjectsDropdownClient({ projects }: Props) {
                   selectedProject?.logo ??
                   (selectedProject
                     ? getDefaultAvatarImage(selectedProject.name)
-                    : user.image ?? getDefaultAvatarImage(user.email))
+                    : user?.image ?? getDefaultAvatarImage(user?.email))
                 }
-                alt={selectedProject?.name ?? user.name ?? user.email}
+                alt={selectedProject?.name ?? user?.name ?? user?.email}
               />
               <AvatarFallback>
-                {selectedProject?.name[0] ?? user.name?.[0] ?? user.email[0]}
+                {selectedProject?.name[0] ?? user?.name?.[0] ?? user?.email[0]}
               </AvatarFallback>
             </Avatar>
             <span className="truncate">
-              {selectedProject?.name ?? user?.name ?? user.email}
+              {selectedProject?.name ?? user?.name ?? user?.email}
             </span>
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -88,14 +88,14 @@ export function ProjectsDropdownClient({ projects }: Props) {
                 >
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={user.image ?? getDefaultAvatarImage(user.email)}
-                      alt={user.name ?? user.email}
+                      src={user?.image ?? getDefaultAvatarImage(user?.email)}
+                      alt={user?.name ?? user?.email}
                     />
                     <AvatarFallback>
-                      {user.name?.[0] ?? user.email[0]}
+                      {user?.name?.[0] ?? user?.email[0]}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="truncate">{user.name ?? user.email}</span>
+                  <span className="truncate">{user?.name ?? user?.email}</span>
                   <Check
                     className={cn("ml-auto h-4 w-4", {
                       "opacity-100": !selectedProject,

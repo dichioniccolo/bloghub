@@ -18,7 +18,11 @@ export function getSubDomain(name?: string, apexName?: string) {
   return name.slice(0, name.length - apexName.length - 1);
 }
 
-export function getDefaultAvatarImage(text: string) {
+export function getDefaultAvatarImage(text?: string) {
+  if (!text) {
+    return "https://avatar.vercel.sh/unknown?size=400";
+  }
+
   return `https://avatar.vercel.sh/${text}?size=400`;
 }
 

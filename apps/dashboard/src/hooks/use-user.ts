@@ -1,21 +1,23 @@
 "use client";
 
-import { redirect } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 import { AppRoutes } from "~/lib/common/routes";
 
 export function useUser() {
+  const router = useRouter();
+
   const { data } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect(AppRoutes.Login);
+      router.replace(AppRoutes.Login);
     },
   });
 
-  if (!data?.user) {
-    throw new Error("You must be authenticated");
+  if (!data) {
+    void signOut();
   }
 
-  return data.user;
+  return data?.user ?? null;
 }
