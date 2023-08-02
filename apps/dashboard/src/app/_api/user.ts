@@ -11,6 +11,7 @@ export async function getUserPlan() {
 
   const dbUser = await db
     .select({
+      email: users.email,
       stripeSubscriptionId: users.stripeSubscriptionId,
       stripePriceId: users.stripePriceId,
       dayWhenBillingStarts: users.dayWhenBillingStarts,
@@ -27,7 +28,7 @@ export async function getUserPlan() {
     billingPeriod[1],
   );
 
-  const plan = await determinePlanByPriceId(dbUser?.stripePriceId);
+  const plan = await determinePlanByPriceId(dbUser.email, dbUser.stripePriceId);
 
   return {
     plan,

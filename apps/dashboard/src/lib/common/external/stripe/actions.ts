@@ -1,6 +1,6 @@
 "use server";
 
-import { freePlan, proPlans, stripe } from ".";
+import { freePlan, proPlans, proUnlimitedPlan, stripe } from ".";
 
 export async function getUserSubscription(subscriptionId?: string | null) {
   if (!subscriptionId) {
@@ -26,7 +26,14 @@ export async function determinePlan(name: string) {
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export async function determinePlanByPriceId(priceId?: string | null) {
+export async function determinePlanByPriceId(
+  email: string,
+  priceId?: string | null,
+) {
+  if (email === "dichioniccolo@gmail.com") {
+    return proUnlimitedPlan;
+  }
+
   if (!priceId) {
     return freePlan;
   }

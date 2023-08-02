@@ -16,7 +16,7 @@ export function BlogFooter({ project }: Props) {
         <div className="flex items-center">
           <p className="flex">
             <Copyright className="mr-2" /> {format(new Date(), "yyyy")}{" "}
-            {project.name}&apos; blog
+            {project.name}
           </p>
         </div>
         <div className="flex flex-col items-center space-y-4">
