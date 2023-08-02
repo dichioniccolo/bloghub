@@ -31,18 +31,18 @@ export const freePlan = {
   name: "Free",
   description:
     "The free plan is limited in clicks you can get per month. Upgrade to one of the PRO plans to increase your limits.",
-  quota: 1000,
+  quota: 10000,
   isPro: false,
 } satisfies SubscriptionPlan;
 
-export const pro10KPlan = {
-  name: "Pro 10K",
-  description: "The PRO 10K plan has 10,000 clicks.",
+export const pro50KPlan = {
+  name: "Pro 50K",
+  description: "The PRO 50K plan has 50,000 clicks.",
   prices: {
-    monthly: env.STRIPE_PRO_10K_MONTHLY_PLAN_ID,
-    yearly: env.STRIPE_PRO_10K_YEARLY_PLAN_ID,
+    monthly: env.STRIPE_PRO_50K_MONTHLY_PLAN_ID,
+    yearly: env.STRIPE_PRO_50K_YEARLY_PLAN_ID,
   },
-  quota: 10000,
+  quota: 50000,
   isPro: true,
 } satisfies SubscriptionPlan;
 
@@ -58,4 +58,4 @@ export const proUnlimitedPlan = {
   isPro: true,
 } satisfies SubscriptionPlan;
 
-export const proPlans = [pro10KPlan, proUnlimitedPlan];
+export const proPlans = [pro50KPlan, proUnlimitedPlan];
