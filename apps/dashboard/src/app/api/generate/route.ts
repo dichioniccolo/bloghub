@@ -7,7 +7,7 @@ import { db, eq, users } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
-import { isUserPro } from "~/lib/common/external/stripe/actions";
+import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 
 const config = new Configuration({
@@ -24,7 +24,7 @@ export async function POST(req: Request): Promise<Response> {
 
     const dbUser = await db
       .select({
-        stripeSubscriptionId: users.stripeSubscriptionId,
+        stripePriceId: users.stripePriceId,
       })
       .from(users)
       .where(eq(users.id, user.id))
@@ -36,9 +36,9 @@ export async function POST(req: Request): Promise<Response> {
       });
     }
 
-    const isPro = await isUserPro(dbUser.stripeSubscriptionId);
+    const plan = await determinePlanByPriceId(user.email, dbUser.stripePriceId);
 
-    if (!isPro) {
+    if (!plan.isPro) {
       return new Response("You must be a pro member to use AI features", {
         status: 403,
       });

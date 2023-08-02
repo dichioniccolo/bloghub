@@ -148,7 +148,6 @@ export async function getProjectOwner(projectId: string) {
 
   const owner = await db
     .select({
-      email: users.email,
       stripePriceId: users.stripePriceId,
       dayWhenBillingStarts: users.dayWhenBillingStarts,
     })
@@ -177,7 +176,7 @@ export async function getProjectOwner(projectId: string) {
     billingPeriod[1],
   );
 
-  const plan = await determinePlanByPriceId(owner.email, owner.stripePriceId);
+  const plan = await determinePlanByPriceId(user.email, owner.stripePriceId);
 
   return {
     usage,
