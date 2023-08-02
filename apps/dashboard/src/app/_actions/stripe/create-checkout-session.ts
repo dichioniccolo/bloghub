@@ -73,6 +73,7 @@ export const createCheckoutSession = zactAuthenticated(
     },
     client_reference_id: userId,
     customer: dbUser.stripeCustomerId ?? undefined,
+    allow_promotion_codes: true,
   });
 
   return stripeSession.url;
