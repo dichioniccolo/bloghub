@@ -33,7 +33,7 @@ export async function getProjects() {
       domainVerified: projects.domainVerified,
       currentUserRole: projectMembers.role,
       postsCount: sql<number>`count(${posts.id})`.mapWith(Number),
-      visits: sql<number>`count(${visits.id})`.mapWith(Number),
+      visitsCount: sql<number>`count(${visits.id})`.mapWith(Number),
     })
     .from(projects)
     .innerJoin(
@@ -44,7 +44,7 @@ export async function getProjects() {
       ),
     )
     .leftJoin(posts, eq(posts.projectId, projects.id))
-    .innerJoin(visits, eq(visits.projectId, projects.id))
+    .leftJoin(visits, eq(visits.projectId, projects.id))
     .groupBy(
       projects.id,
       projects.name,
