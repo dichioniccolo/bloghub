@@ -51,7 +51,10 @@ export function getBaseUrlPath() {
 export function constructPostUrl(
   domain: string,
   slug: string,
-  options?: { withProtocol?: boolean; noDomain?: boolean },
+  options: { withProtocol?: boolean; noDomain?: boolean } = {
+    withProtocol: true,
+    noDomain: false,
+  },
 ) {
   if (options?.noDomain) {
     return `/${slug}`;

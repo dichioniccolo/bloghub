@@ -13,7 +13,7 @@ export function PostCardCopyButton({ url }: Props) {
   return (
     <PostCardButton onClick={() => copy(url)} className="group">
       <span className="sr-only">Copy</span>
-      {copied ? <Check /> : <Copy />}
+      {copied ? <Check size={14} /> : <Copy size={14} />}
     </PostCardButton>
   );
 }

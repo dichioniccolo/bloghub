@@ -32,6 +32,8 @@ export async function getProjects() {
       domain: projects.domain,
       domainVerified: projects.domainVerified,
       currentUserRole: projectMembers.role,
+      postsCount: sql<number>`count(${posts.id})`.mapWith(Number),
+      visits: sql<number>`count(${visits.id})`.mapWith(Number),
     })
     .from(projects)
     .innerJoin(
@@ -40,6 +42,16 @@ export async function getProjects() {
         eq(projectMembers.projectId, projects.id),
         eq(projectMembers.userId, user.id),
       ),
+    )
+    .leftJoin(posts, eq(posts.projectId, projects.id))
+    .innerJoin(visits, eq(visits.projectId, projects.id))
+    .groupBy(
+      projects.id,
+      projects.name,
+      projects.logo,
+      projects.domain,
+      projects.domainVerified,
+      projectMembers.role,
     );
 }
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;

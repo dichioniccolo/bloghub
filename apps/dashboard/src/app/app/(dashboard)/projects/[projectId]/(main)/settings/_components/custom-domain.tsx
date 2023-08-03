@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, CheckCircle, ExternalLink, Loader2 } from "lucide-react";
+import { AlertCircle, ExternalLink, Loader2 } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -12,6 +12,7 @@ import {
 } from "~/components/ui/card";
 import { verifyDomain } from "~/app/_actions/project/verify-domain";
 import type { GetProject } from "~/app/_api/projects";
+import { CheckCircleFill } from "~/app/_components/icons/check-circle-fill";
 import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";
@@ -66,7 +67,7 @@ export function CustomDomain({ project }: Props) {
         <div className="flex h-10 items-center space-x-2">
           {(project.domainVerified || data?.verified === true) && (
             <>
-              <CheckCircle className="h-6 w-6 text-blue-500" />
+              <CheckCircleFill className="h-6 w-6 text-blue-500" />
               <p className="text-sm text-stone-500">Verified</p>
             </>
           )}

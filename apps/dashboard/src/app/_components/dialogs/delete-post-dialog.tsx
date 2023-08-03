@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { toast } from "sonner";
 
 import {
@@ -12,33 +11,40 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { deletePost } from "~/app/_actions/post/delete-post";
 import { useZact } from "~/lib/zact/client";
 
 type Props = {
+  open: boolean;
+  onOpenChange(open: boolean): void;
   projectId: string;
   postId: string;
-  trigger(loading: boolean): ReactNode;
 };
 
-export function DeletePostDialog({ projectId, postId, trigger }: Props) {
-  const { mutate, isRunning } = useZact(deletePost, {
-    onSuccess: () => {
-      toast.success("Post deleted");
-    },
-  });
+export function DeletePostDialog({
+  open,
+  onOpenChange,
+  projectId,
+  postId,
+}: Props) {
+  const { mutate } = useZact(deletePost);
 
   const onDelete = () =>
-    mutate({
-      postId,
-      projectId,
-    });
+    toast.promise(
+      mutate({
+        postId,
+        projectId,
+      }),
+      {
+        loading: "Deleting post...",
+        success: "Post deleted!",
+        error: (e) => `Failed to delete post ${e}`,
+      },
+    );
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{trigger(isRunning)}</AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

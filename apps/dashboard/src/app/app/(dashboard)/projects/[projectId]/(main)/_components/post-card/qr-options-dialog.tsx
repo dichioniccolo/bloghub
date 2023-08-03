@@ -1,6 +1,6 @@
 "use client";
 
-import type { ElementRef, ReactNode } from "react";
+import type { ElementRef } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -12,7 +12,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "~/components/ui/dialog";
 import {
   DropdownMenu,
@@ -33,13 +32,20 @@ import { absoluteUrl, constructPostUrl } from "~/lib/url";
 import { AdvancedSettings } from "./advanced-settings";
 
 type Props = {
-  trigger: ReactNode;
+  open: boolean;
+  onOpenChange(open: boolean): void;
   post: GetPosts[number];
   project: NonNullable<GetProject>;
   owner: GetProjectOwner;
 };
 
-export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
+export function QrOptionsDialog({
+  open,
+  onOpenChange,
+  project,
+  post,
+  owner,
+}: Props) {
   const anchorRef = useRef<ElementRef<"a">>(null);
 
   const [showLogo, setShowLogo] = useState(true);
@@ -105,8 +111,7 @@ export function QrOptionsDialog({ trigger, project, post, owner }: Props) {
   }, [qrData]);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Generate QR Code</DialogTitle>

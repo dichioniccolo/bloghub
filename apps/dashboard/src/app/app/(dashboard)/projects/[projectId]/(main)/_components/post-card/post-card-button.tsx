@@ -1,12 +1,14 @@
-import { forwardRef, type PropsWithoutRef } from "react";
+import type { ElementRef, PropsWithoutRef } from "react";
+import { forwardRef } from "react";
 
-import { Button, type ButtonProps } from "~/components/ui/button";
+import type { ButtonProps } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/cn";
 
 type PostCardButtonProps = PropsWithoutRef<ButtonProps>;
 
 export const PostCardButton = forwardRef<
-  HTMLButtonElement,
+  ElementRef<"button">,
   PostCardButtonProps
 >(({ className, children, ...props }, ref) => {
   return (
@@ -14,9 +16,9 @@ export const PostCardButton = forwardRef<
       ref={ref}
       type="button"
       variant="secondary"
-      size="sm"
+      size="xxs"
       className={cn(
-        "rounded-full p-1.5 transition-all duration-75 hover:scale-105 active:scale-95",
+        "group rounded-full p-1.5 transition-all duration-75 hover:scale-105 active:scale-95",
         className,
       )}
       {...props}

@@ -22,6 +22,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
+import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const inviteUser = zactAuthenticated(
@@ -39,11 +40,13 @@ export const inviteUser = zactAuthenticated(
         email: z.string().email(),
       })
       .superRefine(async ({ projectId, email }, ctx) => {
-        const isOwnerCount = await db
+        const user = await db
           .select({
-            count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
+            email: users.email,
+            stripePriceId: users.stripePriceId,
           })
           .from(projectMembers)
+          .innerJoin(users, eq(users.id, projectMembers.userId))
           .where(
             and(
               eq(projectMembers.projectId, projectId),
@@ -53,13 +56,14 @@ export const inviteUser = zactAuthenticated(
           )
           .then((x) => x[0]!);
 
-        if (isOwnerCount.count === 0) {
+        if (!user) {
           ctx.addIssue({
             code: "custom",
             message:
               "You must be the owner of the project to perform this action",
-            path: ["projectId"],
+            path: ["email"],
           });
+          return;
         }
 
         const existingUser = await db
@@ -80,6 +84,7 @@ export const inviteUser = zactAuthenticated(
             message: "A user with this email already exists in this project",
             path: ["email"],
           });
+          return;
         }
 
         const existingInvite = await db
@@ -99,6 +104,37 @@ export const inviteUser = zactAuthenticated(
           ctx.addIssue({
             code: "custom",
             message: "An invitation has already been sent to this email",
+            path: ["email"],
+          });
+          return;
+        }
+
+        const { count: projectInvitationsCount } = await db
+          .select({
+            count: sql<number>`count(*)`.mapWith(Number),
+          })
+          .from(projectInvitations)
+          .where(eq(projectInvitations.projectId, projectId))
+          .then((x) => x[0]!);
+
+        const { count: projectMembersCount } = await db
+          .select({
+            count: sql<number>`count(*)`.mapWith(Number),
+          })
+          .from(projectMembers)
+          .where(eq(projectMembers.projectId, projectId))
+          .then((x) => x[0]!);
+
+        const plan = await determinePlanByPriceId(
+          user.email,
+          user.stripePriceId,
+        );
+
+        if (!plan.isPro && projectInvitationsCount + projectMembersCount >= 3) {
+          ctx.addIssue({
+            code: "custom",
+            message:
+              "You must be on a pro plan to invite more than 2 users to your project",
             path: ["email"],
           });
         }
