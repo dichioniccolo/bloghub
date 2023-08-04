@@ -11,7 +11,13 @@ export function PostCardCopyButton({ url }: Props) {
   const { copied, copy } = useCopyToClipboard();
 
   return (
-    <PostCardButton onClick={() => copy(url)} className="group">
+    <PostCardButton
+      onClick={(e) => {
+        e.stopPropagation();
+        copy(url);
+      }}
+      className="group"
+    >
       <span className="sr-only">Copy</span>
       {copied ? <Check size={14} /> : <Copy size={14} />}
     </PostCardButton>

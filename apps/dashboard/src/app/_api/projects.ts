@@ -32,8 +32,8 @@ export async function getProjects() {
       domain: projects.domain,
       domainVerified: projects.domainVerified,
       currentUserRole: projectMembers.role,
-      postsCount: sql<number>`count(${posts.id})`.mapWith(Number),
-      visitsCount: sql<number>`count(${visits.id})`.mapWith(Number),
+      postsCount: sql<number>`count(distinct ${posts.id})`.mapWith(Number),
+      visitsCount: sql<number>`count(distinct ${visits.id})`.mapWith(Number),
     })
     .from(projects)
     .innerJoin(
@@ -329,3 +329,51 @@ export async function getProjectAnalytics(projectId: string) {
 export type GetProjectAnalytics = Awaited<
   ReturnType<typeof getProjectAnalytics>
 >;
+
+// const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// export async function getProjectVisitCount(projectId: string) {
+//   const user = await $getUser();
+
+//   await sleep(10000);
+
+//   const { count } = await db
+//     .select({
+//       count: sql<number>`count(*)`.mapWith(Number),
+//     })
+//     .from(visits)
+//     .innerJoin(
+//       projectMembers,
+//       and(
+//         eq(projectMembers.projectId, visits.projectId),
+//         eq(projectMembers.userId, user.id),
+//       ),
+//     )
+//     .where(eq(visits.projectId, projectId))
+//     .then((x) => x[0]!);
+
+//   return count;
+// }
+
+// export async function getProjectPostsCount(projectId: string) {
+//   const user = await $getUser();
+
+//   await sleep(15000);
+
+//   const { count } = await db
+//     .select({
+//       count: sql<number>`count(*)`.mapWith(Number),
+//     })
+//     .from(posts)
+//     .innerJoin(
+//       projectMembers,
+//       and(
+//         eq(projectMembers.projectId, posts.projectId),
+//         eq(projectMembers.userId, user.id),
+//       ),
+//     )
+//     .where(eq(posts.projectId, projectId))
+//     .then((x) => x[0]!);
+
+//   return count;
+// }
