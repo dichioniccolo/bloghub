@@ -11,8 +11,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.382.0",
-    "@aws-sdk/s3-request-presigner": "^3.382.0",
+    "@aws-sdk/client-s3": "^3.385.0",
+    "@aws-sdk/s3-request-presigner": "^3.385.0",
     "@aws-sdk/signature-v4-crt": "^3.378.0",
     "@bloghub/db": "^0.1.0",
     "@bloghub/emails": "^0.1.0",
