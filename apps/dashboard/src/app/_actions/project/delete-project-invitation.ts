@@ -4,7 +4,6 @@ import {
   and,
   db,
   eq,
-  Notification,
   projectInvitations,
   projectMembers,
   projects,
@@ -13,7 +12,6 @@ import {
 } from "@bloghub/db";
 
 import { AppRoutes } from "~/lib/common/routes";
-import { publishNotification } from "~/lib/notifications/publish";
 
 import "isomorphic-fetch";
 
@@ -21,6 +19,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const deleteProjectInvitation = zactAuthenticated(
@@ -91,14 +90,20 @@ export const deleteProjectInvitation = zactAuthenticated(
     );
 
   const project = await db
-    .select()
+    .select({
+      name: projects.name,
+    })
     .from(projects)
     .where(eq(projects.id, projectId))
     .then((x) => x[0]!);
 
-  await publishNotification(Notification.RemovedFromProject, {
-    projectName: project.name,
-    userEmail: email,
+  await inngest.send({
+    id: `notification/project.user.removed/${projectId}-${email}`,
+    name: "notification/project.user.removed",
+    data: {
+      projectName: project.name,
+      userEmail: email,
+    },
   });
 
   revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));

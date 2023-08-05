@@ -4,7 +4,6 @@ import type { JSONContent } from "@tiptap/react";
 
 import {
   and,
-  automaticEmails,
   db,
   eq,
   gte,
@@ -17,49 +16,11 @@ import {
   projects,
   Role,
   sql,
-  visits,
+  visits
 } from "@bloghub/db";
 
 import { env } from "~/env.mjs";
 import { deleteMedias } from "./external/media/actions";
-import { deleteDomain } from "./external/vercel";
-
-export async function deleteProject(project: { id: string; domain: string }) {
-  if (!project) {
-    throw new Error("Project not given");
-  }
-
-  await db.transaction(async (tx) => {
-    await deleteDomain(project.domain);
-
-    const mediaList = await db
-      .select({
-        url: media.url,
-      })
-      .from(media)
-      .where(eq(media.projectId, project.id));
-
-    if (mediaList.length > 0) {
-      await deleteMedias(mediaList.map((m) => m.url));
-    }
-
-    await tx.delete(media).where(eq(media.projectId, project.id));
-
-    await tx.delete(posts).where(eq(posts.projectId, project.id));
-
-    await tx
-      .delete(automaticEmails)
-      .where(eq(automaticEmails.projectId, project.id));
-
-    await tx
-      .delete(projectMembers)
-      .where(eq(projectMembers.projectId, project.id));
-
-    await tx.delete(visits).where(eq(visits.projectId, project.id));
-
-    await tx.delete(projects).where(eq(projects.id, project.id));
-  });
-}
 
 export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
   const visit = await db

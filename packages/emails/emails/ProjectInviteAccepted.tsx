@@ -27,7 +27,7 @@ export const ProjectInviteAccepted = ({
   ownerName = "John Doe",
   userEmail = "user@email.com",
 }: ProjectInviteAcceptedProps) => {
-  const previewText = `You have been invited to join a project on ${siteName}`;
+  const previewText = `A user accepted your project invitation on ${siteName}`;
 
   return (
     <Html>

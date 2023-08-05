@@ -8,7 +8,6 @@ import {
   db,
   eq,
   gte,
-  Notification,
   projectInvitations,
   projectMembers,
   projects,
@@ -18,7 +17,7 @@ import {
 
 import { $getUser } from "~/app/_api/get-user";
 import { AppRoutes } from "~/lib/common/routes";
-import { publishNotification } from "~/lib/notifications/publish";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const acceptInvite = zactAuthenticated(
@@ -104,10 +103,14 @@ export const acceptInvite = zactAuthenticated(
       .where(eq(projects.id, projectId))
       .then((x) => x[0]!);
 
-    await publishNotification(Notification.InvitationAccepted, {
-      projectId,
-      projectName: project.name,
-      userEmail: user.email,
+    await inngest.send({
+      id: `notification/invitation.accepted/${projectId}-${user.email}`,
+      name: "notification/invitation.accepted",
+      data: {
+        projectId,
+        projectName: project.name,
+        userEmail: user.email,
+      },
     });
   });
 

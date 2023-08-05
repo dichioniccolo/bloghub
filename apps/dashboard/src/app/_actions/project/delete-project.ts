@@ -6,8 +6,8 @@ import { z } from "zod";
 import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
-import { deleteProject as deleteProjectBase } from "~/lib/common/actions";
 import { AppRoutes } from "~/lib/common/routes";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const deleteProject = zactAuthenticated(
@@ -65,7 +65,10 @@ export const deleteProject = zactAuthenticated(
     )
     .then((x) => x[0]!);
 
-  await deleteProjectBase(project);
+  await inngest.send({
+    name: "project/delete",
+    data: project,
+  });
 
   redirect(AppRoutes.Dashboard);
 });

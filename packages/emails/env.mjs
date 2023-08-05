@@ -7,6 +7,7 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
+    NODE_ENV: z.enum(["development", "production", "test"]),
     SMTP_HOST: z.string().min(1),
     SMTP_PORT: z.string().min(1).transform(Number),
     SMTP_USER: z.string().min(1),
@@ -30,6 +31,7 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
+    NODE_ENV: process.env.NODE_ENV,
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_PORT: process.env.SMTP_PORT,
     SMTP_USER: process.env.SMTP_USER,

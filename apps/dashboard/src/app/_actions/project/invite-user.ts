@@ -4,7 +4,6 @@ import {
   and,
   db,
   eq,
-  Notification,
   projectInvitations,
   projectMembers,
   projects,
@@ -14,7 +13,6 @@ import {
 } from "@bloghub/db";
 
 import { AppRoutes } from "~/lib/common/routes";
-import { publishNotification } from "~/lib/notifications/publish";
 
 import "isomorphic-fetch";
 
@@ -23,6 +21,7 @@ import { z } from "zod";
 
 import { $getUser } from "~/app/_api/get-user";
 import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const inviteUser = zactAuthenticated(
@@ -157,10 +156,14 @@ export const inviteUser = zactAuthenticated(
       expiresAt: new Date(Date.now() + ONE_WEEK_IN_SECONDS * 1000),
     });
 
-    await publishNotification(Notification.ProjectInvitation, {
-      projectId,
-      projectName: project.name,
-      userEmail: email,
+    await inngest.send({
+      id: `notification/project.invitation/${projectId}-${email}`,
+      name: "notification/project.invitation",
+      data: {
+        projectId,
+        projectName: project.name,
+        userEmail: email,
+      },
     });
   });
 
