@@ -37,11 +37,7 @@ export function getBaseUrlPath() {
     return window.location.origin.replace(/^https?:\/\//, "");
   }
 
-  if (env.NODE_ENV === "production") {
-    return `${process.env.VERCEL_URL}`;
-  }
-
-  return `localhost:3000`;
+  return env.NEXT_PUBLIC_APP_DOMAIN;
 }
 
 export function constructPostUrl(
