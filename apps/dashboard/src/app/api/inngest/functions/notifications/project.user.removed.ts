@@ -53,18 +53,20 @@ export const removedFromProjectNotification = inngest.createFunction(
       });
     });
 
-    const createNotification = step.run("Create notification", async () => {
-      // here the user might not exist, so we need to check for that
-      const user = await db
-        .select({ id: users.id, name: users.name })
+    // here the user might not exist, so we need to check for that
+    const user = await step.run("Get user", async () => {
+      return db
+        .select({ id: users.id })
         .from(users)
         .where(eq(users.email, event.data.userEmail))
         .then((x) => x[0]);
+    });
 
-      if (!user) {
-        return;
-      }
+    if (!user) {
+      return;
+    }
 
+    const createNotification = step.run("Create notification", async () => {
       const id = createId();
 
       await db.insert(notifications).values({
@@ -74,7 +76,7 @@ export const removedFromProjectNotification = inngest.createFunction(
         userId: user.id,
       });
 
-      const notification = await db
+      return await db
         .select({
           id: notifications.id,
           type: notifications.type,
@@ -85,7 +87,11 @@ export const removedFromProjectNotification = inngest.createFunction(
         .from(notifications)
         .where(eq(notifications.id, id))
         .then((x) => x[0]!);
+    });
 
+    const [, notification] = await Promise.all([sendEmail, createNotification]);
+
+    await step.run("Send Pusher notification", async () => {
       await pusherServer.trigger(`user__${user.id}`, "notifications", {
         id: notification.id,
         type: notification.type,
@@ -94,7 +100,5 @@ export const removedFromProjectNotification = inngest.createFunction(
         status: notification.status,
       });
     });
-
-    await Promise.all([sendEmail, createNotification]);
   },
 );

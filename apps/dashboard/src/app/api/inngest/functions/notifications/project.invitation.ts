@@ -25,56 +25,70 @@ export const projectInvitationNotification = inngest.createFunction(
   {
     event: "notification/project.invitation",
   },
-  async ({ event }) => {
-    const invitation = await db
-      .select({
-        expiresAt: projectInvitations.expiresAt,
-      })
-      .from(projectInvitations)
-      .where(
-        and(
-          eq(projectInvitations.projectId, event.data.projectId),
-          eq(projectInvitations.email, event.data.userEmail),
-        ),
-      )
-      .then((x) => x[0]);
+  async ({ event, step }) => {
+    const invitation = await step.run("Get invitation", () => {
+      return db
+        .select({
+          expiresAt: projectInvitations.expiresAt,
+        })
+        .from(projectInvitations)
+        .where(
+          and(
+            eq(projectInvitations.projectId, event.data.projectId),
+            eq(projectInvitations.email, event.data.userEmail),
+          ),
+        )
+        .then((x) => x[0]);
+    });
 
     if (!invitation) {
       return;
     }
 
-    const url = await getLoginUrl(
-      event.data.userEmail,
-      invitation.expiresAt,
-      `${
-        env.NODE_ENV === "development"
-          ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-          : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-      }${AppRoutes.ProjectAcceptInvitation(event.data.projectId)}`,
-    );
+    const url = await step.run("Get login url", () => {
+      return getLoginUrl(
+        event.data.userEmail,
+        typeof invitation.expiresAt === "string"
+          ? new Date(invitation.expiresAt)
+          : invitation.expiresAt,
+        `${
+          env.NODE_ENV === "development"
+            ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
+            : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
+        }${AppRoutes.ProjectAcceptInvitation(event.data.projectId)}`,
+      );
+    });
 
-    await sendMail({
-      type: EmailNotificationSetting.Social,
-      to: event.data.userEmail,
-      subject: "You have been invited to a project",
-      component: ProjectInvite({
-        siteName: env.NEXT_PUBLIC_APP_NAME,
-        url,
-        userEmail: event.data.userEmail,
-      }),
-      headers: {
-        "X-Entity-Ref-ID": createId(),
-      },
+    const email = step.run("Send Email", async () => {
+      await sendMail({
+        type: EmailNotificationSetting.Social,
+        to: event.data.userEmail,
+        subject: "You have been invited to a project",
+        component: ProjectInvite({
+          siteName: env.NEXT_PUBLIC_APP_NAME,
+          url,
+          userEmail: event.data.userEmail,
+        }),
+        headers: {
+          "X-Entity-Ref-ID": createId(),
+        },
+      });
     });
 
     // here the user might not exist, so we need to check for that
-    const user = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.email, event.data.userEmail))
-      .then((x) => x[0]);
+    const user = await step.run("Get user", async () => {
+      return db
+        .select({ id: users.id })
+        .from(users)
+        .where(eq(users.email, event.data.userEmail))
+        .then((x) => x[0]);
+    });
 
-    if (user) {
+    if (!user) {
+      return null;
+    }
+
+    const createNotification = step.run("Create notification", async () => {
       const id = createId();
 
       await db.insert(notifications).values({
@@ -84,7 +98,7 @@ export const projectInvitationNotification = inngest.createFunction(
         userId: user.id,
       });
 
-      const notification = await db
+      return await db
         .select({
           id: notifications.id,
           type: notifications.type,
@@ -95,7 +109,11 @@ export const projectInvitationNotification = inngest.createFunction(
         .from(notifications)
         .where(eq(notifications.id, id))
         .then((x) => x[0]!);
+    });
 
+    const [, notification] = await Promise.all([email, createNotification]);
+
+    await step.run("Send Pusher notification", async () => {
       await pusherServer.trigger(`user__${user.id}`, "notifications", {
         id: notification.id,
         type: notification.type,
@@ -103,6 +121,6 @@ export const projectInvitationNotification = inngest.createFunction(
         createdAt: notification.createdAt,
         status: notification.status,
       });
-    }
+    });
   },
 );

@@ -10,25 +10,23 @@ export const cleanupFunction = inngest.createFunction(
   {
     cron: "TZ=Europe/Rome 0 */12 * * *",
   },
-  async ({ step }) => {
-    await step.run("Cleanup Media", async () => {
-      const mediaList = await db
-        .select({
-          id: media.id,
-          url: media.url,
-        })
-        .from(media)
-        .where(or(isNull(media.postId), isNull(media.projectId)))
-        .orderBy(asc(media.createdAt))
-        .limit(100);
+  async () => {
+    const mediaList = await db
+      .select({
+        id: media.id,
+        url: media.url,
+      })
+      .from(media)
+      .where(or(isNull(media.postId), isNull(media.projectId)))
+      .orderBy(asc(media.createdAt))
+      .limit(100);
 
-      await deleteMedias(mediaList.map((x) => x.url));
-      await db.delete(media).where(
-        inArray(
-          media.id,
-          mediaList.map((x) => x.id),
-        ),
-      );
-    });
+    await deleteMedias(mediaList.map((x) => x.url));
+    await db.delete(media).where(
+      inArray(
+        media.id,
+        mediaList.map((x) => x.id),
+      ),
+    );
   },
 );
