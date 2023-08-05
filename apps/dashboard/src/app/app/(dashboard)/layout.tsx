@@ -2,14 +2,14 @@ import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
 
+import { CommandMenu } from "~/components/command-menu";
 import { Divider } from "~/components/icons/divider";
 import { Logo } from "~/components/icons/logo";
+import { Notifications } from "~/components/notifications";
+import { NotificationsPlaceholder } from "~/components/notifications/notifications-placeholder";
 import { Skeleton } from "~/components/ui/skeleton";
 import { env } from "~/env.mjs";
 import { AppRoutes } from "~/lib/common/routes";
-import { CommandMenu } from "../../_components/command-menu";
-import { Notifications } from "../../_components/notifications";
-import { NotificationsPlaceholder } from "../../_components/notifications/notifications-placeholder";
 import { ProjectsDropdown } from "./_components/projects-dropdown";
 import { UserDropdown } from "./_components/user-dropdown";
 import { DashboardProviders } from "./providers";
