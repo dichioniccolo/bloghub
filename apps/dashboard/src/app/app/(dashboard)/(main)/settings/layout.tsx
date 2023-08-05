@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from "react";
 
-import { DashboardHeader } from "~/app/_components/dashboard-header";
-import { DashboardShell } from "~/app/_components/dashboard-shell";
-import { SidebarNav } from "~/app/_components/sidebar-nav";
+import { DashboardHeader } from "~/components/dashboard-header";
+import { DashboardShell } from "~/components/dashboard-shell";
+import { SidebarNav } from "~/components/sidebar-nav";
 import { AppRoutes } from "~/lib/common/routes";
 
 const sidebarNavItems = [

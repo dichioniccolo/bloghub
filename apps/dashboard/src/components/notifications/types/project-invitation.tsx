@@ -4,7 +4,7 @@ import { MailPlus } from "lucide-react";
 
 import type { Notification } from "@bloghub/db";
 
-import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
+import { BaseNotification } from "~/components/notifications/types/base-notification";
 import { AppRoutes } from "~/lib/common/routes";
 import type { AppNotification } from "~/lib/notifications";
 

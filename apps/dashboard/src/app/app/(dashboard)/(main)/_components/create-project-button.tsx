@@ -2,8 +2,8 @@
 
 import { Plus } from "lucide-react";
 
+import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
 import { Button } from "~/components/ui/button";
-import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
 
 export function CreateProjectButton() {
   const { setOpen, CreateProjectDialog } = useCreateProjectDialog();

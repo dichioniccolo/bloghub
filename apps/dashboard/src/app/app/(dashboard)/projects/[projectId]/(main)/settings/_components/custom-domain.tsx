@@ -2,6 +2,7 @@
 
 import { AlertCircle, ExternalLink, Loader2 } from "lucide-react";
 
+import { CheckCircleFill } from "~/components/icons/check-circle-fill";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -12,7 +13,6 @@ import {
 } from "~/components/ui/card";
 import { verifyDomain } from "~/app/_actions/project/verify-domain";
 import type { GetProject } from "~/app/_api/projects";
-import { CheckCircleFill } from "~/app/_components/icons/check-circle-fill";
 import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";

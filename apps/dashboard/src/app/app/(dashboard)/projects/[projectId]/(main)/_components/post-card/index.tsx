@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { BarChart2, Edit2, MoreVertical, QrCode, Trash2 } from "lucide-react";
 
+import { DeletePostDialog } from "~/components/dialogs/delete-post-dialog";
 import { buttonVariants } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -22,7 +23,6 @@ import {
 } from "~/components/ui/tooltip";
 import type { GetPosts } from "~/app/_api/posts";
 import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
-import { DeletePostDialog } from "~/app/_components/dialogs/delete-post-dialog";
 import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
 import { constructPostUrl } from "~/lib/url";

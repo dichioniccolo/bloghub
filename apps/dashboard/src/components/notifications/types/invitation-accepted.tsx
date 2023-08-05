@@ -1,28 +1,29 @@
 import { formatDistanceToNow } from "date-fns";
-import { Trash2 } from "lucide-react";
+import { UserCheck2 } from "lucide-react";
 
 import type { Notification } from "@bloghub/db";
 
-import { BaseNotification } from "~/app/_components/notifications/types/base-notification";
+import { BaseNotification } from "~/components/notifications/types/base-notification";
 import type { AppNotification } from "~/lib/notifications";
 
 type Props = {
   notification: Extract<
     AppNotification,
-    { type: typeof Notification.RemovedFromProject }
+    { type: typeof Notification.InvitationAccepted }
   >;
 };
 
-export function RemovedFromProject({ notification }: Props) {
+export function InvitationAccepted({ notification }: Props) {
   return (
     <BaseNotification
       notification={notification}
-      icon={<Trash2 className="h-6 w-6" />}
+      icon={<UserCheck2 className="h-6 w-6" />}
     >
       <div className="flex flex-col">
         <div className="text-sm">
-          You were removed from project{" "}
-          <span className="font-bold">{notification.data.projectName}</span>
+          The user{" "}
+          <span className="font-bold">{notification.data.userEmail}</span>{" "}
+          accepted to join the project {notification.data.projectName}
         </div>
         <span className="text-xs">
           {formatDistanceToNow(new Date(notification.createdAt))} ago

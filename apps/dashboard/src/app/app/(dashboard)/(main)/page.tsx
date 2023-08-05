@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 
-import { DashboardHeader } from "~/app/_components/dashboard-header";
-import { DashboardShell } from "~/app/_components/dashboard-shell";
+import { DashboardHeader } from "~/components/dashboard-header";
+import { DashboardShell } from "~/components/dashboard-shell";
 import { CreateProjectButton } from "./_components/create-project-button";
 import {
   ProjectsCards,

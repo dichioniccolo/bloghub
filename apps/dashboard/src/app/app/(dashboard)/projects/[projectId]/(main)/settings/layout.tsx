@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 
-import { DashboardHeader } from "~/app/_components/dashboard-header";
-import { DashboardShell } from "~/app/_components/dashboard-shell";
+import { DashboardHeader } from "~/components/dashboard-header";
+import { DashboardShell } from "~/components/dashboard-shell";
 import { ProjectSettingsNavigationMenu } from "./_components/project-settings-navigation-menu";
 
 type Props = { params: { projectId: string } };

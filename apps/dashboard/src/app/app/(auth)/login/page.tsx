@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Logo } from "~/components/icons/logo";
 import { Skeleton } from "~/components/ui/skeleton";
-import { Logo } from "~/app/_components/icons/logo";
 import { env } from "~/env.mjs";
 import { SignInForm } from "./_components/sign-in-form";
 

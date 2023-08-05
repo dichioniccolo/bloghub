@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AlertCircle, BarChart2, CaseSensitive } from "lucide-react";
 
+import { CheckCircleFill } from "~/components/icons/check-circle-fill";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
@@ -9,7 +10,6 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import type { GetProjects } from "~/app/_api/projects";
-import { CheckCircleFill } from "~/app/_components/icons/check-circle-fill";
 import { AppRoutes } from "~/lib/common/routes";
 import { GOOGLE_FAVICON_URL } from "~/lib/constants";
 import { formatNumber } from "~/lib/utils";

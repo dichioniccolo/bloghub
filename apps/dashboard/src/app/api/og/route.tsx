@@ -2,7 +2,7 @@ import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/server";
 import { z } from "zod";
 
-import { Logo } from "~/app/_components/icons/logo";
+import { Logo } from "~/components/icons/logo";
 
 export const runtime: ServerRuntime = "edge";
 

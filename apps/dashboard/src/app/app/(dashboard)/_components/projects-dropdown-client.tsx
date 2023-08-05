@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
+import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import type { GetProjects } from "~/app/_api/projects";
-import { useCreateProjectDialog } from "~/app/_components/dialogs/create-project-dialog";
 import { useUser } from "~/hooks/use-user";
 import { cn } from "~/lib/cn";
 import { getDefaultAvatarImage } from "~/lib/utils";

@@ -2,9 +2,9 @@ import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
 
+import { Divider } from "~/components/icons/divider";
+import { Logo } from "~/components/icons/logo";
 import { Skeleton } from "~/components/ui/skeleton";
-import { Divider } from "~/app/_components/icons/divider";
-import { Logo } from "~/app/_components/icons/logo";
 import { env } from "~/env.mjs";
 import { AppRoutes } from "~/lib/common/routes";
 import { CommandMenu } from "../../_components/command-menu";

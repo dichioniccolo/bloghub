@@ -3,6 +3,13 @@
 import Link from "next/link";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
+import {
+  NotificationActionTypes,
+  useNotifications,
+  useNotificationsDispatch,
+} from "~/components/notifications/notifications-provider";
+import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
+import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -11,13 +18,6 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
-import {
-  NotificationActionTypes,
-  useNotifications,
-  useNotificationsDispatch,
-} from "~/app/_components/notifications/notifications-provider";
-import { ProjectInvitationNotification } from "~/app/_components/notifications/types/project-invitation";
-import { RemovedFromProject } from "~/app/_components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/common/routes";

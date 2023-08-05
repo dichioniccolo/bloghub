@@ -3,13 +3,13 @@
 import type { MouseEventHandler, ReactNode } from "react";
 import { Archive } from "lucide-react";
 
-import { Button } from "~/components/ui/button";
-import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
-import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
 import {
   NotificationActionTypes,
   useNotificationsDispatch,
-} from "~/app/_components/notifications/notifications-provider";
+} from "~/components/notifications/notifications-provider";
+import { Button } from "~/components/ui/button";
+import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
+import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
 import { cn } from "~/lib/cn";
 import type { AppNotification } from "~/lib/notifications";
 import { useZact } from "~/lib/zact/client";

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 
-import { SidebarNav } from "~/app/_components/sidebar-nav";
+import { SidebarNav } from "~/components/sidebar-nav";
 import { AppRoutes } from "~/lib/common/routes";
 
 type Props = {

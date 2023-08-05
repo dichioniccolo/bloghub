@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { HelpCircle, InfinityIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { Divider } from "~/components/icons/divider";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -24,7 +25,6 @@ import {
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import type { GetProPlans } from "~/app/_api/stripe";
 import type { GetUserPlan } from "~/app/_api/user";
-import { Divider } from "~/app/_components/icons/divider";
 import { AppRoutes } from "~/lib/common/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
