@@ -8,6 +8,10 @@ node_modules
 # testing
 coverage
 
+**/test-results
+**/playwright-report
+**/playwright/.cache
+
 # database
 **/prisma/db.sqlite
 **/prisma/db.sqlite-journal

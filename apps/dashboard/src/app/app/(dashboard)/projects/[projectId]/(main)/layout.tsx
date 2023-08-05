@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import { ProjectNavigationMenu } from "./_components/project-navigation-menu";
 

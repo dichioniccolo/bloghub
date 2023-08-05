@@ -65,7 +65,8 @@ export function BaseNotification({
     });
 
   return (
-    <div
+    <button
+      type="button"
       className={cn(
         "group relative flex h-20 cursor-pointer gap-2 px-2 hover:bg-primary-foreground/90",
         className,
@@ -79,6 +80,6 @@ export function BaseNotification({
           <Archive className="h-4 w-4" />
         </Button>
       </div>
-    </div>
+    </button>
   );
 }

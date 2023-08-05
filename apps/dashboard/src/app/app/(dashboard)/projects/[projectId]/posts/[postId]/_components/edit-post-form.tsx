@@ -82,6 +82,7 @@ export function EditPostForm({ post }: Props) {
           <FormItem>
             <FormControl>
               <Input
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the title?"
@@ -98,6 +99,7 @@ export function EditPostForm({ post }: Props) {
           <FormItem>
             <FormControl>
               <Textarea
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the description?"
@@ -117,6 +119,7 @@ export function EditPostForm({ post }: Props) {
                 setStatus={setFormStatus}
                 projectId={post.projectId}
                 postId={post.id}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value={field.value}
                 onChange={field.onChange}
               />

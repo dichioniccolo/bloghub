@@ -9,7 +9,7 @@ type Props = {
   onAccept?: (acceptedText: string) => void;
 };
 
-export function AIBubbleMenu({ editor, onAccept }: Props) {
+export function AIBubbleMenu({ editor }: Props) {
   const { completion, isLoading } = useCompletion({
     id: "editor-edit",
     api: "/api/generate",

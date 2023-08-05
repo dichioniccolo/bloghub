@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import { db, eq, users } from "@bloghub/db";
 
 import { env } from "~/env.mjs";
-import { stripe, type Stripe } from "~/lib/common/external/stripe";
+import type { Stripe } from "~/lib/common/external/stripe";
+import { stripe } from "~/lib/common/external/stripe";
 import { getUserSubscription } from "~/lib/common/external/stripe/actions";
 
 const relevantEvents = new Set([
@@ -75,7 +76,10 @@ export async function POST(req: Request) {
       await db
         .update(users)
         .set({
-          stripeCustomerId: subscription.customer.toString(),
+          stripeCustomerId:
+            typeof subscription.customer === "string"
+              ? subscription.customer
+              : subscription.customer.id,
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscription.items.data[0]?.price.id,
           dayWhenBillingStarts: new Date(),
@@ -86,6 +90,11 @@ export async function POST(req: Request) {
     } else if (event.type === "customer.subscription.updated") {
       const subscription = event.data.object as Stripe.Subscription;
 
+      const customerId =
+        typeof subscription.customer === "string"
+          ? subscription.customer
+          : subscription.customer.id;
+
       await db
         .update(users)
         .set({
@@ -93,9 +102,14 @@ export async function POST(req: Request) {
           stripePriceId: subscription.items.data[0]?.price.id,
           dayWhenBillingStarts: new Date(),
         })
-        .where(eq(users.stripeCustomerId, subscription.customer.toString()));
+        .where(eq(users.stripeCustomerId, customerId));
     } else if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object as Stripe.Subscription;
+
+      const customerId =
+        typeof subscription.customer === "string"
+          ? subscription.customer
+          : subscription.customer.id;
 
       await db
         .update(users)
@@ -104,12 +118,10 @@ export async function POST(req: Request) {
           stripePriceId: null,
           dayWhenBillingStarts: new Date(),
         })
-        .where(eq(users.stripeCustomerId, subscription.customer.toString()));
+        .where(eq(users.stripeCustomerId, customerId));
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return new Response(`Webhook Error: Unhandled ${e.message}`, {
+  } catch (e) {
+    return new Response(`Webhook Error: Unhandled error ${e}`, {
       status: 500,
     });
   }

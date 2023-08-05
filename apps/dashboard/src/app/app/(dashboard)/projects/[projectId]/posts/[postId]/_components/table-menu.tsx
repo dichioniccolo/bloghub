@@ -2,46 +2,44 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import type { Editor } from "@tiptap/core";
-import { Columns, Rows, Trash2 } from "lucide-react";
 
-interface TableMenuItem {
-  name: string;
-  command: () => void;
-  icon: ReactNode;
-}
+// interface TableMenuItem {
+//   name: string;
+//   command: () => void;
+//   icon: ReactNode;
+// }
 
-export const TableMenu = ({ editor }: { editor: Editor }) => {
+export const TableMenu = ({ editor: _ }: { editor: Editor }) => {
   const [tableLocation, setTableLocation] = useState(0);
-  const items: TableMenuItem[] = [
-    {
-      name: "Add Column",
-      command: () => editor.chain().focus().addColumnAfter().run(),
-      icon: <Columns className="h-5 w-5 text-lg" />,
-    },
-    {
-      name: "Add Row",
-      command: () => editor.chain().focus().addRowAfter().run(),
-      icon: <Rows className="h-5 w-5 text-lg" />,
-    },
-    {
-      name: "Delete Column",
-      command: () => editor.chain().focus().deleteColumn().run(),
-      icon: <Columns className="h-5 w-5 text-lg text-destructive" />,
-    },
-    {
-      name: "Delete Rows",
-      command: () => editor.chain().focus().deleteRow().run(),
-      icon: <Rows className="h-5 w-5 text-lg text-destructive" />,
-    },
-    {
-      name: "Delete Table",
-      command: () => editor.chain().focus().deleteTable().run(),
-      icon: <Trash2 className="h-5 w-5 text-lg text-destructive" />,
-    },
-  ];
+  // const items: TableMenuItem[] = [
+  //   {
+  //     name: "Add Column",
+  //     command: () => editor.chain().focus().addColumnAfter().run(),
+  //     icon: <Columns className="h-5 w-5 text-lg" />,
+  //   },
+  //   {
+  //     name: "Add Row",
+  //     command: () => editor.chain().focus().addRowAfter().run(),
+  //     icon: <Rows className="h-5 w-5 text-lg" />,
+  //   },
+  //   {
+  //     name: "Delete Column",
+  //     command: () => editor.chain().focus().deleteColumn().run(),
+  //     icon: <Columns className="h-5 w-5 text-lg text-destructive" />,
+  //   },
+  //   {
+  //     name: "Delete Rows",
+  //     command: () => editor.chain().focus().deleteRow().run(),
+  //     icon: <Rows className="h-5 w-5 text-lg text-destructive" />,
+  //   },
+  //   {
+  //     name: "Delete Table",
+  //     command: () => editor.chain().focus().deleteTable().run(),
+  //     icon: <Trash2 className="h-5 w-5 text-lg text-destructive" />,
+  //   },
+  // ];
 
   useEffect(() => {
     const handleWindowClick = () => {
@@ -72,7 +70,7 @@ export const TableMenu = ({ editor }: { editor: Editor }) => {
         top: `${tableLocation - 60}px`,
       }}
     >
-      {items.map((item, index) => (
+      {/* {items.map((item, index) => (
         <button
           key={index}
           onClick={item.command}
@@ -81,7 +79,7 @@ export const TableMenu = ({ editor }: { editor: Editor }) => {
         >
           {item.icon}
         </button>
-      ))}
+      ))} */}
     </section>
   );
 };

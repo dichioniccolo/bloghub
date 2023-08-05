@@ -1,4 +1,4 @@
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Separator } from "~/components/ui/separator";
 import { ProfileForm } from "./_components/profile-form";

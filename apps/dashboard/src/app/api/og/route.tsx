@@ -25,6 +25,7 @@ export function GET(req: Request) {
     return new ImageResponse(
       (
         <div
+          // eslint-disable-next-line react/no-unknown-property
           tw="h-full w-full flex items-center justify-center flex-col"
           style={{
             color: paint,
@@ -34,7 +35,10 @@ export function GET(req: Request) {
                 : "white",
           }}
         >
-          <div tw="flex items-center text-3xl justify-center flex-col">
+          <div
+            // eslint-disable-next-line react/no-unknown-property
+            tw="flex items-center text-3xl justify-center flex-col"
+          >
             <Logo size={124} />
 
             {/* <svg
@@ -50,15 +54,22 @@ export function GET(req: Request) {
             </svg> */}
           </div>
           <div
+            // eslint-disable-next-line react/no-unknown-property
             tw="flex max-w-4xl items-center justify-center flex-col mt-10"
             style={{
               whiteSpace: "pre-wrap",
             }}
           >
-            <div tw="text-5xl font-bold tracking-tight leading-tight dark:text-white px-8">
+            <div
+              // eslint-disable-next-line react/no-unknown-property
+              tw="text-5xl font-bold tracking-tight leading-tight dark:text-white px-8"
+            >
               {title}
             </div>
-            <div tw="mt-5 text-3xl text-slate-400 text-center font-normal tracking-tight leading-tight px-20">
+            <div
+              // eslint-disable-next-line react/no-unknown-property
+              tw="mt-5 text-3xl text-slate-400 text-center font-normal tracking-tight leading-tight px-20"
+            >
               {description}
             </div>
           </div>

@@ -73,7 +73,6 @@ const config = {
   },
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: ["@bloghub/db", "@bloghub/emails"],
-  /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   experimental: {
@@ -94,6 +93,7 @@ const config = {
           }
         : undefined,
   },
+  productionBrowserSourceMaps: true,
   // only if deploying with docker
   // output: "standalone",
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing

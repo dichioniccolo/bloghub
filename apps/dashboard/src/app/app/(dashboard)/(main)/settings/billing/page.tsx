@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { type Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Separator } from "~/components/ui/separator";
 import { PlanUsage, PlanUsageSkeleton } from "./_components/plan-usage";

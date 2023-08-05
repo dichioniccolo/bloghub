@@ -77,7 +77,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
     },
   };
 
-  const [isAISelectorOpen, setIsAISelectorOpen] = useState(false);
+  const [_isAISelectorOpen, setIsAISelectorOpen] = useState(false);
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
   const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
   const [isLinkSelectorOpen, setIsLinkSelectorOpen] = useState(false);

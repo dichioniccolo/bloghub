@@ -31,19 +31,18 @@ type Props = {
 export function NotificationsForm({ settings }: Props) {
   const { mutate } = useZact(updateNotificationSettings);
 
-  async function onSubmit({
+  const onSubmit = ({
     communication_emails,
     marketing_emails,
     social_emails,
     security_emails,
-  }: EditNotificationsSchemaType) {
-    await mutate({
+  }: EditNotificationsSchemaType) =>
+    mutate({
       communication_emails,
       marketing_emails,
       social_emails,
       security_emails,
     });
-  }
 
   return (
     <Form
