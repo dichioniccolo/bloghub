@@ -1,5 +1,6 @@
 "use server";
 
+import { env } from "~/env.mjs";
 import { freePlan, proPlans, proUnlimitedPlan, stripe } from ".";
 
 export async function getUserSubscription(subscriptionId?: string | null) {
@@ -30,7 +31,7 @@ export async function determinePlanByPriceId(
   email: string,
   priceId?: string | null,
 ) {
-  if (email === "dichioniccolo@gmail.com") {
+  if (email === env.ADMIN_EMAIL) {
     return proUnlimitedPlan;
   }
 

@@ -46,6 +46,7 @@
   },
   "globalEnv": [
     "CI",
+    "ADMIN_EMAIL",
     "DO_ACCESS_KEY",
     "DO_BUCKET",
     "DO_CDN_URL",

@@ -1,24 +1,40 @@
 "use server";
 
-import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  DeleteObjectsCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 
 import { env } from "~/env.mjs";
 import { s3 } from ".";
 
-export async function deleteMedia(url: string) {
+function getFileName(url: string) {
   // take only last part of url after the first slash without https://
-  const fileName = url.split("/").slice(3).join("/");
+  return url.split("/").slice(3).join("/");
+}
 
+export async function deleteMedia(url: string) {
   return await s3.send(
     new DeleteObjectCommand({
       Bucket: env.DO_BUCKET,
-      Key: fileName,
+      Key: getFileName(url),
     }),
   );
 }
 
 export async function deleteMedias(urls: string[]) {
-  return await Promise.all(urls.map((url) => deleteMedia(url)));
+  await s3.send(
+    new DeleteObjectsCommand({
+      Bucket: env.DO_BUCKET,
+      Delete: {
+        Objects: urls.map((url) => ({
+          Key: getFileName(url),
+        })),
+      },
+    }),
+  );
+  // return await Promise.all(urls.map((url) => deleteMedia(url)));
 }
 
 export async function uploadFile(
@@ -38,12 +54,3 @@ export async function uploadFile(
 
   return await s3.send(command);
 }
-
-// export async function createPresignedUrl(name: string) {
-//   const command = new GetObjectCommand({
-//     Bucket: env.DO_BUCKET,
-//     Key: name,
-//   });
-
-//   return await getSignedUrl(s3, command, { expiresIn: 3600 });
-// }

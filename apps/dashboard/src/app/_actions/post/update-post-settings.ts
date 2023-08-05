@@ -7,8 +7,6 @@ import {
   and,
   db,
   eq,
-  media,
-  MediaForEntity,
   ne,
   posts,
   projectMembers,
@@ -18,8 +16,8 @@ import {
 
 import { $getUser } from "~/app/_api/get-user";
 import { AppRoutes } from "~/lib/common/routes";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
-import { deleteProjectMedia } from "../project/delete-project-media";
 
 export const updatePostSettings = zactAuthenticated(
   async () => {
@@ -100,43 +98,14 @@ export const updatePostSettings = zactAuthenticated(
   postId,
   data: { slug, thumbnailUrl, seoTitle, seoDescription },
 }) => {
-  const post = await db
+  const oldThumbnailUrl = await db
     .select({
       thumbnailUrl: posts.thumbnailUrl,
     })
     .from(posts)
     .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)))
-    .then((x) => x[0]!);
-
-  if (post.thumbnailUrl && post.thumbnailUrl !== thumbnailUrl) {
-    await deleteProjectMedia({
-      projectId,
-      url: post.thumbnailUrl,
-    });
-
-    const allThumbnailMedia = await db
-      .select({
-        id: media.id,
-        url: media.url,
-      })
-      .from(media)
-      .where(
-        and(
-          eq(media.projectId, projectId),
-          eq(media.forEntity, MediaForEntity.PostThumbnail),
-          ne(media.url, thumbnailUrl ?? ""), // keep the new thumbnail
-        ),
-      );
-
-    await Promise.all(
-      allThumbnailMedia.map((media) =>
-        deleteProjectMedia({
-          projectId,
-          url: media.url,
-        }),
-      ),
-    );
-  }
+    .then((x) => x[0]!)
+    .then((x) => x.thumbnailUrl);
 
   await db
     .update(posts)
@@ -148,6 +117,16 @@ export const updatePostSettings = zactAuthenticated(
       hidden: false,
     })
     .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)));
+
+  await inngest.send({
+    name: "post/update.settings",
+    data: {
+      projectId,
+      postId,
+      oldThumbnailUrl,
+      newThumbnailUrl: thumbnailUrl,
+    },
+  });
 
   revalidatePath(AppRoutes.PostEditor(projectId, postId));
 });

@@ -7,6 +7,7 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
+    ADMIN_EMAIL: z.string().email(),
     STRIPE_API_KEY: z.string().min(1),
     STRIPE_PRO_50K_MONTHLY_PLAN_ID: z.string().min(1),
     STRIPE_PRO_50K_YEARLY_PLAN_ID: z.string().min(1),
@@ -60,6 +61,7 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_PUBLIC_APP_DESCRIPTION: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
     NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,

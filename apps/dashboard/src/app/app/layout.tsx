@@ -40,7 +40,7 @@ export function generateMetadata() {
         url: "https://github.com/dichioniccolo",
       },
     ],
-    creator: "dichioniccolo",
+    creator: "Niccolò Di Chio",
     themeColor: [
       { media: "(prefers-color-scheme: light)", color: "white" },
       { media: "(prefers-color-scheme: dark)", color: "black" },

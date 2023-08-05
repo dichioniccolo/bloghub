@@ -3,22 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  media,
-  MediaForEntity,
-  ne,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-} from "@bloghub/db";
+import { and, db, eq, projectMembers, projects, Role, sql } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
-import { deleteProjectMedia } from "./delete-project-media";
 
 export const updateProjectLogo = zactAuthenticated(
   async () => {
@@ -61,43 +50,14 @@ export const updateProjectLogo = zactAuthenticated(
         }
       }),
 )(async ({ projectId, logo }) => {
-  const project = await db
+  const oldLogoUrl = await db
     .select({
       logo: projects.logo,
     })
     .from(projects)
     .where(eq(projects.id, projectId))
-    .then((x) => x[0]!);
-
-  if (project.logo && project.logo !== logo) {
-    await deleteProjectMedia({
-      projectId,
-      url: project.logo,
-    });
-
-    const allProjectLogos = await db
-      .select({
-        id: media.id,
-        url: media.url,
-      })
-      .from(media)
-      .where(
-        and(
-          eq(media.projectId, projectId),
-          eq(media.forEntity, MediaForEntity.ProjectLogo),
-          ne(media.url, logo ?? ""), // keep the new thumbnail
-        ),
-      );
-
-    await Promise.all(
-      allProjectLogos.map((media) =>
-        deleteProjectMedia({
-          projectId,
-          url: media.url,
-        }),
-      ),
-    );
-  }
+    .then((x) => x[0]!)
+    .then((x) => x.logo);
 
   await db
     .update(projects)
@@ -105,6 +65,15 @@ export const updateProjectLogo = zactAuthenticated(
       logo,
     })
     .where(eq(projects.id, projectId));
+
+  await inngest.send({
+    name: "project/update.logo",
+    data: {
+      projectId,
+      oldLogoUrl,
+      newLogoUrl: logo,
+    },
+  });
 
   revalidatePath(`/projects/${projectId}`);
 });

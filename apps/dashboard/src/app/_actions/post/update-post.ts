@@ -6,7 +6,7 @@ import { z } from "zod";
 import { and, db, eq, posts, projectMembers, projects, sql } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
-import { deleteUnusedMediaInPost } from "~/lib/common/actions";
+import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePost = zactAuthenticated(
@@ -75,7 +75,12 @@ export const updatePost = zactAuthenticated(
     .where(eq(posts.id, postId))
     .then((x) => x[0]!);
 
-  await deleteUnusedMediaInPost(post.id);
+  await inngest.send({
+    name: "post/update",
+    data: {
+      id: postId,
+    },
+  });
 
   return post;
 });
