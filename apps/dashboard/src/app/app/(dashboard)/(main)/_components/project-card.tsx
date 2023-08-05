@@ -65,7 +65,7 @@ export function ProjectCard({ project }: Props) {
         <div className="flex items-center gap-2 text-muted-foreground">
           <BarChart2 className="h-4 w-4" />
           <h3 className="whitespace-nowrap text-sm">
-            {formatNumber(project.visitsCount)} click
+            {formatNumber(project.visitsCount)} visit
             {project.visitsCount !== 1 && "s"}
           </h3>
         </div>

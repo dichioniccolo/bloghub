@@ -80,7 +80,7 @@ export type GetPost = Awaited<ReturnType<typeof getPost>>;
 export async function getPostAnalytics(projectId: string, postId: string) {
   const user = await $getUser();
 
-  const clicksMyMonth = await db
+  const visitsByMonth = await db
     .select({
       year: sql<number>`YEAR(${visits.createdAt})`.mapWith(Number),
       month: sql<number>`MONTH(${visits.createdAt})`.mapWith(Number),
@@ -174,7 +174,7 @@ export async function getPostAnalytics(projectId: string, postId: string) {
     .orderBy(desc(sql`count(*)`));
 
   return {
-    clicksMyMonth,
+    visitsByMonth,
     topPosts,
     topCountries,
     topCities,

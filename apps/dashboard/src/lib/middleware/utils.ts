@@ -62,7 +62,13 @@ export async function recordVisit(req: NextRequest, domain: string) {
       id: posts.id,
     })
     .from(posts)
-    .where(and(eq(posts.projectId, project.id), eq(posts.slug, postSlug)))
+    .where(
+      and(
+        eq(posts.projectId, project.id),
+        eq(posts.slug, postSlug),
+        eq(posts.hidden, false), // we only want to record visits for non-hidden posts
+      ),
+    )
     .then((x) => x[0]);
 
   if (!post) {

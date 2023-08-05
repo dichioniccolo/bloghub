@@ -224,7 +224,7 @@ export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
 export async function getProjectAnalytics(projectId: string) {
   const user = await $getUser();
 
-  const clicksMyMonth = await db
+  const visitsByMonth = await db
     .select({
       year: sql<number>`YEAR(${visits.createdAt})`.mapWith(Number),
       month: sql<number>`MONTH(${visits.createdAt})`.mapWith(Number),
@@ -318,7 +318,7 @@ export async function getProjectAnalytics(projectId: string) {
     .orderBy(desc(sql`count(*)`));
 
   return {
-    clicksMyMonth,
+    visitsByMonth,
     topPosts,
     topCountries,
     topCities,

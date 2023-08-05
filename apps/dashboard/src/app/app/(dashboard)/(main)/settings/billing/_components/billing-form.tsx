@@ -83,10 +83,10 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
       <CardContent className="grid grid-cols-1 divide-y divide-stone-200 px-0 dark:divide-stone-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
         <div className="flex flex-col space-y-2 p-10">
           <div className="flex items-center">
-            <h3>Total Post Clicks</h3>
+            <h3>Total Post Visits</h3>
             <Tooltip>
               <TooltipContent>
-                Number of billable post clicks across all your projects
+                Number of billable post visits across all your projects
               </TooltipContent>
               <TooltipTrigger>
                 <div className="flex h-4 w-8 justify-center">
@@ -97,7 +97,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
           </div>
           <p className="text-sm text-stone-500">
             {formatNumber(userPlan.usage)} / {formatNumber(userPlan.plan.quota)}{" "}
-            clicks (
+            visits (
             {((userPlan.usage / (userPlan.plan.quota ?? 0)) * 100).toFixed(1)}
             %)
           </p>

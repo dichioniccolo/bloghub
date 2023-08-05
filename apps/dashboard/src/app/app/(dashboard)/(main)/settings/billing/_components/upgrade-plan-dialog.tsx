@@ -124,7 +124,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
               />
             )}
             <p className="text-sm text-stone-700 dark:text-stone-300">
-              Up to {formatNumber(plan?.quota ?? 0)} post clicks/mo
+              Up to {formatNumber(plan?.quota ?? 0)} post visits/mo
             </p>
           </div>
         </div>

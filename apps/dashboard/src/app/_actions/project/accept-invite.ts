@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import {
@@ -16,7 +15,6 @@ import {
 } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/common/routes";
 import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
@@ -114,5 +112,6 @@ export const acceptInvite = zactAuthenticated(
     });
   });
 
-  redirect(AppRoutes.ProjectDashboard(projectId));
+  // TODO: implement when fixed
+  // redirect(AppRoutes.ProjectDashboard(projectId));
 });

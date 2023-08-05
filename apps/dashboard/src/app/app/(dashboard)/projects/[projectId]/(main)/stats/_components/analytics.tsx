@@ -21,20 +21,20 @@ type Props = {
 };
 
 export function Analytics({
-  analytics: { topCities, topCountries, clicksMyMonth, topPosts, topReferers },
+  analytics: { topCities, topCountries, visitsByMonth, topPosts, topReferers },
 }: Props) {
   return (
     <div className="grid gap-6">
       <Card>
-        <Title>Clicks</Title>
+        <Title>Visits</Title>
         <AreaChart
           className="mt-4 h-72"
-          data={clicksMyMonth.map((x) => ({
+          data={visitsByMonth.map((x) => ({
             date: `${getMonthByNumber(x.month, "MMM")} ${x.year}`,
-            Clicks: x.count,
+            Visits: x.count,
           }))}
           index="date"
-          categories={["Clicks"]}
+          categories={["Visits"]}
           colors={["indigo"]}
           valueFormatter={(number: number) =>
             Intl.NumberFormat("us").format(number).toString()
@@ -49,7 +49,7 @@ export function Analytics({
               <Bold>Post</Bold>
             </Text>
             <Text>
-              <Bold>Clicks</Bold>
+              <Bold>Visits</Bold>
             </Text>
           </Flex>
           <BarList
@@ -67,7 +67,7 @@ export function Analytics({
               <Bold>Country</Bold>
             </Text>
             <Text>
-              <Bold>Clicks</Bold>
+              <Bold>Visits</Bold>
             </Text>
           </Flex>
           <BarList
@@ -99,7 +99,7 @@ export function Analytics({
               <Bold>City</Bold>
             </Text>
             <Text>
-              <Bold>Clicks</Bold>
+              <Bold>Visits</Bold>
             </Text>
           </Flex>
           <BarList
@@ -130,7 +130,7 @@ export function Analytics({
               <Bold>Referer</Bold>
             </Text>
             <Text>
-              <Bold>Clicks</Bold>
+              <Bold>Visits</Bold>
             </Text>
           </Flex>
           <BarList

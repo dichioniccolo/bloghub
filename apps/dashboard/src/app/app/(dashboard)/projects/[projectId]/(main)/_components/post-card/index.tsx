@@ -203,7 +203,7 @@ export function PostCard({ post, project, owner }: Props) {
               <BarChart2 className="h-4 w-4" />
               <p className="whitespace-nowrap text-sm text-muted-foreground">
                 {formatNumber(post.visitsCount)}
-                <span className="ml-1 hidden sm:inline-block">clicks</span>
+                <span className="ml-1 hidden sm:inline-block">visits</span>
               </p>
             </PostCardButton>
           </Link>

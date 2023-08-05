@@ -23,50 +23,6 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   }
 
   return BlogMiddleware(req, ev);
-
-  // const url = req.nextUrl;
-
-  // const hostname = req.headers
-  //   .get("host")!
-  //   .replace(".localhost:3000", `.${env.NEXT_PUBLIC_APP_DOMAIN}`)
-  //   .replace("localhost:3000", env.NEXT_PUBLIC_APP_DOMAIN);
-
-  // // Get the pathname of the request (e.g. /, /about, /posts/first-post)
-  // const path = url.pathname;
-
-  // if (hostname === `app.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
-  //   const session = await getToken({ req });
-  //   if (!session && path !== "/login") {
-  //     return NextResponse.redirect(new URL("/login", req.url));
-  //   } else if (session && path == "/login") {
-  //     return NextResponse.redirect(new URL("/", req.url));
-  //   }
-
-  //   return NextResponse.rewrite(
-  //     new URL(`/app${path === "/" ? "" : path}`, req.url),
-  //   );
-  // } else if (hostname === `api.${env.NEXT_PUBLIC_APP_DOMAIN}`) {
-  //   return NextResponse.rewrite(
-  //     new URL(`/api${path === "/" ? "" : path}`, req.url),
-  //   );
-  // } else if (hostname === env.NEXT_PUBLIC_APP_DOMAIN) {
-  //   return NextResponse.rewrite(
-  //     new URL(
-  //       `/${env.NEXT_PUBLIC_APP_DOMAIN}${path === "/" ? "" : path}`,
-  //       req.url,
-  //     ),
-  //   );
-  // }
-
-  // const finalHostname =
-  //   env.NODE_ENV === "development" ? TEST_HOSTNAME : hostname;
-
-  // ev.waitUntil(recordVisit(req, finalHostname));
-
-  // // rewrite everything else to `/[domain]/... dynamic route
-  // return NextResponse.rewrite(
-  //   new URL(`/${finalHostname}${path === "/" ? "" : path}`, req.url),
-  // );
 }
 
 export const config = {

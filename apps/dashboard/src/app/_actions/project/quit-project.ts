@@ -1,12 +1,10 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { and, db, eq, projectMembers, Role, sql } from "@bloghub/db";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/common/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const quitProject = zactAuthenticated(
@@ -55,5 +53,6 @@ export const quitProject = zactAuthenticated(
       ),
     );
 
-  redirect(AppRoutes.Dashboard);
+  // TODO: implement when fixed
+  // redirect(AppRoutes.Dashboard);
 });

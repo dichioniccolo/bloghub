@@ -40,7 +40,7 @@ export default async function Page({ params: { projectId } }: Props) {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          You have exceeded your monthly clicks. You won&apos; have access to
+          You have exceeded your monthly visits. You won&apos; have access to
           statistics until you upgrade or wait for the next billing month
         </div>
       </>
