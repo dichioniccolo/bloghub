@@ -20,7 +20,10 @@
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "prepare": "husky install",
-    "with-env": "doppler run --"
+    "with-env": "doppler run --",
+    "test": "turbo test",
+    "test:ui": "turbo test:ui",
+    "test:reply": "turbo test:reply"
   },
   "dependencies": {
     "@commitlint/cli": "^17.6.7",

@@ -11,6 +11,7 @@ coverage
 **/test-results
 **/playwright-report
 **/playwright/.cache
+**/test/storage.json
 
 # database
 **/prisma/db.sqlite

@@ -42,6 +42,15 @@
     },
     "type-check": {
       "cache": false
+    },
+    "test": {
+      "cache": false
+    },
+    "test:ui": {
+      "cache": false
+    },
+    "test:replay": {
+      "cache": false
     }
   },
   "globalEnv": [
