@@ -23,7 +23,7 @@ import { verifyProjectDomain } from "~/lib/common/external/vercel/actions";
 import { AppRoutes } from "~/lib/common/routes";
 import { inngest } from "~/lib/inngest";
 
-export const cleanupFunction = inngest.createFunction(
+export const domainVerification = inngest.createFunction(
   {
     name: "Domain Verification",
   },
