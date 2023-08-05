@@ -11,25 +11,21 @@ export function absoluteUrl(path?: string, withProtocol = true) {
 export function subdomainUrl(
   domain: string,
   path?: string,
-  options?: { withProtocol?: boolean; forceSubDomain?: boolean },
+  options: { withProtocol?: boolean } = { withProtocol: true },
 ) {
-  if (options?.forceSubDomain) {
-    if (!path) {
-      return `${
-        options?.withProtocol ? getProtocol() : ""
-      }${domain}.${getBaseUrlPath()}`;
-    }
-
+  if (!path) {
     return `${
       options?.withProtocol ? getProtocol() : ""
-    }${domain}.${getBaseUrlPath()}${path}`;
+    }${domain}.${getBaseUrlPath()}`;
   }
 
-  return absoluteUrl(`/${domain}${path ? path : ""}`, options?.withProtocol);
+  return `${
+    options?.withProtocol ? getProtocol() : ""
+  }${domain}.${getBaseUrlPath()}${path}`;
 }
 
 function getProtocol() {
-  if (window !== undefined) {
+  if (typeof window !== "undefined") {
     return `${window.location.protocol}//`;
   }
 
@@ -37,7 +33,7 @@ function getProtocol() {
 }
 
 export function getBaseUrlPath() {
-  if (window !== undefined) {
+  if (typeof window !== "undefined") {
     return window.location.origin.replace(/^https?:\/\//, "");
   }
 
