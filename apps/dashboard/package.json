@@ -88,7 +88,7 @@
     "inngest": "^2.4.0",
     "lucide-react": "^0.263.1",
     "next": "^13.4.12",
-    "next-auth": "^4.22.3",
+    "next-auth": "^4.22.4",
     "next-themes": "^0.2.1",
     "openai-edge": "^1.2.2",
     "partykit": "0.0.0-b993cb5",
