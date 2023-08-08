@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { format } from "date-fns";
 
-import { getPostsByDomain } from "~/app/_api/public/posts";
+import { getMainPagePostsByDomain } from "~/app/_api/public/posts";
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
 import { BlogRoutes } from "~/lib/common/routes";
@@ -36,7 +36,11 @@ export default async function Page({
     redirect(env.NEXT_PUBLIC_APP_DOMAIN);
   }
 
-  const { posts } = await getPostsByDomain(domain, page, POSTS_PER_PAGE);
+  const { posts } = await getMainPagePostsByDomain(
+    domain,
+    page,
+    POSTS_PER_PAGE,
+  );
 
   // const firstThreePosts = posts.slice(0, 3);
   // const otherPosts = posts.slice(3);
@@ -97,9 +101,7 @@ export default async function Page({
 
       {posts.length > 1 && (
         <div className="mx-5 mb-20 max-w-screen-xl lg:mx-24 2xl:mx-auto">
-          <h2 className="font-title mb-10 text-4xl dark:text-white md:text-5xl">
-            More posts
-          </h2>
+          <h2 className="font-title mb-10 text-4xl md:text-5xl">More posts</h2>
           <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
             {posts.slice(1).map((post, index) => (
               <PostCard key={index} post={post} />

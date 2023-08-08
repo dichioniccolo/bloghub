@@ -18,7 +18,7 @@ export function BlogHeader({ project }: Props) {
   return (
     <header
       className={cn(
-        "ease sticky inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-background px-20 transition-all",
+        "ease sticky inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-background p-8 transition-all sm:px-20",
         {
           "border-b border-border bg-background/75 shadow-md": scrolled,
         },

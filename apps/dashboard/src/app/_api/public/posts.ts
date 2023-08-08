@@ -3,6 +3,7 @@
 import {
   and,
   db,
+  desc,
   eq,
   inArray,
   likes,
@@ -17,7 +18,11 @@ import { generateRandomIndices } from "~/lib/utils";
 const skip = (page: number, perPage: number) => (page - 1) * perPage;
 const take = (perPage: number) => perPage;
 
-export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
+export async function getMainPagePostsByDomain(
+  domain: string,
+  page = 1,
+  perPage = 20,
+) {
   const postsList = await db
     .select({
       id: posts.id,
@@ -46,7 +51,8 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
       posts.description,
       posts.content,
       posts.createdAt,
-    );
+    )
+    .orderBy(desc(posts.createdAt));
 
   const postsCount = await db
     .select({ count: sql<number>`count(*)`.mapWith(Number) })
@@ -57,7 +63,7 @@ export async function getPostsByDomain(domain: string, page = 1, perPage = 20) {
   return { posts: postsList, postsCount: postsCount.count };
 }
 export type GetPostsProjectByDomain = Awaited<
-  ReturnType<typeof getPostsByDomain>
+  ReturnType<typeof getMainPagePostsByDomain>
 >["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {

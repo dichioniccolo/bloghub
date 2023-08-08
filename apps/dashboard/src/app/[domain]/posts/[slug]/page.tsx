@@ -80,7 +80,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
           src={post.thumbnailUrl ?? "/_static/placeholder.png"}
         />
       </div>
-      <div className="m-10">
+      <div className="mx-10 my-10 md:mx-20">
         <Viewer value={post.content} />
       </div>
       <Suspense fallback={<p>loading...</p>}>
