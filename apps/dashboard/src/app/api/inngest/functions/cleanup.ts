@@ -21,6 +21,10 @@ export const cleanupFunction = inngest.createFunction(
       .orderBy(asc(media.createdAt))
       .limit(100);
 
+    if (mediaList.length === 0) {
+      return;
+    }
+
     await deleteMedias(mediaList.map((x) => x.url));
     await db.delete(media).where(
       inArray(
