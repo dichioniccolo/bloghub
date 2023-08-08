@@ -24,6 +24,10 @@ export async function deleteMedia(url: string) {
 }
 
 export async function deleteMedias(urls: string[]) {
+  if (urls.length === 0) {
+    return;
+  }
+
   await s3.send(
     new DeleteObjectsCommand({
       Bucket: env.DO_BUCKET,
@@ -34,7 +38,6 @@ export async function deleteMedias(urls: string[]) {
       },
     }),
   );
-  // return await Promise.all(urls.map((url) => deleteMedia(url)));
 }
 
 export async function uploadFile(

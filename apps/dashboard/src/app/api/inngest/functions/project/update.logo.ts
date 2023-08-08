@@ -27,6 +27,10 @@ export const projectUpdateLogo = inngest.createFunction(
         ),
     );
 
+    if (allProjectLogos.length === 0) {
+      return;
+    }
+
     const urls = allProjectLogos.map((x) => x.url);
     const ids = allProjectLogos.map((x) => x.id);
 

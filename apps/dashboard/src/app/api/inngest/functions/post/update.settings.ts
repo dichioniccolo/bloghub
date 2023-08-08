@@ -27,6 +27,10 @@ export const postUpdateSettings = inngest.createFunction(
         ),
     );
 
+    if (allThumbnailMedia.length === 0) {
+      return;
+    }
+
     const urls = allThumbnailMedia.map((x) => x.url);
     const ids = allThumbnailMedia.map((x) => x.id);
 

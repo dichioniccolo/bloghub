@@ -31,9 +31,7 @@ export const projectDelete = inngest.createFunction(
         .from(media)
         .where(eq(media.projectId, event.data.id));
 
-      if (mediaList.length > 0) {
-        await deleteMedias(mediaList.map((m) => m.url));
-      }
+      await deleteMedias(mediaList.map((m) => m.url));
 
       await tx.delete(media).where(eq(media.projectId, event.data.id));
 
