@@ -101,7 +101,7 @@ export function PostCard({ post, project, owner }: Props) {
     <div
       ref={postRef}
       className={cn(
-        "relative rounded-lg border-2 p-3 pr-2 shadow transition-all hover:shadow-md sm:p-4",
+        "relative flex gap-2 rounded-lg border-2 p-3 pr-2 shadow transition-all hover:shadow-md sm:p-4",
         {
           "border-black dark:border-zinc-400": selected,
           "border-border": !selected,
@@ -125,11 +125,11 @@ export function PostCard({ post, project, owner }: Props) {
           postId={post.id}
         />
       )}
-      <div className="absolute left-0 top-0 flex h-full w-2 flex-col">
+      <div className="flex h-full w-2 flex-col">
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              className={cn("h-full w-full rounded-l-lg", {
+              className={cn("h-full w-full rounded-lg", {
                 "bg-green-500": !post.hidden,
                 "bg-amber-500": post.hidden,
               })}
@@ -144,7 +144,7 @@ export function PostCard({ post, project, owner }: Props) {
           </TooltipContent>
         </Tooltip>
       </div>
-      <li className="relative flex items-center justify-between">
+      <li className="relative flex flex-1 items-center justify-between">
         <div className="relative flex shrink items-center">
           <div>
             <div className="flex max-w-fit items-center space-x-2">

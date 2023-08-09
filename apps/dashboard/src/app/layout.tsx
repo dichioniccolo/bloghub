@@ -5,7 +5,7 @@ import "~/styles/tiptap.css";
 
 import { Analytics } from "@vercel/analytics/react";
 
-import { cal, inter } from "~/styles/fonts";
+import { fontMapper } from "~/styles/fonts";
 import { cn } from "~/lib/cn";
 import { Providers } from "./providers";
 
@@ -13,7 +13,7 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn(cal.variable, inter.variable)}>
+      <body className={cn(fontMapper["font-sans"], "font-sans")}>
         <Providers>{children}</Providers>
         <Analytics />
       </body>

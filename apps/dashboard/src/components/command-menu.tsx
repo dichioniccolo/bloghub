@@ -16,7 +16,6 @@ import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 
 import { Button } from "~/components/ui/button";
-import type { CommandDialogProps } from "~/components/ui/command";
 import {
   CommandDialog,
   CommandEmpty,
@@ -29,7 +28,7 @@ import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 
-export function CommandMenu({ ...props }: CommandDialogProps) {
+export function CommandMenu() {
   const router = useRouter();
 
   const { setTheme } = useTheme();
@@ -67,7 +66,6 @@ export function CommandMenu({ ...props }: CommandDialogProps) {
           "relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64",
         )}
         onClick={() => setOpen(true)}
-        {...props}
       >
         <span className="hidden lg:inline-flex">Quick access...</span>
         <span className="inline-flex lg:hidden">Quick access...</span>

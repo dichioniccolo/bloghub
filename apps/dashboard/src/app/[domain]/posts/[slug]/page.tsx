@@ -61,7 +61,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
             <p className="m-auto my-5 w-10/12 text-sm font-light text-muted-foreground md:text-base">
               {format(post.createdAt, "MMMM dd, yyyy")}
             </p>
-            <h1 className="font-cal mb-10 text-3xl font-bold text-primary md:text-6xl">
+            <h1 className="mb-10 text-3xl font-bold text-primary md:text-6xl">
               {post.title}
             </h1>
             <p className="text-md m-auto w-10/12 text-secondary-foreground md:text-lg">

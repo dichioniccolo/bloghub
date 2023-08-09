@@ -1,5 +1,6 @@
 import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: "class",
@@ -13,10 +14,6 @@ export default {
       },
     },
     extend: {
-      fontFamily: {
-        display: ["var(--font-cal)", "system-ui", "sans-serif"],
-        default: ["var(--font-inter)", "system-ui", "sans-serif"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,24 +48,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        white: "var(--novel-white)",
-        stone: {
-          50: "var(--novel-stone-50)",
-          100: "var(--novel-stone-100)",
-          200: "var(--novel-stone-200)",
-          300: "var(--novel-stone-300)",
-          400: "var(--novel-stone-400)",
-          500: "var(--novel-stone-500)",
-          600: "var(--novel-stone-600)",
-          700: "var(--novel-stone-700)",
-          800: "var(--novel-stone-800)",
-          900: "var(--novel-stone-900)",
-        },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
+        lg: `var(--radius)`,
+        md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {
@@ -83,9 +70,6 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-      },
-      minWidth: {
-        screen: "100vw",
       },
     },
   },

@@ -1,6 +1,13 @@
+import type { ClassValue } from "clsx";
+import { clsx } from "clsx";
 import { format } from "date-fns";
+import { twMerge } from "tailwind-merge";
 
 import type { MediaEnumType } from "@bloghub/db";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const truncate = (str: string, num: number) => {
   if (!str) return "";

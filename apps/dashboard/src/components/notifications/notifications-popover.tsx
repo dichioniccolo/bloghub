@@ -10,7 +10,6 @@ import {
 } from "~/components/notifications/notifications-provider";
 import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
-import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
   Popover,
@@ -63,9 +62,9 @@ export function NotificationsPopover() {
         <Button size="xs" variant="secondary" className="rounded-full">
           <BellRing className="h-4 w-4" />
           {unreadCount > 0 && (
-            <Badge variant="outline" size="sm" className="ml-1">
+            <div className="ml-1 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
               {unreadCount}
-            </Badge>
+            </div>
           )}
         </Button>
       </PopoverTrigger>

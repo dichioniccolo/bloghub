@@ -19,7 +19,7 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <main className="relative m-auto flex h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-sky-100 via-[#fff] to-sky-50 px-2">
+    <main className="relative m-auto flex h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-sky-100 via-white to-sky-50 px-2">
       <div className="absolute inset-x-0 top-[-55px] z-10 h-96 overflow-hidden text-gray-900/40 opacity-10 [mask-image:linear-gradient(to_top,transparent,white)]">
         <svg
           className="absolute inset-0 top-0 h-full w-full text-gray-900"

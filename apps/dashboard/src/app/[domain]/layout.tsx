@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 
 import { db, eq, projects } from "@bloghub/db";
 
-import { fontMapper } from "~/styles/fonts";
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { BlogFooter } from "./_components/blog-footer";
 import { BlogHeader } from "./_components/blog-header";
@@ -68,11 +67,9 @@ export default async function Layout({
 
   return (
     <CustomDomainProviders>
-      <div className={fontMapper["font-cal"]}>
-        <BlogHeader project={project} />
-        <div className="mt-20">{children}</div>
-        <BlogFooter project={project} />
-      </div>
+      <BlogHeader project={project} />
+      <div className="mt-20">{children}</div>
+      <BlogFooter project={project} />
     </CustomDomainProviders>
   );
 }

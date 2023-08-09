@@ -21,9 +21,7 @@ export function PostCard({ post }: Props) {
           className="h-64 w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
         />
         <div className="h-36 border-t border-border px-5 py-8">
-          <h3 className="font-cal truncate text-xl tracking-wide">
-            {post.title}
-          </h3>
+          <h3 className="truncate text-xl tracking-wide">{post.title}</h3>
           <p className="text-md my-2 truncate italic">{post.description}</p>
           <p className="my-2 text-sm text-muted-foreground">
             Published {format(post.createdAt, "MMMM dd, yyyy")}
