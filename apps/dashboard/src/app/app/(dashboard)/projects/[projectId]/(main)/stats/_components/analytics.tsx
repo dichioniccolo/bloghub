@@ -1,17 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import {
-  AreaChart,
-  BarList,
-  Bold,
-  Card,
-  Flex,
-  Grid,
-  Text,
-  Title,
-} from "@tremor/react";
+import { AreaChart, BarList } from "@tremor/react";
 
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import type { GetProjectAnalytics } from "~/app/_api/projects";
 import countries from "~/lib/countries";
 import { getMonthByNumber } from "~/lib/utils";
@@ -24,52 +16,53 @@ export function Analytics({
   analytics: { topCities, topCountries, visitsByMonth, topPosts, topReferers },
 }: Props) {
   return (
-    <div className="grid gap-6">
-      <Card>
-        <Title>Visits</Title>
-        <AreaChart
-          className="mt-4 h-72"
-          data={visitsByMonth.map((x) => ({
-            date: `${getMonthByNumber(x.month, "MMM")} ${x.year}`,
-            Visits: x.count,
-          }))}
-          index="date"
-          categories={["Visits"]}
-          colors={["indigo"]}
-          valueFormatter={(number: number) =>
-            Intl.NumberFormat("us").format(number).toString()
-          }
-        />
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-4 xl:grid-cols-8">
+      <Card className="sm:col-span-4 xl:col-span-8">
+        <CardHeader>
+          <CardTitle>Visits</CardTitle>
+        </CardHeader>
+        <CardContent className="pl-0">
+          <AreaChart
+            className="mt-4 h-72"
+            data={visitsByMonth.map((x) => ({
+              date: `${getMonthByNumber(x.month, "MMM")} ${x.year}`,
+              Visits: x.count,
+            }))}
+            index="date"
+            categories={["Visits"]}
+            colors={["indigo"]}
+            valueFormatter={(number: number) =>
+              Intl.NumberFormat("us").format(number).toString()
+            }
+          />
+        </CardContent>
       </Card>
-      <Grid numItems={2} className="gap-6">
-        <Card>
-          <Title>Top 5 Posts</Title>
-          <Flex className="mt-4">
-            <Text>
-              <Bold>Post</Bold>
-            </Text>
-            <Text>
-              <Bold>Visits</Bold>
-            </Text>
-          </Flex>
+      <Card className="sm:col-span-2">
+        <CardHeader>
+          <CardTitle>Posts</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-between">
+            <p className="font-bold">Post</p>
+            <p className="font-bold">Visits</p>
+          </div>
           <BarList
             data={topPosts.map((x) => ({
-              name: `/${x.slug}`,
+              name: x.slug,
               value: x.count,
             }))}
-            className="mt-2"
           />
-        </Card>
-        <Card>
-          <Title>Countries</Title>
-          <Flex className="mt-4">
-            <Text>
-              <Bold>Country</Bold>
-            </Text>
-            <Text>
-              <Bold>Visits</Bold>
-            </Text>
-          </Flex>
+        </CardContent>
+      </Card>
+      <Card className="sm:col-span-2">
+        <CardHeader>
+          <CardTitle>Countries</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-between">
+            <p className="font-bold">Country</p>
+            <p className="font-bold">Visits</p>
+          </div>
           <BarList
             data={topCountries.map((x) => ({
               name:
@@ -89,19 +82,18 @@ export function Analytics({
                 />
               ),
             }))}
-            className="mt-2"
           />
-        </Card>
-        <Card>
-          <Title>Cities</Title>
-          <Flex className="mt-4">
-            <Text>
-              <Bold>City</Bold>
-            </Text>
-            <Text>
-              <Bold>Visits</Bold>
-            </Text>
-          </Flex>
+        </CardContent>
+      </Card>
+      <Card className="sm:col-span-2">
+        <CardHeader>
+          <CardTitle>Cities</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-between">
+            <p className="font-bold">City</p>
+            <p className="font-bold">Visits</p>
+          </div>
           <BarList
             data={topCities.map((x) => ({
               name: x.city,
@@ -120,73 +112,27 @@ export function Analytics({
                 />
               ),
             }))}
-            className="mt-2"
           />
-        </Card>
-        <Card>
-          <Title>Referers</Title>
-          <Flex className="mt-4">
-            <Text>
-              <Bold>Referer</Bold>
-            </Text>
-            <Text>
-              <Bold>Visits</Bold>
-            </Text>
-          </Flex>
+        </CardContent>
+      </Card>
+      <Card className="sm:col-span-2">
+        <CardHeader>
+          <CardTitle>Referers</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-between">
+            <p className="font-bold">Referer</p>
+            <p className="font-bold">Visits</p>
+          </div>
+
           <BarList
             data={topReferers.map((x) => ({
               name: x.referer,
               value: x.count,
             }))}
-            className="mt-2"
           />
-        </Card>
-        {/* {categories.map(({ title, subtitle, data }) => (
-          <Card key={title}>
-            <Title>{title}</Title>
-            <Flex className="mt-4">
-              <Text>
-                <Bold>{subtitle}</Bold>
-              </Text>
-              <Text>
-                <Bold>Visitors</Bold>
-              </Text>
-            </Flex>
-            <BarList
-              data={data.map(({ name, value,  }) => ({
-                name,
-                value,
-                icon: () => {
-                  if (title === "Top Referrers") {
-                    return (
-                      <Image
-                        src={`https://www.google.com/s2/favicons?sz=64&domain_url=${name}`}
-                        alt={name}
-                        className="mr-2.5"
-                        width={20}
-                        height={20}
-                      />
-                    );
-                  } else if (title === "Countries") {
-                    return (
-                      <Image
-                        src={`https://flag.vercel.app/m/${code}.svg`}
-                        className="mr-2.5"
-                        alt={code}
-                        width={24}
-                        height={16}
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
-                },
-              }))}
-              className="mt-2"
-            />
-          </Card>
-        ))} */}
-      </Grid>
+        </CardContent>
+      </Card>
     </div>
   );
 }

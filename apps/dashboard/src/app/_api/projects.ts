@@ -245,7 +245,7 @@ export async function getProjectAnalytics(projectId: string) {
   const topPosts = await db
     .select({
       id: visits.postId,
-      slug: sql`coalesce(${posts.slug}, 'DELETED')`,
+      slug: sql<string>`coalesce(${posts.slug}, 'DELETED')`,
       count: sql<number>`count(*)`.mapWith(Number),
     })
     .from(visits)
@@ -258,8 +258,8 @@ export async function getProjectAnalytics(projectId: string) {
       ),
     )
     .where(eq(visits.projectId, projectId))
-    .limit(5)
     .groupBy(visits.postId)
+    .limit(5)
     .orderBy(desc(sql`count(*)`));
 
   const topCountries = await db
@@ -276,8 +276,8 @@ export async function getProjectAnalytics(projectId: string) {
       ),
     )
     .where(eq(visits.projectId, projectId))
-    .limit(5)
     .groupBy(visits.geoCountry)
+    .limit(5)
     .orderBy(desc(sql`count(*)`));
 
   const topCities = await db
@@ -295,8 +295,8 @@ export async function getProjectAnalytics(projectId: string) {
       ),
     )
     .where(eq(visits.projectId, projectId))
-    .limit(5)
     .groupBy(visits.geoCountry, visits.geoCity)
+    .limit(5)
     .orderBy(desc(sql`count(*)`));
 
   const topReferers = await db
@@ -313,8 +313,8 @@ export async function getProjectAnalytics(projectId: string) {
       ),
     )
     .where(eq(visits.projectId, projectId))
-    .limit(5)
     .groupBy(visits.referer)
+    .limit(5)
     .orderBy(desc(sql`count(*)`));
 
   return {
