@@ -8,23 +8,28 @@ import {
   FormItem,
   FormMessage,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { TextareaAutosize } from "~/components/ui/textarea-autosize";
 import { AutoSave, Form } from "~/components/ui/zod-form";
 import { updatePost } from "~/app/_actions/post/update-post";
 import type { GetPost } from "~/app/_api/posts";
+import { cn } from "~/lib/utils";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 import { Editor } from "./editor";
 
 type Props = {
+  preview: boolean;
   post: NonNullable<GetPost>;
   formStatus: "saving" | "saved";
   formStatusChanged(status: "saving" | "saved"): void;
 };
 
-export function EditPostFormContent({ post, formStatusChanged }: Props) {
+export function EditPostFormContent({
+  preview,
+  post,
+  formStatusChanged,
+}: Props) {
   const { mutate } = useZact(updatePost, {
     onSuccess: () => formStatusChanged("saved"),
   });
@@ -56,7 +61,9 @@ export function EditPostFormContent({ post, formStatusChanged }: Props) {
       schema={EditPostSchema}
       onSubmit={onSubmit}
       initialValues={initialValues}
-      className="grid grid-cols-1 gap-2"
+      className={cn("grid grid-cols-1 gap-2", {
+        hidden: preview,
+      })}
       disableOnSubmitting={false}
     >
       <AutoSave
@@ -69,12 +76,12 @@ export function EditPostFormContent({ post, formStatusChanged }: Props) {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <Input
+              <TextareaAutosize
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the title?"
-                className="border-0 px-0 py-4 text-4xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="resize-none rounded-none border-none px-0 py-4 text-4xl focus:ring-0 focus-visible:ring-0"
               />
             </FormControl>
             <FormMessage />
@@ -86,12 +93,12 @@ export function EditPostFormContent({ post, formStatusChanged }: Props) {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <Textarea
+              <TextareaAutosize
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value={field.value}
                 onChange={field.onChange}
                 placeholder="What's the description?"
-                className="resize-none border-0 px-0 py-4 text-2xl outline-none focus:border-0 focus:outline-none focus:ring-0 focus-visible:border-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                className="resize-none rounded-none border-none px-0 py-4 text-2xl focus:ring-0 focus-visible:ring-0"
               />
             </FormControl>
             <FormMessage />
@@ -104,7 +111,6 @@ export function EditPostFormContent({ post, formStatusChanged }: Props) {
           <FormItem>
             <FormControl>
               <Editor
-                setStatus={formStatusChanged}
                 projectId={post.projectId}
                 postId={post.id}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

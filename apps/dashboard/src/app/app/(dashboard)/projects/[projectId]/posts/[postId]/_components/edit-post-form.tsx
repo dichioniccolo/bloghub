@@ -11,15 +11,22 @@ type Props = {
 };
 
 export function EditPostForm({ post }: Props) {
+  const [preview, setPreview] = useState(false);
   const [formStatus, setFormStatus] = useState<"saving" | "saved">("saved");
 
   return (
     <div className="mt-4 space-y-4">
-      <EditPostFormToolbar post={post} formStatus={formStatus} />
+      <EditPostFormToolbar
+        post={post}
+        formStatus={formStatus}
+        preview={preview}
+        onPreviewChange={setPreview}
+      />
       <EditPostFormContent
         post={post}
         formStatus={formStatus}
         formStatusChanged={setFormStatus}
+        preview={preview}
       />
     </div>
   );

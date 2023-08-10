@@ -14,20 +14,13 @@ import { EditorBubbleMenu } from "./bubble-menu";
 import { TableMenu } from "./table-menu";
 
 type Props = {
-  setStatus?(status: "saved" | "unsaved" | "saving"): void;
   value: string;
   onChange?(value: JSONContent): void;
   projectId: string;
   postId: string;
 };
 
-export function Editor({
-  setStatus,
-  value,
-  onChange,
-  projectId,
-  postId,
-}: Props) {
+export function Editor({ value, onChange, projectId, postId }: Props) {
   const { complete, completion, isLoading, stop } = useCompletion({
     id: "editor",
     api: "/api/generate",
@@ -44,8 +37,6 @@ export function Editor({
 
   const onUpdate = useCallback(
     ({ editor }: { editor: EditorType }) => {
-      setStatus?.("unsaved");
-
       const selection = editor.state.selection;
 
       const lastTwo = getPrevText(editor, {
@@ -66,7 +57,7 @@ export function Editor({
         onChange?.(editor.getJSON());
       }
     },
-    [complete, isLoading, onChange, setStatus],
+    [complete, isLoading, onChange],
   );
 
   const uploadFile = useCallback(
@@ -165,7 +156,7 @@ export function Editor({
       // onClick={() => {
       //   editor.chain().focus().run();
       // }}
-      className="relative min-h-[500px] w-full bg-background py-12 sm:mb-[calc(20vh)]"
+      className="relative min-h-[500px] w-full bg-background pb-12 sm:mb-[calc(20vh)]"
     >
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
