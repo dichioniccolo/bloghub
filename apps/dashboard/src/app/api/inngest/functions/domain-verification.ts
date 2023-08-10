@@ -28,7 +28,8 @@ export const domainVerification = inngest.createFunction(
     name: "Domain Verification",
   },
   {
-    cron: "TZ=Europe/Rome 0 */1 * * *",
+    // cron: "TZ=Europe/Rome 0 */1 * * *", // every hour
+    cron: "TZ=Europe/Rome 0 */12 * * *",
   },
   async ({ step }) => {
     const projectsToVerify = await db
