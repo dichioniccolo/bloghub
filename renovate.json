@@ -1,13 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": [
+    "config:base"
+  ],
   "packageRules": [
     {
-      "matchPackagePatterns": ["^@bloghub/"],
+      "matchPackagePatterns": [
+        "^@bloghub/"
+      ],
       "enabled": false
     }
   ],
   "updateInternalDeps": true,
   "rangeStrategy": "bump",
-  "automerge": false
+  "automerge": true
 }
