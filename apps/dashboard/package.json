@@ -16,7 +16,7 @@
     "@aws-sdk/signature-v4-crt": "^3.378.0",
     "@bloghub/db": "^0.1.0",
     "@bloghub/emails": "^0.1.0",
-    "@hookform/resolvers": "^3.1.1",
+    "@hookform/resolvers": "^3.2.0",
     "@paralleldrive/cuid2": "^2.2.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.4",
