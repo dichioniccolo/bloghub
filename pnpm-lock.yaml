@@ -54,8 +54,8 @@ importers:
         specifier: ^0.1.0
         version: link:../../packages/emails
       '@hookform/resolvers':
-        specifier: ^3.1.1
-        version: 3.1.1(react-hook-form@7.45.4)
+        specifier: ^3.2.0
+        version: 3.2.0(react-hook-form@7.45.4)
       '@paralleldrive/cuid2':
         specifier: ^2.2.1
         version: 2.2.1
@@ -2277,8 +2277,8 @@ packages:
       tailwindcss: 3.3.3(ts-node@10.9.1)
     dev: false
 
-  /@hookform/resolvers@3.1.1(react-hook-form@7.45.4):
-    resolution: {integrity: sha512-tS16bAUkqjITNSvbJuO1x7MXbn7Oe8ZziDTJdA9mMvsoYthnOOiznOTGBYwbdlYBgU+tgpI/BtTU3paRbCuSlg==}
+  /@hookform/resolvers@3.2.0(react-hook-form@7.45.4):
+    resolution: {integrity: sha512-skXQHhLxq0Sz2xDwCyv5dygBCtXJe1GmWwxDzfdtl0X6agD6qcyTG8HrZWkjJoy8AkiLARqYvSYJ8z7+Nwmi7w==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
