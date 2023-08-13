@@ -82,7 +82,7 @@
     "encoding": "^0.1.13",
     "html-escaper": "^3.0.3",
     "inngest": "^2.4.1",
-    "lucide-react": "^0.266.0",
+    "lucide-react": "^0.263.1",
     "next": "^13.4.13",
     "next-auth": "^4.23.0",
     "next-themes": "^0.2.1",
