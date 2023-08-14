@@ -24,7 +24,7 @@ export async function getPosts(projectId: string) {
       slug: posts.slug,
       createdAt: posts.createdAt,
       hidden: posts.hidden,
-      visitsCount: sql<number>`count(${visits.id})`.mapWith(Number),
+      visitsCount: sql<number>`count(distinct ${visits.id})`.mapWith(Number),
     })
     .from(posts)
     .innerJoin(
@@ -36,7 +36,8 @@ export async function getPosts(projectId: string) {
     )
     .leftJoin(visits, eq(visits.postId, posts.id))
     .where(eq(posts.projectId, projectId))
-    .groupBy(posts.id, posts.title, posts.slug, posts.createdAt, posts.hidden);
+    .groupBy(posts.id, posts.title, posts.slug, posts.createdAt, posts.hidden)
+    .orderBy(posts.createdAt);
 }
 
 export type GetPosts = Awaited<ReturnType<typeof getPosts>>;

@@ -61,9 +61,22 @@ const securityHeaders = [
 const config = {
   reactStrictMode: true,
   images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.bloghub.it",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "bloghub.it",
+        port: "",
+        pathname: "**",
+      },
+    ],
     domains: [
       "avatar.vercel.sh",
-      "cdn.bloghub.it",
       "abs.twimg.com",
       "pbs.twimg.com",
       "avatars.githubusercontent.com",
