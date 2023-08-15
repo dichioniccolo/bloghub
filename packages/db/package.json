@@ -16,7 +16,7 @@
     "@tiptap/core": "^2.0.4",
     "drizzle-orm": "^0.28.2",
     "next-auth": "^4.23.0",
-    "zod": "^3.21.4"
+    "zod": "^3.22.1"
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",
