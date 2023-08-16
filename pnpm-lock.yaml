@@ -270,8 +270,8 @@ importers:
         specifier: 0.0.0-b993cb5
         version: 0.0.0-b993cb5(@types/react@18.2.20)
       partysocket:
-        specifier: 0.0.0-b993cb5
-        version: 0.0.0-b993cb5
+        specifier: 0.0.0-fffe721
+        version: 0.0.0-fffe721
       pusher:
         specifier: ^5.1.3
         version: 5.1.3(encoding@0.1.13)
@@ -9695,8 +9695,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /partysocket@0.0.0-b993cb5:
-    resolution: {integrity: sha512-d5XBZfV0KIFvvozmQPoh7KMb2/heftXHuaCWAksvMX/79L7BLKxNP4dNDMPBl4hV/0kcuqmokQCJrn44Yw91Pg==}
+  /partysocket@0.0.0-fffe721:
+    resolution: {integrity: sha512-FLJFd+YZseL/eG5E+4UN1pQkh17bH1J/UrFdyCeZIOqXyAx6qT0AX1rotzAHcv2pAckBUR/ZlTkQq16Bq8x+FA==}
     dependencies:
       react: 18.2.0
     dev: false
