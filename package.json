@@ -8,31 +8,33 @@
   "scripts": {
     "reinstall": "pnpm clean:workspaces && pnpm i",
     "build": "turbo build",
-    "clean": "git clean -xdf node_modules",
+    "clean": "git clean -xdf node_modules dist .next",
     "clean:workspaces": "turbo clean",
     "db:generate": "pnpm with-env turbo db:generate",
     "db:push": "pnpm with-env turbo db:push",
     "db:studio": "pnpm with-env turbo db:studio",
-    "dev": "pnpm with-env turbo dev --parallel",
-    "dev:app": "pnpm dev --filter @bloghub/app",
+    "dev": "FORCE_COLOR=1 pnpm with-env turbo dev --parallel",
+    "dev:web": "pnpm dev --filter @acme/nextjs",
     "inngest": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest",
-    "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
-    "lint": "turbo lint",
     "type-check": "turbo type-check",
     "prepare": "husky install",
     "with-env": "doppler run --",
-    "test": "turbo test",
-    "test:ui": "turbo test:ui",
-    "test:reply": "turbo test:reply"
+    "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
+    "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
+    "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg check",
+    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg fix",
+    "typecheck": "turbo typecheck"
   },
   "dependencies": {
+    "@acme/prettier-config": "^0.1.0",
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
+    "@manypkg/cli": "^0.21.0",
+    "@turbo/gen": "^1.10.12",
     "husky": "^8.0.3",
     "prettier": "^3.0.2",
-    "prettier-plugin-tailwindcss": "^0.5.3",
     "turbo": "^1.10.12",
     "typescript": "^5.1.6"
-  }
+  },
+  "prettier": "@acme/prettier-config"
 }

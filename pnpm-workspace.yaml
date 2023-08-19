@@ -1,5 +1,4 @@
 packages:
-  - apps/dashboard
-  - packages/config/*
-  - packages/db
-  - packages/emails
+  - apps/*
+  - packages/*
+  - tooling/*

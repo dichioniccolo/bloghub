@@ -1,23 +1,39 @@
 {
-  "name": "@bloghub/emails",
+  "name": "@acme/emails",
   "version": "0.1.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "exports": {
+    ".": "./index.ts",
+    "./env": "./env.mjs"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "*"
+      ]
+    }
+  },
   "scripts": {
     "clean": "rm -rf .turbo .react-email node_modules",
-    "dev:disabled": "email dev --port 3883"
+    "dev:disabled": "email dev --port 3883",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@acme/eslint-config": "^0.2.0",
+    "@acme/prettier-config": "^0.1.0",
+    "@acme/tsconfig": "^0.1.0",
     "@react-email/render": "^0.0.7",
     "@types/nodemailer": "^6.4.9",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.28",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@bloghub/db": "^0.1.0",
+    "@acme/db": "^0.1.0",
     "@react-email/components": "^0.0.7",
     "@t3-oss/env-nextjs": "^0.6.1",
     "nodemailer": "^6.9.4",
@@ -26,5 +42,14 @@
     "react-email": "^1.9.4",
     "resend": "^1.0.0",
     "zod": "^3.22.2"
-  }
+  },
+  "eslintConfig": {
+    "extends": [
+      "@acme/eslint-config/base"
+    ],
+    "rules": {
+      "@typescript-eslint/consistent-type-definitions": "off"
+    }
+  },
+  "prettier": "@acme/prettier-config"
 }

@@ -1,11 +1,11 @@
 import {
-  db,
-  emailNotificationSettings,
-  eq,
-  inArray,
-  users,
-  type EmailNotificationSettingType,
-} from "@bloghub/db";
+    db,
+    emailNotificationSettings,
+    eq,
+    inArray,
+    users,
+    type EmailNotificationSettingType,
+} from "@acme/db";
 
 export async function fetchEmailNotificationSettings(
   type: EmailNotificationSettingType,

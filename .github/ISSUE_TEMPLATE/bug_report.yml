@@ -2,6 +2,8 @@ name: 🐞 Bug Report
 description: Create a bug report to help us improve
 title: "bug: "
 labels: ["🐞❔ unconfirmed bug"]
+assignees:
+  - dichioniccolo
 body:
   - type: textarea
     attributes:

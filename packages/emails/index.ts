@@ -1,8 +1,9 @@
 export * from "./emails";
-export * from "./emails/AutomaticProjectDeletion";
-export * from "./emails/InvalidDomain";
-export * from "./emails/LoginLink";
-export * from "./emails/ProjectInvite";
-export * from "./emails/ProjectInviteAccepted";
-export * from "./emails/RemovedFromProject";
-export * from "./emails/WelcomeEmail";
+export { AutomaticProjectDeletion } from "./emails/AutomaticProjectDeletion";
+export { InvalidDomain } from "./emails/InvalidDomain";
+export { LoginLink } from "./emails/LoginLink";
+export { ProjectInvite } from "./emails/ProjectInvite";
+export { ProjectInviteAccepted } from "./emails/ProjectInviteAccepted";
+export { RemovedFromProject } from "./emails/RemovedFromProject";
+export { WelcomeEmail } from "./emails/WelcomeEmail";
+

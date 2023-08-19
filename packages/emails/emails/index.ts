@@ -1,8 +1,8 @@
-import { type ReactElement } from "react";
+import type { ReactElement } from "react";
 import { Resend } from "resend";
-import { type CreateEmailOptions } from "resend/build/src/emails/interfaces";
+import type { CreateEmailOptions } from "resend/build/src/emails/interfaces";
 
-import { type EmailNotificationSettingType } from "@bloghub/db";
+import type { EmailNotificationSettingType } from "@acme/db";
 
 import { env } from "../env.mjs";
 import {
