@@ -18,7 +18,7 @@ import {
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
-} from "@acme/stripe";
+} from "@acme/stripe/plans";
 
 import { getUserTotalUsage } from "~/lib/common/actions";
 import { $getUser } from "./get-user";

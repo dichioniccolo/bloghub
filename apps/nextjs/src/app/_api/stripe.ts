@@ -1,6 +1,7 @@
 "use server";
 
-import { PLANS, stripe } from "@acme/stripe";
+import { stripe } from "@acme/stripe";
+import { PLANS } from "@acme/stripe/plans";
 
 export async function getProPlans() {
   const [

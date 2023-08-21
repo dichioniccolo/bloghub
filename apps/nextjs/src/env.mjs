@@ -9,10 +9,6 @@ export const env = createEnv({
   server: {
     ADMIN_EMAIL: z.string().email(),
     STRIPE_API_KEY: z.string().min(1),
-    STRIPE_PRO_50K_MONTHLY_PLAN_ID: z.string().min(1),
-    STRIPE_PRO_50K_YEARLY_PLAN_ID: z.string().min(1),
-    STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID: z.string().min(1),
-    STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID: z.string().min(1),
     DO_ENDPOINT: z.string().min(1),
     DO_REGION: z.string().min(1),
     DO_ACCESS_KEY: z.string().min(1),
@@ -85,12 +81,6 @@ export const env = createEnv({
     PUSHER_APP_ID: process.env.PUSHER_APP_ID,
     PUSHER_SECRET: process.env.PUSHER_SECRET,
     STRIPE_API_KEY: process.env.STRIPE_API_KEY,
-    STRIPE_PRO_50K_MONTHLY_PLAN_ID: process.env.STRIPE_PRO_50K_MONTHLY_PLAN_ID,
-    STRIPE_PRO_50K_YEARLY_PLAN_ID: process.env.STRIPE_PRO_50K_YEARLY_PLAN_ID,
-    STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID:
-      process.env.STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID,
-    STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID:
-      process.env.STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID,
     DO_ENDPOINT: process.env.DO_ENDPOINT,
     DO_REGION: process.env.DO_REGION,
     DO_ACCESS_KEY: process.env.DO_ACCESS_KEY,

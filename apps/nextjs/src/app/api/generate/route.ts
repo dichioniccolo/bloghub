@@ -7,7 +7,7 @@ import { db, eq, users } from "@acme/db";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
-} from "@acme/stripe";
+} from "@acme/stripe/plans";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";

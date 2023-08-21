@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { PLANS } from "@acme/stripe/plans";
+
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import type { GetProPlans } from "~/app/_api/stripe";
 import { Button } from "~/components/ui/button";
@@ -30,12 +32,18 @@ export function UpgradePlanDialog({ proPlans }: Props) {
   const [open, setOpen] = useState(false);
 
   const [tier, setTier] = useState(0);
-  const [plan, setPlan] = useState(proPlans[2]!);
-  const [annualBilling, setAnnualBilling] = useState(true);
+  const [plan, setPlan] = useState(PLANS.PRO_UNLIMITED_M);
+  const [annualBilling, setAnnualBilling] = useState(false);
 
-  const monthlyPlans = useMemo(() => [proPlans[0], proPlans[2]], [proPlans]);
+  const monthlyPlans = useMemo(
+    () => [PLANS.PRO_50K_M, PLANS.PRO_UNLIMITED_M],
+    [],
+  );
 
-  const yearlyPlans = useMemo(() => [proPlans[1], proPlans[3]], [proPlans]);
+  const yearlyPlans = useMemo(
+    () => [PLANS.PRO_50K_Y, PLANS.PRO_UNLIMITED_Y],
+    [],
+  );
 
   const period = annualBilling ? "yearly" : "monthly";
 
@@ -77,6 +85,17 @@ export function UpgradePlanDialog({ proPlans }: Props) {
     return proPlans.find((p) => p.key === plan.key);
   }, [plan.key, proPlans]);
 
+  useEffect(() => {
+    if (!selectedPlan) {
+      setPlan(PLANS.PRO_UNLIMITED_M);
+      setAnnualBilling(false);
+    }
+  }, [selectedPlan]);
+
+  if (!selectedPlan) {
+    return null;
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -108,11 +127,11 @@ export function UpgradePlanDialog({ proPlans }: Props) {
           )}
           <div className="flex w-full items-center justify-between p-5 pt-7">
             <h3 className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-2xl text-transparent">
-              {plan?.name}
+              {selectedPlan.name}
             </h3>
             <div className="flex items-center">
               <p className="text-2xl font-semibold text-stone-700 dark:text-stone-300">
-                €{selectedPlan?.price ?? ""}
+                €{selectedPlan.price ?? ""}
               </p>
               <p className="text-sm text-stone-700 dark:text-stone-300">
                 /{annualBilling ? "yr" : "mo"}
@@ -127,13 +146,13 @@ export function UpgradePlanDialog({ proPlans }: Props) {
               max={monthlyPlans.length - 1}
             />
             <p className="text-sm text-stone-700 dark:text-stone-300">
-              Up to {formatNumber(plan?.quota ?? 0)} post visits/mo
+              Up to {formatNumber(selectedPlan.quota ?? 0)} post visits/mo
             </p>
           </div>
         </div>
         <Button disabled={isRunning} onClick={onUpgrade}>
           {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Upgrade to {plan?.name}
+          Upgrade to {selectedPlan.name}
         </Button>
       </DialogContent>
     </Dialog>

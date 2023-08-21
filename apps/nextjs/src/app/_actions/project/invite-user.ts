@@ -22,7 +22,7 @@ import { z } from "zod";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
-} from "@acme/stripe";
+} from "@acme/stripe/plans";
 
 import { $getUser } from "~/app/_api/get-user";
 import { inngest } from "~/lib/inngest";

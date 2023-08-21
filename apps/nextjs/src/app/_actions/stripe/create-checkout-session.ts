@@ -3,7 +3,8 @@
 import { z } from "zod";
 
 import { db, eq, users } from "@acme/db";
-import { isSubscriptionPlanPro, planKeyToPlanInfo, stripe } from "@acme/stripe";
+import { stripe } from "@acme/stripe";
+import { isSubscriptionPlanPro, planKeyToPlanInfo } from "@acme/stripe/plans";
 
 import { $getUser } from "~/app/_api/get-user";
 import { zactAuthenticated } from "~/lib/zact/server";
