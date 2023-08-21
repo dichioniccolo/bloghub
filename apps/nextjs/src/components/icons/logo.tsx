@@ -2,10 +2,10 @@ import Image from "next/image";
 
 import { env } from "~/env.mjs";
 
-type Props = {
+interface Props {
   className?: string;
   size?: number;
-};
+}
 
 export function Logo({ size, className }: Props) {
   return (

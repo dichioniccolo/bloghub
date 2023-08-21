@@ -6,9 +6,9 @@ import type { GetPost } from "~/app/_api/posts";
 import { EditPostFormContent } from "./edit-post-form-content";
 import { EditPostFormToolbar } from "./edit-post-form-toolbar";
 
-type Props = {
+interface Props {
   post: NonNullable<GetPost>;
-};
+}
 
 export function EditPostForm({ post }: Props) {
   const [preview, setPreview] = useState(false);

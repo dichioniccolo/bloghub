@@ -6,12 +6,12 @@ import type z from "zod";
 
 import type { ZactAction, ZactValidationError } from "./server";
 
-type CallbackOptions<InputType extends z.ZodTypeAny, ResponseType> = {
+interface CallbackOptions<InputType extends z.ZodTypeAny, ResponseType> {
   onBeforeAction?: (input: z.input<InputType>) => unknown;
   onSuccess?: (data: ResponseType) => unknown;
   onServerError?: () => unknown;
   onValidationError?: (errors: ZactValidationError<InputType>) => unknown;
-};
+}
 
 export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
   action: ZactAction<InputType, ResponseType>,

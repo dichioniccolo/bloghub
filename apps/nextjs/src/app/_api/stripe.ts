@@ -1,35 +1,38 @@
 "use server";
 
-import { proPlans, stripe } from "~/lib/common/external/stripe";
+import { PLANS, stripe } from "@acme/stripe";
 
 export async function getProPlans() {
-  const allPrices = [
-    ...proPlans.map((x) => x.prices.monthly),
-    ...proPlans.map((x) => x.prices.yearly),
+  const [
+    pro50KMonthlyPrice,
+    pro50KYearlyPrice,
+    proUnlimitedMonthlyPrice,
+    proUnlimitedYearlyPrice,
+  ] = await Promise.all([
+    stripe.prices.retrieve(PLANS.PRO_50K_M.priceId),
+    stripe.prices.retrieve(PLANS.PRO_50K_Y.priceId),
+    stripe.prices.retrieve(PLANS.PRO_UNLIMITED_M.priceId),
+    stripe.prices.retrieve(PLANS.PRO_UNLIMITED_Y.priceId),
+  ]);
+
+  return [
+    {
+      ...PLANS.PRO_50K_M,
+      price: pro50KMonthlyPrice.unit_amount! / 100,
+    },
+    {
+      ...PLANS.PRO_50K_Y,
+      price: pro50KYearlyPrice.unit_amount! / 100,
+    },
+    {
+      ...PLANS.PRO_UNLIMITED_M,
+      price: proUnlimitedMonthlyPrice.unit_amount! / 100,
+    },
+    {
+      ...PLANS.PRO_UNLIMITED_Y,
+      price: proUnlimitedYearlyPrice.unit_amount! / 100,
+    },
   ];
-
-  const prices = await Promise.all(
-    allPrices.map((p) => stripe.prices.retrieve(p)),
-  );
-
-  const plans = proPlans.map((plan) => {
-    const monthly = prices.find((p) => p.id === plan.prices.monthly);
-    const yearly = prices.find((p) => p.id === plan.prices.yearly);
-
-    return {
-      ...plan,
-      prices: {
-        monthly: {
-          unit_amount: (monthly?.unit_amount ?? 0) / 100,
-        },
-        yearly: {
-          unit_amount: (yearly?.unit_amount ?? 0) / 100,
-        },
-      },
-    };
-  });
-
-  return plans;
 }
 
 export type GetProPlans = Awaited<ReturnType<typeof getProPlans>>;

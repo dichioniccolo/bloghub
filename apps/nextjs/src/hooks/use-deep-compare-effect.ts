@@ -9,7 +9,7 @@ type DependencyList = UseEffectParams[1];
 type UseEffectReturn = ReturnType<typeof useEffect>;
 
 function checkDeps(deps: DependencyList) {
-  if (!deps || !deps.length) {
+  if (!deps?.length) {
     throw new Error(
       "useDeepCompareEffect should not be used with no dependencies. Use useEffect instead.",
     );

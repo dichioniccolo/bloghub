@@ -3,9 +3,9 @@ import { Check, Copy } from "lucide-react";
 import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
 import { PostCardButton } from "./post-card-button";
 
-type Props = {
+interface Props {
   url: string;
-};
+}
 
 export function PostCardCopyButton({ url }: Props) {
   const { copied, copy } = useCopyToClipboard();

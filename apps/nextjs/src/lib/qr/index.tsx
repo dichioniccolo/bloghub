@@ -12,25 +12,30 @@ import { escape } from "html-escaper";
 import qrcodegen from "./codegen";
 
 type Modules = ReturnType<qrcodegen.QrCode["getModules"]>;
-type Excavation = { x: number; y: number; w: number; h: number };
+interface Excavation {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
 
-const ERROR_LEVEL_MAP: { [index: string]: qrcodegen.QrCode.Ecc } = {
+const ERROR_LEVEL_MAP: Record<string, qrcodegen.QrCode.Ecc> = {
   L: qrcodegen.QrCode.Ecc.LOW,
   M: qrcodegen.QrCode.Ecc.MEDIUM,
   Q: qrcodegen.QrCode.Ecc.QUARTILE,
   H: qrcodegen.QrCode.Ecc.HIGH,
 };
 
-type ImageSettings = {
+interface ImageSettings {
   src: string;
   height: number;
   width: number;
   excavate: boolean;
   x?: number;
   y?: number;
-};
+}
 
-export type QRProps = {
+export interface QRProps {
   value: string;
   size?: number;
   // Should be a real enum, but doesn't seem to be compatible with real code.
@@ -40,7 +45,7 @@ export type QRProps = {
   style?: CSSProperties;
   includeMargin?: boolean;
   imageSettings?: ImageSettings;
-};
+}
 type QRPropsCanvas = QRProps & ComponentProps<"canvas">;
 type QRPropsSVG = QRProps & ComponentProps<"svg">;
 
@@ -59,7 +64,7 @@ const MARGIN_SIZE = 4;
 const DEFAULT_IMG_SCALE = 0.1;
 
 function generatePath(modules: Modules, margin = 0): string {
-  const ops: Array<string> = [];
+  const ops: string[] = [];
   modules.forEach(function (row, y) {
     let start: number | null = null;
     row.forEach(function (cell, x) {

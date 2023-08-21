@@ -9,20 +9,20 @@ import type { GetProjectUsers } from "~/app/_api/projects";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { getDefaultAvatarImage } from "~/lib/utils";
 import { useDeleteMemberDialog } from "./delete-member-dialog";
 
-type Props = {
+interface Props {
   projectId: string;
   currentUserRole: RoleType;
   member: GetProjectUsers[number];
-};
+}
 
 export function ProjectMember({ projectId, currentUserRole, member }: Props) {
   const { setOpen, DeleteMemberDialog } = useDeleteMemberDialog(projectId, {

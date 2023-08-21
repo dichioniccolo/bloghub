@@ -1,19 +1,20 @@
-import { format } from "date-fns";
+import { Suspense } from "react";
 import type { Metadata, ServerRuntime } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import type { JSONContent } from "@tiptap/core";
+import { format } from "date-fns";
 
 import { getPostBySlug } from "~/app/_api/public/posts";
 import { RandomPosts } from "./_components/random-posts";
 import { Viewer } from "./_components/viewer";
 
-type Props = {
+interface Props {
   params: {
     domain: string;
     slug: string;
   };
-};
+}
 
 export const runtime: ServerRuntime = "edge";
 
@@ -81,7 +82,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
         />
       </div>
       <div className="mx-10 my-10 md:mx-20">
-        <Viewer value={post.content} />
+        <Viewer value={post.content as JSONContent} />
       </div>
       <Suspense fallback={<p>loading...</p>}>
         <RandomPosts domain={domain} slug={slug} />

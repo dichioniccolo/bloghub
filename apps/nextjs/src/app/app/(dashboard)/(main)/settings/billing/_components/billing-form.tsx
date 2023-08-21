@@ -4,6 +4,9 @@ import { format } from "date-fns";
 import { HelpCircle, InfinityIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
+import type { GetProPlans } from "~/app/_api/stripe";
+import type { GetUserPlan } from "~/app/_api/user";
 import { Divider } from "~/components/icons/divider";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -22,20 +25,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
-import type { GetProPlans } from "~/app/_api/stripe";
-import type { GetUserPlan } from "~/app/_api/user";
 import { AppRoutes } from "~/lib/common/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";
 import { UpgradePlanDialog } from "./upgrade-plan-dialog";
 
-type Props = {
+interface Props {
   userPlan: GetUserPlan;
   projectsCount: number;
   proPlans: GetProPlans;
-};
+}
 
 export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
   const { mutate, isRunning } = useZact(createCheckoutSession, {
@@ -69,7 +69,12 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
         <CardTitle>Plan & Usage</CardTitle>
         <CardDescription>
           You are currently on the{" "}
-          <Badge variant={userPlan.plan.isPro ? "destructive" : "default"}>
+          <Badge
+            style={{
+              backgroundColor: userPlan.plan.color,
+            }}
+            variant="default"
+          >
             {userPlan.plan.name}
           </Badge>{" "}
           plan. Current billing cycle:{" "}
@@ -119,7 +124,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
         </div>
       </CardContent>
       <CardFooter className="px-0">
-        {!userPlan.plan.isPro ? (
+        {userPlan.plan.key === "FREE" ? (
           <UpgradePlanDialog proPlans={proPlans} />
         ) : (
           <div className="flex space-x-3">

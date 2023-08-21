@@ -1,6 +1,6 @@
-type Props = {
+interface Props {
   className?: string;
-};
+}
 
 export function CloudSave({ className }: Props) {
   return (

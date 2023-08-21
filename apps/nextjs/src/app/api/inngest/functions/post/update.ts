@@ -1,14 +1,6 @@
 import type { JSONContent } from "@tiptap/react";
 
-import {
-    and,
-    db,
-    eq,
-    inArray,
-    media,
-    MediaForEntity,
-    posts,
-} from "@acme/db";
+import { and, db, eq, inArray, media, MediaForEntity, posts } from "@acme/db";
 
 import { env } from "~/env.mjs";
 import { deleteMedias } from "~/lib/common/external/media/actions";
@@ -50,7 +42,7 @@ export const postUpdate = inngest.createFunction(
         return;
       }
 
-      const matches = findMediaInJsonContent(post.content);
+      const matches = findMediaInJsonContent(post.content as JSONContent);
 
       const deletedMedias = mediaList.filter((m) => !matches.includes(m.url));
 

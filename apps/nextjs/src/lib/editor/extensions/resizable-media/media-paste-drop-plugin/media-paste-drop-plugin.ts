@@ -8,7 +8,7 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
     key: new PluginKey("media-paste-drop"),
     props: {
       handlePaste(view, event) {
-        const items = Array.from(event.clipboardData?.items || []);
+        const items = Array.from(event.clipboardData?.items ?? []);
         const { schema } = view.state;
 
         items.forEach((item) => {
@@ -28,8 +28,9 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
                     src,
                     alt: file.name,
                     title: file.name,
-                    "media-type":
-                      file.type.indexOf("image") === 0 ? "img" : "video",
+                    "media-type": file.type.startsWith("image")
+                      ? "img"
+                      : "video",
                   });
 
                   const transaction = view.state.tr.replaceSelectionWith(node);
@@ -64,10 +65,7 @@ export const getMediaPasteDropPlugin = (upload: UploadFunctionType) => {
         return false;
       },
       handleDrop(view, event) {
-        const hasFiles =
-          event.dataTransfer &&
-          event.dataTransfer.files &&
-          event.dataTransfer.files.length;
+        const hasFiles = event.dataTransfer?.files?.length;
 
         if (!hasFiles) {
           return false;

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { updateDomain } from "~/app/_actions/project/update-domain";
+import type { GetProject } from "~/app/_api/projects";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -21,15 +23,13 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
-import { updateDomain } from "~/app/_actions/project/update-domain";
-import type { GetProject } from "~/app/_api/projects";
 import type { UpdateDomainSchemaType } from "~/lib/validation/schema";
 import { UpdateDomainSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function UpdateDomainDialog({ project }: Props) {
   const [open, setOpen] = useState(false);

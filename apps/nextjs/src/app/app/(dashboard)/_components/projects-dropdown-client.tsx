@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
+import type { GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -21,15 +22,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import type { GetProjects } from "~/app/_api/projects";
 import { useUser } from "~/hooks/use-user";
 import { cn } from "~/lib/cn";
 import { getDefaultAvatarImage } from "~/lib/utils";
 import { useSelectedProject } from "./use-selected-project";
 
-type Props = {
+interface Props {
   projects: GetProjects;
-};
+}
 
 export function ProjectsDropdownClient({ projects }: Props) {
   const user = useUser();

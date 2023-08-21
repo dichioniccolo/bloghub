@@ -1,23 +1,26 @@
 "use server";
 
 import {
-    aliasedTable,
-    and,
-    db,
-    desc,
-    eq,
-    posts,
-    projectInvitations,
-    projectMembers,
-    projects,
-    Role,
-    sql,
-    users,
-    visits,
+  aliasedTable,
+  and,
+  db,
+  desc,
+  eq,
+  posts,
+  projectInvitations,
+  projectMembers,
+  projects,
+  Role,
+  sql,
+  users,
+  visits,
 } from "@acme/db";
+import {
+  isSubscriptionPlanPro,
+  stripePriceToSubscriptionPlan,
+} from "@acme/stripe";
 
 import { getUserTotalUsage } from "~/lib/common/actions";
-import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { $getUser } from "./get-user";
 import { getBillingPeriod } from "./user";
 
@@ -188,12 +191,12 @@ export async function getProjectOwner(projectId: string) {
     billingPeriod[1],
   );
 
-  const plan = await determinePlanByPriceId(user.email, owner.stripePriceId);
+  const plan = stripePriceToSubscriptionPlan(owner.stripePriceId);
 
   return {
     usage,
     quota: plan.quota,
-    isPro: plan.isPro,
+    isPro: isSubscriptionPlanPro(plan),
   };
 }
 

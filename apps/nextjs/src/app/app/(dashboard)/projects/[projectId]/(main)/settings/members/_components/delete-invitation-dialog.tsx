@@ -4,6 +4,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 import { Loader2 } from "lucide-react";
 
+import { deleteProjectInvitation } from "~/app/_actions/project/delete-project-invitation";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,17 +15,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
-import { deleteProjectInvitation } from "~/app/_actions/project/delete-project-invitation";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   projectId: string;
   invitationToDelete: {
     email: string;
   };
-};
+}
 
 function DeleteInvitationDialog({
   open,

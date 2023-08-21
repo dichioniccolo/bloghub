@@ -1,14 +1,14 @@
 "use server";
 
 import {
-    and,
-    db,
-    desc,
-    eq,
-    inArray,
-    notifications,
-    NotificationStatus,
-    sql,
+  and,
+  db,
+  desc,
+  eq,
+  inArray,
+  notifications,
+  NotificationStatus,
+  sql,
 } from "@acme/db";
 
 import { $getUser } from "./get-user";

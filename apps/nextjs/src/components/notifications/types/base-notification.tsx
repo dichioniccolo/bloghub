@@ -1,25 +1,25 @@
 "use client";
 
-import type { MouseEventHandler, ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { Archive } from "lucide-react";
 
+import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
+import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
 import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/components/notifications/notifications-provider";
 import { Button } from "~/components/ui/button";
-import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
-import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
 import { cn } from "~/lib/cn";
 import type { AppNotification } from "~/lib/notifications";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   notification: AppNotification;
   icon: ReactNode;
   children: ReactNode;
   className?: string;
-};
+}
 
 export function BaseNotification({
   notification,
@@ -52,7 +52,7 @@ export function BaseNotification({
     },
   });
 
-  const onArchive: MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const onArchive = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     await archive({
       notificationId: notification.id,

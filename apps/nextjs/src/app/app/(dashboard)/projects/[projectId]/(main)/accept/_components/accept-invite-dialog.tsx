@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { acceptInvite } from "~/app/_actions/project/accept-invite";
+import type { GetPendingInvite } from "~/app/_api/projects";
 import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Dialog,
@@ -14,15 +16,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { acceptInvite } from "~/app/_actions/project/accept-invite";
-import type { GetPendingInvite } from "~/app/_api/projects";
 import { AppRoutes } from "~/lib/common/routes";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   project: NonNullable<GetPendingInvite>["project"];
   expired: boolean;
-};
+}
 
 export function AcceptInviteDialog({ project, expired }: Props) {
   const router = useRouter();

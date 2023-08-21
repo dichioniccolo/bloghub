@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Separator } from "~/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
   getProject,
   getProjectInvites,
   getProjectUsers,
 } from "~/app/_api/projects";
+import { Separator } from "~/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { InviteMemberDialog } from "./_components/invite-member-dialog";
 import { ProjectInvitation } from "./_components/project-invitation";
 import { ProjectMember } from "./_components/project-member";
 
-type Props = {
+interface Props {
   params: {
     projectId: string;
   };
-};
+}
 
 export async function generateMetadata({
   params: { projectId },

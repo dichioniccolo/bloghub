@@ -4,10 +4,13 @@ import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
 import { db, eq, users } from "@acme/db";
+import {
+  isSubscriptionPlanPro,
+  stripePriceToSubscriptionPlan,
+} from "@acme/stripe";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
-import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 
 const config = new Configuration({
@@ -16,7 +19,7 @@ const config = new Configuration({
 const openai = new OpenAIApi(config);
 
 // until we next-auth supports it, we cannot use edge
-// export const runtime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
@@ -36,9 +39,9 @@ export async function POST(req: Request): Promise<Response> {
       });
     }
 
-    const plan = await determinePlanByPriceId(user.email, dbUser.stripePriceId);
+    const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 
-    if (!plan.isPro) {
+    if (!isSubscriptionPlanPro(plan)) {
       return new Response("You must be a pro member to use AI features", {
         status: 403,
       });

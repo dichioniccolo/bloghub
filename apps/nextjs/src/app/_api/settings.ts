@@ -1,10 +1,10 @@
 "use server";
 
 import {
-    db,
-    EmailNotificationSetting,
-    emailNotificationSettings,
-    eq,
+  db,
+  EmailNotificationSetting,
+  emailNotificationSettings,
+  eq,
 } from "@acme/db";
 
 import { $getUser } from "./get-user";

@@ -44,6 +44,9 @@ importers:
       '@acme/emails':
         specifier: ^0.1.0
         version: link:../../packages/emails
+      '@acme/stripe':
+        specifier: ^0.1.0
+        version: link:../../packages/stripe
       '@aws-sdk/client-s3':
         specifier: ^3.395.0
         version: 3.395.0(@aws-sdk/signature-v4-crt@3.391.0)(aws-crt@1.18.0)
@@ -293,9 +296,6 @@ importers:
       sonner:
         specifier: ^0.6.2
         version: 0.6.2(react-dom@18.2.0)(react@18.2.0)
-      stripe:
-        specifier: ^13.2.0
-        version: 13.2.0
       tailwind-merge:
         specifier: ^1.14.0
         version: 1.14.0
@@ -473,6 +473,37 @@ importers:
       postcss:
         specifier: ^8.4.28
         version: 8.4.28
+      prettier:
+        specifier: ^3.0.2
+        version: 3.0.2
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
+
+  packages/stripe:
+    dependencies:
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../db
+      '@t3-oss/env-nextjs':
+        specifier: ^0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.22.2)
+      stripe:
+        specifier: ^13.2.0
+        version: 13.2.0
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: 0.2.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tsconfig':
+        specifier: ^0.1.0
+        version: link:../../tooling/typescript
+      eslint:
+        specifier: ^8.47.0
+        version: 8.47.0
       prettier:
         specifier: ^3.0.2
         version: 3.0.2

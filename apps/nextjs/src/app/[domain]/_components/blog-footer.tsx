@@ -5,9 +5,9 @@ import type { GetProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
 import { AppLink } from "./app-link";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProjectByDomain>;
-};
+}
 
 export function BlogFooter({ project }: Props) {
   return (

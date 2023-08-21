@@ -1,3 +1,4 @@
+import type { GetProject } from "~/app/_api/projects";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -6,12 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import type { GetProject } from "~/app/_api/projects";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function DeleteProject({ project }: Props) {
   return (

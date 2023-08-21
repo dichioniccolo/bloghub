@@ -3,9 +3,9 @@
 import { z } from "zod";
 
 import {
-    db,
-    EmailNotificationSetting,
-    emailNotificationSettings,
+  db,
+  EmailNotificationSetting,
+  emailNotificationSettings,
 } from "@acme/db";
 
 import { $getUser } from "~/app/_api/get-user";

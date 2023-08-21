@@ -13,12 +13,12 @@ import { determineMediaType } from "~/lib/utils";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { TableMenu } from "./table-menu";
 
-type Props = {
+interface Props {
   value: string;
   onChange?(value: JSONContent): void;
   projectId: string;
   postId: string;
-};
+}
 
 export function Editor({ value, onChange, projectId, postId }: Props) {
   const { complete, completion, isLoading, stop } = useCompletion({

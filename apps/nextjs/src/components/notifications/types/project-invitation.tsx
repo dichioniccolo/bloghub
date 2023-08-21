@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { MailPlus } from "lucide-react";
-import Link from "next/link";
 
 import type { Notification } from "@acme/db";
 
@@ -8,12 +8,12 @@ import { BaseNotification } from "~/components/notifications/types/base-notifica
 import { AppRoutes } from "~/lib/common/routes";
 import type { AppNotification } from "~/lib/notifications";
 
-type Props = {
+interface Props {
   notification: Extract<
     AppNotification,
     { type: typeof Notification.ProjectInvitation }
   >;
-};
+}
 
 export function ProjectInvitationNotification({ notification }: Props) {
   return (

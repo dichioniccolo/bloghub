@@ -1,15 +1,15 @@
+import type { GetProject } from "~/app/_api/projects";
 import { Card, CardFooter, CardHeader } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
-import type { GetProject } from "~/app/_api/projects";
 import { ChangeName } from "./change-name";
 import { CustomDomain } from "./custom-domain";
 import { DeleteProject } from "./delete-project";
 import { ProjectLogo } from "./project-logo";
 import { QuitProject } from "./quit-project";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function GeneralSettings({ project }: Props) {
   if (project.currentUserRole !== "owner") {

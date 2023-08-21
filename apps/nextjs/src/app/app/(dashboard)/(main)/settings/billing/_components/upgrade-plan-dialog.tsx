@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
+import type { GetProPlans } from "~/app/_api/stripe";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -15,23 +17,25 @@ import {
 } from "~/components/ui/dialog";
 import { Slider } from "~/components/ui/slider";
 import { Switch } from "~/components/ui/switch";
-import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
-import type { GetProPlans } from "~/app/_api/stripe";
 import { AppRoutes } from "~/lib/common/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   proPlans: GetProPlans;
-};
+}
 
 export function UpgradePlanDialog({ proPlans }: Props) {
   const [open, setOpen] = useState(false);
 
   const [tier, setTier] = useState(0);
-  const [plan, setPlan] = useState(proPlans[tier]);
+  const [plan, setPlan] = useState(proPlans[2]!);
   const [annualBilling, setAnnualBilling] = useState(true);
+
+  const monthlyPlans = useMemo(() => [proPlans[0], proPlans[2]], [proPlans]);
+
+  const yearlyPlans = useMemo(() => [proPlans[1], proPlans[3]], [proPlans]);
 
   const period = annualBilling ? "yearly" : "monthly";
 
@@ -58,19 +62,20 @@ export function UpgradePlanDialog({ proPlans }: Props) {
   const onUpgrade = () =>
     mutate({
       callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
-      name: plan?.name,
-      period,
+      key: plan.key,
     });
 
   useEffect(() => {
-    if (proPlans.length > tier) {
-      setPlan(proPlans[proPlans.length - 1]);
-    } else if (tier < 0) {
-      setPlan(proPlans[0]);
+    if (period === "monthly") {
+      setPlan(monthlyPlans[tier]!);
+    } else if (period === "yearly") {
+      setPlan(yearlyPlans[tier]!);
     }
+  }, [tier, plan, period, monthlyPlans, yearlyPlans]);
 
-    setPlan(proPlans[tier]);
-  }, [tier, plan, proPlans]);
+  const selectedPlan = useMemo(() => {
+    return proPlans.find((p) => p.key === plan.key);
+  }, [plan.key, proPlans]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -107,7 +112,7 @@ export function UpgradePlanDialog({ proPlans }: Props) {
             </h3>
             <div className="flex items-center">
               <p className="text-2xl font-semibold text-stone-700 dark:text-stone-300">
-                €{plan?.prices[period]?.unit_amount ?? ""}
+                €{selectedPlan?.price ?? ""}
               </p>
               <p className="text-sm text-stone-700 dark:text-stone-300">
                 /{annualBilling ? "yr" : "mo"}
@@ -115,14 +120,12 @@ export function UpgradePlanDialog({ proPlans }: Props) {
             </div>
           </div>
           <div className="flex w-full flex-col items-center space-y-1 p-5 text-center">
-            {proPlans.length > 1 && (
-              <Slider
-                onValueChange={(value) => setTier(value[0] ?? 0)}
-                value={[tier]}
-                min={0}
-                max={proPlans.length - 1}
-              />
-            )}
+            <Slider
+              onValueChange={(value) => setTier(value[0] ?? 0)}
+              value={[tier]}
+              min={0}
+              max={monthlyPlans.length - 1}
+            />
             <p className="text-sm text-stone-700 dark:text-stone-300">
               Up to {formatNumber(plan?.quota ?? 0)} post visits/mo
             </p>

@@ -3,14 +3,14 @@
 import Image from "next/image";
 import { AreaChart, BarList } from "@tremor/react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import type { GetProjectAnalytics } from "~/app/_api/projects";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import countries from "~/lib/countries";
 import { getMonthByNumber } from "~/lib/utils";
 
-type Props = {
+interface Props {
   analytics: GetProjectAnalytics;
-};
+}
 
 export function Analytics({
   analytics: { topCities, topCountries, visitsByMonth, topPosts, topReferers },

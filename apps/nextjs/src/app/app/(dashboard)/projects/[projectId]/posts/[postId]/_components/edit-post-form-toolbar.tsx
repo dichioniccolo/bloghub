@@ -1,16 +1,16 @@
 import { Loader2 } from "lucide-react";
 
-import { CloudSave } from "~/components/icons/cloud-save";
 import type { GetPost } from "~/app/_api/posts";
+import { CloudSave } from "~/components/icons/cloud-save";
 import { PublishSheet } from "./publish-sheet";
 import { UnpublishButton } from "./unpublish-button";
 
-type Props = {
+interface Props {
   post: NonNullable<GetPost>;
   formStatus: "saving" | "saved";
   preview: boolean;
   onPreviewChange(preview: boolean): void;
-};
+}
 
 export function EditPostFormToolbar({ post, formStatus }: Props) {
   return (

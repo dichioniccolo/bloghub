@@ -2,20 +2,20 @@ import { z } from "zod";
 
 import type { Notification, NotificationStatusType } from "@acme/db";
 
-export type ProjectInvitationNotification = {
+export interface ProjectInvitationNotification {
   type: typeof Notification.ProjectInvitation;
   data: ProjectInvitationNotificationData;
-};
+}
 
-export type RemovedFromProjectNotification = {
+export interface RemovedFromProjectNotification {
   type: typeof Notification.RemovedFromProject;
   data: RemovedFromProjectNotificationData;
-};
+}
 
-export type InvitationAcceptedNotification = {
+export interface InvitationAcceptedNotification {
   type: typeof Notification.InvitationAccepted;
   data: InvitationAcceptedNotificationData;
-};
+}
 
 export type AppNotification = {
   id: string;

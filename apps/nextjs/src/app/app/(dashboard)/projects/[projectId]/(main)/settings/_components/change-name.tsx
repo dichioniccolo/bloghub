@@ -2,6 +2,8 @@
 
 import { Loader2 } from "lucide-react";
 
+import { updateProjectName } from "~/app/_actions/project/update-project-name";
+import type { GetProject } from "~/app/_api/projects";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -21,15 +23,13 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
-import { updateProjectName } from "~/app/_actions/project/update-project-name";
-import type { GetProject } from "~/app/_api/projects";
 import type { ProjectNameSchemaType } from "~/lib/validation/schema";
 import { ProjectNameSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function ChangeName({ project }: Props) {
   const { mutate } = useZact(updateProjectName);

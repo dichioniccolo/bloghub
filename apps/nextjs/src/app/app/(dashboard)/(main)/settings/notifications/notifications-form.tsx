@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 
+import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -19,14 +20,13 @@ import {
 } from "~/components/ui/form";
 import { Switch } from "~/components/ui/switch";
 import { Form } from "~/components/ui/zod-form";
-import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
 import type { EditNotificationsSchemaType } from "~/lib/validation/schema";
 import { EditNotificationsSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   settings: EditNotificationsSchemaType;
-};
+}
 
 export function NotificationsForm({ settings }: Props) {
   const { mutate } = useZact(updateNotificationSettings);

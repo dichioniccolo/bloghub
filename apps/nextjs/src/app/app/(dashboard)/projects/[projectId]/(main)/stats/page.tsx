@@ -8,11 +8,11 @@ import {
 } from "~/app/_api/projects";
 import { Analytics } from "./_components/analytics";
 
-type Props = {
+interface Props {
   params: {
     projectId: string;
   };
-};
+}
 
 export default async function Page({ params: { projectId } }: Props) {
   const project = await getProject(projectId);

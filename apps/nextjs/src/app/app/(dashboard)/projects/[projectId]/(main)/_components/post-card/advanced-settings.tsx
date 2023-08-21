@@ -23,12 +23,12 @@ import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
 import type { QRProps } from "~/lib/qr";
 
-type AdvancedSettingsProps = {
+interface AdvancedSettingsProps {
   isOwnerPro: boolean;
   qrData: QRProps;
   setForegroundColor: Dispatch<SetStateAction<string>> | (() => void);
   setShowLogo: Dispatch<SetStateAction<boolean>> | (() => void);
-};
+}
 
 export function AdvancedSettings({
   isOwnerPro,

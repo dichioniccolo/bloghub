@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { inviteUser } from "~/app/_actions/project/invite-user";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -22,14 +23,13 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
-import { inviteUser } from "~/app/_actions/project/invite-user";
 import type { InviteMemberSchemaType } from "~/lib/validation/schema";
 import { InviteMemberSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   projectId: string;
-};
+}
 
 export function InviteMemberDialog({ projectId }: Props) {
   const [open, setOpen] = useState(false);

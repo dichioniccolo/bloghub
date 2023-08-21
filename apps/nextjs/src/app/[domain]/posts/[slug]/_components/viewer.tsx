@@ -8,9 +8,9 @@ import { useEditor } from "~/hooks/use-editor";
 import { TiptapExtensions } from "~/lib/editor";
 import { ResizableMedia } from "~/lib/editor/extensions/resizable-media";
 
-type Props = {
+interface Props {
   value: JSONContent;
-};
+}
 
 export function Viewer({ value }: Props) {
   const editor = useEditor({

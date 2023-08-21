@@ -10,20 +10,20 @@ import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { getDefaultAvatarImage } from "~/lib/utils";
 import { useDeleteInvitationDialog } from "./delete-invitation-dialog";
 
-type Props = {
+interface Props {
   projectId: string;
   currentUserRole: RoleType;
   invite: GetProjectInvites[number];
-};
+}
 
 export function ProjectInvitation({
   projectId,

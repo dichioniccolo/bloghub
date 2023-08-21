@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 
+import { createProjectMedia } from "~/app/_actions/project/create-project-media";
+import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
+import type { GetProject } from "~/app/_api/projects";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -13,22 +16,19 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { createProjectMedia } from "~/app/_actions/project/create-project-media";
-import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
-import type { GetProject } from "~/app/_api/projects";
 import { cn } from "~/lib/cn";
 import { determineMediaType } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function ProjectLogo({ project }: Props) {
   const [image, setImage] = useState<string | null>();
 
   useEffect(() => {
-    setImage(project.logo || null);
+    setImage(project.logo ?? null);
   }, [project.logo]);
 
   const [dragActive, setDragActive] = useState(false);
@@ -102,7 +102,7 @@ export function ProjectLogo({ project }: Props) {
               e.preventDefault();
               e.stopPropagation();
               setDragActive(false);
-              const file = e.dataTransfer.files && e.dataTransfer.files[0];
+              const file = e.dataTransfer.files?.[0];
               void onChangePicture(file);
             }}
           />
@@ -128,7 +128,6 @@ export function ProjectLogo({ project }: Props) {
             />
           </div>
           {image && (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={image}
               alt="Preview"

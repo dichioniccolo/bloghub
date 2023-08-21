@@ -60,7 +60,7 @@ export function formatNumber(num: number, digits?: number): string {
     .find((item) => num >= item.value);
 
   return item
-    ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
+    ? (num / item.value).toFixed(digits ?? 1).replace(rx, "$1") + item.symbol
     : "0";
 }
 

@@ -4,6 +4,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 import { Loader2 } from "lucide-react";
 
+import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,10 +15,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
-import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   projectId: string;
@@ -26,7 +26,7 @@ type Props = {
     name?: string | null;
     email?: string | null;
   };
-};
+}
 
 function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
   const { mutate, isRunning } = useZact(deleteProjectUser, {

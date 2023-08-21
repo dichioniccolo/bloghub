@@ -7,11 +7,11 @@ import { buttonVariants } from "~/components/ui/button";
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/cn";
 
-type Props = {
+interface Props {
   children: ReactNode;
   className?: string;
   variant?: "outline" | "link";
-};
+}
 
 export function AppLink({
   children,

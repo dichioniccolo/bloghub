@@ -14,18 +14,18 @@ import {
   TextQuote,
 } from "lucide-react";
 
-type Command = {
+interface Command {
   editor: Editor;
   range: Range;
-};
+}
 
-export type CommandItemProps = {
+export interface CommandItemProps {
   title: string;
   description: string;
   searchTerms: string[];
   icon: React.ReactNode;
   command: (command: Command) => unknown;
-};
+}
 
 export const getSuggestionItems = ({ query }: { query: string }) => {
   return (

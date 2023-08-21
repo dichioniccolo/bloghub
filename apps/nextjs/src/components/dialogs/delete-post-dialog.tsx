@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 
+import { deletePost } from "~/app/_actions/post/delete-post";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,15 +13,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
-import { deletePost } from "~/app/_actions/post/delete-post";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   open: boolean;
   onOpenChange(open: boolean): void;
   projectId: string;
   postId: string;
-};
+}
 
 export function DeletePostDialog({
   open,

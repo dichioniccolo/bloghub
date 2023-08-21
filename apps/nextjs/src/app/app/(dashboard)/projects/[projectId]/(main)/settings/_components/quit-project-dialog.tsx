@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { quitProject } from "~/app/_actions/project/quit-project";
+import type { GetProject } from "~/app/_api/projects";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,14 +19,12 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
-import { quitProject } from "~/app/_actions/project/quit-project";
-import type { GetProject } from "~/app/_api/projects";
 import { AppRoutes } from "~/lib/common/routes";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function QuitProjectDialog({ project }: Props) {
   const router = useRouter();

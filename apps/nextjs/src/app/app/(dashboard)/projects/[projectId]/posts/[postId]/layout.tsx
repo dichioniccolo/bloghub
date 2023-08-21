@@ -2,12 +2,12 @@ import type { PropsWithChildren } from "react";
 
 import { PostNavigationMenu } from "./_components/post-navigation-menu";
 
-type Props = {
+interface Props {
   params: {
     projectId: string;
     postId: string;
   };
-};
+}
 
 export default function Layout({
   params: { projectId, postId },

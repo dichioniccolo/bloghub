@@ -3,12 +3,12 @@ import { notFound } from "next/navigation";
 import { getPost } from "~/app/_api/posts";
 import { EditPostForm } from "./_components/edit-post-form";
 
-type Props = {
+interface Props {
   params: {
     projectId: string;
     postId: string;
   };
-};
+}
 
 export default async function Page({ params: { projectId, postId } }: Props) {
   const post = await getPost(projectId, postId);
@@ -17,7 +17,5 @@ export default async function Page({ params: { projectId, postId } }: Props) {
     return notFound();
   }
 
-  return (
-    <EditPostForm post={post} />
-  );
+  return <EditPostForm post={post} />;
 }

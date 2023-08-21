@@ -7,9 +7,9 @@ import { env } from "~/env.mjs";
 import { cn } from "~/lib/cn";
 import { getSubDomain } from "~/lib/utils";
 
-type Props = {
+interface Props {
   status: VerifyDomain;
-};
+}
 
 export const InlineSnippet = ({ children }: { children: string }) => {
   return (

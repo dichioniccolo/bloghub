@@ -1,3 +1,4 @@
+import type { GetProject } from "~/app/_api/projects";
 import {
   Card,
   CardDescription,
@@ -5,12 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import type { GetProject } from "~/app/_api/projects";
 import { QuitProjectDialog } from "./quit-project-dialog";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function QuitProject({ project }: Props) {
   return (

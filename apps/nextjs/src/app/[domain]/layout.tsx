@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
+import type { Metadata } from "next";
 
 import { db, eq, projects } from "@acme/db";
 
@@ -8,11 +8,11 @@ import { BlogFooter } from "./_components/blog-footer";
 import { BlogHeader } from "./_components/blog-header";
 import { CustomDomainProviders } from "./providers";
 
-type Props = {
+interface Props {
   params: {
     domain: string;
   };
-};
+}
 
 export async function generateMetadata({
   params: { domain },

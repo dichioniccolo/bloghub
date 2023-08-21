@@ -34,7 +34,7 @@ export function SignInForm({ className, ...props }: Props) {
     const result = await signIn("email", {
       email,
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/",
+      callbackUrl: searchParams?.get("from") ?? "/",
     });
 
     if (!result?.ok) {

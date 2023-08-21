@@ -5,10 +5,10 @@ import { createContext, useContext, useReducer } from "react";
 
 import type { AppNotification } from "~/lib/notifications";
 
-type NotificationsContext = {
+interface NotificationsContext {
   notifications: AppNotification[];
   unreadCount: number;
-};
+}
 
 export enum NotificationActionTypes {
   ADD_NOTIFICATION = "ADD_NOTIFICATION",

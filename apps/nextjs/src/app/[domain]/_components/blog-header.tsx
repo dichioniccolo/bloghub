@@ -8,9 +8,9 @@ import { useScroll } from "~/hooks/use-scroll";
 import { cn } from "~/lib/cn";
 import { ToggleTheme } from "./toggle-theme";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProjectByDomain>;
-};
+}
 
 export function BlogHeader({ project }: Props) {
   const scrolled = useScroll(80);

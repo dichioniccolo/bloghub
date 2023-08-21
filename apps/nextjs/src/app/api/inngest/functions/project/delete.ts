@@ -1,12 +1,12 @@
 import {
-    automaticEmails,
-    db,
-    eq,
-    media,
-    posts,
-    projectMembers,
-    projects,
-    visits,
+  automaticEmails,
+  db,
+  eq,
+  media,
+  posts,
+  projectMembers,
+  projects,
+  visits,
 } from "@acme/db";
 
 import { deleteMedias } from "~/lib/common/external/media/actions";

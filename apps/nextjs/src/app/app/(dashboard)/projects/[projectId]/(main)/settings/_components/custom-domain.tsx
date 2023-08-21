@@ -2,6 +2,8 @@
 
 import { AlertCircle, ExternalLink, Loader2 } from "lucide-react";
 
+import { verifyDomain } from "~/app/_actions/project/verify-domain";
+import type { GetProject } from "~/app/_api/projects";
 import { CheckCircleFill } from "~/components/icons/check-circle-fill";
 import { Button } from "~/components/ui/button";
 import {
@@ -11,15 +13,13 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { verifyDomain } from "~/app/_actions/project/verify-domain";
-import type { GetProject } from "~/app/_api/projects";
 import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export function CustomDomain({ project }: Props) {
   const { isRunning, mutate, data } = useZact(verifyDomain);

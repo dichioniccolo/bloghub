@@ -1,16 +1,16 @@
 "use server";
 
 import {
-    and,
-    db,
-    desc,
-    eq,
-    inArray,
-    likes,
-    ne,
-    posts,
-    projects,
-    sql,
+  and,
+  db,
+  desc,
+  eq,
+  inArray,
+  likes,
+  ne,
+  posts,
+  projects,
+  sql,
 } from "@acme/db";
 
 import { generateRandomIndices } from "~/lib/utils";

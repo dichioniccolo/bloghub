@@ -13,10 +13,10 @@ import {
 } from "~/components/ui/navigation-menu";
 import { AppRoutes } from "~/lib/common/routes";
 
-type Props = {
+interface Props {
   projectId: string;
   postId: string;
-};
+}
 
 export function PostNavigationMenu({ projectId, postId }: Props) {
   const pathname = usePathname();

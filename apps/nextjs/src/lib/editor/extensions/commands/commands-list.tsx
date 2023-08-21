@@ -14,12 +14,12 @@ import { toast } from "sonner";
 import { getPrevText } from "../..";
 import type { CommandItemProps } from "./items";
 
-type Props = {
+interface Props {
   items: CommandItemProps[];
   command: (item: CommandItemProps) => void;
   editor: Editor;
   range: Range;
-};
+}
 
 const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
   const containerHeight = container.offsetHeight;

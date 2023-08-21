@@ -1,19 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unknown-property */
+import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/server";
 
 import { and, db, eq, posts, projects } from "@acme/db";
 
 import { truncate } from "~/lib/utils";
 
-export const runtime = "edge";
+export const runtime: ServerRuntime = "edge";
 
-type Props = {
+interface Props {
   params: {
     domain: string;
     slug: string;
   };
-};
+}
 
 export default async function PostOG({ params: { domain, slug } }: Props) {
   const post = await db

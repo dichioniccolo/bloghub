@@ -1,15 +1,15 @@
 "use server";
 
 import {
-    and,
-    db,
-    eq,
-    projectInvitations,
-    projectMembers,
-    projects,
-    Role,
-    sql,
-    users,
+  and,
+  db,
+  eq,
+  projectInvitations,
+  projectMembers,
+  projects,
+  Role,
+  sql,
+  users,
 } from "@acme/db";
 
 import { AppRoutes } from "~/lib/common/routes";
@@ -19,8 +19,12 @@ import "isomorphic-fetch";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import {
+  isSubscriptionPlanPro,
+  stripePriceToSubscriptionPlan,
+} from "@acme/stripe";
+
 import { $getUser } from "~/app/_api/get-user";
-import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
@@ -124,12 +128,12 @@ export const inviteUser = zactAuthenticated(
           .where(eq(projectMembers.projectId, projectId))
           .then((x) => x[0]!);
 
-        const plan = await determinePlanByPriceId(
-          user.email,
-          user.stripePriceId,
-        );
+        const plan = stripePriceToSubscriptionPlan(user.stripePriceId);
 
-        if (!plan.isPro && projectInvitationsCount + projectMembersCount >= 3) {
+        if (
+          !isSubscriptionPlanPro(plan) &&
+          projectInvitationsCount + projectMembersCount >= 3
+        ) {
           ctx.addIssue({
             code: "custom",
             message:

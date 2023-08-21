@@ -5,9 +5,9 @@ import { useMemo } from "react";
 import { SidebarNav } from "~/components/sidebar-nav";
 import { AppRoutes } from "~/lib/common/routes";
 
-type Props = {
+interface Props {
   projectId: string;
-};
+}
 
 export function ProjectSettingsNavigationMenu({ projectId }: Props) {
   const sidebarNavItems = useMemo(

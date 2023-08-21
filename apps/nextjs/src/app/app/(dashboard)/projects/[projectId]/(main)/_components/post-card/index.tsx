@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { BarChart2, Edit2, MoreVertical, QrCode, Trash2 } from "lucide-react";
 
+import type { GetPosts } from "~/app/_api/posts";
+import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import { DeletePostDialog } from "~/components/dialogs/delete-post-dialog";
 import { buttonVariants } from "~/components/ui/button";
 import {
@@ -21,8 +23,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import type { GetPosts } from "~/app/_api/posts";
-import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import { cn } from "~/lib/cn";
 import { AppRoutes } from "~/lib/common/routes";
 import { constructPostUrl } from "~/lib/url";
@@ -31,11 +31,11 @@ import { PostCardButton } from "./post-card-button";
 import { PostCardCopyButton } from "./post-card-copy-button";
 import { QrOptionsDialog } from "./qr-options-dialog";
 
-type Props = {
+interface Props {
   post: GetPosts[number];
   project: NonNullable<GetProject>;
   owner: GetProjectOwner;
-};
+}
 
 export function PostCard({ post, project, owner }: Props) {
   const router = useRouter();

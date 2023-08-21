@@ -11,19 +11,21 @@ type AuthenticatedActionType<TAuth, TInput extends z.ZodTypeAny, TResponse> = (
   auth: TAuth,
 ) => Promise<TResponse>;
 
-type ResponseType<TInput extends z.ZodTypeAny, TResponse> = {
+interface ResponseType<TInput extends z.ZodTypeAny, TResponse> {
   data?: TResponse;
   validationErrors?: ZactValidationError<TInput>;
   serverError?: true;
   authError?: true;
-};
+}
 
-export type ZactValidationError<TInput extends z.ZodTypeAny = z.ZodTypeAny> = {
+export interface ZactValidationError<
+  TInput extends z.ZodTypeAny = z.ZodTypeAny,
+> {
   formErrors: string[];
   fieldErrors: {
     [P in keyof TInput]?: string[];
   };
-};
+}
 
 export type ZactAction<TInput extends z.ZodTypeAny, TResponse> = ActionType<
   TInput,

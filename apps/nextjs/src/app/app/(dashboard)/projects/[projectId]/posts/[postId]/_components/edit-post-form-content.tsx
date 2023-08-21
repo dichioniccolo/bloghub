@@ -2,6 +2,8 @@
 
 import { useCallback } from "react";
 
+import { updatePost } from "~/app/_actions/post/update-post";
+import type { GetPost } from "~/app/_api/posts";
 import {
   FormControl,
   FormField,
@@ -10,20 +12,18 @@ import {
 } from "~/components/ui/form";
 import { TextareaAutosize } from "~/components/ui/textarea-autosize";
 import { AutoSave, Form } from "~/components/ui/zod-form";
-import { updatePost } from "~/app/_actions/post/update-post";
-import type { GetPost } from "~/app/_api/posts";
 import { cn } from "~/lib/utils";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 import { Editor } from "./editor";
 
-type Props = {
+interface Props {
   preview: boolean;
   post: NonNullable<GetPost>;
   formStatus: "saving" | "saved";
   formStatusChanged(status: "saving" | "saved"): void;
-};
+}
 
 export function EditPostFormContent({
   preview,

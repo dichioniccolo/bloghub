@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { Editor } from "@tiptap/core";
 import type { BubbleMenuProps } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react";
 import {
@@ -21,7 +22,9 @@ export interface BubbleMenuItem {
   icon: typeof BoldIcon;
 }
 
-type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
+type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children" | "editor"> & {
+  editor: Editor;
+};
 
 export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
   const items: BubbleMenuItem[] = [

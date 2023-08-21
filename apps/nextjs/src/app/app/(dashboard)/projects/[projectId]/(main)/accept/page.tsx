@@ -7,11 +7,11 @@ import { authOptions } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
 import { AcceptInviteDialog } from "./_components/accept-invite-dialog";
 
-type Props = {
+interface Props {
   params: {
     projectId: string;
   };
-};
+}
 
 export async function generateMetadata({
   params: { projectId },

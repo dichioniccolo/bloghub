@@ -1,10 +1,10 @@
 import { getRandomPostsByDomain } from "~/app/_api/public/posts";
 import { PostCard } from "~/app/[domain]/_components/post-card";
 
-type Props = {
+interface Props {
   domain: string;
   slug: string;
-};
+}
 
 export async function RandomPosts({ domain, slug }: Props) {
   const randomPosts = await getRandomPostsByDomain(domain, slug);

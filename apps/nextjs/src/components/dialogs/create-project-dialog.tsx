@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { createProject } from "~/app/_actions/project/create-project";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -22,16 +23,15 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
-import { createProject } from "~/app/_actions/project/create-project";
 import { env } from "~/env.mjs";
 import type { CreateProjectSchemaType } from "~/lib/validation/schema";
 import { CreateProjectSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-};
+}
 
 function CreateProjectDialog({ open, setOpen }: Props) {
   const { mutate } = useZact(createProject, {

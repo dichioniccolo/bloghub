@@ -10,14 +10,14 @@ import { env } from "~/env.mjs";
 import { BlogRoutes } from "~/lib/common/routes";
 import { PostCard } from "./_components/post-card";
 
-type Props = {
+interface Props {
   params: {
     domain: string;
   };
   searchParams?: {
     page?: string;
   };
-};
+}
 
 export const runtime: ServerRuntime = "edge";
 export const dynamic = "force-dynamic";

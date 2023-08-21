@@ -134,12 +134,12 @@ export function useDebouncedCallback<
   }
 
   wait = wait || 0;
-  options = options || {};
+  options = options ?? {};
 
   const leading = !!options.leading;
   const trailing = "trailing" in options ? !!options.trailing : true; // `true` by default
   const maxing = "maxWait" in options;
-  const maxWait = maxing ? Math.max(options.maxWait || 0, wait) : null;
+  const maxWait = maxing ? Math.max(options.maxWait ?? 0, wait) : null;
 
   useEffect(() => {
     mounted.current = true;
@@ -260,7 +260,8 @@ export function useDebouncedCallback<
       if (timerId.current) {
         useRAF && typeof timerId.current === "number"
           ? cancelAnimationFrame(timerId.current)
-          : clearTimeout(timerId.current);
+          : // @ts-expect-error clear timeout error
+            clearTimeout(timerId.current);
       }
       lastInvokeTime.current = 0;
       lastArgs.current =

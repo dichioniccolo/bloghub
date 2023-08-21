@@ -4,9 +4,9 @@ import { getProjectOwner } from "~/app/_api/projects";
 import { CreatePostButton } from "./create-post-button";
 import { PostCard } from "./post-card";
 
-type Props = {
+interface Props {
   project: NonNullable<GetProject>;
-};
+}
 
 export async function PostsCards({ project }: Props) {
   const [posts, owner] = await Promise.all([

@@ -13,9 +13,9 @@ import {
 } from "~/components/ui/navigation-menu";
 import { AppRoutes } from "~/lib/common/routes";
 
-type Props = {
+interface Props {
   projectId: string;
-};
+}
 
 export function ProjectNavigationMenu({ projectId }: Props) {
   const pathname = usePathname();

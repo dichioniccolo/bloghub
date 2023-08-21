@@ -4,7 +4,9 @@ import { DashboardHeader } from "~/components/dashboard-header";
 import { DashboardShell } from "~/components/dashboard-shell";
 import { ProjectSettingsNavigationMenu } from "./_components/project-settings-navigation-menu";
 
-type Props = { params: { projectId: string } };
+interface Props {
+  params: { projectId: string };
+}
 
 export default function Layout({
   children,

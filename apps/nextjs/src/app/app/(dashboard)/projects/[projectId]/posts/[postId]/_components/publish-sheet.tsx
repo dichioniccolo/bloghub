@@ -5,6 +5,9 @@ import Image from "next/image";
 import { Check, Loader2, Pencil, Trash2, UploadCloud } from "lucide-react";
 import Dropzone from "react-dropzone";
 
+import { updatePostSettings } from "~/app/_actions/post/update-post-settings";
+import { createProjectMedia } from "~/app/_actions/project/create-project-media";
+import type { GetPost } from "~/app/_api/posts";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,18 +38,15 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { Form } from "~/components/ui/zod-form";
-import { updatePostSettings } from "~/app/_actions/post/update-post-settings";
-import { createProjectMedia } from "~/app/_actions/project/create-project-media";
-import type { GetPost } from "~/app/_api/posts";
 import { cn } from "~/lib/cn";
 import { determineMediaType } from "~/lib/utils";
 import type { PublishPostSchemaType } from "~/lib/validation/schema";
 import { PublishPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-type Props = {
+interface Props {
   post: NonNullable<GetPost>;
-};
+}
 
 export function PublishSheet({ post }: Props) {
   const [open, setOpen] = useState(false);

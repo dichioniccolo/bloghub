@@ -6,12 +6,12 @@ import type { Notification } from "@acme/db";
 import { BaseNotification } from "~/components/notifications/types/base-notification";
 import type { AppNotification } from "~/lib/notifications";
 
-type Props = {
+interface Props {
   notification: Extract<
     AppNotification,
     { type: typeof Notification.InvitationAccepted }
   >;
-};
+}
 
 export function InvitationAccepted({ notification }: Props) {
   return (

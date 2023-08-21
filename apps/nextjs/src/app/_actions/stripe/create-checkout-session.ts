@@ -3,10 +3,9 @@
 import { z } from "zod";
 
 import { db, eq, users } from "@acme/db";
+import { isSubscriptionPlanPro, planKeyToPlanInfo, stripe } from "@acme/stripe";
 
 import { $getUser } from "~/app/_api/get-user";
-import { stripe } from "~/lib/common/external/stripe";
-import { determinePlanPriceId } from "~/lib/common/external/stripe/actions";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const createCheckoutSession = zactAuthenticated(
@@ -20,10 +19,19 @@ export const createCheckoutSession = zactAuthenticated(
   () =>
     z.object({
       callbackUrl: z.string().nonempty(),
-      name: z.string().nullable().optional(),
-      period: z.enum(["monthly", "yearly"]).nullable().optional(),
+      key: z
+        .enum([
+          "FREE", // we put FREE for type definitions, but we won't allow it in the code
+          "PRO_50K_M",
+          "PRO_50K_Y",
+          "PRO_UNLIMITED_M",
+          "PRO_UNLIMITED_Y",
+        ]) // check the type PlanInfoKeys
+        .optional()
+        .nullable()
+        .transform((x) => x?.toUpperCase()),
     }),
-)(async ({ callbackUrl, period, name }, { userId }) => {
+)(async ({ callbackUrl, key }, { userId }) => {
   const dbUser = await db
     .select({
       stripeCustomerId: users.stripeCustomerId,
@@ -45,35 +53,40 @@ export const createCheckoutSession = zactAuthenticated(
     return stripeSession.url;
   }
 
-  if (!name || !period) {
-    throw new Error("Unable to determine chosen plan");
+  if (!key) {
+    throw new Error("You must provide a plan key");
   }
 
-  const priceId = await determinePlanPriceId(name, period);
+  const plan = planKeyToPlanInfo(key);
 
-  if (!priceId) {
-    throw new Error("Unable to determine chosen plan");
+  if (!isSubscriptionPlanPro(plan)) {
+    throw new Error("You cannot chose free plan");
   }
 
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "subscription",
     payment_method_types: ["card"],
-    line_items: [
-      {
-        price: priceId,
-        quantity: 1,
-      },
-    ],
+    customer: dbUser.stripeCustomerId ?? undefined,
+    customer_email: dbUser.email,
+    client_reference_id: userId,
     success_url: callbackUrl,
     cancel_url: callbackUrl,
     billing_address_collection: "required",
-    customer_email: dbUser.email,
     tax_id_collection: {
       enabled: true,
     },
-    client_reference_id: userId,
-    customer: dbUser.stripeCustomerId ?? undefined,
     allow_promotion_codes: true,
+    subscription_data: {
+      metadata: {
+        userId,
+      },
+    },
+    line_items: [
+      {
+        price: plan.priceId,
+        quantity: 1,
+      },
+    ],
   });
 
   return stripeSession.url;

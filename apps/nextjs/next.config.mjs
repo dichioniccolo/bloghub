@@ -1,6 +1,7 @@
 // Importing env files here to validate on build
 import "@acme/db/env";
 import "@acme/emails/env";
+import "@acme/stripe/env";
 import "./src/env.mjs";
 
 import { env } from "./src/env.mjs";
@@ -85,7 +86,7 @@ const config = {
     ],
   },
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ["@acme/db", "@acme/emails"],
+  transpilePackages: ["@acme/db", "@acme/emails", "@acme/stripe"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   experimental: {
@@ -107,8 +108,6 @@ const config = {
         : undefined,
   },
   productionBrowserSourceMaps: true,
-  // only if deploying with docker
-  // output: "standalone",
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
   // i18n: {
   //   locales: ["en"],

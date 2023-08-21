@@ -1,20 +1,20 @@
 import {
-    and,
-    asc,
-    AutomaticEmail,
-    automaticEmails,
-    db,
-    EmailNotificationSetting,
-    eq,
-    projectMembers,
-    projects,
-    Role,
-    users,
+  and,
+  asc,
+  AutomaticEmail,
+  automaticEmails,
+  db,
+  EmailNotificationSetting,
+  eq,
+  projectMembers,
+  projects,
+  Role,
+  users,
 } from "@acme/db";
 import {
-    AutomaticProjectDeletion,
-    InvalidDomain,
-    sendMail,
+  AutomaticProjectDeletion,
+  InvalidDomain,
+  sendMail,
 } from "@acme/emails";
 
 import { env } from "~/env.mjs";

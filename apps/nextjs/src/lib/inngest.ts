@@ -6,10 +6,11 @@ import type {
   RemovedFromProjectNotificationData,
 } from "~/lib/notifications";
 
-type WrapWithData<T> = {
+interface WrapWithData<T> {
   data: T;
-};
+}
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type InngestEvents = {
   "notification/project.invitation": WrapWithData<ProjectInvitationNotificationData>;
   "notification/invitation.accepted": WrapWithData<InvitationAcceptedNotificationData>;

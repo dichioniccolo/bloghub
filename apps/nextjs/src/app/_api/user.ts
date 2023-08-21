@@ -1,9 +1,9 @@
 "use server";
 
 import { db, eq, users } from "@acme/db";
+import { stripePriceToSubscriptionPlan } from "@acme/stripe";
 
 import { getUserTotalUsage } from "~/lib/common/actions";
-import { determinePlanByPriceId } from "~/lib/common/external/stripe/actions";
 import { $getUser } from "./get-user";
 
 export async function getUserPlan() {
@@ -27,7 +27,7 @@ export async function getUserPlan() {
     billingPeriod[1],
   );
 
-  const plan = await determinePlanByPriceId(user.email, dbUser.stripePriceId);
+  const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 
   return {
     plan,

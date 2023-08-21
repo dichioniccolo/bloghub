@@ -18,7 +18,7 @@ interface Command {
   range: Range;
 }
 
-type Options = {
+interface Options {
   // additionalCommands?: ({
   //   editor,
   //   query,
@@ -27,7 +27,7 @@ type Options = {
   //   query: string;
   // }) => Array<CommandItemProps>;
   suggestion?: Partial<SuggestionOptions<CommandItemProps>>;
-};
+}
 
 const Command = Extension.create<Options>({
   name: "slash-command",
@@ -57,7 +57,7 @@ export const SlashCommand = Command.configure({
     items: getSuggestionItems,
     render: () => {
       let component: ReactRenderer | null = null;
-      let popup: Array<Instance> | null = null;
+      let popup: Instance[] | null = null;
 
       return {
         onStart: (props) => {

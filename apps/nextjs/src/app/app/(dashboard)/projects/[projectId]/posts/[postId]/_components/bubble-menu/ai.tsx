@@ -4,10 +4,10 @@ import { useCompletion } from "ai/react";
 import { Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
-type Props = {
+interface Props {
   editor: Editor;
   onAccept?: (acceptedText: string) => void;
-};
+}
 
 export function AIBubbleMenu({ editor }: Props) {
   const { completion, isLoading } = useCompletion({

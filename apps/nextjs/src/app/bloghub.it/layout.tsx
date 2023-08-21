@@ -4,10 +4,10 @@ import { Footer } from "./_components/footer";
 import { Nav } from "./_components/nav";
 import { MarketingProviders } from "./providers";
 
-type Props = {
+interface Props {
   modal: ReactNode;
   children: ReactNode;
-};
+}
 
 export default function Layout({ children, modal }: Props) {
   return (

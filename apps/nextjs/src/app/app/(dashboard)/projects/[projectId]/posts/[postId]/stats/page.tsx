@@ -1,16 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getPost, getPostAnalytics } from "~/app/_api/posts";
+import { getPost } from "~/app/_api/posts";
 import { getProjectOwner } from "~/app/_api/projects";
-import { Analytics } from "../../../(main)/stats/_components/analytics";
 
-type Props = {
+interface Props {
   params: {
     projectId: string;
     postId: string;
   };
-};
+}
 
 export default async function Stats({ params: { projectId, postId } }: Props) {
   const post = await getPost(projectId, postId);
@@ -47,7 +46,7 @@ export default async function Stats({ params: { projectId, postId } }: Props) {
     );
   }
 
-  const analytics = await getPostAnalytics(projectId, postId);
+  // const analytics = await getPostAnalytics(projectId, postId);
 
   return (
     <>
@@ -66,7 +65,7 @@ export default async function Stats({ params: { projectId, postId } }: Props) {
           </Link>
         </div>
       </div>
-      <Analytics analytics={analytics} />
+      {/* <Analytics analytics={analytics} /> */}
     </>
   );
 }

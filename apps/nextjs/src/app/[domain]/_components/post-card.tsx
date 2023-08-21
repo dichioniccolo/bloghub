@@ -5,9 +5,9 @@ import { format } from "date-fns";
 import type { GetRandomPostsByDomain } from "~/app/_api/public/posts";
 import { BlogRoutes } from "~/lib/common/routes";
 
-type Props = {
+interface Props {
   post: GetRandomPostsByDomain[number];
-};
+}
 
 export function PostCard({ post }: Props) {
   return (

@@ -98,7 +98,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
 }
 
 export function parseRequest(req: NextRequest) {
-  let domain = req.headers.get("host") as string;
+  let domain = req.headers.get("host")!;
   domain = domain.replace("www.", ""); // remove www. from domain
 
   if (domain.includes("test.localhost") && env.NODE_ENV === "development")

@@ -9,12 +9,12 @@ import { useDebouncedCallback } from "~/hooks/use-debounced-callback";
 import { useDeepCompareEffect } from "~/hooks/use-deep-compare-effect";
 import { useZodForm } from "~/hooks/use-zod-form";
 
-type ZactError<S extends z.ZodType> = {
+interface ZactError<S extends z.ZodType> {
   formErrors: string[];
   fieldErrors: {
     [key in keyof S]: string[];
   };
-};
+}
 
 function isZactError<S extends z.ZodType>(e: unknown): e is ZactError<S> {
   return (
@@ -115,11 +115,11 @@ function mapZactErrors<S extends z.ZodType>(
   });
 }
 
-type AutoSaveProps<S extends z.ZodType> = {
+interface AutoSaveProps<S extends z.ZodType> {
   onSubmit(values: z.input<S>): unknown;
   initialValues?: UseFormProps<z.input<S>>["defaultValues"];
   delay?: number;
-};
+}
 
 export const useAutoSaveForm = <S extends z.ZodType>({
   onSubmit,

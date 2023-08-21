@@ -1,11 +1,5 @@
-import {
-    db,
-    emailNotificationSettings,
-    eq,
-    inArray,
-    users,
-    type EmailNotificationSettingType,
-} from "@acme/db";
+import type { EmailNotificationSettingType } from "@acme/db";
+import { db, emailNotificationSettings, eq, inArray, users } from "@acme/db";
 
 export async function fetchEmailNotificationSettings(
   type: EmailNotificationSettingType,

@@ -5,6 +5,8 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
+import type { GetPosts } from "~/app/_api/posts";
+import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -20,8 +22,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import type { GetPosts } from "~/app/_api/posts";
-import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import {
   getQRAsCanvas,
   getQrAsString,
@@ -31,13 +31,13 @@ import {
 import { absoluteUrl, constructPostUrl } from "~/lib/url";
 import { AdvancedSettings } from "./advanced-settings";
 
-type Props = {
+interface Props {
   open: boolean;
   onOpenChange(open: boolean): void;
   post: GetPosts[number];
   project: NonNullable<GetProject>;
   owner: GetProjectOwner;
-};
+}
 
 export function QrOptionsDialog({
   open,
@@ -58,10 +58,9 @@ export function QrOptionsDialog({
     anchorRef.current.click();
   }
 
-  const qrLogoUrl =
-    typeof window !== "undefined" && window.location.origin
-      ? new URL("/_static/logo.svg", window.location.origin).href
-      : "";
+  const qrLogoUrl = window?.location?.origin
+    ? new URL("/_static/logo.svg", window.location.origin).href
+    : "";
 
   const qrData = useMemo(
     () => ({
@@ -90,7 +89,7 @@ export function QrOptionsDialog({
         return;
       }
 
-      canvas.toBlob(async (blob) => {
+      canvas.toBlob((blob) => {
         if (!blob) {
           toast.error(
             "An error occurred while copying the QR code to the clipboard.",
@@ -99,9 +98,16 @@ export function QrOptionsDialog({
         }
 
         const item = new ClipboardItem({ "image/png": blob });
-        await navigator.clipboard.write([item]);
-
-        toast.success("Copied!");
+        void navigator.clipboard
+          .write([item])
+          .then(() => {
+            toast.success("Copied!");
+          })
+          .catch(() => {
+            toast.error(
+              "An error occurred while copying the QR code to the clipboard.",
+            );
+          });
       });
     } catch {
       toast.error(
@@ -165,7 +171,7 @@ export function QrOptionsDialog({
                           imageSettings: {
                             ...qrData.imageSettings,
                             src:
-                              project.logo || absoluteUrl("/static/logo.svg"),
+                              project.logo ?? absoluteUrl("/static/logo.svg"),
                           },
                         }),
                     }),
