@@ -38,6 +38,7 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { Form } from "~/components/ui/zod-form";
+import { useZodForm } from "~/hooks/use-zod-form";
 import { cn } from "~/lib/cn";
 import { determineMediaType } from "~/lib/utils";
 import type { PublishPostSchemaType } from "~/lib/validation/schema";
@@ -105,6 +106,16 @@ export function PublishSheet({ post }: Props) {
     return media.url;
   };
 
+  const form = useZodForm({
+    schema: PublishPostSchema,
+    defaultValues: {
+      slug: post.slug,
+      thumbnailUrl: post.thumbnailUrl,
+      seoTitle: post.seoTitle,
+      seoDescription: post.seoDescription,
+    },
+  });
+
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -120,178 +131,167 @@ export function PublishSheet({ post }: Props) {
               Make changes to your post settings before publishing it.
             </SheetDescription>
           </SheetHeader>
-          <Form
-            schema={PublishPostSchema}
-            initialValues={{
-              slug: post.slug,
-              thumbnailUrl: post.thumbnailUrl,
-              seoTitle: post.seoTitle,
-              seoDescription: post.seoDescription,
-            }}
-            onSubmit={onSubmit}
-          >
-            {({ formState: { isSubmitting }, setValue, watch }) => (
-              <div className="grid gap-2">
-                <FormField
-                  name="slug"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Slug</FormLabel>
-                      <FormControl>
-                        <div className="relative flex">
-                          <Input
-                            autoCapitalize="none"
-                            autoCorrect="off"
-                            disabled={isSubmitting || !slugEditable}
-                            {...field}
-                          />
-                          {!slugEditable ? (
-                            <button
-                              type="button"
-                              onClick={onEnableSlugEditing}
-                              className="absolute inset-y-0 right-2 flex items-center justify-center"
-                            >
-                              <Pencil />
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setSlugEditable(false)}
-                              className="absolute inset-y-0 right-2 flex items-center justify-center"
-                            >
-                              <Check />
-                            </button>
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                      <FormDescription>
-                        The URL of your post. Only letters, numbers, and dashes
-                        are allowed.
-                      </FormDescription>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  name="thumbnailUrl"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel>Thumbnail</FormLabel>
-                      <FormControl>
-                        <>
-                          {watch("thumbnailUrl") ? (
-                            <div className="group relative flex w-full rounded-md transition-all ease-in-out">
-                              <Image
-                                alt={post.title ?? "Post image"}
-                                width={1200}
-                                height={630}
-                                className="h-full w-full object-cover"
-                                src={
-                                  watch("thumbnailUrl") ??
-                                  "/_static/placeholder.png"
-                                }
-                              />
-                              <div className="absolute right-2 top-2 box-border hidden overflow-hidden rounded-sm border border-slate-200 bg-white shadow-xl transition-all duration-200 ease-linear group-hover:flex">
-                                <button
-                                  type="button"
-                                  className={cn(
-                                    "inline-flex h-8 items-center rounded-none border border-transparent bg-stone-100 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:bg-stone-200",
-                                  )}
-                                  onClick={() => {
-                                    setValue("thumbnailUrl", null);
-                                  }}
-                                >
-                                  <Trash2 />
-                                </button>
-                              </div>
+          <Form form={form} onSubmit={onSubmit}>
+            <div className="grid gap-2">
+              <FormField
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Slug</FormLabel>
+                    <FormControl>
+                      <div className="relative flex">
+                        <Input
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          disabled={
+                            form.formState.isSubmitting || !slugEditable
+                          }
+                          {...field}
+                        />
+                        {!slugEditable ? (
+                          <button
+                            type="button"
+                            onClick={onEnableSlugEditing}
+                            className="absolute inset-y-0 right-2 flex items-center justify-center"
+                          >
+                            <Pencil />
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setSlugEditable(false)}
+                            className="absolute inset-y-0 right-2 flex items-center justify-center"
+                          >
+                            <Check />
+                          </button>
+                        )}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                    <FormDescription>
+                      The URL of your post. Only letters, numbers, and dashes
+                      are allowed.
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="thumbnailUrl"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Thumbnail</FormLabel>
+                    <FormControl>
+                      <>
+                        {form.watch("thumbnailUrl") ? (
+                          <div className="group relative flex w-full rounded-md transition-all ease-in-out">
+                            <Image
+                              alt={post.title ?? "Post image"}
+                              width={1200}
+                              height={630}
+                              className="h-full w-full object-cover"
+                              src={
+                                form.watch("thumbnailUrl") ??
+                                "/_static/placeholder.png"
+                              }
+                            />
+                            <div className="absolute right-2 top-2 box-border hidden overflow-hidden rounded-sm border border-slate-200 bg-white shadow-xl transition-all duration-200 ease-linear group-hover:flex">
+                              <button
+                                type="button"
+                                className={cn(
+                                  "inline-flex h-8 items-center rounded-none border border-transparent bg-stone-100 px-2.5 py-1.5 text-xs font-medium text-stone-700 hover:bg-stone-200",
+                                )}
+                                onClick={() => {
+                                  form.setValue("thumbnailUrl", null);
+                                }}
+                              >
+                                <Trash2 />
+                              </button>
                             </div>
-                          ) : (
-                            <Dropzone
-                              onDrop={async (files) => {
-                                const url = await uploadThumbnail(files);
-                                setValue("thumbnailUrl", url);
-                              }}
-                              accept={{ "image/*": [] }}
-                              maxFiles={1}
-                            >
-                              {({ getRootProps, getInputProps }) => (
-                                <div
-                                  tabIndex={-1}
-                                  onKeyUp={() => {
-                                    //
-                                  }}
-                                  role="button"
-                                  className="flex cursor-pointer flex-col items-center rounded-md border border-dashed border-border p-4"
-                                  {...getRootProps()}
-                                >
-                                  <input {...getInputProps()} />
-                                  <UploadCloud size={21} className="mb-2" />
+                          </div>
+                        ) : (
+                          <Dropzone
+                            onDrop={async (files) => {
+                              const url = await uploadThumbnail(files);
+                              form.setValue("thumbnailUrl", url);
+                            }}
+                            accept={{ "image/*": [] }}
+                            maxFiles={1}
+                          >
+                            {({ getRootProps, getInputProps }) => (
+                              <div
+                                tabIndex={-1}
+                                onKeyUp={() => {
+                                  //
+                                }}
+                                role="button"
+                                className="flex cursor-pointer flex-col items-center rounded-md border border-dashed border-border p-4"
+                                {...getRootProps()}
+                              >
+                                <input {...getInputProps()} />
+                                <UploadCloud size={21} className="mb-2" />
 
-                                  <div className="z-10 flex flex-col justify-center gap-y-1 text-center text-xs">
-                                    <span>Drag and drop or</span>
-                                    <span className="font-semibold">
-                                      browse
-                                    </span>
-                                  </div>
+                                <div className="z-10 flex flex-col justify-center gap-y-1 text-center text-xs">
+                                  <span>Drag and drop or</span>
+                                  <span className="font-semibold">browse</span>
                                 </div>
-                              )}
-                            </Dropzone>
-                          )}
-                        </>
-                      </FormControl>
-                    </FormItem>
+                              </div>
+                            )}
+                          </Dropzone>
+                        )}
+                      </>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="seoTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO Title</FormLabel>
+                    <FormControl>
+                      <Input
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        placeholder="My awesome post title"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                    <FormDescription>
+                      A custom SEO title for your post.
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="seoDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO Description</FormLabel>
+                    <FormControl>
+                      <Input
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        placeholder="My awesome post description"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                    <FormDescription>
+                      A custom SEO description for your post.
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              <SheetFooter>
+                <Button variant="outline" type="submit">
+                  {isRunning && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                />
-                <FormField
-                  name="seoTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>SEO Title</FormLabel>
-                      <FormControl>
-                        <Input
-                          autoCapitalize="none"
-                          autoCorrect="off"
-                          placeholder="My awesome post title"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                      <FormDescription>
-                        A custom SEO title for your post.
-                      </FormDescription>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  name="seoDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>SEO Description</FormLabel>
-                      <FormControl>
-                        <Input
-                          autoCapitalize="none"
-                          autoCorrect="off"
-                          placeholder="My awesome post description"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                      <FormDescription>
-                        A custom SEO description for your post.
-                      </FormDescription>
-                    </FormItem>
-                  )}
-                />
-                <SheetFooter>
-                  <Button variant="outline" type="submit">
-                    {isRunning && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    Save
-                  </Button>
-                </SheetFooter>
-              </div>
-            )}
+                  Save
+                </Button>
+              </SheetFooter>
+            </div>
           </Form>
         </SheetContent>
       </Sheet>

@@ -7,7 +7,6 @@ import type { z } from "zod";
 
 import { useDebouncedCallback } from "~/hooks/use-debounced-callback";
 import { useDeepCompareEffect } from "~/hooks/use-deep-compare-effect";
-import { useZodForm } from "~/hooks/use-zod-form";
 
 interface ZactError<S extends z.ZodType> {
   formErrors: string[];
@@ -25,60 +24,22 @@ function isZactError<S extends z.ZodType>(e: unknown): e is ZactError<S> {
   );
 }
 
-type FormProps<S extends z.ZodType> = Omit<
-  React.ComponentProps<"form">,
-  "onSubmit" | "children"
+type FormProps<TSchema extends z.ZodType> = Omit<
+  React.PropsWithoutRef<React.HTMLAttributes<HTMLFormElement>>,
+  "onSubmit"
 > & {
-  schema: S;
-  onSubmit(values: z.input<S>): unknown;
-  initialValues?: UseFormProps<z.input<S>>["defaultValues"];
-  children?:
-    | React.ReactNode
-    | ((form: UseFormReturn<z.input<S>>) => React.ReactNode);
+  form: UseFormReturn<z.input<TSchema>>;
+  onSubmit(values: z.input<TSchema>): unknown;
   disableOnSubmitting?: boolean;
 };
 
 export function Form<S extends z.ZodType>({
-  schema,
-  onSubmit,
-  initialValues,
-  children,
-  ...props
-}: FormProps<S>) {
-  const form = useZodForm(schema, {
-    mode: "onSubmit",
-    defaultValues: initialValues,
-  });
-
-  return (
-    <FormAsProp form={form} onSubmit={onSubmit} {...props}>
-      {children}
-    </FormAsProp>
-  );
-}
-
-type FormAsPropProps<S extends z.ZodType> = Omit<
-  React.PropsWithoutRef<React.HTMLAttributes<HTMLFormElement>>,
-  "onSubmit" | "children"
-> & {
-  form: UseFormReturn<z.input<S>>;
-  onSubmit(values: z.input<S>): unknown;
-  children?:
-    | React.ReactNode
-    | ((form: UseFormReturn<z.input<S>>) => React.ReactNode);
-  disableOnSubmitting?: boolean;
-};
-
-export function FormAsProp<S extends z.ZodType>({
   form,
   onSubmit,
   children,
   disableOnSubmitting = true,
   ...props
-}: FormAsPropProps<S>) {
-  const resolvedChildren =
-    typeof children === "function" ? children(form) : children;
-
+}: FormProps<S>) {
   return (
     <FormProvider {...form}>
       <form
@@ -97,7 +58,7 @@ export function FormAsProp<S extends z.ZodType>({
           className={props.className}
           disabled={disableOnSubmitting && form.formState.isSubmitting}
         >
-          {resolvedChildren}
+          {children}
         </fieldset>
       </form>
     </FormProvider>

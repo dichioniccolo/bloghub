@@ -23,6 +23,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
+import { useZodForm } from "~/hooks/use-zod-form";
 import type { ProjectNameSchemaType } from "~/lib/validation/schema";
 import { ProjectNameSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
@@ -40,55 +41,51 @@ export function ChangeName({ project }: Props) {
       name,
     });
 
+  const form = useZodForm({
+    schema: ProjectNameSchema,
+    defaultValues: {
+      name: project.name,
+    },
+  });
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Project Name</CardTitle>
         <CardDescription>This is the name of your project.</CardDescription>
       </CardHeader>
-      <Form
-        onSubmit={onSubmit}
-        schema={ProjectNameSchema}
-        initialValues={{
-          name: project.name,
-        }}
-      >
-        {({ watch, formState: { isSubmitting } }) => (
-          <>
-            <CardContent>
-              <FormField
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="space-y-0.5">
-                      <FormLabel>Name</FormLabel>
-                      <FormDescription>
-                        This is the name that will be displayed on your profile.
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Input
-                        className="w-[400px]"
-                        size={32}
-                        disabled={isSubmitting}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter>
-              <Button disabled={isSubmitting || watch("name") === project.name}>
-                {isSubmitting && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                <span>Save</span>
-              </Button>
-            </CardFooter>
-          </>
-        )}
+      <Form form={form} onSubmit={onSubmit}>
+        <CardContent>
+          <FormField
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <div className="space-y-0.5">
+                  <FormLabel>Name</FormLabel>
+                  <FormDescription>
+                    This is the name that will be displayed on your profile.
+                  </FormDescription>
+                </div>
+                <FormControl>
+                  <Input className="w-[400px]" size={32} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </CardContent>
+        <CardFooter>
+          <Button
+            disabled={
+              form.formState.isSubmitting || form.watch("name") === project.name
+            }
+          >
+            {form.formState.isSubmitting && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            <span>Save</span>
+          </Button>
+        </CardFooter>
       </Form>
     </Card>
   );

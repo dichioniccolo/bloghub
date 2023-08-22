@@ -16,7 +16,6 @@
     "dev": "FORCE_COLOR=1 pnpm with-env turbo dev --parallel",
     "dev:web": "pnpm dev --filter @acme/nextjs",
     "inngest": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest",
-    "type-check": "turbo type-check",
     "prepare": "husky install",
     "with-env": "doppler run --",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",

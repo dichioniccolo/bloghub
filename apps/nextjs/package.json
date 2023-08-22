@@ -6,9 +6,9 @@
     "build": "next build",
     "clean": "git clean -xdf .next .turbo node_modules",
     "dev": "next dev",
-    "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
+    "lint": "SKIP_ENV_VALIDATION=1 next lint",
     "start": "next start",
-    "type-check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@acme/db": "^0.1.0",
@@ -117,7 +117,6 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.15",
-    "dotenv-cli": "^7.3.0",
     "eslint": "^8.47.0",
     "postcss": "^8.4.28",
     "prettier": "^3.0.2",

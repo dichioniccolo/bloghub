@@ -23,6 +23,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
+import { useZodForm } from "~/hooks/use-zod-form";
 import type { InviteMemberSchemaType } from "~/lib/validation/schema";
 import { InviteMemberSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
@@ -47,6 +48,13 @@ export function InviteMemberDialog({ projectId }: Props) {
       projectId,
     });
 
+  const form = useZodForm({
+    schema: InviteMemberSchema,
+    defaultValues: {
+      email: "",
+    },
+  });
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -61,39 +69,34 @@ export function InviteMemberDialog({ projectId }: Props) {
           </DialogDescription>
         </DialogHeader>
         <Form
-          schema={InviteMemberSchema}
+          form={form}
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
-          {({ formState: { isSubmitting } }) => (
-            <>
-              <FormField
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="your@friend.com"
-                        autoCapitalize="none"
-                        autoComplete="email"
-                        autoCorrect="off"
-                        disabled={isSubmitting}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button disabled={isSubmitting}>
-                {isSubmitting && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Invite
-              </Button>
-            </>
-          )}
+          <FormField
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="your@friend.com"
+                    autoCapitalize="none"
+                    autoComplete="email"
+                    autoCorrect="off"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Invite
+          </Button>
         </Form>
       </DialogContent>
     </Dialog>

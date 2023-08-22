@@ -351,9 +351,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.15
         version: 10.4.15(postcss@8.4.28)
-      dotenv-cli:
-        specifier: ^7.3.0
-        version: 7.3.0
       eslint:
         specifier: ^8.47.0
         version: 8.47.0

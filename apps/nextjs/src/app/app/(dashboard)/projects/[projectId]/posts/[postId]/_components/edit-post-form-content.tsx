@@ -12,6 +12,7 @@ import {
 } from "~/components/ui/form";
 import { TextareaAutosize } from "~/components/ui/textarea-autosize";
 import { AutoSave, Form } from "~/components/ui/zod-form";
+import { useZodForm } from "~/hooks/use-zod-form";
 import { cn } from "~/lib/utils";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
@@ -56,11 +57,15 @@ export function EditPostFormContent({
     content: post.content ?? {},
   };
 
+  const form = useZodForm({
+    schema: EditPostSchema,
+    defaultValues: initialValues,
+  });
+
   return (
     <Form
-      schema={EditPostSchema}
+      form={form}
       onSubmit={onSubmit}
-      initialValues={initialValues}
       className={cn("grid grid-cols-1 gap-2", {
         hidden: preview,
       })}

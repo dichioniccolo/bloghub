@@ -23,6 +23,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
+import { useZodForm } from "~/hooks/use-zod-form";
 import type { UpdateDomainSchemaType } from "~/lib/validation/schema";
 import { UpdateDomainSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
@@ -51,6 +52,13 @@ export function UpdateDomainDialog({ project }: Props) {
       newDomain,
     });
 
+  const form = useZodForm({
+    schema: UpdateDomainSchema,
+    defaultValues: {
+      oldDomain: project.domain,
+    },
+  });
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -59,66 +67,61 @@ export function UpdateDomainDialog({ project }: Props) {
       <DialogContent>
         <DialogTitle>Change Domain</DialogTitle>
         <Form
-          schema={UpdateDomainSchema}
+          form={form}
           onSubmit={onSubmit}
-          initialValues={{ oldDomain: project.domain }}
           className="flex flex-col space-y-6 text-left"
         >
-          {({ formState: { isSubmitting } }) => (
-            <>
-              <FormField
-                name="oldDomain"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Old domain</FormLabel>
-                    <FormControl>
-                      <Input
-                        readOnly
-                        tabIndex={-1}
-                        autoComplete="off"
-                        autoCorrect="off"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="newDomain"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>New domain</FormLabel>
-                    <FormControl>
-                      <Input autoComplete="off" autoCorrect="off" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="confirm"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      To verify, type{" "}
-                      <Badge variant="secondary">yes, change my domain</Badge>
-                    </FormLabel>
-                    <FormControl>
-                      <Input autoComplete="off" autoCorrect="off" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button disabled={isSubmitting} variant="destructive">
-                {isSubmitting && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Confirm domain change
-              </Button>
-            </>
-          )}
+          <FormField
+            name="oldDomain"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Old domain</FormLabel>
+                <FormControl>
+                  <Input
+                    readOnly
+                    tabIndex={-1}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="newDomain"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New domain</FormLabel>
+                <FormControl>
+                  <Input autoComplete="off" autoCorrect="off" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="confirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  To verify, type{" "}
+                  <Badge variant="secondary">yes, change my domain</Badge>
+                </FormLabel>
+                <FormControl>
+                  <Input autoComplete="off" autoCorrect="off" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={form.formState.isSubmitting} variant="destructive">
+            {form.formState.isSubmitting && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Confirm domain change
+          </Button>
         </Form>
       </DialogContent>
     </Dialog>

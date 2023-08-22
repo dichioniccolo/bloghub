@@ -17,6 +17,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Form } from "~/components/ui/zod-form";
+import { useZodForm } from "~/hooks/use-zod-form";
 import { cn } from "~/lib/cn";
 import type { UserAuthSchemaType } from "~/lib/validation/schema";
 import { UserAuthSchema } from "~/lib/validation/schema";
@@ -44,6 +45,13 @@ export function SignInForm({ className, ...props }: Props) {
     toast.success("We sent you a login link. Be sure to check your spam too");
   };
 
+  const form = useZodForm({
+    schema: UserAuthSchema,
+    defaultValues: {
+      email: "",
+    },
+  });
+
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       {isVerificationError && (
@@ -55,42 +63,33 @@ export function SignInForm({ className, ...props }: Props) {
           </AlertDescription>
         </Alert>
       )}
-      <Form
-        schema={UserAuthSchema}
-        onSubmit={onSubmit}
-        initialValues={{
-          email: "",
-        }}
-      >
-        {({ formState: { isSubmitting } }) => (
-          <div className="grid gap-2">
-            <FormField
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="you@example.com"
-                      autoCapitalize="none"
-                      autoComplete="email"
-                      autoCorrect="off"
-                      disabled={isSubmitting}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={isSubmitting}>
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Sign In with Email
-            </Button>
-          </div>
-        )}
+      <Form form={form} onSubmit={onSubmit}>
+        <div className="grid gap-2">
+          <FormField
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="you@example.com"
+                    autoCapitalize="none"
+                    autoComplete="email"
+                    autoCorrect="off"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Sign In with Email
+          </Button>
+        </div>
       </Form>
       {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
