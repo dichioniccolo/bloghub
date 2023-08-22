@@ -13,9 +13,9 @@ import {
   Role,
   users,
 } from "@acme/db";
+import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
-import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const acceptInvite = zactAuthenticated(

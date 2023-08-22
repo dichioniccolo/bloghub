@@ -13,6 +13,7 @@
   "dependencies": {
     "@acme/db": "^0.1.0",
     "@acme/emails": "^0.1.0",
+    "@acme/inngest": "^0.1.0",
     "@acme/stripe": "^0.1.0",
     "@aws-sdk/client-s3": "^3.395.0",
     "@aws-sdk/s3-request-presigner": "^3.395.0",

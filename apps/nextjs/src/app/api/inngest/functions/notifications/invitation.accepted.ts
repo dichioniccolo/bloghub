@@ -12,9 +12,9 @@ import {
   users,
 } from "@acme/db";
 import { ProjectInviteAccepted, sendMail } from "@acme/emails";
+import { inngest } from "@acme/inngest";
 
 import { env } from "~/env.mjs";
-import { inngest } from "~/lib/inngest";
 import { pusherServer } from "~/lib/pusher-server";
 
 export const invitationAcceptedNotification = inngest.createFunction(

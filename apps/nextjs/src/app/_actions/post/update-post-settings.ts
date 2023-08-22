@@ -4,19 +4,19 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import {
-    and,
-    db,
-    eq,
-    ne,
-    posts,
-    projectMembers,
-    projects,
-    sql,
+  and,
+  db,
+  eq,
+  ne,
+  posts,
+  projectMembers,
+  projects,
+  sql,
 } from "@acme/db";
+import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
 import { AppRoutes } from "~/lib/common/routes";
-import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePostSettings = zactAuthenticated(

@@ -16,12 +16,12 @@ import {
   InvalidDomain,
   sendMail,
 } from "@acme/emails";
+import { inngest } from "@acme/inngest";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { verifyProjectDomain } from "~/lib/common/external/vercel/actions";
 import { AppRoutes } from "~/lib/common/routes";
-import { inngest } from "~/lib/inngest";
 
 export const domainVerification = inngest.createFunction(
   {

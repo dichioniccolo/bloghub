@@ -8,11 +8,11 @@ import {
   users,
 } from "@acme/db";
 import { RemovedFromProject, sendMail } from "@acme/emails";
+import { inngest } from "@acme/inngest";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
-import { inngest } from "~/lib/inngest";
 import { pusherServer } from "~/lib/pusher-server";
 
 export const removedFromProjectNotification = inngest.createFunction(

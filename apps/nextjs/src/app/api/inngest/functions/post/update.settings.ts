@@ -1,7 +1,7 @@
 import { and, db, eq, inArray, media, MediaForEntity, ne } from "@acme/db";
+import { inngest } from "@acme/inngest";
 
 import { deleteMedias } from "~/lib/common/external/media/actions";
-import { inngest } from "~/lib/inngest";
 
 export const postUpdateSettings = inngest.createFunction(
   {

@@ -8,10 +8,10 @@ import {
   projects,
   visits,
 } from "@acme/db";
+import { inngest } from "@acme/inngest";
 
 import { deleteMedias } from "~/lib/common/external/media/actions";
 import { deleteDomain } from "~/lib/common/external/vercel";
-import { inngest } from "~/lib/inngest";
 
 export const projectDelete = inngest.createFunction(
   {

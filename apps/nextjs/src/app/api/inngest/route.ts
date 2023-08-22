@@ -1,6 +1,7 @@
 import { serve } from "inngest/next";
 
-import { inngest } from "~/lib/inngest";
+import { inngest } from "@acme/inngest";
+
 import { cleanupFunction } from "./functions/cleanup";
 import { domainVerification } from "./functions/domain-verification";
 import { invitationAcceptedNotification } from "./functions/notifications/invitation.accepted";

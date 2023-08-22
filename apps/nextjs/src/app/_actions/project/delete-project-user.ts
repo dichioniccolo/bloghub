@@ -1,14 +1,14 @@
 "use server";
 
 import {
-    and,
-    db,
-    eq,
-    projectMembers,
-    projects,
-    Role,
-    sql,
-    users,
+  and,
+  db,
+  eq,
+  projectMembers,
+  projects,
+  Role,
+  sql,
+  users,
 } from "@acme/db";
 
 import { AppRoutes } from "~/lib/common/routes";
@@ -18,8 +18,9 @@ import "isomorphic-fetch";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { inngest } from "@acme/inngest";
+
 import { $getUser } from "~/app/_api/get-user";
-import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const deleteProjectUser = zactAuthenticated(

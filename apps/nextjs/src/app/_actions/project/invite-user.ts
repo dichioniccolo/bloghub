@@ -19,13 +19,13 @@ import "isomorphic-fetch";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { inngest } from "@acme/inngest";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
 } from "@acme/stripe/plans";
 
 import { $getUser } from "~/app/_api/get-user";
-import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const inviteUser = zactAuthenticated(

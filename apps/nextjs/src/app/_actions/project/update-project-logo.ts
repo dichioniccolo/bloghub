@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
+import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
-import { inngest } from "~/lib/inngest";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updateProjectLogo = zactAuthenticated(

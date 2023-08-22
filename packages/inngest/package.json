@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "exports": {
-    ".": "./index.ts"
+    ".": "./src/index.ts"
   },
   "typesVersions": {
     "*": {
@@ -15,6 +15,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
+    "dev": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
     "typecheck": "tsc --noEmit"

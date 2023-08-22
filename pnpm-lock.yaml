@@ -44,6 +44,9 @@ importers:
       '@acme/emails':
         specifier: ^0.1.0
         version: link:../../packages/emails
+      '@acme/inngest':
+        specifier: ^0.1.0
+        version: link:../../packages/inngest
       '@acme/stripe':
         specifier: ^0.1.0
         version: link:../../packages/stripe
