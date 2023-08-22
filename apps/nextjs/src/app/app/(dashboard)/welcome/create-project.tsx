@@ -26,7 +26,7 @@ export function CreateProject() {
         className="flex flex-col rounded-xl bg-background/60 p-8"
       >
         <motion.h1
-          className="font-cal mb-4 text-2xl font-bold transition-colors sm:text-3xl"
+          className="mb-4 text-2xl font-bold transition-colors sm:text-3xl"
           variants={{
             hidden: { opacity: 0, x: 250 },
             show: {
@@ -51,10 +51,10 @@ export function CreateProject() {
           }}
         >
           <CreateProjectForm
-            onSuccess={(projectId) => {
+            onSuccess={(project) => {
               const searchParams = new URLSearchParams(window.location.search);
               searchParams.set("step", "done");
-              searchParams.set("projectId", projectId);
+              searchParams.set("projectId", project.id);
               router.push(`/welcome?${searchParams.toString()}`);
             }}
           />

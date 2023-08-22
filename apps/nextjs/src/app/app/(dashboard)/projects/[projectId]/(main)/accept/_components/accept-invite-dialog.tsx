@@ -31,6 +31,7 @@ export function AcceptInviteDialog({ project, expired }: Props) {
     onSuccess: () => {
       toast.success(`You now are a part of ${project.name} project!`);
       router.replace(AppRoutes.ProjectDashboard(project.id));
+      router.refresh();
     },
   });
 

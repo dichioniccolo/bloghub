@@ -2,11 +2,10 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
 import { db, EmailNotificationSetting, eq, genId, users } from "@acme/db";
-import { LoginLink, sendMail, WelcomeEmail } from "@acme/emails";
+import { LoginLink, sendMail } from "@acme/emails";
 
 import { env } from "~/env.mjs";
-import { authOptions, getLoginUrl } from "~/lib/auth";
-import { AppRoutes } from "~/lib/common/routes";
+import { authOptions } from "~/lib/auth";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const handler = NextAuth({
@@ -40,38 +39,35 @@ const handler = NextAuth({
     }),
   ],
   events: {
-    async createUser({ user }) {
-      if (!user.email) {
-        return;
-      }
-
-      const expiresAt = new Date();
-      expiresAt.setFullYear(expiresAt.getFullYear() + 1);
-
-      const unsubscribeUrl = await getLoginUrl(
-        user.email,
-        expiresAt,
-        `${
-          env.NODE_ENV === "development"
-            ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-            : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-        }${AppRoutes.NotificationsSettings}`,
-      );
-
-      await sendMail({
-        type: EmailNotificationSetting.Communication,
-        to: user.email,
-        subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
-        component: WelcomeEmail({
-          siteName: env.NEXT_PUBLIC_APP_NAME,
-          userEmail: user.email,
-          unsubscribeUrl,
-        }),
-        headers: {
-          "List-Unsubscribe": unsubscribeUrl,
-        },
-      });
-    },
+    // async createUser({ user }) {
+    //   if (!user.email) {
+    //     return;
+    //   }
+    //   const expiresAt = new Date();
+    //   expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+    //   const unsubscribeUrl = await getLoginUrl(
+    //     user.email,
+    //     expiresAt,
+    //     `${
+    //       env.NODE_ENV === "development"
+    //         ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
+    //         : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
+    //     }${AppRoutes.NotificationsSettings}`,
+    //   );
+    //   await sendMail({
+    //     type: EmailNotificationSetting.Communication,
+    //     to: user.email,
+    //     subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
+    //     component: WelcomeEmail({
+    //       siteName: env.NEXT_PUBLIC_APP_NAME,
+    //       userEmail: user.email,
+    //       unsubscribeUrl,
+    //     }),
+    //     headers: {
+    //       "List-Unsubscribe": unsubscribeUrl,
+    //     },
+    //   });
+    // },
   },
 });
 

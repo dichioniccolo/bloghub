@@ -17,6 +17,7 @@ export function CreatePostButton({ projectId }: Props) {
   const { mutate, isRunning } = useZact(createPost, {
     onSuccess: (post) => {
       router.push(`/projects/${projectId}/posts/${post.id}`);
+      router.refresh();
     },
   });
 

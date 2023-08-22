@@ -1,6 +1,8 @@
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import type { Project } from "@acme/db";
+
 import { createProject } from "~/app/_actions/project/create-project";
 import { env } from "~/env.mjs";
 import { useZodForm } from "~/hooks/use-zod-form";
@@ -20,14 +22,14 @@ import { Input } from "../ui/input";
 import { Form } from "../ui/zod-form";
 
 interface Props {
-  onSuccess?(projectId: string): void;
+  onSuccess?(project: Project): void;
 }
 
 export function CreateProjectForm({ onSuccess }: Props) {
   const { mutate } = useZact(createProject, {
     onSuccess: (data) => {
       toast.success("Project created");
-      onSuccess?.(data.id);
+      onSuccess?.(data);
     },
   });
 

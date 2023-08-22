@@ -35,6 +35,7 @@ export function QuitProjectDialog({ project }: Props) {
     onSuccess: () => {
       toast.success("You quit the project");
       router.replace(AppRoutes.Dashboard);
+      router.refresh();
     },
     onServerError: () => {
       toast.error("Something went wrong");

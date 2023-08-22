@@ -35,6 +35,7 @@ export function DeleteProjectDialog({ project }: Props) {
     onSuccess: () => {
       toast.success("Project deleted");
       router.replace(AppRoutes.Dashboard);
+      router.refresh();
     },
     onServerError: () => {
       toast.error("Something went wrong");

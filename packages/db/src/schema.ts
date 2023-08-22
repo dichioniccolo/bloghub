@@ -1,4 +1,4 @@
-import type { InferModel } from "drizzle-orm";
+import type { InferSelectModel } from "drizzle-orm";
 import { relations, sql } from "drizzle-orm";
 import {
   boolean,
@@ -15,15 +15,15 @@ import {
 import type { AdapterAccount } from "next-auth/adapters";
 
 import type {
-  AutomaticEmailType, EmailNotificationSettingType, MediaEnumType,
+  AutomaticEmailType,
+  EmailNotificationSettingType,
+  MediaEnumType,
   MediaForEntityType,
-  NotificationStatusType, NotificationType, RoleType
+  NotificationStatusType,
+  NotificationType,
+  RoleType,
 } from "./types";
-import {
-  MediaForEntity,
-  NotificationStatus,
-  Role
-} from "./types";
+import { MediaForEntity, NotificationStatus, Role } from "./types";
 
 export const users = mysqlTable(
   "users",
@@ -451,4 +451,4 @@ export const visitsRelations = relations(visits, ({ one }) => ({
   }),
 }));
 
-export type Project = InferModel<typeof projects>;
+export type Project = InferSelectModel<typeof projects>;

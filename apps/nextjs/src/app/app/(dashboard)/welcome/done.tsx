@@ -1,6 +1,7 @@
 import { useEffect, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import { Balancer } from "react-wrap-balancer";
 
 export function Done() {
   const router = useRouter();
@@ -41,13 +42,15 @@ export function Done() {
         animate="show"
         className="flex flex-col space-y-4 rounded-xl bg-background/60 p-8"
       >
-        <h1 className="font-cal text-2xl font-bold transition-colors sm:text-3xl">
+        <h1 className="text-2xl font-bold transition-colors sm:text-3xl">
           You are all set!
         </h1>
         <p className="max-w-md text-muted-foreground transition-colors sm:text-lg">
-          Congratulations, you have successfully created your first project.
-          {/* Check out the <Link href="/docs">docs</Link> to learn more on how to
+          <Balancer>
+            Congratulations, you have successfully created your first project.
+            {/* Check out the <Link href="/docs">docs</Link> to learn more on how to
           use the platform. */}
+          </Balancer>
         </p>
         <p className="text-sm text-muted-foreground">
           You will be redirected to your project momentarily.
