@@ -23,7 +23,7 @@ export default function Layout({ children }: PropsWithChildren) {
         <Providers>{children}</Providers>
         <Analytics />
         <Popover>
-          <PopoverTrigger className="fixed bottom-4 right-4 z-50 rounded-full border p-4">
+          <PopoverTrigger className="fixed bottom-4 right-4 z-50 rounded-full border bg-background p-4">
             <Construction />
           </PopoverTrigger>
           <PopoverContent className="max-w-md" align="end">

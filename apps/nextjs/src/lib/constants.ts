@@ -4,6 +4,7 @@ export const TEST_HOSTNAME = "test.niccolodichio.it";
 
 export const HOME_HOSTNAMES = new Set([
   env.NEXT_PUBLIC_APP_DOMAIN,
+  `www.${env.NEXT_PUBLIC_APP_DOMAIN}`,
   "localhost",
   "localhost:3000",
 ]);

@@ -10,16 +10,16 @@ import { parseRequest } from "./lib/middleware/utils";
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain } = parseRequest(req);
 
-  if (APP_HOSTNAMES.has(domain)) {
-    return AppMiddleware(req);
+  if (HOME_HOSTNAMES.has(domain)) {
+    return RootMiddleware(req);
   }
 
   if (API_HOSTNAMES.has(domain)) {
     return ApiMiddleware(req);
   }
 
-  if (HOME_HOSTNAMES.has(domain)) {
-    return RootMiddleware(req);
+  if (APP_HOSTNAMES.has(domain)) {
+    return AppMiddleware(req);
   }
 
   return BlogMiddleware(req, ev);

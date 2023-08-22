@@ -91,6 +91,8 @@ const config = {
   typescript: { ignoreBuildErrors: true },
   experimental: {
     serverActions: true,
+    useDeploymentId: true,
+    useDeploymentIdServerActions: true,
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [

@@ -1,7 +1,7 @@
 import { connect } from "@planetscale/database";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
-
 import { customAlphabet } from "nanoid";
+
 import { env } from "./env.mjs";
 import * as schema from "./schema";
 
@@ -23,4 +23,4 @@ export const db = drizzle(connection, {
   schema,
 });
 
-export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 16);
+export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 21);
