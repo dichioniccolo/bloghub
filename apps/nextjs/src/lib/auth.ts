@@ -3,13 +3,13 @@ import type { DefaultSession, NextAuthOptions } from "next-auth";
 import type { DefaultJWT, JWT } from "next-auth/jwt";
 
 import {
-    accounts,
-    db,
-    eq,
-    PlanetScaleAdapter,
-    sessions,
-    users,
-    verificationTokens,
+  accounts,
+  db,
+  eq,
+  PlanetScaleAdapter,
+  sessions,
+  users,
+  verificationTokens,
 } from "@acme/db";
 
 import { env } from "../env.mjs";
@@ -108,6 +108,7 @@ export const authOptions = {
     signIn: "/login",
     signOut: "/login",
     error: "/login",
+    newUser: "/welcome",
   },
 } satisfies Omit<NextAuthOptions, "providers">;
 
