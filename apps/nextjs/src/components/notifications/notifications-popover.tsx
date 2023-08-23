@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
 import type { AppNotification } from "@acme/notifications";
@@ -31,10 +33,14 @@ import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 
 export function NotificationsPopover() {
+  const router = useRouter();
+
   const { notifications, unreadCount } = useNotifications();
   const dispatch = useNotificationsDispatch();
 
   const user = useUser();
+
+  const [open, setOpen] = useState(false);
 
   const onNewNotification = (notification: AppNotification) => {
     dispatch({
@@ -48,6 +54,7 @@ export function NotificationsPopover() {
       dispatch({
         type: NotificationActionTypes.ARCHIVE_ALL,
       });
+      router.refresh();
     },
   });
 
@@ -58,7 +65,7 @@ export function NotificationsPopover() {
   );
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button size="xs" variant="secondary" className="rounded-full">
           <BellRing className="h-4 w-4" />
@@ -76,7 +83,10 @@ export function NotificationsPopover() {
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-border p-2">
             <div className="text-sm font-medium">Notifications</div>
-            <Link href={AppRoutes.NotificationsSettings}>
+            <Link
+              href={AppRoutes.NotificationsSettings}
+              onClick={() => setOpen(false)}
+            >
               <Button size="xs" variant="secondary" className="rounded-full">
                 <Settings className="h-4 w-4" />
               </Button>

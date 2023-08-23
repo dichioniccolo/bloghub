@@ -50,6 +50,9 @@ importers:
       '@acme/notifications':
         specifier: ^0.1.0
         version: link:../../packages/notifications
+      '@acme/pusher':
+        specifier: ^0.1.0
+        version: link:../../packages/pusher
       '@acme/stripe':
         specifier: ^0.1.0
         version: link:../../packages/stripe
@@ -278,12 +281,6 @@ importers:
       openai-edge:
         specifier: ^1.2.2
         version: 1.2.2
-      pusher:
-        specifier: ^5.1.3
-        version: 5.1.3(encoding@0.1.13)
-      pusher-js:
-        specifier: ^8.3.0
-        version: 8.3.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -528,6 +525,37 @@ importers:
       zod:
         specifier: ^3.22.2
         version: 3.22.2
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: 0.2.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tsconfig':
+        specifier: ^0.1.0
+        version: link:../../tooling/typescript
+      eslint:
+        specifier: ^8.47.0
+        version: 8.47.0
+      prettier:
+        specifier: ^3.0.2
+        version: 3.0.2
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
+
+  packages/pusher:
+    dependencies:
+      '@t3-oss/env-nextjs':
+        specifier: ^0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.22.2)
+      pusher:
+        specifier: ^5.1.3
+        version: 5.1.3
+      pusher-js:
+        specifier: ^8.3.0
+        version: 8.3.0
     devDependencies:
       '@acme/eslint-config':
         specifier: 0.2.0
@@ -10607,7 +10635,7 @@ packages:
       tweetnacl: 1.0.3
     dev: false
 
-  /pusher@5.1.3(encoding@0.1.13):
+  /pusher@5.1.3:
     resolution: {integrity: sha512-Bmy5guFxQsbYSFLF3CM7GA2qE1zDJYn51PnNme9QlSjGguvkqUg4nj31PbgiLVDFK2sJvxPfx4JrB2HLgM3kaw==}
     engines: {node: '>= 4.0.0'}
     dependencies:

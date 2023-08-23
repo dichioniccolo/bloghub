@@ -1,6 +1,7 @@
 // Importing env files here to validate on build
 import "@acme/db/env";
 import "@acme/emails/env";
+import "@acme/pusher/env";
 import "@acme/stripe/env";
 import "./src/env.mjs";
 
@@ -86,7 +87,13 @@ const config = {
     ],
   },
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ["@acme/db", "@acme/emails", "@acme/stripe"],
+  transpilePackages: [
+    "@acme/db",
+    "@acme/emails",
+    "@acme/notifications",
+    "@acme/pusher",
+    "@acme/stripe",
+  ],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   experimental: {
