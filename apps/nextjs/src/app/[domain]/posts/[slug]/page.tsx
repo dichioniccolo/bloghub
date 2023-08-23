@@ -72,7 +72,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
           {/** add who created this post, if it's a team, we need to decide who to show */}
         </div>
       </div>
-      <div className="md:h-150 relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:w-5/6 md:rounded-2xl lg:w-2/3">
+      <div className="relative m-auto mb-10 h-80 w-full max-w-screen-lg overflow-hidden md:mb-20 md:h-[37.5rem] md:w-5/6 md:rounded-2xl lg:w-2/3">
         <Image
           alt={post.title ?? "Post image"}
           width={1200}
