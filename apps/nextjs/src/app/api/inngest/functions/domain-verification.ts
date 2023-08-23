@@ -11,17 +11,14 @@ import {
   Role,
   users,
 } from "@acme/db";
-import {
-  AutomaticProjectDeletion,
-  InvalidDomain,
-  sendMail,
-} from "@acme/emails";
+import { AutomaticProjectDeletion, InvalidDomain } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { verifyProjectDomain } from "~/lib/common/external/vercel/actions";
 import { AppRoutes } from "~/lib/common/routes";
+import { sendMail } from "~/lib/email";
 
 export const domainVerification = inngest.createFunction(
   {
@@ -118,7 +115,7 @@ export const domainVerification = inngest.createFunction(
             type: EmailNotificationSetting.Communication,
             to: project.owner.email,
             subject: `Your domain ${project.domain} is not configured`,
-            component: InvalidDomain({
+            react: InvalidDomain({
               siteName: env.NEXT_PUBLIC_APP_NAME,
               projectId: project.id,
               projectName: project.name,
@@ -156,7 +153,7 @@ export const domainVerification = inngest.createFunction(
           type: EmailNotificationSetting.Communication,
           to: project.owner.email,
           subject: `Your ${project.domain} domain is not configured`,
-          component: AutomaticProjectDeletion({
+          react: AutomaticProjectDeletion({
             siteName: env.NEXT_PUBLIC_APP_NAME,
             projectName: project.name,
             domain: project.domain,

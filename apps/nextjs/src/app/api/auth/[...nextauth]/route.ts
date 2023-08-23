@@ -2,10 +2,11 @@ import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
 import { db, EmailNotificationSetting, eq, genId, users } from "@acme/db";
-import { LoginLink, sendMail } from "@acme/emails";
+import { LoginLink } from "@acme/emails";
 
 import { env } from "~/env.mjs";
 import { authOptions } from "~/lib/auth";
+import { sendMail } from "~/lib/email";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const handler = NextAuth({
@@ -25,7 +26,7 @@ const handler = NextAuth({
           type: EmailNotificationSetting.Security,
           to: identifier,
           subject: "Your login link",
-          component: LoginLink({
+          react: LoginLink({
             siteName: env.NEXT_PUBLIC_APP_NAME,
             url,
             userName: user?.name,
@@ -58,7 +59,7 @@ const handler = NextAuth({
     //     type: EmailNotificationSetting.Communication,
     //     to: user.email,
     //     subject: `Welcome to ${env.NEXT_PUBLIC_APP_NAME}`,
-    //     component: WelcomeEmail({
+    //     react: WelcomeEmail({
     //       siteName: env.NEXT_PUBLIC_APP_NAME,
     //       userEmail: user.email,
     //       unsubscribeUrl,

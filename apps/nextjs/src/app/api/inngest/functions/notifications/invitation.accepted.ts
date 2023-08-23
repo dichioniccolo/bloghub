@@ -11,11 +11,12 @@ import {
   Role,
   users,
 } from "@acme/db";
-import { ProjectInviteAccepted, sendMail } from "@acme/emails";
+import { ProjectInviteAccepted } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
+import { sendMail } from "~/lib/email";
 
 export const invitationAcceptedNotification = inngest.createFunction(
   {
@@ -56,7 +57,7 @@ export const invitationAcceptedNotification = inngest.createFunction(
         type: EmailNotificationSetting.Social,
         to: event.data.userEmail,
         subject: "A user has accepted the project invitation",
-        component: ProjectInviteAccepted({
+        react: ProjectInviteAccepted({
           siteName: env.NEXT_PUBLIC_APP_NAME,
           ownerEmail: project.owner.email,
           ownerName: project.owner.name,

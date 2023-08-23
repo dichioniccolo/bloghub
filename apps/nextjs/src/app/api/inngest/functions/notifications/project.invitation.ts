@@ -9,13 +9,14 @@ import {
   projectInvitations,
   users,
 } from "@acme/db";
-import { ProjectInvite, sendMail } from "@acme/emails";
+import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
+import { sendMail } from "~/lib/email";
 
 export const projectInvitationNotification = inngest.createFunction(
   {
@@ -63,7 +64,7 @@ export const projectInvitationNotification = inngest.createFunction(
         type: EmailNotificationSetting.Social,
         to: event.data.userEmail,
         subject: "You have been invited to a project",
-        component: ProjectInvite({
+        react: ProjectInvite({
           siteName: env.NEXT_PUBLIC_APP_NAME,
           url,
           userEmail: event.data.userEmail,

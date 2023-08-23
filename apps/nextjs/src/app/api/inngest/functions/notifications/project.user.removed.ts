@@ -7,13 +7,14 @@ import {
   notifications,
   users,
 } from "@acme/db";
-import { RemovedFromProject, sendMail } from "@acme/emails";
+import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { AppRoutes } from "~/lib/common/routes";
+import { sendMail } from "~/lib/email";
 
 export const removedFromProjectNotification = inngest.createFunction(
   {
@@ -40,7 +41,7 @@ export const removedFromProjectNotification = inngest.createFunction(
         type: EmailNotificationSetting.Social,
         to: event.data.userEmail,
         subject: "You have been removed from a project",
-        component: RemovedFromProject({
+        react: RemovedFromProject({
           siteName: env.NEXT_PUBLIC_APP_NAME,
           projectName: event.data.projectName,
           unsubscribeUrl,

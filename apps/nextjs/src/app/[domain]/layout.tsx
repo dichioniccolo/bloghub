@@ -23,7 +23,7 @@ export async function generateMetadata({
     return {};
   }
 
-  const title = `${project.name}'s Blog`;
+  const title = project.name;
 
   return {
     title,

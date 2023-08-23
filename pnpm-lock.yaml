@@ -424,9 +424,6 @@ importers:
 
   packages/emails:
     dependencies:
-      '@acme/db':
-        specifier: ^0.1.0
-        version: link:../db
       '@react-email/components':
         specifier: ^0.0.7
         version: 0.0.7(ts-node@10.9.1)

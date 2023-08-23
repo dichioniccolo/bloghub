@@ -23,11 +23,10 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const post = await getPostBySlug(domain, slug);
 
-  const title = `${post?.title} | ${post?.project.name}'s Blog`;
+  const title = `${post?.title} | ${post?.project.name}`;
   const description = post?.description ?? undefined;
 
-  const seoTitle = `${post?.seoTitle ?? post?.title} | ${post?.project
-    .name}'s Blog`;
+  const seoTitle = `${post?.seoTitle ?? post?.title} | ${post?.project.name}`;
   const seoDescription = post?.seoDescription ?? post?.description ?? undefined;
 
   return {
