@@ -10,8 +10,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { AppRoutes } from "~/lib/common/routes";
 import { GOOGLE_FAVICON_URL } from "~/lib/constants";
+import { AppRoutes } from "~/lib/routes";
 import { formatNumber } from "~/lib/utils";
 
 interface Props {

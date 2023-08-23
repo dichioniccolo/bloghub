@@ -19,7 +19,7 @@ import {
 } from "~/components/ui/dialog";
 import { Slider } from "~/components/ui/slider";
 import { Switch } from "~/components/ui/switch";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";

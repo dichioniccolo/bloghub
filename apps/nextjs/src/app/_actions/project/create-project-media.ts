@@ -2,10 +2,10 @@
 
 import type { MediaEnumType, MediaForEntityType } from "@acme/db";
 import { and, db, eq, genId, media, projectMembers } from "@acme/db";
+import { uploadFile } from "@acme/files";
 
 import { $getUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
-import { uploadFile } from "~/lib/common/external/media/actions";
 
 function arrayBufferToBuffer(ab: ArrayBuffer) {
   const buffer = Buffer.alloc(ab.byteLength);

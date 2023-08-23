@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

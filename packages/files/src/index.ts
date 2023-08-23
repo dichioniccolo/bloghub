@@ -6,15 +6,15 @@ import {
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
 
-import { env } from "~/env.mjs";
-import { s3 } from ".";
+import { s3 } from "./client";
+import { env } from "./env.mjs";
 
 function getFileName(url: string) {
   // take only last part of url after the first slash without https://
   return url.split("/").slice(3).join("/");
 }
 
-export async function deleteMedia(url: string) {
+export async function deleteFile(url: string) {
   return await s3.send(
     new DeleteObjectCommand({
       Bucket: env.DO_BUCKET,
@@ -23,7 +23,7 @@ export async function deleteMedia(url: string) {
   );
 }
 
-export async function deleteMedias(urls: string[]) {
+export async function deleteFiles(urls: string[]) {
   if (urls.length === 0) {
     return;
   }
@@ -56,4 +56,19 @@ export async function uploadFile(
   });
 
   return await s3.send(command);
+}
+
+export async function uploadFiles(
+  files: {
+    name: string;
+    file: Buffer;
+    contentType: string;
+    metadata?: Record<string, string>;
+  }[],
+) {
+  return await Promise.allSettled(
+    files.map((file) =>
+      uploadFile(file.name, file.file, file.contentType, file.metadata),
+    ),
+  );
 }

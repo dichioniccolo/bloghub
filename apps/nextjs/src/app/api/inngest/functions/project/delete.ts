@@ -8,10 +8,9 @@ import {
   projects,
   visits,
 } from "@acme/db";
+import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { deleteDomain } from "@acme/vercel";
-
-import { deleteMedias } from "~/lib/common/external/media/actions";
 
 export const projectDelete = inngest.createFunction(
   {
@@ -31,7 +30,7 @@ export const projectDelete = inngest.createFunction(
         .from(media)
         .where(eq(media.projectId, event.data.id));
 
-      await deleteMedias(mediaList.map((m) => m.url));
+      await deleteFiles(mediaList.map((m) => m.url));
 
       await tx.delete(media).where(eq(media.projectId, event.data.id));
 

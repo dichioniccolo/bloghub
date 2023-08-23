@@ -19,7 +19,7 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

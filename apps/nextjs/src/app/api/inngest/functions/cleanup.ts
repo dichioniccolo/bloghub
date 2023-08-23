@@ -1,7 +1,6 @@
 import { asc, db, inArray, isNull, media, or } from "@acme/db";
+import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
-
-import { deleteMedias } from "~/lib/common/external/media/actions";
 
 export const cleanupFunction = inngest.createFunction(
   {
@@ -25,7 +24,7 @@ export const cleanupFunction = inngest.createFunction(
       return;
     }
 
-    await deleteMedias(mediaList.map((x) => x.url));
+    await deleteFiles(mediaList.map((x) => x.url));
     await db.delete(media).where(
       inArray(
         media.id,

@@ -1,7 +1,6 @@
 import { and, db, eq, inArray, media, MediaForEntity, ne } from "@acme/db";
+import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
-
-import { deleteMedias } from "~/lib/common/external/media/actions";
 
 export const projectUpdateLogo = inngest.createFunction(
   {
@@ -35,7 +34,7 @@ export const projectUpdateLogo = inngest.createFunction(
     const ids = allProjectLogos.map((x) => x.id);
 
     await Promise.all([
-      step.run("Delete all thumbnail media", () => deleteMedias(urls)),
+      step.run("Delete all thumbnail media", () => deleteFiles(urls)),
       step.run("Delete all thumbnail media from DB", () =>
         db.delete(media).where(inArray(media.id, ids)),
       ),

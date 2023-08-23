@@ -9,7 +9,7 @@ import { Notifications } from "~/components/notifications";
 import { NotificationsPlaceholder } from "~/components/notifications/notifications-placeholder";
 import { Skeleton } from "~/components/ui/skeleton";
 import { env } from "~/env.mjs";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { ProjectsDropdown } from "./_components/projects-dropdown";
 import { UserDropdown } from "./_components/user-dropdown";
 import { DashboardProviders } from "./providers";

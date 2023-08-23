@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { useUser } from "~/hooks/use-user";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { getDefaultAvatarImage } from "~/lib/utils";
 
 export function UserDropdown() {

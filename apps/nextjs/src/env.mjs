@@ -9,11 +9,6 @@ export const env = createEnv({
   server: {
     ADMIN_EMAIL: z.string().email(),
     STRIPE_API_KEY: z.string().min(1),
-    DO_ENDPOINT: z.string().min(1),
-    DO_REGION: z.string().min(1),
-    DO_ACCESS_KEY: z.string().min(1),
-    DO_SECRET_KEY: z.string().min(1),
-    DO_BUCKET: z.string().min(1),
     DO_CDN_URL: z.string().min(1),
     EDGE_CONFIG: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
@@ -60,11 +55,6 @@ export const env = createEnv({
     KV_REST_API_READ_ONLY_TOKEN: process.env.KV_REST_API_READ_ONLY_TOKEN,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     STRIPE_API_KEY: process.env.STRIPE_API_KEY,
-    DO_ENDPOINT: process.env.DO_ENDPOINT,
-    DO_REGION: process.env.DO_REGION,
-    DO_ACCESS_KEY: process.env.DO_ACCESS_KEY,
-    DO_SECRET_KEY: process.env.DO_SECRET_KEY,
-    DO_BUCKET: process.env.DO_BUCKET,
     DO_CDN_URL: process.env.DO_CDN_URL,
   },
 

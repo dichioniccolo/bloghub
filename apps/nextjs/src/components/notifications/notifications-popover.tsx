@@ -28,7 +28,7 @@ import {
 } from "~/components/ui/popover";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 

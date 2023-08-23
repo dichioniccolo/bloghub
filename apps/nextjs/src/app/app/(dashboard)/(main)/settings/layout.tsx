@@ -3,7 +3,7 @@ import type { PropsWithChildren } from "react";
 import { DashboardHeader } from "~/components/dashboard-header";
 import { DashboardShell } from "~/components/dashboard-shell";
 import { SidebarNav } from "~/components/sidebar-nav";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 
 const sidebarNavItems = [
   {

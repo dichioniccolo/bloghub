@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { getMainPagePostsByDomain } from "~/app/_api/public/posts";
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
-import { BlogRoutes } from "~/lib/common/routes";
+import { BlogRoutes } from "~/lib/routes";
 import { PostCard } from "./_components/post-card";
 
 interface Props {

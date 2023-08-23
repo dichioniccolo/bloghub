@@ -15,8 +15,8 @@ import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
-import { AppRoutes } from "~/lib/common/routes";
 import { sendMail } from "~/lib/email";
+import { AppRoutes } from "~/lib/routes";
 
 export const projectInvitationNotification = inngest.createFunction(
   {

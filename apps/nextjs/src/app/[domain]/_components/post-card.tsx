@@ -3,7 +3,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 import type { GetRandomPostsByDomain } from "~/app/_api/public/posts";
-import { BlogRoutes } from "~/lib/common/routes";
+import { BlogRoutes } from "~/lib/routes";
 
 interface Props {
   post: GetRandomPostsByDomain[number];

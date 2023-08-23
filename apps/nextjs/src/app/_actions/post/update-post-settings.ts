@@ -16,7 +16,7 @@ import {
 import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePostSettings = zactAuthenticated(

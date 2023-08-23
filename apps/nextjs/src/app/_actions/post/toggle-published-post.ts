@@ -6,7 +6,7 @@ import { z } from "zod";
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 // TODO: handle better with seo, thumbnail, etc

@@ -6,7 +6,7 @@ import type { Notification } from "@acme/db";
 import type { AppNotification } from "@acme/notifications";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 
 interface Props {
   notification: Extract<

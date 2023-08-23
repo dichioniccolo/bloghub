@@ -20,8 +20,8 @@ import {
 } from "~/components/ui/tooltip";
 import { env } from "~/env.mjs";
 import { cn } from "~/lib/cn";
-import { AppRoutes } from "~/lib/common/routes";
 import type { QRProps } from "~/lib/qr";
+import { AppRoutes } from "~/lib/routes";
 
 interface AdvancedSettingsProps {
   isOwnerPro: boolean;

@@ -25,7 +25,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";

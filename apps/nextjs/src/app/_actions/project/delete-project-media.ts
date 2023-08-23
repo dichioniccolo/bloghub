@@ -3,9 +3,9 @@
 import { z } from "zod";
 
 import { and, db, eq, media, projectMembers, projects, sql } from "@acme/db";
+import { deleteFile } from "@acme/files";
 
 import { $getUser } from "~/app/_api/get-user";
-import { deleteMedia } from "~/lib/common/external/media/actions";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const deleteProjectMedia = zactAuthenticated(
@@ -58,6 +58,6 @@ export const deleteProjectMedia = zactAuthenticated(
     return;
   }
 
-  await deleteMedia(dbMedia.url);
+  await deleteFile(dbMedia.url);
   await db.delete(media).where(eq(media.id, dbMedia.id));
 });

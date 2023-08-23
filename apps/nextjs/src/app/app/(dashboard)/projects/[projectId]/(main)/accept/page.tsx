@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 
 import { getPendingInvite } from "~/app/_api/projects";
 import { authOptions } from "~/lib/auth";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { AcceptInviteDialog } from "./_components/accept-invite-dialog";
 
 interface Props {

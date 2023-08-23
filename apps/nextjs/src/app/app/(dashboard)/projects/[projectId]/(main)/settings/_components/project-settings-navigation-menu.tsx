@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 import { SidebarNav } from "~/components/sidebar-nav";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 
 interface Props {
   projectId: string;

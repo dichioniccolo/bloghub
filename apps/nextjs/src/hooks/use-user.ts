@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 
 export function useUser() {
   const router = useRouter();

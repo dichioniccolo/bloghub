@@ -17,8 +17,8 @@ import { inngest } from "@acme/inngest";
 import { verifyProjectDomain } from "~/app/_actions/project/verify-project-domain";
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
-import { AppRoutes } from "~/lib/common/routes";
 import { sendMail } from "~/lib/email";
+import { AppRoutes } from "~/lib/routes";
 
 export const domainVerification = inngest.createFunction(
   {

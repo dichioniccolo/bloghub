@@ -7,7 +7,7 @@ import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
 import { createDomain, deleteDomain } from "@acme/vercel";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 import { DomainSchema } from "../schemas";
 

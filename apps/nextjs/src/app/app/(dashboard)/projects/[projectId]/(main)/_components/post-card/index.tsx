@@ -24,7 +24,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { cn } from "~/lib/cn";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { constructPostUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";
 import { PostCardButton } from "./post-card-button";

@@ -20,8 +20,8 @@ import {
   stripePriceToSubscriptionPlan,
 } from "@acme/stripe/plans";
 
-import { getUserTotalUsage } from "~/lib/common/actions";
 import { $getUser } from "./get-user";
+import { getUserTotalUsage } from "./get-user-total-usage";
 import { getBillingPeriod } from "./user";
 
 export async function getProjects() {

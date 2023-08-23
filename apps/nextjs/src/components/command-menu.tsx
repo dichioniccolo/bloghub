@@ -25,7 +25,7 @@ import {
   CommandList,
 } from "~/components/ui/command";
 import { cn } from "~/lib/cn";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 
 export function CommandMenu() {

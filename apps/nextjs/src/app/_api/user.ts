@@ -3,8 +3,8 @@
 import { db, eq, users } from "@acme/db";
 import { stripePriceToSubscriptionPlan } from "@acme/stripe/plans";
 
-import { getUserTotalUsage } from "~/lib/common/actions";
 import { $getUser } from "./get-user";
+import { getUserTotalUsage } from "./get-user-total-usage";
 
 export async function getUserPlan() {
   const user = await $getUser();

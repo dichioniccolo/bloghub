@@ -11,7 +11,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
-import { AppRoutes } from "~/lib/common/routes";
+import { AppRoutes } from "~/lib/routes";
 
 interface Props {
   projectId: string;

@@ -1,10 +1,10 @@
 import type { JSONContent } from "@tiptap/react";
 
 import { and, db, eq, inArray, media, MediaForEntity, posts } from "@acme/db";
+import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 
 import { env } from "~/env.mjs";
-import { deleteMedias } from "~/lib/common/external/media/actions";
 
 export const postUpdate = inngest.createFunction(
   {
@@ -50,7 +50,7 @@ export const postUpdate = inngest.createFunction(
         return;
       }
 
-      await deleteMedias(deletedMedias.map((m) => m.url));
+      await deleteFiles(deletedMedias.map((m) => m.url));
       await db.delete(media).where(
         inArray(
           media.id,
