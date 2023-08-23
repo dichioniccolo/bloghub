@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
+import { createDomain, deleteDomain } from "@acme/vercel";
 
 import { $getUser } from "~/app/_api/get-user";
-import { createDomain, deleteDomain } from "~/lib/common/external/vercel";
 import { AppRoutes } from "~/lib/common/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 import { DomainSchema } from "../schemas";

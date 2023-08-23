@@ -1,8 +1,11 @@
 "use server";
 
 import { db, eq, projects } from "@acme/db";
-
-import { getConfigResponse, getDomainResponse, verifyDomain } from "./index";
+import {
+  getConfigResponse,
+  getDomainResponse,
+  verifyDomain,
+} from "@acme/vercel";
 
 export async function verifyProjectDomain(domain: string) {
   const [domainResponsePromise, configResponsePromise] =

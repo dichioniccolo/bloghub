@@ -5,8 +5,8 @@ import { z } from "zod";
 import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
 
 import { $getUser } from "~/app/_api/get-user";
-import { verifyProjectDomain } from "~/lib/common/external/vercel/actions";
 import { zactAuthenticated } from "~/lib/zact/server";
+import { verifyProjectDomain } from "./verify-project-domain";
 
 export const verifyDomain = zactAuthenticated(
   async () => {

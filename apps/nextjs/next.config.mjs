@@ -3,6 +3,7 @@ import "@acme/db/env";
 import "@acme/emails/env";
 import "@acme/pusher/env";
 import "@acme/stripe/env";
+import "@acme/vercel/env";
 import "./src/env.mjs";
 
 import { env } from "./src/env.mjs";

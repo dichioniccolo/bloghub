@@ -17,14 +17,6 @@ export const env = createEnv({
     DO_CDN_URL: z.string().min(1),
     EDGE_CONFIG: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
-    VERCEL_API_URL: z.string().min(1),
-    VERCEL_BEARER_TOKEN: z.string().min(1),
-    VERCEL_ENABLE_DOMAIN: z
-      .string()
-      .regex(/true|false/)
-      .transform((str) => str === "true"),
-    VERCEL_PROJECT_ID: z.string().min(1),
-    VERCEL_TEAM_ID: z.string().min(1),
     NEXTAUTH_URL: z.preprocess(
       // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
       // Since NextAuth.js automatically uses the VERCEL_URL if present.
@@ -59,11 +51,6 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
     EDGE_CONFIG: process.env.EDGE_CONFIG,
     NODE_ENV: process.env.NODE_ENV,
-    VERCEL_API_URL: process.env.VERCEL_API_URL,
-    VERCEL_BEARER_TOKEN: process.env.VERCEL_BEARER_TOKEN,
-    VERCEL_ENABLE_DOMAIN: process.env.VERCEL_ENABLE_DOMAIN,
-    VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
-    VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,

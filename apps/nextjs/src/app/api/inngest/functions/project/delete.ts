@@ -9,9 +9,9 @@ import {
   visits,
 } from "@acme/db";
 import { inngest } from "@acme/inngest";
+import { deleteDomain } from "@acme/vercel";
 
 import { deleteMedias } from "~/lib/common/external/media/actions";
-import { deleteDomain } from "~/lib/common/external/vercel";
 
 export const projectDelete = inngest.createFunction(
   {
