@@ -1,5 +1,5 @@
 {
-  "name": "@acme/nextjs",
+  "name": "@acme/dashboard",
   "version": "0.0.1",
   "private": true,
   "scripts": {

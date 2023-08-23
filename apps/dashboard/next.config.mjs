@@ -91,9 +91,12 @@ const config = {
   transpilePackages: [
     "@acme/db",
     "@acme/emails",
+    "@acme/files",
+    "@acme/inngest",
     "@acme/notifications",
     "@acme/pusher",
     "@acme/stripe",
+    "@acme/vercel"
   ],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
