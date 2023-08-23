@@ -3,6 +3,14 @@
 import Link from "next/link";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
+import type { AppNotification } from "@acme/notifications";
+import {
+  isInvitationAcceptedNotification,
+  isProjectInvitationNotification,
+  isRemovedFromProjectNotification,
+} from "@acme/notifications";
+
+import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import {
   NotificationActionTypes,
   useNotifications,
@@ -16,16 +24,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/common/routes";
-import type { AppNotification } from "~/lib/notifications";
-import {
-  isInvitationAcceptedNotification,
-  isProjectInvitationNotification,
-  isRemovedFromProjectNotification,
-} from "~/lib/notifications";
 import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 

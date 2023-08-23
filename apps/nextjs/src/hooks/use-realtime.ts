@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 
-import type { AppNotification } from "~/lib/notifications";
+import type { AppNotification } from "@acme/notifications";
+
 import { pusherClient } from "~/lib/pusher";
 
 export function useRealtimeNotification(

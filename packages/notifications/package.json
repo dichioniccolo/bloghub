@@ -1,5 +1,5 @@
 {
-  "name": "@acme/inngest",
+  "name": "@acme/notifications",
   "private": true,
   "version": "0.1.0",
   "exports": {
@@ -15,14 +15,13 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/notifications": "^0.1.0",
-    "inngest": "^2.5.2"
+    "@acme/db": "^0.1.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@acme/eslint-config": "0.2.0",

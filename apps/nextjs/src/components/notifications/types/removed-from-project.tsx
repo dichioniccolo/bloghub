@@ -2,9 +2,9 @@ import { formatDistanceToNow } from "date-fns";
 import { Trash2 } from "lucide-react";
 
 import type { Notification } from "@acme/db";
+import type { AppNotification } from "@acme/notifications";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
-import type { AppNotification } from "~/lib/notifications";
 
 interface Props {
   notification: Extract<

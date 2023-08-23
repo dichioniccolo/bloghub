@@ -3,7 +3,7 @@
 import type { Dispatch, PropsWithChildren } from "react";
 import { createContext, useContext, useReducer } from "react";
 
-import type { AppNotification } from "~/lib/notifications";
+import type { AppNotification } from "@acme/notifications";
 
 interface NotificationsContext {
   notifications: AppNotification[];

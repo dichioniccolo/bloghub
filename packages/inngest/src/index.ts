@@ -4,14 +4,14 @@ import type {
   InvitationAcceptedNotificationData,
   ProjectInvitationNotificationData,
   RemovedFromProjectNotificationData,
-} from "./types";
+} from "@acme/notifications";
 
 interface WrapWithData<T> {
   data: T;
 }
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type InngestEvents = {
+type InngestEvents = {
   "notification/project.invitation": WrapWithData<ProjectInvitationNotificationData>;
   "notification/invitation.accepted": WrapWithData<InvitationAcceptedNotificationData>;
   "notification/project.user.removed": WrapWithData<RemovedFromProjectNotificationData>;
