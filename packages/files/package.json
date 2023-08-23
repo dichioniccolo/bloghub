@@ -21,9 +21,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.397.0",
+    "@aws-sdk/client-s3": "^3.398.0",
     "@aws-sdk/s3-request-presigner": "^3.397.0",
-    "@aws-sdk/signature-v4-crt": "^3.391.0",
+    "@aws-sdk/signature-v4-crt": "^3.398.0",
     "aws-crt": "^1.18.0"
   },
   "devDependencies": {
