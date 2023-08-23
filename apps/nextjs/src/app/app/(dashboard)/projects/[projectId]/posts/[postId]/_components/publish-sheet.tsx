@@ -110,9 +110,9 @@ export function PublishSheet({ post }: Props) {
     schema: PublishPostSchema,
     defaultValues: {
       slug: post.slug,
-      thumbnailUrl: post.thumbnailUrl,
-      seoTitle: post.seoTitle,
-      seoDescription: post.seoDescription,
+      thumbnailUrl: post.thumbnailUrl ?? "",
+      seoTitle: post.seoTitle ?? "",
+      seoDescription: post.seoDescription ?? "",
     },
   });
 

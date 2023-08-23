@@ -208,7 +208,7 @@ export function PostCard({ post, project, owner }: Props) {
             </PostCardButton>
           </Link>
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <PostCardButton className="rounded-md px-1 py-2">
                 <span className="sr-only">Menu</span>
                 <MoreVertical className="h-5 w-5" />

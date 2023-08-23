@@ -21,9 +21,9 @@ export function PostCardPlaceholder() {
               <Skeleton className="h-4 w-40 max-w-[170px] truncate text-sm font-semibold text-accent-foreground sm:max-w-[300px] sm:text-base md:max-w-[360px] xl:max-w-[500px]" />
             </div>
             <div className="flex max-w-fit items-center space-x-1">
-              <p className="whitespace-nowrap text-sm text-muted-foreground">
+              <div className="whitespace-nowrap text-sm text-muted-foreground">
                 <Skeleton className="h-4 w-20" />
-              </p>
+              </div>
               <p>•</p>
               <Skeleton className="h-4 w-60 max-w-[180px] truncate text-sm font-medium underline-offset-2 hover:underline sm:max-w-[300px] md:max-w-[360px] xl:max-w-[500px]" />
             </div>

@@ -81,13 +81,13 @@ export function ProjectCardSkeleton() {
         <div className="flex items-center space-x-3">
           <Skeleton className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full" />
           <div>
-            <h2 className="text-lg font-medium">
+            <div className="text-lg font-medium">
               <Skeleton className="ml-1 h-5 w-32" />
-            </h2>
+            </div>
             <div className="flex items-center">
-              <p className="text-muted-foreground">
+              <div className="text-muted-foreground">
                 <Skeleton className="ml-1 h-5 w-40" />
-              </p>
+              </div>
               <Skeleton className="ml-1 h-5 w-5" />
             </div>
           </div>
@@ -96,15 +96,15 @@ export function ProjectCardSkeleton() {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-muted-foreground">
           <CaseSensitive className="h-4 w-4" />
-          <h3 className="whitespace-nowrap text-sm">
+          <div className="whitespace-nowrap text-sm">
             <Skeleton className="h-4 w-20" />
-          </h3>
+          </div>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <BarChart2 className="h-4 w-4" />
-          <h3 className="whitespace-nowrap text-sm">
+          <div className="whitespace-nowrap text-sm">
             <Skeleton className="h-4 w-20" />
-          </h3>
+          </div>
         </div>
       </div>
     </div>
