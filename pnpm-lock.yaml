@@ -379,8 +379,8 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1(typescript@5.1.6)(zod@3.22.2)
       drizzle-orm:
-        specifier: ^0.28.3
-        version: 0.28.3(@planetscale/database@1.11.0)
+        specifier: ^0.28.4
+        version: 0.28.4(@planetscale/database@1.11.0)
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
@@ -7434,8 +7434,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.28.3(@planetscale/database@1.11.0):
-    resolution: {integrity: sha512-7LwNEBJH5EFvkD0vm7RdKWDZsFP9CYR4AWN2fMwns/ezexoX3+UNoVOWGRPJf1qsj357SESldrNEueFvUDfZxA==}
+  /drizzle-orm@0.28.4(@planetscale/database@1.11.0):
+    resolution: {integrity: sha512-BEATAB0g0Y8PKbJHkHLLENlX2DXktO5XyeNyrXB6ktcNkg3dlMfePwB3LodBJkPY6d7GixFF+jvtdZsWjakJBQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
