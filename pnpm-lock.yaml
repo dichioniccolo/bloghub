@@ -231,8 +231,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(encoding@0.1.13)
       ai:
-        specifier: ^2.2.8
-        version: 2.2.8(encoding@0.1.13)(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4)
+        specifier: ^2.2.9
+        version: 2.2.9(encoding@0.1.13)(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -6031,8 +6031,8 @@ packages:
       indent-string: 4.0.0
     dev: false
 
-  /ai@2.2.8(encoding@0.1.13)(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4):
-    resolution: {integrity: sha512-DzMqqXnKqcVlngznYwfyU/Z8ljpiaXCXlKVhkEVOkEpVEHN8K9eWgldhG7IavyFQjEpC+R2rnkXLEsrxV+yXcw==}
+  /ai@2.2.9(encoding@0.1.13)(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4):
+    resolution: {integrity: sha512-Z6xN0rNiONWRggmSy6BVNiF4sH1MNcqltvBLML7qEjLN+qMO2lXhMHZRpc6ByVAd1nKMGyol0W2QWZP/qKbIoQ==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
@@ -6051,7 +6051,7 @@ packages:
     dependencies:
       eventsource-parser: 1.0.0
       nanoid: 3.3.6
-      openai: 4.0.0(encoding@0.1.13)
+      openai: 4.2.0(encoding@0.1.13)
       react: 18.2.0
       solid-js: 1.7.11
       solid-swr-store: 0.10.7(solid-js@1.7.11)(swr-store@0.10.6)
@@ -10081,8 +10081,8 @@ packages:
     engines: {node: '>=18'}
     dev: false
 
-  /openai@4.0.0(encoding@0.1.13):
-    resolution: {integrity: sha512-UHv70gIw20pxu9tiUueE9iS+4U4eTGiTgQr+zlJ5aX4oj6LUUp+7mBn0xAqilawftwUB/biohPth2vcZFmoNYw==}
+  /openai@4.2.0(encoding@0.1.13):
+    resolution: {integrity: sha512-zfvpO2eITIxIjTG8T6Cek7NB2dMvP/LW0TRUJ4P9E8+qbBNKw00DrtfF64b+fAV2+wUYCVyynT6iSycJ//TtbA==}
     hasBin: true
     dependencies:
       '@types/node': 18.17.8
