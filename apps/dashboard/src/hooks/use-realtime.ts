@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import type { AppNotification } from "@acme/notifications";
-import { pusherClient } from "@acme/pusher/client";
+import { pusherClient } from "@acme/pusher";
 
 export function useRealtimeNotification(
   channel: string,

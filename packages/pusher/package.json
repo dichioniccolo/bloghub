@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "exports": {
+    ".": "./src/client.ts",
     "./env": "./src/env.mjs",
-    "./client": "./src/client.ts",
     "./server": "./src/server.ts"
   },
   "typesVersions": {
