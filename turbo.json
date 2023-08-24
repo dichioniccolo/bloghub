@@ -15,8 +15,7 @@
     },
     "build": {
       "dependsOn": [
-        "^build",
-        "^db:generate"
+        "^build"
       ],
       "outputs": [
         ".next/**",
