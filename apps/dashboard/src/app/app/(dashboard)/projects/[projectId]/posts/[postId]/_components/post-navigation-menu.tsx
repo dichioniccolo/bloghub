@@ -49,7 +49,7 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* <NavigationMenuItem>
           <Link
             href={AppRoutes.PostStats(projectId, postId)}
             legacyBehavior
@@ -62,7 +62,7 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
               Stats
             </NavigationMenuLink>
           </Link>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );

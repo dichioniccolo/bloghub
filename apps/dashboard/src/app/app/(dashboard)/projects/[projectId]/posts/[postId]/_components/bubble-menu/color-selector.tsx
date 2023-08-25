@@ -1,4 +1,5 @@
 import type { Dispatch, FC, SetStateAction } from "react";
+import * as Popover from "@radix-ui/react-popover";
 import type { Editor } from "@tiptap/core";
 import { Check, ChevronDown } from "lucide-react";
 
@@ -107,26 +108,25 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
   );
 
   return (
-    <div className="relative h-full">
-      <button
-        className="flex h-full items-center gap-1 p-2 text-sm font-medium hover:bg-muted active:bg-muted"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span
-          className="rounded-sm px-1"
-          style={{
-            color: activeColorItem?.color,
-            backgroundColor: activeHighlightItem?.color,
-          }}
+    <Popover.Root open={isOpen}>
+      <div className="relative h-full">
+        <Popover.Trigger
+          className="flex h-full items-center gap-1 p-2 text-sm font-medium hover:bg-muted active:bg-muted"
+          onClick={() => setIsOpen(!isOpen)}
         >
-          A
-        </span>
+          <span
+            className="rounded-sm px-1"
+            style={{
+              color: activeColorItem?.color,
+              backgroundColor: activeHighlightItem?.color,
+            }}
+          >
+            A
+          </span>
 
-        <ChevronDown className="h-4 w-4" />
-      </button>
-
-      {isOpen && (
-        <section className="fixed right-0 top-full z-[99999] mt-1 flex w-auto divide-x overflow-hidden rounded border bg-background p-1 shadow-xl animate-in fade-in slide-in-from-top-1 sm:right-auto">
+          <ChevronDown className="h-4 w-4" />
+        </Popover.Trigger>
+        <Popover.Content className="z-[99999] mt-1 flex h-80 max-w-[18rem] divide-x overflow-hidden rounded border bg-background p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
           <div className="pr-2">
             <div className="px-2 text-sm text-muted-foreground">Color</div>
             {TEXT_COLORS.map(({ name, color }, index) => (
@@ -188,8 +188,8 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
               </Button>
             ))}
           </div>
-        </section>
-      )}
-    </div>
+        </Popover.Content>
+      </div>
+    </Popover.Root>
   );
 };
