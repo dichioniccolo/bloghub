@@ -81,7 +81,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   // otherwise, we want to record the referer domain
   const refererDomain = referer
     ? new URL(referer).hostname === domain
-      ? "self"
+      ? "SELF"
       : new URL(referer).hostname
     : null;
 
