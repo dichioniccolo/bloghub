@@ -75,10 +75,20 @@ export async function recordVisit(req: NextRequest, domain: string) {
     return;
   }
 
+  const referer = req.headers.get("referer");
+
+  // if the referer domain is the same as the current domain, we want to record "self"
+  // otherwise, we want to record the referer domain
+  const refererDomain = referer
+    ? new URL(referer).hostname === domain
+      ? "self"
+      : new URL(referer).hostname
+    : null;
+
   await db.insert(visits).values({
     projectId: project.id,
     postId: post.id,
-    referer: req.headers.get("referer"),
+    referer: refererDomain,
     browserName: ua.browser.name,
     browserVersion: ua.browser.version,
     osName: ua.os.name,
