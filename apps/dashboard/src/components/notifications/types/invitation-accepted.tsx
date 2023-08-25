@@ -19,13 +19,13 @@ export function InvitationAccepted({ notification }: Props) {
       notification={notification}
       icon={<UserCheck2 className="h-6 w-6" />}
     >
-      <div className="flex flex-col">
-        <div className="text-sm">
+      <div className="flex flex-col items-start">
+        <div className="text-left text-sm">
           The user{" "}
           <span className="font-bold">{notification.data.userEmail}</span>{" "}
           accepted to join the project {notification.data.projectName}
         </div>
-        <span className="text-xs">
+        <span className="text-xs text-muted-foreground">
           {formatDistanceToNow(new Date(notification.createdAt))} ago
         </span>
       </div>

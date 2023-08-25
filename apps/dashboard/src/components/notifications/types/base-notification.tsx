@@ -69,14 +69,14 @@ export function BaseNotification({
     <button
       type="button"
       className={cn(
-        "group relative flex h-20 cursor-pointer gap-2 px-2 hover:bg-primary-foreground/90",
+        "group relative flex h-20 w-full cursor-pointer items-center gap-2 hover:bg-primary-foreground/90",
         className,
       )}
       onClick={onInteract}
     >
-      <div className="flex w-12 items-center justify-center">{icon}</div>
-      <div className="flex flex-1 items-center">{children}</div>
-      <div className="invisible flex items-center justify-center transition-all group-hover:visible">
+      <div className="flex h-full w-12 items-center justify-center">{icon}</div>
+      <div className="flex flex-1">{children}</div>
+      <div className="invisible flex w-12 items-center justify-center transition-all group-hover:visible">
         <Button onClick={onArchive} variant="secondary" size="xs">
           <Archive className="h-4 w-4" />
         </Button>

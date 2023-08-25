@@ -24,12 +24,12 @@ export function ProjectInvitationNotification({ notification }: Props) {
       <Link
         href={AppRoutes.ProjectAcceptInvitation(notification.data.projectId)}
       >
-        <div className="flex flex-col">
-          <div className="text-sm">
+        <div className="flex flex-col items-start">
+          <div className="text-left text-sm">
             You were invited you to join the project{" "}
             <span className="font-bold">{notification.data.projectName}</span>
           </div>
-          <span className="text-xs">
+          <span className="text-xs text-muted-foreground">
             {formatDistanceToNow(new Date(notification.createdAt))} ago
           </span>
         </div>
