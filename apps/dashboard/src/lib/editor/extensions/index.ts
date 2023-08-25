@@ -7,6 +7,7 @@ import TiptapLink from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
+import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import TiptapUnderline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
@@ -126,5 +127,8 @@ export const TiptapExtensions = [
   Markdown.configure({
     html: false,
     transformCopiedText: true,
+  }),
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
   }),
 ];
