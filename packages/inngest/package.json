@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@acme/notifications": "^0.1.0",
-    "inngest": "^2.5.2"
+    "inngest": "^2.6.0"
   },
   "devDependencies": {
     "@acme/eslint-config": "0.2.0",
