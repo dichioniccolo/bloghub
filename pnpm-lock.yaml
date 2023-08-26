@@ -486,11 +486,11 @@ importers:
   packages/files:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: ^3.398.0
-        version: 3.398.0(@aws-sdk/signature-v4-crt@3.398.0)(aws-crt@1.18.0)
+        specifier: ^3.400.0
+        version: 3.400.0(@aws-sdk/signature-v4-crt@3.398.0)(aws-crt@1.18.0)
       '@aws-sdk/s3-request-presigner':
-        specifier: ^3.398.0
-        version: 3.398.0(@aws-sdk/signature-v4-crt@3.398.0)
+        specifier: ^3.400.0
+        version: 3.400.0(@aws-sdk/signature-v4-crt@3.398.0)
       '@aws-sdk/signature-v4-crt':
         specifier: ^3.398.0
         version: 3.398.0
@@ -854,8 +854,8 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@aws-sdk/client-s3@3.398.0(@aws-sdk/signature-v4-crt@3.398.0)(aws-crt@1.18.0):
-    resolution: {integrity: sha512-inuMB8Hu7X+ZI6AwirYfQoc5rUs3Es0DGSU90j/GSR5ZIe7umChmSTiJtfDlfj64EHOrmOXOQ6QzTf25EZaiHw==}
+  /@aws-sdk/client-s3@3.400.0(@aws-sdk/signature-v4-crt@3.398.0)(aws-crt@1.18.0):
+    resolution: {integrity: sha512-lnv0pb79Czl8fCMs/z7yM56LvoKTri1I4jX/V33trHMFKPQDoy8i24wxG8+TZl3MUmnUyoQS7tlukh7IFkii1Q==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha1-browser': 3.0.0
@@ -865,7 +865,7 @@ packages:
       '@aws-sdk/credential-provider-node': 3.398.0(aws-crt@1.18.0)
       '@aws-sdk/middleware-bucket-endpoint': 3.398.0
       '@aws-sdk/middleware-expect-continue': 3.398.0
-      '@aws-sdk/middleware-flexible-checksums': 3.398.0
+      '@aws-sdk/middleware-flexible-checksums': 3.400.0
       '@aws-sdk/middleware-host-header': 3.398.0
       '@aws-sdk/middleware-location-constraint': 3.398.0
       '@aws-sdk/middleware-logger': 3.398.0
@@ -1108,8 +1108,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/middleware-flexible-checksums@3.398.0:
-    resolution: {integrity: sha512-tuUPJEC8hUEhNmJvzk3S8/7Tdm+tsupaQkdOPHEYS1sB0J/lU8jfb8QbzEmZQoXpbfZKo9CQdY0q50nH3/yenw==}
+  /@aws-sdk/middleware-flexible-checksums@3.400.0:
+    resolution: {integrity: sha512-lpsumd5/G+eAMTr61h/cJQZ8+i+xzC6OG3bvUcbRHqcjN49XgeNLcPfYcr6Rzf0QHxmuCN4te/4XGU3Fif2YVA==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/crc32': 3.0.0
@@ -1214,8 +1214,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws-sdk/s3-request-presigner@3.398.0(@aws-sdk/signature-v4-crt@3.398.0):
-    resolution: {integrity: sha512-vYDdEbhelOj1KOWLuW1eN/eW2CCZ1JyqbDINaC2gSTIgEdR0x+Rgw6wSTUmPemB5v7LZxGUSkvS1c1LzjuizGw==}
+  /@aws-sdk/s3-request-presigner@3.400.0(@aws-sdk/signature-v4-crt@3.398.0):
+    resolution: {integrity: sha512-6XFzm+sXBy85VKkd9GjGUAHtyfmfCcznvdohQ/1eqqYHWUQrTN4w0hGSWRhu4w7u4mpwoJhR71UF864iWvoCaQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/signature-v4-multi-region': 3.398.0(@aws-sdk/signature-v4-crt@3.398.0)
