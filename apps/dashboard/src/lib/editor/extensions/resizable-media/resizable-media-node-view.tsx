@@ -1,5 +1,4 @@
 import * as React from "react";
-import Image from "next/image";
 import type { NodeViewProps } from "@tiptap/react";
 import { NodeViewWrapper } from "@tiptap/react";
 import { AlignCenter, AlignLeft, AlignRight, Trash2 } from "lucide-react";
@@ -214,7 +213,7 @@ export const ResizableMediaNodeView = ({
     >
       <div className="group relative flex w-fit transition-all ease-in-out">
         {node.attrs["media-type"] === "img" && (
-          <Image
+          <img
             ref={resizableMediaRef as React.RefObject<HTMLImageElement>}
             src={node.attrs.src}
             className="rounded-lg"

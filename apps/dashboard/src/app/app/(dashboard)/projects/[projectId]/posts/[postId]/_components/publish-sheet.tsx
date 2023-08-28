@@ -99,7 +99,7 @@ export function PublishSheet({ post }: Props) {
     formData.append("type", determineMediaType(file)?.toString() ?? "");
     formData.append("projectId", post.projectId);
     formData.append("postId", post.id);
-    formData.append("forEntity", "2"); // MediaForEntity.PostContent
+    formData.append("forEntity", "2"); // MediaForEntity.PostThumbnail
 
     const media = await createProjectMedia(formData);
 
