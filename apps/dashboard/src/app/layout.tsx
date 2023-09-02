@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from "react";
 
 import "~/styles/globals.css";
-import "~/styles/tiptap.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Construction } from "lucide-react";
@@ -17,7 +16,7 @@ import { Providers } from "./providers";
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head />
       <body className={cn(fontMapper["font-sans"], "font-sans")}>
         <Providers>{children}</Providers>
