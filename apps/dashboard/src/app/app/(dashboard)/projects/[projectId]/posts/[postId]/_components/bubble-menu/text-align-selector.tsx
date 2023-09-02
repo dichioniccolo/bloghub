@@ -19,14 +19,14 @@ interface TextAlignSelectorProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function TextAlignSelector({
+export function TextAlighSelector({
   editor,
   isOpen,
   setIsOpen,
 }: TextAlignSelectorProps) {
   const items: BubbleMenuItem[] = [
     {
-      name: "Align Left",
+      name: "Aligh Left",
       icon: AlignLeft,
       command: () => editor.chain().focus().setTextAlign("left").run(),
       isActive: () => editor.isActive({ textAlign: "left" }),

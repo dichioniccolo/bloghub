@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Editor } from "@tiptap/core";
 import type { BubbleMenuProps } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react";
@@ -14,7 +14,7 @@ import { cn } from "~/lib/cn";
 import { ColorSelector } from "./color-selector";
 import { LinkSelector } from "./link-selector";
 import { NodeSelector } from "./node-selector";
-import { TextAlignSelector } from "./text-align-selector";
+import { TextAlighSelector } from "./text-align-selector";
 
 export interface BubbleMenuItem {
   name: string;
@@ -61,15 +61,15 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
     },
   ];
 
+  const shouldMenuShow = useMemo(() => {
+    return !editor.isActive("resizableMedia") && !editor.isActive("image");
+  }, [editor]);
+
   const bubbleMenuProps: EditorBubbleMenuProps = {
     ...props,
     editor,
-    shouldShow: ({ state, view, editor }) => {
-      const { selection } = state;
-      const { empty } = selection;
-      const hasEditorFocus = view.hasFocus();
-
-      if (!!editor.isActive("resizableMedia") && !editor.isActive("image")) {
+    shouldShow: ({ editor }) => {
+      if (!shouldMenuShow) {
         return false;
       }
 
@@ -80,7 +80,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
       onHidden: () => {
         // setIsAISelectorOpen(false);
         setIsNodeSelectorOpen(false);
-        setIsTextAlignSelectorOpen(false);
+        setIsTextAlighSelectorOpen(false);
         setIsLinkSelectorOpen(false);
         setIsColorSelectorOpen(false);
       },
@@ -89,7 +89,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
 
   // const [_isAISelectorOpen, setIsAISelectorOpen] = useState(false);
   const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
-  const [isTextAlignSelectorOpen, setIsTextAlignSelectorOpen] = useState(false);
+  const [isTextAlighSelectorOpen, setIsTextAlighSelectorOpen] = useState(false);
   const [isLinkSelectorOpen, setIsLinkSelectorOpen] = useState(false);
   const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
 
@@ -107,7 +107,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
         setIsOpen={() => {
           setIsAISelectorOpen(!isAISelectorOpen);
           setIsNodeSelectorOpen(false)
-          setIsTextAlignSelectorOpen(false);
+          setIsTextAlighSelectorOpen(false);
           setIsLinkSelectorOpen(false);
           setIsColorSelectorOpen(false);
         }}
@@ -118,7 +118,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
         setIsOpen={() => {
           // setIsAISelectorOpen(false);
           setIsNodeSelectorOpen(!isNodeSelectorOpen);
-          setIsTextAlignSelectorOpen(false);
+          setIsTextAlighSelectorOpen(false);
           setIsLinkSelectorOpen(false);
           setIsColorSelectorOpen(false);
         }}
@@ -126,13 +126,13 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
 
       {!isCodeActive && !isCodeBlockAcive && (
         <>
-          <TextAlignSelector
+          <TextAlighSelector
             editor={editor}
-            isOpen={isTextAlignSelectorOpen}
+            isOpen={isTextAlighSelectorOpen}
             setIsOpen={() => {
               // setIsAISelectorOpen(false);
               setIsNodeSelectorOpen(false);
-              setIsTextAlignSelectorOpen(!isTextAlignSelectorOpen);
+              setIsTextAlighSelectorOpen(!isTextAlighSelectorOpen);
               setIsLinkSelectorOpen(false);
               setIsColorSelectorOpen(false);
             }}
@@ -144,7 +144,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
             setIsOpen={() => {
               // setIsAISelectorOpen(false);
               setIsNodeSelectorOpen(false);
-              setIsTextAlignSelectorOpen(false);
+              setIsTextAlighSelectorOpen(false);
               setIsLinkSelectorOpen(!isLinkSelectorOpen);
               setIsColorSelectorOpen(false);
             }}
@@ -170,7 +170,7 @@ export function EditorBubbleMenu({ editor, ...props }: EditorBubbleMenuProps) {
             setIsOpen={() => {
               // setIsAISelectorOpen(false);
               setIsNodeSelectorOpen(false);
-              setIsTextAlignSelectorOpen(false);
+              setIsTextAlighSelectorOpen(false);
               setIsLinkSelectorOpen(false);
               setIsColorSelectorOpen(!isColorSelectorOpen);
             }}
