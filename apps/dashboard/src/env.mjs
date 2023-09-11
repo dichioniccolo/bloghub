@@ -7,6 +7,7 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
+    LIVEBLOCKS_API_KEY: z.string().min(1),
     ADMIN_EMAIL: z.string().email(),
     STRIPE_API_KEY: z.string().min(1),
     DO_CDN_URL: z.string().min(1),
@@ -35,11 +36,15 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
     NEXT_PUBLIC_APP_DESCRIPTION: z.string().min(1),
     NEXT_PUBLIC_APP_DOMAIN: z.string().min(1),
+    NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY: z.string().min(1),
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
+    LIVEBLOCKS_API_KEY: process.env.LIVEBLOCKS_API_KEY,
+    NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY:
+      process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY,
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_PUBLIC_APP_DESCRIPTION: process.env.NEXT_PUBLIC_APP_DESCRIPTION,

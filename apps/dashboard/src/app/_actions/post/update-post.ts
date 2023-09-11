@@ -1,12 +1,13 @@
 "use server";
 
-import type { JSONContent } from "@tiptap/core";
 import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
+import { getRoomContent } from "~/lib/liveblocks/actions/get-room-content";
+import { getRoom } from "~/lib/utils";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePost = zactAuthenticated(
@@ -25,7 +26,7 @@ export const updatePost = zactAuthenticated(
         body: z.object({
           title: z.string(),
           description: z.string().optional().nullable(),
-          content: z.string(),
+          // content: z.string(),
         }),
       })
       .superRefine(async ({ postId, projectId }, ctx) => {
@@ -57,13 +58,18 @@ export const updatePost = zactAuthenticated(
           });
         }
       }),
-)(async ({ postId, body: { title, description, content } }) => {
+)(async ({ projectId, postId, body: { title, description } }) => {
+  const content = await getRoomContent({
+    roomId: getRoom(projectId, postId),
+  });
+
   await db
     .update(posts)
     .set({
       title,
       description,
-      content: JSON.parse(content) as JSONContent,
+      content: content.data,
+      version: 2,
     })
     .where(eq(posts.id, postId));
 
