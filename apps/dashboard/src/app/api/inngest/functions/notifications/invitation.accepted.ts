@@ -55,7 +55,7 @@ export const invitationAcceptedNotification = inngest.createFunction(
     const email = step.run("Send Email", async () => {
       await sendMail({
         type: EmailNotificationSetting.Social,
-        to: event.data.userEmail,
+        to: project.owner.email,
         subject: "A user has accepted the project invitation",
         react: ProjectInviteAccepted({
           siteName: env.NEXT_PUBLIC_APP_NAME,
