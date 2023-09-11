@@ -3,6 +3,7 @@
 import { z } from "zod";
 
 import { and, db, eq, genId, posts, projectMembers } from "@acme/db";
+import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
 import { zactAuthenticated } from "~/lib/zact/server";
@@ -52,13 +53,23 @@ export const createPost = zactAuthenticated(
     content: {},
   });
 
-  return await db
+  const post = await db
     .select({
       id: posts.id,
     })
     .from(posts)
     .where(eq(posts.id, id))
     .then((x) => x[0]!);
+
+  await inngest.send({
+    name: "post/create",
+    data: {
+      projectId,
+      postId: post.id,
+    },
+  });
+
+  return post;
 
   // TODO: implement when fixed
   // redirect(AppRoutes.PostEditor(projectId, post.id));

@@ -96,7 +96,8 @@ const config = {
     "@acme/notifications",
     "@acme/pusher",
     "@acme/stripe",
-    "@acme/vercel"
+    "@acme/vercel",
+    "@slate-yjs/react",
   ],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
