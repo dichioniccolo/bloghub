@@ -1,9 +1,9 @@
 import { mergeAttributes, Node, nodeInputRule } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
+import type { UploadFunctionType } from "./media-paste-drop-plugin";
+import { getMediaPasteDropPlugin } from "./media-paste-drop-plugin";
 import { ResizableMediaNodeView } from "./resizable-media-node-view";
-import type { UploadFunctionType } from "./upload-image-plugin";
-import { UploadImagesPlugin } from "./upload-image-plugin";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -86,13 +86,13 @@ export const ResizableMedia = Node.create<MediaOptions>({
           "media-type": "img",
         }),
       },
-      // {
-      //   tag: "video",
-      //   getAttrs: (el) => ({
-      //     src: (el as HTMLVideoElement).getAttribute("src"),
-      //     "media-type": "video",
-      //   }),
-      // },
+      {
+        tag: "video",
+        getAttrs: (el) => ({
+          src: (el as HTMLVideoElement).getAttribute("src"),
+          "media-type": "video",
+        }),
+      },
     ];
   },
 
@@ -106,13 +106,13 @@ export const ResizableMedia = Node.create<MediaOptions>({
       ];
     }
 
-    // if (mediaType === "video") {
-    //   return [
-    //     "video",
-    //     { controls: "true", style: "width: 100%", ...HTMLAttributes },
-    //     ["source", HTMLAttributes],
-    //   ];
-    // }
+    if (mediaType === "video") {
+      return [
+        "video",
+        { controls: "true", style: "width: 100%", ...HTMLAttributes },
+        ["source", HTMLAttributes],
+      ];
+    }
 
     if (!mediaType)
       console.error(
@@ -138,15 +138,15 @@ export const ResizableMedia = Node.create<MediaOptions>({
               attrs: options,
             });
           }
-          // if (mediaType === "video") {
-          //   return commands.insertContent({
-          //     type: this.name,
-          //     attrs: {
-          //       ...options,
-          //       controls: "true",
-          //     },
-          //   });
-          // }
+          if (mediaType === "video") {
+            return commands.insertContent({
+              type: this.name,
+              attrs: {
+                ...options,
+                controls: "true",
+              },
+            });
+          }
 
           if (!mediaType)
             console.error(
@@ -181,18 +181,18 @@ export const ResizableMedia = Node.create<MediaOptions>({
           };
         },
       }),
-      // nodeInputRule({
-      //   find: VIDEO_INPUT_REGEX,
-      //   type: this.type,
-      //   getAttributes: (match) => {
-      //     const [, , src] = match;
+      nodeInputRule({
+        find: VIDEO_INPUT_REGEX,
+        type: this.type,
+        getAttributes: (match) => {
+          const [, , src] = match;
 
-      //     return {
-      //       src,
-      //       "media-type": "video",
-      //     };
-      //   },
-      // }),
+          return {
+            src,
+            "media-type": "video",
+          };
+        },
+      }),
     ];
   },
 });
@@ -204,6 +204,6 @@ export interface MediaWithUploaderOptions {
 export const ResizableMediaWithUploader =
   ResizableMedia.extend<MediaWithUploaderOptions>({
     addProseMirrorPlugins() {
-      return [UploadImagesPlugin(this.options.uploadFn)];
+      return [getMediaPasteDropPlugin(this.options.uploadFn)];
     },
   });
