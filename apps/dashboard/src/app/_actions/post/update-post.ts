@@ -1,7 +1,5 @@
 "use server";
 
-import { yDocToProsemirrorJSON } from "y-prosemirror";
-import * as Y from "yjs";
 import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
@@ -61,24 +59,16 @@ export const updatePost = zactAuthenticated(
         }
       }),
 )(async ({ projectId, postId, body: { title, description } }) => {
-  // TODO: ideally this would need to be done through a webhook from
-  // the provider that stores the ydoc, but for now we'll just fetch it
-  const roomContent = await getRoomContent({
+  const content = await getRoomContent({
     roomId: getRoom(projectId, postId),
   });
-
-  const x = new Y.Doc();
-  const arr = new Uint8Array(await roomContent.data!.arrayBuffer());
-  Y.applyUpdate(x, arr);
-
-  const content = yDocToProsemirrorJSON(x, "default");
 
   await db
     .update(posts)
     .set({
       title,
       description,
-      content,
+      content: content.data,
       version: 2,
     })
     .where(eq(posts.id, postId));

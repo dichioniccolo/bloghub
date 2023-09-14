@@ -1,5 +1,7 @@
 import type { Editor } from "@tiptap/core";
 
+export * from "./extensions";
+
 export const getPrevText = (
   editor: Editor,
   { chars, offset = 0 }: { chars: number; offset?: number },

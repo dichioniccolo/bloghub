@@ -209,8 +209,7 @@ export const posts = mysqlTable(
     projectId: varchar("projectId", { length: 255 }).notNull(),
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    content: json("content").$type<any>().notNull(),
+    content: json("content").$type<unknown>().notNull(),
     thumbnailUrl: text("thumbnailUrl"),
     slug: varchar("slug", { length: 255 }).notNull(),
     hidden: boolean("hidden").notNull().default(true),

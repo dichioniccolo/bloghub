@@ -8,10 +8,6 @@ export const liveblocks = new Liveblocks({
   secret: env.LIVEBLOCKS_API_KEY,
 });
 
-interface ResponseOptions {
-  type: "json" | "blob" | "text";
-}
-
 /**
  * Fetch Liveblocks API
  *
@@ -25,9 +21,6 @@ interface ResponseOptions {
 export async function fetchLiveblocksApi<T = unknown>(
   urlEnd: string,
   fetchOptions?: RequestInit,
-  responseOptions: ResponseOptions = {
-    type: "json",
-  },
 ): Promise<FetchApiResult<T>> {
   const url = `${LIVEBLOCKS_API_URL}${urlEnd}`;
 
@@ -40,13 +33,10 @@ export async function fetchLiveblocksApi<T = unknown>(
     });
 
     let body;
-    if (responseOptions.type === "json") {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    try {
       body = await response.json();
-    } else if (responseOptions.type === "blob") {
-      body = await response.blob();
-    } else if (responseOptions.type === "text") {
-      body = await response.text();
+    } catch {
+      body = {};
     }
 
     if (!response.ok) {

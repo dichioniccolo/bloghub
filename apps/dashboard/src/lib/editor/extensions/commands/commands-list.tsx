@@ -11,7 +11,7 @@ import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { getPrevText } from "../../../lib/editor";
+import { getPrevText } from "../..";
 import type { CommandItemProps } from "./items";
 
 interface Props {
