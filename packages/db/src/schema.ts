@@ -216,8 +216,6 @@ export const posts = mysqlTable(
     hidden: boolean("hidden").notNull().default(true),
     seoTitle: varchar("seoTitle", { length: 255 }),
     seoDescription: varchar("seoDescription", { length: 255 }),
-    // TODO: Remove
-    version: int("version").notNull().default(1),
     createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP(3)`),

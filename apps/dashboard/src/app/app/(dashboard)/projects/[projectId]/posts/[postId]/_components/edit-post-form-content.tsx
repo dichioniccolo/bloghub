@@ -132,7 +132,6 @@ export function EditPostFormContent({
       </Form>
       <Room roomId={getRoom(post.projectId, post.id)}>
         <CollaborativeEditor
-          initialContent={post.version === 1 ? post.content : undefined}
           extensions={[
             SlashCommand,
             ResizableMediaWithUploader.configure({
