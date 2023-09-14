@@ -2,7 +2,7 @@ import LiveblocksProvider from "@liveblocks/yjs";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Placeholder from "@tiptap/extension-placeholder";
-import type { Extensions } from "@tiptap/react";
+import type { Content, Extensions } from "@tiptap/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import "highlight.js/styles/github-dark.css";
@@ -117,18 +117,12 @@ function TiptapEditor({
         user: userInfo,
       }),
     ],
+    content: initialContent as Content | undefined,
     autofocus: "end",
     onUpdate: () => {
       debouncedUpdates();
     },
   });
-
-  useEffect(() => {
-    if (initialContent) {
-      editor?.commands.setContent(initialContent);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const prev = useRef("");
 
