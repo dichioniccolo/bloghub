@@ -3,10 +3,7 @@
 import { useCallback } from "react";
 
 import { updatePost } from "~/app/_actions/post/update-post";
-import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import type { GetPost } from "~/app/_api/posts";
-import { CollaborativeEditor } from "~/components/collaborative-editor";
-import { Room } from "~/components/liveblocks/room";
 import {
   FormControl,
   FormField,
@@ -16,11 +13,11 @@ import {
 import { TextareaAutosize } from "~/components/ui/textarea-autosize";
 import { AutoSave, Form } from "~/components/ui/zod-form";
 import { useZodForm } from "~/hooks/use-zod-form";
-import { ResizableMediaWithUploader } from "~/lib/editor/extensions/resizable-media";
-import { cn, determineMediaType, getRoom } from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
+import { Editor } from "./editor";
 
 interface Props {
   preview: boolean;
@@ -39,7 +36,7 @@ export function EditPostFormContent({
   });
 
   const onSubmit = useCallback(
-    async ({ title, description }: EditPostSchemaType) => {
+    async ({ title, description, content }: EditPostSchemaType) => {
       formStatusChanged("saving");
       await mutate({
         projectId: post.projectId,
@@ -47,6 +44,7 @@ export function EditPostFormContent({
         body: {
           title,
           description,
+          content: JSON.stringify(content),
         },
       });
     },
@@ -56,6 +54,7 @@ export function EditPostFormContent({
   const initialValues = {
     title: post.title ?? "",
     description: post.description ?? "",
+    content: post.content ?? {},
   };
 
   const form = useZodForm({
@@ -63,82 +62,71 @@ export function EditPostFormContent({
     defaultValues: initialValues,
   });
 
-  const uploadFile = useCallback(
-    async (file: File) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("type", determineMediaType(file)?.toString() ?? "");
-      formData.append("projectId", post.projectId);
-      formData.append("postId", post.id);
-      formData.append("forEntity", "1"); // MediaForEntity.PostContent
-
-      const media = await createProjectMedia(formData);
-
-      return media.url;
-    },
-    [post],
-  );
-
   return (
-    <>
-      <Form
-        form={form}
+    <Form
+      form={form}
+      onSubmit={onSubmit}
+      className={cn("grid grid-cols-1 gap-2", {
+        hidden: preview,
+      })}
+      disableOnSubmitting={false}
+    >
+      <AutoSave
         onSubmit={onSubmit}
-        className={cn("grid grid-cols-1 gap-2", {
-          hidden: preview,
-        })}
-        disableOnSubmitting={false}
-      >
-        <AutoSave
-          onSubmit={onSubmit}
-          initialValues={initialValues}
-          delay={2500}
-        />
-        <FormField
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <TextareaAutosize
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="What's the title?"
-                  className="resize-none rounded-none border-none px-0 py-4 text-4xl focus:ring-0 focus-visible:ring-0"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <TextareaAutosize
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="What's the description?"
-                  className="resize-none rounded-none border-none px-0 py-4 text-2xl focus:ring-0 focus-visible:ring-0"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </Form>
-      <Room roomId={getRoom(post.projectId, post.id)}>
-        <CollaborativeEditor
-          initialContent={post.version === 1 ? post.content : undefined}
-          extensions={[
-            ResizableMediaWithUploader.configure({
-              uploadFn: uploadFile,
-            }),
-          ]}
-        />
-      </Room>
-    </>
+        initialValues={initialValues}
+        delay={2500}
+      />
+      <FormField
+        name="title"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <TextareaAutosize
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                value={field.value}
+                onChange={field.onChange}
+                placeholder="What's the title?"
+                className="resize-none rounded-none border-none px-0 py-4 text-4xl focus:ring-0 focus-visible:ring-0"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <TextareaAutosize
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                value={field.value}
+                onChange={field.onChange}
+                placeholder="What's the description?"
+                className="resize-none rounded-none border-none px-0 py-4 text-2xl focus:ring-0 focus-visible:ring-0"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name="content"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <Editor
+                projectId={post.projectId}
+                postId={post.id}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                value={field.value}
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </Form>
   );
 }

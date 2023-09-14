@@ -58,7 +58,6 @@ export async function getPost(projectId: string, postId: string) {
       thumbnailUrl: posts.thumbnailUrl,
       seoTitle: posts.seoTitle,
       seoDescription: posts.seoDescription,
-      version: posts.version,
       project: {
         name: projects.name,
         domain: projects.domain,
