@@ -66,6 +66,7 @@ export type InviteMemberSchemaType = z.input<typeof InviteMemberSchema>;
 export const EditPostSchema = z.object({
   title: z.string(),
   description: z.string().optional().nullable(),
+  content: z.any(),
 });
 
 export type EditPostSchemaType = z.input<typeof EditPostSchema>;
