@@ -1,36 +1,43 @@
 import LiveblocksProvider from "@liveblocks/yjs";
+import { CharacterCount } from "@tiptap/extension-character-count";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import Color from "@tiptap/extension-color";
+import Highlight from "@tiptap/extension-highlight";
 import Placeholder from "@tiptap/extension-placeholder";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextStyle from "@tiptap/extension-text-style";
+import Underline from "@tiptap/extension-underline";
 import type { Extensions } from "@tiptap/react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 import "highlight.js/styles/github-dark.css";
 
-import { useEffect, useRef, useState } from "react";
-import { useCompletion } from "ai/react";
+import { useEffect, useState } from "react";
 import { useRoom, useSelf } from "liveblocks.config";
-import { toast } from "sonner";
 import * as Y from "yjs";
 
-import { useDebouncedCallback } from "~/hooks/use-debounced-callback";
-import { TiptapEditorProps } from "~/lib/editor/props";
+import { useEditor } from "~/hooks/use-editor";
 import { Avatars } from "../liveblocks/avatars";
 import { CustomBubbleMenu } from "./bubble-menu/custom-bubble-menu";
-import { EditorExtensions } from "./extensions";
+import { CustomCodeBlock } from "./custom-codeblock";
+import { CustomDragAndDrop } from "./custom-drag-and-drop";
+import { CustomHorizontalRule } from "./custom-horizontal-rule";
+import { CustomImage } from "./custom-image";
+import { CustomKeymap } from "./custom-keymap";
+import { CustomLink } from "./custom-link";
+import { CustomTaskItem, CustomTaskList } from "./custom-task-item";
+import { CustomTextAlign } from "./custom-text-align";
 import { WordCount } from "./word-count";
 
 interface Props {
   initialContent?: unknown;
   extensions?: Extensions;
-  onDebouncedUpdate?(): void;
 }
 
-export function CollaborativeEditor({
-  initialContent,
-  extensions,
-  onDebouncedUpdate,
-}: Props) {
+export function CollaborativeEditor({ initialContent, extensions }: Props) {
   const room = useRoom();
   const [doc, setDoc] = useState<Y.Doc>();
   const [provider, setProvider] = useState<unknown>();
@@ -57,7 +64,6 @@ export function CollaborativeEditor({
       provider={provider}
       initialContent={initialContent}
       extensions={extensions}
-      onDebouncedUpdate={onDebouncedUpdate}
     />
   );
 }
@@ -67,43 +73,75 @@ interface EditorProps {
   provider: unknown;
   initialContent?: unknown;
   extensions?: Extensions;
-  onDebouncedUpdate?(): void;
 }
 
 function TiptapEditor({
   doc,
   provider,
   initialContent,
-  extensions: customExtensions,
-  onDebouncedUpdate,
+  extensions,
 }: EditorProps) {
   const userInfo = useSelf((me) => me.info);
 
-  const { completion, isLoading } = useCompletion({
-    id: "editor",
-    api: "/api/generate",
-    onFinish: (_prompt, completion) => {
-      editor?.commands.setTextSelection({
-        from: editor.state.selection.from - completion.length,
-        to: editor.state.selection.from,
-      });
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
-
-  const debouncedUpdates = useDebouncedCallback(() => {
-    onDebouncedUpdate?.();
-  }, 750);
-
   const editor = useEditor({
-    editorProps: TiptapEditorProps,
     extensions: [
-      ...EditorExtensions({
-        openLinkOnClick: true,
+      ...(extensions ?? []),
+      StarterKit.configure({
+        history: false,
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc list-outside leading-3 -mt-2",
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: "list-decimal list-outside leading-3 -mt-2",
+          },
+        },
+        listItem: {
+          HTMLAttributes: {
+            class: "leading-normal -mb-2",
+          },
+        },
+        blockquote: {
+          HTMLAttributes: {
+            class: "border-l-4 border-stone-700",
+          },
+        },
+        codeBlock: false,
+        code: {
+          HTMLAttributes: {
+            class:
+              "rounded-md bg-stone-200 px-1.5 py-1 font-mono font-medium text-black",
+            spellcheck: "false",
+          },
+        },
+        horizontalRule: false,
+        dropcursor: {
+          color: "#DBEAFE",
+          width: 4,
+        },
       }),
-      ...(customExtensions ?? []),
+      CustomHorizontalRule,
+      CharacterCount,
+      CustomTaskList,
+      CustomTaskItem,
+      CustomKeymap,
+      CustomLink.configure({
+        openOnClick: false,
+      }),
+      CustomImage,
+      CustomTextAlign,
+      CustomDragAndDrop,
+      CustomCodeBlock,
+      Underline,
+      TextStyle,
+      Color,
+      Subscript,
+      Superscript,
+      Highlight.configure({
+        multicolor: true,
+      }),
       Placeholder.configure({
         placeholder: () => {
           return "Press '/' for commands...";
@@ -118,9 +156,6 @@ function TiptapEditor({
       }),
     ],
     autofocus: "end",
-    onUpdate: () => {
-      debouncedUpdates();
-    },
   });
 
   useEffect(() => {
@@ -130,21 +165,8 @@ function TiptapEditor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const prev = useRef("");
-
-  // Insert chunks of the generated text
-  useEffect(() => {
-    const diff = completion.slice(prev.current.length);
-    prev.current = completion;
-    editor?.commands.insertContent(diff, {
-      parseOptions: {
-        preserveWhitespace: "full",
-      },
-    });
-  }, [isLoading, editor, completion]);
-
   return (
-    <div className="relative flex h-full w-full flex-col pb-20">
+    <div className="relative flex h-full w-full flex-col rounded-md pb-20">
       <div className="flex items-center justify-between border-b border-border">
         {editor && <WordCount editor={editor} />}
         <Avatars />

@@ -12,7 +12,7 @@ declare module "@tiptap/core" {
        * Set media
        */
       setMedia: (options: {
-        mediaType: "img" | "video";
+        "media-type": "img" | "video";
         src: string;
         alt?: string;
         title?: string;
@@ -54,7 +54,7 @@ export const ResizableMedia = Node.create<MediaOptions>({
       src: {
         default: null,
       },
-      mediaType: {
+      "media-type": {
         default: null,
       },
       alt: {
@@ -83,21 +83,21 @@ export const ResizableMedia = Node.create<MediaOptions>({
         tag: 'img[src]:not([src^="data:"])',
         getAttrs: (el) => ({
           src: (el as HTMLImageElement).getAttribute("src"),
-          mediaType: "img",
+          "media-type": "img",
         }),
       },
       // {
       //   tag: "video",
       //   getAttrs: (el) => ({
       //     src: (el as HTMLVideoElement).getAttribute("src"),
-      //     "mediaType": "video",
+      //     "media-type": "video",
       //   }),
       // },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { mediaType: mediaType } = HTMLAttributes;
+    const { "media-type": mediaType } = HTMLAttributes;
 
     if (mediaType === "img") {
       return [
@@ -130,7 +130,7 @@ export const ResizableMedia = Node.create<MediaOptions>({
       setMedia:
         (options) =>
         ({ commands }) => {
-          const { mediaType: mediaType } = options;
+          const { "media-type": mediaType } = options;
 
           if (mediaType === "img") {
             return commands.insertContent({
@@ -177,7 +177,7 @@ export const ResizableMedia = Node.create<MediaOptions>({
             src,
             alt,
             title,
-            mediaType: "img",
+            "media-type": "img",
           };
         },
       }),
@@ -189,7 +189,7 @@ export const ResizableMedia = Node.create<MediaOptions>({
 
       //     return {
       //       src,
-      //       "mediaType": "video",
+      //       "media-type": "video",
       //     };
       //   },
       // }),

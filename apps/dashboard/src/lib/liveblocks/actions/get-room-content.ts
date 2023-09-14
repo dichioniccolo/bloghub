@@ -7,16 +7,10 @@ interface GetRoomContentRequest {
 
 export async function getRoomContent({
   roomId,
-}: GetRoomContentRequest): Promise<FetchApiResult<Blob>> {
-  const url = `/v2/rooms/${roomId}/ydoc-binary`;
+}: GetRoomContentRequest): Promise<FetchApiResult<unknown>> {
+  const url = `/v2/rooms/${roomId}/ydoc`;
 
-  return fetchLiveblocksApi<Blob>(
-    url,
-    {
-      method: "GET",
-    },
-    {
-      type: "blob",
-    },
-  );
+  return fetchLiveblocksApi<unknown>(url, {
+    method: "GET",
+  });
 }

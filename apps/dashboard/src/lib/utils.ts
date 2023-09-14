@@ -127,8 +127,6 @@ export function determineMediaType(file: File): MediaEnumType | null {
   return null;
 }
 
-export const ROOM_DIVIDER = "-";
-
 export function getRoom(projectId: string, postId: string) {
-  return projectId + ROOM_DIVIDER + postId;
+  return projectId + "/" + postId;
 }

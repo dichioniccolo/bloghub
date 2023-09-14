@@ -3,7 +3,6 @@
 import type { ReactNode } from "react";
 import { ClientSideSuspense } from "@liveblocks/react";
 import { RoomProvider } from "liveblocks.config";
-import { Loader2 } from "lucide-react";
 
 interface Props {
   children: ReactNode;
@@ -18,9 +17,7 @@ export function Room({ children, roomId }: Props) {
         cursor: null,
       }}
     >
-      <ClientSideSuspense
-        fallback={<Loader2 className="h-6 w-6 animate-spin" />}
-      >
+      <ClientSideSuspense fallback={<div>Loading...</div>}>
         {() => children}
       </ClientSideSuspense>
     </RoomProvider>

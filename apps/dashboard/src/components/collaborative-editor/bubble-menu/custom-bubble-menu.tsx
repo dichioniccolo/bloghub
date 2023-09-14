@@ -10,8 +10,6 @@ import {
   Code,
   Italic,
   Strikethrough,
-  Subscript,
-  Superscript,
   Underline,
 } from "lucide-react";
 
@@ -129,30 +127,6 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
       command: () => editor?.chain().focus().toggleStrike().run(),
       icon: (active) => (
         <Strikethrough
-          className={cn("h-4 w-4", {
-            "text-blue-500": active,
-          })}
-        />
-      ),
-    },
-    {
-      name: "subscript",
-      isActive: () => editor?.isActive("subscript") ?? false,
-      command: () => editor?.chain().focus().toggleSubscript().run(),
-      icon: (active) => (
-        <Subscript
-          className={cn("h-4 w-4", {
-            "text-blue-500": active,
-          })}
-        />
-      ),
-    },
-    {
-      name: "superscript",
-      isActive: () => editor?.isActive("superscript") ?? false,
-      command: () => editor?.chain().focus().toggleSuperscript().run(),
-      icon: (active) => (
-        <Superscript
           className={cn("h-4 w-4", {
             "text-blue-500": active,
           })}
