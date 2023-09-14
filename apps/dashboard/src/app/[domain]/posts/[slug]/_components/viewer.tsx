@@ -1,21 +1,27 @@
 "use client";
 
-import type { JSONContent } from "@tiptap/core";
-import { EditorContent } from "@tiptap/react";
+import type { Content } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { Loader2 } from "lucide-react";
 
-import { useEditor } from "~/hooks/use-editor";
-import { TiptapExtensions } from "~/lib/editor";
-import { ResizableMedia } from "~/lib/editor/extensions/resizable-media";
+import { EditorExtensions } from "~/components/collaborative-editor/extensions";
+import { ResizableMedia } from "~/components/collaborative-editor/resizable-media";
+import { TiptapEditorProps } from "~/lib/editor/props";
 
 interface Props {
-  value: JSONContent;
+  value: Content;
 }
 
 export function Viewer({ value }: Props) {
   const editor = useEditor({
     editable: false,
-    extensions: [...TiptapExtensions, ResizableMedia],
+    editorProps: TiptapEditorProps,
+    extensions: [
+      ...EditorExtensions({
+        openLinkOnClick: true,
+      }),
+      ResizableMedia,
+    ],
     content: value,
   });
 

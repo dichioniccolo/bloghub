@@ -6,6 +6,8 @@ import { updatePost } from "~/app/_actions/post/update-post";
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import type { GetPost } from "~/app/_api/posts";
 import { CollaborativeEditor } from "~/components/collaborative-editor";
+import { SlashCommand } from "~/components/collaborative-editor/commands";
+import { ResizableMediaWithUploader } from "~/components/collaborative-editor/resizable-media";
 import { Room } from "~/components/liveblocks/room";
 import {
   FormControl,
@@ -16,7 +18,6 @@ import {
 import { TextareaAutosize } from "~/components/ui/textarea-autosize";
 import { AutoSave, Form } from "~/components/ui/zod-form";
 import { useZodForm } from "~/hooks/use-zod-form";
-import { ResizableMediaWithUploader } from "~/lib/editor/extensions/resizable-media";
 import { cn, determineMediaType, getRoom } from "~/lib/utils";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
@@ -133,10 +134,17 @@ export function EditPostFormContent({
         <CollaborativeEditor
           initialContent={post.version === 1 ? post.content : undefined}
           extensions={[
+            SlashCommand,
             ResizableMediaWithUploader.configure({
               uploadFn: uploadFile,
             }),
           ]}
+          onDebouncedUpdate={async () => {
+            await onSubmit({
+              title: form.getValues("title"),
+              description: form.getValues("description"),
+            });
+          }}
         />
       </Room>
     </>

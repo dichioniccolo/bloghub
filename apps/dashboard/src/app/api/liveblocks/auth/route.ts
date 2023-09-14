@@ -2,7 +2,7 @@ import { and, db, eq, posts, projectMembers } from "@acme/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { liveblocks } from "~/lib/liveblocks";
-import { getDefaultAvatarImage } from "~/lib/utils";
+import { getDefaultAvatarImage, ROOM_DIVIDER } from "~/lib/utils";
 
 function getRandomHexColor(): string {
   const letters = "0123456789ABCDEF";
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   const { room } = (await request.json()) as { room: string };
 
-  const [projectId, postId] = room.split("/") as [string, string];
+  const [projectId, postId] = room.split(ROOM_DIVIDER) as [string, string];
 
   const post = await db
     .select()
