@@ -50,7 +50,9 @@ export const createPost = zactAuthenticated(
     projectId,
     slug,
     title: "",
+    description: "",
     content: {},
+    version: 2,
   });
 
   const post = await db

@@ -1,3 +1,4 @@
+import type { BaseUserMeta } from "@liveblocks/client";
 import { createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
 
@@ -34,8 +35,8 @@ type Storage = {
 // Optionally, UserMeta represents static/readonly metadata on each user, as
 // provided by your own custom auth back end (if used). Useful for data that
 // will not change during a session, like a user's name or avatar.
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-type UserMeta = {
+
+type UserMeta = BaseUserMeta & {
   id: string;
   info: UserInfo;
 };
