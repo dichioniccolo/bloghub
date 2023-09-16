@@ -15,14 +15,16 @@ import {
 } from "lucide-react";
 
 import type { BubbleMenuItem } from ".";
+import { useBubbleMenu } from "./bubble-menu-context";
 
 interface Props {
   editor: Editor;
-  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function NodeBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
+export function NodeBubbleMenuSelector({ editor, setIsOpen }: Props) {
+  const { isNodeSelectorOpen } = useBubbleMenu();
+
   const items: BubbleMenuItem[] = [
     {
       name: "Text",
@@ -115,7 +117,7 @@ export function NodeBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
         <ChevronDown className="h-4 w-4" />
       </button>
 
-      {isOpen && (
+      {isNodeSelectorOpen && (
         <div className="fixed top-full z-[99999] my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
           {items.map((item) => (
             <button

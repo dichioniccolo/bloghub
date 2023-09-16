@@ -4,7 +4,6 @@ import { isTextSelection } from "@tiptap/core";
 import type { EditorState } from "@tiptap/pm/state";
 import type { EditorView } from "@tiptap/pm/view";
 import type { BubbleMenuProps } from "@tiptap/react";
-import { BubbleMenu } from "@tiptap/react";
 import { useCompletion } from "ai/react";
 import { Command as CommandPrimitive } from "cmdk";
 import {
@@ -20,7 +19,8 @@ import { toast } from "sonner";
 import { Command, CommandItem, CommandList } from "~/components/ui/command";
 import { hideOnEsc } from "~/lib/tippy/hide-on-esc";
 import { cn } from "~/lib/utils";
-import { useAiBubbleMenu } from "./ai-bubble-menu-context";
+import { useBubbleMenu } from "../bubble-menu-context";
+import { BubbleMenuView } from "../bubble-menu-view";
 
 type Props = Omit<BubbleMenuProps, "children" | "editor"> & {
   editor: Editor;
@@ -32,7 +32,7 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
   ...props
 }: Props) {
   const { isFixGrammarAndSpellCheckOpen, setIsFixGrammarAndSpellCheckOpen } =
-    useAiBubbleMenu();
+    useBubbleMenu();
 
   const { completion, isLoading, stop } = useCompletion({
     id: "fix_grammar_spelling",
@@ -84,7 +84,7 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
   );
 
   return (
-    <BubbleMenu
+    <BubbleMenuView
       {...props}
       pluginKey="aiFixGrammarAndSpellCheckBubbleMenu"
       editor={editor}
@@ -201,6 +201,6 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
           </CommandList>
         )}
       </Command>
-    </BubbleMenu>
+    </BubbleMenuView>
   );
 }

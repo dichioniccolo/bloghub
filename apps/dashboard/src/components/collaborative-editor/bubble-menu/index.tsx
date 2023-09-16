@@ -1,9 +1,8 @@
-import { useState } from "react";
 import type { Editor } from "@tiptap/core";
 import type { EditorState } from "@tiptap/pm/state";
 import type { EditorView } from "@tiptap/pm/view";
 import type { BubbleMenuProps } from "@tiptap/react";
-import { BubbleMenu, isNodeSelection, isTextSelection } from "@tiptap/react";
+import { isNodeSelection, isTextSelection } from "@tiptap/react";
 import {
   AlignCenter,
   AlignJustify,
@@ -25,7 +24,8 @@ import {
 } from "~/components/ui/tooltip";
 import { hideOnEsc } from "~/lib/tippy/hide-on-esc";
 import { cn } from "~/lib/utils";
-import { useAiBubbleMenu } from "./ai/ai-bubble-menu-context";
+import { useBubbleMenu } from "./bubble-menu-context";
+import { BubbleMenuView } from "./bubble-menu-view";
 import { ColorBubbleMenuSelector } from "./color-bubble-menu-selector";
 import { LinkBubbleMenuSelector } from "./link-bubble-menu-selector";
 import { NodeBubbleMenuSelector } from "./node-bubble-menu-selector";
@@ -43,13 +43,12 @@ export interface BubbleMenuItem {
 
 export function CustomBubbleMenu({ className, editor, ...props }: Props) {
   const {
-    isAiSelectorOpen,
+    setIsNodeSelectorOpen,
+    setIsLinkSelectorOpen,
+    setIsColorSelectorOpen,
     setIsAiSelectorOpen,
     isFixGrammarAndSpellCheckOpen,
-  } = useAiBubbleMenu();
-  const [isNodeSelectorOpen, setIsNodeSelectorOpen] = useState(false);
-  const [isLinkSelectorOpen, setIsLinkSelectorOpen] = useState(false);
-  const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
+  } = useBubbleMenu();
 
   const alignItems: BubbleMenuItem[] = [
     {
@@ -225,9 +224,9 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
   };
 
   return (
-    <BubbleMenu
+    <BubbleMenuView
       {...props}
-      // pluginKey="customBubbleMenu"
+      pluginKey="customBubbleMenu"
       editor={editor}
       shouldShow={shouldShow()}
       tippyOptions={{
@@ -259,7 +258,6 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
         /> */}
         <NodeBubbleMenuSelector
           editor={editor}
-          isOpen={isNodeSelectorOpen}
           setIsOpen={() => {
             setIsAiSelectorOpen(false);
             setIsNodeSelectorOpen((x) => !x);
@@ -269,7 +267,6 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
         />
         <LinkBubbleMenuSelector
           editor={editor}
-          isOpen={isLinkSelectorOpen}
           setIsOpen={() => {
             setIsAiSelectorOpen(false);
             setIsNodeSelectorOpen(false);
@@ -311,7 +308,6 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
         </div>
         <ColorBubbleMenuSelector
           editor={editor}
-          isOpen={isColorSelectorOpen}
           setIsOpen={() => {
             setIsAiSelectorOpen(false);
             setIsNodeSelectorOpen(false);
@@ -320,6 +316,6 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
           }}
         />
       </div>
-    </BubbleMenu>
+    </BubbleMenuView>
   );
 }

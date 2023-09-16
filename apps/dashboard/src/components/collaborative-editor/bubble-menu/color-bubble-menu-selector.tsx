@@ -3,6 +3,8 @@ import { useCallback } from "react";
 import type { Editor } from "@tiptap/core";
 import { Check, ChevronDown } from "lucide-react";
 
+import { useBubbleMenu } from "./bubble-menu-context";
+
 export interface BubbleColorMenuItem {
   name: string;
   color: string;
@@ -10,7 +12,6 @@ export interface BubbleColorMenuItem {
 
 interface Props {
   editor: Editor;
-  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -92,7 +93,9 @@ const HIGHLIGHT_COLORS: BubbleColorMenuItem[] = [
   },
 ];
 
-export function ColorBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
+export function ColorBubbleMenuSelector({ editor, setIsOpen }: Props) {
+  const { isColorSelectorOpen } = useBubbleMenu();
+
   const activeColorItem = TEXT_COLORS.find(({ color }) =>
     editor.isActive("textStyle", { color }),
   );
@@ -116,7 +119,7 @@ export function ColorBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
       <button
         type="button"
         className="flex h-full items-center gap-1 p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(!isColorSelectorOpen)}
       >
         <span
           className="rounded-sm px-1"
@@ -131,7 +134,7 @@ export function ColorBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
         <ChevronDown className="h-4 w-4" />
       </button>
 
-      {isOpen && (
+      {isColorSelectorOpen && (
         <div className="fixed top-full z-[99999] my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
           <div className="my-1 px-2 text-sm text-stone-500">Color</div>
           {TEXT_COLORS.map(({ name, color }, index) => (

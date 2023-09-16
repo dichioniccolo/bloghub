@@ -4,14 +4,16 @@ import type { Editor } from "@tiptap/core";
 import { Check, Trash } from "lucide-react";
 
 import { cn, getUrlFromString } from "~/lib/utils";
+import { useBubbleMenu } from "./bubble-menu-context";
 
 interface Props {
   editor: Editor;
-  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function LinkBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
+export function LinkBubbleMenuSelector({ editor, setIsOpen }: Props) {
+  const { isLinkSelectorOpen } = useBubbleMenu();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Autofocus on input by default
@@ -24,7 +26,7 @@ export function LinkBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
       <button
         type="button"
         className="flex h-full items-center space-x-2 px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(!isLinkSelectorOpen)}
       >
         <p className="text-base">↗</p>
         <p
@@ -35,7 +37,7 @@ export function LinkBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
           Link
         </p>
       </button>
-      {isOpen && (
+      {isLinkSelectorOpen && (
         <div className="fixed top-full z-[99999] my-1 flex max-h-80 flex-col overflow-hidden overflow-y-auto rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
           <div className="flex">
             <input

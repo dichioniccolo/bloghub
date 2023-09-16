@@ -17,8 +17,8 @@ import { useDebouncedCallback } from "~/hooks/use-debounced-callback";
 import { TiptapEditorProps } from "~/lib/editor/props";
 import { Avatars } from "../liveblocks/avatars";
 import { CustomBubbleMenu } from "./bubble-menu";
-import { AiBubbleMenuProvider } from "./bubble-menu/ai/ai-bubble-menu-context";
 import { AiFixGrammarAndSpellCheckBubbleMenu } from "./bubble-menu/ai/ai-fix-grammar-and-spell-check-bubble-menu";
+import { BubbleMenuProvider } from "./bubble-menu/bubble-menu-context";
 import { EditorExtensions } from "./extensions";
 import { WordCount } from "./word-count";
 
@@ -103,7 +103,7 @@ function TiptapEditor({
     editorProps: TiptapEditorProps,
     extensions: [
       ...EditorExtensions({
-        openLinkOnClick: true,
+        openLinkOnClick: false,
       }),
       ...(customExtensions ?? []),
       Placeholder.configure({
@@ -146,10 +146,10 @@ function TiptapEditor({
         <Avatars />
       </div>
       {editor && (
-        <AiBubbleMenuProvider>
+        <BubbleMenuProvider>
           <CustomBubbleMenu editor={editor} />
           <AiFixGrammarAndSpellCheckBubbleMenu editor={editor} />
-        </AiBubbleMenuProvider>
+        </BubbleMenuProvider>
       )}
       <EditorContent editor={editor} className="relative h-full" />
     </div>

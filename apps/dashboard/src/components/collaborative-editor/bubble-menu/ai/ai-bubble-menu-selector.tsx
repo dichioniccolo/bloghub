@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { useAiBubbleMenu } from "./ai-bubble-menu-context";
+import { useBubbleMenu } from "../bubble-menu-context";
 
 interface Props {
   editor: Editor;
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export function AiBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
-  const { setIsFixGrammarAndSpellCheckOpen } = useAiBubbleMenu();
+  const { setIsFixGrammarAndSpellCheckOpen } = useBubbleMenu();
 
   const { complete } = useCompletion({
     id: "fix_grammar_spelling",
