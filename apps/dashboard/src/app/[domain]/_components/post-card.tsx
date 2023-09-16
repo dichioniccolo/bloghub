@@ -18,7 +18,7 @@ export function PostCard({ post }: Props) {
           src={post.thumbnailUrl ?? "/_static/placeholder.png"}
           width={500}
           height={400}
-          className="h-64 w-full scale-100 object-cover blur-0 grayscale-0 duration-700 ease-in-out"
+          className="h-64 w-full scale-100 object-contain blur-0 grayscale-0 duration-700 ease-in-out"
         />
         <div className="h-36 border-t border-border px-5 py-8">
           <h3 className="truncate text-xl tracking-wide">{post.title}</h3>

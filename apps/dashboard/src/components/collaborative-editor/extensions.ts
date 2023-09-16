@@ -8,7 +8,6 @@ import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
 
 import { CustomCodeBlock } from "./custom-codeblock";
-import { CustomDragAndDrop } from "./custom-drag-and-drop";
 import { CustomHorizontalRule } from "./custom-horizontal-rule";
 import { CustomImage } from "./custom-image";
 import { CustomKeymap } from "./custom-keymap";
@@ -68,7 +67,7 @@ export const EditorExtensions = (options: Options) => [
   }),
   CustomImage,
   CustomTextAlign,
-  CustomDragAndDrop,
+  // CustomDragAndDrop,
   CustomCodeBlock,
   CustomSmileReplacer,
   Underline,

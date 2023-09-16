@@ -39,8 +39,11 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { complete, isLoading } = useCompletion({
-    id: "editor",
+    id: "completion",
     api: "/api/generate",
+    body: {
+      type: "completion",
+    },
     onResponse: () => {
       editor.chain().focus().deleteRange(range).run();
     },

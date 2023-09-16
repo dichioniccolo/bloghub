@@ -131,7 +131,7 @@ export function ProjectLogo({ project }: Props) {
             <img
               src={image}
               alt="Preview"
-              className="h-full w-full rounded-full object-cover"
+              className="h-full w-full rounded-full object-contain"
             />
           )}
         </label>

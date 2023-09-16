@@ -55,7 +55,7 @@ export default async function Page({
               <div className="sm:h-150 group relative mx-auto h-80 w-full overflow-hidden lg:rounded-xl">
                 <Image
                   alt={posts[0]!.title ?? ""}
-                  className="h-full w-full object-cover group-hover:scale-105 group-hover:duration-300"
+                  className="h-full w-full object-contain group-hover:scale-105 group-hover:duration-300"
                   width={1300}
                   height={630}
                   src={posts[0]!.thumbnailUrl ?? "/_static/placeholder.png"}

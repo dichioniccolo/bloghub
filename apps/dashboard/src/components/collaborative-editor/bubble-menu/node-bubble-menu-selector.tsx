@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback } from "react";
-import type { Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/core";
 import {
   Check,
   CheckSquare,
@@ -14,12 +14,7 @@ import {
   TextQuote,
 } from "lucide-react";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import type { BubbleMenuItem } from "./custom-bubble-menu";
+import type { BubbleMenuItem } from ".";
 
 interface Props {
   editor: Editor;
@@ -110,36 +105,36 @@ export function NodeBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
   );
 
   return (
-    <Popover open={isOpen}>
-      <PopoverTrigger
+    <div className="relative">
+      <button
+        type="button"
         className="flex h-full items-center gap-1 whitespace-nowrap p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
         onClick={() => setIsOpen((o) => !o)}
       >
         <span>{activeItem?.name}</span>
         <ChevronDown className="h-4 w-4" />
-      </PopoverTrigger>
+      </button>
 
-      <PopoverContent
-        align="start"
-        className="my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1"
-      >
-        {items.map((item) => (
-          <button
-            key={item.name}
-            type="button"
-            onClick={runCommand(item.command)}
-            className="flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
-          >
-            <div className="flex items-center space-x-2">
-              <div className="rounded-sm border border-stone-200 p-1">
-                {item.icon(item.isActive())}
+      {isOpen && (
+        <div className="fixed top-full z-[99999] my-1 flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto rounded border border-stone-200 bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1">
+          {items.map((item) => (
+            <button
+              key={item.name}
+              type="button"
+              onClick={runCommand(item.command)}
+              className="flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
+            >
+              <div className="flex items-center space-x-2">
+                <div className="rounded-sm border border-stone-200 p-1">
+                  {item.icon(item.isActive())}
+                </div>
+                <span>{item.name}</span>
               </div>
-              <span>{item.name}</span>
-            </div>
-            {activeItem.name === item.name && <Check className="h-4 w-4" />}
-          </button>
-        ))}
-      </PopoverContent>
-    </Popover>
+              {activeItem.name === item.name && <Check className="h-4 w-4" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

@@ -16,7 +16,9 @@ import * as Y from "yjs";
 import { useDebouncedCallback } from "~/hooks/use-debounced-callback";
 import { TiptapEditorProps } from "~/lib/editor/props";
 import { Avatars } from "../liveblocks/avatars";
-import { CustomBubbleMenu } from "./bubble-menu/custom-bubble-menu";
+import { CustomBubbleMenu } from "./bubble-menu";
+import { AiBubbleMenuProvider } from "./bubble-menu/ai/ai-bubble-menu-context";
+import { AiFixGrammarAndSpellCheckBubbleMenu } from "./bubble-menu/ai/ai-fix-grammar-and-spell-check-bubble-menu";
 import { EditorExtensions } from "./extensions";
 import { WordCount } from "./word-count";
 
@@ -80,7 +82,7 @@ function TiptapEditor({
   const userInfo = useSelf((me) => me.info);
 
   const { completion, isLoading } = useCompletion({
-    id: "editor",
+    id: "completion",
     api: "/api/generate",
     onFinish: (_prompt, completion) => {
       editor?.commands.setTextSelection({
@@ -143,7 +145,12 @@ function TiptapEditor({
         {editor && <WordCount editor={editor} />}
         <Avatars />
       </div>
-      {editor && <CustomBubbleMenu editor={editor} />}
+      {editor && (
+        <AiBubbleMenuProvider>
+          <CustomBubbleMenu editor={editor} />
+          <AiFixGrammarAndSpellCheckBubbleMenu editor={editor} />
+        </AiBubbleMenuProvider>
+      )}
       <EditorContent editor={editor} className="relative h-full" />
     </div>
   );

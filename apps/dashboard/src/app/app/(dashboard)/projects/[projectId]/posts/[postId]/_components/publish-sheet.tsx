@@ -188,7 +188,7 @@ export function PublishSheet({ post }: Props) {
                               alt={post.title ?? "Post image"}
                               width={1200}
                               height={630}
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-contain"
                               src={
                                 form.watch("thumbnailUrl") ??
                                 "/_static/placeholder.png"
