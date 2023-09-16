@@ -15,12 +15,12 @@ import { useBubbleMenu } from "../bubble-menu-context";
 
 interface Props {
   editor: Editor;
-  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function AiBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
-  const { setIsFixGrammarAndSpellCheckOpen } = useBubbleMenu();
+export function AiBubbleMenuSelector({ editor, setIsOpen }: Props) {
+  const { isAiSelectorOpen, setIsFixGrammarAndSpellCheckOpen } =
+    useBubbleMenu();
 
   const { complete } = useCompletion({
     id: "fix_grammar_spelling",
@@ -44,12 +44,12 @@ export function AiBubbleMenuSelector({ editor, isOpen, setIsOpen }: Props) {
   );
 
   return (
-    <Popover open={isOpen}>
+    <Popover open={isAiSelectorOpen}>
       <div className="relative">
         <PopoverTrigger
           type="button"
           className="flex h-full items-center gap-1 p-2 text-sm font-medium text-purple-500 hover:bg-stone-100 active:bg-stone-200"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(!isAiSelectorOpen)}
         >
           <Sparkles className="h-4 w-4" />
           <span className="whitespace-nowrap">Ask AI</span>

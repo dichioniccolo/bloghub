@@ -19,6 +19,7 @@
     "@acme/pusher": "^0.1.0",
     "@acme/stripe": "^0.1.0",
     "@acme/vercel": "^0.1.0",
+    "@floating-ui/react": "^0.25.4",
     "@hookform/resolvers": "^3.3.0",
     "@liveblocks/client": "^1.2.4",
     "@liveblocks/node": "^1.2.4",

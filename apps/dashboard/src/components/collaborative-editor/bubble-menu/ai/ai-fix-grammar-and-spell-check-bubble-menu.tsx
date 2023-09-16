@@ -1,26 +1,24 @@
 import { useCallback } from "react";
 import type { Editor } from "@tiptap/core";
 import { isTextSelection } from "@tiptap/core";
-import type { EditorState } from "@tiptap/pm/state";
-import type { EditorView } from "@tiptap/pm/view";
 import type { BubbleMenuProps } from "@tiptap/react";
 import { useCompletion } from "ai/react";
 import { Command as CommandPrimitive } from "cmdk";
 import {
   AlertTriangle,
   Check,
+  ListPlus,
   Loader2,
-  Plus,
+  RefreshCcw,
   Sparkle,
   Trash,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Command, CommandItem, CommandList } from "~/components/ui/command";
-import { hideOnEsc } from "~/lib/tippy/hide-on-esc";
 import { cn } from "~/lib/utils";
 import { useBubbleMenu } from "../bubble-menu-context";
-import { BubbleMenuView } from "../bubble-menu-view";
+import { ControlledBubbleMenu } from "../controlled-bubble-menu";
 
 type Props = Omit<BubbleMenuProps, "children" | "editor"> & {
   editor: Editor;
@@ -34,43 +32,36 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
   const { isFixGrammarAndSpellCheckOpen, setIsFixGrammarAndSpellCheckOpen } =
     useBubbleMenu();
 
-  const { completion, isLoading, stop } = useCompletion({
+  const { complete, completion, isLoading, stop } = useCompletion({
     id: "fix_grammar_spelling",
     api: "/api/generate",
+    body: {
+      type: "fix_grammar_spelling",
+    },
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
   const shouldShow = () => {
-    return ({
-      state,
-      from,
-      to,
-      view,
-    }: {
-      state: EditorState;
-      from: number;
-      to: number;
-      view: EditorView;
-      editor: Editor;
-    }) => {
-      if (!isFixGrammarAndSpellCheckOpen) {
-        return false;
-      }
+    const { state } = editor;
+    const { from, to } = state.selection;
 
-      // Sometime check for `empty` is not enough
-      const isEmptyTextBlock =
-        !state.doc.textBetween(from, to).length &&
-        isTextSelection(state.selection);
+    if (!isFixGrammarAndSpellCheckOpen) {
+      return false;
+    }
 
-      if (!view.hasFocus() || state.selection.empty || isEmptyTextBlock) {
-        stop();
-        return false;
-      }
+    // Sometime check for `empty` is not enough
+    const isEmptyTextBlock =
+      !state.doc.textBetween(from, to).length &&
+      isTextSelection(state.selection);
 
-      return true;
-    };
+    if (state.selection.empty || isEmptyTextBlock) {
+      stop();
+      return false;
+    }
+
+    return true;
   };
 
   const runCommand = useCallback(
@@ -84,24 +75,18 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
   );
 
   return (
-    <BubbleMenuView
+    <ControlledBubbleMenu
       {...props}
-      pluginKey="aiFixGrammarAndSpellCheckBubbleMenu"
       editor={editor}
-      shouldShow={shouldShow()}
-      tippyOptions={{
-        moveTransition: "transform 0.2s ease-out",
-        placement: "bottom",
-        plugins: [hideOnEsc],
-        onHidden: () => {
-          setIsFixGrammarAndSpellCheckOpen(false);
-        },
+      open={shouldShow()}
+      onOpenChange={() => {
+        setIsFixGrammarAndSpellCheckOpen(false);
       }}
     >
-      <Command className="w-96">
+      <Command className="w-96 border border-border shadow-xl">
         <div
           className={cn(
-            "flex w-full flex-col divide-y divide-border bg-background",
+            "flex w-full flex-col divide-y divide-border",
             className,
           )}
         >
@@ -171,18 +156,36 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
               onSelect={runCommand(() => {
                 editor
                   .chain()
-                  .focus(editor.state.selection.to)
+                  .focus(editor.state.selection.to + 1)
                   .newlineInCode()
                   .insertContent(completion)
+                  .createParagraphNear()
                   .run();
               })}
               className="flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
             >
               <div className="flex items-center space-x-2">
                 <div className="rounded-sm border-stone-200 p-1">
-                  <Plus className="h-4 w-4" />
+                  <ListPlus className="h-4 w-4" />
                 </div>
-                <span>Insert below</span>
+                <span>Insert after</span>
+              </div>
+            </CommandItem>
+            <CommandItem
+              onSelect={() => {
+                const { from, to } = editor.state.selection;
+
+                const text = editor.state.doc.textBetween(from, to);
+
+                void complete(text);
+              }}
+              className="flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
+            >
+              <div className="flex items-center space-x-2">
+                <div className="rounded-sm border-stone-200 p-1">
+                  <RefreshCcw className="h-4 w-4" />
+                </div>
+                <span>Generate again</span>
               </div>
             </CommandItem>
             <CommandItem
@@ -201,6 +204,6 @@ export function AiFixGrammarAndSpellCheckBubbleMenu({
           </CommandList>
         )}
       </Command>
-    </BubbleMenuView>
+    </ControlledBubbleMenu>
   );
 }

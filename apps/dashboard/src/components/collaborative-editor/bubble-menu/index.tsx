@@ -1,7 +1,4 @@
 import type { Editor } from "@tiptap/core";
-import type { EditorState } from "@tiptap/pm/state";
-import type { EditorView } from "@tiptap/pm/view";
-import type { BubbleMenuProps } from "@tiptap/react";
 import { isNodeSelection, isTextSelection } from "@tiptap/react";
 import {
   AlignCenter,
@@ -22,17 +19,18 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { hideOnEsc } from "~/lib/tippy/hide-on-esc";
 import { cn } from "~/lib/utils";
+import { AiBubbleMenuSelector } from "./ai/ai-bubble-menu-selector";
 import { useBubbleMenu } from "./bubble-menu-context";
-import { BubbleMenuView } from "./bubble-menu-view";
 import { ColorBubbleMenuSelector } from "./color-bubble-menu-selector";
+import { ControlledBubbleMenu } from "./controlled-bubble-menu";
 import { LinkBubbleMenuSelector } from "./link-bubble-menu-selector";
 import { NodeBubbleMenuSelector } from "./node-bubble-menu-selector";
 
-type Props = {
+interface Props {
   editor: Editor;
-} & Omit<BubbleMenuProps, "children" | "editor">;
+  className?: string;
+}
 
 export interface BubbleMenuItem {
   name: string;
@@ -41,7 +39,7 @@ export interface BubbleMenuItem {
   icon: (active: boolean) => JSX.Element;
 }
 
-export function CustomBubbleMenu({ className, editor, ...props }: Props) {
+export function CustomBubbleMenu({ className, editor }: Props) {
   const {
     setIsNodeSelectorOpen,
     setIsLinkSelectorOpen,
@@ -189,55 +187,39 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
   ];
 
   const shouldShow = () => {
-    return ({
-      state,
-      from,
-      to,
-      view,
-    }: {
-      state: EditorState;
-      from: number;
-      to: number;
-      view: EditorView;
-      editor: Editor;
-    }) => {
-      // Force hide
-      if (isFixGrammarAndSpellCheckOpen) {
-        return false;
-      }
+    const { state } = editor;
+    const { from, to } = state.selection;
 
-      const isEmptyTextBlock =
-        !state.doc.textBetween(from, to).length &&
-        isTextSelection(state.selection);
+    // Force hide
+    if (isFixGrammarAndSpellCheckOpen) {
+      return false;
+    }
 
-      if (
-        !view.hasFocus() ||
-        state.selection.empty ||
-        isEmptyTextBlock ||
-        isNodeSelection(state.selection)
-      ) {
-        return false;
-      }
+    const isEmptyTextBlock =
+      !state.doc.textBetween(from, to).length &&
+      isTextSelection(state.selection);
 
-      return true;
-    };
+    if (
+      // !view.hasFocus() ||
+      state.selection.empty ||
+      isEmptyTextBlock ||
+      isNodeSelection(state.selection)
+    ) {
+      return false;
+    }
+
+    return true;
   };
 
   return (
-    <BubbleMenuView
-      {...props}
-      pluginKey="customBubbleMenu"
+    <ControlledBubbleMenu
       editor={editor}
-      shouldShow={shouldShow()}
-      tippyOptions={{
-        moveTransition: "transform 0.15s ease-out",
-        plugins: [hideOnEsc],
-        onHidden: () => {
-          setIsAiSelectorOpen(false);
-          setIsNodeSelectorOpen(false);
-          setIsLinkSelectorOpen(false);
-          setIsColorSelectorOpen(false);
-        },
+      open={shouldShow()}
+      onOpenChange={() => {
+        setIsAiSelectorOpen(false);
+        setIsNodeSelectorOpen(false);
+        setIsLinkSelectorOpen(false);
+        setIsColorSelectorOpen(false);
       }}
     >
       <div
@@ -246,16 +228,15 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
           className,
         )}
       >
-        {/* <AiBubbleMenuSelector
+        <AiBubbleMenuSelector
           editor={editor}
-          isOpen={isAiSelectorOpen}
           setIsOpen={() => {
             setIsAiSelectorOpen((x) => !x);
             setIsNodeSelectorOpen(false);
             setIsLinkSelectorOpen(false);
             setIsColorSelectorOpen(false);
           }}
-        /> */}
+        />
         <NodeBubbleMenuSelector
           editor={editor}
           setIsOpen={() => {
@@ -316,6 +297,6 @@ export function CustomBubbleMenu({ className, editor, ...props }: Props) {
           }}
         />
       </div>
-    </BubbleMenuView>
+    </ControlledBubbleMenu>
   );
 }
