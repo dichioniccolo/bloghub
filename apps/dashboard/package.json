@@ -94,7 +94,7 @@
     "date-fns": "^2.30.0",
     "dequal": "^2.0.3",
     "encoding": "^0.1.13",
-    "framer-motion": "^10.16.1",
+    "framer-motion": "^10.16.4",
     "html-escaper": "^3.0.3",
     "inngest": "^2.6.0",
     "lowlight": "^3.0.0",
