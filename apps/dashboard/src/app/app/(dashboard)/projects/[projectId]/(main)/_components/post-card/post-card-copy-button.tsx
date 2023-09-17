@@ -1,6 +1,7 @@
 import { Check, Copy } from "lucide-react";
 
-import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
+import { useCopyToClipboard } from "@acme/ui/hooks/use-copy-to-clipboard";
+
 import { PostCardButton } from "./post-card-button";
 
 interface Props {

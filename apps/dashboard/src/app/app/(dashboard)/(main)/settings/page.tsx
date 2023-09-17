@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { Separator } from "~/components/ui/separator";
+import { Separator } from "@acme/ui/components/separator";
+
 import { ProfileForm } from "./_components/profile-form";
 
 export const metadata = {

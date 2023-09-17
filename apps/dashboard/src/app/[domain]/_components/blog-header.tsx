@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { cn } from "@acme/ui";
+import { useScroll } from "@acme/ui/hooks/use-scroll";
+
 import type { GetProjectByDomain } from "~/app/_api/public/projects";
-import { useScroll } from "~/hooks/use-scroll";
-import { cn } from "~/lib/cn";
 import { ToggleTheme } from "./toggle-theme";
 
 interface Props {

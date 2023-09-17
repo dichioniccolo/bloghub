@@ -4,26 +4,27 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { updateDomain } from "~/app/_actions/project/update-domain";
-import type { GetProject } from "~/app/_api/projects";
-import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
+import { Badge } from "@acme/ui/components/badge";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
+} from "@acme/ui/components/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Form } from "~/components/ui/zod-form";
-import { useZodForm } from "~/hooks/use-zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
+import { updateDomain } from "~/app/_actions/project/update-domain";
+import type { GetProject } from "~/app/_api/projects";
 import type { UpdateDomainSchemaType } from "~/lib/validation/schema";
 import { UpdateDomainSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";

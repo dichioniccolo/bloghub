@@ -2,14 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { AlertCircle, BarChart2, CaseSensitive } from "lucide-react";
 
-import type { GetProjects } from "~/app/_api/projects";
-import { CheckCircleFill } from "~/components/icons/check-circle-fill";
-import { Skeleton } from "~/components/ui/skeleton";
+import { Skeleton } from "@acme/ui/components/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
+} from "@acme/ui/components/tooltip";
+import { CheckCircleFill } from "@acme/ui/icons/check-circle-fill";
+
+import type { GetProjects } from "~/app/_api/projects";
 import { GOOGLE_FAVICON_URL } from "~/lib/constants";
 import { AppRoutes } from "~/lib/routes";
 import { formatNumber } from "~/lib/utils";

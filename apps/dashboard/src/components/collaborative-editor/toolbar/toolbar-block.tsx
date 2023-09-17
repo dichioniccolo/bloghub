@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/react";
 import { CheckSquare, List, ListOrdered, Quote } from "lucide-react";
 
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 
 interface Props {
   editor: Editor;

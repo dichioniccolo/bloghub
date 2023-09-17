@@ -5,10 +5,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { PLANS } from "@acme/stripe/plans";
-
-import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
-import type { GetProPlans } from "~/app/_api/stripe";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +13,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import { Slider } from "~/components/ui/slider";
-import { Switch } from "~/components/ui/switch";
+} from "@acme/ui/components/dialog";
+import { Slider } from "@acme/ui/components/slider";
+import { Switch } from "@acme/ui/components/switch";
+
+import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
+import type { GetProPlans } from "~/app/_api/stripe";
 import { AppRoutes } from "~/lib/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";

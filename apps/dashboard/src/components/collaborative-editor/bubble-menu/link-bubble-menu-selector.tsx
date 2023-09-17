@@ -3,7 +3,9 @@ import { useEffect, useRef } from "react";
 import type { Editor } from "@tiptap/core";
 import { Check, Trash } from "lucide-react";
 
-import { cn, getUrlFromString } from "~/lib/utils";
+import { cn } from "@acme/ui";
+
+import { getUrlFromString } from "~/lib/utils";
 import { useBubbleMenu } from "./bubble-menu-context";
 
 interface Props {

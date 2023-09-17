@@ -4,6 +4,8 @@ import type { MouseEvent, ReactNode } from "react";
 import { Archive } from "lucide-react";
 
 import type { AppNotification } from "@acme/notifications";
+import { cn } from "@acme/ui";
+import { Button } from "@acme/ui/components/button";
 
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
 import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";
@@ -11,8 +13,6 @@ import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/components/notifications/notifications-provider";
-import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/cn";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

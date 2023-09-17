@@ -2,9 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 
-import { updateProjectName } from "~/app/_actions/project/update-project-name";
-import type { GetProject } from "~/app/_api/projects";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
@@ -12,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "@acme/ui/components/card";
 import {
   FormControl,
   FormDescription,
@@ -20,10 +18,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Form } from "~/components/ui/zod-form";
-import { useZodForm } from "~/hooks/use-zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
+import { updateProjectName } from "~/app/_actions/project/update-project-name";
+import type { GetProject } from "~/app/_api/projects";
 import type { ProjectNameSchemaType } from "~/lib/validation/schema";
 import { ProjectNameSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";

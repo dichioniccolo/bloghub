@@ -6,13 +6,14 @@ import "~/styles/tiptap.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Construction } from "lucide-react";
 
+import { cn } from "@acme/ui";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover";
-import { cn } from "~/lib/cn";
-import { fontMapper } from "~/styles/fonts";
+} from "@acme/ui/components/popover";
+import { fontMapper } from "@acme/ui/styles/fonts";
+
 import { Providers } from "./providers";
 
 export default function Layout({ children }: PropsWithChildren) {

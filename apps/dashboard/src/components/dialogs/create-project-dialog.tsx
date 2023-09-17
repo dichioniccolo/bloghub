@@ -8,7 +8,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog";
+} from "@acme/ui/components/dialog";
+
 import { CreateProjectForm } from "../forms/create-project-form";
 
 interface Props {

@@ -6,19 +6,20 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
-import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { Button } from "~/components/ui/button";
+import { cn } from "@acme/ui";
+import { Alert, AlertDescription, AlertTitle } from "@acme/ui/components/alert";
+import { Button } from "@acme/ui/components/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Form } from "~/components/ui/zod-form";
-import { useZodForm } from "~/hooks/use-zod-form";
-import { cn } from "~/lib/cn";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
 import type { UserAuthSchemaType } from "~/lib/validation/schema";
 import { UserAuthSchema } from "~/lib/validation/schema";
 

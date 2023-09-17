@@ -4,10 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 
-import { createProjectMedia } from "~/app/_actions/project/create-project-media";
-import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
-import type { GetProject } from "~/app/_api/projects";
-import { Button } from "~/components/ui/button";
+import { cn } from "@acme/ui";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
@@ -15,8 +13,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
-import { cn } from "~/lib/cn";
+} from "@acme/ui/components/card";
+
+import { createProjectMedia } from "~/app/_actions/project/create-project-media";
+import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
+import type { GetProject } from "~/app/_api/projects";
 import { determineMediaType } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";
 

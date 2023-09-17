@@ -6,7 +6,11 @@ import baseConfig from "@acme/tailwind-config";
 export default {
   content: [
     ...baseConfig.content,
-    "../../packages/ui/src/**/*.{ts,tsx}",
+    path.join(
+      path.dirname(require.resolve("@acme/ui")),
+      "**/*.{js,ts,jsx,tsx}",
+    ),
+    // "../../packages/ui/src/**/*.{ts,tsx}",
     path.join(
       path.dirname(require.resolve("@tremor/react")),
       "**/*.{js,ts,jsx,tsx}",

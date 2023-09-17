@@ -3,9 +3,8 @@
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-import { updateUser } from "~/app/_actions/user/update-user";
-import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardFooter } from "~/components/ui/card";
+import { Button } from "@acme/ui/components/button";
+import { Card, CardContent, CardFooter } from "@acme/ui/components/card";
 import {
   FormControl,
   FormDescription,
@@ -13,11 +12,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Form } from "~/components/ui/zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
+import { updateUser } from "~/app/_actions/user/update-user";
 import { useUser } from "~/hooks/use-user";
-import { useZodForm } from "~/hooks/use-zod-form";
 import type { UserNameSchemaType } from "~/lib/validation/schema";
 import { UserNameSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";

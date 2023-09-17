@@ -4,7 +4,6 @@ import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 import { Loader2 } from "lucide-react";
 
-import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,7 +13,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "~/components/ui/alert-dialog";
+} from "@acme/ui/components/alert-dialog";
+
+import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

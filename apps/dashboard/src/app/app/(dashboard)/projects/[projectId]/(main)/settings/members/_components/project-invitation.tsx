@@ -4,18 +4,18 @@ import { formatDistance } from "date-fns";
 import { MoreVertical, Trash2 } from "lucide-react";
 
 import type { RoleType } from "@acme/db";
-
-import type { GetProjectInvites } from "~/app/_api/projects";
-import { Avatar, AvatarImage } from "~/components/ui/avatar";
-import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
+import { Avatar, AvatarImage } from "@acme/ui/components/avatar";
+import { Badge } from "@acme/ui/components/badge";
+import { Button } from "@acme/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "@acme/ui/components/dropdown-menu";
+
+import type { GetProjectInvites } from "~/app/_api/projects";
 import { getDefaultAvatarImage } from "~/lib/utils";
 import { useDeleteInvitationDialog } from "./delete-invitation-dialog";
 

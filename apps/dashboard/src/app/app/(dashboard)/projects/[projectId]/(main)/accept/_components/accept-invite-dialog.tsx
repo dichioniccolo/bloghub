@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { acceptInvite } from "~/app/_actions/project/accept-invite";
-import type { GetPendingInvite } from "~/app/_api/projects";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button, buttonVariants } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +13,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog";
+} from "@acme/ui/components/dialog";
+
+import { acceptInvite } from "~/app/_actions/project/accept-invite";
+import type { GetPendingInvite } from "~/app/_api/projects";
 import { AppRoutes } from "~/lib/routes";
 import { useZact } from "~/lib/zact/client";
 

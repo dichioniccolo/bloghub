@@ -2,13 +2,13 @@ import { useRef } from "react";
 import type { Editor } from "@tiptap/react";
 import { Image } from "lucide-react";
 
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import { Button } from "@acme/ui/components/button";
+import { Input } from "@acme/ui/components/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover";
+} from "@acme/ui/components/popover";
 
 interface Props {
   editor: Editor;

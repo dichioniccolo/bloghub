@@ -11,7 +11,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRoom, useSelf } from "liveblocks.config";
 import * as Y from "yjs";
 
-import { useDebouncedCallback } from "~/hooks/use-debounced-callback";
+import { useDebouncedCallback } from "@acme/ui/hooks/use-debounced-callback";
+
 import { TiptapEditorProps } from "~/lib/editor/props";
 import { Avatars } from "../liveblocks/avatars";
 import { CustomBubbleMenu } from "./bubble-menu";

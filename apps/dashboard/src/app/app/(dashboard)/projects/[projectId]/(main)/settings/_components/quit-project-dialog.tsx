@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { quitProject } from "~/app/_actions/project/quit-project";
-import type { GetProject } from "~/app/_api/projects";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +15,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
-import { Button } from "~/components/ui/button";
+} from "@acme/ui/components/alert-dialog";
+import { Button } from "@acme/ui/components/button";
+
+import { quitProject } from "~/app/_actions/project/quit-project";
+import type { GetProject } from "~/app/_api/projects";
 import { AppRoutes } from "~/lib/routes";
 import { useZact } from "~/lib/zact/client";
 

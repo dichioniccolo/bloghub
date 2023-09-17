@@ -14,12 +14,13 @@ import {
   Underline,
 } from "lucide-react";
 
+import { cn } from "@acme/ui";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
-import { cn } from "~/lib/utils";
+} from "@acme/ui/components/tooltip";
+
 import { AiBubbleMenuSelector } from "./ai/ai-bubble-menu-selector";
 import { useBubbleMenu } from "./bubble-menu-context";
 import { ColorBubbleMenuSelector } from "./color-bubble-menu-selector";

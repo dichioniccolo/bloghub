@@ -3,9 +3,10 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { buttonVariants } from "~/components/ui/button";
+import { cn } from "@acme/ui";
+import { buttonVariants } from "@acme/ui/components/button";
+
 import { env } from "~/env.mjs";
-import { cn } from "~/lib/cn";
 
 interface Props {
   children: ReactNode;

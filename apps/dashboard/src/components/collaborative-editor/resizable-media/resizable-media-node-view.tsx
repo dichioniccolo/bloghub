@@ -3,7 +3,7 @@ import type { NodeViewProps } from "@tiptap/react";
 import { NodeViewWrapper } from "@tiptap/react";
 import { AlignCenter, AlignLeft, AlignRight, Trash2 } from "lucide-react";
 
-import { cn } from "~/lib/cn";
+import { cn } from "@acme/ui";
 
 interface ResizableMediaAction {
   tooltip: string;

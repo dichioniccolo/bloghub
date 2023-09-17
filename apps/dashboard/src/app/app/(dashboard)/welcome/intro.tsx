@@ -2,9 +2,10 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
 
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
+import { useDebounce } from "@acme/ui/hooks/use-debounce";
+
 import { env } from "~/env.mjs";
-import { useDebounce } from "~/hooks/use-debounce";
 
 export function Intro() {
   const router = useRouter();

@@ -2,12 +2,13 @@ import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
 
+import { Skeleton } from "@acme/ui/components/skeleton";
+import { Divider } from "@acme/ui/icons/divider";
+import { Logo } from "@acme/ui/icons/logo";
+
 import { CommandMenu } from "~/components/command-menu";
-import { Divider } from "~/components/icons/divider";
-import { Logo } from "~/components/icons/logo";
 import { Notifications } from "~/components/notifications";
 import { NotificationsPlaceholder } from "~/components/notifications/notifications-placeholder";
-import { Skeleton } from "~/components/ui/skeleton";
 import { env } from "~/env.mjs";
 import { AppRoutes } from "~/lib/routes";
 import { ProjectsDropdown } from "./_components/projects-dropdown";
@@ -25,7 +26,10 @@ export default function Layout({ children }: PropsWithChildren) {
                 href={AppRoutes.Dashboard}
                 aria-label={`${env.NEXT_PUBLIC_APP_NAME} logo`}
               >
-                <Logo className="h-10 w-10 rounded-full transition-all duration-75 active:scale-95" />
+                <Logo
+                  alt={env.NEXT_PUBLIC_APP_NAME}
+                  className="h-10 w-10 rounded-full transition-all duration-75 active:scale-95"
+                />
               </Link>
               <Divider className="h-10 w-10 text-primary" />
               <Suspense

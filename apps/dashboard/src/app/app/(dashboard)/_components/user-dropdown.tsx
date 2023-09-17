@@ -4,8 +4,12 @@ import Link from "next/link";
 import { LogOut, Settings } from "lucide-react";
 import { signOut } from "next-auth/react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@acme/ui/components/avatar";
+import { Button } from "@acme/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +18,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "@acme/ui/components/dropdown-menu";
+
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/routes";
 import { getDefaultAvatarImage } from "~/lib/utils";

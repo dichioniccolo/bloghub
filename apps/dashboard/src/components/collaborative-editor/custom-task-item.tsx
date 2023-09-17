@@ -8,7 +8,7 @@ import {
   ReactNodeViewRenderer,
 } from "@tiptap/react";
 
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "@acme/ui/components/checkbox";
 
 export const CustomTaskList = TaskList.configure({
   HTMLAttributes: {

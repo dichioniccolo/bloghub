@@ -5,9 +5,7 @@ import Image from "next/image";
 import { Check, Loader2, Pencil, Trash2, UploadCloud } from "lucide-react";
 import Dropzone from "react-dropzone";
 
-import { updatePostSettings } from "~/app/_actions/post/update-post-settings";
-import { createProjectMedia } from "~/app/_actions/project/create-project-media";
-import type { GetPost } from "~/app/_api/posts";
+import { cn } from "@acme/ui";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +15,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "~/components/ui/alert-dialog";
-import { Button } from "~/components/ui/button";
+} from "@acme/ui/components/alert-dialog";
+import { Button } from "@acme/ui/components/button";
 import {
   FormControl,
   FormDescription,
@@ -26,8 +24,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
 import {
   Sheet,
   SheetContent,
@@ -36,10 +34,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "~/components/ui/sheet";
-import { Form } from "~/components/ui/zod-form";
-import { useZodForm } from "~/hooks/use-zod-form";
-import { cn } from "~/lib/cn";
+} from "@acme/ui/components/sheet";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
+import { updatePostSettings } from "~/app/_actions/post/update-post-settings";
+import { createProjectMedia } from "~/app/_actions/project/create-project-media";
+import type { GetPost } from "~/app/_api/posts";
 import { determineMediaType } from "~/lib/utils";
 import type { PublishPostSchemaType } from "~/lib/validation/schema";
 import { PublishPostSchema } from "~/lib/validation/schema";

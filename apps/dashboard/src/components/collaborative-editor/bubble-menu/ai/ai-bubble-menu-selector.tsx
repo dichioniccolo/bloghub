@@ -3,12 +3,13 @@ import { useCallback } from "react";
 import type { Editor } from "@tiptap/core";
 import { CheckCheck, ChevronDown, Quote, Sparkles } from "lucide-react";
 
-import { Command, CommandItem, CommandList } from "~/components/ui/command";
+import { Command, CommandItem, CommandList } from "@acme/ui/components/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover";
+} from "@acme/ui/components/popover";
+
 import { useBubbleMenu } from "../bubble-menu-context";
 import {
   useFixGrammarAndSpellCheck,

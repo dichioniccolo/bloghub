@@ -5,23 +5,24 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
-import type { GetPosts } from "~/app/_api/posts";
-import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog";
+} from "@acme/ui/components/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "@acme/ui/components/dropdown-menu";
+
+import type { GetPosts } from "~/app/_api/posts";
+import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import {
   getQRAsCanvas,
   getQrAsString,

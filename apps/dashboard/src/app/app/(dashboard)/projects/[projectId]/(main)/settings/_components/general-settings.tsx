@@ -1,6 +1,7 @@
+import { Card, CardFooter, CardHeader } from "@acme/ui/components/card";
+import { Skeleton } from "@acme/ui/components/skeleton";
+
 import type { GetProject } from "~/app/_api/projects";
-import { Card, CardFooter, CardHeader } from "~/components/ui/card";
-import { Skeleton } from "~/components/ui/skeleton";
 import { ChangeName } from "./change-name";
 import { CustomDomain } from "./custom-domain";
 import { DeleteProject } from "./delete-project";

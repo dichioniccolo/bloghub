@@ -2,25 +2,26 @@
 
 import { Loader2 } from "lucide-react";
 
-import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "@acme/ui/components/card";
 import {
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-} from "~/components/ui/form";
-import { Switch } from "~/components/ui/switch";
-import { Form } from "~/components/ui/zod-form";
-import { useZodForm } from "~/hooks/use-zod-form";
+} from "@acme/ui/components/form";
+import { Switch } from "@acme/ui/components/switch";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
+import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
 import type { EditNotificationsSchemaType } from "~/lib/validation/schema";
 import { EditNotificationsSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";

@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { inviteUser } from "~/app/_actions/project/invite-user";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -13,17 +12,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
+} from "@acme/ui/components/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Form } from "~/components/ui/zod-form";
-import { useZodForm } from "~/hooks/use-zod-form";
+} from "@acme/ui/components/form";
+import { Input } from "@acme/ui/components/input";
+import { Form } from "@acme/ui/components/zod-form";
+import { useZodForm } from "@acme/ui/hooks/use-zod-form";
+
+import { inviteUser } from "~/app/_actions/project/invite-user";
 import type { InviteMemberSchemaType } from "~/lib/validation/schema";
 import { InviteMemberSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";

@@ -10,7 +10,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "~/components/ui/navigation-menu";
+} from "@acme/ui/components/navigation-menu";
+
 import { AppRoutes } from "~/lib/routes";
 
 interface Props {

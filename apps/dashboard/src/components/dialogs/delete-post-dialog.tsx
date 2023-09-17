@@ -2,7 +2,6 @@
 
 import { toast } from "sonner";
 
-import { deletePost } from "~/app/_actions/post/delete-post";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +11,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "~/components/ui/alert-dialog";
+} from "@acme/ui/components/alert-dialog";
+
+import { deletePost } from "~/app/_actions/post/delete-post";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

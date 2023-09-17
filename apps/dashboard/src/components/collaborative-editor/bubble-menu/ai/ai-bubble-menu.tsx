@@ -14,9 +14,10 @@ import {
   Trash,
 } from "lucide-react";
 
-import { Command, CommandItem, CommandList } from "~/components/ui/command";
-import { ScrollArea } from "~/components/ui/scroll-area";
-import { cn } from "~/lib/utils";
+import { cn } from "@acme/ui";
+import { Command, CommandItem, CommandList } from "@acme/ui/components/command";
+import { ScrollArea } from "@acme/ui/components/scroll-area";
+
 import { ControlledBubbleMenu } from "../controlled-bubble-menu";
 
 interface Props {

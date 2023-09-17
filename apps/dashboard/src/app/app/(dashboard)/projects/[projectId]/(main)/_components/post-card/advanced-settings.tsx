@@ -4,22 +4,23 @@ import type { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
+import { cn } from "@acme/ui";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "~/components/ui/accordion";
-import { buttonVariants } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
-import { Switch } from "~/components/ui/switch";
+} from "@acme/ui/components/accordion";
+import { buttonVariants } from "@acme/ui/components/button";
+import { Label } from "@acme/ui/components/label";
+import { Switch } from "@acme/ui/components/switch";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
+} from "@acme/ui/components/tooltip";
+
 import { env } from "~/env.mjs";
-import { cn } from "~/lib/cn";
 import type { QRProps } from "~/lib/qr";
 import { AppRoutes } from "~/lib/routes";
 

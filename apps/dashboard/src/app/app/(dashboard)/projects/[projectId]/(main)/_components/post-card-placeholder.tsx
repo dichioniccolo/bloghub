@@ -1,7 +1,8 @@
 import { BarChart2, MoreVertical } from "lucide-react";
 
-import { Skeleton } from "~/components/ui/skeleton";
-import { cn } from "~/lib/cn";
+import { cn } from "@acme/ui";
+import { Skeleton } from "@acme/ui/components/skeleton";
+
 import { PostCardButton } from "./post-card/post-card-button";
 
 export function PostCardPlaceholder() {

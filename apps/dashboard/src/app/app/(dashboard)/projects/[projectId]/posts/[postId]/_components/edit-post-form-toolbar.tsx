@@ -1,7 +1,8 @@
 import { Loader2 } from "lucide-react";
 
+import { CloudSave } from "@acme/ui/icons/cloud-save";
+
 import type { GetPost } from "~/app/_api/posts";
-import { CloudSave } from "~/components/icons/cloud-save";
 import { PublishSheet } from "./publish-sheet";
 import { UnpublishButton } from "./unpublish-button";
 

@@ -2,17 +2,18 @@
 
 import { AlertCircle, ExternalLink, Loader2 } from "lucide-react";
 
-import { verifyDomain } from "~/app/_actions/project/verify-domain";
-import type { GetProject } from "~/app/_api/projects";
-import { CheckCircleFill } from "~/components/icons/check-circle-fill";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "@acme/ui/components/card";
+import { CheckCircleFill } from "@acme/ui/icons/check-circle-fill";
+
+import { verifyDomain } from "~/app/_actions/project/verify-domain";
+import type { GetProject } from "~/app/_api/projects";
 import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";

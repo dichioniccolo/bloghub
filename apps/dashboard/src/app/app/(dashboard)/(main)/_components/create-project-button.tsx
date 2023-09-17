@@ -2,8 +2,9 @@
 
 import { Plus } from "lucide-react";
 
+import { Button } from "@acme/ui/components/button";
+
 import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
-import { Button } from "~/components/ui/button";
 
 export function CreateProjectButton() {
   const { setOpen, CreateProjectDialog } = useCreateProjectDialog();

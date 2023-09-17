@@ -1,12 +1,13 @@
-import type { GetProject } from "~/app/_api/projects";
-import { Button } from "~/components/ui/button";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "@acme/ui/components/card";
+
+import type { GetProject } from "~/app/_api/projects";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 
 interface Props {

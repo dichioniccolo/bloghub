@@ -7,23 +7,24 @@ import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { BarChart2, Edit2, MoreVertical, QrCode, Trash2 } from "lucide-react";
 
-import type { GetPosts } from "~/app/_api/posts";
-import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
-import { DeletePostDialog } from "~/components/dialogs/delete-post-dialog";
-import { buttonVariants } from "~/components/ui/button";
+import { cn } from "@acme/ui";
+import { buttonVariants } from "@acme/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+} from "@acme/ui/components/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
-import { cn } from "~/lib/cn";
+} from "@acme/ui/components/tooltip";
+
+import type { GetPosts } from "~/app/_api/posts";
+import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
+import { DeletePostDialog } from "~/components/dialogs/delete-post-dialog";
 import { AppRoutes } from "~/lib/routes";
 import { constructPostUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";

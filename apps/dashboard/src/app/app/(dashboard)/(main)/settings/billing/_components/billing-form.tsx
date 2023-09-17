@@ -4,12 +4,8 @@ import { format } from "date-fns";
 import { HelpCircle, InfinityIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
-import type { GetProPlans } from "~/app/_api/stripe";
-import type { GetUserPlan } from "~/app/_api/user";
-import { Divider } from "~/components/icons/divider";
-import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
+import { Badge } from "@acme/ui/components/badge";
+import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
@@ -17,14 +13,19 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
-import { Progress } from "~/components/ui/progress";
-import { Separator } from "~/components/ui/separator";
+} from "@acme/ui/components/card";
+import { Progress } from "@acme/ui/components/progress";
+import { Separator } from "@acme/ui/components/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
+} from "@acme/ui/components/tooltip";
+import { Divider } from "@acme/ui/icons/divider";
+
+import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
+import type { GetProPlans } from "~/app/_api/stripe";
+import type { GetUserPlan } from "~/app/_api/user";
 import { AppRoutes } from "~/lib/routes";
 import { absoluteUrl } from "~/lib/url";
 import { formatNumber } from "~/lib/utils";

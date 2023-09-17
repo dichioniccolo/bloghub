@@ -2,7 +2,9 @@ import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/server";
 import { z } from "zod";
 
-import { Logo } from "~/components/icons/logo";
+import { Logo } from "@acme/ui/icons/logo";
+
+import { env } from "~/env.mjs";
 
 export const runtime: ServerRuntime = "edge";
 
@@ -39,7 +41,7 @@ export function GET(req: Request) {
             // eslint-disable-next-line react/no-unknown-property
             tw="flex items-center text-3xl justify-center flex-col"
           >
-            <Logo size={124} />
+            <Logo alt={env.NEXT_PUBLIC_APP_NAME} size={124} />
 
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"

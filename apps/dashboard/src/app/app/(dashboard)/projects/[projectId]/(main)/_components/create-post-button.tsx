@@ -3,8 +3,9 @@
 import { useRouter } from "next/navigation";
 import { Loader2, Plus } from "lucide-react";
 
+import { Button } from "@acme/ui/components/button";
+
 import { createPost } from "~/app/_actions/post/create-post";
-import { Button } from "~/components/ui/button";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

@@ -1,11 +1,12 @@
-import type { GetProject } from "~/app/_api/projects";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card";
+} from "@acme/ui/components/card";
+
+import type { GetProject } from "~/app/_api/projects";
 import { QuitProjectDialog } from "./quit-project-dialog";
 
 interface Props {

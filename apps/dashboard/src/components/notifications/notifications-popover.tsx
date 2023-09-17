@@ -11,6 +11,12 @@ import {
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
 } from "@acme/notifications";
+import { Button } from "@acme/ui/components/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@acme/ui/components/popover";
 
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import {
@@ -20,12 +26,6 @@ import {
 } from "~/components/notifications/notifications-provider";
 import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
-import { Button } from "~/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/routes";
