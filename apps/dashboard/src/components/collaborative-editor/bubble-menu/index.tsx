@@ -46,6 +46,7 @@ export function CustomBubbleMenu({ className, editor }: Props) {
     setIsColorSelectorOpen,
     setIsAiSelectorOpen,
     isFixGrammarAndSpellCheckOpen,
+    isSummarizeOpen,
   } = useBubbleMenu();
 
   const alignItems: BubbleMenuItem[] = [
@@ -191,7 +192,7 @@ export function CustomBubbleMenu({ className, editor }: Props) {
     const { from, to } = state.selection;
 
     // Force hide
-    if (isFixGrammarAndSpellCheckOpen) {
+    if (isFixGrammarAndSpellCheckOpen || isSummarizeOpen) {
       return false;
     }
 

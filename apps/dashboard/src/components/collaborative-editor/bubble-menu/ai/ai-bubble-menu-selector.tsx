@@ -1,9 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback } from "react";
 import type { Editor } from "@tiptap/core";
-import { useCompletion } from "ai/react";
-import { CheckCheck, ChevronDown, Sparkles } from "lucide-react";
-import { toast } from "sonner";
+import { CheckCheck, ChevronDown, Quote, Sparkles } from "lucide-react";
 
 import { Command, CommandItem, CommandList } from "~/components/ui/command";
 import {
@@ -12,6 +10,10 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { useBubbleMenu } from "../bubble-menu-context";
+import {
+  useFixGrammarAndSpellCheck,
+  useSummarizeCompletion,
+} from "./use-ai-completion";
 
 interface Props {
   editor: Editor;
@@ -19,19 +21,14 @@ interface Props {
 }
 
 export function AiBubbleMenuSelector({ editor, setIsOpen }: Props) {
-  const { isAiSelectorOpen, setIsFixGrammarAndSpellCheckOpen } =
-    useBubbleMenu();
+  const {
+    isAiSelectorOpen,
+    setIsFixGrammarAndSpellCheckOpen,
+    setIsSummarizeOpen,
+  } = useBubbleMenu();
 
-  const { complete } = useCompletion({
-    id: "fix_grammar_spelling",
-    api: "/api/generate",
-    body: {
-      type: "fix_grammar_spelling",
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const { complete: fixGrammarAndSpellCheck } = useFixGrammarAndSpellCheck();
+  const { complete: summarize } = useSummarizeCompletion();
 
   const runCommand = useCallback(
     (command: () => unknown) => {
@@ -66,16 +63,37 @@ export function AiBubbleMenuSelector({ editor, setIsOpen }: Props) {
                 className="flex items-center justify-between px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
                 onSelect={runCommand(() => {
                   setIsFixGrammarAndSpellCheckOpen(true);
+                  setIsSummarizeOpen(false);
+
                   const { from, to } = editor.state.selection;
 
                   const text = editor.state.doc.textBetween(from, to);
 
-                  void complete(text);
+                  void fixGrammarAndSpellCheck(text);
                 })}
               >
                 <div className="flex items-center space-x-2">
                   <CheckCheck className="h-4 w-4 text-purple-500" />
                   <span>Fix spelling & grammar</span>
+                </div>
+              </CommandItem>
+
+              <CommandItem
+                className="flex items-center justify-between px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
+                onSelect={runCommand(() => {
+                  setIsFixGrammarAndSpellCheckOpen(false);
+                  setIsSummarizeOpen(true);
+
+                  const { from, to } = editor.state.selection;
+
+                  const text = editor.state.doc.textBetween(from, to);
+
+                  void summarize(text);
+                })}
+              >
+                <div className="flex items-center space-x-2">
+                  <Quote className="h-4 w-4 text-purple-500" />
+                  <span>Summarize</span>
                 </div>
               </CommandItem>
             </CommandList>

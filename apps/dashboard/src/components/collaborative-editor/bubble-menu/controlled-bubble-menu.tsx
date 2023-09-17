@@ -86,7 +86,7 @@ export const ControlledBubbleMenu = ({
       ref={refs.setFloating}
       style={floatingStyles}
       {...getFloatingProps()}
-      className="z-50 mx-8 rounded-md bg-background shadow-xl"
+      className="container z-50"
     >
       {children}
     </div>

@@ -7,11 +7,10 @@ import {
   useState,
 } from "react";
 import type { Editor, Range } from "@tiptap/core";
-import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
 
 import { getPrevText } from "../../../lib/editor";
+import { useAiCompletion } from "../bubble-menu/ai/use-ai-completion";
 import type { CommandItemProps } from "./items";
 
 interface Props {
@@ -38,12 +37,7 @@ const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
 export const CommandList = ({ items, command, editor, range }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const { complete, isLoading } = useCompletion({
-    id: "completion",
-    api: "/api/generate",
-    body: {
-      type: "completion",
-    },
+  const { complete, isLoading } = useAiCompletion({
     onResponse: () => {
       editor.chain().focus().deleteRange(range).run();
     },
@@ -53,9 +47,6 @@ export const CommandList = ({ items, command, editor, range }: Props) => {
         from: range.from,
         to: range.from + completion.length,
       });
-    },
-    onError: (e) => {
-      toast.error(e.message);
     },
   });
 

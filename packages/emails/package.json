@@ -23,11 +23,11 @@
     "@acme/prettier-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
     "@react-email/render": "^0.0.7",
-    "@types/nodemailer": "^6.4.9",
+    "@types/nodemailer": "^6.4.10",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.15",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "postcss": "^8.4.28",
     "prettier": "^3.0.2",
     "typescript": "^5.2.2"
@@ -35,7 +35,7 @@
   "dependencies": {
     "@react-email/components": "^0.0.7",
     "@t3-oss/env-nextjs": "^0.6.1",
-    "nodemailer": "^6.9.4",
+    "nodemailer": "^6.9.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-email": "^1.9.4",

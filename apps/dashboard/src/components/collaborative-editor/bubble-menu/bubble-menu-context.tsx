@@ -12,6 +12,8 @@ interface BubbleMenuContextValue {
   setIsAiSelectorOpen: Dispatch<SetStateAction<boolean>>;
   isFixGrammarAndSpellCheckOpen: boolean;
   setIsFixGrammarAndSpellCheckOpen: Dispatch<SetStateAction<boolean>>;
+  isSummarizeOpen: boolean;
+  setIsSummarizeOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const BubbleMenuContext = createContext<BubbleMenuContextValue>({
@@ -25,6 +27,8 @@ const BubbleMenuContext = createContext<BubbleMenuContextValue>({
   setIsAiSelectorOpen: null!,
   isFixGrammarAndSpellCheckOpen: null!,
   setIsFixGrammarAndSpellCheckOpen: null!,
+  isSummarizeOpen: null!,
+  setIsSummarizeOpen: null!,
 });
 
 export function BubbleMenuProvider({ children }: { children: ReactNode }) {
@@ -34,6 +38,7 @@ export function BubbleMenuProvider({ children }: { children: ReactNode }) {
   const [isAiSelectorOpen, setIsAiSelectorOpen] = useState(false);
   const [isFixGrammarAndSpellCheckOpen, setIsFixGrammarAndSpellCheckOpen] =
     useState(false);
+  const [isSummarizeOpen, setIsSummarizeOpen] = useState(false);
 
   return (
     <BubbleMenuContext.Provider
@@ -48,6 +53,8 @@ export function BubbleMenuProvider({ children }: { children: ReactNode }) {
         setIsAiSelectorOpen,
         isFixGrammarAndSpellCheckOpen,
         setIsFixGrammarAndSpellCheckOpen,
+        isSummarizeOpen,
+        setIsSummarizeOpen,
       }}
     >
       {children}

@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.28",
     "tailwindcss": "^3.3.3",
@@ -24,7 +24,7 @@
     "@acme/eslint-config": "^0.2.0",
     "@acme/prettier-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "prettier": "^3.0.2",
     "typescript": "^5.2.2"
   },
