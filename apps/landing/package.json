@@ -41,7 +41,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.46.1",
     "react-wrap-balancer": "^1.1.0",
-    "sonner": "^0.7.1",
+    "sonner": "^0.7.4",
     "zod": "^3.22.2"
   },
   "devDependencies": {
