@@ -35,10 +35,6 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
     return new Response("Not found", { status: 404 });
   }
 
-  const clashData = await fetch(
-    new URL("~/styles/CalSans-SemiBold.otf", import.meta.url),
-  ).then((res) => res.arrayBuffer());
-
   return new ImageResponse(
     (
       <div tw="flex flex-col items-center w-full h-full bg-white">
@@ -76,12 +72,6 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
     {
       width: 1200,
       height: 600,
-      fonts: [
-        {
-          name: "Clash",
-          data: clashData,
-        },
-      ],
       emoji: "blobmoji",
     },
   );
