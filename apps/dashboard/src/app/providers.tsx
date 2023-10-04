@@ -11,7 +11,7 @@ const ToasterProvider = () => {
     theme: "light" | "dark" | "system";
   };
 
-  return <Toaster theme={theme} />;
+  return <Toaster theme={theme} closeButton richColors />;
 };
 
 export function Providers({ children }: PropsWithChildren) {

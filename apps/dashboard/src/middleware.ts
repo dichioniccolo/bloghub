@@ -9,10 +9,6 @@ import { parseRequest } from "./lib/middleware/utils";
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain } = parseRequest(req);
 
-  // if (HOME_HOSTNAMES.has(domain)) {
-  //   return RootMiddleware(req);
-  // }
-
   if (API_HOSTNAMES.has(domain)) {
     return ApiMiddleware(req);
   }

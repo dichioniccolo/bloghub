@@ -33,7 +33,7 @@ import { PostCardCopyButton } from "./post-card-copy-button";
 import { QrOptionsDialog } from "./qr-options-dialog";
 
 interface Props {
-  post: GetPosts[number];
+  post: GetPosts["data"][number];
   project: NonNullable<GetProject>;
   owner: GetProjectOwner;
 }
@@ -102,7 +102,7 @@ export function PostCard({ post, project, owner }: Props) {
     <div
       ref={postRef}
       className={cn(
-        "relative flex gap-2 rounded-lg border-2 p-3 pr-2 shadow transition-all hover:shadow-md sm:p-4",
+        "relative rounded-lg border-2 border-border bg-white p-3 pr-1 shadow transition-all hover:shadow-md sm:p-4",
         {
           "border-black dark:border-zinc-400": selected,
           "border-border": !selected,
@@ -126,61 +126,51 @@ export function PostCard({ post, project, owner }: Props) {
           postId={post.id}
         />
       )}
-      <div className="flex h-full w-2 flex-col">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div
-              className={cn("h-full w-full rounded-lg", {
-                "bg-green-500": !post.hidden,
-                "bg-amber-500": post.hidden,
-              })}
-            />
-          </TooltipTrigger>
-          <TooltipContent>
-            <span className="text-sm">
+      <li className="relative flex items-center justify-between">
+        <div className="relative flex shrink items-center">
+          <Tooltip>
+            <TooltipTrigger>
+              <div
+                className={cn("h-8 w-2 rounded-lg blur-0 sm:h-10", {
+                  "bg-green-500": !post.hidden,
+                  "bg-amber-500": post.hidden,
+                })}
+              />
+            </TooltipTrigger>
+            <TooltipContent className="text-sm">
               {post.hidden
                 ? "This post is hidden"
                 : "This post is visible to the public"}
-            </span>
-          </TooltipContent>
-        </Tooltip>
-      </div>
-      <li className="relative flex flex-1 items-center justify-between">
-        <div className="relative flex shrink items-center">
-          <div>
+            </TooltipContent>
+          </Tooltip>
+          <div className="ml-2 sm:ml-4">
             <div className="flex max-w-fit items-center space-x-2">
-              <Link
-                onClick={(e) => e.stopPropagation()}
-                href={AppRoutes.PostEditor(project.id, post.id)}
-                className="w-full max-w-[170px] truncate text-sm font-semibold text-accent-foreground sm:max-w-[300px] sm:text-base md:max-w-[360px] xl:max-w-[500px]"
-              >
+              <p className="w-full max-w-[140px] truncate text-sm font-semibold sm:max-w-[300px] sm:text-base md:max-w-[360px] xl:max-w-[500px]">
                 {post.title || "Untitled post"}
-              </Link>
+              </p>
               <PostCardCopyButton url={postUrl} />
             </div>
             <div className="flex max-w-fit items-center space-x-1">
-              <p className="whitespace-nowrap text-sm text-muted-foreground">
+              <p className="whitespace-nowrap text-sm text-gray-500">
                 {formatDistance(post.createdAt, new Date(), {
                   addSuffix: true,
                 })}
               </p>
-              <p>•</p>
+              <p className="hidden sm:block">•</p>
               {project.domainVerified ? (
                 <Link
                   onClick={(e) => e.stopPropagation()}
                   href={postUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="max-w-[180px] truncate text-sm font-medium underline-offset-2 hover:underline sm:max-w-[300px] md:max-w-[360px] xl:max-w-[500px]"
+                  className="hidden max-w-[140px] truncate text-sm font-medium text-gray-700 underline-offset-2 hover:underline sm:block sm:max-w-[300px] md:max-w-[360px] xl:max-w-[440px]"
                 >
                   {postUrl}
                 </Link>
               ) : (
                 <Tooltip>
-                  <TooltipTrigger>
-                    <p className="max-w-[180px] truncate text-sm font-medium underline-offset-2 hover:underline sm:max-w-[300px] md:max-w-[360px] xl:max-w-[500px]">
-                      {postUrl}
-                    </p>
+                  <TooltipTrigger className="hidden max-w-[140px] truncate text-sm font-medium text-gray-700 underline-offset-2 hover:underline sm:block sm:max-w-[300px] md:max-w-[360px] xl:max-w-[440px]">
+                    {postUrl}
                   </TooltipTrigger>
                   <TooltipContent className="flex max-w-xs flex-col gap-4 p-4">
                     <span className="text-sm">
@@ -199,14 +189,15 @@ export function PostCard({ post, project, owner }: Props) {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href={AppRoutes.PostStats(project.id, post.id)}>
-            <PostCardButton className="space-x-1 rounded-md px-2 py-0.5">
-              <BarChart2 className="h-4 w-4" />
-              <p className="whitespace-nowrap text-sm text-muted-foreground">
-                {formatNumber(post.visitsCount)}
-                <span className="ml-1 hidden sm:inline-block">visits</span>
-              </p>
-            </PostCardButton>
+          <Link
+            href={AppRoutes.PostStats(project.id, post.id)}
+            className="hidden items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 md:inline-flex"
+          >
+            <BarChart2 className="h-4 w-4" />
+            <p className="whitespace-nowrap text-sm text-muted-foreground">
+              {formatNumber(post.visitsCount)}
+              <span className="ml-1 hidden sm:inline-block">visits</span>
+            </p>
           </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -230,7 +221,7 @@ export function PostCard({ post, project, owner }: Props) {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => setDeleteOpen(true)}
-                className="text-destructive hover:text-destructive"
+                className="text-destructive hover:bg-destructive hover:text-foreground"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete

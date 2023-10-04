@@ -8,11 +8,7 @@ export async function ProjectsCards() {
   const projects = await getProjects();
 
   return (
-    <div
-      className={cn("grid grid-cols-1 gap-5", {
-        "lg:grid-cols-3": projects.length > 0,
-      })}
-    >
+    <div className={cn("grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3")}>
       {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}

@@ -9,7 +9,7 @@ export default function Layout({ children }: PropsWithChildren) {
     <div className="min-h-screen">
       {children}
       <footer className="absolute bottom-0 flex h-14 w-full items-center border-t px-6 font-medium">
-        <div className="xs:mb-0 flex w-full justify-center">
+        <div className="flex w-full justify-center sm:mb-0">
           <div className="flex items-center justify-between gap-6">
             <p className="text-xs text-muted-foreground">
               &copy; {format(new Date(), "yyyy")} {env.NEXT_PUBLIC_APP_NAME}

@@ -18,7 +18,7 @@ import { Providers } from "./providers";
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head />
       <body className={cn(fontMapper["font-sans"], "font-sans")}>
         <Providers>{children}</Providers>

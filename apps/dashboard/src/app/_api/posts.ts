@@ -1,10 +1,13 @@
 "use server";
 
+import type { SQLWrapper } from "@acme/db";
 import {
   and,
   db,
   desc,
   eq,
+  like,
+  or,
   posts,
   projectMembers,
   projects,
@@ -14,10 +17,22 @@ import {
 
 import { $getUser } from "./get-user";
 
-export async function getPosts(projectId: string) {
+export async function getPosts(
+  projectId: string,
+  filter: string,
+  pagination: { page: number; pageSize: number },
+) {
   const user = await $getUser();
 
-  return await db
+  const where: (SQLWrapper | undefined)[] = [eq(posts.projectId, projectId)];
+
+  if (filter) {
+    const realFilter = `%${filter.trim()}%`;
+
+    where.push(or(like(posts.title, realFilter), like(posts.slug, realFilter)));
+  }
+
+  const data = await db
     .select({
       id: posts.id,
       title: posts.title,
@@ -35,9 +50,32 @@ export async function getPosts(projectId: string) {
       ),
     )
     .leftJoin(visits, eq(visits.postId, posts.id))
-    .where(eq(posts.projectId, projectId))
+    .where(and(...where))
+    .limit(pagination.pageSize)
+    .offset(pagination.pageSize * pagination.page - pagination.pageSize)
     .groupBy(posts.id, posts.title, posts.slug, posts.createdAt, posts.hidden)
     .orderBy(posts.createdAt);
+
+  const count = await db
+    .select({
+      count: sql<number>`count(*)`.mapWith(Number),
+    })
+    .from(posts)
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, posts.projectId),
+        eq(projectMembers.userId, user.id),
+      ),
+    )
+    .leftJoin(visits, eq(visits.postId, posts.id))
+    .where(and(...where))
+    .then((x) => x[0]!);
+
+  return {
+    data,
+    count: count.count,
+  };
 }
 
 export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
