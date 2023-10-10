@@ -2,7 +2,7 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { env } from "~/env.mjs";
-import { TEST_HOSTNAME } from "../constants";
+import { TEST_HOSTNAME } from "../../../../../packages/lib/src/constants";
 import { parseRequest, recordVisit } from "./utils";
 
 export function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {

@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { AlertCircle, BarChart2, CaseSensitive } from "lucide-react";
 
+import { GOOGLE_FAVICON_URL } from "@acme/lib/constants";
+import { formatNumber } from "@acme/lib/utils";
 import { Skeleton } from "@acme/ui/components/skeleton";
 import {
   Tooltip,
@@ -11,9 +13,7 @@ import {
 import { CheckCircleFill } from "@acme/ui/icons/check-circle-fill";
 
 import type { GetProjects } from "~/app/_api/projects";
-import { GOOGLE_FAVICON_URL } from "~/lib/constants";
 import { AppRoutes } from "~/lib/routes";
-import { formatNumber } from "~/lib/utils";
 
 interface Props {
   project: GetProjects[number];

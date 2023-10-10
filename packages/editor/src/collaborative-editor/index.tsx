@@ -8,12 +8,12 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import "highlight.js/styles/github-dark.css";
 
 import { useEffect, useRef, useState } from "react";
-import { useRoom, useSelf } from "liveblocks.config";
 import * as Y from "yjs";
 
 import { useDebouncedCallback } from "@acme/ui/hooks/use-debounced-callback";
 
-import { TiptapEditorProps } from "~/lib/editor/props";
+import { TiptapEditorProps } from "../lib/props";
+import { useRoom, useSelf } from "../liveblocks.config";
 import { Avatars } from "../liveblocks/avatars";
 import { CustomBubbleMenu } from "./bubble-menu";
 import { AiFixGrammarAndSpellCheckBubbleMenu } from "./bubble-menu/ai/ai-fix-grammar-and-spell-check-bubble-menu";

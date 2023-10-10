@@ -2,6 +2,8 @@ import { format } from "date-fns";
 
 import type { MediaEnumType } from "@acme/db";
 
+import { ROOM_DIVIDER } from "./constants";
+
 export function isValidUrl(url: string) {
   try {
     new URL(url);
@@ -119,8 +121,6 @@ export function determineMediaType(file: File): MediaEnumType | null {
 
   return null;
 }
-
-export const ROOM_DIVIDER = "-";
 
 export function getRoom(projectId: string, postId: string) {
   return projectId + ROOM_DIVIDER + postId;

@@ -4,7 +4,7 @@ import { userAgent } from "next/server";
 import { and, db, eq, posts, projects, visits } from "@acme/db";
 
 import { env } from "~/env.mjs";
-import { TEST_HOSTNAME } from "../constants";
+import { TEST_HOSTNAME } from "../../../../../packages/lib/src/constants";
 
 export const detectBot = (req: NextRequest) => {
   const url = req.nextUrl;

@@ -15,6 +15,7 @@
     "@acme/emails": "^0.1.0",
     "@acme/files": "^0.1.0",
     "@acme/inngest": "^0.1.0",
+    "@acme/lib": "^0.1.0",
     "@acme/notifications": "^0.1.0",
     "@acme/pusher": "^0.1.0",
     "@acme/stripe": "^0.1.0",

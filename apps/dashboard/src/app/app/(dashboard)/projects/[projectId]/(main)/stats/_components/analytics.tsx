@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { AreaChart, BarList } from "@tremor/react";
 
+import { countries } from "@acme/lib";
+import { getMonthByNumber } from "@acme/lib/utils";
 import {
   Card,
   CardContent,
@@ -11,8 +13,6 @@ import {
 } from "@acme/ui/components/card";
 
 import type { GetProjectAnalytics } from "~/app/_api/projects";
-import countries from "~/lib/countries";
-import { getMonthByNumber } from "~/lib/utils";
 
 interface Props {
   analytics: GetProjectAnalytics;

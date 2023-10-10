@@ -1,8 +1,9 @@
 import { and, db, eq, posts, projectMembers } from "@acme/db";
+import { ROOM_DIVIDER } from "@acme/lib/constants";
+import { getDefaultAvatarImage } from "@acme/lib/utils";
 
 import { $getUser } from "~/app/_api/get-user";
 import { liveblocks } from "~/lib/liveblocks";
-import { getDefaultAvatarImage, ROOM_DIVIDER } from "~/lib/utils";
 
 function getRandomHexColor(): string {
   const letters = "0123456789ABCDEF";

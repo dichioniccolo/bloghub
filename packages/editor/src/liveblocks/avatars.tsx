@@ -1,5 +1,3 @@
-import { useOthers, useSelf } from "liveblocks.config";
-
 import {
   Avatar,
   AvatarFallback,
@@ -10,6 +8,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@acme/ui/components/tooltip";
+
+import { useOthers, useSelf } from "../liveblocks.config";
 
 export function Avatars() {
   const users = useOthers();

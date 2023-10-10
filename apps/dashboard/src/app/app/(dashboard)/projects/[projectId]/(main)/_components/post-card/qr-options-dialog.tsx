@@ -5,6 +5,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
+import { absoluteUrl, constructPostUrl } from "@acme/lib/url";
 import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
@@ -29,13 +30,12 @@ import {
   getQRAsSVGDataUri,
   QRCodeSVG,
 } from "~/lib/qr";
-import { absoluteUrl, constructPostUrl } from "~/lib/url";
 import { AdvancedSettings } from "./advanced-settings";
 
 interface Props {
   open: boolean;
   onOpenChange(open: boolean): void;
-  post: GetPosts[number];
+  post: GetPosts["data"][number];
   project: NonNullable<GetProject>;
   owner: GetProjectOwner;
 }

@@ -1,6 +1,9 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 
-import { API_HOSTNAMES, APP_HOSTNAMES } from "./lib/constants";
+import {
+  API_HOSTNAMES,
+  APP_HOSTNAMES,
+} from "../../../packages/lib/src/constants";
 import { ApiMiddleware } from "./lib/middleware/api-middleware";
 import { AppMiddleware } from "./lib/middleware/app-middleware";
 import { BlogMiddleware } from "./lib/middleware/blog-middleware";

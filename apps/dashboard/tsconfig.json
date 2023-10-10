@@ -18,7 +18,8 @@
     "*.ts",
     "*.mjs",
     "src",
-    "../../packages/ui/src/icons"
+    "../../packages/editor/src/liveblocks",
+    "../../packages/lib/src/constants.ts"
   ],
   "exclude": ["node_modules"]
 }

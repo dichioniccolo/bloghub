@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Liveblocks } from "@liveblocks/node";
 import { LIVEBLOCKS_API_URL } from "liveblocks.server.config";
 
@@ -41,7 +44,6 @@ export async function fetchLiveblocksApi<T = unknown>(
 
     let body;
     if (responseOptions.type === "json") {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       body = await response.json();
     } else if (responseOptions.type === "blob") {
       body = await response.blob();

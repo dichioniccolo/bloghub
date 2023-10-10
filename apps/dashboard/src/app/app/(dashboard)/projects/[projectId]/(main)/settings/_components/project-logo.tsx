@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 
+import { determineMediaType } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -18,7 +19,6 @@ import {
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
 import type { GetProject } from "~/app/_api/projects";
-import { determineMediaType } from "~/lib/utils";
 import { useZact } from "~/lib/zact/client";
 
 interface Props {

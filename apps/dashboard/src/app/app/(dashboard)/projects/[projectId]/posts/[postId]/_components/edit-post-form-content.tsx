@@ -1,7 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
 import { useCallback } from "react";
 
+import {
+  CollaborativeEditor,
+  ResizableMediaWithUploader,
+  Room,
+  SlashCommand,
+} from "@acme/editor";
+import { determineMediaType, getRoom } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 import {
   FormControl,
@@ -16,11 +24,6 @@ import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 import { updatePost } from "~/app/_actions/post/update-post";
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import type { GetPost } from "~/app/_api/posts";
-import { CollaborativeEditor } from "~/components/collaborative-editor";
-import { SlashCommand } from "~/components/collaborative-editor/commands";
-import { ResizableMediaWithUploader } from "~/components/collaborative-editor/resizable-media";
-import { Room } from "~/components/liveblocks/room";
-import { determineMediaType, getRoom } from "~/lib/utils";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
@@ -103,7 +106,6 @@ export function EditPostFormContent({
             <FormItem>
               <FormControl>
                 <TextareaAutosize
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="What's the title?"
@@ -120,7 +122,6 @@ export function EditPostFormContent({
             <FormItem>
               <FormControl>
                 <TextareaAutosize
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="What's the description?"

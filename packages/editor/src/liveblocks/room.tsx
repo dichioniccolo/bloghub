@@ -2,8 +2,9 @@
 
 import type { ReactNode } from "react";
 import { ClientSideSuspense } from "@liveblocks/react";
-import { RoomProvider } from "liveblocks.config";
 import { Loader2 } from "lucide-react";
+
+import { RoomProvider } from "../liveblocks.config";
 
 interface Props {
   children: ReactNode;

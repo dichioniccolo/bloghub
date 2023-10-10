@@ -1,8 +1,4 @@
-import type { JSONContent } from "@tiptap/react";
-
 import { inngest } from "@acme/inngest";
-
-import { env } from "~/env.mjs";
 
 export const postUpdate = inngest.createFunction(
   {
@@ -11,7 +7,7 @@ export const postUpdate = inngest.createFunction(
   {
     event: "post/update",
   },
-  async ({ event, step }) => {
+  async () => {
     // const deleteUnusedMedia = step.run("Delete unusted media", async () => {
     //   const post = await db
     //     .select()
@@ -53,26 +49,26 @@ export const postUpdate = inngest.createFunction(
   },
 );
 
-const findMediaInJsonContent = (content?: JSONContent): string[] => {
-  if (!content) {
-    return [];
-  }
+// const findMediaInJsonContent = (content?: JSONContent): string[] => {
+//   if (!content) {
+//     return [];
+//   }
 
-  if (typeof content === "string") {
-    return [];
-  }
+//   if (typeof content === "string") {
+//     return [];
+//   }
 
-  if (Array.isArray(content)) {
-    return content.flatMap(findMediaInJsonContent);
-  }
+//   if (Array.isArray(content)) {
+//     return content.flatMap(findMediaInJsonContent);
+//   }
 
-  if (content.attrs?.src) {
-    const src = content.attrs.src as string;
+//   if (content.attrs?.src) {
+//     const src = content.attrs.src as string;
 
-    if (src.includes(env.DO_CDN_URL)) {
-      return [src];
-    }
-  }
+//     if (src.includes(env.DO_CDN_URL)) {
+//       return [src];
+//     }
+//   }
 
-  return findMediaInJsonContent(content.content);
-};
+//   return findMediaInJsonContent(content.content);
+// };

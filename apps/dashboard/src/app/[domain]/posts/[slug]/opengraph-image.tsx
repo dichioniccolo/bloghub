@@ -3,8 +3,7 @@ import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/server";
 
 import { and, db, eq, posts, projects } from "@acme/db";
-
-import { truncate } from "~/lib/utils";
+import { truncate } from "@acme/lib/utils";
 
 export const runtime: ServerRuntime = "edge";
 

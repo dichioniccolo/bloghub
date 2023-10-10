@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 
+import { subdomainUrl } from "@acme/lib/url";
 import { cn } from "@acme/ui";
 import { useScroll } from "@acme/ui/hooks/use-scroll";
 import { Logo } from "@acme/ui/icons/logo";
 
 import { env } from "~/env.mjs";
-import { subdomainUrl } from "~/lib/url";
 
 export const navItems = [
   {

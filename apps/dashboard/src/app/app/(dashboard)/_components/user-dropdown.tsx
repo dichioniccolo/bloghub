@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LogOut, Settings } from "lucide-react";
 import { signOut } from "next-auth/react";
 
+import { getDefaultAvatarImage } from "@acme/lib/utils";
 import {
   Avatar,
   AvatarFallback,
@@ -22,7 +23,6 @@ import {
 
 import { useUser } from "~/hooks/use-user";
 import { AppRoutes } from "~/lib/routes";
-import { getDefaultAvatarImage } from "~/lib/utils";
 
 export function UserDropdown() {
   const user = useUser();

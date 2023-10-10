@@ -1,9 +1,10 @@
 import { headers } from "next/headers";
 import Image from "next/image";
 
+import { TEST_HOSTNAME } from "@acme/lib/constants";
+
 import { getProjectByDomain } from "~/app/_api/public/projects";
 import { env } from "~/env.mjs";
-import { TEST_HOSTNAME } from "~/lib/constants";
 
 export default async function NotFound() {
   const hostname = headers()

@@ -41,6 +41,9 @@ importers:
       '@acme/db':
         specifier: ^0.1.0
         version: link:../../packages/db
+      '@acme/editor':
+        specifier: ^0.1.0
+        version: link:../../packages/editor
       '@acme/emails':
         specifier: ^0.1.0
         version: link:../../packages/emails
@@ -50,6 +53,9 @@ importers:
       '@acme/inngest':
         specifier: ^0.1.0
         version: link:../../packages/inngest
+      '@acme/lib':
+        specifier: ^0.1.0
+        version: link:../../packages/lib
       '@acme/notifications':
         specifier: ^0.1.0
         version: link:../../packages/notifications
@@ -72,17 +78,17 @@ importers:
         specifier: ^3.3.0
         version: 3.3.1(react-hook-form@7.46.2)
       '@liveblocks/client':
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: ^1.4.3
+        version: 1.4.3
       '@liveblocks/node':
-        specifier: ^1.4.0
-        version: 1.4.0(encoding@0.1.13)
+        specifier: ^1.4.3
+        version: 1.4.3(encoding@0.1.13)
       '@liveblocks/react':
-        specifier: ^1.4.0
-        version: 1.4.0(react@18.2.0)
+        specifier: ^1.4.3
+        version: 1.4.3(react@18.2.0)
       '@liveblocks/yjs':
-        specifier: ^1.4.0
-        version: 1.4.0(yjs@13.6.8)
+        specifier: ^1.4.3
+        version: 1.4.3(yjs@13.6.8)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
         version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
@@ -321,6 +327,9 @@ importers:
       '@acme/inngest':
         specifier: ^0.1.0
         version: link:../../packages/inngest
+      '@acme/lib':
+        specifier: ^0.1.0
+        version: link:../../packages/lib
       '@acme/notifications':
         specifier: ^0.1.0
         version: link:../../packages/notifications
@@ -495,6 +504,148 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
+  packages/editor:
+    dependencies:
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../db
+      '@acme/lib':
+        specifier: ^0.1.0
+        version: link:../lib
+      '@acme/ui':
+        specifier: ^0.1.0
+        version: link:../ui
+      '@liveblocks/client':
+        specifier: ^1.4.3
+        version: 1.4.3
+      '@liveblocks/node':
+        specifier: ^1.4.3
+        version: 1.4.3(encoding@0.1.13)
+      '@liveblocks/react':
+        specifier: ^1.4.3
+        version: 1.4.3(react@18.2.0)
+      '@liveblocks/yjs':
+        specifier: ^1.4.3
+        version: 1.4.3(yjs@13.6.8)
+      '@tiptap/core':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/pm@2.1.11)
+      '@tiptap/extension-character-count':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-code-block-lowlight':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/extension-code-block@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-collaboration':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)(y-prosemirror@1.0.20)
+      '@tiptap/extension-collaboration-cursor':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(y-prosemirror@1.0.20)
+      '@tiptap/extension-color':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/extension-text-style@2.1.11)
+      '@tiptap/extension-highlight':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-horizontal-rule':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-image':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-link':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-placeholder':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-subscript':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-superscript':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-table':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-table-cell':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-table-header':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-table-row':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-task-item':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-task-list':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-text-align':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-text-style':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-underline':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/extension-youtube':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)
+      '@tiptap/pm':
+        specifier: ^2.1.11
+        version: 2.1.11
+      '@tiptap/react':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)(react-dom@18.2.0)(react@18.2.0)
+      '@tiptap/starter-kit':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/pm@2.1.11)
+      '@tiptap/suggestion':
+        specifier: ^2.1.11
+        version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      lucide-react:
+        specifier: ^0.279.0
+        version: 0.279.0(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.2
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: 0.2.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tsconfig':
+        specifier: ^0.1.0
+        version: link:../../tooling/typescript
+      '@types/react':
+        specifier: ^18.2.23
+        version: 18.2.23
+      '@types/react-dom':
+        specifier: ^18.2.8
+        version: 18.2.8
+      eslint:
+        specifier: ^8.50.0
+        version: 8.50.0
+      prettier:
+        specifier: ^3.0.2
+        version: 3.0.3
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   packages/emails:
     dependencies:
       '@react-email/components':
@@ -601,6 +752,34 @@ importers:
       inngest:
         specifier: ^2.7.2
         version: 2.7.2(encoding@0.1.13)(typescript@5.2.2)
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: 0.2.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tsconfig':
+        specifier: ^0.1.0
+        version: link:../../tooling/typescript
+      eslint:
+        specifier: ^8.50.0
+        version: 8.50.0
+      prettier:
+        specifier: ^3.0.2
+        version: 3.0.3
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/lib:
+    dependencies:
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../db
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
     devDependencies:
       '@acme/eslint-config':
         specifier: 0.2.0
@@ -2679,18 +2858,18 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@liveblocks/client@1.4.0:
-    resolution: {integrity: sha512-YoEUSK2TODtZ1fq0t2zIwtwPkQuLItdQtPoo6FFes6fXTPzDVtGf4CzzraTLBTS/i0SvzTNnUEqK4txDEXKHVQ==}
+  /@liveblocks/client@1.4.3:
+    resolution: {integrity: sha512-599CI3ljbPVwL0oEZt8pvpGr0G2k/is6GudmReMqcfyRLmOD3LDmghtsTde6H3op/7sHii7XWGnwggg/AeTDIw==}
     dependencies:
-      '@liveblocks/core': 1.4.0
+      '@liveblocks/core': 1.4.3
     dev: false
 
-  /@liveblocks/core@1.4.0:
-    resolution: {integrity: sha512-LIgLLFyf4r9dyafGUmt+Dh3uGADwIlEIWVS4t0pbv7N4AGO6hXQ99igf7AczblhRoQlbCgVj4WGHhyqKMdXh6A==}
+  /@liveblocks/core@1.4.3:
+    resolution: {integrity: sha512-IX878B8grfi/7pCKjoI8KW+qw1WmG6Dkamn1fQF9kLRxUQBPO0vkZ86Ae+J/nCKIja2DewtF3Mdb/nA5omQnKg==}
     dev: false
 
-  /@liveblocks/node@1.4.0(encoding@0.1.13):
-    resolution: {integrity: sha512-msgGlvAuhjm0WwG1xG0RRp9qWmc1EUclkxtxbfhmz7UwS7IlFuwotF1LArKHFtrYpoQW+UZk+nCJRzaU9tWryQ==}
+  /@liveblocks/node@1.4.3(encoding@0.1.13):
+    resolution: {integrity: sha512-kzBpMGouvHT/MFxxGhZ2RvyCIECrF8Gji7s96jmV4KI5ZYKgEPTwWN8u5etW47h8m74qXBoRcOVcf939bzuicQ==}
     dependencies:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
@@ -2699,25 +2878,25 @@ packages:
       - encoding
     dev: false
 
-  /@liveblocks/react@1.4.0(react@18.2.0):
-    resolution: {integrity: sha512-IJxmGxdXttwNIzBDWiJrm5Ygl/mK8XaibeiaobT3cUAqZwabyolWwsJEP7BjllRjt+m2ojAoz+bXEdrhdNxDaQ==}
+  /@liveblocks/react@1.4.3(react@18.2.0):
+    resolution: {integrity: sha512-8WROr+gecpAY62cKR/TdquhUuekP837XLDJliV00wHzMxtjGqaiRoA1HqeX4abC/q57QeujU0QialIX2vceLEQ==}
     peerDependencies:
       react: ^16.14.0 || ^17 || ^18
     dependencies:
-      '@liveblocks/client': 1.4.0
-      '@liveblocks/core': 1.4.0
+      '@liveblocks/client': 1.4.3
+      '@liveblocks/core': 1.4.3
       nanoid: 3.3.6
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@liveblocks/yjs@1.4.0(yjs@13.6.8):
-    resolution: {integrity: sha512-M9VvTlxaOnSABDAAeD/kC53bT/eV8VMWf/fblGtu2GfSQD0rHCZTk+zAghGCurU4iA3nUXOup+djUqJXiFIcjA==}
+  /@liveblocks/yjs@1.4.3(yjs@13.6.8):
+    resolution: {integrity: sha512-EXEJmwwq1W/u/EWAKBKE+2RAAyqf0QWlZg1aEWmNG5vXhITLYH4zz3Bb0dmiqvFAynkeJatk0VRjPeKiHNgnAg==}
     peerDependencies:
       yjs: ^13.6.1
     dependencies:
-      '@liveblocks/client': 1.4.0
-      '@liveblocks/core': 1.4.0
+      '@liveblocks/client': 1.4.3
+      '@liveblocks/core': 1.4.3
       js-base64: 3.7.5
       yjs: 13.6.8
     dev: false
@@ -5080,6 +5259,16 @@ packages:
       '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: false
 
+  /@tiptap/extension-collaboration-cursor@2.1.11(@tiptap/core@2.1.11)(y-prosemirror@1.0.20):
+    resolution: {integrity: sha512-IRLqVGwQo8l715VWzyGr+RUuFfQFLB2BsSSy9w5JSekBMbFd7OZcLFXjvwQnQjGqtzPZcc3D1dPCZd/Za17fXg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      y-prosemirror: 1.0.20
+    dependencies:
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.3)(prosemirror-state@1.4.3)(prosemirror-view@1.32.0)(y-protocols@1.0.6)(yjs@13.6.8)
+    dev: false
+
   /@tiptap/extension-collaboration-cursor@2.1.11(@tiptap/core@2.1.11)(y-prosemirror@1.2.1):
     resolution: {integrity: sha512-IRLqVGwQo8l715VWzyGr+RUuFfQFLB2BsSSy9w5JSekBMbFd7OZcLFXjvwQnQjGqtzPZcc3D1dPCZd/Za17fXg==}
     peerDependencies:
@@ -5088,6 +5277,18 @@ packages:
     dependencies:
       '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
       y-prosemirror: 1.2.1(prosemirror-model@1.19.3)(prosemirror-state@1.4.3)(prosemirror-view@1.32.0)(y-protocols@1.0.6)(yjs@13.6.8)
+    dev: false
+
+  /@tiptap/extension-collaboration@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)(y-prosemirror@1.0.20):
+    resolution: {integrity: sha512-f/O0XHIUqQEaQ/gwG9tlhcO7Vmt02EeCWWvuLySvR8VaGGfxl6n72WQHpRpQcxxL+IB4Kp/Al4vijfrDw6gqzA==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
+      y-prosemirror: 1.0.20
+    dependencies:
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
+      '@tiptap/pm': 2.1.11
+      y-prosemirror: 1.0.20(prosemirror-model@1.19.3)(prosemirror-state@1.4.3)(prosemirror-view@1.32.0)(y-protocols@1.0.6)(yjs@13.6.8)
     dev: false
 
   /@tiptap/extension-collaboration@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)(y-prosemirror@1.2.1):
@@ -12656,6 +12857,23 @@ packages:
       yjs: ^13.0.0
     dependencies:
       lib0: 0.2.83
+      yjs: 13.6.8
+    dev: false
+
+  /y-prosemirror@1.0.20(prosemirror-model@1.19.3)(prosemirror-state@1.4.3)(prosemirror-view@1.32.0)(y-protocols@1.0.6)(yjs@13.6.8):
+    resolution: {integrity: sha512-LVMtu3qWo0emeYiP+0jgNcvZkqhzE/otOoro+87q0iVKxy/sMKuiJZnokfJdR4cn9qKx0Un5fIxXqbAlR2bFkA==}
+    peerDependencies:
+      prosemirror-model: ^1.7.1
+      prosemirror-state: ^1.2.3
+      prosemirror-view: ^1.9.10
+      y-protocols: ^1.0.1
+      yjs: ^13.3.2
+    dependencies:
+      lib0: 0.2.86
+      prosemirror-model: 1.19.3
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.32.0
+      y-protocols: 1.0.6(yjs@13.6.8)
       yjs: 13.6.8
     dev: false
 

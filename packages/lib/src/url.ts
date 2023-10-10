@@ -1,4 +1,4 @@
-import { env } from "~/env.mjs";
+import { env } from "./env.mjs";
 
 export function absoluteUrl(path?: string, withProtocol = true) {
   if (!path) {

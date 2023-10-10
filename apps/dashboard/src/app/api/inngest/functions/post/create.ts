@@ -1,8 +1,8 @@
 import { inngest } from "@acme/inngest";
+import { getRoom } from "@acme/lib/utils";
 
 import { createRoom } from "~/lib/liveblocks/actions/create-room";
 import { RoomAccess } from "~/lib/liveblocks/types";
-import { getRoom } from "~/lib/utils";
 
 export const postCreate = inngest.createFunction(
   {

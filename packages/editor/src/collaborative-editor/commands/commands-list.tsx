@@ -9,7 +9,7 @@ import {
 import type { Editor, Range } from "@tiptap/core";
 import { Loader2 } from "lucide-react";
 
-import { getPrevText } from "../../../lib/editor";
+import { getPrevText } from "../../lib/editor";
 import { useAiCompletion } from "../bubble-menu/ai/use-ai-completion";
 import type { CommandItemProps } from "./items";
 

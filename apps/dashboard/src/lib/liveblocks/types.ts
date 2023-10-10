@@ -1,6 +1,5 @@
-import type { UserInfo } from "liveblocks.config";
-
 import type { Project, User } from "@acme/db";
+import type { UserInfo } from "@acme/editor";
 
 export interface Document {
   // Equivalent to Liveblocks room id

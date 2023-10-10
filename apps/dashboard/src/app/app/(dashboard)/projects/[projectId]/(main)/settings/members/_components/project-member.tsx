@@ -4,6 +4,7 @@ import { formatDistance } from "date-fns";
 import { MoreVertical, Trash2 } from "lucide-react";
 
 import type { RoleType } from "@acme/db";
+import { getDefaultAvatarImage } from "@acme/lib/utils";
 import { Avatar, AvatarImage } from "@acme/ui/components/avatar";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -15,7 +16,6 @@ import {
 } from "@acme/ui/components/dropdown-menu";
 
 import type { GetProjectUsers } from "~/app/_api/projects";
-import { getDefaultAvatarImage } from "~/lib/utils";
 import { useDeleteMemberDialog } from "./delete-member-dialog";
 
 interface Props {

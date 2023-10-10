@@ -1,11 +1,13 @@
 {
-  "name": "@acme/pusher",
+  "name": "@acme/lib",
   "private": true,
   "version": "0.1.0",
   "exports": {
-    "./client": "./src/client.ts",
+    ".": "./index.ts",
     "./env": "./src/env.mjs",
-    "./server": "./src/server.ts"
+    "./constants": "./src/constants.ts",
+    "./utils": "./src/utils.ts",
+    "./url": "./src/url.ts"
   },
   "typesVersions": {
     "*": {
@@ -22,9 +24,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.6.1",
-    "pusher": "^5.1.3",
-    "pusher-js": "^8.3.0"
+    "@acme/db": "^0.1.0",
+    "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "@acme/eslint-config": "0.2.0",

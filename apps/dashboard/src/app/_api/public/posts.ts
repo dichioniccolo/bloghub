@@ -12,8 +12,7 @@ import {
   projects,
   sql,
 } from "@acme/db";
-
-import { generateRandomIndices } from "~/lib/utils";
+import { generateRandomIndices } from "@acme/lib/utils";
 
 const skip = (page: number, perPage: number) => (page - 1) * perPage;
 const take = (perPage: number) => perPage;

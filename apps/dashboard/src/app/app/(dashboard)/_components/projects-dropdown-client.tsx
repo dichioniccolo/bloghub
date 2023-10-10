@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
+import { getDefaultAvatarImage } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 import {
   Avatar,
@@ -29,7 +30,6 @@ import {
 import type { GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
 import { useUser } from "~/hooks/use-user";
-import { getDefaultAvatarImage } from "~/lib/utils";
 import { useSelectedProject } from "./use-selected-project";
 
 interface Props {

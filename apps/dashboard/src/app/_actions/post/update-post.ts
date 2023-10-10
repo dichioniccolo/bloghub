@@ -6,10 +6,10 @@ import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
 import { inngest } from "@acme/inngest";
+import { getRoom } from "@acme/lib/utils";
 
 import { $getUser } from "~/app/_api/get-user";
 import { getRoomContent } from "~/lib/liveblocks/actions/get-room-content";
-import { getRoom } from "~/lib/utils";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePost = zactAuthenticated(

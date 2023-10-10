@@ -4,9 +4,11 @@ import type { Content } from "@tiptap/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Loader2 } from "lucide-react";
 
-import { EditorExtensions } from "~/components/collaborative-editor/extensions";
-import { ResizableMedia } from "~/components/collaborative-editor/resizable-media";
-import { TiptapEditorProps } from "~/lib/editor/props";
+import {
+  EditorExtensions,
+  ResizableMedia,
+  TiptapEditorProps,
+} from "@acme/editor";
 
 interface Props {
   value: Content;
