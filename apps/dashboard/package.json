@@ -23,7 +23,7 @@
     "@acme/ui": "^0.1.0",
     "@acme/vercel": "^0.1.0",
     "@floating-ui/react": "^0.26.0",
-    "@hookform/resolvers": "^3.3.0",
+    "@hookform/resolvers": "^3.3.2",
     "@liveblocks/client": "^1.4.5",
     "@liveblocks/node": "^1.4.5",
     "@liveblocks/react": "^1.4.5",
