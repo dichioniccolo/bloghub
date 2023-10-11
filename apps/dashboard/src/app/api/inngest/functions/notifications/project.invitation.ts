@@ -21,6 +21,7 @@ import { sendMail } from "~/lib/email";
 
 export const projectInvitationNotification = inngest.createFunction(
   {
+    id: "notification/project.invitation",
     name: "Project Invitation Notification",
   },
   {

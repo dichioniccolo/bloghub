@@ -14,6 +14,7 @@ import { deleteDomain } from "@acme/vercel";
 
 export const projectDelete = inngest.createFunction(
   {
+    id: "project/delete",
     name: "Delete Project",
   },
   {

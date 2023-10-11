@@ -33,6 +33,6 @@ type InngestEvents = {
 };
 
 export const inngest = new Inngest({
-  name: "BlogHub",
+  id: "BlogHub",
   schemas: new EventSchemas().fromRecord<InngestEvents>(),
 });

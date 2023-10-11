@@ -23,6 +23,7 @@ import { sendMail } from "~/lib/email";
 
 export const domainVerification = inngest.createFunction(
   {
+    id: "domain-verification",
     name: "Domain Verification",
   },
   {
@@ -159,7 +160,7 @@ export const domainVerification = inngest.createFunction(
           },
         });
 
-        await step.sendEvent({
+        await step.sendEvent("project/delete", {
           name: "project/delete",
           data: project,
         });

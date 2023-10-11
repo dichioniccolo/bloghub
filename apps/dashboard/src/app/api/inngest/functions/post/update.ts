@@ -2,6 +2,7 @@ import { inngest } from "@acme/inngest";
 
 export const postUpdate = inngest.createFunction(
   {
+    id: "post/update",
     name: "Update Post content",
   },
   {

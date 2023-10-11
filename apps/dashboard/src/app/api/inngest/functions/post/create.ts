@@ -6,6 +6,7 @@ import { RoomAccess } from "~/lib/liveblocks/types";
 
 export const postCreate = inngest.createFunction(
   {
+    id: "post/create",
     name: "Create Post",
   },
   {

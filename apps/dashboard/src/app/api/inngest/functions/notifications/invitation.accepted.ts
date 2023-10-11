@@ -20,6 +20,7 @@ import { sendMail } from "~/lib/email";
 
 export const invitationAcceptedNotification = inngest.createFunction(
   {
+    id: "notification/invitation.accepted",
     name: "Invitation Accepted Notification",
   },
   {

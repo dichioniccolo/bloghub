@@ -5,7 +5,6 @@ import { and, db, eq, genId, media, projectMembers } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { $getUser } from "~/app/_api/get-user";
-import { env } from "~/env.mjs";
 
 function arrayBufferToBuffer(ab: ArrayBuffer) {
   const buffer = Buffer.alloc(ab.byteLength);
@@ -61,14 +60,13 @@ export async function createProjectMedia(formData: FormData) {
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
-  const uploadedFile = await uploadFile(fileName, fileAsBuffer, file.type, {
-    projectId,
-    postId,
-  });
+  const uploadedFile = await uploadFile(fileName, fileAsBuffer, file.type);
 
   if (!uploadedFile) {
     throw new Error("Failed to upload file");
   }
+
+  const url = uploadedFile.url;
 
   const id = genId();
 
@@ -78,7 +76,7 @@ export async function createProjectMedia(formData: FormData) {
     projectId,
     postId,
     type,
-    url: `${env.DO_CDN_URL}/${fileName}`,
+    url,
   });
 
   return await db

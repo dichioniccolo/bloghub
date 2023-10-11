@@ -5,6 +5,7 @@ import { deleteRoom } from "~/lib/liveblocks/actions/delete-room";
 
 export const postCreate = inngest.createFunction(
   {
+    id: "post/delete",
     name: "Delete Post",
   },
   {

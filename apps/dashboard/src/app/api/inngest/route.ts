@@ -11,15 +11,17 @@ import { postUpdateSettings } from "./functions/post/update.settings";
 import { projectDelete } from "./functions/project/delete";
 import { projectUpdateLogo } from "./functions/project/update.logo";
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-export const { GET, POST, PUT } = serve(inngest, [
-  domainVerification,
-  // convertPostV1TOv2,
-  projectInvitationNotification,
-  invitationAcceptedNotification,
-  removedFromProjectNotification,
-  projectDelete,
-  projectUpdateLogo,
-  postUpdate,
-  postUpdateSettings,
-]);
+export const { GET, POST, PUT } = serve({
+  client: inngest,
+  functions: [
+    domainVerification,
+    // convertPostV1TOv2,
+    projectInvitationNotification,
+    invitationAcceptedNotification,
+    removedFromProjectNotification,
+    projectDelete,
+    projectUpdateLogo,
+    postUpdate,
+    postUpdateSettings,
+  ],
+});

@@ -19,6 +19,7 @@ import { sendMail } from "~/lib/email";
 
 export const removedFromProjectNotification = inngest.createFunction(
   {
+    id: "notification/project.user.removed",
     name: "Removed from Project Notification",
   },
   {
