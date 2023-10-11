@@ -40,7 +40,7 @@
     "react-day-picker": "^8.8.2",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
-    "react-hook-form": "^7.46.2",
+    "react-hook-form": "^7.47.0",
     "react-wrap-balancer": "^1.1.0",
     "sonner": "^1.0.3",
     "zod": "^3.22.2"
