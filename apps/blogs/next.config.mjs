@@ -64,6 +64,7 @@ const securityHeaders = [
 const config = {
   reactStrictMode: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

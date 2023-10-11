@@ -54,7 +54,7 @@ export async function getPosts(
     .limit(pagination.pageSize)
     .offset(pagination.pageSize * pagination.page - pagination.pageSize)
     .groupBy(posts.id, posts.title, posts.slug, posts.createdAt, posts.hidden)
-    .orderBy(posts.createdAt);
+    .orderBy(desc(posts.createdAt));
 
   const count = await db
     .select({
