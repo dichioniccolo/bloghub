@@ -1,8 +1,18 @@
 import type { NextRequest } from "next/server";
 
+import { API_HOSTNAMES } from "@acme/lib/constants";
+import { parseRequest } from "@acme/lib/utils";
+
+import { ApiMiddleware } from "./lib/middleware/api-middleware";
 import { AppMiddleware } from "./lib/middleware/app-middleware";
 
 export default async function middleware(req: NextRequest) {
+  const { domain } = parseRequest(req);
+
+  if (API_HOSTNAMES.has(domain)) {
+    return ApiMiddleware(req);
+  }
+
   return AppMiddleware(req);
 }
 
