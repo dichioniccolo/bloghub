@@ -76,7 +76,7 @@ importers:
         version: 3.3.1(react-hook-form@7.46.2)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       '@upstash/ratelimit':
         specifier: ^0.4.3
         version: 0.4.4(encoding@0.1.13)
@@ -129,8 +129,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(react-dom@18.2.0)(react@18.2.0)
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.2.0
@@ -230,7 +230,7 @@ importers:
         version: 1.4.3(yjs@13.6.8)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       '@tiptap/core':
         specifier: ^2.1.11
         version: 2.1.11(@tiptap/pm@2.1.11)
@@ -406,8 +406,8 @@ importers:
         specifier: ^13.6.8
         version: 13.6.8
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.2.0
@@ -489,7 +489,7 @@ importers:
         version: 3.3.1(react-hook-form@7.46.2)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       '@upstash/ratelimit':
         specifier: ^0.4.3
         version: 0.4.4(encoding@0.1.13)
@@ -551,8 +551,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(react-dom@18.2.0)(react@18.2.0)
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.2.0
@@ -604,7 +604,7 @@ importers:
         version: 1.11.0
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       drizzle-orm:
         specifier: ^0.28.6
         version: 0.28.6(@planetscale/database@1.11.0)
@@ -615,8 +615,8 @@ importers:
         specifier: ^4.23.1
         version: 4.23.1(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.2.0
@@ -757,8 +757,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: 0.2.0
@@ -792,7 +792,7 @@ importers:
         version: 0.0.7(ts-node@10.9.1)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       nodemailer:
         specifier: ^6.9.5
         version: 6.9.5
@@ -809,8 +809,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.2.0
@@ -960,8 +960,8 @@ importers:
         specifier: ^0.1.0
         version: link:../db
       zod:
-        specifier: ^3.22.2
-        version: 3.22.2
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: 0.2.0
@@ -986,7 +986,7 @@ importers:
     dependencies:
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       pusher:
         specifier: ^5.1.3
         version: 5.1.3
@@ -1020,7 +1020,7 @@ importers:
         version: link:../db
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
       stripe:
         specifier: ^13.8.0
         version: 13.8.0
@@ -1181,7 +1181,7 @@ importers:
         version: link:../db
       '@t3-oss/env-nextjs':
         specifier: ^0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.3)
     devDependencies:
       '@acme/eslint-config':
         specifier: 0.2.0
@@ -5280,25 +5280,25 @@ packages:
       defer-to-connect: 1.1.3
     dev: false
 
-  /@t3-oss/env-core@0.6.1(typescript@5.2.2)(zod@3.22.2):
+  /@t3-oss/env-core@0.6.1(typescript@5.2.2)(zod@3.22.3):
     resolution: {integrity: sha512-KQD7qEDJtkWIWWmTVjNvk0wnHpkvAQ6CRbUxbWMFNG/fiosBQDQvtRpBNu6USxBscJCoC4z6y7P9MN52/mLOzw==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
     dependencies:
       typescript: 5.2.2
-      zod: 3.22.2
+      zod: 3.22.3
     dev: false
 
-  /@t3-oss/env-nextjs@0.6.1(typescript@5.2.2)(zod@3.22.2):
+  /@t3-oss/env-nextjs@0.6.1(typescript@5.2.2)(zod@3.22.3):
     resolution: {integrity: sha512-z1dIC++Vxj9kmzX5nSPfcrCSkszy3dTEPC4Ssx7Ap5AqR3c2Qa7S0xf8axn6coy7D/vCXDAAnHYnCMDhtcY3SQ==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
     dependencies:
-      '@t3-oss/env-core': 0.6.1(typescript@5.2.2)(zod@3.22.2)
+      '@t3-oss/env-core': 0.6.1(typescript@5.2.2)(zod@3.22.3)
       typescript: 5.2.2
-      zod: 3.22.2
+      zod: 3.22.3
     dev: false
 
   /@tailwindcss/typography@0.5.10(tailwindcss@3.3.3):
@@ -7683,7 +7683,7 @@ packages:
       hanji: 0.0.5
       json-diff: 0.9.0
       minimatch: 7.4.6
-      zod: 3.22.2
+      zod: 3.22.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9100,7 +9100,7 @@ packages:
       serialize-error-cjs: 0.1.3
       type-fest: 3.13.1
       typescript: 5.2.2
-      zod: 3.22.2
+      zod: 3.22.3
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -13121,5 +13121,5 @@ packages:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
-  /zod@3.22.2:
-    resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
+  /zod@3.22.3:
+    resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
