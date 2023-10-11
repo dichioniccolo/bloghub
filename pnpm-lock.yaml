@@ -27,7 +27,7 @@ importers:
         specifier: ^8.0.3
         version: 8.0.3
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       turbo:
         specifier: ^1.10.15
@@ -166,7 +166,7 @@ importers:
         specifier: ^8.4.31
         version: 8.4.31
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       tailwindcss:
         specifier: ^3.3.3
@@ -443,7 +443,7 @@ importers:
         specifier: ^8.4.31
         version: 8.4.31
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       tailwindcss:
         specifier: ^3.3.3
@@ -588,7 +588,7 @@ importers:
         specifier: ^8.4.31
         version: 8.4.31
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       tailwindcss:
         specifier: ^3.3.3
@@ -637,7 +637,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -779,7 +779,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -843,7 +843,7 @@ importers:
         specifier: ^8.4.31
         version: 8.4.31
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -880,7 +880,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -908,7 +908,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -951,7 +951,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -979,7 +979,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -1010,7 +1010,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -1041,7 +1041,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -1171,7 +1171,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -1199,7 +1199,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
@@ -1257,7 +1257,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(prettier@3.0.3)
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       prettier-plugin-tailwindcss:
         specifier: ^0.5.5
@@ -1301,7 +1301,7 @@ importers:
         specifier: ^8.51.0
         version: 8.51.0
       prettier:
-        specifier: ^3.0.2
+        specifier: ^3.0.3
         version: 3.0.3
       typescript:
         specifier: ^5.2.2
