@@ -93,6 +93,7 @@ const config = {
     "@acme/emails",
     "@acme/files",
     "@acme/inngest",
+    "@acme/lib",
     "@acme/notifications",
     "@acme/pusher",
     "@acme/stripe",

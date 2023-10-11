@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
+import { AppRoutes } from "@acme/lib/routes";
 import type { AppNotification } from "@acme/notifications";
 import {
   isInvitationAcceptedNotification,
@@ -28,7 +29,6 @@ import { ProjectInvitationNotification } from "~/components/notifications/types/
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { useUser } from "~/hooks/use-user";
-import { AppRoutes } from "~/lib/routes";
 import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 

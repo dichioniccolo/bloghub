@@ -15,6 +15,7 @@ import {
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 
+import { AppRoutes } from "@acme/lib/routes";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -26,7 +27,6 @@ import {
   CommandList,
 } from "@acme/ui/components/command";
 
-import { AppRoutes } from "~/lib/routes";
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 
 export function CommandMenu() {

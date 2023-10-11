@@ -11,6 +11,7 @@ import {
   users,
   verificationTokens,
 } from "@acme/db";
+import { subdomainUrl } from "@acme/lib/url";
 
 import { env } from "../env.mjs";
 
@@ -133,11 +134,9 @@ export async function getLoginUrl(
     token,
   });
 
-  const url = `${
-    env.NODE_ENV === "development"
-      ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-      : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-  }/api/auth/callback/email?${params.toString()}`;
+  const url = `${subdomainUrl(
+    "app",
+  )}/api/auth/callback/email?${params.toString()}`;
 
   return url;
 }

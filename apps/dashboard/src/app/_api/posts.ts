@@ -68,7 +68,6 @@ export async function getPosts(
         eq(projectMembers.userId, user.id),
       ),
     )
-    .leftJoin(visits, eq(visits.postId, posts.id))
     .where(and(...where))
     .then((x) => x[0]!);
 

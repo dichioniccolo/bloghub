@@ -1,26 +1,9 @@
-import type { NextFetchEvent, NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
-import {
-  API_HOSTNAMES,
-  APP_HOSTNAMES,
-} from "../../../packages/lib/src/constants";
-import { ApiMiddleware } from "./lib/middleware/api-middleware";
 import { AppMiddleware } from "./lib/middleware/app-middleware";
-import { BlogMiddleware } from "./lib/middleware/blog-middleware";
-import { parseRequest } from "./lib/middleware/utils";
 
-export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  const { domain } = parseRequest(req);
-
-  if (API_HOSTNAMES.has(domain)) {
-    return ApiMiddleware(req);
-  }
-
-  if (APP_HOSTNAMES.has(domain)) {
-    return AppMiddleware(req);
-  }
-
-  return BlogMiddleware(req, ev);
+export default async function middleware(req: NextRequest) {
+  return AppMiddleware(req);
 }
 
 export const config = {

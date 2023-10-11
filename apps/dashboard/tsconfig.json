@@ -18,8 +18,7 @@
     "*.ts",
     "*.mjs",
     "src",
-    "../../packages/editor/src/liveblocks",
-    "../../packages/lib/src/constants.ts"
+    "../blogs/src/lib/middleware/blog-middleware.ts"
   ],
   "exclude": ["node_modules"]
 }

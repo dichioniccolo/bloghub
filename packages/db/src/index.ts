@@ -21,7 +21,6 @@ const connection = connect({
 
 export const db = drizzle(connection, {
   schema,
-  logger: true,
 });
 
 export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 21);

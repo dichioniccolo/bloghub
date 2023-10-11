@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-import { parseRequest } from "./utils";
+import { parseRequest } from "@acme/lib/utils";
 
 export async function AppMiddleware(req: NextRequest) {
   const { path } = parseRequest(req);
@@ -21,7 +21,5 @@ export async function AppMiddleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  return NextResponse.rewrite(
-    new URL(`/app${path === "/" ? "" : path}`, req.url),
-  );
+  return NextResponse.next();
 }

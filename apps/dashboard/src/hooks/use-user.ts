@@ -1,23 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
-
-import { AppRoutes } from "~/lib/routes";
+import { useSession } from "next-auth/react";
 
 export function useUser() {
-  const router = useRouter();
-
-  const { data } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.replace(AppRoutes.Login);
-    },
-  });
-
-  if (!data) {
-    void signOut();
-  }
+  const { data } = useSession();
 
   return data?.user ?? null;
 }

@@ -14,9 +14,9 @@ import {
   sql,
 } from "@acme/db";
 import { inngest } from "@acme/inngest";
+import { AppRoutes } from "@acme/lib/routes";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const updatePostSettings = zactAuthenticated(

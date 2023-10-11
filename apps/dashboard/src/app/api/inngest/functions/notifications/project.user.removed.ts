@@ -9,12 +9,13 @@ import {
 } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
+import { AppRoutes } from "@acme/lib/routes";
+import { subdomainUrl } from "@acme/lib/url";
 import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
 import { getLoginUrl } from "~/lib/auth";
 import { sendMail } from "~/lib/email";
-import { AppRoutes } from "~/lib/routes";
 
 export const removedFromProjectNotification = inngest.createFunction(
   {
@@ -30,11 +31,7 @@ export const removedFromProjectNotification = inngest.createFunction(
       const unsubscribeUrl = await getLoginUrl(
         event.data.userEmail,
         expiresAt,
-        `${
-          env.NODE_ENV === "development"
-            ? `http://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-            : `https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`
-        }${AppRoutes.NotificationsSettings}`,
+        `${subdomainUrl("app")}${AppRoutes.NotificationsSettings}`,
       );
 
       await sendMail({

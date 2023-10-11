@@ -5,9 +5,9 @@ import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
 import { inngest } from "@acme/inngest";
+import { AppRoutes } from "@acme/lib/routes";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 
 export const deletePost = zactAuthenticated(

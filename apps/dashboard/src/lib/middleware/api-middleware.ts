@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { parseRequest } from "./utils";
+import { parseRequest } from "@acme/lib/utils";
 
 export function ApiMiddleware(req: NextRequest) {
   const { path } = parseRequest(req);

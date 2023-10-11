@@ -1,8 +1,10 @@
+import type { NextRequest } from "next/server";
 import { format } from "date-fns";
 
 import type { MediaEnumType } from "@acme/db";
 
-import { ROOM_DIVIDER } from "./constants";
+import { ROOM_DIVIDER, TEST_HOSTNAME } from "./constants";
+import { env } from "./env.mjs";
 
 export function isValidUrl(url: string) {
   try {
@@ -124,4 +126,22 @@ export function determineMediaType(file: File): MediaEnumType | null {
 
 export function getRoom(projectId: string, postId: string) {
   return projectId + ROOM_DIVIDER + postId;
+}
+
+export function parseRequest(req: NextRequest) {
+  let domain = req.headers.get("host")!;
+  domain = domain.replace("www.", ""); // remove www. from domain
+
+  if (domain.includes("test.localhost") && env.NODE_ENV === "development")
+    domain = TEST_HOSTNAME;
+
+  const path = req.nextUrl.pathname;
+
+  // Here, we are using decodeURIComponent to handle foreign languages like Hebrew
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const key = decodeURIComponent(path.split("/")[1]);
+  const fullKey = decodeURIComponent(path.slice(1));
+
+  return { domain, path, key, fullKey };
 }

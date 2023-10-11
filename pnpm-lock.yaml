@@ -36,6 +36,145 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
+  apps/blogs:
+    dependencies:
+      '@acme/db':
+        specifier: ^0.1.0
+        version: link:../../packages/db
+      '@acme/editor':
+        specifier: ^0.1.0
+        version: link:../../packages/editor
+      '@acme/emails':
+        specifier: ^0.1.0
+        version: link:../../packages/emails
+      '@acme/files':
+        specifier: ^0.1.0
+        version: link:../../packages/files
+      '@acme/inngest':
+        specifier: ^0.1.0
+        version: link:../../packages/inngest
+      '@acme/lib':
+        specifier: ^0.1.0
+        version: link:../../packages/lib
+      '@acme/notifications':
+        specifier: ^0.1.0
+        version: link:../../packages/notifications
+      '@acme/pusher':
+        specifier: ^0.1.0
+        version: link:../../packages/pusher
+      '@acme/stripe':
+        specifier: ^0.1.0
+        version: link:../../packages/stripe
+      '@acme/ui':
+        specifier: ^0.1.0
+        version: link:../../packages/ui
+      '@acme/vercel':
+        specifier: ^0.1.0
+        version: link:../../packages/vercel
+      '@hookform/resolvers':
+        specifier: ^3.3.0
+        version: 3.3.1(react-hook-form@7.46.2)
+      '@t3-oss/env-nextjs':
+        specifier: ^0.6.1
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
+      '@upstash/ratelimit':
+        specifier: ^0.4.3
+        version: 0.4.4(encoding@0.1.13)
+      '@vercel/analytics':
+        specifier: ^1.0.2
+        version: 1.0.2
+      '@vercel/edge-config':
+        specifier: ^0.4.1
+        version: 0.4.1
+      '@vercel/kv':
+        specifier: ^0.2.3
+        version: 0.2.3(encoding@0.1.13)
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
+      encoding:
+        specifier: ^0.1.13
+        version: 0.1.13
+      framer-motion:
+        specifier: ^10.16.4
+        version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
+      lucide-react:
+        specifier: ^0.279.0
+        version: 0.279.0(react@18.2.0)
+      next:
+        specifier: ^13.5.3
+        version: 13.5.3(react-dom@18.2.0)(react@18.2.0)
+      next-auth:
+        specifier: ^4.23.1
+        version: 4.23.1(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)
+      next-themes:
+        specifier: ^0.2.1
+        version: 0.2.1(next@13.5.3)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-dropzone:
+        specifier: ^14.2.3
+        version: 14.2.3(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.46.2
+        version: 7.46.2(react@18.2.0)
+      react-wrap-balancer:
+        specifier: ^1.1.0
+        version: 1.1.0(react@18.2.0)
+      sonner:
+        specifier: ^1.0.3
+        version: 1.0.3(react-dom@18.2.0)(react@18.2.0)
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.2
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: ^0.2.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tailwind-config':
+        specifier: ^0.1.0
+        version: link:../../tooling/tailwind
+      '@acme/tsconfig':
+        specifier: ^0.1.0
+        version: link:../../tooling/typescript
+      '@types/html-escaper':
+        specifier: ^3.0.0
+        version: 3.0.0
+      '@types/node':
+        specifier: ^20.8.0
+        version: 20.8.0
+      '@types/react':
+        specifier: ^18.2.23
+        version: 18.2.23
+      '@types/react-dom':
+        specifier: ^18.2.8
+        version: 18.2.8
+      autoprefixer:
+        specifier: ^10.4.16
+        version: 10.4.16(postcss@8.4.31)
+      eslint:
+        specifier: ^8.50.0
+        version: 8.50.0
+      postcss:
+        specifier: ^8.4.31
+        version: 8.4.31
+      prettier:
+        specifier: ^3.0.2
+        version: 3.0.3
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   apps/dashboard:
     dependencies:
       '@acme/db':
@@ -780,6 +919,15 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      next:
+        specifier: ^13.5.3
+        version: 13.5.3(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
     devDependencies:
       '@acme/eslint-config':
         specifier: 0.2.0
@@ -790,6 +938,12 @@ importers:
       '@acme/tsconfig':
         specifier: ^0.1.0
         version: link:../../tooling/typescript
+      '@types/react':
+        specifier: ^18.2.23
+        version: 18.2.23
+      '@types/react-dom':
+        specifier: ^18.2.8
+        version: 18.2.8
       eslint:
         specifier: ^8.50.0
         version: 8.50.0
@@ -6595,7 +6749,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001524
+      caniuse-lite: 1.0.30001541
       electron-to-chromium: 1.4.505
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11(browserslist@4.21.10)
@@ -6708,10 +6862,6 @@ packages:
     resolution: {integrity: sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==}
     engines: {node: '>=14.16'}
     dev: true
-
-  /caniuse-lite@1.0.30001524:
-    resolution: {integrity: sha512-Jj917pJtYg9HSJBF95HVX3Cdr89JUyLT4IZ8SvM5aDRni95swKgYi3TgYLH5hnGfPE/U1dg6IfZ50UsIlLkwSA==}
-    dev: false
 
   /caniuse-lite@1.0.30001541:
     resolution: {integrity: sha512-bLOsqxDgTqUBkzxbNlSBt8annkDpQB9NdzdTbO2ooJ+eC/IQcvDspDc058g84ejCelF7vHUx57KIOjEecOHXaw==}
@@ -7241,7 +7391,7 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
     dependencies:
-      '@babel/runtime': 7.22.11
+      '@babel/runtime': 7.23.1
     dev: false
 
   /debug@3.2.7:
@@ -9975,7 +10125,7 @@ packages:
       nodemailer:
         optional: true
     dependencies:
-      '@babel/runtime': 7.22.11
+      '@babel/runtime': 7.23.1
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.14.4
@@ -10533,7 +10683,7 @@ packages:
       postcss: 8.4.31
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
-      resolve: 1.22.4
+      resolve: 1.22.6
 
   /postcss-js@4.0.1(postcss@8.4.21):
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
@@ -11459,6 +11609,7 @@ packages:
       is-core-module: 2.13.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+    dev: false
 
   /resolve@1.22.6:
     resolution: {integrity: sha512-njhxM7mV12JfufShqGy3Rz8j11RPdLy4xi15UurGJeoHLfJpVXKdh3ueuOqbYUcDZnffr6X739JBo5LzyahEsw==}
@@ -11467,7 +11618,6 @@ packages:
       is-core-module: 2.13.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-    dev: false
 
   /resolve@2.0.0-next.4:
     resolution: {integrity: sha512-iMDbmAWtfU+MHpxt/I5iWI7cY6YVEZUQ3MBgPQ++XD1PELuJHIl82xBmObyP2KyQmkNB2dsqF7seoQQiAn5yDQ==}
@@ -12098,7 +12248,7 @@ packages:
       postcss-load-config: 4.0.1(postcss@8.4.31)(ts-node@10.9.1)
       postcss-nested: 6.0.1(postcss@8.4.31)
       postcss-selector-parser: 6.0.13
-      resolve: 1.22.4
+      resolve: 1.22.6
       sucrase: 3.34.0
     transitivePeerDependencies:
       - ts-node

@@ -11,8 +11,7 @@ import {
   sql,
   users,
 } from "@acme/db";
-
-import { AppRoutes } from "~/lib/routes";
+import { AppRoutes } from "@acme/lib/routes";
 
 import "isomorphic-fetch";
 

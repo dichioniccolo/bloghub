@@ -4,10 +4,10 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
+import { AppRoutes } from "@acme/lib/routes";
 import { createDomain, deleteDomain } from "@acme/vercel";
 
 import { $getUser } from "~/app/_api/get-user";
-import { AppRoutes } from "~/lib/routes";
 import { zactAuthenticated } from "~/lib/zact/server";
 import { DomainSchema } from "../schemas";
 
