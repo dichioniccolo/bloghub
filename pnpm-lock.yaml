@@ -223,8 +223,8 @@ importers:
         specifier: ^1.4.6
         version: 1.4.6(encoding@0.1.13)
       '@liveblocks/react':
-        specifier: ^1.4.5
-        version: 1.4.5(react@18.2.0)
+        specifier: ^1.4.6
+        version: 1.4.6(react@18.2.0)
       '@liveblocks/yjs':
         specifier: ^1.4.5
         version: 1.4.5(yjs@13.6.8)
@@ -661,8 +661,8 @@ importers:
         specifier: ^1.4.6
         version: 1.4.6(encoding@0.1.13)
       '@liveblocks/react':
-        specifier: ^1.4.5
-        version: 1.4.5(react@18.2.0)
+        specifier: ^1.4.6
+        version: 1.4.6(react@18.2.0)
       '@liveblocks/yjs':
         specifier: ^1.4.5
         version: 1.4.5(yjs@13.6.8)
@@ -3048,8 +3048,18 @@ packages:
       '@liveblocks/core': 1.4.5
     dev: false
 
+  /@liveblocks/client@1.4.6:
+    resolution: {integrity: sha512-/0fpoY6jQzk6T5bK0725zbARQz3qDljEO0oEJMf0TfwuzYpquUmu1XJw7vaBq8N66R2xrW9Ma5osa1z7R7QijQ==}
+    dependencies:
+      '@liveblocks/core': 1.4.6
+    dev: false
+
   /@liveblocks/core@1.4.5:
     resolution: {integrity: sha512-3vHDk5tt50XNOiabSFsCm/R21/mM1uwTGjovG1gveSTyHMzapbBtIsi3Cv1TRVLHGHw7AQb6RnWcSpSTtCiU/g==}
+    dev: false
+
+  /@liveblocks/core@1.4.6:
+    resolution: {integrity: sha512-z4zXbD4SJGmhQyp9+/dnggfHmJfcaJvWwV/dFlBK17gBgKeV5P+g2gsakZMjkcHcJTqLS/tAeZyNnaRThq8z4Q==}
     dev: false
 
   /@liveblocks/node@1.4.6(encoding@0.1.13):
@@ -3062,13 +3072,13 @@ packages:
       - encoding
     dev: false
 
-  /@liveblocks/react@1.4.5(react@18.2.0):
-    resolution: {integrity: sha512-LzSWRhtypLiYk1YFWo/cvogJuo7r+0z+c4FX7dtaDCxSb3Z1c4obqnVwn0Whqf/YA933WqvvTmiA83xeR//Eyg==}
+  /@liveblocks/react@1.4.6(react@18.2.0):
+    resolution: {integrity: sha512-/J5MTvsHl1p2FShhRi4AJKW7D9ZVY/DjMbhaKL9Zj+cSrncHT+mTs4merCPVEYCZG0ctQYRguciSn71iAhKprQ==}
     peerDependencies:
       react: ^16.14.0 || ^17 || ^18
     dependencies:
-      '@liveblocks/client': 1.4.5
-      '@liveblocks/core': 1.4.5
+      '@liveblocks/client': 1.4.6
+      '@liveblocks/core': 1.4.6
       nanoid: 3.3.6
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
