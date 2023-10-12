@@ -56,7 +56,7 @@
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
     "@tiptap/suggestion": "^2.1.12",
-    "@tremor/react": "^3.9.1",
+    "@tremor/react": "^3.9.2",
     "@upstash/ratelimit": "^0.4.4",
     "@vercel/analytics": "^1.1.0",
     "@vercel/edge-config": "^0.4.1",
