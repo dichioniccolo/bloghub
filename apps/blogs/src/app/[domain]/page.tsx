@@ -15,21 +15,21 @@ interface Props {
   params: {
     domain: string;
   };
-  searchParams?: {
+  searchParams: {
     page?: string;
   };
 }
 
 export const runtime: ServerRuntime = "edge";
-export const dynamic = "force-dynamic";
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 5;
 
 export default async function Page({
   params: { domain },
   searchParams,
 }: Props) {
-  const page = parseInt(searchParams?.page ?? "1");
+  const page =
+    typeof searchParams.page === "string" ? Number(searchParams?.page) : 1;
 
   const project = await getProjectByDomain(domain);
 
