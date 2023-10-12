@@ -39,6 +39,7 @@ const config = {
     ".next",
     "dist",
     "pnpm-lock.yaml",
+    "bun.lockb",
   ],
   reportUnusedDisableDirectives: true,
 };

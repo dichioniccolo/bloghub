@@ -1,13 +1,15 @@
 import { useEffect, useTransition } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
 
-export function Done() {
+interface Props {
+  step?: string;
+  projectId?: string;
+}
+
+export function Done({ step, projectId }: Props) {
   const router = useRouter();
-  const search = useSearchParams();
-  const step = search.get("step");
-  const projectId = search.get("projectId");
 
   const [_, startTransition] = useTransition();
   useEffect(() => {
@@ -23,7 +25,7 @@ export function Done() {
 
   return (
     <motion.div
-      className="shadox-xl flex h-full w-full flex-col items-center justify-center bg-opacity-60 p-8"
+      className="flex h-full w-full flex-col items-center justify-center bg-opacity-60 p-8"
       exit={{ opacity: 0, scale: 0.95 }}
       initial={{ background: "transparent" }}
       animate={{ background: "var(--background)" }}

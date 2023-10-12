@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { Input } from "@acme/ui/components/input";
@@ -9,16 +9,11 @@ import { useDebounce } from "@acme/ui/hooks/use-debounce";
 
 interface Props {
   projectId: string;
+  filter?: string;
 }
 
-export function FilterPosts({ projectId }: Props) {
+export function FilterPosts({ projectId, filter }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const q =
-    searchParams.get("q") && typeof searchParams.get("q") === "string"
-      ? searchParams.get("q")!
-      : "";
 
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
@@ -47,7 +42,7 @@ export function FilterPosts({ projectId }: Props) {
           </div>
           <Input
             value={query}
-            defaultValue={q ?? ""}
+            defaultValue={filter ?? ""}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search..."
           />

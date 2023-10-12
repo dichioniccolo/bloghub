@@ -5,6 +5,11 @@
     "node": ">=18.18.1"
   },
   "packageManager": "pnpm@8.9.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ],
   "scripts": {
     "reinstall": "pnpm clean:workspaces && pnpm i",
     "build": "turbo build",
@@ -24,7 +29,7 @@
     "typecheck": "turbo typecheck"
   },
   "dependencies": {
-    "@acme/prettier-config": "^0.1.0",
+    "@acme/prettier-config": "workspace:*",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
     "@manypkg/cli": "^0.21.0",

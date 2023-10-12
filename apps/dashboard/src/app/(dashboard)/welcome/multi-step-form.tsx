@@ -1,21 +1,22 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 
 import { CreateProject } from "./create-project";
 import { Done } from "./done";
 import { Intro } from "./intro";
 
-export function MultiStepForm() {
-  const search = useSearchParams();
-  const step = search.get("step");
+interface Props {
+  step?: string;
+  projectId?: string;
+}
 
+export function MultiStepForm({ step, projectId }: Props) {
   return (
     <AnimatePresence mode="wait">
       {!step && <Intro key="intro" />}
       {step === "create-project" && <CreateProject />}
-      {step === "done" && <Done />}
+      {step === "done" && <Done step={step} projectId={projectId} />}
     </AnimatePresence>
   );
 }

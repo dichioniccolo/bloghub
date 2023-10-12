@@ -45,13 +45,13 @@ but feel free to create a `.env` file in the root directory and add the environm
 ### 4. Run the application
 
 ```bash
-pnpm run dev
+pnpm dev
 ```
 
 ### 5. Push database
 
 ```bash
-pnpm run db:push
+pnpm db:push
 ```
 
 ## How do I deploy this?

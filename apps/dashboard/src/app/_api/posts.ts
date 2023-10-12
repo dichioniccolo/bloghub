@@ -19,8 +19,8 @@ import { $getUser } from "./get-user";
 
 export async function getPosts(
   projectId: string,
-  filter: string,
   pagination: { page: number; pageSize: number },
+  filter?: string,
 ) {
   const user = await $getUser();
 

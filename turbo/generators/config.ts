@@ -1,4 +1,4 @@
-import type { PackageJson, PlopTypes } from "@turbo/gen";
+import type { PlopTypes } from "@turbo/gen";
 import { execSync } from "node:child_process";
 
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
@@ -51,7 +51,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "modify",
         path: "packages/{{ name }}/package.json",
         async transform(content, answers) {
-          const pkg = JSON.parse(content) as PackageJson;
+          const pkg = JSON.parse(content);
           for (const dep of answers.deps.split(" ").filter(Boolean)) {
             const version = await fetch(
               `https://registry.npmjs.org/-/package/${dep}/dist-tags`,
