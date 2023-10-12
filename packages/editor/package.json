@@ -24,7 +24,7 @@
     "@acme/lib": "^0.1.0",
     "@acme/ui": "^0.1.0",
     "@liveblocks/client": "^1.4.5",
-    "@liveblocks/node": "^1.4.5",
+    "@liveblocks/node": "^1.4.6",
     "@liveblocks/react": "^1.4.5",
     "@liveblocks/yjs": "^1.4.5",
     "@tiptap/core": "^2.1.12",
