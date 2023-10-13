@@ -58,7 +58,7 @@
     "@tiptap/suggestion": "^2.1.12",
     "@tremor/react": "^3.9.2",
     "@upstash/ratelimit": "^0.4.4",
-    "@vercel/analytics": "^1.1.0",
+    "@vercel/analytics": "^1.1.1",
     "@vercel/edge-config": "^0.4.1",
     "@vercel/kv": "^0.2.3",
     "ai": "^2.2.15",
