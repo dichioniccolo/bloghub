@@ -31,7 +31,7 @@
     "date-fns": "^2.30.0",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.4",
-    "lucide-react": "^0.286.0",
+    "lucide-react": "^0.287.0",
     "next": "^13.5.4",
     "next-auth": "^4.23.2",
     "next-themes": "^0.2.1",
