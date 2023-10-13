@@ -2,25 +2,8 @@
 
 import { del, put } from "@vercel/blob";
 
-// import {
-//   DeleteObjectCommand,
-//   DeleteObjectsCommand,
-//   PutObjectCommand,
-// } from "@aws-sdk/client-s3";
-
-// function getFileName(url: string) {
-//   // take only last part of url after the first slash without https://
-//   return url.split("/").slice(3).join("/");
-// }
-
 export async function deleteFile(url: string) {
   return await del(url);
-  // return await s3.send(
-  //   new DeleteObjectCommand({
-  //     Bucket: env.DO_BUCKET,
-  //     Key: getFileName(url),
-  //   }),
-  // );
 }
 
 export async function deleteFiles(urls: string[]) {
@@ -28,16 +11,6 @@ export async function deleteFiles(urls: string[]) {
     return;
   }
 
-  // await s3.send(
-  //   new DeleteObjectsCommand({
-  //     Bucket: env.DO_BUCKET,
-  //     Delete: {
-  //       Objects: urls.map((url) => ({
-  //         Key: getFileName(url),
-  //       })),
-  //     },
-  //   }),
-  // );
   return await del(urls);
 }
 
@@ -50,16 +23,6 @@ export async function uploadFile(
     contentType,
     access: "public",
   });
-  // const command = new PutObjectCommand({
-  //   Bucket: env.DO_BUCKET,
-  //   Key: name,
-  //   Body: file,
-  //   ACL: "public-read",
-  //   Metadata: metadata,
-  //   ContentType: contentType,
-  // });
-
-  // return await s3.send(command);
 }
 
 export async function uploadFiles(
