@@ -21,9 +21,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.427.0",
-    "@aws-sdk/s3-request-presigner": "^3.427.0",
-    "@aws-sdk/signature-v4-crt": "^3.425.0",
+    "@aws-sdk/client-s3": "^3.428.0",
+    "@aws-sdk/s3-request-presigner": "^3.428.0",
+    "@aws-sdk/signature-v4-crt": "^3.428.0",
     "@vercel/blob": "^0.13.0",
     "aws-crt": "^1.18.0"
   },
