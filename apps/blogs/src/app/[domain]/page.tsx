@@ -22,7 +22,7 @@ interface Props {
 
 export const runtime: ServerRuntime = "edge";
 
-const POSTS_PER_PAGE = 5;
+const POSTS_PER_PAGE = 50;
 
 export default async function Page({
   params: { domain },

@@ -13,7 +13,6 @@ import {
   projects,
   sql,
 } from "@acme/db";
-import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 
 import { $getUser } from "~/app/_api/get-user";
@@ -98,15 +97,6 @@ export const updatePostSettings = zactAuthenticated(
   postId,
   data: { slug, thumbnailUrl, seoTitle, seoDescription },
 }) => {
-  const oldThumbnailUrl = await db
-    .select({
-      thumbnailUrl: posts.thumbnailUrl,
-    })
-    .from(posts)
-    .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)))
-    .then((x) => x[0]!)
-    .then((x) => x.thumbnailUrl);
-
   await db
     .update(posts)
     .set({
@@ -117,16 +107,6 @@ export const updatePostSettings = zactAuthenticated(
       hidden: false,
     })
     .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)));
-
-  await inngest.send({
-    name: "post/update.settings",
-    data: {
-      projectId,
-      postId,
-      oldThumbnailUrl,
-      newThumbnailUrl: thumbnailUrl,
-    },
-  });
 
   revalidatePath(AppRoutes.PostEditor(projectId, postId));
 });

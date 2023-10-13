@@ -22,14 +22,8 @@ type InngestEvents = {
     newLogoUrl?: string | null;
   }>;
   "post/create": WrapWithData<{ postId: string; projectId: string }>;
-  "post/update": WrapWithData<{ id: string }>;
-  "post/update.settings": WrapWithData<{
-    projectId: string;
-    postId: string;
-    oldThumbnailUrl?: string | null;
-    newThumbnailUrl?: string | null;
-  }>;
   "post/delete": WrapWithData<{ postId: string; projectId: string }>;
+  "media/delete.unused": WrapWithData<never>;
 };
 
 export const inngest = new Inngest({

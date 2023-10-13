@@ -86,6 +86,7 @@ const config = {
       "avatars.githubusercontent.com",
       "www.google.com",
       "flag.vercel.app",
+      "admmbojoaidpxiai.public.blob.vercel-storage.com",
     ],
   },
   /** Enables hot reloading for local packages without a build step */

@@ -5,7 +5,6 @@ import * as Y from "yjs";
 import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
-import { inngest } from "@acme/inngest";
 import { getRoom } from "@acme/lib/utils";
 
 import { $getUser } from "~/app/_api/get-user";
@@ -90,13 +89,6 @@ export const updatePost = zactAuthenticated(
     .from(posts)
     .where(eq(posts.id, postId))
     .then((x) => x[0]!);
-
-  await inngest.send({
-    name: "post/update",
-    data: {
-      id: postId,
-    },
-  });
 
   return post;
 });
