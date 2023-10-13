@@ -23,7 +23,7 @@
     "@acme/db": "workspace:*",
     "@acme/lib": "workspace:*",
     "@acme/ui": "workspace:*",
-    "@liveblocks/client": "^1.4.5",
+    "@liveblocks/client": "^1.4.6",
     "@liveblocks/node": "^1.4.6",
     "@liveblocks/react": "^1.4.6",
     "@liveblocks/yjs": "^1.4.5",

@@ -217,8 +217,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(react-hook-form@7.47.0)
       '@liveblocks/client':
-        specifier: ^1.4.5
-        version: 1.4.5
+        specifier: ^1.4.6
+        version: 1.4.6
       '@liveblocks/node':
         specifier: ^1.4.6
         version: 1.4.6(encoding@0.1.13)
@@ -655,8 +655,8 @@ importers:
         specifier: workspace:*
         version: link:../ui
       '@liveblocks/client':
-        specifier: ^1.4.5
-        version: 1.4.5
+        specifier: ^1.4.6
+        version: 1.4.6
       '@liveblocks/node':
         specifier: ^1.4.6
         version: 1.4.6(encoding@0.1.13)
