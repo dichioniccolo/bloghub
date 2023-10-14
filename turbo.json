@@ -74,12 +74,6 @@
   "globalEnv": [
     "CI",
     "ADMIN_EMAIL",
-    "DO_ACCESS_KEY",
-    "DO_BUCKET",
-    "DO_CDN_URL",
-    "DO_ENDPOINT",
-    "DO_REGION",
-    "DO_SECRET_KEY",
     "EDGE_CONFIG",
     "NEXT_PUBLIC_APP_DESCRIPTION",
     "NEXT_PUBLIC_APP_DOMAIN",

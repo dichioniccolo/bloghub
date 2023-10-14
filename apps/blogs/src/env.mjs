@@ -9,7 +9,6 @@ export const env = createEnv({
   server: {
     LIVEBLOCKS_API_KEY: z.string().min(1),
     STRIPE_API_KEY: z.string().min(1),
-    DO_CDN_URL: z.string().min(1),
     EDGE_CONFIG: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     NEXTAUTH_URL: z.preprocess(
@@ -58,7 +57,6 @@ export const env = createEnv({
     KV_REST_API_READ_ONLY_TOKEN: process.env.KV_REST_API_READ_ONLY_TOKEN,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     STRIPE_API_KEY: process.env.STRIPE_API_KEY,
-    DO_CDN_URL: process.env.DO_CDN_URL,
   },
 
   // Client side variables gets destructured here due to Next.js static analysis

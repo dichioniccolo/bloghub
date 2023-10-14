@@ -14,8 +14,6 @@ import {
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 
-import { env } from "~/env.mjs";
-
 export const mediaDeleteUnused = inngest.createFunction(
   {
     id: "media/delete.unused",
@@ -98,7 +96,7 @@ async function deleteMedia(list: { id: string; url: string }[]) {
     return;
   }
 
-  const filtererList = list.filter((x) => !x.url.includes(env.DO_CDN_URL));
+  const filtererList = list.filter((x) => !x.url.includes("bloghub.it"));
 
   await deleteFiles(filtererList.map((x) => x.url));
   await db.delete(media).where(
