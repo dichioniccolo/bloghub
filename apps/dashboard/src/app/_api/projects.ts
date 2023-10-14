@@ -39,15 +39,10 @@ export async function getProjects() {
       visitsCount: sql<number>`count(distinct ${visits.id})`.mapWith(Number),
     })
     .from(projects)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, projects.id),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
+    .innerJoin(projectMembers, eq(projectMembers.projectId, projects.id))
     .leftJoin(posts, eq(posts.projectId, projects.id))
     .leftJoin(visits, eq(visits.projectId, projects.id))
+    .where(eq(projectMembers.userId, user.id))
     .groupBy(
       projects.id,
       projects.name,
