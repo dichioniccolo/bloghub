@@ -14,6 +14,7 @@ import {
 import { subdomainUrl } from "@acme/lib/url";
 
 import { env } from "../env.mjs";
+import { isEmailBlacklisted } from "./utils";
 
 /**
  * Module augmentation for `next-auth` types
@@ -58,6 +59,47 @@ export const COOKIE_AUTH_NAME =
  **/
 export const authOptions = {
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (!user.email) {
+        return false;
+      }
+
+      const isBlacklisted = await isEmailBlacklisted(user.email);
+
+      if (isBlacklisted) {
+        return false;
+      }
+
+      if (account?.provider === "google") {
+        // @ts-expect-error - this is a bug in the types, `email_verified` is a valid on the `Profile` type
+        if (profile?.email_verified) {
+          return true;
+        }
+
+        const existingUser = await db
+          .select({
+            name: users.name,
+            image: users.image,
+          })
+          .from(users)
+          .where(eq(users.email, user.email))
+          .then((x) => x[0]);
+
+        if (existingUser && !existingUser.name) {
+          await db
+            .update(users)
+            .set({
+              name: profile?.name,
+              // @ts-expect-error - this is a bug in the types, `picture` is a valid on the `Profile` type
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              image: profile?.picture ?? profile?.image ?? users.image,
+            })
+            .where(eq(users.email, user.email));
+        }
+      }
+
+      return true;
+    },
     session({ session, token }) {
       if (token) {
         session.user.id = token.sub;
@@ -68,6 +110,16 @@ export const authOptions = {
       return session;
     },
     async jwt({ token, user }) {
+      if (!token.email) {
+        throw new Error("Unable to sign in with this email address");
+      }
+
+      const isBlacklisted = await isEmailBlacklisted(token.email);
+
+      if (isBlacklisted) {
+        throw new Error("Unable to sign in with this email address");
+      }
+
       const dbUser = await db
         .select({
           id: users.id,
