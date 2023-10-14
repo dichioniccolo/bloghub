@@ -47,11 +47,6 @@ declare module "next-auth/jwt" {
   }
 }
 
-export const COOKIE_AUTH_NAME =
-  process.env.NODE_ENV === "development"
-    ? "next-auth.session-token"
-    : "__Secure-next-auth.session-token";
-
 /**
  * Options for NextAuth.js used to configure
  * adapters, providers, callbacks, etc.
