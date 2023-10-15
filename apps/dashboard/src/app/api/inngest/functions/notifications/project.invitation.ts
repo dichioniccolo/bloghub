@@ -21,7 +21,7 @@ import { pusherServer } from "@acme/pusher/server";
 import { env } from "~/env.mjs";
 import { sendMail } from "~/lib/email";
 
-export const projectInvitationNotification = inngest.createFunction(
+export const notificationInvitation = inngest.createFunction(
   {
     id: "notification/project.invitation",
     name: "Project Invitation Notification",

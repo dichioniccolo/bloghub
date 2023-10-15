@@ -3,21 +3,25 @@ import { serve } from "inngest/next";
 import { inngest } from "@acme/inngest";
 
 import { domainVerification } from "./functions/domain-verification";
-import { invitationAcceptedNotification } from "./functions/notifications/invitation.accepted";
-import { projectInvitationNotification } from "./functions/notifications/project.invitation";
-import { removedFromProjectNotification } from "./functions/notifications/project.user.removed";
+import { notificationInvitationAccepted } from "./functions/notifications/invitation.accepted";
+import { notificationInvitation } from "./functions/notifications/project.invitation";
+import { notificationRemovedFromProject } from "./functions/notifications/project.user.removed";
+import { postCreate } from "./functions/post/create";
+import { postDelete } from "./functions/post/delete";
 import { projectDelete } from "./functions/project/delete";
 import { userLoginLink } from "./functions/user/login-link";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [
+    // mediaDeleteUnused,
+    notificationInvitationAccepted,
+    notificationInvitation,
+    notificationRemovedFromProject,
+    postCreate,
+    postDelete,
+    projectDelete,
     userLoginLink,
     domainVerification,
-    projectInvitationNotification,
-    invitationAcceptedNotification,
-    removedFromProjectNotification,
-    projectDelete,
-    // mediaDeleteUnused,
   ],
 });

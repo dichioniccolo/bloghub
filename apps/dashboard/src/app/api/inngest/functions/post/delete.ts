@@ -3,7 +3,7 @@ import { getRoom } from "@acme/lib/utils";
 
 import { deleteRoom } from "~/lib/liveblocks/actions/delete-room";
 
-export const postCreate = inngest.createFunction(
+export const postDelete = inngest.createFunction(
   {
     id: "post/delete",
     name: "Delete Post",

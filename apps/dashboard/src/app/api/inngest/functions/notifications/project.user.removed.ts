@@ -14,7 +14,7 @@ import { pusherServer } from "@acme/pusher/server";
 import { env } from "~/env.mjs";
 import { sendMail } from "~/lib/email";
 
-export const removedFromProjectNotification = inngest.createFunction(
+export const notificationRemovedFromProject = inngest.createFunction(
   {
     id: "notification/project.user.removed",
     name: "Removed from Project Notification",
