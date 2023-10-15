@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 
 import { Separator } from "@acme/ui/components/separator";
 
@@ -8,6 +8,8 @@ import { NotificationsForm } from "./notifications-form";
 export const metadata = {
   title: "Notifications Settings",
 } satisfies Metadata;
+
+export const runtime: ServerRuntime = "edge";
 
 export default async function Page() {
   const notificationsSettings = await getNotificationsSettings();

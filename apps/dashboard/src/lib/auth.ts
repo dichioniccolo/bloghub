@@ -1,6 +1,6 @@
-import { createHash, randomBytes } from "crypto";
-import type { DefaultSession, NextAuthOptions } from "next-auth";
-import type { DefaultJWT, JWT } from "next-auth/jwt";
+import type { JWT } from "@auth/core/jwt";
+import type { DefaultSession, NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
 
 import {
   accounts,
@@ -11,9 +11,8 @@ import {
   users,
   verificationTokens,
 } from "@acme/db";
-import { subdomainUrl } from "@acme/lib/url";
+import { inngest } from "@acme/inngest";
 
-import { env } from "../env.mjs";
 import { isEmailBlacklisted } from "./utils";
 
 /**
@@ -39,7 +38,7 @@ declare module "next-auth" {
   // }
 }
 
-declare module "next-auth/jwt" {
+declare module "@auth/core/jwt" {
   interface JWT extends DefaultJWT {
     sub: string;
     id: string;
@@ -52,7 +51,42 @@ declare module "next-auth/jwt" {
  * adapters, providers, callbacks, etc.
  * @see https://next-auth.js.org/configuration/options
  **/
-export const authOptions = {
+export const authOptions: NextAuthConfig = {
+  providers: [
+    {
+      id: "email",
+      type: "email",
+      name: "Email",
+      server: { host: "", port: 0, auth: { user: "", pass: "" } },
+      from: "",
+      maxAge: 24 * 60 * 60,
+      async sendVerificationRequest({ identifier, url }) {
+        await inngest.send({
+          name: "user/login-link",
+          data: {
+            email: identifier,
+            url,
+          },
+        });
+      },
+      options: {},
+    },
+  ],
+  session: {
+    strategy: "jwt",
+  },
+  adapter: PlanetScaleAdapter(db, {
+    users,
+    accounts,
+    sessions,
+    verificationTokens,
+  }),
+  pages: {
+    signIn: "/login",
+    signOut: "/login",
+    error: "/login",
+    newUser: "/welcome",
+  },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (!user.email) {
@@ -66,7 +100,6 @@ export const authOptions = {
       }
 
       if (account?.provider === "google") {
-        // @ts-expect-error - this is a bug in the types, `email_verified` is a valid on the `Profile` type
         if (profile?.email_verified) {
           return true;
         }
@@ -85,7 +118,6 @@ export const authOptions = {
             .update(users)
             .set({
               name: profile?.name,
-              // @ts-expect-error - this is a bug in the types, `picture` is a valid on the `Profile` type
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               image: profile?.picture ?? profile?.image ?? users.image,
             })
@@ -143,47 +175,6 @@ export const authOptions = {
       } as JWT;
     },
   },
-  session: {
-    strategy: "jwt",
-  },
-  adapter: PlanetScaleAdapter(db, {
-    users,
-    accounts,
-    sessions,
-    verificationTokens,
-  }),
-  pages: {
-    signIn: "/login",
-    signOut: "/login",
-    error: "/login",
-    newUser: "/welcome",
-  },
-} satisfies Omit<NextAuthOptions, "providers">;
+};
 
-export async function getLoginUrl(
-  identifier: string,
-  expires: Date,
-  callbackUrl: string,
-) {
-  const token = randomBytes(32).toString("hex");
-
-  await db.insert(verificationTokens).values({
-    identifier,
-    expires,
-    token: createHash("sha256")
-      .update(`${token}${env.NEXTAUTH_SECRET}`)
-      .digest("hex"),
-  });
-
-  const params = new URLSearchParams({
-    callbackUrl,
-    email: identifier,
-    token,
-  });
-
-  const url = `${subdomainUrl(
-    "app",
-  )}/api/auth/callback/email?${params.toString()}`;
-
-  return url;
-}
+export const { handlers: authHandlers, auth } = NextAuth(authOptions);

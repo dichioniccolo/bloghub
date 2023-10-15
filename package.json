@@ -29,7 +29,7 @@
     "typecheck": "turbo typecheck"
   },
   "dependencies": {
-    "@acme/prettier-config": "workspace:*",
+    "@acme/prettier-config": "^0.1.0",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
     "@manypkg/cli": "^0.21.0",

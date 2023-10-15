@@ -22,7 +22,6 @@ interface AutomaticProjectDeletionProps {
   domain: string;
   invalidDays: number;
   ownerEmail: string;
-  unsubscribeUrl: string;
 }
 
 export const AutomaticProjectDeletion = ({
@@ -31,7 +30,6 @@ export const AutomaticProjectDeletion = ({
   domain = "google.com",
   invalidDays = 3,
   ownerEmail = "me@email.com",
-  unsubscribeUrl = "https://example.com/unsubscribe",
 }: AutomaticProjectDeletionProps) => {
   const previewText = `Your ${siteName} project with domain ${domain} was deleted`;
 
@@ -87,10 +85,10 @@ export const AutomaticProjectDeletion = ({
             </Text>
             <Link
               className="text-center text-xs"
-              href={unsubscribeUrl}
+              href={`app.${env.NEXT_PUBLIC_APP_DOMAIN}/settings/notifications`}
               target="_blank"
             >
-              Unsubscribe
+              Set your email preferences
             </Link>
           </Container>
         </Body>

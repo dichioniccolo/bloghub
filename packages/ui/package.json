@@ -110,10 +110,10 @@
     "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tailwind-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@acme/eslint-config": "^0.1.0",
+    "@acme/prettier-config": "^0.1.0",
+    "@acme/tailwind-config": "^0.1.0",
+    "@acme/tsconfig": "^0.1.0",
     "eslint": "^8.51.0",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"

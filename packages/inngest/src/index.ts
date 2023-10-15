@@ -12,15 +12,14 @@ interface WrapWithData<T> {
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type InngestEvents = {
+  "user/login-link": WrapWithData<{
+    email: string;
+    url: string;
+  }>;
   "notification/project.invitation": WrapWithData<ProjectInvitationNotificationData>;
   "notification/invitation.accepted": WrapWithData<InvitationAcceptedNotificationData>;
   "notification/project.user.removed": WrapWithData<RemovedFromProjectNotificationData>;
   "project/delete": WrapWithData<{ id: string; domain: string }>;
-  "project/update.logo": WrapWithData<{
-    projectId: string;
-    oldLogoUrl?: string | null;
-    newLogoUrl?: string | null;
-  }>;
   "post/create": WrapWithData<{ postId: string; projectId: string }>;
   "post/delete": WrapWithData<{ postId: string; projectId: string }>;
   "media/delete.unused": WrapWithData<never>;

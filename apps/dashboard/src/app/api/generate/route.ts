@@ -1,3 +1,4 @@
+import type { ServerRuntime } from "next";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
@@ -19,8 +20,7 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-// until we next-auth supports it, we cannot use edge
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {

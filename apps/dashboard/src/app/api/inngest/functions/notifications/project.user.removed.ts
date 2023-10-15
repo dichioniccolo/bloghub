@@ -9,12 +9,9 @@ import {
 } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
-import { AppRoutes } from "@acme/lib/routes";
-import { subdomainUrl } from "@acme/lib/url";
 import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
-import { getLoginUrl } from "~/lib/auth";
 import { sendMail } from "~/lib/email";
 
 export const removedFromProjectNotification = inngest.createFunction(
@@ -27,14 +24,6 @@ export const removedFromProjectNotification = inngest.createFunction(
   },
   async ({ event, step }) => {
     const sendEmail = step.run("Send email", async () => {
-      const expiresAt = new Date();
-      expiresAt.setFullYear(expiresAt.getFullYear() + 1);
-      const unsubscribeUrl = await getLoginUrl(
-        event.data.userEmail,
-        expiresAt,
-        `${subdomainUrl("app")}${AppRoutes.NotificationsSettings}`,
-      );
-
       await sendMail({
         type: EmailNotificationSetting.Social,
         to: event.data.userEmail,
@@ -42,7 +31,6 @@ export const removedFromProjectNotification = inngest.createFunction(
         react: RemovedFromProject({
           siteName: env.NEXT_PUBLIC_APP_NAME,
           projectName: event.data.projectName,
-          unsubscribeUrl,
           userEmail: event.data.userEmail,
         }),
         headers: {

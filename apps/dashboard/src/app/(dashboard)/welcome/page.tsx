@@ -1,3 +1,5 @@
+import type { ServerRuntime } from "next";
+
 import { MultiStepForm } from "./multi-step-form";
 
 interface Props {
@@ -6,6 +8,8 @@ interface Props {
     projectId?: string;
   };
 }
+
+export const runtime: ServerRuntime = "edge";
 
 export default function Welcome({ searchParams }: Props) {
   const step = searchParams.step;

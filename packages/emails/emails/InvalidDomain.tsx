@@ -23,7 +23,6 @@ interface InvalidDomainProps {
   domain: string;
   invalidDays: number;
   ownerEmail: string;
-  unsubscribeUrl: string;
 }
 
 export const InvalidDomain = ({
@@ -33,7 +32,6 @@ export const InvalidDomain = ({
   domain = "google.com",
   invalidDays = 3,
   ownerEmail = "me@email.com",
-  unsubscribeUrl = "https://example.com/unsubscribe",
 }: InvalidDomainProps) => {
   const previewText = `Your ${siteName} domain ${domain} is not configured`;
 
@@ -106,10 +104,10 @@ export const InvalidDomain = ({
             </Text>
             <Link
               className="text-center text-xs"
-              href={unsubscribeUrl}
+              href={`app.${env.NEXT_PUBLIC_APP_DOMAIN}/settings/notifications`}
               target="_blank"
             >
-              Unsubscribe
+              Set your email preferences
             </Link>
           </Container>
         </Body>

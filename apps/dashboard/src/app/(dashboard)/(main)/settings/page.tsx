@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 
 import { Separator } from "@acme/ui/components/separator";
 
@@ -7,6 +7,8 @@ import { ProfileForm } from "./_components/profile-form";
 export const metadata = {
   title: "Settings",
 } satisfies Metadata;
+
+export const runtime: ServerRuntime = "edge";
 
 export default function AppDashboardMainSettingsPage() {
   return (

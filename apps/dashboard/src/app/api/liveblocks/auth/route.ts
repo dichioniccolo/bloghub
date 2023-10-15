@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     userInfo: {
       name: user.name ?? user.email,
       color: getRandomHexColor(),
-      image: user.image ?? getDefaultAvatarImage(user.name ?? user.email),
+      image: user.image ?? getDefaultAvatarImage(user.name ?? user.email!),
     },
   });
 

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 import Link from "next/link";
 
 import { Skeleton } from "@acme/ui/components/skeleton";
@@ -17,6 +17,8 @@ export const metadata = {
   title,
   description,
 } satisfies Metadata;
+
+export const runtime: ServerRuntime = "edge";
 
 export default function Page() {
   return (

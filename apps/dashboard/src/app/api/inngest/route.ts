@@ -7,18 +7,17 @@ import { invitationAcceptedNotification } from "./functions/notifications/invita
 import { projectInvitationNotification } from "./functions/notifications/project.invitation";
 import { removedFromProjectNotification } from "./functions/notifications/project.user.removed";
 import { projectDelete } from "./functions/project/delete";
-import { projectUpdateLogo } from "./functions/project/update.logo";
+import { userLoginLink } from "./functions/user/login-link";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [
+    userLoginLink,
     domainVerification,
-    // convertPostV1TOv2,
     projectInvitationNotification,
     invitationAcceptedNotification,
     removedFromProjectNotification,
     projectDelete,
-    projectUpdateLogo,
     // mediaDeleteUnused,
   ],
 });

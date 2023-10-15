@@ -1,20 +1,24 @@
-import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-import { API_HOSTNAMES } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
-import { ApiMiddleware } from "./lib/middleware/api-middleware";
-import { AppMiddleware } from "./lib/middleware/app-middleware";
+import { auth } from "./lib/auth";
 
-export default async function middleware(req: NextRequest) {
-  const { domain } = parseRequest(req);
+export default auth((req) => {
+  const { path } = parseRequest(req);
 
-  if (API_HOSTNAMES.has(domain)) {
-    return ApiMiddleware(req);
+  if (!req.auth?.user && path !== "/login") {
+    const url = new URL("/login", req.url);
+    if (path !== "/") url.searchParams.set("redirect", path);
+    return NextResponse.redirect(url);
   }
 
-  return AppMiddleware(req);
-}
+  if (!!req.auth?.user && path === "/login") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: [

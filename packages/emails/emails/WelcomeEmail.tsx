@@ -17,13 +17,11 @@ import Head from "./components/Head";
 interface WelcomeEmailProps {
   siteName: string;
   userEmail?: string;
-  unsubscribeUrl: string;
 }
 
 export const WelcomeEmail = ({
   siteName = "MyBlog",
   userEmail = "me@email.com",
-  unsubscribeUrl = "https://example.com/unsubscribe",
 }: WelcomeEmailProps) => {
   const previewText = `Welcome on ${siteName}`;
 
@@ -74,10 +72,10 @@ export const WelcomeEmail = ({
             </Text> */}
             <Link
               className="text-center text-xs"
-              href={unsubscribeUrl}
+              href={`app.${env.NEXT_PUBLIC_APP_DOMAIN}/settings/notifications`}
               target="_blank"
             >
-              Unsubscribe
+              Set your email preferences
             </Link>
           </Container>
         </Body>

@@ -1,6 +1,6 @@
 {
   "name": "@acme/eslint-config",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "files": [
@@ -27,8 +27,8 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "devDependencies": {
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@acme/prettier-config": "^0.1.0",
+    "@acme/tsconfig": "^0.1.0",
     "eslint": "^8.51.0",
     "typescript": "^5.2.2"
   },

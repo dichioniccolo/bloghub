@@ -19,9 +19,9 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@acme/eslint-config": "^0.1.0",
+    "@acme/prettier-config": "^0.1.0",
+    "@acme/tsconfig": "^0.1.0",
     "@react-email/render": "^0.0.7",
     "@types/nodemailer": "^6.4.11",
     "@types/react": "^18.2.28",

@@ -1,3 +1,5 @@
+import { createHash, randomBytes } from "crypto";
+
 import {
   and,
   db,
@@ -8,6 +10,7 @@ import {
   notifications,
   projectInvitations,
   users,
+  verificationTokens,
 } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
@@ -16,7 +19,6 @@ import { subdomainUrl } from "@acme/lib/url";
 import { pusherServer } from "@acme/pusher/server";
 
 import { env } from "~/env.mjs";
-import { getLoginUrl } from "~/lib/auth";
 import { sendMail } from "~/lib/email";
 
 export const projectInvitationNotification = inngest.createFunction(
@@ -124,3 +126,31 @@ export const projectInvitationNotification = inngest.createFunction(
     });
   },
 );
+
+async function getLoginUrl(
+  identifier: string,
+  expires: Date,
+  callbackUrl: string,
+) {
+  const token = randomBytes(32).toString("hex");
+
+  await db.insert(verificationTokens).values({
+    identifier,
+    expires,
+    token: createHash("sha256")
+      .update(`${token}${env.NEXTAUTH_SECRET}`)
+      .digest("hex"),
+  });
+
+  const params = new URLSearchParams({
+    callbackUrl,
+    email: identifier,
+    token,
+  });
+
+  const url = `${subdomainUrl(
+    "app",
+  )}/api/auth/callback/email?${params.toString()}`;
+
+  return url;
+}

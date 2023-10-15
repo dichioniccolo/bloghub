@@ -1,3 +1,4 @@
+import type { AdapterAccount } from "@auth/core/adapters";
 import type { InferSelectModel } from "drizzle-orm";
 import { relations, sql } from "drizzle-orm";
 import {
@@ -13,7 +14,6 @@ import {
   uniqueIndex,
   varchar,
 } from "drizzle-orm/mysql-core";
-import type { AdapterAccount } from "next-auth/adapters";
 
 import type {
   AutomaticEmailType,

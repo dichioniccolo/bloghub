@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
-import { inngest } from "@acme/inngest";
 
 import { $getUser } from "~/app/_api/get-user";
 import { zactAuthenticated } from "~/lib/zact/server";
@@ -50,30 +49,12 @@ export const updateProjectLogo = zactAuthenticated(
         }
       }),
 )(async ({ projectId, logo }) => {
-  const oldLogoUrl = await db
-    .select({
-      logo: projects.logo,
-    })
-    .from(projects)
-    .where(eq(projects.id, projectId))
-    .then((x) => x[0]!)
-    .then((x) => x.logo);
-
   await db
     .update(projects)
     .set({
       logo,
     })
     .where(eq(projects.id, projectId));
-
-  await inngest.send({
-    name: "project/update.logo",
-    data: {
-      projectId,
-      oldLogoUrl,
-      newLogoUrl: logo,
-    },
-  });
 
   revalidatePath(`/projects/${projectId}`);
 });

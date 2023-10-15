@@ -13,12 +13,9 @@ import {
 } from "@acme/db";
 import { AutomaticProjectDeletion, InvalidDomain } from "@acme/emails";
 import { inngest } from "@acme/inngest";
-import { AppRoutes } from "@acme/lib/routes";
-import { subdomainUrl } from "@acme/lib/url";
 
 import { verifyProjectDomain } from "~/app/_actions/project/verify-project-domain";
 import { env } from "~/env.mjs";
-import { getLoginUrl } from "~/lib/auth";
 import { sendMail } from "~/lib/email";
 
 export const domainVerification = inngest.createFunction(
@@ -100,15 +97,6 @@ export const domainVerification = inngest.createFunction(
         }
 
         await db.transaction(async (tx) => {
-          const expiresAt = new Date();
-          expiresAt.setFullYear(expiresAt.getFullYear() + 1);
-
-          const unsubscribeUrl = await getLoginUrl(
-            project.owner.email,
-            expiresAt,
-            `${subdomainUrl("app")}${AppRoutes.NotificationsSettings}`,
-          );
-
           await sendMail({
             type: EmailNotificationSetting.Communication,
             to: project.owner.email,
@@ -120,11 +108,7 @@ export const domainVerification = inngest.createFunction(
               domain: project.domain,
               invalidDays,
               ownerEmail: project.owner.email,
-              unsubscribeUrl,
             }),
-            headers: {
-              "List-Unsubscribe": unsubscribeUrl,
-            },
           });
 
           await tx.insert(automaticEmails).values({
@@ -134,15 +118,6 @@ export const domainVerification = inngest.createFunction(
           });
         });
       } else if (invalidDays > 7) {
-        const expiresAt = new Date();
-        expiresAt.setFullYear(expiresAt.getFullYear() + 1);
-
-        const unsubscribeUrl = await getLoginUrl(
-          project.owner.email,
-          expiresAt,
-          `${subdomainUrl("app")}${AppRoutes.NotificationsSettings}`,
-        );
-
         await sendMail({
           type: EmailNotificationSetting.Communication,
           to: project.owner.email,
@@ -153,11 +128,7 @@ export const domainVerification = inngest.createFunction(
             domain: project.domain,
             invalidDays,
             ownerEmail: project.owner.email,
-            unsubscribeUrl,
           }),
-          headers: {
-            "List-Unsubscribe": unsubscribeUrl,
-          },
         });
 
         await step.sendEvent("project/delete", {

@@ -19,14 +19,12 @@ interface RemovedFromProjectProps {
   siteName: string;
   projectName: string;
   userEmail: string;
-  unsubscribeUrl: string;
 }
 
 export const RemovedFromProject = ({
   siteName = "MyBlog",
   projectName = "project name",
   userEmail = "you@example.com",
-  unsubscribeUrl = "https://example.com",
 }: RemovedFromProjectProps) => {
   const previewText = `You have been removed from project on ${siteName}`;
 
@@ -68,10 +66,10 @@ export const RemovedFromProject = ({
             </Text>
             <Link
               className="text-center text-xs"
-              href={unsubscribeUrl}
+              href={`app.${env.NEXT_PUBLIC_APP_DOMAIN}/settings/notifications`}
               target="_blank"
             >
-              Unsubscribe
+              Set your email preferences
             </Link>
           </Container>
         </Body>

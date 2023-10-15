@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 
 import { Separator } from "@acme/ui/components/separator";
 
@@ -8,6 +8,8 @@ import { PlanUsage, PlanUsageSkeleton } from "./_components/plan-usage";
 export const metadata = {
   title: "Billing",
 } satisfies Metadata;
+
+export const runtime: ServerRuntime = "edge";
 
 export default function Page() {
   return (

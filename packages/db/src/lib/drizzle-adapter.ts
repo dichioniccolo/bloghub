@@ -1,8 +1,6 @@
-import type { Adapter } from "next-auth/adapters";
+import type { Adapter } from "@auth/core/adapters";
 
-import type {
-  db
-} from "../";
+import type { db } from "../";
 import {
   accounts,
   and,

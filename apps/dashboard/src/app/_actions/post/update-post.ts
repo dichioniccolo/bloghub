@@ -78,7 +78,6 @@ export const updatePost = zactAuthenticated(
       title,
       description,
       content,
-      version: 2,
     })
     .where(eq(posts.id, postId));
 

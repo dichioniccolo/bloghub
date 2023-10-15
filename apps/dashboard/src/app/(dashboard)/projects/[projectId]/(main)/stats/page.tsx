@@ -1,3 +1,4 @@
+import type { ServerRuntime } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -13,6 +14,8 @@ interface Props {
     projectId: string;
   };
 }
+
+export const runtime: ServerRuntime = "edge";
 
 export default async function Page({ params: { projectId } }: Props) {
   const project = await getProject(projectId);

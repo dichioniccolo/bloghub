@@ -1,3 +1,4 @@
+import type { ServerRuntime } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -10,6 +11,8 @@ interface Props {
     postId: string;
   };
 }
+
+export const runtime: ServerRuntime = "edge";
 
 export default async function Stats({ params: { projectId, postId } }: Props) {
   const post = await getPost(projectId, postId);
