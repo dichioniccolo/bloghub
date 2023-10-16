@@ -139,27 +139,34 @@ export const notifications = mysqlTable("notifications", {
     .default(sql`CURRENT_TIMESTAMP(3)`),
 });
 
-export const projects = mysqlTable("projects", {
-  id: varchar("id", { length: 255 }).primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
-  logo: text("logo"),
-  domain: varchar("domain", { length: 255 }).notNull(),
-  domainVerified: boolean("domainVerified").notNull().default(false),
-  domainLastCheckedAt: datetime("domainLastCheckedAt", {
-    mode: "date",
-    fsp: 3,
+export const projects = mysqlTable(
+  "projects",
+  {
+    id: varchar("id", { length: 255 }).primaryKey(),
+    name: varchar("name", { length: 255 }).notNull(),
+    logo: text("logo"),
+    domain: varchar("domain", { length: 255 }).notNull(),
+    domainVerified: boolean("domainVerified").notNull().default(false),
+    domainLastCheckedAt: datetime("domainLastCheckedAt", {
+      mode: "date",
+      fsp: 3,
+    }),
+    domainUnverifiedAt: datetime("domainUnverifiedAt", {
+      mode: "date",
+      fsp: 3,
+    }),
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP(3)`),
+    deletedAt: datetime("deletedAt", { mode: "date", fsp: 3 }),
+  },
+  (projects) => ({
+    deletedAtIndex: index("deleted_at_index").on(projects.deletedAt),
   }),
-  domainUnverifiedAt: datetime("domainUnverifiedAt", {
-    mode: "date",
-    fsp: 3,
-  }),
-  createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP(3)`),
-  updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 })
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP(3)`),
-});
+);
 
 export const projectMembers = mysqlTable(
   "projectMembers",

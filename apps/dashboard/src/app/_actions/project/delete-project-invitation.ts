@@ -4,6 +4,7 @@ import {
   and,
   db,
   eq,
+  isNull,
   projectInvitations,
   projectMembers,
   projects,
@@ -94,7 +95,7 @@ export const deleteProjectInvitation = zactAuthenticated(
       name: projects.name,
     })
     .from(projects)
-    .where(eq(projects.id, projectId))
+    .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
     .then((x) => x[0]!);
 
   await inngest.send({

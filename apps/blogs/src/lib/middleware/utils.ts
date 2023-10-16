@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { userAgent } from "next/server";
 
-import { and, db, eq, posts, projects, visits } from "@acme/db";
+import { and, db, eq, isNull, posts, projects, visits } from "@acme/db";
 import { parseRequest } from "@acme/lib/utils";
 
 export const detectBot = (req: NextRequest) => {
@@ -45,7 +45,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
       id: projects.id,
     })
     .from(projects)
-    .where(eq(projects.domain, domain))
+    .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
     .then((x) => x[0]);
 
   if (!project) {

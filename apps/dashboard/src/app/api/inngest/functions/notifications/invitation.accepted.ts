@@ -4,6 +4,7 @@ import {
   EmailNotificationSetting,
   eq,
   genId,
+  isNull,
   Notification,
   notifications,
   projectMembers,
@@ -45,7 +46,12 @@ export const notificationInvitationAccepted = inngest.createFunction(
           ),
         )
         .innerJoin(users, eq(users.id, projectMembers.userId))
-        .where(and(eq(projects.id, event.data.projectId)))
+        .where(
+          and(
+            eq(projects.id, event.data.projectId),
+            isNull(projects.deletedAt),
+          ),
+        )
         .then((x) => x[0]);
     });
 

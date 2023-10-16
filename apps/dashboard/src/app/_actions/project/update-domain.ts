@@ -3,7 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  isNull,
+  projectMembers,
+  projects,
+  Role,
+  sql,
+} from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { createDomain, deleteDomain } from "@acme/vercel";
 
@@ -55,7 +64,7 @@ export const updateDomain = zactAuthenticated(
       oldDomain: projects.domain,
     })
     .from(projects)
-    .where(eq(projects.id, projectId))
+    .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
     .then((x) => x[0]!);
 
   await deleteDomain(project.oldDomain);

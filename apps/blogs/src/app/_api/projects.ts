@@ -1,6 +1,6 @@
 "use server";
 
-import { db, eq, projects } from "@acme/db";
+import { and, db, eq, isNull, projects } from "@acme/db";
 
 export async function getProjectByDomain(domain: string) {
   return await db
@@ -9,7 +9,7 @@ export async function getProjectByDomain(domain: string) {
       logo: projects.logo,
     })
     .from(projects)
-    .where(eq(projects.domain, domain))
+    .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
     .then((x) => x[0]);
 }
 

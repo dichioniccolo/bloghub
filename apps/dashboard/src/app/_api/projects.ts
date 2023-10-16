@@ -6,6 +6,7 @@ import {
   db,
   desc,
   eq,
+  isNull,
   posts,
   projectInvitations,
   projectMembers,
@@ -42,7 +43,7 @@ export async function getProjects() {
     .innerJoin(projectMembers, eq(projectMembers.projectId, projects.id))
     .leftJoin(posts, eq(posts.projectId, projects.id))
     .leftJoin(visits, eq(visits.projectId, projects.id))
-    .where(eq(projectMembers.userId, user.id))
+    .where(and(eq(projectMembers.userId, user.id), isNull(projects.deletedAt)))
     .groupBy(
       projects.id,
       projects.name,
@@ -74,7 +75,7 @@ export async function getProject(id: string) {
         eq(projectMembers.userId, user.id),
       ),
     )
-    .where(eq(projects.id, id))
+    .where(and(eq(projects.id, id), isNull(projects.deletedAt)))
     .then((x) => x[0]);
 }
 

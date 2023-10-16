@@ -2,7 +2,16 @@
 
 import { z } from "zod";
 
-import { and, db, eq, projectMembers, projects, Role, sql } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  isNull,
+  projectMembers,
+  projects,
+  Role,
+  sql,
+} from "@acme/db";
 
 import { $getUser } from "~/app/_api/get-user";
 import { zactAuthenticated } from "~/lib/zact/server";
@@ -51,7 +60,7 @@ export const verifyDomain = zactAuthenticated(
       domain: projects.domain,
     })
     .from(projects)
-    .where(eq(projects.id, projectId))
+    .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
     .innerJoin(
       projectMembers,
       and(

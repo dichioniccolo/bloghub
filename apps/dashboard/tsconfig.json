@@ -1,6 +1,7 @@
 {
   "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
+    "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
@@ -12,13 +13,6 @@
     ],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "*.ts",
-    "*.mjs",
-    "src",
-    "../blogs/src/lib/middleware/blog-middleware.ts"
-  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "*.ts", "*.mjs", "src"],
   "exclude": ["node_modules"]
 }

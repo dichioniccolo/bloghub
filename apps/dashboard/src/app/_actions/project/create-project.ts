@@ -3,7 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db, eq, genId, projectMembers, projects, Role } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  genId,
+  isNull,
+  projectMembers,
+  projects,
+  Role,
+} from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { createDomain } from "@acme/vercel";
 
@@ -39,7 +48,7 @@ export const createProject = zactAuthenticated(
     const project = await tx
       .select()
       .from(projects)
-      .where(eq(projects.id, id))
+      .where(and(eq(projects.id, id), isNull(projects.deletedAt)))
       .then((x) => x[0]!);
 
     await tx.insert(projectMembers).values({

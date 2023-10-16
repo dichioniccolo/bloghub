@@ -1,7 +1,7 @@
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { db, eq, projects, sql } from "@acme/db";
+import { and, db, eq, isNull, projects, sql } from "@acme/db";
 
 export const DomainSchema = z
   .string()
@@ -12,7 +12,7 @@ export const DomainSchema = z
         count: sql<number>`count(*)`.mapWith(Number),
       })
       .from(projects)
-      .where(eq(projects.domain, domain))
+      .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
       .then((x) => x[0]!);
 
     return domains.count === 0;

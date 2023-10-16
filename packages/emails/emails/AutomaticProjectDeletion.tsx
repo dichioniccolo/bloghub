@@ -31,7 +31,7 @@ export const AutomaticProjectDeletion = ({
   invalidDays = 3,
   ownerEmail = "me@email.com",
 }: AutomaticProjectDeletionProps) => {
-  const previewText = `Your ${siteName} project with domain ${domain} was deleted`;
+  const previewText = `Your ${siteName} project with domain ${domain} was softly deleted because the domain was invalid for ${invalidDays} days.`;
 
   return (
     <Html>
@@ -61,9 +61,16 @@ export const AutomaticProjectDeletion = ({
               {invalidDays} days.
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              Therefore, your project was automatically deleted. If you would
-              like to restore the project, you can easily create it again with
-              the link below.
+              Therefore, your project was softly deleted. If you would like to
+              restore the project, please contact us at{" "}
+              <Link
+                rel="nofollow"
+                className="text-blue-600 no-underline"
+                href="mailto:niccolo@bloghub.it"
+              >
+                niccolo@bloghub.it
+              </Link>
+              . We will be happy to help you restore your project.
             </Text>
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button

@@ -2,7 +2,16 @@
 
 import { z } from "zod";
 
-import { and, db, eq, media, projectMembers, projects, sql } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  isNull,
+  media,
+  projectMembers,
+  projects,
+  sql,
+} from "@acme/db";
 import { deleteFile } from "@acme/files";
 
 import { $getUser } from "~/app/_api/get-user";
@@ -28,7 +37,7 @@ export const deleteProjectMedia = zactAuthenticated(
             count: sql<number>`count(*)`.mapWith(Number),
           })
           .from(projects)
-          .where(eq(projects.id, projectId))
+          .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
           .innerJoin(
             projectMembers,
             and(

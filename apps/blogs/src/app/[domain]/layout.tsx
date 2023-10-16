@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 
-import { db, eq, projects } from "@acme/db";
+import { and, db, eq, isNull, projects } from "@acme/db";
 
 import { getProjectByDomain } from "~/app/_api/projects";
 import { BlogFooter } from "./_components/blog-footer";
@@ -46,7 +46,7 @@ export async function generateStaticParams() {
   const allProjects = await db
     .select()
     .from(projects)
-    .where(eq(projects.domainVerified, true));
+    .where(and(eq(projects.domainVerified, true), isNull(projects.deletedAt)));
 
   return allProjects.map((project) => ({
     params: {

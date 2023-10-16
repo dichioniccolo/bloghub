@@ -1,35 +1,29 @@
 "use server";
 
-import { db, eq, projects } from "@acme/db";
+import { and, db, eq, isNull, projects } from "@acme/db";
+import type { ConfigJSON, DomainJSON } from "@acme/vercel";
 import {
   getConfigResponse,
   getDomainResponse,
   verifyDomain,
 } from "@acme/vercel";
 
-export async function verifyProjectDomain(domain: string) {
-  const [domainResponsePromise, configResponsePromise] =
-    await Promise.allSettled([
-      getDomainResponse(domain),
-      getConfigResponse(domain),
-    ]);
+interface VerifyDomainResponse {
+  invalid: boolean;
+  notFound: boolean;
+  verified: boolean;
+  pending: boolean;
+  domainJson: DomainJSON | null;
+  configJson: ConfigJSON | null;
+}
 
-  if (
-    domainResponsePromise?.status === "rejected" ||
-    configResponsePromise?.status === "rejected"
-  ) {
-    return {
-      invalid: true,
-      notFound: false,
-      verified: false,
-      pending: false,
-      domainJson: null,
-      configJson: null,
-    };
-  }
-
-  const domainResponse = domainResponsePromise.value;
-  const configResponse = configResponsePromise.value;
+export async function verifyProjectDomain(
+  domain: string,
+): Promise<VerifyDomainResponse> {
+  const [domainResponse, configResponse] = await Promise.all([
+    getDomainResponse(domain),
+    getConfigResponse(domain),
+  ]);
 
   await db
     .update(projects)
@@ -43,7 +37,7 @@ export async function verifyProjectDomain(domain: string) {
       domainUnverifiedAt: projects.domainUnverifiedAt,
     })
     .from(projects)
-    .where(eq(projects.domain, domain))
+    .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
     .then((x) => x[0]);
 
   if (!project) {

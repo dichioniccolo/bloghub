@@ -1,13 +1,50 @@
 {
   "version": "0.2.0",
   "configurations": [
+    // {
+    // 	"type": "pwa-chrome",
+    // 	"request": "launch",
+    // 	"name": "Launch Chrome against Frontend",
+    // 	"url": "http://frontend.localhost",
+    // 	"webRoot": "${workspaceFolder}",
+    // 	"sourceMapPathOverrides": {
+    // 		"webpack:///./*": "${webRoot}/packages/frontend/*"
+    // 	},
+    // 	"runtimeArgs": ["--remote-debugging-port=9229"]
+    // },
     {
-      "name": "Next.js",
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Next.js: Dashboard debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "doppler run -- pnpm dev",
+      "cwd": "${workspaceFolder}/apps/dashboard",
+      // "sourceMapPathOverrides": {
+      //   "webpack:///./*": "${workspaceFolder}/apps/dashboard/*"
+      // },
+      "serverReadyAction": {
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    },
+    {
+      "name": "Inngest",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm dev",
-      "cwd": "${workspaceFolder}/apps/nextjs/",
-      "skipFiles": ["<node_internals>/**"]
+      "cwd": "${workspaceFolder}/packages/inngest"
     }
   ]
 }

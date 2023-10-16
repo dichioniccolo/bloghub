@@ -89,7 +89,7 @@ export async function deleteDomain(name: string): Promise<DomainJSON> {
   ).then((r) => r.json() as Promise<DomainJSON>);
 }
 
-export async function getDomainResponse(name: string) {
+export async function getDomainResponse(name: string): Promise<DomainJSON> {
   if (!env.VERCEL_ENABLE_DOMAIN) {
     return {
       name,
@@ -120,7 +120,7 @@ export async function getConfigResponse(name: string): Promise<ConfigJSON> {
       // aValues: [],
       // conflicts: [],
       acceptedChallenges: [],
-      misconfigured: false,
+      misconfigured: true,
     };
   }
 
@@ -136,7 +136,7 @@ export async function getConfigResponse(name: string): Promise<ConfigJSON> {
 export async function verifyDomain(name: string): Promise<VerificationJSON> {
   if (!env.VERCEL_ENABLE_DOMAIN) {
     return {
-      verified: true,
+      verified: false,
     };
   }
 

@@ -7,6 +7,7 @@ import {
   db,
   eq,
   gte,
+  isNull,
   projectInvitations,
   projectMembers,
   projects,
@@ -98,7 +99,7 @@ export const acceptInvite = zactAuthenticated(
     const project = await tx
       .select({ name: projects.name })
       .from(projects)
-      .where(eq(projects.id, projectId))
+      .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
       .then((x) => x[0]!);
 
     await inngest.send({

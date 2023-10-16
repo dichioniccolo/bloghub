@@ -6,6 +6,7 @@ import {
   db,
   EmailNotificationSetting,
   eq,
+  isNull,
   projectMembers,
   projects,
   Role,
@@ -25,85 +26,114 @@ export const domainVerification = inngest.createFunction(
   },
   {
     // cron: "TZ=Europe/Rome 0 */1 * * *", // every hour
-    cron: "TZ=Europe/Rome 0 */12 * * *",
+    cron: "TZ=Europe/Rome * * * * *",
   },
   async ({ step }) => {
-    const projectsToVerify = await db
-      .select({
-        id: projects.id,
-        name: projects.name,
-        domain: projects.domain,
-        domainVerified: projects.domainVerified,
-        domainUnverifiedAt: projects.domainUnverifiedAt,
-        createdAt: projects.createdAt,
-        owner: {
-          id: users.id,
-          email: users.email,
-        },
-      })
-      .from(projects)
-      .orderBy(asc(projects.domainLastCheckedAt))
-      .innerJoin(
-        projectMembers,
-        and(
-          eq(projects.id, projectMembers.projectId),
-          eq(projectMembers.role, Role.Owner),
-        ),
-      )
-      .innerJoin(users, eq(users.id, projectMembers.userId))
-      .limit(100);
+    const projectsToVerify = await step.run(
+      "Get projects to verify",
+      async () => {
+        return await db
+          .select({
+            id: projects.id,
+            name: projects.name,
+            domain: projects.domain,
+            domainUnverifiedAt: projects.domainUnverifiedAt,
+            createdAt: projects.createdAt,
+            owner: {
+              id: users.id,
+              email: users.email,
+            },
+          })
+          .from(projects)
+          .innerJoin(
+            projectMembers,
+            and(
+              eq(projects.id, projectMembers.projectId),
+              eq(projectMembers.role, Role.Owner),
+            ),
+          )
+          .innerJoin(users, eq(users.id, projectMembers.userId))
+          .where(isNull(projects.deletedAt))
+          .orderBy(asc(projects.domainLastCheckedAt))
+          .limit(5);
+      },
+    );
 
     const steps = projectsToVerify.map(async (project) => {
-      const verificationResult = await verifyProjectDomain(project.domain);
+      return step.run(`Verify ${project.id}`, async () => {
+        const verificationResult = await verifyProjectDomain(project.domain);
 
-      if (verificationResult.verified) {
-        await db
-          .delete(automaticEmails)
-          .where(eq(automaticEmails.projectId, project.id));
-        return;
-      }
+        if (verificationResult.verified) {
+          await db
+            .delete(automaticEmails)
+            .where(eq(automaticEmails.projectId, project.id));
 
-      const domainUnverifiedAt =
-        typeof project.domainUnverifiedAt === "string"
-          ? new Date(project.domainUnverifiedAt)
-          : project.domainUnverifiedAt;
-
-      const createdAt =
-        typeof project.createdAt === "string"
-          ? new Date(project.createdAt)
-          : project.createdAt;
-
-      const invalidDays = Math.floor(
-        Math.floor(
-          new Date().getTime() - (domainUnverifiedAt ?? createdAt).getTime(),
-        ) /
-          (1000 * 3600 * 24),
-      );
-
-      if (invalidDays > 3 && invalidDays <= 7) {
-        const invalidDomainEmails = await db
-          .select()
-          .from(automaticEmails)
-          .where(
-            and(
-              eq(automaticEmails.projectId, project.id),
-              eq(automaticEmails.type, AutomaticEmail.InvalidDomain),
-              eq(automaticEmails.userId, project.owner.id),
-            ),
-          );
-
-        if (invalidDomainEmails.length > 0) {
-          return;
+          await db
+            .update(projects)
+            .set({
+              domainVerified: true,
+              domainUnverifiedAt: null,
+            })
+            .where(eq(projects.id, project.id));
+          return "verified";
         }
 
-        await db.transaction(async (tx) => {
+        const domainUnverifiedAt =
+          typeof project.domainUnverifiedAt === "string"
+            ? new Date(project.domainUnverifiedAt)
+            : new Date();
+
+        const invalidDays = Math.floor(
+          (new Date().getTime() - domainUnverifiedAt.getTime()) /
+            (1000 * 3600 * 24),
+        );
+
+        console.log(invalidDays);
+
+        if (invalidDays > 3 && invalidDays <= 7) {
+          const invalidDomainEmails = await db
+            .select()
+            .from(automaticEmails)
+            .where(
+              and(
+                eq(automaticEmails.projectId, project.id),
+                eq(automaticEmails.type, AutomaticEmail.InvalidDomain),
+                eq(automaticEmails.userId, project.owner.id),
+              ),
+            );
+
+          if (invalidDomainEmails.length > 0) {
+            return "mail_already_sent";
+          }
+
+          await db.transaction(async (tx) => {
+            await sendMail({
+              type: EmailNotificationSetting.Communication,
+              to: project.owner.email,
+              subject: `Your domain ${project.domain} is not configured`,
+              react: InvalidDomain({
+                siteName: env.NEXT_PUBLIC_APP_NAME,
+                projectId: project.id,
+                projectName: project.name,
+                domain: project.domain,
+                invalidDays,
+                ownerEmail: project.owner.email,
+              }),
+            });
+            await tx.insert(automaticEmails).values({
+              type: AutomaticEmail.InvalidDomain,
+              projectId: project.id,
+              userId: project.owner.id,
+            });
+          });
+          return "mail_sent";
+        } else if (invalidDays > 7) {
           await sendMail({
             type: EmailNotificationSetting.Communication,
             to: project.owner.email,
-            subject: `Your domain ${project.domain} is not configured`,
-            react: InvalidDomain({
+            subject: `Your ${project.domain} domain is not configured`,
+            react: AutomaticProjectDeletion({
               siteName: env.NEXT_PUBLIC_APP_NAME,
-              projectId: project.id,
               projectName: project.name,
               domain: project.domain,
               invalidDays,
@@ -111,33 +141,79 @@ export const domainVerification = inngest.createFunction(
             }),
           });
 
-          await tx.insert(automaticEmails).values({
-            type: AutomaticEmail.InvalidDomain,
-            projectId: project.id,
-            userId: project.owner.id,
-          });
-        });
-      } else if (invalidDays > 7) {
-        await sendMail({
-          type: EmailNotificationSetting.Communication,
-          to: project.owner.email,
-          subject: `Your ${project.domain} domain is not configured`,
-          react: AutomaticProjectDeletion({
-            siteName: env.NEXT_PUBLIC_APP_NAME,
-            projectName: project.name,
-            domain: project.domain,
-            invalidDays,
-            ownerEmail: project.owner.email,
-          }),
-        });
+          await db
+            .update(projects)
+            .set({
+              deletedAt: new Date(),
+            })
+            .where(eq(projects.id, project.id));
 
-        await step.sendEvent("project/delete", {
-          name: "project/delete",
-          data: project,
-        });
-      }
+          return "project_set_deleted";
+
+          // await step.sendEvent("project/delete", {
+          //   name: "project/delete",
+          //   data: project,
+          // });
+        }
+      });
     });
 
     await Promise.all(steps);
+
+    // const steps = projectsToVerify.map(async (project) => {
+    //   if (invalidDays > 3 && invalidDays <= 7) {
+    //     const invalidDomainEmails = await db
+    //       .select()
+    //       .from(automaticEmails)
+    //       .where(
+    //         and(
+    //           eq(automaticEmails.projectId, project.id),
+    //           eq(automaticEmails.type, AutomaticEmail.InvalidDomain),
+    //           eq(automaticEmails.userId, project.owner.id),
+    //         ),
+    //       );
+    //     if (invalidDomainEmails.length > 0) {
+    //       return;
+    //     }
+    //     await db.transaction(async (tx) => {
+    //       await sendMail({
+    //         type: EmailNotificationSetting.Communication,
+    //         to: project.owner.email,
+    //         subject: `Your domain ${project.domain} is not configured`,
+    //         react: InvalidDomain({
+    //           siteName: env.NEXT_PUBLIC_APP_NAME,
+    //           projectId: project.id,
+    //           projectName: project.name,
+    //           domain: project.domain,
+    //           invalidDays,
+    //           ownerEmail: project.owner.email,
+    //         }),
+    //       });
+    //       await tx.insert(automaticEmails).values({
+    //         type: AutomaticEmail.InvalidDomain,
+    //         projectId: project.id,
+    //         userId: project.owner.id,
+    //       });
+    //     });
+    //   } else if (invalidDays > 7) {
+    //     await sendMail({
+    //       type: EmailNotificationSetting.Communication,
+    //       to: project.owner.email,
+    //       subject: `Your ${project.domain} domain is not configured`,
+    //       react: AutomaticProjectDeletion({
+    //         siteName: env.NEXT_PUBLIC_APP_NAME,
+    //         projectName: project.name,
+    //         domain: project.domain,
+    //         invalidDays,
+    //         ownerEmail: project.owner.email,
+    //       }),
+    //     });
+    //     await step.sendEvent("project/delete", {
+    //       name: "project/delete",
+    //       data: project,
+    //     });
+    //   }
+    // });
+    // await Promise.all(steps);
   },
 );
