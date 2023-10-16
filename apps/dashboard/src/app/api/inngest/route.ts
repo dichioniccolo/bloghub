@@ -22,6 +22,6 @@ export const { GET, POST, PUT } = serve({
     postDelete,
     projectDelete,
     userLoginLink,
-    domainVerification,
+    // domainVerification,
   ],
 });
