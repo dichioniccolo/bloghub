@@ -16,61 +16,52 @@ import {
 } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 
-export const acceptInvite = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
+export const acceptInvite = authenticatedAction(({ userId }) =>
+  z
+    .object({
+      projectId: z.string().min(1),
+    })
+    .superRefine(async ({ projectId }, ctx) => {
+      const user = await db
+        .select({
+          email: users.email,
+        })
+        .from(users)
+        .where(eq(users.id, userId))
+        .then((x) => x[0]);
 
-    return {
-      userId: user.id,
-    };
-  },
-  ({ userId }) =>
-    z
-      .object({
-        projectId: z.string().nonempty(),
-      })
-      .superRefine(async ({ projectId }, ctx) => {
-        const user = await db
+      if (!user) {
+        ctx.addIssue({
+          code: "custom",
+          message: "User not found",
+          path: ["userId"],
+        });
+      } else {
+        const invite = await db
           .select({
-            email: users.email,
+            email: projectInvitations.email,
           })
-          .from(users)
-          .where(eq(users.id, userId))
+          .from(projectInvitations)
+          .where(
+            and(
+              eq(projectInvitations.projectId, projectId),
+              eq(projectInvitations.email, user.email),
+              gte(projectInvitations.expiresAt, new Date()),
+            ),
+          )
           .then((x) => x[0]);
 
-        if (!user) {
+        if (!invite) {
           ctx.addIssue({
             code: "custom",
-            message: "User not found",
-            path: ["userId"],
+            message: "Invite not found",
+            path: ["projectId"],
           });
-        } else {
-          const invite = await db
-            .select({
-              email: projectInvitations.email,
-            })
-            .from(projectInvitations)
-            .where(
-              and(
-                eq(projectInvitations.projectId, projectId),
-                eq(projectInvitations.email, user.email),
-                gte(projectInvitations.expiresAt, new Date()),
-              ),
-            )
-            .then((x) => x[0]);
-
-          if (!invite) {
-            ctx.addIssue({
-              code: "custom",
-              message: "Invite not found",
-              path: ["projectId"],
-            });
-          }
         }
-      }),
+      }
+    }),
 )(async ({ projectId }, { userId }) => {
   const user = await db
     .select({

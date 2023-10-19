@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
 import {
   and,
   db,
@@ -11,75 +14,60 @@ import {
   Role,
   sql,
 } from "@acme/db";
+import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 
-import "isomorphic-fetch";
+import { authenticatedAction } from "../authenticated-action";
 
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
+export const deleteProjectInvitation = authenticatedAction(({ userId }) =>
+  z
+    .object({
+      projectId: z.string().min(1),
+      email: z.string().email(),
+    })
+    .superRefine(async ({ projectId, email }, ctx) => {
+      const isOwnerCount = await db
+        .select({
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
+        })
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.projectId, projectId),
+            eq(projectMembers.userId, userId),
+            eq(projectMembers.role, Role.Owner),
+          ),
+        )
+        .then((x) => x[0]!);
 
-import { inngest } from "@acme/inngest";
+      if (isOwnerCount.count === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message:
+            "You must be the owner of the project to perform this action",
+          path: ["projectId"],
+        });
+      }
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+      const invitationToDelete = await db
+        .select()
+        .from(projectInvitations)
+        .where(
+          and(
+            eq(projectInvitations.projectId, projectId),
+            eq(projectInvitations.email, email),
+          ),
+        )
+        .then((x) => x[0]);
 
-export const deleteProjectInvitation = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
-
-    return {
-      userId: user.id,
-    };
-  },
-  ({ userId }) =>
-    z
-      .object({
-        projectId: z.string().nonempty(),
-        email: z.string().email(),
-      })
-      .superRefine(async ({ projectId, email }, ctx) => {
-        const isOwnerCount = await db
-          .select({
-            count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-          })
-          .from(projectMembers)
-          .where(
-            and(
-              eq(projectMembers.projectId, projectId),
-              eq(projectMembers.userId, userId),
-              eq(projectMembers.role, Role.Owner),
-            ),
-          )
-          .then((x) => x[0]!);
-
-        if (isOwnerCount.count === 0) {
-          ctx.addIssue({
-            code: "custom",
-            message:
-              "You must be the owner of the project to perform this action",
-            path: ["projectId"],
-          });
-        }
-
-        const invitationToDelete = await db
-          .select()
-          .from(projectInvitations)
-          .where(
-            and(
-              eq(projectInvitations.projectId, projectId),
-              eq(projectInvitations.email, email),
-            ),
-          )
-          .then((x) => x[0]);
-
-        if (!invitationToDelete) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["userIdToDelete"],
-            message: "Invitation not found",
-          });
-        }
-      }),
+      if (!invitationToDelete) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["userIdToDelete"],
+          message: "Invitation not found",
+        });
+      }
+    }),
 )(async ({ projectId, email }) => {
   await db
     .delete(projectInvitations)

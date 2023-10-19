@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { cn } from "@acme/ui";
+import { buttonVariants } from "@acme/ui/components/button";
 
 interface Props {
   pagination: {
@@ -22,7 +22,7 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
     : [];
 
   return (
-    <div className="sticky bottom-0 mt-4 flex h-20 flex-col items-center justify-center space-y-2 rounded-t-md border border-border shadow-lg">
+    <div className="sticky bottom-0 mt-4 flex h-20 flex-col items-center justify-center space-y-2 rounded-t-md border border-border bg-background shadow-lg">
       <div className="flex items-center space-x-2">
         {page > 1 && paginatedCount > 5 && (
           <Link
@@ -39,35 +39,33 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
         {paginationArray.length > 6 ? (
           page > 3 && page < paginationArray.length - 2 ? (
             <>
-              <AnchorLink page={page} value={1} />
+              <AnchorLink value={1} />
               <Divider />
-              <AnchorLink page={page} value={page - 1} />
-              <AnchorLink page={page} value={page} />
-              <AnchorLink page={page} value={page + 1} />
+              <AnchorLink value={page - 1} />
+              <AnchorLink value={page} />
+              <AnchorLink value={page + 1} />
               <Divider />
-              <AnchorLink page={page} value={paginationArray.length} />
+              <AnchorLink value={paginationArray.length} />
             </>
           ) : page <= 3 ? (
             <>
-              <AnchorLink page={page} value={1} />
-              <AnchorLink page={page} value={2} />
-              <AnchorLink page={page} value={3} />
+              <AnchorLink value={1} />
+              <AnchorLink value={2} />
+              <AnchorLink value={3} />
               <Divider />
-              <AnchorLink page={page} value={paginationArray.length} />
+              <AnchorLink value={paginationArray.length} />
             </>
           ) : (
             <>
-              <AnchorLink page={page} value={1} />
+              <AnchorLink value={1} />
               <Divider />
-              <AnchorLink page={page} value={paginationArray.length - 2} />
-              <AnchorLink page={page} value={paginationArray.length - 1} />
-              <AnchorLink page={page} value={paginationArray.length} />
+              <AnchorLink value={paginationArray.length - 2} />
+              <AnchorLink value={paginationArray.length - 1} />
+              <AnchorLink value={paginationArray.length} />
             </>
           )
         ) : (
-          paginationArray.map((i) => (
-            <AnchorLink key={i + 1} page={page} value={i + 1} />
-          ))
+          paginationArray.map((i) => <AnchorLink key={i + 1} value={i + 1} />)
         )}
         {page < paginatedCount && paginatedCount > 5 && (
           <Link
@@ -95,7 +93,7 @@ const Divider = () => {
   return <div className="w-6 rounded-lg border border-gray-400" />;
 };
 
-const AnchorLink = ({ value, page }: { value: number; page: number }) => {
+const AnchorLink = ({ value }: { value: number }) => {
   return (
     <Link
       href={{
@@ -103,13 +101,10 @@ const AnchorLink = ({ value, page }: { value: number; page: number }) => {
           page: value.toString(),
         },
       }}
-      className={cn(
-        "flex min-w-[1.5rem] items-center justify-center rounded-md bg-white p-1 font-semibold transition-all hover:bg-gray-100",
-        {
-          "text-black": value === page,
-          "text-gray-400": value !== page,
-        },
-      )}
+      className={buttonVariants({
+        className: "w-6",
+        size: "sm",
+      })}
     >
       {value}
     </Link>

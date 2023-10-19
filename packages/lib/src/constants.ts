@@ -17,3 +17,19 @@ export const API_HOSTNAMES = new Set([
 export const GOOGLE_FAVICON_URL = `https://www.google.com/s2/favicons?sz=64&domain=`;
 
 export const ROOM_DIVIDER = "-";
+
+export const Crons = {
+  EVERY_MINUTE: "* * * * *",
+  EVERY_HOUR: "0 * * * *",
+  EVERY_DAY: "0 0 * * *",
+  EVERY_WEEK: "0 0 * * 0",
+  EVERY_MONTH: "0 0 1 * *",
+  EVERY_YEAR: "0 0 1 1 *",
+  EVERY_5_MINUTES: "*/5 * * * *",
+  EVERY_10_MINUTES: "*/10 * * * *",
+  EVERY_15_MINUTES: "*/15 * * * *",
+  EVERY_30_MINUTES: "*/30 * * * *",
+  EVERY_2_HOURS: "0 */2 * * *",
+  EVERY_6_HOURS: "0 */6 * * *",
+  EVERY_12_HOURS: "0 */12 * * *",
+};

@@ -15,83 +15,73 @@ import {
 } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 
-export const updatePostSettings = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
-
-    return {
-      userId: user.id,
-    };
-  },
-  ({ userId }) =>
-    z
-      .object({
-        projectId: z.string().nonempty(),
-        postId: z.string().nonempty(),
-        data: z.object({
-          slug: z
-            .string()
-            .nonempty()
-            .regex(/^[a-z0-9-]+$/i),
-          thumbnailUrl: z.string().url().optional().nullable(),
-          seoTitle: z.string().optional().nullable(),
-          seoDescription: z.string().optional().nullable(),
-        }),
-      })
-      .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
-        const post = await db
-          .select({
-            count: sql<number>`count(*)`.mapWith(Number),
-          })
-          .from(posts)
-          .where(eq(posts.id, postId))
-          .innerJoin(
-            projects,
-            and(eq(projects.id, posts.projectId), eq(projects.id, projectId)),
-          )
-          .innerJoin(
-            projectMembers,
-            and(
-              eq(projectMembers.projectId, projects.id),
-              eq(projectMembers.userId, userId),
-            ),
-          )
-          .then((x) => x[0]!);
-
-        if (post.count === 0) {
-          ctx.addIssue({
-            code: "custom",
-            message:
-              "You must be a member of the project to perform this action",
-            path: ["projectId"],
-          });
-        }
-
-        const postWithSameSlug = await db
-          .select({
-            count: sql<number>`count(*)`.mapWith(Number),
-          })
-          .from(posts)
-          .where(
-            and(
-              eq(posts.slug, slug),
-              eq(posts.projectId, projectId),
-              ne(posts.id, postId),
-            ),
-          )
-          .then((x) => x[0]!);
-
-        if (postWithSameSlug.count > 0) {
-          ctx.addIssue({
-            code: "custom",
-            message: "A post with the same slug already exists",
-            path: ["slug"],
-          });
-        }
+export const updatePostSettings = authenticatedAction(({ userId }) =>
+  z
+    .object({
+      projectId: z.string().min(1),
+      postId: z.string().min(1),
+      data: z.object({
+        slug: z
+          .string()
+          .min(1)
+          .regex(/^[a-z0-9-]+$/i),
+        thumbnailUrl: z.string().url().optional().nullable(),
+        seoTitle: z.string().optional().nullable(),
+        seoDescription: z.string().optional().nullable(),
       }),
+    })
+    .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
+      const post = await db
+        .select({
+          count: sql<number>`count(*)`.mapWith(Number),
+        })
+        .from(posts)
+        .where(eq(posts.id, postId))
+        .innerJoin(
+          projects,
+          and(eq(projects.id, posts.projectId), eq(projects.id, projectId)),
+        )
+        .innerJoin(
+          projectMembers,
+          and(
+            eq(projectMembers.projectId, projects.id),
+            eq(projectMembers.userId, userId),
+          ),
+        )
+        .then((x) => x[0]!);
+
+      if (post.count === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message: "You must be a member of the project to perform this action",
+          path: ["projectId"],
+        });
+      }
+
+      const postWithSameSlug = await db
+        .select({
+          count: sql<number>`count(*)`.mapWith(Number),
+        })
+        .from(posts)
+        .where(
+          and(
+            eq(posts.slug, slug),
+            eq(posts.projectId, projectId),
+            ne(posts.id, postId),
+          ),
+        )
+        .then((x) => x[0]!);
+
+      if (postWithSameSlug.count > 0) {
+        ctx.addIssue({
+          code: "custom",
+          message: "A post with the same slug already exists",
+          path: ["slug"],
+        });
+      }
+    }),
 )(async ({
   projectId,
   postId,

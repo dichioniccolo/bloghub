@@ -62,23 +62,23 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
               })}
             </p>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="xxs">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                {currentUserRole === "owner" && member.role !== "owner" && (
+          {currentUserRole === "owner" && member.role !== "owner" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="xxs">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
                   <DropdownMenuItem onClick={() => setOpen(true)}>
                     <Trash2 className="mr-2 h-4 w-4" />
                     <span>Remove</span>
                   </DropdownMenuItem>
-                )}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
       <DeleteMemberDialog />

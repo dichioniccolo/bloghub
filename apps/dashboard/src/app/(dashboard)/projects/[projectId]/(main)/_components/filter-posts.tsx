@@ -15,10 +15,14 @@ interface Props {
 export function FilterPosts({ projectId, filter }: Props) {
   const router = useRouter();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(filter);
   const debouncedQuery = useDebounce(query, 500);
 
   useEffect(() => {
+    if (!debouncedQuery) {
+      return;
+    }
+
     const value = debouncedQuery.trim();
 
     const searchParams = new URLSearchParams(window.location.search);
@@ -26,6 +30,7 @@ export function FilterPosts({ projectId, filter }: Props) {
       searchParams.delete("q");
     } else {
       searchParams.set("q", value);
+      searchParams.set("page", "1");
     }
 
     router.push(
@@ -41,7 +46,7 @@ export function FilterPosts({ projectId, filter }: Props) {
             <h3 className="ml-1 mt-2 font-semibold">Filter Posts</h3>
           </div>
           <Input
-            value={query}
+            value={query ?? ""}
             defaultValue={filter ?? ""}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search..."

@@ -19,6 +19,7 @@ import {
 } from "@acme/ui/components/card";
 import { Progress } from "@acme/ui/components/progress";
 import { Separator } from "@acme/ui/components/separator";
+import { Skeleton } from "@acme/ui/components/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -71,10 +72,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
         <CardDescription>
           You are currently on the{" "}
           <Badge
-            style={{
-              backgroundColor: userPlan.plan.color,
-            }}
-            variant="default"
+            variant={userPlan.plan.key === "FREE" ? "default" : "destructive"}
           >
             {userPlan.plan.name}
           </Badge>{" "}
@@ -141,5 +139,55 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
 }
 
 export function BillingFormSkeleton() {
-  return <div>loading</div>;
+  return (
+    <Card className="border-none shadow-none">
+      <CardHeader className="px-0">
+        <CardTitle>Plan & Usage</CardTitle>
+        <div className="flex text-sm text-muted-foreground">
+          You are currently on the &nbsp;
+          <Skeleton className="w-24">&nbsp;</Skeleton>&nbsp; plan. Current
+          billing cycle: &nbsp;
+          <Skeleton />
+          <div className="flex font-medium">
+            <Skeleton className="w-24" /> &nbsp;
+          </div>
+        </div>
+      </CardHeader>
+      <Separator />
+      <CardContent className="grid grid-cols-1 divide-y divide-stone-200 px-0 dark:divide-stone-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+        <div className="flex flex-col space-y-2 p-10">
+          <div className="flex items-center">
+            <h3>Total Post Visits</h3>
+            <Tooltip>
+              <TooltipContent>
+                Number of billable post visits across all your projects
+              </TooltipContent>
+              <TooltipTrigger>
+                <div className="flex h-4 w-8 justify-center">
+                  <HelpCircle className="h-4 w-4 text-stone-500" />
+                </div>
+              </TooltipTrigger>
+            </Tooltip>
+          </div>
+          <Skeleton>&nbsp;</Skeleton>
+          <div className="h-3 w-full overflow-hidden rounded-full">
+            <Skeleton>
+              <Progress value={80} />
+            </Skeleton>
+          </div>
+        </div>
+        <div className="p-10">
+          <h3 className="font-medium">Number of Projects</h3>
+          <div className="mt-4 flex items-center">
+            <Skeleton className="w-8">&nbsp;</Skeleton>
+            <Divider className="h-8 w-8 text-stone-500" />
+            <InfinityIcon className="h-8 w-8 text-stone-500" />
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="px-0">
+        <Skeleton className="h-10 w-24 px-4 py-2" />
+      </CardFooter>
+    </Card>
+  );
 }

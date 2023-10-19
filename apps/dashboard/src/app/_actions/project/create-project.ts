@@ -16,23 +16,14 @@ import {
 import { AppRoutes } from "@acme/lib/routes";
 import { createDomain } from "@acme/vercel";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 import { DomainSchema } from "../schemas";
 
-export const createProject = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
-
-    return {
-      userId: user.id,
-    };
-  },
-  () =>
-    z.object({
-      name: z.string().min(1),
-      domain: DomainSchema,
-    }),
+export const createProject = authenticatedAction(() =>
+  z.object({
+    name: z.string().min(1),
+    domain: DomainSchema,
+  }),
 )(async ({ name, domain }, { userId }) => {
   const project = await db.transaction(async (tx) => {
     await createDomain(domain);

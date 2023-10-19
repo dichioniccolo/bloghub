@@ -55,8 +55,8 @@ export function isInvitationAcceptedNotification(
 }
 
 export const ProjectInvitationNotificationSchema = z.object({
-  projectId: z.string().nonempty(),
-  projectName: z.string().nonempty(),
+  projectId: z.string().min(1),
+  projectName: z.string().min(1),
   userEmail: z.string().email(),
 });
 
@@ -65,7 +65,7 @@ export type ProjectInvitationNotificationData = z.input<
 >;
 
 export const RemovedFromProjectNotificationSchema = z.object({
-  projectName: z.string().nonempty(),
+  projectName: z.string().min(1),
   userEmail: z.string().email(),
 });
 
@@ -74,8 +74,8 @@ export type RemovedFromProjectNotificationData = z.input<
 >;
 
 export const InvitationAcceptedNotificationSchema = z.object({
-  projectId: z.string().nonempty(),
-  projectName: z.string().nonempty(),
+  projectId: z.string().min(1),
+  projectName: z.string().min(1),
   userEmail: z.string().email(),
 });
 

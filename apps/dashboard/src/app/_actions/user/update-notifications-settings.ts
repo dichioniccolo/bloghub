@@ -8,24 +8,15 @@ import {
   emailNotificationSettings,
 } from "@acme/db";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 
-export const updateNotificationSettings = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
-
-    return {
-      userId: user.id,
-    };
-  },
-  () =>
-    z.object({
-      communication_emails: z.coerce.boolean().default(true),
-      marketing_emails: z.coerce.boolean().default(true),
-      social_emails: z.coerce.boolean().default(true),
-      security_emails: z.literal(true),
-    }),
+export const updateNotificationSettings = authenticatedAction(() =>
+  z.object({
+    communication_emails: z.coerce.boolean().default(true),
+    marketing_emails: z.coerce.boolean().default(true),
+    social_emails: z.coerce.boolean().default(true),
+    security_emails: z.literal(true),
+  }),
 )(async (
   { communication_emails, marketing_emails, social_emails, security_emails },
   { userId },

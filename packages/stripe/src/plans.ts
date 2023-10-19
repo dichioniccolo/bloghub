@@ -5,7 +5,6 @@ export type PlanInfo = {
   description: string;
   features: string[];
   quota: number;
-  color: string;
 } & (
   | {
       key: "PRO_50K_M";
@@ -39,7 +38,6 @@ export const PLANS: Record<PlanInfoKeys, PlanInfo> = {
     features: [],
     priceId: "no-id-needed",
     quota: 10000,
-    color: "#000000",
   },
   PRO_50K_M: {
     key: "PRO_50K_M",
@@ -48,7 +46,6 @@ export const PLANS: Record<PlanInfoKeys, PlanInfo> = {
     features: [],
     priceId: env.NEXT_PUBLIC_STRIPE_PRO_50K_MONTHLY_PLAN_ID,
     quota: 50000,
-    color: "#ff0000",
   },
   PRO_50K_Y: {
     key: "PRO_50K_Y",
@@ -57,7 +54,6 @@ export const PLANS: Record<PlanInfoKeys, PlanInfo> = {
     features: [],
     priceId: env.NEXT_PUBLIC_STRIPE_PRO_50K_YEARLY_PLAN_ID,
     quota: 50000,
-    color: "#ff0000",
   },
   PRO_UNLIMITED_M: {
     key: "PRO_UNLIMITED_M",
@@ -66,7 +62,6 @@ export const PLANS: Record<PlanInfoKeys, PlanInfo> = {
     features: [],
     priceId: env.NEXT_PUBLIC_STRIPE_PRO_UNLIMITED_MONTHLY_PLAN_ID,
     quota: Number.MAX_SAFE_INTEGER,
-    color: "#ff0000",
   },
   PRO_UNLIMITED_Y: {
     key: "PRO_UNLIMITED_Y",
@@ -75,7 +70,6 @@ export const PLANS: Record<PlanInfoKeys, PlanInfo> = {
     features: [],
     priceId: env.NEXT_PUBLIC_STRIPE_PRO_UNLIMITED_YEARLY_PLAN_ID,
     quota: Number.MAX_SAFE_INTEGER,
-    color: "#ff0000",
   },
 };
 

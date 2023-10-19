@@ -191,7 +191,7 @@ export function PostCard({ post, project, owner }: Props) {
         <div className="flex items-center space-x-2">
           <Link
             href={AppRoutes.PostStats(project.id, post.id)}
-            className="hidden items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 md:inline-flex"
+            className="hidden items-center space-x-1 rounded-md bg-secondary px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 md:inline-flex"
           >
             <BarChart2 className="h-4 w-4" />
             <p className="whitespace-nowrap text-sm text-muted-foreground">

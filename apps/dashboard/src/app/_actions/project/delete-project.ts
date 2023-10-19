@@ -14,46 +14,37 @@ import {
 } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 
-export const deleteProject = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
+export const deleteProject = authenticatedAction(({ userId }) =>
+  z
+    .object({
+      projectId: z.string().min(1),
+    })
+    .superRefine(async ({ projectId }, ctx) => {
+      const isOwnerCount = await db
+        .select({
+          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
+        })
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.projectId, projectId),
+            eq(projectMembers.userId, userId),
+            eq(projectMembers.role, Role.Owner),
+          ),
+        )
+        .then((x) => x[0]!);
 
-    return {
-      userId: user.id,
-    };
-  },
-  ({ userId }) =>
-    z
-      .object({
-        projectId: z.string().nonempty(),
-      })
-      .superRefine(async ({ projectId }, ctx) => {
-        const isOwnerCount = await db
-          .select({
-            count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-          })
-          .from(projectMembers)
-          .where(
-            and(
-              eq(projectMembers.projectId, projectId),
-              eq(projectMembers.userId, userId),
-              eq(projectMembers.role, Role.Owner),
-            ),
-          )
-          .then((x) => x[0]!);
-
-        if (isOwnerCount.count === 0) {
-          ctx.addIssue({
-            code: "custom",
-            message:
-              "You must be the owner of the project to perform this action",
-            path: ["projectId"],
-          });
-        }
-      }),
+      if (isOwnerCount.count === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message:
+            "You must be the owner of the project to perform this action",
+          path: ["projectId"],
+        });
+      }
+    }),
 )(async ({ projectId }, { userId }) => {
   const project = await db
     .select({

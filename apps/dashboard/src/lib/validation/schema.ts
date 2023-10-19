@@ -16,7 +16,7 @@ export const UserAuthSchema = z.object({
 export type UserAuthSchemaType = z.input<typeof UserAuthSchema>;
 
 export const UserNameSchema = z.object({
-  name: z.string().nonempty(),
+  name: z.string().min(1),
 });
 
 export type UserNameSchemaType = z.input<typeof UserNameSchema>;
@@ -86,7 +86,7 @@ export const AiGenerateSchema = z.object({
   type: z
     .enum(["completion", "summarize", "fix_grammar_spelling"])
     .default("completion"),
-  prompt: z.string().nonempty(),
+  prompt: z.string().min(1),
 });
 
 export const PublishPostSchema = z.object({

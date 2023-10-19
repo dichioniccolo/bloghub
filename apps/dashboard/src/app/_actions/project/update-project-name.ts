@@ -13,49 +13,40 @@ import {
   sql,
 } from "@acme/db";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 
-export const updateProjectName = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
+export const updateProjectName = authenticatedAction(({ userId }) =>
+  z
+    .object({
+      projectId: z.string().min(1),
+      name: z.string().min(1),
+    })
+    .superRefine(async ({ projectId }, ctx) => {
+      const project = await db
+        .select({
+          count: sql<number>`count(*)`.mapWith(Number),
+        })
+        .from(projects)
+        .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
+        .innerJoin(
+          projectMembers,
+          and(
+            eq(projectMembers.projectId, projects.id),
+            eq(projectMembers.userId, userId),
+            eq(projectMembers.role, Role.Owner),
+          ),
+        )
+        .then((x) => x[0]!);
 
-    return {
-      userId: user.id,
-    };
-  },
-  ({ userId }) =>
-    z
-      .object({
-        projectId: z.string().nonempty(),
-        name: z.string().nonempty(),
-      })
-      .superRefine(async ({ projectId }, ctx) => {
-        const project = await db
-          .select({
-            count: sql<number>`count(*)`.mapWith(Number),
-          })
-          .from(projects)
-          .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
-          .innerJoin(
-            projectMembers,
-            and(
-              eq(projectMembers.projectId, projects.id),
-              eq(projectMembers.userId, userId),
-              eq(projectMembers.role, Role.Owner),
-            ),
-          )
-          .then((x) => x[0]!);
-
-        if (project.count === 0) {
-          ctx.addIssue({
-            code: "custom",
-            message:
-              "You must be a member of the project or be the owner to perform this action",
-            path: ["projectId"],
-          });
-        }
-      }),
+      if (project.count === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message:
+            "You must be a member of the project or be the owner to perform this action",
+          path: ["projectId"],
+        });
+      }
+    }),
 )(async ({ projectId, name }) => {
   await db
     .update(projects)

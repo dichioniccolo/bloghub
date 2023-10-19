@@ -5,41 +5,32 @@ import { z } from "zod";
 import { and, db, eq, genId, posts, projectMembers } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
-import { $getUser } from "~/app/_api/get-user";
-import { zactAuthenticated } from "~/lib/zact/server";
+import { authenticatedAction } from "../authenticated-action";
 
-export const createPost = zactAuthenticated(
-  async () => {
-    const user = await $getUser();
+export const createPost = authenticatedAction(({ userId }) =>
+  z
+    .object({
+      projectId: z.string().min(1),
+    })
+    .superRefine(async ({ projectId }, ctx) => {
+      const projectMember = await db
+        .select()
+        .from(projectMembers)
+        .where(
+          and(
+            eq(projectMembers.projectId, projectId),
+            eq(projectMembers.userId, userId),
+          ),
+        );
 
-    return {
-      userId: user.id,
-    };
-  },
-  ({ userId }) =>
-    z
-      .object({
-        projectId: z.string().nonempty(),
-      })
-      .superRefine(async ({ projectId }, ctx) => {
-        const projectMember = await db
-          .select()
-          .from(projectMembers)
-          .where(
-            and(
-              eq(projectMembers.projectId, projectId),
-              eq(projectMembers.userId, userId),
-            ),
-          );
-
-        if (projectMember.length === 0) {
-          ctx.addIssue({
-            code: "custom",
-            message: "You must be a member of the project",
-            path: ["projectId"],
-          });
-        }
-      }),
+      if (projectMember.length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message: "You must be a member of the project",
+          path: ["projectId"],
+        });
+      }
+    }),
 )(async ({ projectId }) => {
   const slug = genId();
 
