@@ -11,12 +11,12 @@ export function useRealtimeNotification(
   handler: (notification: AppNotification) => unknown,
 ) {
   useEffect(() => {
-    pusherClient?.subscribe(channel);
-    pusherClient?.bind(event, handler);
+    pusherClient.subscribe(channel);
+    pusherClient.bind(event, handler);
 
     return () => {
-      pusherClient?.unbind(event, handler);
-      pusherClient?.unsubscribe(channel);
+      pusherClient.unsubscribe(channel);
+      pusherClient.unbind(event, handler);
     };
   }, [channel, event, handler]);
 }

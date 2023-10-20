@@ -78,7 +78,7 @@ export const notificationRemovedFromProject = inngest.createFunction(
     const [, notification] = await Promise.all([sendEmail, createNotification]);
 
     await step.run("Send Pusher notification", async () => {
-      await pusherServer.trigger(`user__${user.id}`, "notifications", {
+      await pusherServer.trigger(user.id, "notifications:new", {
         id: notification.id,
         type: notification.type,
         data: event.data,

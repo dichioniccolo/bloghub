@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@acme/db": "^0.1.0",
-    "@t3-oss/env-nextjs": "^0.7.0"
+    "@t3-oss/env-nextjs": "^0.7.1"
   },
   "devDependencies": {
     "@acme/eslint-config": "^0.1.0",

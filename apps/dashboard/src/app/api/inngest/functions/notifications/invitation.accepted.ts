@@ -100,7 +100,7 @@ export const notificationInvitationAccepted = inngest.createFunction(
     const [, notification] = await Promise.all([email, createNotification]);
 
     await step.run("Send Pusher notification", async () => {
-      await pusherServer.trigger(`user__${project.owner.id}`, "notifications", {
+      await pusherServer.trigger(project.owner.id, "notifications:new", {
         id: notification.id,
         type: notification.type,
         data: event.data,

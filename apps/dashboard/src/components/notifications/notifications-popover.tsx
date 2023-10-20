@@ -58,11 +58,7 @@ export function NotificationsPopover() {
     },
   });
 
-  useRealtimeNotification(
-    `user__${user?.id}`,
-    "notifications",
-    onNewNotification,
-  );
+  useRealtimeNotification(user!.id, "notifications:new", onNewNotification);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

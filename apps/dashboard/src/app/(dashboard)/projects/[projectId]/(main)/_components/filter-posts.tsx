@@ -47,7 +47,6 @@ export function FilterPosts({ projectId, filter }: Props) {
           </div>
           <Input
             value={query ?? ""}
-            defaultValue={filter ?? ""}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search..."
           />
