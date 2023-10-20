@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
+import { AppRoutes } from "@acme/lib/routes";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 import {
@@ -86,7 +87,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
               <CommandGroup heading="Personal Account">
                 <CommandItem
                   onSelect={() => {
-                    router.push("/");
+                    router.push(AppRoutes.Dashboard);
                     setOpen(false);
                   }}
                   className="text-sm"
@@ -114,7 +115,7 @@ export function ProjectsDropdownClient({ projects }: Props) {
                   <CommandItem
                     key={project.id}
                     onSelect={() => {
-                      router.push(`/projects/${project.id}`);
+                      router.push(AppRoutes.ProjectDashboard(project.id));
                       setOpen(false);
                     }}
                     className="text-sm"

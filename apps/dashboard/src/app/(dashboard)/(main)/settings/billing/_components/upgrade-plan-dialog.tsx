@@ -48,17 +48,6 @@ export function UpgradePlanDialog({ proPlans }: Props) {
   const period = annualBilling ? "yearly" : "monthly";
 
   const { mutate, isRunning } = useZact(createCheckoutSession, {
-    onSuccess: (url) => {
-      if (!url) {
-        toast.error("Something went wrong");
-        return;
-      }
-
-      // Redirect to the Stripe session.
-      // This could be a checkout page for initial upgrade.
-      // Or portal to manage existing subscription.
-      location.href = url;
-    },
     onServerError: () => {
       toast.error("Something went wrong");
     },

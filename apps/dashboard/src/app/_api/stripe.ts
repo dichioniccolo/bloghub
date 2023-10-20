@@ -1,9 +1,11 @@
 "use server";
 
+import { cache } from "react";
+
 import { stripe } from "@acme/stripe";
 import { PLANS } from "@acme/stripe/plans";
 
-export async function getProPlans() {
+export const getProPlans = cache(async () => {
   const [
     pro50KMonthlyPrice,
     pro50KYearlyPrice,
@@ -34,6 +36,6 @@ export async function getProPlans() {
       price: proUnlimitedYearlyPrice.unit_amount! / 100,
     },
   ];
-}
+});
 
 export type GetProPlans = Awaited<ReturnType<typeof getProPlans>>;

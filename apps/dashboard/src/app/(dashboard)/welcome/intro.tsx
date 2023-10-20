@@ -1,15 +1,16 @@
-import { useRouter } from "next/navigation";
+"use client";
+
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
 
-import { Button } from "@acme/ui/components/button";
+import { AppRoutes } from "@acme/lib/routes";
+import { buttonVariants } from "@acme/ui/components/button";
 import { useDebounce } from "@acme/ui/hooks/use-debounce";
 
 import { env } from "~/env.mjs";
 
 export function Intro() {
-  const router = useRouter();
-
   const showText = useDebounce(true, 800);
 
   return (
@@ -67,12 +68,14 @@ export function Intro() {
               },
             }}
           >
-            <Button
-              size="lg"
-              onClick={() => router.push("/welcome?step=create-project")}
+            <Link
+              href={AppRoutes.WelcomeStepCreateProject}
+              className={buttonVariants({
+                size: "lg",
+              })}
             >
               Get Started
-            </Button>
+            </Link>
           </motion.div>
         </motion.div>
       )}

@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { db, eq, users } from "@acme/db";
@@ -53,7 +54,7 @@ export const createCheckoutSession = authenticatedAction(() =>
       return_url: callbackUrl,
     });
 
-    return stripeSession.url;
+    redirect(stripeSession.url);
   }
 
   if (!key) {
@@ -92,5 +93,5 @@ export const createCheckoutSession = authenticatedAction(() =>
     ],
   });
 
-  return stripeSession.url;
+  redirect(stripeSession.url!);
 });

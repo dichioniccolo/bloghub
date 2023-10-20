@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Loader2, Plus } from "lucide-react";
 
 import { Button } from "@acme/ui/components/button";
@@ -13,14 +12,7 @@ interface Props {
 }
 
 export function CreatePostButton({ projectId }: Props) {
-  const router = useRouter();
-
-  const { mutate, isRunning } = useZact(createPost, {
-    onSuccess: (post) => {
-      router.push(`/projects/${projectId}/posts/${post.id}`);
-      router.refresh();
-    },
-  });
+  const { mutate, isRunning } = useZact(createPost);
 
   const onCreate = () =>
     mutate({

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -26,13 +25,9 @@ interface Props {
 }
 
 export function AcceptInviteDialog({ project, expired }: Props) {
-  const router = useRouter();
-
   const { mutate, isRunning: loading } = useZact(acceptInvite, {
     onSuccess: () => {
       toast.success(`You now are a part of ${project.name} project!`);
-      router.replace(AppRoutes.ProjectDashboard(project.id));
-      router.refresh();
     },
   });
 

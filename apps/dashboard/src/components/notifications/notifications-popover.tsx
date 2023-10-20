@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
 import { AppRoutes } from "@acme/lib/routes";
@@ -33,8 +32,6 @@ import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 
 export function NotificationsPopover() {
-  const router = useRouter();
-
   const { notifications, unreadCount } = useNotifications();
   const dispatch = useNotificationsDispatch();
 
@@ -54,11 +51,14 @@ export function NotificationsPopover() {
       dispatch({
         type: NotificationActionTypes.ARCHIVE_ALL,
       });
-      router.refresh();
     },
   });
 
-  useRealtimeNotification(user!.id, "notifications:new", onNewNotification);
+  useRealtimeNotification(
+    user?.id ?? "",
+    "notifications:new",
+    onNewNotification,
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

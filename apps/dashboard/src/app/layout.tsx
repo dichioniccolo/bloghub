@@ -121,11 +121,6 @@ export default function Layout({ children }: PropsWithChildren) {
             </div>
           </PopoverContent>
         </Popover>
-        {/* <div className="dark:border-border/80 fixed bottom-2 left-2 right-2 z-50 max-w-md divide-border/60 rounded-lg border border-border/60 bg-background p-2 shadow-sm ring-border dark:divide-border/80 dark:ring-border md:left-auto">
-          <div className="flex items-center gap-x-2 text-base font-medium">
-            Und
-          </div>
-        </div> */}
       </body>
     </html>
   );

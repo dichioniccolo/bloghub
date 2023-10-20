@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import type { Stripe } from "@acme/stripe";
 import { stripe } from "@acme/stripe";
 import { handleEvent } from "@acme/stripe/webhooks";
 
@@ -16,7 +15,7 @@ export async function POST(req: Request) {
     payload,
     signature,
     env.STRIPE_WEBHOOK_SECRET,
-  ) as Stripe.DiscriminatedEvent;
+  );
 
   try {
     await handleEvent(event);

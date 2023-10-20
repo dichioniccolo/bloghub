@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useRef, useState, useTransition } from "react";
-import { toast } from "sonner";
 import type z from "zod";
 
 import type { ZactAction, ZactValidationError } from "./server";
@@ -40,16 +39,6 @@ export function useZact<InputType extends z.ZodTypeAny, ResponseType>(
               reject(result.validationErrors);
               return;
             }
-          }
-
-          if (result?.serverError) {
-            if (callback?.onServerError) {
-              callback.onServerError();
-            } else {
-              toast.error("An error occurred.");
-            }
-
-            resolve(null);
           }
 
           if (callback?.onSuccess && result?.data) {

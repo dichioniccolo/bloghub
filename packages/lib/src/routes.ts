@@ -1,5 +1,8 @@
 export const AppRoutes = {
   Login: "/login",
+  Welcome: "/welcome",
+  WelcomeStepCreateProject: "/welcome?step=create-project", // TODO: change with route, not query param
+  WelcomeStepDone: "/welcome?step=done", // TODO: change with route, not query param
   Dashboard: "/",
   Settings: "/settings",
   NotificationsSettings: "/settings/notifications",

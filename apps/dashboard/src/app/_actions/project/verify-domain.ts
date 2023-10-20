@@ -2,17 +2,9 @@
 
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  isNull,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-} from "@acme/db";
+import { and, db, eq, isNull, projectMembers, projects, Role } from "@acme/db";
 
+import { isOwnerCheck } from "~/app/_actions/schemas";
 import { authenticatedAction } from "../authenticated-action";
 import { verifyProjectDomain } from "./verify-project-domain";
 
@@ -22,28 +14,7 @@ export const verifyDomain = authenticatedAction(({ userId }) =>
       projectId: z.string(),
     })
     .superRefine(async ({ projectId }, ctx) => {
-      const isOwnerCount = await db
-        .select({
-          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
-
-      if (isOwnerCount.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be the owner of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
+      await isOwnerCheck(projectId, userId, ctx);
     }),
 )(async ({ projectId }, { userId }) => {
   const project = await db

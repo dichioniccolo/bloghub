@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { AppRoutes } from "@acme/lib/routes";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,14 +26,11 @@ interface Props {
 }
 
 export function DeleteProjectDialog({ project }: Props) {
-  const router = useRouter();
-
   const [open, setOpen] = useState(false);
 
   const { mutate, isRunning } = useZact(deleteProject, {
     onSuccess: () => {
       toast.success("Project deleted");
-      router.replace(AppRoutes.Dashboard);
     },
     onServerError: () => {
       toast.error("Something went wrong");

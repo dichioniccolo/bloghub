@@ -3,20 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  isNull,
-  projectInvitations,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-} from "@acme/db";
+import { and, db, eq, isNull, projectInvitations, projects } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 
+import { isOwnerCheck } from "~/app/_actions/schemas";
 import { authenticatedAction } from "../authenticated-action";
 
 export const deleteProjectInvitation = authenticatedAction(({ userId }) =>
@@ -26,28 +17,7 @@ export const deleteProjectInvitation = authenticatedAction(({ userId }) =>
       email: z.string().email(),
     })
     .superRefine(async ({ projectId, email }, ctx) => {
-      const isOwnerCount = await db
-        .select({
-          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
-
-      if (isOwnerCount.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be the owner of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
+      await isOwnerCheck(projectId, userId, ctx);
 
       const invitationToDelete = await db
         .select()

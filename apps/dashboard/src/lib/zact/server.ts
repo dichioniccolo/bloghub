@@ -80,47 +80,40 @@ export function zactAuthenticated<TAuth>(auth: () => MaybePromise<TAuth>) {
       const validatedAction: ZactAction<TInput, TResponse> = async (
         input: z.input<TInput>,
       ) => {
-        let authResult: TAuth;
+        const authResult = await auth();
 
-        try {
-          authResult = await auth();
-
-          if (!authResult) {
-            return {
-              authError: true,
-            };
-          }
-        } catch {
+        if (!authResult) {
           return {
             authError: true,
           };
         }
 
-        try {
-          if (validator) {
-            const result = await validator(authResult).safeParseAsync(input);
+        // TODO: Do not use a try/catch block here because if we use redirect() in the action, it will not work
+        // try {
+        if (validator) {
+          const result = await validator(authResult).safeParseAsync(input);
 
-            if (!result.success) {
-              return {
-                validationErrors: result.error.flatten(),
-              };
-            }
-
+          if (!result.success) {
             return {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              data: await action(result.data, authResult),
+              validationErrors: result.error.flatten(),
             };
           }
 
           return {
-            data: await action(input, authResult),
-          };
-        } catch (e) {
-          console.error(e);
-          return {
-            serverError: true,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            data: await action(result.data, authResult),
           };
         }
+
+        return {
+          data: await action(input, authResult),
+        };
+        // } catch (e) {
+        //   console.error(e);
+        //   return {
+        //     serverError: true,
+        //   };
+        // }
       };
 
       return validatedAction;

@@ -29,4 +29,6 @@ export const archiveAllNotifications = authenticatedAction()(async (
         ]),
       ),
     );
+
+  // TODO: revalidate notifications query
 });

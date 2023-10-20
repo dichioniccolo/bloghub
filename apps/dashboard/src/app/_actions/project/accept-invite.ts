@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import {
@@ -15,6 +16,7 @@ import {
   users,
 } from "@acme/db";
 import { inngest } from "@acme/inngest";
+import { AppRoutes } from "@acme/lib/routes";
 
 import { authenticatedAction } from "../authenticated-action";
 
@@ -104,6 +106,5 @@ export const acceptInvite = authenticatedAction(({ userId }) =>
     });
   });
 
-  // TODO: implement when fixed
-  // redirect(AppRoutes.ProjectDashboard(projectId));
+  redirect(AppRoutes.ProjectDashboard(projectId));
 });
