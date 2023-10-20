@@ -4,12 +4,15 @@ import {
   and,
   db,
   eq,
+  inArray,
   isNotNull,
   media,
   MediaForEntity,
   posts,
   projects,
+  sql,
 } from "@acme/db";
+import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
 
@@ -22,15 +25,17 @@ export const mediaDeleteUnused = inngest.createFunction(
     cron: `TZ=Europe/Rome ${Crons.EVERY_DAY}`,
   },
   async ({ step }) => {
-    // TODO: find a better way to handle lots of projects
     const allProjects = await step.run("Get all projects", () =>
       db
         .select({
           id: projects.id,
-          url: projects.logo,
+          logo: projects.logo,
+          mediaCount: sql<number>`COUNT(${media.id})`.mapWith(Number),
         })
         .from(projects)
-        .then((x) => x),
+        .innerJoin(media, eq(media.projectId, projects.id))
+        .groupBy(projects.id, projects.logo)
+        .having(sql`COUNT(${media.id}) > 0`),
     );
 
     const steps = allProjects.map(async (project) => {
@@ -65,7 +70,7 @@ export const mediaDeleteUnused = inngest.createFunction(
           );
 
           const logoMediaToDelete = logoMediaList.filter(
-            (x) => x.url !== project.url,
+            (x) => x.url !== project.logo,
           );
 
           const thumbnailMediaList = mediaList.filter(
@@ -112,15 +117,16 @@ async function deleteMedia(list: DeletedMedia[]): Promise<DeletedMedia[]> {
     return [];
   }
 
-  // const filtererList = list.filter((x) => !x.url.includes("bloghub.it"));
+  const filtererList = list.filter((x) => !x.url.includes("bloghub.it"));
 
-  // await deleteFiles(filtererList.map((x) => x.url));
-  // await db.delete(media).where(
-  //   inArray(
-  //     media.id,
-  //     list.map((x) => x.id),
-  //   ),
-  // );
+  await deleteFiles(filtererList.map((x) => x.url));
+  await db.delete(media).where(
+    inArray(
+      media.id,
+      list.map((x) => x.id),
+    ),
+  );
+
   return list;
 }
 
