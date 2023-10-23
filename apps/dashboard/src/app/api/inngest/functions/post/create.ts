@@ -16,6 +16,7 @@ export const postCreate = inngest.createFunction(
     await step.run("Create Room", async () => {
       await createRoom({
         id: getRoom(event.data.projectId, event.data.postId),
+        defaultAccesses: [RoomAccess.RoomWrite],
         groupsAccesses: {
           [event.data.projectId]: [RoomAccess.RoomWrite],
         },

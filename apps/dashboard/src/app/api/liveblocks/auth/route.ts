@@ -46,7 +46,6 @@ export async function POST(request: Request) {
     .where(and(eq(posts.projectId, projectId), eq(posts.id, postId)))
     .then((x) => x[0]);
 
-  // TODO: Improve this logic
   if (!post) {
     session.allow(room, session.READ_ACCESS);
   } else {
