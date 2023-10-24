@@ -17,6 +17,12 @@ const connection = connect({
   host: env.DATABASE_HOST,
   username: env.DATABASE_USERNAME,
   password: env.DATABASE_PASSWORD,
+  fetch(input, init) {
+    return fetch(input, {
+      ...init,
+      cache: "default",
+    });
+  },
 });
 
 export const db = drizzle(connection, {

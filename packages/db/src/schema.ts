@@ -189,11 +189,9 @@ export const projectMembers = mysqlTable(
       projectMembers.projectId,
       projectMembers.userId,
     ),
-    projectUserRoleIndex: index("project_user_role_index").on(
-      projectMembers.projectId,
-      projectMembers.userId,
-      projectMembers.role,
-    ),
+    projectUserRoleIndex: index(
+      "projectMembers_projectId_userId_role_index",
+    ).on(projectMembers.projectId, projectMembers.userId, projectMembers.role),
   }),
 );
 
