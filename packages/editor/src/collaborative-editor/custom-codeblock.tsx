@@ -52,6 +52,7 @@ export function CodeBlock({
               {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */}
               {extension.options.lowlight
                 .listLanguages()
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 .map((lang: string, index: number) => (
                   <SelectItem key={index} value={lang}>
                     {lang}

@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
 
+import { auth } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
 import { Skeleton } from "@acme/ui/components/skeleton";
 import { Divider } from "@acme/ui/icons/divider";
@@ -15,7 +16,9 @@ import { ProjectsDropdown } from "./_components/projects-dropdown";
 import { UserDropdown } from "./_components/user-dropdown";
 import { DashboardProviders } from "./providers";
 
-export default function Layout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
+  const session = await auth();
+
   return (
     <DashboardProviders>
       <div className="mx-auto flex flex-col">
@@ -35,15 +38,15 @@ export default function Layout({ children }: PropsWithChildren) {
               <Suspense
                 fallback={<Skeleton className="h-12 w-48 rounded-3xl" />}
               >
-                <ProjectsDropdown />
+                <ProjectsDropdown session={session} />
               </Suspense>
             </div>
             <div className="flex items-center gap-2">
               <CommandMenu />
               <Suspense fallback={<NotificationsPlaceholder />}>
-                <Notifications />
+                <Notifications session={session} />
               </Suspense>
-              <UserDropdown />
+              <UserDropdown session={session} />
             </div>
           </div>
         </header>

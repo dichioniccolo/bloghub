@@ -1,4 +1,4 @@
-import { connect } from "@planetscale/database";
+import { Client } from "@planetscale/database";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { customAlphabet } from "nanoid";
 
@@ -11,19 +11,15 @@ export * from "drizzle-orm";
 
 export * from "./types";
 
-export * from "./lib/drizzle-adapter";
-
-const connection = connect({
-  host: env.DATABASE_HOST,
-  username: env.DATABASE_USERNAME,
-  password: env.DATABASE_PASSWORD,
+const connection = new Client({
+  url: env.DATABASE_URL,
   fetch(input, init) {
     return fetch(input, {
       ...init,
       cache: "default",
     });
   },
-});
+}).connection();
 
 export const db = drizzle(connection, {
   schema,

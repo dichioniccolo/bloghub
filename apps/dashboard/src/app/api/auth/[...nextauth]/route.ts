@@ -1,7 +1,5 @@
 import type { ServerRuntime } from "next";
 
-import { authHandlers } from "~/lib/auth";
+export { GET, POST } from "@acme/auth";
 
 export const runtime: ServerRuntime = "edge";
-
-export const { GET, POST } = authHandlers;

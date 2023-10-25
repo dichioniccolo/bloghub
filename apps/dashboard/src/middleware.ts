@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
+import { auth } from "@acme/auth";
 import { API_HOSTNAMES } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { ApiMiddleware } from "~/lib/middleware/api-middleware";
-import { auth } from "./lib/auth";
 
 export default auth((req) => {
   const { path, domain } = parseRequest(req);

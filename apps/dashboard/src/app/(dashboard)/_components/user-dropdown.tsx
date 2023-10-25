@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LogOut, Settings } from "lucide-react";
 import { signOut } from "next-auth/react";
 
+import type { Session } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 import {
@@ -22,12 +23,14 @@ import {
   DropdownMenuTrigger,
 } from "@acme/ui/components/dropdown-menu";
 
-import { useUser } from "~/hooks/use-user";
+interface Props {
+  session: Session;
+}
 
-export function UserDropdown() {
-  const user = useUser();
-
+export function UserDropdown({ session }: Props) {
   const onLogout = () => signOut();
+
+  console.log(session);
 
   return (
     <DropdownMenu>
@@ -35,13 +38,16 @@ export function UserDropdown() {
         <Button variant="ghost" className="h-12 w-12 rounded-full">
           <Avatar>
             <AvatarImage
-              alt={user?.name ?? user?.email}
+              alt={session.user.name ?? session.user.email}
               src={
-                user?.image ?? getDefaultAvatarImage(user?.name ?? user?.email)
+                session.user.picture ??
+                getDefaultAvatarImage(session.user.name ?? session.user.email)
               }
               className="h-10 w-10 rounded-full"
             />
-            <AvatarFallback>{user?.name ?? user?.email}</AvatarFallback>
+            <AvatarFallback>
+              {session.user.name ?? session.user.email}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

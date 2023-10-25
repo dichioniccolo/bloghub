@@ -90,6 +90,8 @@ export function generateMetadata() {
   } satisfies Metadata;
 }
 
+export const dynamic = "force-dynamic";
+
 export default function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en">

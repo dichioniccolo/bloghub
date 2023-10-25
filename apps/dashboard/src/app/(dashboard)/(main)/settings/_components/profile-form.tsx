@@ -1,8 +1,8 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
 
+import type { Session } from "@acme/auth";
 import { Button } from "@acme/ui/components/button";
 import { Card, CardContent, CardFooter } from "@acme/ui/components/card";
 import {
@@ -18,30 +18,27 @@ import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 
 import { updateUser } from "~/app/_actions/user/update-user";
-import { useUser } from "~/hooks/use-user";
 import type { UserNameSchemaType } from "~/lib/validation/schema";
 import { UserNameSchema } from "~/lib/validation/schema";
 import { useZact } from "~/lib/zact/client";
 
-export function ProfileForm() {
-  const user = useUser();
-  const { update } = useSession();
+interface Props {
+  session: Session;
+}
 
+export function ProfileForm({ session }: Props) {
   const { mutate } = useZact(updateUser);
 
-  async function onSubmit({ name }: UserNameSchemaType) {
+  const onSubmit = async ({ name }: UserNameSchemaType) => {
     await mutate({
       name,
     });
-    await update({
-      name,
-    });
-  }
+  };
 
   const form = useZodForm({
     schema: UserNameSchema,
     defaultValues: {
-      name: user?.name ?? "",
+      name: session.user.name ?? "",
     },
   });
 

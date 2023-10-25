@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
+import type { Session } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
@@ -30,15 +31,14 @@ import {
 
 import type { GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
-import { useUser } from "~/hooks/use-user";
 import { useSelectedProject } from "./use-selected-project";
 
 interface Props {
+  session: Session;
   projects: GetProjects;
 }
 
-export function ProjectsDropdownClient({ projects }: Props) {
-  const user = useUser();
+export function ProjectsDropdownClient({ session, projects }: Props) {
   const [open, setOpen] = useState(false);
 
   const selectedProject = useSelectedProject(projects);
@@ -65,16 +65,23 @@ export function ProjectsDropdownClient({ projects }: Props) {
                   selectedProject?.logo ??
                   (selectedProject
                     ? getDefaultAvatarImage(selectedProject.name)
-                    : user?.image ?? getDefaultAvatarImage(user?.email))
+                    : session.user.picture ??
+                      getDefaultAvatarImage(session.user.email))
                 }
-                alt={selectedProject?.name ?? user?.name ?? user?.email}
+                alt={
+                  selectedProject?.name ??
+                  session.user.name ??
+                  session.user.email
+                }
               />
               <AvatarFallback>
-                {selectedProject?.name[0] ?? user?.name?.[0] ?? user?.email[0]}
+                {selectedProject?.name[0] ??
+                  session.user.name?.[0] ??
+                  session.user.email[0]}
               </AvatarFallback>
             </Avatar>
             <span className="truncate">
-              {selectedProject?.name ?? user?.name ?? user?.email}
+              {selectedProject?.name ?? session.user.name ?? session.user.email}
             </span>
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -94,14 +101,19 @@ export function ProjectsDropdownClient({ projects }: Props) {
                 >
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={user?.image ?? getDefaultAvatarImage(user?.email)}
-                      alt={user?.name ?? user?.email}
+                      src={
+                        session.user.picture ??
+                        getDefaultAvatarImage(session.user.email)
+                      }
+                      alt={session.user.name ?? session.user.email}
                     />
                     <AvatarFallback>
-                      {user?.name?.[0] ?? user?.email[0]}
+                      {session.user.name?.[0] ?? session.user.email[0]}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="truncate">{user?.name ?? user?.email}</span>
+                  <span className="truncate">
+                    {session.user.name ?? session.user.email}
+                  </span>
                   <Check
                     className={cn("ml-auto h-4 w-4", {
                       "opacity-100": !selectedProject,

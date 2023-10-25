@@ -1,5 +1,6 @@
 import type { Metadata, ServerRuntime } from "next";
 
+import { auth } from "@acme/auth";
 import { Separator } from "@acme/ui/components/separator";
 
 import { ProfileForm } from "./_components/profile-form";
@@ -10,7 +11,9 @@ export const metadata = {
 
 export const runtime: ServerRuntime = "edge";
 
-export default function AppDashboardMainSettingsPage() {
+export default async function AppDashboardMainSettingsPage() {
+  const session = await auth();
+
   return (
     <div className="space-y-6">
       <div>
@@ -20,7 +23,7 @@ export default function AppDashboardMainSettingsPage() {
         </p>
       </div>
       <Separator />
-      <ProfileForm />
+      <ProfileForm session={session} />
     </div>
   );
 }

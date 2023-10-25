@@ -12,14 +12,6 @@ export const env = createEnv({
     STRIPE_API_KEY: z.string().min(1),
     EDGE_CONFIG: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
-    NEXTAUTH_URL: z.preprocess(
-      // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
-      // Since NextAuth.js automatically uses the VERCEL_URL if present.
-      (str) => process.env.VERCEL_URL ?? str,
-      // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-      process.env.VERCEL ? z.string() : z.string().url(),
-    ),
-    NEXTAUTH_SECRET: z.string().min(1),
     OPENAI_API_KEY: z.string().min(1),
     KV_URL: z.string().url(),
     KV_REST_API_URL: z.string().url(),
@@ -50,8 +42,6 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
     EDGE_CONFIG: process.env.EDGE_CONFIG,
     NODE_ENV: process.env.NODE_ENV,
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     KV_URL: process.env.KV_URL,
     KV_REST_API_URL: process.env.KV_REST_API_URL,

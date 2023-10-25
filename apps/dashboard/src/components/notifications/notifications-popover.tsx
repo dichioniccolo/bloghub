@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
+import type { Session } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
 import type { AppNotification } from "@acme/notifications";
 import {
@@ -27,15 +28,16 @@ import {
 import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
-import { useUser } from "~/hooks/use-user";
 import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 
-export function NotificationsPopover() {
+interface Props {
+  session: Session;
+}
+
+export function NotificationsPopover({ session }: Props) {
   const { notifications, unreadCount } = useNotifications();
   const dispatch = useNotificationsDispatch();
-
-  const user = useUser();
 
   const [open, setOpen] = useState(false);
 
@@ -55,7 +57,7 @@ export function NotificationsPopover() {
   });
 
   useRealtimeNotification(
-    user?.id ?? "",
+    session.user.id ?? "",
     "notifications:new",
     onNewNotification,
   );

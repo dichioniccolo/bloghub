@@ -27,9 +27,9 @@ import type {
 import { MediaForEntity, NotificationStatus, Role } from "./types";
 
 export const users = mysqlTable(
-  "users",
+  "user",
   {
-    id: varchar("id", { length: 255 }).primaryKey(),
+    id: varchar("id", { length: 255 }).notNull().primaryKey(),
     name: text("name"),
     email: varchar("email", { length: 255 }).notNull(),
     emailVerified: datetime("emailVerified", { mode: "date", fsp: 3 }),
@@ -58,7 +58,7 @@ export const users = mysqlTable(
 );
 
 export const accounts = mysqlTable(
-  "accounts",
+  "account",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
@@ -77,7 +77,7 @@ export const accounts = mysqlTable(
   }),
 );
 
-export const sessions = mysqlTable("sessions", {
+export const sessions = mysqlTable("session", {
   sessionToken: varchar("sessionToken", {
     length: 500,
   })
