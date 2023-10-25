@@ -19,6 +19,8 @@ export async function getUserPlan() {
     .where(eq(users.id, user.id))
     .then((x) => x[0]!);
 
+  console.log({ user, dbUser });
+
   const billingPeriod = await getBillingPeriod(dbUser.dayWhenBillingStarts);
 
   const usage = await getUserTotalUsage(

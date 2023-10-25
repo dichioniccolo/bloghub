@@ -1,3 +1,4 @@
+import type { JWT } from "@auth/core/jwt";
 import Discord from "@auth/core/providers/discord";
 import type { DefaultSession } from "@auth/core/types";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
@@ -17,6 +18,7 @@ export type OAuthProviders = (typeof providers)[number];
 declare module "next-auth" {
   interface Session {
     user: {
+      sub: string;
       id: string;
       email: string;
       picture?: string | null;
@@ -97,20 +99,47 @@ export const {
       return true;
     },
 
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
-
-    jwt: ({ token, profile }) => {
-      if (profile?.id) {
-        token.id = profile.id;
-        token.image = profile.picture;
+    session: ({ session, token }) => {
+      if (token) {
+        session.user.id = token.sub!;
+        session.user.name = token.name;
+        session.user.email = token.email!;
+        session.user.image = token.picture;
       }
-      return token;
+      return session;
+    },
+
+    jwt: async ({ token, user }) => {
+      if (!token.email) {
+        throw new Error("Unable to sign in with this email address");
+      }
+
+      const dbUser = await db
+        .select({
+          id: users.id,
+          email: users.email,
+          name: users.name,
+          image: users.image,
+        })
+        .from(users)
+        .where(eq(users.email, token.email))
+        .then((x) => x[0]);
+
+      if (!dbUser) {
+        if (user) {
+          token.sub = user?.id;
+        }
+
+        return token;
+      }
+
+      return {
+        sub: dbUser.id,
+        id: dbUser.id,
+        email: dbUser.email,
+        name: dbUser.name,
+        picture: dbUser.image,
+      } as JWT;
     },
 
     // @TODO
