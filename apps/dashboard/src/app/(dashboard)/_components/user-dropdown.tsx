@@ -30,8 +30,6 @@ interface Props {
 export function UserDropdown({ session }: Props) {
   const onLogout = () => signOut();
 
-  console.log(session);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
