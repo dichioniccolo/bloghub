@@ -328,8 +328,8 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3(encoding@0.1.13)
       ai:
-        specifier: ^2.2.16
-        version: 2.2.16(react@18.2.0)(solid-js@1.8.3)(svelte@4.2.2)(vue@3.3.6)
+        specifier: ^2.2.20
+        version: 2.2.20(react@18.2.0)(solid-js@1.8.3)(svelte@4.2.2)(vue@3.3.6)
       cmdk:
         specifier: ^0.2.0
         version: 0.2.0(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)
@@ -503,8 +503,8 @@ importers:
         specifier: ^0.2.3
         version: 0.2.3(encoding@0.1.13)
       ai:
-        specifier: ^2.2.16
-        version: 2.2.16(react@18.2.0)(solid-js@1.8.3)(svelte@4.2.2)(vue@3.3.6)
+        specifier: ^2.2.20
+        version: 2.2.20(react@18.2.0)(solid-js@1.8.3)(svelte@4.2.2)(vue@3.3.6)
       cmdk:
         specifier: ^0.2.0
         version: 0.2.0(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)
@@ -5580,8 +5580,8 @@ packages:
       indent-string: 4.0.0
     dev: false
 
-  /ai@2.2.16(react@18.2.0)(solid-js@1.8.3)(svelte@4.2.2)(vue@3.3.6):
-    resolution: {integrity: sha512-3kYBmKhV4Zk16ffaN0ehbfA7rK4TQLVqe+dVzlG5+edF8hUTEoNdF21CCpPA/n+PrDGwC3KmlCfn07OReVwjqg==}
+  /ai@2.2.20(react@18.2.0)(solid-js@1.8.3)(svelte@4.2.2)(vue@3.3.6):
+    resolution: {integrity: sha512-BTZ8VEsIdapZM46Tt72FzYPY4Kt55ANpYubUSYJCrrdUfMDCPfT/XwqPsXZam1i7Go6YrUPha9VBdrvzQxBtXw==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
