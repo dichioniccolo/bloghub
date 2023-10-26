@@ -611,7 +611,7 @@ importers:
         specifier: ^0.18.0
         version: 0.18.0
       '@auth/drizzle-adapter':
-        specifier: ^0.3.4
+        specifier: ^0.3.5
         version: 0.3.5
       '@t3-oss/env-nextjs':
         specifier: ^0.7.1
