@@ -100,7 +100,7 @@ export function EditPostFormContent({
           initialValues={initialValues}
           delay={2500}
         />
-        <FormField
+        <FormField<EditPostSchemaType>
           name="title"
           render={({ field }) => (
             <FormItem>
@@ -116,7 +116,7 @@ export function EditPostFormContent({
             </FormItem>
           )}
         />
-        <FormField
+        <FormField<EditPostSchemaType>
           name="description"
           render={({ field }) => (
             <FormItem>

@@ -1,0 +1,33 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 27cc390481a1847fba0008ffad54c45a23a24f27..54a9dd6f30d96ec5015462c7874ba554d869b81b 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1,7 +1,7 @@
+ // src/render.ts
+-import * as ReactDomServer from "react-dom/server";
+ import { convert } from "html-to-text";
+ import pretty from "pretty";
++import * as ReactDomServer from "react-dom/server";
+ var render = (component, options) => {
+   if (options == null ? void 0 : options.plainText) {
+     return renderAsPlainText(component, options);
+@@ -26,9 +26,17 @@ var renderAsPlainText = (component, _options) => {
+ // src/renderAsync.ts
+ import { convert as convert2 } from "html-to-text";
+ import pretty2 from "pretty";
+-import { renderToReadableStream, renderToStaticMarkup as renderToStaticMarkup2 } from "react-dom/server";
++import react from 'react-dom/server';
++const { renderToStaticMarkup, renderToStaticMarkup: rendertoStaticMarkup2 } = react;
++const renderToStream =
++  // Note: only available in platforms that support WebStreams
++  // https://react.dev/reference/react-dom/server/renderToString#alternatives
++  react.renderToReadableStream ||
++  // Note: only available in Node
++  react.renderToPipeableStream;
++
+ async function renderToString(children) {
+-  const stream = await renderToReadableStream(children);
++  const stream = await renderToStream(children);
+   const html = await readableStreamToString(
+     stream
+   );

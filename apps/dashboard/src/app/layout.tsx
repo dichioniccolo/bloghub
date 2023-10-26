@@ -3,7 +3,7 @@ import type { PropsWithChildren } from "react";
 import "~/styles/globals.css";
 import "~/styles/tiptap.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Construction } from "lucide-react";
 
@@ -51,10 +51,6 @@ export function generateMetadata() {
       },
     ],
     creator: "Niccolò Di Chio",
-    themeColor: [
-      { media: "(prefers-color-scheme: light)", color: "white" },
-      { media: "(prefers-color-scheme: dark)", color: "black" },
-    ],
     openGraph: {
       type: "website",
       locale: "en_US",
@@ -89,6 +85,13 @@ export function generateMetadata() {
     metadataBase: new URL(appUrl),
   } satisfies Metadata;
 }
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+};
 
 export const dynamic = "force-dynamic";
 

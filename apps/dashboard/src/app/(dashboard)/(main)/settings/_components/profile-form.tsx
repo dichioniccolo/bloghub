@@ -46,7 +46,7 @@ export function ProfileForm({ session }: Props) {
     <Card className="border-none shadow-none">
       <Form form={form} onSubmit={onSubmit}>
         <CardContent className="px-0">
-          <FormField
+          <FormField<UserNameSchemaType>
             name="name"
             render={({ field }) => (
               <FormItem>

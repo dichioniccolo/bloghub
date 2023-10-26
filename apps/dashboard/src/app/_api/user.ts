@@ -3,11 +3,11 @@
 import { db, eq, users } from "@acme/db";
 import { stripePriceToSubscriptionPlan } from "@acme/stripe/plans";
 
-import { $getUser } from "./get-user";
+import { getCurrentUser } from "./get-user";
 import { getUserTotalUsage } from "./get-user-total-usage";
 
 export async function getUserPlan() {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const dbUser = await db
     .select({
@@ -18,8 +18,6 @@ export async function getUserPlan() {
     .from(users)
     .where(eq(users.id, user.id))
     .then((x) => x[0]!);
-
-  console.log({ user, dbUser });
 
   const billingPeriod = await getBillingPeriod(dbUser.dayWhenBillingStarts);
 

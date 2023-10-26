@@ -53,7 +53,7 @@ export function CreateProjectForm({ onSuccess }: Props) {
       onSubmit={onSubmit}
       className="flex flex-col space-y-6 text-left"
     >
-      <FormField
+      <FormField<CreateProjectSchemaType>
         name="name"
         render={({ field }) => (
           <FormItem>
@@ -71,7 +71,7 @@ export function CreateProjectForm({ onSuccess }: Props) {
         )}
       />
 
-      <FormField
+      <FormField<CreateProjectSchemaType>
         name="domain"
         render={({ field }) => (
           <FormItem>

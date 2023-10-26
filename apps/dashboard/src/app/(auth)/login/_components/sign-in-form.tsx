@@ -66,7 +66,7 @@ export function SignInForm({ className, ...props }: Props) {
       )}
       <Form form={form} onSubmit={onSubmit}>
         <div className="grid gap-2">
-          <FormField
+          <FormField<UserAuthSchemaType>
             name="email"
             render={({ field }) => (
               <FormItem>

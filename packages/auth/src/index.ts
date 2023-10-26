@@ -41,6 +41,7 @@ export const {
     newUser: "/welcome",
   },
   providers: [
+    // @ts-expect-error aaa
     Discord({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,

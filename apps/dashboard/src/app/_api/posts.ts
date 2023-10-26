@@ -15,14 +15,14 @@ import {
   visits,
 } from "@acme/db";
 
-import { $getUser } from "./get-user";
+import { getCurrentUser } from "./get-user";
 
 export async function getPosts(
   projectId: string,
   pagination: { page: number; pageSize: number },
   filter?: string,
 ) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const where: (SQLWrapper | undefined)[] = [eq(posts.projectId, projectId)];
 
@@ -80,7 +80,7 @@ export async function getPosts(
 export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
 
 export async function getPost(projectId: string, postId: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   return await db
     .select({
@@ -116,7 +116,7 @@ export async function getPost(projectId: string, postId: string) {
 export type GetPost = Awaited<ReturnType<typeof getPost>>;
 
 export async function getPostAnalytics(projectId: string, postId: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const visitsByMonth = await db
     .select({

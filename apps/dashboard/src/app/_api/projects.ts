@@ -21,12 +21,12 @@ import {
   stripePriceToSubscriptionPlan,
 } from "@acme/stripe/plans";
 
-import { $getUser } from "./get-user";
+import { getCurrentUser } from "./get-user";
 import { getUserTotalUsage } from "./get-user-total-usage";
 import { getBillingPeriod } from "./user";
 
 export async function getProjects() {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   return await db
     .select({
@@ -56,7 +56,7 @@ export async function getProjects() {
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 
 export async function getProject(id: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   return await db
     .select({
@@ -83,7 +83,7 @@ export type GetProject = Awaited<ReturnType<typeof getProject>>;
 
 // We need to show only projects where the user is the owner
 export async function getProjectsCount() {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const projectsCount = await db
     .select({
@@ -102,7 +102,7 @@ export async function getProjectsCount() {
 }
 
 export async function getProjectUsers(projectId: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const projectMembersAlias = aliasedTable(projectMembers, "pm");
 
@@ -131,7 +131,7 @@ export async function getProjectUsers(projectId: string) {
 export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
 
 export async function getProjectInvites(projectId: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   return await db
     .select({
@@ -153,7 +153,7 @@ export async function getProjectInvites(projectId: string) {
 export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 
 export async function getProjectOwner(projectId: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const projectMembersAlias = aliasedTable(projectMembers, "pm");
 
@@ -221,7 +221,7 @@ export async function getPendingInvite(email: string, projectId: string) {
 export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
 
 export async function getProjectAnalytics(projectId: string) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const visitsByMonth = await db
     .select({
@@ -328,51 +328,3 @@ export async function getProjectAnalytics(projectId: string) {
 export type GetProjectAnalytics = Awaited<
   ReturnType<typeof getProjectAnalytics>
 >;
-
-// const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// export async function getProjectVisitCount(projectId: string) {
-//   const user = await $getUser();
-
-//   await sleep(10000);
-
-//   const { count } = await db
-//     .select({
-//       count: sql<number>`count(*)`.mapWith(Number),
-//     })
-//     .from(visits)
-//     .innerJoin(
-//       projectMembers,
-//       and(
-//         eq(projectMembers.projectId, visits.projectId),
-//         eq(projectMembers.userId, user.id),
-//       ),
-//     )
-//     .where(eq(visits.projectId, projectId))
-//     .then((x) => x[0]!);
-
-//   return count;
-// }
-
-// export async function getProjectPostsCount(projectId: string) {
-//   const user = await $getUser();
-
-//   await sleep(15000);
-
-//   const { count } = await db
-//     .select({
-//       count: sql<number>`count(*)`.mapWith(Number),
-//     })
-//     .from(posts)
-//     .innerJoin(
-//       projectMembers,
-//       and(
-//         eq(projectMembers.projectId, posts.projectId),
-//         eq(projectMembers.userId, user.id),
-//       ),
-//     )
-//     .where(eq(posts.projectId, projectId))
-//     .then((x) => x[0]!);
-
-//   return count;
-// }

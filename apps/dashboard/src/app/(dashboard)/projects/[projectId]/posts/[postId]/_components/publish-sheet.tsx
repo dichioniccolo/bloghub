@@ -134,7 +134,7 @@ export function PublishSheet({ post }: Props) {
           </SheetHeader>
           <Form form={form} onSubmit={onSubmit}>
             <div className="grid gap-2">
-              <FormField
+              <FormField<PublishPostSchemaType>
                 name="slug"
                 render={({ field }) => (
                   <FormItem>
@@ -176,7 +176,7 @@ export function PublishSheet({ post }: Props) {
                   </FormItem>
                 )}
               />
-              <FormField
+              <FormField<PublishPostSchemaType>
                 name="thumbnailUrl"
                 render={() => (
                   <FormItem>
@@ -244,7 +244,7 @@ export function PublishSheet({ post }: Props) {
                   </FormItem>
                 )}
               />
-              <FormField
+              <FormField<PublishPostSchemaType>
                 name="seoTitle"
                 render={({ field }) => (
                   <FormItem>
@@ -264,7 +264,7 @@ export function PublishSheet({ post }: Props) {
                   </FormItem>
                 )}
               />
-              <FormField
+              <FormField<PublishPostSchemaType>
                 name="seoDescription"
                 render={({ field }) => (
                   <FormItem>

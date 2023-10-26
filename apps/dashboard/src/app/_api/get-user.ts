@@ -5,12 +5,19 @@ import { notFound } from "next/navigation";
 
 import { auth } from "@acme/auth";
 
-export const $getUser = cache(async () => {
+export const getCurrentUser = cache(async () => {
   const session = await auth();
 
   if (!session?.user) {
     notFound();
   }
 
-  return session.user;
+  const { id, email, name, image, picture } = session.user;
+
+  return {
+    id,
+    name,
+    email,
+    image: picture ?? image,
+  };
 });

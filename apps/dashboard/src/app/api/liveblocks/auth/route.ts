@@ -2,7 +2,7 @@ import { and, db, eq, posts, projectMembers } from "@acme/db";
 import { ROOM_DIVIDER } from "@acme/lib/constants";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 
-import { $getUser } from "~/app/_api/get-user";
+import { getCurrentUser } from "~/app/_api/get-user";
 import { liveblocks } from "~/lib/liveblocks";
 
 function getRandomHexColor(): string {
@@ -17,7 +17,7 @@ function getRandomHexColor(): string {
 }
 
 export async function POST(request: Request) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   // Create a session for the current user
   // userInfo is made available in Liveblocks presence hooks, e.g. useOthers

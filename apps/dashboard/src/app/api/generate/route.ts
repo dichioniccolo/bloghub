@@ -10,7 +10,7 @@ import {
   stripePriceToSubscriptionPlan,
 } from "@acme/stripe/plans";
 
-import { $getUser } from "~/app/_api/get-user";
+import { getCurrentUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 import { getSystemPrompts } from "./system-prompts";
@@ -24,7 +24,7 @@ export const runtime: ServerRuntime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
-    const user = await $getUser();
+    const user = await getCurrentUser();
 
     const dbUser = await db
       .select({

@@ -4,7 +4,7 @@ import type { MediaEnumType, MediaForEntityType } from "@acme/db";
 import { and, db, eq, genId, media, projectMembers } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
-import { $getUser } from "~/app/_api/get-user";
+import { getCurrentUser } from "~/app/_api/get-user";
 
 function arrayBufferToBuffer(ab: ArrayBuffer) {
   const buffer = Buffer.alloc(ab.byteLength);
@@ -18,7 +18,7 @@ function arrayBufferToBuffer(ab: ArrayBuffer) {
 }
 
 export async function createProjectMedia(formData: FormData) {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const projectId = formData.get("projectId") as string;
   const postId = formData.get("postId") as string;

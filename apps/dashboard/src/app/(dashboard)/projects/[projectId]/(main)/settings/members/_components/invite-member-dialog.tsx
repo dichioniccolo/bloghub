@@ -74,7 +74,7 @@ export function InviteMemberDialog({ projectId }: Props) {
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
-          <FormField
+          <FormField<InviteMemberSchemaType>
             name="email"
             render={({ field }) => (
               <FormItem>

@@ -72,7 +72,7 @@ export function UpdateDomainDialog({ project }: Props) {
           onSubmit={onSubmit}
           className="flex flex-col space-y-6 text-left"
         >
-          <FormField
+          <FormField<UpdateDomainSchemaType>
             name="oldDomain"
             render={({ field }) => (
               <FormItem>
@@ -90,7 +90,7 @@ export function UpdateDomainDialog({ project }: Props) {
               </FormItem>
             )}
           />
-          <FormField
+          <FormField<UpdateDomainSchemaType>
             name="newDomain"
             render={({ field }) => (
               <FormItem>
@@ -102,7 +102,7 @@ export function UpdateDomainDialog({ project }: Props) {
               </FormItem>
             )}
           />
-          <FormField
+          <FormField<UpdateDomainSchemaType>
             name="confirm"
             render={({ field }) => (
               <FormItem>

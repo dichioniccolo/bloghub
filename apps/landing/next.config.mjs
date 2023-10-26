@@ -77,15 +77,34 @@ const config = {
         port: "",
         pathname: "**",
       },
-    ],
-    domains: [
-      "avatar.vercel.sh",
-      "abs.twimg.com",
-      "pbs.twimg.com",
-      "avatars.githubusercontent.com",
-      "www.google.com",
-      "flag.vercel.app",
-      "admmbojoaidpxiai.public.blob.vercel-storage.com",
+      {
+        protocol: "https",
+        hostname: "avatar.vercel.sh",
+      },
+      {
+        protocol: "https",
+        hostname: "abs.twimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+      },
+      {
+        protocol: "https",
+        hostname: "flag.vercel.app",
+      },
+      {
+        protocol: "https",
+        hostname: "admmbojoaidpxiai.public.blob.vercel-storage.com",
+      },
     ],
   },
   /** Enables hot reloading for local packages without a build step */
@@ -104,7 +123,6 @@ const config = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   experimental: {
-    serverActions: true,
     useDeploymentId: true,
     useDeploymentIdServerActions: true,
   },

@@ -11,10 +11,10 @@ import {
   sql,
 } from "@acme/db";
 
-import { $getUser } from "./get-user";
+import { getCurrentUser } from "./get-user";
 
 export async function getNotifications() {
-  const user = await $getUser();
+  const user = await getCurrentUser();
 
   const list = await db
     .select({

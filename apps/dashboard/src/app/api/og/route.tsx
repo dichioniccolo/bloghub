@@ -1,5 +1,5 @@
 import type { ServerRuntime } from "next";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 import { z } from "zod";
 
 import { Logo } from "@acme/ui/icons/logo";

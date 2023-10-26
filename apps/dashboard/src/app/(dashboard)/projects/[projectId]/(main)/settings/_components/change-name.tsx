@@ -57,7 +57,7 @@ export function ChangeName({ project }: Props) {
       </CardHeader>
       <Form form={form} onSubmit={onSubmit}>
         <CardContent>
-          <FormField
+          <FormField<ProjectNameSchemaType>
             name="name"
             render={({ field }) => (
               <FormItem>
