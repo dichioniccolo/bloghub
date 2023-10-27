@@ -25,7 +25,7 @@
     "@acme/vercel": "^0.1.0",
     "@floating-ui/react": "^0.26.1",
     "@hookform/resolvers": "^3.3.2",
-    "@liveblocks/client": "^1.5.1",
+    "@liveblocks/client": "^1.5.2",
     "@liveblocks/node": "^1.5.1",
     "@liveblocks/react": "^1.5.1",
     "@liveblocks/yjs": "^1.5.1",

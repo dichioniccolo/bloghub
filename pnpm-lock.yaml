@@ -222,8 +222,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(react-hook-form@7.47.0)
       '@liveblocks/client':
-        specifier: ^1.5.1
-        version: 1.5.1
+        specifier: ^1.5.2
+        version: 1.5.2
       '@liveblocks/node':
         specifier: ^1.5.1
         version: 1.5.1(encoding@0.1.13)
@@ -709,8 +709,8 @@ importers:
         specifier: ^0.1.0
         version: link:../ui
       '@liveblocks/client':
-        specifier: ^1.5.1
-        version: 1.5.1
+        specifier: ^1.5.2
+        version: 1.5.2
       '@liveblocks/node':
         specifier: ^1.5.1
         version: 1.5.1(encoding@0.1.13)
@@ -2511,8 +2511,18 @@ packages:
       '@liveblocks/core': 1.5.1
     dev: false
 
+  /@liveblocks/client@1.5.2:
+    resolution: {integrity: sha512-N1oRvjFO9nUjtmbudvYsQ1hh39u5bxJHlhuDC8CJh3ThZubjHqWO2D9Jsfh2Mj4uF++VTOSvKlaYV+HRp9xlbw==}
+    dependencies:
+      '@liveblocks/core': 1.5.2
+    dev: false
+
   /@liveblocks/core@1.5.1:
     resolution: {integrity: sha512-n/kW+QXespSsvO7OtZoxDpXU63eYt0KVFausrkvMUZPFuaCiy1BxHoo2B4LdFrpcPN7JrNaIh1xyMdBedcIr1Q==}
+    dev: false
+
+  /@liveblocks/core@1.5.2:
+    resolution: {integrity: sha512-BX8rer/W/Scu3kSX64eryPqO4Rt96vuRivBovvclyJoz5tyx3R8beQIzBZauy0g7W1MG3vJYiiEGycW8sMzMHA==}
     dev: false
 
   /@liveblocks/node@1.5.1(encoding@0.1.13):
