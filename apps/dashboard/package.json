@@ -26,7 +26,7 @@
     "@floating-ui/react": "^0.26.1",
     "@hookform/resolvers": "^3.3.2",
     "@liveblocks/client": "^1.5.1",
-    "@liveblocks/node": "^1.5.1",
+    "@liveblocks/node": "^1.5.2",
     "@liveblocks/react": "^1.5.1",
     "@liveblocks/yjs": "^1.5.1",
     "@t3-oss/env-nextjs": "^0.7.1",

@@ -225,8 +225,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       '@liveblocks/node':
-        specifier: ^1.5.1
-        version: 1.5.1(encoding@0.1.13)
+        specifier: ^1.5.2
+        version: 1.5.2(encoding@0.1.13)
       '@liveblocks/react':
         specifier: ^1.5.1
         version: 1.5.1(react@18.2.0)
@@ -712,8 +712,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       '@liveblocks/node':
-        specifier: ^1.5.1
-        version: 1.5.1(encoding@0.1.13)
+        specifier: ^1.5.2
+        version: 1.5.2(encoding@0.1.13)
       '@liveblocks/react':
         specifier: ^1.5.1
         version: 1.5.1(react@18.2.0)
@@ -2515,8 +2515,8 @@ packages:
     resolution: {integrity: sha512-n/kW+QXespSsvO7OtZoxDpXU63eYt0KVFausrkvMUZPFuaCiy1BxHoo2B4LdFrpcPN7JrNaIh1xyMdBedcIr1Q==}
     dev: false
 
-  /@liveblocks/node@1.5.1(encoding@0.1.13):
-    resolution: {integrity: sha512-4319ZTJGeihStMgT8DEXSr4jQ997Iesk4Sdl/Xvwh75YtYF+w8Ei5u5V7mSoa8Xj4Ghp8/vuHGV51lcU6FhqOg==}
+  /@liveblocks/node@1.5.2(encoding@0.1.13):
+    resolution: {integrity: sha512-d4DTzGshIJztga5HUVJCieBxp+81UOZpn/2IQMPagjEmg6xiWann/oW7VcI50Yvp8l8wVGqSd5AtN4PV2aKTkA==}
     dependencies:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
