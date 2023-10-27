@@ -25,7 +25,7 @@
     "@acme/ui": "^0.1.0",
     "@liveblocks/client": "^1.5.1",
     "@liveblocks/node": "^1.5.1",
-    "@liveblocks/react": "^1.5.1",
+    "@liveblocks/react": "^1.5.2",
     "@liveblocks/yjs": "^1.5.1",
     "@tiptap/core": "^2.1.12",
     "@tiptap/extension-character-count": "^2.1.12",
