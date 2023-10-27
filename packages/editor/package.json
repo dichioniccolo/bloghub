@@ -26,7 +26,7 @@
     "@liveblocks/client": "^1.5.1",
     "@liveblocks/node": "^1.5.1",
     "@liveblocks/react": "^1.5.1",
-    "@liveblocks/yjs": "^1.5.1",
+    "@liveblocks/yjs": "^1.5.2",
     "@tiptap/core": "^2.1.12",
     "@tiptap/extension-character-count": "^2.1.12",
     "@tiptap/extension-code-block-lowlight": "^2.1.12",

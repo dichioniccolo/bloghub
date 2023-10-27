@@ -231,8 +231,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1(react@18.2.0)
       '@liveblocks/yjs':
-        specifier: ^1.5.1
-        version: 1.5.1(yjs@13.6.8)
+        specifier: ^1.5.2
+        version: 1.5.2(yjs@13.6.8)
       '@t3-oss/env-nextjs':
         specifier: ^0.7.1
         version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
@@ -718,8 +718,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1(react@18.2.0)
       '@liveblocks/yjs':
-        specifier: ^1.5.1
-        version: 1.5.1(yjs@13.6.8)
+        specifier: ^1.5.2
+        version: 1.5.2(yjs@13.6.8)
       '@tiptap/core':
         specifier: ^2.1.12
         version: 2.1.12(@tiptap/pm@2.1.12)
@@ -2511,8 +2511,18 @@ packages:
       '@liveblocks/core': 1.5.1
     dev: false
 
+  /@liveblocks/client@1.5.2:
+    resolution: {integrity: sha512-N1oRvjFO9nUjtmbudvYsQ1hh39u5bxJHlhuDC8CJh3ThZubjHqWO2D9Jsfh2Mj4uF++VTOSvKlaYV+HRp9xlbw==}
+    dependencies:
+      '@liveblocks/core': 1.5.2
+    dev: false
+
   /@liveblocks/core@1.5.1:
     resolution: {integrity: sha512-n/kW+QXespSsvO7OtZoxDpXU63eYt0KVFausrkvMUZPFuaCiy1BxHoo2B4LdFrpcPN7JrNaIh1xyMdBedcIr1Q==}
+    dev: false
+
+  /@liveblocks/core@1.5.2:
+    resolution: {integrity: sha512-BX8rer/W/Scu3kSX64eryPqO4Rt96vuRivBovvclyJoz5tyx3R8beQIzBZauy0g7W1MG3vJYiiEGycW8sMzMHA==}
     dev: false
 
   /@liveblocks/node@1.5.1(encoding@0.1.13):
@@ -2537,13 +2547,13 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@liveblocks/yjs@1.5.1(yjs@13.6.8):
-    resolution: {integrity: sha512-qiyJMD4xqH2egww8SWpblk2aK3E/P7ur/lgpzvbJ6klvl5/dALYi8GsJVOlGY5qkM04BaN0w8BvjJ9Yn2G/QBw==}
+  /@liveblocks/yjs@1.5.2(yjs@13.6.8):
+    resolution: {integrity: sha512-v+tbdGm5/l0r7TqWtmgSMLA3NzCEEKNGwpQTbYYyiDo+miWNwRlxRM8+7fZW/OeE/Cou3fb1ZOWIjCbKP/L6Ew==}
     peerDependencies:
       yjs: ^13.6.1
     dependencies:
-      '@liveblocks/client': 1.5.1
-      '@liveblocks/core': 1.5.1
+      '@liveblocks/client': 1.5.2
+      '@liveblocks/core': 1.5.2
       js-base64: 3.7.5
       yjs: 13.6.8
     dev: false
