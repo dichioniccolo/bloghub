@@ -22,7 +22,7 @@
     "@acme/eslint-config": "^0.1.0",
     "@acme/prettier-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
-    "@react-email/render": "^0.0.7",
+    "@react-email/render": "^0.0.8",
     "@types/nodemailer": "^6.4.13",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
