@@ -1,5 +1,8 @@
 import type { NextRequest } from "next/server";
 import { userAgent } from "next/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { ipAddress } from "@vercel/edge";
+import { kv } from "@vercel/kv";
 
 import { and, db, eq, isNull, posts, projects, visits } from "@acme/db";
 import { parseRequest } from "@acme/lib/utils";
@@ -33,10 +36,25 @@ export async function recordVisit(req: NextRequest, domain: string) {
   const { fullKey } = parseRequest(req);
 
   const ua = userAgent(req);
+  const referer = req.headers.get("referer");
+  const ip = ipAddress(req) ?? "127.0.0.1";
   const isPostPage =
     fullKey.startsWith("posts/") && !fullKey.includes("opengraph-image");
 
   if (!isPostPage) {
+    return;
+  }
+
+  const ratelimit = new Ratelimit({
+    redis: kv,
+    limiter: Ratelimit.slidingWindow(2, "1 h"),
+  });
+
+  const { success } = await ratelimit.limit(
+    `recordVisit:${ip}:${domain}:${fullKey}`,
+  );
+
+  if (!success) {
     return;
   }
 
@@ -72,8 +90,6 @@ export async function recordVisit(req: NextRequest, domain: string) {
   if (!post) {
     return;
   }
-
-  const referer = req.headers.get("referer");
 
   // if the referer domain is the same as the current domain, we want to record "self"
   // otherwise, we want to record the referer domain

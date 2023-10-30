@@ -1,5 +1,6 @@
 import type { ServerRuntime } from "next";
 import { Ratelimit } from "@upstash/ratelimit";
+import { ipAddress } from "@vercel/edge";
 import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
@@ -48,7 +49,7 @@ export async function POST(req: Request): Promise<Response> {
       });
     }
 
-    const ip = req.headers.get("x-forwarded-for");
+    const ip = ipAddress(req) ?? "127.0.0.1";
     const ratelimit = new Ratelimit({
       redis: kv,
       limiter: Ratelimit.slidingWindow(50, "1 d"),

@@ -56,6 +56,7 @@
     "@tremor/react": "^3.10.0",
     "@upstash/ratelimit": "^0.4.4",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/edge": "^1.1.0",
     "@vercel/edge-config": "^0.4.1",
     "@vercel/kv": "^0.2.3",
     "ai": "^2.2.20",
