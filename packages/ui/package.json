@@ -107,7 +107,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-textarea-autosize": "^8.5.3",
-    "tailwind-merge": "^1.14.0"
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
     "@acme/eslint-config": "workspace:^0.1.0",
