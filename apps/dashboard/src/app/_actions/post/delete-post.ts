@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { and, db, eq, posts, projectMembers, projects, sql } from "@acme/db";
-import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 
 import { authenticatedAction } from "../authenticated-action";
@@ -61,14 +60,6 @@ export const deletePost = authenticatedAction(({ userId }) =>
     .then((x) => x[0]!);
 
   await db.delete(posts).where(eq(posts.id, post.id));
-
-  await inngest.send({
-    name: "post/delete",
-    data: {
-      projectId,
-      postId: post.id,
-    },
-  });
 
   revalidatePath(AppRoutes.ProjectDashboard(projectId));
 });

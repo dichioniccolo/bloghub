@@ -221,18 +221,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.3.2
         version: 3.3.2(react-hook-form@7.47.0)
-      '@liveblocks/client':
-        specifier: ^1.5.2
-        version: 1.5.2
-      '@liveblocks/node':
-        specifier: ^1.5.2
-        version: 1.5.2(encoding@0.1.13)
-      '@liveblocks/react':
-        specifier: ^1.5.2
-        version: 1.5.2(react@18.2.0)
-      '@liveblocks/yjs':
-        specifier: ^1.5.2
-        version: 1.5.2(yjs@13.6.8)
       '@t3-oss/env-nextjs':
         specifier: ^0.7.1
         version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
@@ -708,18 +696,6 @@ importers:
       '@acme/ui':
         specifier: ^0.1.0
         version: link:../ui
-      '@liveblocks/client':
-        specifier: ^1.5.2
-        version: 1.5.2
-      '@liveblocks/node':
-        specifier: ^1.5.2
-        version: 1.5.2(encoding@0.1.13)
-      '@liveblocks/react':
-        specifier: ^1.5.2
-        version: 1.5.2(react@18.2.0)
-      '@liveblocks/yjs':
-        specifier: ^1.5.2
-        version: 1.5.2(yjs@13.6.8)
       '@tiptap/core':
         specifier: ^2.1.12
         version: 2.1.12(@tiptap/pm@2.1.12)
@@ -2503,49 +2479,6 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
-    dev: false
-
-  /@liveblocks/client@1.5.2:
-    resolution: {integrity: sha512-N1oRvjFO9nUjtmbudvYsQ1hh39u5bxJHlhuDC8CJh3ThZubjHqWO2D9Jsfh2Mj4uF++VTOSvKlaYV+HRp9xlbw==}
-    dependencies:
-      '@liveblocks/core': 1.5.2
-    dev: false
-
-  /@liveblocks/core@1.5.2:
-    resolution: {integrity: sha512-BX8rer/W/Scu3kSX64eryPqO4Rt96vuRivBovvclyJoz5tyx3R8beQIzBZauy0g7W1MG3vJYiiEGycW8sMzMHA==}
-    dev: false
-
-  /@liveblocks/node@1.5.2(encoding@0.1.13):
-    resolution: {integrity: sha512-d4DTzGshIJztga5HUVJCieBxp+81UOZpn/2IQMPagjEmg6xiWann/oW7VcI50Yvp8l8wVGqSd5AtN4PV2aKTkA==}
-    dependencies:
-      '@stablelib/base64': 1.0.1
-      fast-sha256: 1.3.0
-      node-fetch: 2.7.0(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
-  /@liveblocks/react@1.5.2(react@18.2.0):
-    resolution: {integrity: sha512-pkjZbCdT9js0AITTOBfOrKWF2p7lP0Ro2H7aVly+sBw7lJTiCHokTwGCl7BvchcngUxsXVwBmJY8dNzoC1MpZg==}
-    peerDependencies:
-      react: ^16.14.0 || ^17 || ^18
-    dependencies:
-      '@liveblocks/client': 1.5.2
-      '@liveblocks/core': 1.5.2
-      nanoid: 3.3.6
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
-
-  /@liveblocks/yjs@1.5.2(yjs@13.6.8):
-    resolution: {integrity: sha512-v+tbdGm5/l0r7TqWtmgSMLA3NzCEEKNGwpQTbYYyiDo+miWNwRlxRM8+7fZW/OeE/Cou3fb1ZOWIjCbKP/L6Ew==}
-    peerDependencies:
-      yjs: ^13.6.1
-    dependencies:
-      '@liveblocks/client': 1.5.2
-      '@liveblocks/core': 1.5.2
-      js-base64: 3.7.5
-      yjs: 13.6.8
     dev: false
 
   /@manypkg/cli@0.21.0:
@@ -4363,10 +4296,6 @@ packages:
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
     dependencies:
       '@sinonjs/commons': 3.0.0
-    dev: false
-
-  /@stablelib/base64@1.0.1:
-    resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
     dev: false
 
   /@swc/helpers@0.5.2:
@@ -7722,10 +7651,6 @@ packages:
   /fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  /fast-sha256@1.3.0:
-    resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
-    dev: false
-
   /fastq@1.15.0:
     resolution: {integrity: sha512-wBrocU2LCXXa+lWBt8RoIRD89Fi8OdABODa/kEnyeyjS5aZO5/GNvI5sEINADqP/h8M29UHTHUb53sUu5Ihqdw==}
     dependencies:
@@ -8943,10 +8868,6 @@ packages:
 
   /jose@4.15.4:
     resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
-    dev: false
-
-  /js-base64@3.7.5:
-    resolution: {integrity: sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==}
     dev: false
 
   /js-beautify@1.14.9:

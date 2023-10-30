@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { and, db, eq, genId, posts, projectMembers } from "@acme/db";
-import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 
 import { authenticatedAction } from "../authenticated-action";
@@ -54,14 +53,6 @@ export const createPost = authenticatedAction(({ userId }) =>
     .from(posts)
     .where(eq(posts.id, id))
     .then((x) => x[0]!);
-
-  await inngest.send({
-    name: "post/create",
-    data: {
-      projectId,
-      postId: post.id,
-    },
-  });
 
   redirect(AppRoutes.PostEditor(projectId, post.id));
 });

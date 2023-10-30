@@ -6,10 +6,9 @@ import { useCallback } from "react";
 import {
   CollaborativeEditor,
   ResizableMediaWithUploader,
-  Room,
   SlashCommand,
 } from "@acme/editor";
-import { determineMediaType, getRoom } from "@acme/lib/utils";
+import { determineMediaType } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 import {
   FormControl,
@@ -45,14 +44,16 @@ export function EditPostFormContent({
   });
 
   const onSubmit = useCallback(
-    async ({ title, description }: EditPostSchemaType) => {
+    async ({ title, description, content }: EditPostSchemaType) => {
       formStatusChanged("saving");
+
       await mutate({
         projectId: post.projectId,
         postId: post.id,
         body: {
           title,
           description,
+          content: Buffer.from(JSON.stringify(content)).toString("base64"),
         },
       });
     },
@@ -132,23 +133,26 @@ export function EditPostFormContent({
             </FormItem>
           )}
         />
+
+        {/* <Room roomId={getRoom(post.projectId, post.id)}> */}
+        {/* </Room> */}
       </Form>
-      <Room roomId={getRoom(post.projectId, post.id)}>
-        <CollaborativeEditor
-          extensions={[
-            SlashCommand,
-            ResizableMediaWithUploader.configure({
-              uploadFn: uploadFile,
-            }),
-          ]}
-          onDebouncedUpdate={async () => {
-            await onSubmit({
-              title: form.getValues("title"),
-              description: form.getValues("description"),
-            });
-          }}
-        />
-      </Room>
+      <CollaborativeEditor
+        initialContent={post.content}
+        extensions={[
+          SlashCommand,
+          ResizableMediaWithUploader.configure({
+            uploadFn: uploadFile,
+          }),
+        ]}
+        onDebouncedUpdate={async (content) => {
+          await onSubmit({
+            title: form.getValues("title"),
+            description: form.getValues("description"),
+            content,
+          });
+        }}
+      />
     </>
   );
 }

@@ -7,8 +7,6 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    LIVEBLOCKS_API_KEY: z.string().min(1),
-    STRIPE_API_KEY: z.string().min(1),
     EDGE_CONFIG: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     NEXTAUTH_URL: z.preprocess(
@@ -24,7 +22,6 @@ export const env = createEnv({
     KV_REST_API_URL: z.string().url(),
     KV_REST_API_TOKEN: z.string().min(1),
     KV_REST_API_READ_ONLY_TOKEN: z.string().min(1),
-    STRIPE_WEBHOOK_SECRET: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -34,15 +31,11 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
     NEXT_PUBLIC_APP_DESCRIPTION: z.string().min(1),
     NEXT_PUBLIC_APP_DOMAIN: z.string().min(1),
-    NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY: z.string().min(1),
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    LIVEBLOCKS_API_KEY: process.env.LIVEBLOCKS_API_KEY,
-    NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY:
-      process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_PUBLIC_APP_DESCRIPTION: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
     NEXT_PUBLIC_APP_DOMAIN: process.env.NEXT_PUBLIC_APP_DOMAIN,
@@ -55,8 +48,6 @@ export const env = createEnv({
     KV_REST_API_URL: process.env.KV_REST_API_URL,
     KV_REST_API_TOKEN: process.env.KV_REST_API_TOKEN,
     KV_REST_API_READ_ONLY_TOKEN: process.env.KV_REST_API_READ_ONLY_TOKEN,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    STRIPE_API_KEY: process.env.STRIPE_API_KEY,
   },
 
   // Client side variables gets destructured here due to Next.js static analysis

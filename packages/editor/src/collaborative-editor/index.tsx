@@ -1,20 +1,14 @@
-import LiveblocksProvider from "@liveblocks/yjs";
-import Collaboration from "@tiptap/extension-collaboration";
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Placeholder from "@tiptap/extension-placeholder";
 import type { Content, Extensions } from "@tiptap/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import "highlight.js/styles/github-dark.css";
 
-import { useEffect, useRef, useState } from "react";
-import * as Y from "yjs";
+import { useEffect, useRef } from "react";
 
 import { useDebouncedCallback } from "@acme/ui/hooks/use-debounced-callback";
 
 import { TiptapEditorProps } from "../lib/props";
-import { useRoom, useSelf } from "../liveblocks.config";
-import { Avatars } from "../liveblocks/avatars";
 import { CustomBubbleMenu } from "./bubble-menu";
 import { AiFixGrammarAndSpellCheckBubbleMenu } from "./bubble-menu/ai/ai-fix-grammar-and-spell-check-bubble-menu";
 import { AiSummarizeBubbleMenu } from "./bubble-menu/ai/ai-summarize-bubble-menu";
@@ -26,7 +20,7 @@ import { WordCount } from "./word-count";
 interface Props {
   initialContent?: unknown;
   extensions?: Extensions;
-  onDebouncedUpdate?(): void;
+  onDebouncedUpdate?(content: Content): void;
 }
 
 export function CollaborativeEditor({
@@ -34,30 +28,30 @@ export function CollaborativeEditor({
   extensions,
   onDebouncedUpdate,
 }: Props) {
-  const room = useRoom();
-  const [doc, setDoc] = useState<Y.Doc>();
-  const [provider, setProvider] = useState<unknown>();
+  // const room = useRoom();
+  // const [doc, setDoc] = useState<Y.Doc>();
+  // const [provider, setProvider] = useState<unknown>();
 
-  useEffect(() => {
-    const yDoc = new Y.Doc();
-    const yProvider = new LiveblocksProvider(room, yDoc);
-    setDoc(yDoc);
-    setProvider(yProvider);
+  // useEffect(() => {
+  //   const yDoc = new Y.Doc();
+  //   const yProvider = new LiveblocksProvider(room, yDoc);
+  //   setDoc(yDoc);
+  //   setProvider(yProvider);
 
-    return () => {
-      yDoc?.destroy();
-      yProvider?.destroy();
-    };
-  }, [room]);
+  //   return () => {
+  //     yDoc?.destroy();
+  //     yProvider?.destroy();
+  //   };
+  // }, [room]);
 
-  if (!doc || !provider) {
-    return null;
-  }
+  // if (!doc || !provider) {
+  //   return null;
+  // }
 
   return (
     <TiptapEditor
-      doc={doc}
-      provider={provider}
+      // doc={doc}
+      // provider={provider}
       initialContent={initialContent}
       extensions={extensions}
       onDebouncedUpdate={onDebouncedUpdate}
@@ -66,21 +60,21 @@ export function CollaborativeEditor({
 }
 
 interface EditorProps {
-  doc: Y.Doc;
-  provider: unknown;
+  // doc: Y.Doc;
+  // provider: unknown;
   initialContent?: unknown;
   extensions?: Extensions;
-  onDebouncedUpdate?(): void;
+  onDebouncedUpdate?(content: Content): void;
 }
 
 function TiptapEditor({
-  doc,
-  provider,
+  // doc,
+  // provider,
   initialContent,
   extensions: customExtensions,
   onDebouncedUpdate,
 }: EditorProps) {
-  const userInfo = useSelf((me) => me.info);
+  // const userInfo = useSelf((me) => me.info);
 
   const { completion, isLoading } = useAiCompletion({
     onFinish: (_prompt, completion) => {
@@ -91,8 +85,8 @@ function TiptapEditor({
     },
   });
 
-  const debouncedUpdates = useDebouncedCallback(() => {
-    onDebouncedUpdate?.();
+  const debouncedUpdates = useDebouncedCallback((content: Content) => {
+    onDebouncedUpdate?.(content);
   }, 750);
 
   const editor = useEditor({
@@ -107,18 +101,18 @@ function TiptapEditor({
           return "Press '/' for commands...";
         },
       }),
-      Collaboration.configure({
-        document: doc,
-      }),
-      CollaborationCursor.configure({
-        provider,
-        user: userInfo,
-      }),
+      // Collaboration.configure({
+      //   document: doc,
+      // }),
+      // CollaborationCursor.configure({
+      //   provider,
+      //   user: userInfo,
+      // }),
     ],
     content: initialContent as Content | undefined,
     autofocus: "end",
-    onUpdate: () => {
-      debouncedUpdates();
+    onUpdate: ({ editor }) => {
+      debouncedUpdates(editor.getJSON());
     },
   });
 
@@ -139,7 +133,7 @@ function TiptapEditor({
     <div className="relative flex h-full w-full flex-col pb-96">
       <div className="flex items-center justify-between border-b border-border">
         {editor && <WordCount editor={editor} />}
-        <Avatars />
+        {/* <Avatars /> */}
       </div>
       {editor && (
         <BubbleMenuProvider>

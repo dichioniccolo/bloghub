@@ -20,8 +20,6 @@ type InngestEvents = {
   "notification/invitation.accepted": WrapWithData<InvitationAcceptedNotificationData>;
   "notification/project.user.removed": WrapWithData<RemovedFromProjectNotificationData>;
   "project/delete": WrapWithData<{ id: string; domain: string }>;
-  "post/create": WrapWithData<{ postId: string; projectId: string }>;
-  "post/delete": WrapWithData<{ postId: string; projectId: string }>;
   "media/delete.unused": WrapWithData<never>;
 };
 
