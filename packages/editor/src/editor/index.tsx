@@ -17,65 +17,17 @@ import { BubbleMenuProvider } from "./bubble-menu/bubble-menu-context";
 import { EditorExtensions } from "./extensions";
 import { WordCount } from "./word-count";
 
-interface Props {
-  initialContent?: unknown;
-  extensions?: Extensions;
-  onDebouncedUpdate?(content: Content): void;
-}
-
-export function CollaborativeEditor({
-  initialContent,
-  extensions,
-  onDebouncedUpdate,
-}: Props) {
-  // const room = useRoom();
-  // const [doc, setDoc] = useState<Y.Doc>();
-  // const [provider, setProvider] = useState<unknown>();
-
-  // useEffect(() => {
-  //   const yDoc = new Y.Doc();
-  //   const yProvider = new LiveblocksProvider(room, yDoc);
-  //   setDoc(yDoc);
-  //   setProvider(yProvider);
-
-  //   return () => {
-  //     yDoc?.destroy();
-  //     yProvider?.destroy();
-  //   };
-  // }, [room]);
-
-  // if (!doc || !provider) {
-  //   return null;
-  // }
-
-  return (
-    <TiptapEditor
-      // doc={doc}
-      // provider={provider}
-      initialContent={initialContent}
-      extensions={extensions}
-      onDebouncedUpdate={onDebouncedUpdate}
-    />
-  );
-}
-
 interface EditorProps {
-  // doc: Y.Doc;
-  // provider: unknown;
   initialContent?: unknown;
   extensions?: Extensions;
   onDebouncedUpdate?(content: Content): void;
 }
 
-function TiptapEditor({
-  // doc,
-  // provider,
+export function TiptapEditor({
   initialContent,
   extensions: customExtensions,
   onDebouncedUpdate,
 }: EditorProps) {
-  // const userInfo = useSelf((me) => me.info);
-
   const { completion, isLoading } = useAiCompletion({
     onFinish: (_prompt, completion) => {
       editor?.commands.setTextSelection({

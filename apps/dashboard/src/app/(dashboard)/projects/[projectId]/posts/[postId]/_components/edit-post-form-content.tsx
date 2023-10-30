@@ -4,9 +4,9 @@
 import { useCallback } from "react";
 
 import {
-  CollaborativeEditor,
   ResizableMediaWithUploader,
   SlashCommand,
+  TiptapEditor,
 } from "@acme/editor";
 import { determineMediaType } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
@@ -133,11 +133,8 @@ export function EditPostFormContent({
             </FormItem>
           )}
         />
-
-        {/* <Room roomId={getRoom(post.projectId, post.id)}> */}
-        {/* </Room> */}
       </Form>
-      <CollaborativeEditor
+      <TiptapEditor
         initialContent={post.content}
         extensions={[
           SlashCommand,
