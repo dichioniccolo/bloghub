@@ -25,16 +25,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/db": "^0.1.0",
+    "@acme/db": "workspace:^0.1.0",
     "date-fns": "^2.30.0",
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
-    "@acme/prettier-config": "^0.1.0",
-    "@acme/tsconfig": "^0.1.0",
+    "@acme/eslint-config": "workspace:^0.1.0",
+    "@acme/prettier-config": "workspace:^0.1.0",
+    "@acme/tsconfig": "workspace:^0.1.0",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
     "eslint": "^8.52.0",

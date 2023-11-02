@@ -1,10 +1,8 @@
-"use client";
-
 import Link from "next/link";
 import { LogOut, Settings } from "lucide-react";
-import { signOut } from "next-auth/react";
 
 import type { Session } from "@acme/auth";
+import { signOut } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 import {
@@ -28,8 +26,6 @@ interface Props {
 }
 
 export function UserDropdown({ session }: Props) {
-  const onLogout = () => signOut();
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -59,10 +55,20 @@ export function UserDropdown({ session }: Props) {
               <span>Settings</span>
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem onClick={onLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log Out</span>
-          </DropdownMenuItem>
+          <form
+            action={async () => {
+              "use server";
+
+              await signOut();
+            }}
+          >
+            <DropdownMenuItem asChild>
+              <button className="w-full">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log Out</span>
+              </button>
+            </DropdownMenuItem>
+          </form>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

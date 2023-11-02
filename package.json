@@ -24,15 +24,15 @@
     "with-env": "doppler run --",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
     "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
-    "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg check",
-    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location 'node_modules/.cache/.eslintcache' && manypkg fix",
+    "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache'",
+    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location 'node_modules/.cache/.eslintcache'",
+    "lint:ws": "pnpm dlx sherif@latest",
     "typecheck": "turbo typecheck"
   },
-  "dependencies": {
-    "@acme/prettier-config": "^0.1.0",
+  "devDependencies": {
+    "@acme/prettier-config": "workspace:^0.1.0",
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
-    "@manypkg/cli": "^0.21.0",
     "@turbo/gen": "^1.10.16",
     "husky": "^8.0.3",
     "prettier": "^3.0.3",

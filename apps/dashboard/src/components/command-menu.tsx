@@ -5,14 +5,12 @@ import { useRouter } from "next/navigation";
 import {
   BellRing,
   Euro,
-  LogOut,
   Monitor,
   Moon,
   Plus,
   SunDim,
   User,
 } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 
 import { AppRoutes } from "@acme/lib/routes";
@@ -122,10 +120,6 @@ export function CommandMenu() {
             >
               <Euro className="mr-2 h-4 w-4" />
               Billing
-            </CommandItem>
-            <CommandItem onSelect={runCommand(() => signOut())}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Log Out
             </CommandItem>
           </CommandGroup>
         </CommandList>

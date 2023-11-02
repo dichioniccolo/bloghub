@@ -1,5 +1,5 @@
 // Importing env files here to validate on build
-import "@acme/auth/env";
+import "@acme/auth/env.mjs";
 import "@acme/db/env";
 import "@acme/emails/env";
 import "@acme/pusher/env";
@@ -119,8 +119,8 @@ const config = {
     "@acme/notifications",
     "@acme/pusher",
     "@acme/stripe",
-    "@acme/vercel",
     "@acme/ui",
+    "@acme/vercel",
   ],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

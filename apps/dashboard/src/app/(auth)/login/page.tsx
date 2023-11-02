@@ -1,14 +1,11 @@
-import { Suspense } from "react";
 import type { Metadata, ServerRuntime } from "next";
 import Link from "next/link";
 
-import { Skeleton } from "@acme/ui/components/skeleton";
 import { Logo } from "@acme/ui/icons/logo";
 
 import { env } from "~/env.mjs";
+import { DiscordButton } from "./_components/discord-sign-in";
 import { SignInForm } from "./_components/sign-in-form";
-
-export const dynamic = "force-dynamic";
 
 const title = "Sign in to BlogHub";
 const description = "Create your own blog and share your knowledge.";
@@ -54,31 +51,19 @@ export default function Page() {
         <p className="mb-6 mt-3 text-center text-sm font-medium text-slate-600">
           Use your email address to securely sign in to your account
         </p>
-        <Suspense
-          fallback={
-            <div className="grid gap-2">
-              <Skeleton className="h-12" />
-              <Skeleton className="h-12" />
-            </div>
-          }
-        >
+        <div className="grid gap-6">
           <SignInForm />
-        </Suspense>
-      </div>
-      {/* <div className="container flex flex-col items-center justify-center">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <Logo className="mx-auto h-8 w-8 rounded-full" />
-          <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Enter your email to sign in to your account
-          </p>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-slate-300" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-slate-600">Or</span>
+            </div>
+          </div>
+          <DiscordButton />
         </div>
-        <Suspense fallback={<UserAuthFormPlaceholder />}>
-          <UserAuthForm />
-        </Suspense>
       </div>
-    </div> */}
     </main>
   );
 }

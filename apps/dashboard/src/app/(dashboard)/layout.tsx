@@ -19,6 +19,10 @@ import { DashboardProviders } from "./providers";
 export default async function Layout({ children }: PropsWithChildren) {
   const session = await auth();
 
+  if (!session) {
+    return null;
+  }
+
   return (
     <DashboardProviders>
       <div className="mx-auto flex flex-col">

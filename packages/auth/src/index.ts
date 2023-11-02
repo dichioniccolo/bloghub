@@ -11,10 +11,6 @@ import { env } from "./env.mjs";
 
 export type { Session } from "next-auth";
 
-// Update this whenever adding new providers so that the client can
-export const providers = ["discord"] as const;
-export type OAuthProviders = (typeof providers)[number];
-
 declare module "next-auth" {
   interface Session {
     user: {
@@ -29,6 +25,8 @@ declare module "next-auth" {
 export const {
   handlers: { GET, POST },
   auth,
+  signIn,
+  signOut,
 } = NextAuth({
   adapter: DrizzleAdapter(db),
   session: {

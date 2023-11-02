@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from "crypto";
 
+import { env as authEnv } from "@acme/auth/env.mjs";
 import {
   and,
   db,
@@ -138,7 +139,7 @@ async function getLoginUrl(
     identifier,
     expires,
     token: createHash("sha256")
-      .update(`${token}${env.NEXTAUTH_SECRET}`)
+      .update(`${token}${authEnv.AUTH_SECRET}`)
       .digest("hex"),
   });
 

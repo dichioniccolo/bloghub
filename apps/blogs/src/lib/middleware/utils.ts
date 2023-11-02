@@ -4,8 +4,19 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { ipAddress } from "@vercel/edge";
 import { kv } from "@vercel/kv";
 
-import { and, db, eq, isNull, posts, projects, visits } from "@acme/db";
+import {
+  and,
+  db,
+  eq,
+  posts,
+  projectMembers,
+  projects,
+  Role,
+  visits,
+} from "@acme/db";
 import { parseRequest } from "@acme/lib/utils";
+
+import { env } from "~/env.mjs";
 
 export const detectBot = (req: NextRequest) => {
   const url = req.nextUrl;
@@ -45,29 +56,19 @@ export async function recordVisit(req: NextRequest, domain: string) {
     return;
   }
 
-  const ratelimit = new Ratelimit({
-    redis: kv,
-    limiter: Ratelimit.slidingWindow(2, "1 h"),
-  });
+  if (env.NODE_ENV === "production") {
+    const ratelimit = new Ratelimit({
+      redis: kv,
+      limiter: Ratelimit.slidingWindow(2, "1 h"),
+    });
 
-  const { success } = await ratelimit.limit(
-    `recordVisit:${ip}:${domain}:${fullKey}`,
-  );
+    const { success } = await ratelimit.limit(
+      `recordVisit:${ip}:${domain}:${fullKey}`,
+    );
 
-  if (!success) {
-    return;
-  }
-
-  const project = await db
-    .select({
-      id: projects.id,
-    })
-    .from(projects)
-    .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
-    .then((x) => x[0]);
-
-  if (!project) {
-    return;
+    if (!success) {
+      return;
+    }
   }
 
   // we need to regex the slug from the url because it can also contain a query string
@@ -76,11 +77,23 @@ export async function recordVisit(req: NextRequest, domain: string) {
   const post = await db
     .select({
       id: posts.id,
+      projectId: posts.projectId,
+      owner: {
+        id: projectMembers.userId,
+      },
     })
     .from(posts)
+    .innerJoin(projects, eq(posts.projectId, projects.id))
+    .innerJoin(
+      projectMembers,
+      and(
+        eq(projectMembers.projectId, projects.id),
+        eq(projectMembers.role, Role.Owner),
+      ),
+    )
     .where(
       and(
-        eq(posts.projectId, project.id),
+        eq(projects.domain, domain),
         eq(posts.slug, postSlug),
         eq(posts.hidden, false), // we only want to record visits for non-hidden posts
       ),
@@ -97,10 +110,10 @@ export async function recordVisit(req: NextRequest, domain: string) {
     ? new URL(referer).hostname === domain
       ? "SELF"
       : new URL(referer).hostname
-    : null;
+    : "SELF";
 
   await db.insert(visits).values({
-    projectId: project.id,
+    projectId: post.projectId,
     postId: post.id,
     referer: refererDomain,
     browserName: ua.browser.name,
