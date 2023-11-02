@@ -750,8 +750,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       '@react-email/render':
-        specifier: ^0.0.8
-        version: 0.0.8
+        specifier: ^0.0.9
+        version: 0.0.9
       '@types/nodemailer':
         specifier: ^6.4.13
         version: 6.4.13
@@ -4057,8 +4057,8 @@ packages:
     dev: false
     patched: true
 
-  /@react-email/render@0.0.8:
-    resolution: {integrity: sha512-DwrCG5t2nXlXYcchZz8h4NOhBYoU5Rpogz54Z18mANUmwMtzl88x6NwRDwzZoAVAlTLOPqvsQbYtWHvfpTfmmA==}
+  /@react-email/render@0.0.9:
+    resolution: {integrity: sha512-nrim7wiACnaXsGtL7GF6jp3Qmml8J6vAjAH88jkC8lIbfNZaCyuPQHANjyYIXlvQeAbsWADQJFZgOHUqFqjh/A==}
     engines: {node: '>=18.0.0'}
     dependencies:
       html-to-text: 9.0.5
