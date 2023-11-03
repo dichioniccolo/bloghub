@@ -104,8 +104,8 @@ importers:
         specifier: ^10.16.4
         version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.290.0
-        version: 0.290.0(react@18.2.0)
+        specifier: ^0.292.0
+        version: 0.292.0(react@18.2.0)
       next:
         specifier: ^14.0.1
         version: 14.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -270,8 +270,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       lucide-react:
-        specifier: ^0.290.0
-        version: 0.290.0(react@18.2.0)
+        specifier: ^0.292.0
+        version: 0.292.0(react@18.2.0)
       next:
         specifier: ^14.0.1
         version: 14.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -415,8 +415,8 @@ importers:
         specifier: ^10.16.4
         version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.290.0
-        version: 0.290.0(react@18.2.0)
+        specifier: ^0.292.0
+        version: 0.292.0(react@18.2.0)
       next:
         specifier: ^14.0.1
         version: 14.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -676,8 +676,8 @@ importers:
         specifier: ^2.1.12
         version: 2.1.12(@tiptap/core@2.1.12)(@tiptap/pm@2.1.12)
       lucide-react:
-        specifier: ^0.290.0
-        version: 0.290.0(react@18.2.0)
+        specifier: ^0.292.0
+        version: 0.292.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -8925,8 +8925,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-react@0.290.0(react@18.2.0):
-    resolution: {integrity: sha512-CBDPRLOPjdo+bVlxhaa7FVWaB8OrZZQ34mwm0Fsz9ut6JltN/Td55640ur8bRWSJuz6+nX2klKrpBpV7ktwD3Q==}
+  /lucide-react@0.292.0(react@18.2.0):
+    resolution: {integrity: sha512-rRgUkpEHWpa5VCT66YscInCQmQuPCB1RFRzkkxMxg4b+jaL0V12E3riWWR2Sh5OIiUhCwGW/ZExuEO4Az32E6Q==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
