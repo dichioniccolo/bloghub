@@ -64,14 +64,13 @@ export const InvalidDomain = ({
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
               If your domain remains unconfigured for 7 days, your project will
-              be automatically deleted. Please click the link below to configure
-              your domain.
+              be automatically marked as deleted and to restore it you would
+              need to get in touch with us. Please click the link below to
+              configure your domain.
             </Text>
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
-                pX={20}
-                pY={12}
-                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"
                 href={`${env.NEXT_PUBLIC_APP_DOMAIN}/projects/${projectId}/settings`}
               >
                 Configure domain
@@ -83,17 +82,12 @@ export const InvalidDomain = ({
             </Text>
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
-                pX={20}
-                pY={12}
-                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"
                 href={`${env.NEXT_PUBLIC_APP_DOMAIN}/projects/${projectId}/settings`}
               >
                 Delete it
               </Button>
             </Section>
-            <Text className="text-[14px] leading-[24px] text-black">
-              or simply ignore this email.
-            </Text>
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">
               This email was intended for{" "}

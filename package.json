@@ -39,10 +39,5 @@
     "turbo": "^1.10.16",
     "typescript": "^5.2.2"
   },
-  "prettier": "@acme/prettier-config",
-  "pnpm": {
-    "patchedDependencies": {
-      "@react-email/render@0.0.7": "patches/@react-email__render@0.0.7.patch"
-    }
-  }
+  "prettier": "@acme/prettier-config"
 }

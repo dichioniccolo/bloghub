@@ -14,7 +14,7 @@
   },
   "scripts": {
     "clean": "rm -rf .turbo .react-email node_modules",
-    "dev:disabled": "email dev --port 3883",
+    "dev": "email dev --port 3883",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
@@ -22,6 +22,8 @@
     "@acme/eslint-config": "workspace:^0.1.0",
     "@acme/prettier-config": "workspace:^0.1.0",
     "@acme/tsconfig": "workspace:^0.1.0",
+    "@radix-ui/colors": "^3.0.0",
+    "@radix-ui/react-toggle-group": "^1.0.4",
     "@react-email/render": "^0.0.9",
     "@types/nodemailer": "^6.4.13",
     "@types/react": "^18.2.34",
@@ -30,6 +32,7 @@
     "eslint": "^8.53.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
+    "prism-react-renderer": "^2.1.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {

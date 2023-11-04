@@ -14,6 +14,10 @@ export const runtime: ServerRuntime = "edge";
 export default async function AppDashboardMainSettingsPage() {
   const session = await auth();
 
+  if (!session) {
+    return null;
+  }
+
   return (
     <div className="space-y-6">
       <div>

@@ -142,12 +142,13 @@ export function PublishSheet({ post }: Props) {
                     <FormControl>
                       <div className="relative flex">
                         <Input
+                          {...field}
                           autoCapitalize="none"
                           autoCorrect="off"
                           disabled={
                             form.formState.isSubmitting || !slugEditable
                           }
-                          {...field}
+                          value={field.value ?? ""}
                         />
                         {!slugEditable ? (
                           <button
@@ -251,10 +252,11 @@ export function PublishSheet({ post }: Props) {
                     <FormLabel>SEO Title</FormLabel>
                     <FormControl>
                       <Input
+                        {...field}
                         autoCapitalize="none"
                         autoCorrect="off"
                         placeholder="My awesome post title"
-                        {...field}
+                        value={field.value ?? ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -271,10 +273,11 @@ export function PublishSheet({ post }: Props) {
                     <FormLabel>SEO Description</FormLabel>
                     <FormControl>
                       <Input
+                        {...field}
                         autoCapitalize="none"
                         autoCorrect="off"
                         placeholder="My awesome post description"
-                        {...field}
+                        value={field.value ?? ""}
                       />
                     </FormControl>
                     <FormMessage />

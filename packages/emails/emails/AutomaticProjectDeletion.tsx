@@ -1,6 +1,5 @@
 import {
   Body,
-  Button,
   Container,
   Heading,
   Hr,
@@ -61,8 +60,9 @@ export const AutomaticProjectDeletion = ({
               {invalidDays} days.
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              Therefore, your project was softly deleted. If you would like to
-              restore the project, please contact us at{" "}
+              Therefore, your project was softly deleted and it will not be
+              counted towards your monthly usage. If you would like to restore
+              the project, please contact us at{" "}
               <Link
                 rel="nofollow"
                 className="text-blue-600 no-underline"
@@ -72,16 +72,14 @@ export const AutomaticProjectDeletion = ({
               </Link>
               . We will be happy to help you restore your project.
             </Text>
-            <Section className="mb-[32px] mt-[32px] text-center">
+            {/* <Section className="mb-[32px] mt-[32px] text-center">
               <Button
-                pX={20}
-                pY={12}
-                className="rounded bg-[#000000] text-center text-[12px] font-semibold text-white no-underline"
+                className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"
                 href={env.NEXT_PUBLIC_APP_DOMAIN}
               >
                 Create project
               </Button>
-            </Section>
+            </Section> */}
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">
               This email was intended for{" "}

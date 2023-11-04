@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import type { ServerRuntime } from "next";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 
 import { and, db, eq, posts, projects } from "@acme/db";
 import { truncate } from "@acme/lib/utils";
