@@ -1,3 +1,5 @@
+import { unstable_noStore } from "next/cache";
+
 import { getRandomPostsByDomain } from "~/app/_api/posts";
 import { PostCard } from "~/app/[domain]/_components/post-card";
 
@@ -7,6 +9,7 @@ interface Props {
 }
 
 export async function RandomPosts({ domain, slug }: Props) {
+  unstable_noStore();
   const randomPosts = await getRandomPostsByDomain(domain, slug);
 
   if (randomPosts.length === 0) {

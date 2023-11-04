@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata, ServerRuntime } from "next";
+import { unstable_noStore } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { JSONContent } from "@tiptap/core";
@@ -47,6 +48,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params: { domain, slug } }: Props) {
+  unstable_noStore();
   const post = await getPostBySlug(domain, slug);
 
   if (!post) {

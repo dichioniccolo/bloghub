@@ -1,4 +1,5 @@
 import type { ServerRuntime } from "next";
+import { unstable_noStore } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -28,6 +29,7 @@ export default async function Page({
   params: { domain },
   searchParams,
 }: Props) {
+  unstable_noStore();
   const page =
     typeof searchParams.page === "string" ? Number(searchParams?.page) : 1;
 
