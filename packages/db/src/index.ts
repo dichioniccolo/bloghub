@@ -13,12 +13,12 @@ export * from "./types";
 
 const connection = new Client({
   url: env.DATABASE_URL,
-  fetch(input, init) {
-    return fetch(input, {
-      ...init,
-      cache: "default",
-    });
-  },
+  // fetch(input, init) {
+  //   return fetch(input, {
+  //     ...init,
+  //     cache: "default",
+  //   });
+  // },
 }).connection();
 
 export const db = drizzle(connection, {
