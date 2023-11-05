@@ -9,7 +9,7 @@ const take = (perPage: number) => perPage;
 export async function getMainPagePostsByDomain(
   domain: string,
   page = 1,
-  perPage = 20,
+  perPage = 100,
 ) {
   const posts = await db.post.findMany({
     where: {
@@ -21,6 +21,9 @@ export async function getMainPagePostsByDomain(
     },
     skip: skip(page, perPage),
     take: take(perPage),
+    orderBy: {
+      createdAt: "desc",
+    },
     select: {
       id: true,
       slug: true,
