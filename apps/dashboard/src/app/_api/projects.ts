@@ -208,6 +208,8 @@ export async function getPendingInvite(email: string, projectId: string) {
 
 export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
 
+const TOP_SIZE = 5;
+
 export async function getProjectAnalytics(projectId: string) {
   const user = await getCurrentUser();
 
@@ -236,6 +238,7 @@ export async function getProjectAnalytics(projectId: string) {
       },
     },
   });
+
   const visitsByMonth = allVisits
     .reduce(
       (prev, x) => {
@@ -257,9 +260,10 @@ export async function getProjectAnalytics(projectId: string) {
     )
     // Sort the result by year and month
     .sort((a, b) => {
-      if (a.year !== b.year) return a.year - b.year;
-      return a.month - b.month;
-    });
+      if (a.year !== b.year) return b.year - a.year;
+      return b.month - b.month;
+    })
+    .slice(0, TOP_SIZE);
 
   const topPosts = allVisits
     .reduce(
@@ -284,7 +288,8 @@ export async function getProjectAnalytics(projectId: string) {
         count: number;
       }[],
     )
-    .sort((a, b) => a.count - b.count);
+    .sort((a, b) => b.count - a.count)
+    .slice(0, TOP_SIZE);
 
   const topCountries = allVisits
     .reduce(
@@ -309,7 +314,8 @@ export async function getProjectAnalytics(projectId: string) {
         count: number;
       }[],
     )
-    .sort((a, b) => a.count - b.count);
+    .sort((a, b) => b.count - a.count)
+    .slice(0, TOP_SIZE);
 
   const topCities = allVisits
     .reduce(
@@ -338,7 +344,8 @@ export async function getProjectAnalytics(projectId: string) {
         count: number;
       }[],
     )
-    .sort((a, b) => a.count - b.count);
+    .sort((a, b) => b.count - a.count)
+    .slice(0, TOP_SIZE);
 
   const topReferers = allVisits
     .reduce(
@@ -363,7 +370,8 @@ export async function getProjectAnalytics(projectId: string) {
         count: number;
       }[],
     )
-    .sort((a, b) => a.count - b.count);
+    .sort((a, b) => b.count - a.count)
+    .slice(0, TOP_SIZE);
 
   return {
     visitsByMonth,

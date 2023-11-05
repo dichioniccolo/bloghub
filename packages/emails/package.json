@@ -26,7 +26,7 @@
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@react-email/render": "^0.0.9",
     "@types/nodemailer": "^6.4.13",
-    "@types/react": "^18.2.34",
+    "@types/react": "^18.2.35",
     "@types/react-dom": "^18.2.14",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.53.0",
