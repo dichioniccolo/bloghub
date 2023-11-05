@@ -1,19 +1,6 @@
 "use server";
 
-import type { SQLWrapper } from "@acme/db";
-import {
-  and,
-  db,
-  desc,
-  eq,
-  like,
-  or,
-  posts,
-  projectMembers,
-  projects,
-  sql,
-  visits,
-} from "@acme/db";
+import { db } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
@@ -24,56 +11,82 @@ export async function getPosts(
 ) {
   const user = await getCurrentUser();
 
-  const where: (SQLWrapper | undefined)[] = [eq(posts.projectId, projectId)];
+  const data = await db.post.findMany({
+    where: {
+      projectId,
+      project: {
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+      OR: filter
+        ? [
+            {
+              title: {
+                contains: filter,
+              },
+            },
+            {
+              slug: {
+                contains: filter,
+              },
+            },
+          ]
+        : undefined,
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      createdAt: true,
+      hidden: true,
+      _count: {
+        select: {
+          visits: true,
+        },
+      },
+    },
+    take: pagination.pageSize,
+    skip: pagination.pageSize * pagination.page - pagination.pageSize,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-  if (filter) {
-    const realFilter = `%${filter.trim()}%`;
-
-    where.push(or(like(posts.title, realFilter), like(posts.slug, realFilter)));
-  }
-
-  const data = await db
-    .select({
-      id: posts.id,
-      title: posts.title,
-      slug: posts.slug,
-      createdAt: posts.createdAt,
-      hidden: posts.hidden,
-      visitsCount: sql<number>`count(distinct ${visits.id})`.mapWith(Number),
-    })
-    .from(posts)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, posts.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .leftJoin(visits, eq(visits.postId, posts.id))
-    .where(and(...where))
-    .limit(pagination.pageSize)
-    .offset(pagination.pageSize * pagination.page - pagination.pageSize)
-    .groupBy(posts.id, posts.title, posts.slug, posts.createdAt, posts.hidden)
-    .orderBy(desc(posts.createdAt));
-
-  const count = await db
-    .select({
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(posts)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, posts.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(and(...where))
-    .then((x) => x[0]!);
+  const count = await db.post.count({
+    where: {
+      projectId,
+      project: {
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+      OR: filter
+        ? [
+            {
+              title: {
+                contains: filter,
+              },
+            },
+            {
+              slug: {
+                contains: filter,
+              },
+            },
+          ]
+        : undefined,
+    },
+  });
 
   return {
     data,
-    count: count.count,
+    count,
   };
 }
 
@@ -82,35 +95,39 @@ export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
 export async function getPost(projectId: string, postId: string) {
   const user = await getCurrentUser();
 
-  return await db
-    .select({
-      id: posts.id,
-      projectId: posts.projectId,
-      title: posts.title,
-      description: posts.description,
-      slug: posts.slug,
-      createdAt: posts.createdAt,
-      hidden: posts.hidden,
-      content: posts.content,
-      thumbnailUrl: posts.thumbnailUrl,
-      seoTitle: posts.seoTitle,
-      seoDescription: posts.seoDescription,
+  return await db.post.findFirst({
+    where: {
+      projectId,
+      id: postId,
       project: {
-        name: projects.name,
-        domain: projects.domain,
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
       },
-    })
-    .from(posts)
-    .innerJoin(projects, eq(projects.id, posts.projectId))
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, posts.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(and(eq(posts.projectId, projectId), eq(posts.id, postId)))
-    .then((x) => x[0]);
+    },
+    select: {
+      id: true,
+      projectId: true,
+      title: true,
+      description: true,
+      slug: true,
+      createdAt: true,
+      hidden: true,
+      content: true,
+      thumbnailUrl: true,
+      seoTitle: true,
+      seoDescription: true,
+      project: {
+        select: {
+          name: true,
+          domain: true,
+        },
+      },
+    },
+  });
 }
 
 export type GetPost = Awaited<ReturnType<typeof getPost>>;
@@ -118,98 +135,160 @@ export type GetPost = Awaited<ReturnType<typeof getPost>>;
 export async function getPostAnalytics(projectId: string, postId: string) {
   const user = await getCurrentUser();
 
-  const visitsByMonth = await db
-    .select({
-      year: sql<number>`YEAR(${visits.createdAt})`.mapWith(Number),
-      month: sql<number>`MONTH(${visits.createdAt})`.mapWith(Number),
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(and(eq(visits.projectId, projectId), eq(visits.postId, postId)))
-    .orderBy(sql`YEAR(${visits.createdAt})`, sql`MONTH(${visits.createdAt})`)
-    .groupBy(sql`YEAR(${visits.createdAt})`, sql`MONTH(${visits.createdAt})`);
+  const allVisits = await db.visit.findMany({
+    where: {
+      projectId,
+      postId,
+      project: {
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      createdAt: true,
+      postId: true,
+      geoCountry: true,
+      geoCity: true,
+      referer: true,
+      post: {
+        select: {
+          slug: true,
+        },
+      },
+    },
+  });
+  const visitsByMonth = allVisits
+    .reduce(
+      (prev, x) => {
+        const year = x.createdAt.getFullYear();
+        const month = x.createdAt.getMonth() + 1;
+        const existingMonth = prev.find(
+          (z) => z.year === year && z.month === month,
+        );
 
-  const topPosts = await db
-    .select({
-      id: visits.postId,
-      slug: sql`coalesce(${posts.slug}, 'DELETED')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .leftJoin(posts, eq(posts.id, visits.postId))
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(and(eq(visits.projectId, projectId), eq(visits.postId, postId)))
-    .limit(5)
-    .groupBy(visits.postId)
-    .orderBy(desc(sql`count(*)`));
+        if (existingMonth) {
+          existingMonth.count += 1;
+        } else {
+          prev.push({ year, month, count: 1 });
+        }
 
-  const topCountries = await db
-    .select({
-      country: sql<string>`coalesce(${visits.geoCountry}, 'Other')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
+        return prev;
+      },
+      [] as { year: number; month: number; count: number }[],
     )
-    .where(and(eq(visits.projectId, projectId), eq(visits.postId, postId)))
-    .limit(5)
-    .groupBy(visits.geoCountry)
-    .orderBy(desc(sql`count(*)`));
+    // Sort the result by year and month
+    .sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return a.month - b.month;
+    });
 
-  const topCities = await db
-    .select({
-      country: sql<string>`coalesce(${visits.geoCountry}, 'Other')`,
-      city: sql<string>`coalesce(${visits.geoCity}, 'Other')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(and(eq(visits.projectId, projectId), eq(visits.postId, postId)))
-    .limit(5)
-    .groupBy(visits.geoCountry, visits.geoCity)
-    .orderBy(desc(sql`count(*)`));
+  const topPosts = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find((z) => z.id === (x.postId ?? "DELETED"));
 
-  const topReferers = await db
-    .select({
-      referer: sql<string>`coalesce(${visits.referer}, 'Other')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            id: x.postId ?? "DELETED",
+            slug: x.post?.slug ?? "DELETED",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        id: string;
+        slug: string;
+        count: number;
+      }[],
     )
-    .where(and(eq(visits.projectId, projectId), eq(visits.postId, postId)))
-    .limit(5)
-    .groupBy(visits.referer)
-    .orderBy(desc(sql`count(*)`));
+    .sort((a, b) => a.count - b.count);
+
+  const topCountries = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find(
+          (z) => z.country === (x.geoCountry ?? "Unknown"),
+        );
+
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            country: x.geoCountry ?? "Unknown",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        country: string;
+        count: number;
+      }[],
+    )
+    .sort((a, b) => a.count - b.count);
+
+  const topCities = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find(
+          (z) =>
+            z.country === (x.geoCountry ?? "Unknown") &&
+            z.city === (x.geoCity ?? "Unknown"),
+        );
+
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            country: x.geoCountry ?? "Unknown",
+            city: x.geoCity ?? "Unknown",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        country: string;
+        city: string;
+        count: number;
+      }[],
+    )
+    .sort((a, b) => a.count - b.count);
+
+  const topReferers = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find(
+          (z) => z.country === (x.referer ?? "SELF"),
+        );
+
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            country: x.referer ?? "SELF",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        country: string;
+        count: number;
+      }[],
+    )
+    .sort((a, b) => a.count - b.count);
 
   return {
     visitsByMonth,

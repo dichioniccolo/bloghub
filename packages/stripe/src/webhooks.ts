@@ -2,7 +2,7 @@
 
 import type Stripe from "stripe";
 
-import { db, eq, users } from "@acme/db";
+import { db } from "@acme/db";
 
 import { stripe } from ".";
 import { stripePriceToSubscriptionPlan } from "./plans";
@@ -20,7 +20,7 @@ export async function handleEvent(event: Stripe.Event) {
         session.subscription,
       );
 
-      const customerId =
+      const stripeCustomerId =
         typeof subscription.customer === "string"
           ? subscription.customer
           : subscription.customer.id;
@@ -35,15 +35,17 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await db
-        .update(users)
-        .set({
-          stripeCustomerId: customerId,
+      await db.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          stripeCustomerId,
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
-        })
-        .where(eq(users.id, userId));
+        },
+      });
       break;
     }
     case "invoice.payment_succeeded": {
@@ -52,7 +54,7 @@ export async function handleEvent(event: Stripe.Event) {
     case "customer.subscription.updated": {
       const subscription = event.data.object;
 
-      const customerId =
+      const stripeCustomerId =
         typeof subscription.customer === "string"
           ? subscription.customer
           : subscription.customer.id;
@@ -61,32 +63,36 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await db
-        .update(users)
-        .set({
+      await db.user.update({
+        where: {
+          stripeCustomerId,
+        },
+        data: {
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
-        })
-        .where(eq(users.stripeCustomerId, customerId));
+        },
+      });
       break;
     }
     case "customer.subscription.deleted": {
       const subscription = event.data.object;
 
-      const customerId =
+      const stripeCustomerId =
         typeof subscription.customer === "string"
           ? subscription.customer
           : subscription.customer.id;
 
-      await db
-        .update(users)
-        .set({
+      await db.user.update({
+        where: {
+          stripeCustomerId,
+        },
+        data: {
           stripeSubscriptionId: null,
           stripePriceId: null,
           dayWhenBillingStarts: new Date(),
-        })
-        .where(eq(users.stripeCustomerId, customerId));
+        },
+      });
       break;
     }
   }

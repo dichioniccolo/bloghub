@@ -3,16 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  genId,
-  isNull,
-  projectMembers,
-  projects,
-  Role,
-} from "@acme/db";
+import { db, Role } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { createDomain } from "@acme/vercel";
 
@@ -25,30 +16,21 @@ export const createProject = authenticatedAction(() =>
     domain: DomainSchema,
   }),
 )(async ({ name, domain }, { userId }) => {
-  const project = await db.transaction(async (tx) => {
+  const project = await db.$transaction(async (tx) => {
     await createDomain(domain);
 
-    const id = genId();
-
-    await tx.insert(projects).values({
-      id,
-      name,
-      domain,
+    return await tx.project.create({
+      data: {
+        name,
+        domain,
+        members: {
+          create: {
+            userId,
+            roleEnum: Role.OWNER,
+          },
+        },
+      },
     });
-
-    const project = await tx
-      .select()
-      .from(projects)
-      .where(and(eq(projects.id, id), isNull(projects.deletedAt)))
-      .then((x) => x[0]!);
-
-    await tx.insert(projectMembers).values({
-      projectId: project.id,
-      userId,
-      role: Role.Owner,
-    });
-
-    return project;
   });
 
   revalidatePath(AppRoutes.Dashboard);

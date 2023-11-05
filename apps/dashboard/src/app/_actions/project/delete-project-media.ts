@@ -2,19 +2,11 @@
 
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  isNull,
-  media,
-  projectMembers,
-  projects,
-  sql,
-} from "@acme/db";
+import { db } from "@acme/db";
 import { deleteFile } from "@acme/files";
 
 import { authenticatedAction } from "../authenticated-action";
+import { isProjectMember } from "../schemas";
 
 export const deleteProjectMedia = authenticatedAction(({ userId }) =>
   z
@@ -23,40 +15,30 @@ export const deleteProjectMedia = authenticatedAction(({ userId }) =>
       url: z.string().url(),
     })
     .superRefine(async ({ projectId }, ctx) => {
-      const project = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(projects)
-        .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
-        .innerJoin(
-          projectMembers,
-          and(
-            eq(projectMembers.projectId, projects.id),
-            eq(projectMembers.userId, userId),
-          ),
-        )
-        .then((x) => x[0]!);
-
-      if (project.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "You must be a member of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
+      await isProjectMember(projectId, userId, ctx);
     }),
 )(async ({ projectId, url }) => {
-  const dbMedia = await db
-    .select()
-    .from(media)
-    .where(and(eq(media.projectId, projectId), eq(media.url, url)))
-    .then((x) => x[0]);
+  const media = await db.media.findFirst({
+    where: {
+      projectId,
+      url,
+    },
+    select: {
+      id: true,
+      url: true,
+    },
+  });
 
-  if (!dbMedia) {
+  if (!media) {
     return;
   }
 
-  await deleteFile(dbMedia.url);
-  await db.delete(media).where(eq(media.id, dbMedia.id));
+  await db.$transaction(async (tx) => {
+    await deleteFile(media.url);
+    await tx.media.delete({
+      where: {
+        id: media.id,
+      },
+    });
+  });
 });

@@ -1,28 +1,58 @@
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { customAlphabet } from "nanoid";
 
-import { env } from "./env.mjs";
-import * as schema from "./schema";
+export const db = new PrismaClient({
+  log: ["query"],
+})
+  .$extends(withAccelerate())
+  .$extends({
+    name: "soft-delete",
+    model: {
+      project: {
+        async softDelete(id: string) {
+          await db.project.update({
+            where: {
+              id,
+            },
+            data: {
+              deletedAt: new Date(),
+            },
+          });
+        },
+      },
+    },
+    query: {
+      project: {
+        findMany({ args, query }) {
+          args.where = { ...args.where, deletedAt: null };
 
-export * from "./schema";
+          return query(args);
+        },
+        findFirst({ args, query }) {
+          args.where = { ...args.where, deletedAt: null };
 
-export * from "drizzle-orm";
+          return query(args);
+        },
+        findFirstOrThrow({ args, query }) {
+          args.where = { ...args.where, deletedAt: null };
 
-export * from "./types";
+          return query(args);
+        },
+        findUnique({ args, query }) {
+          args.where = { ...args.where, deletedAt: null };
 
-const connection = new Client({
-  url: env.DATABASE_URL,
-  // fetch(input, init) {
-  //   return fetch(input, {
-  //     ...init,
-  //     cache: "default",
-  //   });
-  // },
-}).connection();
+          return query(args);
+        },
+        findUniqueOrThrow({ args, query }) {
+          args.where = { ...args.where, deletedAt: null };
 
-export const db = drizzle(connection, {
-  schema,
-});
+          return query(args);
+        },
+      },
+    },
+  });
+
+export * from "@prisma/client/edge";
 
 export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 21);

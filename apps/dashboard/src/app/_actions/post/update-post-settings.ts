@@ -3,19 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  ne,
-  posts,
-  projectMembers,
-  projects,
-  sql,
-} from "@acme/db";
+import { db } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 
 import { authenticatedAction } from "../authenticated-action";
+import { isProjectMember } from "../schemas";
 
 export const updatePostSettings = authenticatedAction(({ userId }) =>
   z
@@ -33,48 +25,19 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
       }),
     })
     .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
-      const post = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(posts)
-        .where(eq(posts.id, postId))
-        .innerJoin(
-          projects,
-          and(eq(projects.id, posts.projectId), eq(projects.id, projectId)),
-        )
-        .innerJoin(
-          projectMembers,
-          and(
-            eq(projectMembers.projectId, projects.id),
-            eq(projectMembers.userId, userId),
-          ),
-        )
-        .then((x) => x[0]!);
+      await isProjectMember(projectId, userId, ctx);
 
-      if (post.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "You must be a member of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
+      const count = await db.post.count({
+        where: {
+          slug,
+          projectId,
+          id: {
+            not: postId,
+          },
+        },
+      });
 
-      const postWithSameSlug = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(posts)
-        .where(
-          and(
-            eq(posts.slug, slug),
-            eq(posts.projectId, projectId),
-            ne(posts.id, postId),
-          ),
-        )
-        .then((x) => x[0]!);
-
-      if (postWithSameSlug.count > 0) {
+      if (count > 0) {
         ctx.addIssue({
           code: "custom",
           message: "A post with the same slug already exists",
@@ -87,16 +50,19 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
   postId,
   data: { slug, thumbnailUrl, seoTitle, seoDescription },
 }) => {
-  await db
-    .update(posts)
-    .set({
+  await db.post.update({
+    where: {
+      id: postId,
+      projectId,
+    },
+    data: {
       slug,
       thumbnailUrl,
       seoTitle,
       seoDescription,
       hidden: false,
-    })
-    .where(and(eq(posts.id, postId), eq(posts.projectId, projectId)));
+    },
+  });
 
   revalidatePath(AppRoutes.PostEditor(projectId, postId));
 });

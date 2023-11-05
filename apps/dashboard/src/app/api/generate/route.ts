@@ -5,7 +5,7 @@ import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
-import { db, eq, users } from "@acme/db";
+import { db } from "@acme/db";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -27,19 +27,14 @@ export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
     const user = await getCurrentUser();
 
-    const dbUser = await db
-      .select({
-        stripePriceId: users.stripePriceId,
-      })
-      .from(users)
-      .where(eq(users.id, user.id))
-      .then((x) => x[0]!);
-
-    if (!dbUser) {
-      return new Response("You are unauthorized to perform this action", {
-        status: 401,
-      });
-    }
+    const dbUser = await db.user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+      select: {
+        stripePriceId: true,
+      },
+    });
 
     const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 

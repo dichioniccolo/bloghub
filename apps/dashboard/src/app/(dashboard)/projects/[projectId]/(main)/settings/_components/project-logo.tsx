@@ -51,10 +51,10 @@ export function ProjectLogo({ project }: Props) {
       const formData = new FormData();
 
       formData.append("file", file);
-      formData.append("type", determineMediaType(file)?.toString() ?? "");
+      formData.append("type", determineMediaType(file));
       formData.append("projectId", project.id);
       // formData.append("postId", postId);
-      formData.append("forEntity", "3"); // MediaForEntity.ProjectLogo
+      formData.append("forEntity", "PROJECT_LOGO"); // MediaForEntity.ProjectLogo
 
       const media = await createProjectMedia(formData);
 

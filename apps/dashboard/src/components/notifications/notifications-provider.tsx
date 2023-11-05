@@ -56,7 +56,9 @@ const notificationsReducer = (
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         ),
         unreadCount:
-          payload.status === 1 ? state.unreadCount + 1 : state.unreadCount,
+          payload.status === "UNREAD"
+            ? state.unreadCount + 1
+            : state.unreadCount,
       };
     case NotificationActionTypes.REMOVE_NOTIFICATION:
       return {
@@ -65,7 +67,9 @@ const notificationsReducer = (
           (notification) => notification.id !== payload.id,
         ),
         unreadCount:
-          payload.status === 1 ? state.unreadCount - 1 : state.unreadCount,
+          payload.status === "UNREAD"
+            ? state.unreadCount - 1
+            : state.unreadCount,
       };
     case NotificationActionTypes.ARCHIVE_ALL:
       return {
@@ -80,7 +84,7 @@ const notificationsReducer = (
           if (notification.id === payload.id) {
             return {
               ...notification,
-              status: 2,
+              status: "READ",
             };
           }
 
@@ -95,7 +99,7 @@ const notificationsReducer = (
           if (notification.id === payload.id) {
             return {
               ...notification,
-              status: 1,
+              status: "UNREAD",
             };
           }
 

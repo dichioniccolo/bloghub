@@ -3,7 +3,7 @@
 import { formatDistance } from "date-fns";
 import { MoreVertical, Trash2 } from "lucide-react";
 
-import type { RoleType } from "@acme/db";
+import type { Role } from "@acme/db";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 import { Avatar, AvatarImage } from "@acme/ui/components/avatar";
 import { Badge } from "@acme/ui/components/badge";
@@ -21,7 +21,7 @@ import { useDeleteInvitationDialog } from "./delete-invitation-dialog";
 
 interface Props {
   projectId: string;
-  currentUserRole: RoleType;
+  currentUserRole: Role;
   invite: GetProjectInvites[number];
 }
 
@@ -70,7 +70,7 @@ export function ProjectInvitation({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                {currentUserRole === "owner" && (
+                {currentUserRole === "OWNER" && (
                   <DropdownMenuItem onClick={() => setOpen(true)}>
                     <Trash2 className="mr-2 h-4 w-4" />
                     <span>Remove</span>

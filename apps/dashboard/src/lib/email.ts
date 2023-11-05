@@ -1,5 +1,5 @@
 import type { EmailNotificationSettingType } from "@acme/db";
-import { db, emailNotificationSettings, eq, inArray, users } from "@acme/db";
+import { db } from "@acme/db";
 import type { CreateEmailOptions } from "@acme/emails";
 import { sendMail as baseSendMail } from "@acme/emails";
 
@@ -34,14 +34,24 @@ async function fetchEmailNotificationSettings(
   type: EmailNotificationSettingType,
   emailAddresses: string[],
 ) {
-  const usersSettings = await db
-    .select({
-      value: emailNotificationSettings.value,
-      email: users.email,
-    })
-    .from(emailNotificationSettings)
-    .innerJoin(users, inArray(users.email, emailAddresses))
-    .where(eq(emailNotificationSettings.type, type));
+  const usersSettings = await db.emailNotificationSetting.findMany({
+    where: {
+      type,
+      user: {
+        email: {
+          in: emailAddresses,
+        },
+      },
+    },
+    select: {
+      value: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+    },
+  });
 
   return usersSettings;
 }
@@ -51,7 +61,7 @@ function createEmailSettingsMap(
 ) {
   const emailSettingsMap = new Map<string, boolean>();
   for (const setting of usersSettings) {
-    emailSettingsMap.set(setting.email, setting.value);
+    emailSettingsMap.set(setting.user.email, setting.value);
   }
   return emailSettingsMap;
 }

@@ -1,3 +1,5 @@
+import { unstable_noStore } from "next/cache";
+
 import { getPosts } from "~/app/_api/posts";
 import type { GetProject, GetProjectOwner } from "~/app/_api/projects";
 import { CreatePostButton } from "./create-post-button";
@@ -20,6 +22,7 @@ export async function PostsCards({
   pagination,
   filter,
 }: Props) {
+  unstable_noStore();
   const { count, data } = await getPosts(project.id, pagination, filter);
 
   return (

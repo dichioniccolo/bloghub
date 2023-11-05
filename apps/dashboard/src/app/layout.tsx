@@ -36,13 +36,13 @@ export function generateMetadata() {
     keywords: [
       "Next.js",
       "React",
-      "Drizzle ORM",
+      "Prisma",
       "Tailwind CSS",
       "Server Components",
       "Server Actions",
       "Edge Runtime",
       "Radix UI",
-      "shadcn/ui",
+      "ui.shadcn.com",
     ],
     authors: [
       {

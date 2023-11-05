@@ -74,10 +74,10 @@ export function EditPostFormContent({
     async (file: File) => {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("type", determineMediaType(file)?.toString() ?? "");
+      formData.append("type", determineMediaType(file));
       formData.append("projectId", post.projectId);
       formData.append("postId", post.id);
-      formData.append("forEntity", "1"); // MediaForEntity.PostContent
+      formData.append("forEntity", "POST_CONTENT"); // MediaForEntity.PostContent
 
       const media = await createProjectMedia(formData);
 

@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { Trash2 } from "lucide-react";
 
-import type { Notification } from "@acme/db";
+import type { NotificationType } from "@acme/db";
 import type { AppNotification } from "@acme/notifications";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
@@ -9,7 +9,7 @@ import { BaseNotification } from "~/components/notifications/types/base-notifica
 interface Props {
   notification: Extract<
     AppNotification,
-    { type: typeof Notification.RemovedFromProject }
+    { type: typeof NotificationType.REMOVED_FROM_PROJECT }
   >;
 }
 
@@ -22,7 +22,7 @@ export function RemovedFromProject({ notification }: Props) {
       <div className="flex flex-col items-start">
         <div className="text-left text-sm">
           You were removed from project{" "}
-          <span className="font-bold">{notification.data.projectName}</span>
+          <span className="font-bold">{notification.body.projectName}</span>
         </div>
         <span className="text-xs text-muted-foreground">
           {formatDistanceToNow(new Date(notification.createdAt))} ago

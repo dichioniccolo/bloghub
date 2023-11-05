@@ -3,10 +3,11 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { and, db, eq, genId, posts, projectMembers } from "@acme/db";
+import { db, genId } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 
 import { authenticatedAction } from "../authenticated-action";
+import { isProjectMember } from "../schemas";
 
 export const createPost = authenticatedAction(({ userId }) =>
   z
@@ -14,45 +15,20 @@ export const createPost = authenticatedAction(({ userId }) =>
       projectId: z.string().min(1),
     })
     .superRefine(async ({ projectId }, ctx) => {
-      const projectMember = await db
-        .select()
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-          ),
-        );
-
-      if (projectMember.length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message: "You must be a member of the project",
-          path: ["projectId"],
-        });
-      }
+      await isProjectMember(projectId, userId, ctx);
     }),
 )(async ({ projectId }) => {
   const slug = genId();
 
-  const id = genId();
-
-  await db.insert(posts).values({
-    id,
-    projectId,
-    slug,
-    title: "",
-    description: "",
-    content: {},
+  const post = await db.post.create({
+    data: {
+      projectId,
+      slug,
+      title: "",
+      description: "",
+      content: {},
+    },
   });
-
-  const post = await db
-    .select({
-      id: posts.id,
-    })
-    .from(posts)
-    .where(eq(posts.id, id))
-    .then((x) => x[0]!);
 
   redirect(AppRoutes.PostEditor(projectId, post.id));
 });

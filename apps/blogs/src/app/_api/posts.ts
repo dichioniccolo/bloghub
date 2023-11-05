@@ -1,17 +1,6 @@
 "use server";
 
-import {
-  and,
-  db,
-  desc,
-  eq,
-  inArray,
-  likes,
-  ne,
-  posts,
-  projects,
-  sql,
-} from "@acme/db";
+import { db } from "@acme/db";
 import { generateRandomIndices } from "@acme/lib/utils";
 
 const skip = (page: number, perPage: number) => (page - 1) * perPage;
@@ -22,73 +11,75 @@ export async function getMainPagePostsByDomain(
   page = 1,
   perPage = 20,
 ) {
-  const postsList = await db
-    .select({
-      id: posts.id,
-      slug: posts.slug,
-      title: posts.title,
-      thumbnailUrl: posts.thumbnailUrl,
-      description: posts.description,
-      content: posts.content,
-      createdAt: posts.createdAt,
-      likesCount: sql<number>`count(${likes.userId})`.mapWith(Number),
-    })
-    .from(posts)
-    .innerJoin(
-      projects,
-      and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
-    )
-    .where(eq(posts.hidden, false))
-    .offset(skip(page, perPage))
-    .leftJoin(likes, eq(likes.postId, posts.id))
-    .limit(take(perPage))
-    .groupBy(
-      posts.id,
-      posts.slug,
-      posts.title,
-      posts.thumbnailUrl,
-      posts.description,
-      posts.content,
-      posts.createdAt,
-    )
-    .orderBy(desc(posts.createdAt));
+  const posts = await db.post.findMany({
+    where: {
+      hidden: false,
+      project: {
+        deletedAt: null,
+        domain,
+      },
+    },
+    skip: skip(page, perPage),
+    take: take(perPage),
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      thumbnailUrl: true,
+      description: true,
+      createdAt: true,
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+    },
+  });
 
-  const postsCount = await db
-    .select({ count: sql<number>`count(*)`.mapWith(Number) })
-    .from(posts)
-    .where(eq(posts.hidden, false))
-    .then((x) => x[0]!);
+  const postsCount = await db.post.count({
+    where: {
+      hidden: false,
+      project: {
+        deletedAt: null,
+        domain,
+      },
+    },
+  });
 
-  return { posts: postsList, postsCount: postsCount.count };
+  return { posts, postsCount: postsCount };
 }
 export type GetPostsProjectByDomain = Awaited<
   ReturnType<typeof getMainPagePostsByDomain>
 >["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {
-  return await db
-    .select({
-      id: posts.id,
-      title: posts.title,
-      description: posts.description,
-      thumbnailUrl: posts.thumbnailUrl,
-      content: posts.content,
-      seoTitle: posts.seoTitle,
-      seoDescription: posts.seoDescription,
-      createdAt: posts.createdAt,
+  return await db.post.findFirst({
+    where: {
+      hidden: false,
       project: {
-        name: projects.name,
-        logo: projects.logo,
-        domain: projects.domain,
+        deletedAt: null,
+        domain,
       },
-    })
-    .from(posts)
-    .where(and(eq(posts.slug, slug), eq(posts.hidden, false)))
-    .innerJoin(
-      projects,
-      and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
-    )
-    .then((x) => x[0]);
+      slug,
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      content: true,
+      seoTitle: true,
+      seoDescription: true,
+      createdAt: true,
+      project: {
+        select: {
+          name: true,
+          logo: true,
+          domain: true,
+        },
+      },
+    },
+  });
 }
 
 export async function getRandomPostsByDomain(
@@ -96,18 +87,23 @@ export async function getRandomPostsByDomain(
   currentPostSlug: string,
   toGenerate = 3,
 ) {
-  const postsList = await db
-    .select({
-      id: posts.id,
-    })
-    .from(posts)
-    .where(and(eq(posts.hidden, false), ne(posts.slug, currentPostSlug)))
-    .innerJoin(
-      projects,
-      and(eq(projects.id, posts.projectId), eq(projects.domain, domain)),
-    );
+  const posts = await db.post.findMany({
+    where: {
+      hidden: false,
+      slug: {
+        not: currentPostSlug,
+      },
+      project: {
+        deletedAt: null,
+        domain,
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
 
-  const postIds = postsList.map((post) => post.id);
+  const postIds = posts.map((post) => post.id);
 
   const randomIndices = generateRandomIndices(postIds.length, toGenerate);
 
@@ -117,29 +113,26 @@ export async function getRandomPostsByDomain(
     return [];
   }
 
-  return await db
-    .select({
-      id: posts.id,
-      slug: posts.slug,
-      title: posts.title,
-      description: posts.description,
-      thumbnailUrl: posts.thumbnailUrl,
-      content: posts.content,
-      createdAt: posts.createdAt,
-      likesCount: sql<number>`count(${likes.userId})`.mapWith(Number),
-    })
-    .from(posts)
-    .where(inArray(posts.id, ids))
-    .leftJoin(likes, eq(likes.postId, posts.id))
-    .groupBy(
-      posts.id,
-      posts.slug,
-      posts.title,
-      posts.description,
-      posts.thumbnailUrl,
-      posts.content,
-      posts.createdAt,
-    );
+  return await db.post.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      createdAt: true,
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+    },
+  });
 }
 
 export type GetRandomPostsByDomain = Awaited<

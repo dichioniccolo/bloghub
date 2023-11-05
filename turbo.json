@@ -26,15 +26,16 @@
     },
     "db:generate": {
       "inputs": [
-        "schema.ts"
+        "prisma/schema.prisma"
       ],
       "outputs": [
         "prisma/**"
-      ]
+      ],
+      "cache": false
     },
     "db:push": {
       "inputs": [
-        "schema.ts"
+        "prisma/schema.prisma"
       ],
       "cache": false
     },

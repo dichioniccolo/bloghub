@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { db, eq, users } from "@acme/db";
+import { db } from "@acme/db";
 import { stripe } from "@acme/stripe";
 import {
   isSubscriptionPlanPro,
@@ -29,16 +29,17 @@ export const createCheckoutSession = authenticatedAction(() =>
       .transform((x) => x?.toUpperCase()),
   }),
 )(async ({ callbackUrl, key }, { userId }) => {
-  const dbUser = await db
-    .select({
-      stripePriceId: users.stripePriceId,
-      stripeCustomerId: users.stripeCustomerId,
-      stripeSubscriptionId: users.stripeSubscriptionId,
-      email: users.email,
-    })
-    .from(users)
-    .where(eq(users.id, userId))
-    .then((x) => x[0]!);
+  const dbUser = await db.user.findUniqueOrThrow({
+    where: {
+      id: userId,
+    },
+    select: {
+      stripePriceId: true,
+      stripeCustomerId: true,
+      stripeSubscriptionId: true,
+      email: true,
+    },
+  });
 
   const currentUserPlan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 
@@ -69,7 +70,7 @@ export const createCheckoutSession = authenticatedAction(() =>
 
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "subscription",
-    payment_method_types: ["card"],
+    payment_method_types: ["card", "paypal", "revolut_pay"],
     customer: dbUser.stripeCustomerId ?? undefined,
     customer_email: dbUser.email,
     client_reference_id: userId,

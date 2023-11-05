@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { format } from "date-fns";
 
-import type { MediaEnumType } from "@acme/db";
+import type { MediaType } from "@acme/db";
 
 import { ROOM_DIVIDER, TEST_HOSTNAME } from "./constants";
 import { env } from "./env.mjs";
@@ -108,20 +108,20 @@ export function generateRandomIndices(range: number, count: number): number[] {
   return Array.from(indicies);
 }
 
-export function determineMediaType(file: File): MediaEnumType | null {
+export function determineMediaType(file: File): MediaType {
   if (/image/i.test(file.type)) {
-    return 1;
+    return "IMAGE";
   }
 
   if (/video/i.test(file.type)) {
-    return 2;
+    return "VIDEO";
   }
 
   if (/audio/i.test(file.type)) {
-    return 3;
+    return "AUDIO";
   }
 
-  return null;
+  return "DOCUMENT";
 }
 
 export function getRoom(projectId: string, postId: string) {

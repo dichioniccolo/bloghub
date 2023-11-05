@@ -2,47 +2,22 @@
 
 import { z } from "zod";
 
-import { and, db, eq, notifications, NotificationStatus } from "@acme/db";
+import { db, NotificationStatus } from "@acme/db";
 
 import { authenticatedAction } from "../authenticated-action";
 
-export const markNotificationAsRead = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      notificationId: z.string().min(1),
-    })
-    .superRefine(async ({ notificationId }, ctx) => {
-      const notification = await db
-        .select({
-          id: notifications.id,
-        })
-        .from(notifications)
-        .where(
-          and(
-            eq(notifications.id, notificationId),
-            eq(notifications.userId, userId),
-          ),
-        )
-        .then((x) => x[0]);
-
-      if (!notification) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Notification not found",
-          path: ["notificationId"],
-        });
-      }
-    }),
+export const markNotificationAsRead = authenticatedAction(() =>
+  z.object({
+    notificationId: z.string().min(1),
+  }),
 )(async ({ notificationId }, { userId }) => {
-  await db
-    .update(notifications)
-    .set({
-      status: NotificationStatus.Read,
-    })
-    .where(
-      and(
-        eq(notifications.id, notificationId),
-        eq(notifications.userId, userId),
-      ),
-    );
+  await db.notification.update({
+    where: {
+      id: notificationId,
+      userId,
+    },
+    data: {
+      status: NotificationStatus.READ,
+    },
+  });
 });

@@ -1,31 +1,22 @@
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  isNull,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-} from "@acme/db";
+import { db, Role } from "@acme/db";
 
 export const DomainSchema = z
   .string()
   .min(3)
   .refine(async (domain) => {
-    const domains = await db
-      .select({
-        count: sql<number>`count(*)`.mapWith(Number),
-      })
-      .from(projects)
-      .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
-      .then((x) => x[0]!);
+    const count = await db.project.count({
+      where: {
+        deletedAt: null,
+        domain,
+      },
+    });
 
-    return domains.count === 0;
+    return count === 0;
   }, "Domain already exists")
+
   .refine(async (domain) => {
     if (!(await has("domainBlacklist"))) {
       return true;
@@ -48,26 +39,42 @@ export async function isOwnerCheck(
     path: string[];
   },
 ) {
-  const isOwnerCount = await db
-    .select({
-      count: sql<number>`count(
-      ${projectMembers.userId}
-      )`.mapWith(Number),
-    })
-    .from(projectMembers)
-    .where(
-      and(
-        eq(projectMembers.projectId, projectId),
-        eq(projectMembers.userId, userId),
-        eq(projectMembers.role, Role.Owner),
-      ),
-    )
-    .then((x) => x[0]!);
+  const count = await db.projectMember.count({
+    where: {
+      projectId,
+      userId,
+      roleEnum: Role.OWNER,
+    },
+  });
 
-  if (isOwnerCount.count === 0) {
+  if (count === 0) {
     ctx.addIssue({
       code: "custom",
       message: "You must be the owner of the project to perform this action",
+      path: options?.path ?? ["projectId"],
+    });
+  }
+}
+
+export async function isProjectMember(
+  projectId: string,
+  userId: string,
+  ctx: z.RefinementCtx,
+  options?: {
+    path: string[];
+  },
+) {
+  const count = await db.projectMember.count({
+    where: {
+      projectId,
+      userId,
+    },
+  });
+
+  if (count === 0) {
+    ctx.addIssue({
+      code: "custom",
+      message: "You must be a member of the project",
       path: options?.path ?? ["projectId"],
     });
   }

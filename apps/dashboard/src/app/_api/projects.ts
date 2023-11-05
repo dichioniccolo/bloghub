@@ -1,21 +1,6 @@
 "use server";
 
-import {
-  aliasedTable,
-  and,
-  db,
-  desc,
-  eq,
-  isNull,
-  posts,
-  projectInvitations,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-  users,
-  visits,
-} from "@acme/db";
+import { db, Role } from "@acme/db";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -28,55 +13,63 @@ import { getBillingPeriod } from "./user";
 export async function getProjects() {
   const user = await getCurrentUser();
 
-  return await db
-    .select({
-      id: projects.id,
-      name: projects.name,
-      logo: projects.logo,
-      domain: projects.domain,
-      domainVerified: projects.domainVerified,
-      currentUserRole: projectMembers.role,
-      postsCount: sql<number>`count(distinct ${posts.id})`.mapWith(Number),
-      visitsCount: sql<number>`count(distinct ${visits.id})`.mapWith(Number),
-    })
-    .from(projects)
-    .innerJoin(projectMembers, eq(projectMembers.projectId, projects.id))
-    .leftJoin(posts, eq(posts.projectId, projects.id))
-    .leftJoin(visits, eq(visits.projectId, projects.id))
-    .where(and(eq(projectMembers.userId, user.id), isNull(projects.deletedAt)))
-    .groupBy(
-      projects.id,
-      projects.name,
-      projects.logo,
-      projects.domain,
-      projects.domainVerified,
-      projectMembers.role,
-    );
+  return await db.project.findMany({
+    where: {
+      deletedAt: null,
+      members: {
+        some: {
+          userId: user.id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      logo: true,
+      domain: true,
+      domainVerified: true,
+      members: {
+        where: {
+          userId: user.id,
+        },
+      },
+      _count: {
+        select: {
+          posts: true,
+          visits: true,
+        },
+      },
+    },
+  });
 }
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 
 export async function getProject(id: string) {
   const user = await getCurrentUser();
 
-  return await db
-    .select({
-      id: projects.id,
-      name: projects.name,
-      logo: projects.logo,
-      domain: projects.domain,
-      domainVerified: projects.domainVerified,
-      currentUserRole: projectMembers.role,
-    })
-    .from(projects)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, projects.id),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(and(eq(projects.id, id), isNull(projects.deletedAt)))
-    .then((x) => x[0]);
+  return await db.project.findUnique({
+    where: {
+      id,
+      deletedAt: null,
+      members: {
+        some: {
+          userId: user.id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      logo: true,
+      domain: true,
+      domainVerified: true,
+      members: {
+        where: {
+          userId: user.id,
+        },
+      },
+    },
+  });
 }
 
 export type GetProject = Awaited<ReturnType<typeof getProject>>;
@@ -85,47 +78,48 @@ export type GetProject = Awaited<ReturnType<typeof getProject>>;
 export async function getProjectsCount() {
   const user = await getCurrentUser();
 
-  const projectsCount = await db
-    .select({
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(projectMembers)
-    .where(
-      and(
-        eq(projectMembers.userId, user.id),
-        eq(projectMembers.role, Role.Owner),
-      ),
-    )
-    .then((x) => x[0]!);
+  const count = await db.project.count({
+    where: {
+      deletedAt: null,
+      members: {
+        some: {
+          userId: user.id,
+          roleEnum: Role.OWNER,
+        },
+      },
+    },
+  });
 
-  return projectsCount.count;
+  return count;
 }
 
 export async function getProjectUsers(projectId: string) {
   const user = await getCurrentUser();
 
-  const projectMembersAlias = aliasedTable(projectMembers, "pm");
-
-  return await db
-    .select({
-      role: projectMembers.role,
-      createdAt: projectMembers.createdAt,
-      user: {
-        id: users.id,
-        name: users.name,
-        email: users.email,
+  return await db.projectMember.findMany({
+    where: {
+      projectId,
+      project: {
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
       },
-    })
-    .from(projectMembers)
-    .innerJoin(
-      projectMembersAlias,
-      and(
-        eq(projectMembersAlias.projectId, projectMembers.projectId),
-        eq(projectMembersAlias.userId, user.id),
-      ),
-    )
-    .innerJoin(users, eq(users.id, projectMembers.userId))
-    .where(eq(projectMembers.projectId, projectId));
+    },
+    select: {
+      roleEnum: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          email: true,
+          name: true,
+        },
+      },
+    },
+  });
 }
 
 export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
@@ -133,21 +127,24 @@ export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
 export async function getProjectInvites(projectId: string) {
   const user = await getCurrentUser();
 
-  return await db
-    .select({
-      email: projectInvitations.email,
-      createdAt: projectInvitations.createdAt,
-      expiresAt: projectInvitations.expiresAt,
-    })
-    .from(projectInvitations)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, projectInvitations.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(eq(projectInvitations.projectId, projectId));
+  return await db.projectInvitation.findMany({
+    where: {
+      projectId,
+      project: {
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      email: true,
+      createdAt: true,
+      expiresAt: true,
+    },
+  });
 }
 
 export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
@@ -155,29 +152,20 @@ export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 export async function getProjectOwner(projectId: string) {
   const user = await getCurrentUser();
 
-  const projectMembersAlias = aliasedTable(projectMembers, "pm");
-
-  const owner = await db
-    .select({
-      stripePriceId: users.stripePriceId,
-      dayWhenBillingStarts: users.dayWhenBillingStarts,
-    })
-    .from(projectMembers)
-    .innerJoin(
-      projectMembersAlias,
-      and(
-        eq(projectMembersAlias.projectId, projectMembers.projectId),
-        eq(projectMembersAlias.role, Role.Owner),
-      ),
-    )
-    .innerJoin(users, eq(users.id, projectMembersAlias.userId))
-    .where(
-      and(
-        eq(projectMembers.projectId, projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .then((x) => x[0]!);
+  const owner = await db.user.findFirstOrThrow({
+    where: {
+      projects: {
+        some: {
+          projectId,
+          roleEnum: Role.OWNER,
+        },
+      },
+    },
+    select: {
+      stripePriceId: true,
+      dayWhenBillingStarts: true,
+    },
+  });
 
   const billingPeriod = await getBillingPeriod(owner.dayWhenBillingStarts);
 
@@ -199,23 +187,23 @@ export async function getProjectOwner(projectId: string) {
 export type GetProjectOwner = Awaited<ReturnType<typeof getProjectOwner>>;
 
 export async function getPendingInvite(email: string, projectId: string) {
-  return await db
-    .select({
-      expiresAt: projectInvitations.expiresAt,
-      project: {
-        id: projects.id,
-        name: projects.name,
+  return await db.projectInvitation.findUnique({
+    where: {
+      email_projectId: {
+        email,
+        projectId,
       },
-    })
-    .from(projectInvitations)
-    .innerJoin(projects, eq(projects.id, projectInvitations.projectId))
-    .where(
-      and(
-        eq(projectInvitations.projectId, projectId),
-        eq(projectInvitations.email, email),
-      ),
-    )
-    .then((x) => x[0]!);
+    },
+    select: {
+      expiresAt: true,
+      project: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
 }
 
 export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
@@ -223,98 +211,159 @@ export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
 export async function getProjectAnalytics(projectId: string) {
   const user = await getCurrentUser();
 
-  const visitsByMonth = await db
-    .select({
-      year: sql<number>`YEAR(${visits.createdAt})`.mapWith(Number),
-      month: sql<number>`MONTH(${visits.createdAt})`.mapWith(Number),
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(eq(visits.projectId, projectId))
-    .orderBy(sql`YEAR(${visits.createdAt})`, sql`MONTH(${visits.createdAt})`)
-    .groupBy(sql`YEAR(${visits.createdAt})`, sql`MONTH(${visits.createdAt})`);
+  const allVisits = await db.visit.findMany({
+    where: {
+      projectId,
+      project: {
+        deletedAt: null,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
+      createdAt: true,
+      postId: true,
+      geoCountry: true,
+      geoCity: true,
+      referer: true,
+      post: {
+        select: {
+          slug: true,
+        },
+      },
+    },
+  });
+  const visitsByMonth = allVisits
+    .reduce(
+      (prev, x) => {
+        const year = x.createdAt.getFullYear();
+        const month = x.createdAt.getMonth() + 1;
+        const existingMonth = prev.find(
+          (z) => z.year === year && z.month === month,
+        );
 
-  const topPosts = await db
-    .select({
-      id: visits.postId,
-      slug: sql<string>`coalesce(${posts.slug}, 'DELETED')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .leftJoin(posts, eq(posts.id, visits.postId))
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(eq(visits.projectId, projectId))
-    .groupBy(visits.postId)
-    .limit(5)
-    .orderBy(desc(sql`count(*)`));
+        if (existingMonth) {
+          existingMonth.count += 1;
+        } else {
+          prev.push({ year, month, count: 1 });
+        }
 
-  const topCountries = await db
-    .select({
-      country: sql<string>`coalesce(${visits.geoCountry}, 'Other')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
+        return prev;
+      },
+      [] as { year: number; month: number; count: number }[],
     )
-    .where(eq(visits.projectId, projectId))
-    .groupBy(visits.geoCountry)
-    .limit(5)
-    .orderBy(desc(sql`count(*)`));
+    // Sort the result by year and month
+    .sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+      return a.month - b.month;
+    });
 
-  const topCities = await db
-    .select({
-      country: sql<string>`coalesce(${visits.geoCountry}, 'Other')`,
-      city: sql<string>`coalesce(${visits.geoCity}, 'Other')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    )
-    .where(eq(visits.projectId, projectId))
-    .groupBy(visits.geoCountry, visits.geoCity)
-    .limit(5)
-    .orderBy(desc(sql`count(*)`));
+  const topPosts = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find((z) => z.id === (x.postId ?? "DELETED"));
 
-  const topReferers = await db
-    .select({
-      referer: sql<string>`coalesce(${visits.referer}, 'Other')`,
-      count: sql<number>`count(*)`.mapWith(Number),
-    })
-    .from(visits)
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, visits.projectId),
-        eq(projectMembers.userId, user.id),
-      ),
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            id: x.postId ?? "DELETED",
+            slug: x.post?.slug ?? "DELETED",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        id: string;
+        slug: string;
+        count: number;
+      }[],
     )
-    .where(eq(visits.projectId, projectId))
-    .groupBy(visits.referer)
-    .limit(5)
-    .orderBy(desc(sql`count(*)`));
+    .sort((a, b) => a.count - b.count);
+
+  const topCountries = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find(
+          (z) => z.country === (x.geoCountry ?? "Unknown"),
+        );
+
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            country: x.geoCountry ?? "Unknown",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        country: string;
+        count: number;
+      }[],
+    )
+    .sort((a, b) => a.count - b.count);
+
+  const topCities = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find(
+          (z) =>
+            z.country === (x.geoCountry ?? "Unknown") &&
+            z.city === (x.geoCity ?? "Unknown"),
+        );
+
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            country: x.geoCountry ?? "Unknown",
+            city: x.geoCity ?? "Unknown",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        country: string;
+        city: string;
+        count: number;
+      }[],
+    )
+    .sort((a, b) => a.count - b.count);
+
+  const topReferers = allVisits
+    .reduce(
+      (prev, x) => {
+        const existingPost = prev.find(
+          (z) => z.referer === (x.referer ?? "SELF"),
+        );
+
+        if (existingPost) {
+          existingPost.count += 1;
+        } else {
+          prev.push({
+            referer: x.referer ?? "SELF",
+            count: 1,
+          });
+        }
+
+        return prev;
+      },
+      [] as {
+        referer: string;
+        count: number;
+      }[],
+    )
+    .sort((a, b) => a.count - b.count);
 
   return {
     visitsByMonth,
@@ -328,3 +377,21 @@ export async function getProjectAnalytics(projectId: string) {
 export type GetProjectAnalytics = Awaited<
   ReturnType<typeof getProjectAnalytics>
 >;
+
+export async function getCurrentUserRole(projectId: string) {
+  const user = await getCurrentUser();
+
+  const projectMember = await db.projectMember.findUniqueOrThrow({
+    where: {
+      projectId_userId: {
+        projectId,
+        userId: user.id,
+      },
+    },
+    select: {
+      roleEnum: true,
+    },
+  });
+
+  return projectMember.roleEnum!;
+}

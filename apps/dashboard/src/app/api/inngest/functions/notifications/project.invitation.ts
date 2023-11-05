@@ -2,16 +2,10 @@ import { createHash, randomBytes } from "crypto";
 
 import { env as authEnv } from "@acme/auth/env.mjs";
 import {
-  and,
   db,
-  EmailNotificationSetting,
-  eq,
+  EmailNotificationSettingType,
   genId,
-  Notification,
-  notifications,
-  projectInvitations,
-  users,
-  verificationTokens,
+  NotificationType,
 } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
@@ -31,19 +25,13 @@ export const notificationInvitation = inngest.createFunction(
     event: "notification/project.invitation",
   },
   async ({ event, step }) => {
-    const invitation = await step.run("Get invitation", () => {
-      return db
-        .select({
-          expiresAt: projectInvitations.expiresAt,
-        })
-        .from(projectInvitations)
-        .where(
-          and(
-            eq(projectInvitations.projectId, event.data.projectId),
-            eq(projectInvitations.email, event.data.userEmail),
-          ),
-        )
-        .then((x) => x[0]);
+    const invitation = await step.run("Get invitation", async () => {
+      return await db.projectInvitation.findFirst({
+        where: {
+          projectId: event.data.projectId,
+          email: event.data.userEmail,
+        },
+      });
     });
 
     if (!invitation) {
@@ -64,7 +52,7 @@ export const notificationInvitation = inngest.createFunction(
 
     const email = step.run("Send Email", async () => {
       await sendMail({
-        type: EmailNotificationSetting.Social,
+        type: EmailNotificationSettingType.SOCIAL,
         to: event.data.userEmail,
         subject: "You have been invited to a project",
         react: ProjectInvite({
@@ -80,11 +68,11 @@ export const notificationInvitation = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", async () => {
-      return db
-        .select({ id: users.id })
-        .from(users)
-        .where(eq(users.email, event.data.userEmail))
-        .then((x) => x[0]);
+      return await db.user.findFirst({
+        where: {
+          email: event.data.userEmail,
+        },
+      });
     });
 
     if (!user) {
@@ -92,26 +80,20 @@ export const notificationInvitation = inngest.createFunction(
     }
 
     const createNotification = step.run("Create notification", async () => {
-      const id = genId();
-
-      await db.insert(notifications).values({
-        id,
-        type: Notification.ProjectInvitation,
-        body: event.data,
-        userId: user.id,
+      return await db.notification.create({
+        data: {
+          type: NotificationType.PROJECT_INVITATION,
+          body: event.data,
+          userId: user.id,
+        },
+        select: {
+          id: true,
+          type: true,
+          body: true,
+          createdAt: true,
+          status: true,
+        },
       });
-
-      return await db
-        .select({
-          id: notifications.id,
-          type: notifications.type,
-          body: notifications.body,
-          createdAt: notifications.createdAt,
-          status: notifications.status,
-        })
-        .from(notifications)
-        .where(eq(notifications.id, id))
-        .then((x) => x[0]!);
     });
 
     const [, notification] = await Promise.all([email, createNotification]);
@@ -135,12 +117,14 @@ async function getLoginUrl(
 ) {
   const token = randomBytes(32).toString("hex");
 
-  await db.insert(verificationTokens).values({
-    identifier,
-    expires,
-    token: createHash("sha256")
-      .update(`${token}${authEnv.AUTH_SECRET}`)
-      .digest("hex"),
+  await db.verificationToken.create({
+    data: {
+      identifier,
+      expires,
+      token: createHash("sha256")
+        .update(`${token}${authEnv.AUTH_SECRET}`)
+        .digest("hex"),
+    },
   });
 
   const params = new URLSearchParams({

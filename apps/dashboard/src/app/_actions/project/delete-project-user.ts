@@ -3,20 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-  users,
-} from "@acme/db";
+import { db, Role } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 
 import { authenticatedAction } from "../authenticated-action";
+import { isOwnerCheck } from "../schemas";
 
 export const deleteProjectUser = authenticatedAction(({ userId }) =>
   z
@@ -24,91 +16,53 @@ export const deleteProjectUser = authenticatedAction(({ userId }) =>
       projectId: z.string().min(1),
       userIdToDelete: z.string().min(1),
     })
-    .superRefine(async ({ projectId, userIdToDelete }, ctx) => {
-      const isOwnerCount = await db
-        .select({
-          count: sql<number>`count(${projectMembers.userId})`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
-
-      if (isOwnerCount.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be the owner of the project to perform this action",
-          path: ["projectId"],
-        });
-      }
-
-      const userToDelete = await db
-        .select({
-          role: projectMembers.role,
-        })
-        .from(projectMembers)
-        .where(
-          and(
-            eq(projectMembers.userId, userIdToDelete),
-            eq(projectMembers.projectId, projectId),
-          ),
-        )
-        .then((x) => x[0]);
-
-      if (!userToDelete) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["userIdToDelete"],
-          message: "User not found",
-        });
-      }
-
-      if (userToDelete?.role === Role.Owner) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["userIdToDelete"],
-          message: "You can't delete the owner of the project",
-        });
-      }
+    .superRefine(async ({ projectId }, ctx) => {
+      await isOwnerCheck(projectId, userId, ctx);
     }),
 )(async ({ projectId, userIdToDelete }) => {
-  const { userEmail, projectName } = await db
-    .select({
-      userEmail: users.email,
-      projectName: projects.name,
-    })
-    .from(projectMembers)
-    .where(
-      and(
-        eq(projectMembers.projectId, projectId),
-        eq(projectMembers.userId, userIdToDelete),
-      ),
-    )
-    .innerJoin(projects, eq(projects.id, projectMembers.projectId))
-    .innerJoin(users, eq(users.id, projectMembers.userId))
-    .then((x) => x[0]!);
+  const userToDelete = await db.projectMember.findFirst({
+    where: {
+      projectId,
+      userId: userIdToDelete,
+    },
+    select: {
+      roleEnum: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+      project: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
 
-  await db
-    .delete(projectMembers)
-    .where(
-      and(
-        eq(projectMembers.projectId, projectId),
-        eq(projectMembers.userId, userIdToDelete),
-      ),
-    );
+  if (!userToDelete) {
+    return;
+  }
+
+  if (userToDelete?.roleEnum === Role.OWNER) {
+    throw new Error("Cannot delete owner");
+  }
+
+  await db.projectMember.delete({
+    where: {
+      projectId_userId: {
+        projectId,
+        userId: userIdToDelete,
+      },
+    },
+  });
 
   await inngest.send({
-    id: `notification/project.user.removed/${projectId}-${userEmail}`,
+    id: `notification/project.user.removed/${projectId}-${userToDelete.user.email}`,
     name: "notification/project.user.removed",
     data: {
-      projectName,
-      userEmail,
+      projectName: userToDelete.project.name,
+      userEmail: userToDelete.user.email,
     },
   });
 

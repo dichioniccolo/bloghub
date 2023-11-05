@@ -5,5 +5,6 @@ export const authenticatedAction = zactAuthenticated(async () => {
   const user = await getCurrentUser();
   return {
     userId: user.id,
+    userEmail: user.email,
   };
 });

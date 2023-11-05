@@ -1,6 +1,6 @@
 "use server";
 
-import { db, eq, users } from "@acme/db";
+import { db } from "@acme/db";
 import { stripePriceToSubscriptionPlan } from "@acme/stripe/plans";
 
 import { getCurrentUser } from "./get-user";
@@ -9,15 +9,16 @@ import { getUserTotalUsage } from "./get-user-total-usage";
 export async function getUserPlan() {
   const user = await getCurrentUser();
 
-  const dbUser = await db
-    .select({
-      stripeSubscriptionId: users.stripeSubscriptionId,
-      stripePriceId: users.stripePriceId,
-      dayWhenBillingStarts: users.dayWhenBillingStarts,
-    })
-    .from(users)
-    .where(eq(users.id, user.id))
-    .then((x) => x[0]!);
+  const dbUser = await db.user.findUniqueOrThrow({
+    where: {
+      id: user.id,
+    },
+    select: {
+      stripeSubscriptionId: true,
+      stripePriceId: true,
+      dayWhenBillingStarts: true,
+    },
+  });
 
   const billingPeriod = await getBillingPeriod(dbUser.dayWhenBillingStarts);
 

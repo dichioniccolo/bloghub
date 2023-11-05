@@ -1,25 +1,25 @@
 import { z } from "zod";
 
-import type { Notification, NotificationStatusType } from "@acme/db";
+import type { NotificationStatus, NotificationType } from "@acme/db";
 
 export interface ProjectInvitationNotification {
-  type: typeof Notification.ProjectInvitation;
-  data: ProjectInvitationNotificationData;
+  type: typeof NotificationType.PROJECT_INVITATION;
+  body: ProjectInvitationNotificationData;
 }
 
 export interface RemovedFromProjectNotification {
-  type: typeof Notification.RemovedFromProject;
-  data: RemovedFromProjectNotificationData;
+  type: typeof NotificationType.REMOVED_FROM_PROJECT;
+  body: RemovedFromProjectNotificationData;
 }
 
 export interface InvitationAcceptedNotification {
-  type: typeof Notification.InvitationAccepted;
-  data: InvitationAcceptedNotificationData;
+  type: typeof NotificationType.INVITATION_ACCEPTED;
+  body: InvitationAcceptedNotificationData;
 }
 
 export type AppNotification = {
   id: string;
-  status: NotificationStatusType;
+  status: NotificationStatus;
   createdAt: Date;
 } & (
   | ProjectInvitationNotification
@@ -31,27 +31,27 @@ export function isProjectInvitationNotification(
   notification: AppNotification,
 ): notification is Extract<
   AppNotification,
-  { type: typeof Notification.ProjectInvitation }
+  { type: typeof NotificationType.PROJECT_INVITATION }
 > {
-  return notification.type === 1;
+  return notification.type === "PROJECT_INVITATION";
 }
 
 export function isRemovedFromProjectNotification(
   notification: AppNotification,
 ): notification is Extract<
   AppNotification,
-  { type: typeof Notification.RemovedFromProject }
+  { type: typeof NotificationType.REMOVED_FROM_PROJECT }
 > {
-  return notification.type === 2;
+  return notification.type === "REMOVED_FROM_PROJECT";
 }
 
 export function isInvitationAcceptedNotification(
   notification: AppNotification,
 ): notification is Extract<
   AppNotification,
-  { type: typeof Notification.InvitationAccepted }
+  { type: typeof NotificationType.INVITATION_ACCEPTED }
 > {
-  return notification.type === 3;
+  return notification.type === "INVITATION_ACCEPTED";
 }
 
 export const ProjectInvitationNotificationSchema = z.object({

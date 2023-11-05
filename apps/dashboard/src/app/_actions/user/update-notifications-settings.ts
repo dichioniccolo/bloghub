@@ -2,11 +2,7 @@
 
 import { z } from "zod";
 
-import {
-  db,
-  EmailNotificationSetting,
-  emailNotificationSettings,
-} from "@acme/db";
+import { db, EmailNotificationSettingType } from "@acme/db";
 
 import { authenticatedAction } from "../authenticated-action";
 
@@ -21,57 +17,73 @@ export const updateNotificationSettings = authenticatedAction(() =>
   { communication_emails, marketing_emails, social_emails, security_emails },
   { userId },
 ) => {
-  await db.transaction(async (tx) => {
-    await tx
-      .insert(emailNotificationSettings)
-      .values({
+  await db.$transaction(async (tx) => {
+    await tx.emailNotificationSetting.upsert({
+      where: {
+        type_userId: {
+          type: EmailNotificationSettingType.COMMUNICATION,
+          userId,
+        },
+      },
+      create: {
         userId,
-        type: EmailNotificationSetting.Communication,
+        type: EmailNotificationSettingType.COMMUNICATION,
         value: communication_emails,
-      })
-      .onDuplicateKeyUpdate({
-        set: {
-          value: communication_emails,
-        },
-      });
+      },
+      update: {
+        value: communication_emails,
+      },
+    });
 
-    await tx
-      .insert(emailNotificationSettings)
-      .values({
+    await tx.emailNotificationSetting.upsert({
+      where: {
+        type_userId: {
+          type: EmailNotificationSettingType.MARKETING,
+          userId,
+        },
+      },
+      create: {
         userId,
-        type: EmailNotificationSetting.Marketing,
+        type: EmailNotificationSettingType.MARKETING,
         value: marketing_emails,
-      })
-      .onDuplicateKeyUpdate({
-        set: {
-          value: marketing_emails,
-        },
-      });
+      },
+      update: {
+        value: marketing_emails,
+      },
+    });
 
-    await tx
-      .insert(emailNotificationSettings)
-      .values({
+    await tx.emailNotificationSetting.upsert({
+      where: {
+        type_userId: {
+          type: EmailNotificationSettingType.SOCIAL,
+          userId,
+        },
+      },
+      create: {
         userId,
-        type: EmailNotificationSetting.Social,
+        type: EmailNotificationSettingType.SOCIAL,
         value: social_emails,
-      })
-      .onDuplicateKeyUpdate({
-        set: {
-          value: social_emails,
-        },
-      });
+      },
+      update: {
+        value: social_emails,
+      },
+    });
 
-    await tx
-      .insert(emailNotificationSettings)
-      .values({
-        userId,
-        type: EmailNotificationSetting.Security,
-        value: security_emails,
-      })
-      .onDuplicateKeyUpdate({
-        set: {
-          value: security_emails,
+    await tx.emailNotificationSetting.upsert({
+      where: {
+        type_userId: {
+          type: EmailNotificationSettingType.SECURITY,
+          userId,
         },
-      });
+      },
+      create: {
+        userId,
+        type: EmailNotificationSettingType.SECURITY,
+        value: security_emails,
+      },
+      update: {
+        value: security_emails,
+      },
+    });
   });
 });

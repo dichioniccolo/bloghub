@@ -1,6 +1,7 @@
 import type { Metadata, ServerRuntime } from "next";
 import { notFound } from "next/navigation";
 
+import { Role } from "@acme/db";
 import { Separator } from "@acme/ui/components/separator";
 import {
   Tabs,
@@ -10,6 +11,7 @@ import {
 } from "@acme/ui/components/tabs";
 
 import {
+  getCurrentUserRole,
   getProject,
   getProjectInvites,
   getProjectUsers,
@@ -43,6 +45,8 @@ export default async function AppDashboardProjectSettingsMembersPage({
 
   if (!project) return notFound();
 
+  const currentUserRole = await getCurrentUserRole(project.id);
+
   const [users, invites] = await Promise.all([
     getProjectUsers(projectId),
     getProjectInvites(projectId),
@@ -57,7 +61,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
             Team mates or friends that have access to this project.{" "}
           </p>
         </div>
-        {project.currentUserRole === "owner" && (
+        {currentUserRole === Role.OWNER && (
           <InviteMemberDialog projectId={projectId} />
         )}
       </div>
@@ -72,7 +76,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
             <ProjectMember
               key={index}
               projectId={project.id}
-              currentUserRole={project.currentUserRole}
+              currentUserRole={currentUserRole}
               member={user}
             />
           ))}
@@ -82,7 +86,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
             <ProjectInvitation
               key={index}
               projectId={project.id}
-              currentUserRole={project.currentUserRole}
+              currentUserRole={currentUserRole}
               invite={invite}
             />
           ))}

@@ -9,10 +9,16 @@ interface Props {
 }
 
 export async function Notifications({ session }: Props) {
-  const notifications = await getNotifications();
+  const { notifications, unreadCount } = await getNotifications();
 
   return (
-    <NotificationsProvider value={notifications}>
+    <NotificationsProvider
+      value={{
+        unreadCount,
+        // @ts-expect-error unable to infer type of notification type
+        notifications,
+      }}
+    >
       <NotificationsPopover session={session} />
     </NotificationsProvider>
   );

@@ -1,10 +1,10 @@
 import type { JWT } from "@auth/core/jwt";
 import Discord from "@auth/core/providers/discord";
 import type { DefaultSession } from "@auth/core/types";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 
-import { db, eq, users } from "@acme/db";
+import { db } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
 import { env } from "./env.mjs";
@@ -31,7 +31,8 @@ export const {
   signOut,
   update: updateSession,
 } = NextAuth({
-  adapter: DrizzleAdapter(db),
+  // @ts-expect-error not supporting dynamic extensions
+  adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
   },
@@ -42,7 +43,6 @@ export const {
     newUser: "/welcome",
   },
   providers: [
-    // @ts-expect-error aaa
     Discord({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
@@ -71,31 +71,19 @@ export const {
     signIn: async ({ account, profile }) => {
       if (
         (account?.provider === "google" || account?.provider === "discord") &&
-        profile
+        profile?.email
       ) {
-        const existingUser = await db
-          .select({
-            name: users.name,
-            image: users.image,
-          })
-          .from(users)
-          .where(eq(users.email, profile.email!))
-          .then((x) => x[0]);
-
-        if (existingUser && !existingUser.name) {
-          await db
-            .update(users)
-            .set({
-              name: profile?.name,
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              image:
-                profile?.picture ??
-                profile?.image ??
-                profile?.image_url ??
-                users.image,
-            })
-            .where(eq(users.email, profile.email!));
-        }
+        await db.user.update({
+          where: {
+            email: profile.email,
+            name: null,
+          },
+          data: {
+            name: profile?.name,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            image: profile?.picture ?? profile?.image ?? profile?.image_url,
+          },
+        });
       }
 
       return true;
@@ -116,16 +104,17 @@ export const {
         throw new Error("Unable to sign in with this email address");
       }
 
-      const dbUser = await db
-        .select({
-          id: users.id,
-          email: users.email,
-          name: users.name,
-          image: users.image,
-        })
-        .from(users)
-        .where(eq(users.email, token.email))
-        .then((x) => x[0]);
+      const dbUser = await db.user.findUnique({
+        where: {
+          email: token.email,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          image: true,
+        },
+      });
 
       if (!dbUser) {
         if (user) {

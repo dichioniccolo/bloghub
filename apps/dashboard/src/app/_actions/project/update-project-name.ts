@@ -1,19 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  isNull,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-} from "@acme/db";
+import { db } from "@acme/db";
 
 import { authenticatedAction } from "../authenticated-action";
+import { isOwnerCheck } from "../schemas";
 
 export const updateProjectName = authenticatedAction(({ userId }) =>
   z
@@ -22,36 +15,18 @@ export const updateProjectName = authenticatedAction(({ userId }) =>
       name: z.string().min(1),
     })
     .superRefine(async ({ projectId }, ctx) => {
-      const project = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(projects)
-        .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
-        .innerJoin(
-          projectMembers,
-          and(
-            eq(projectMembers.projectId, projects.id),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
-
-      if (project.count === 0) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be a member of the project or be the owner to perform this action",
-          path: ["projectId"],
-        });
-      }
+      await isOwnerCheck(projectId, userId, ctx);
     }),
 )(async ({ projectId, name }) => {
-  await db
-    .update(projects)
-    .set({
+  await db.project.update({
+    where: {
+      id: projectId,
+      deletedAt: null,
+    },
+    data: {
       name,
-    })
-    .where(eq(projects.id, projectId));
+    },
+  });
+
+  revalidatePath(`/projects/${projectId}`);
 });

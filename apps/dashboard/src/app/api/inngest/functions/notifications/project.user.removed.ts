@@ -1,11 +1,8 @@
 import {
   db,
-  EmailNotificationSetting,
-  eq,
+  EmailNotificationSettingType,
   genId,
-  Notification,
-  notifications,
-  users,
+  NotificationType,
 } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
@@ -25,7 +22,7 @@ export const notificationRemovedFromProject = inngest.createFunction(
   async ({ event, step }) => {
     const sendEmail = step.run("Send email", async () => {
       await sendMail({
-        type: EmailNotificationSetting.Social,
+        type: EmailNotificationSettingType.SOCIAL,
         to: event.data.userEmail,
         subject: "You have been removed from a project",
         react: RemovedFromProject({
@@ -41,11 +38,14 @@ export const notificationRemovedFromProject = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", async () => {
-      return db
-        .select({ id: users.id })
-        .from(users)
-        .where(eq(users.email, event.data.userEmail))
-        .then((x) => x[0]);
+      return await db.user.findFirst({
+        where: {
+          email: event.data.userEmail,
+        },
+        select: {
+          id: true,
+        },
+      });
     });
 
     if (!user) {
@@ -53,26 +53,20 @@ export const notificationRemovedFromProject = inngest.createFunction(
     }
 
     const createNotification = step.run("Create notification", async () => {
-      const id = genId();
-
-      await db.insert(notifications).values({
-        id,
-        type: Notification.RemovedFromProject,
-        body: event.data,
-        userId: user.id,
+      return await db.notification.create({
+        data: {
+          type: NotificationType.REMOVED_FROM_PROJECT,
+          body: event.data,
+          userId: user.id,
+        },
+        select: {
+          id: true,
+          type: true,
+          body: true,
+          createdAt: true,
+          status: true,
+        },
       });
-
-      return await db
-        .select({
-          id: notifications.id,
-          type: notifications.type,
-          body: notifications.body,
-          createdAt: notifications.createdAt,
-          status: notifications.status,
-        })
-        .from(notifications)
-        .where(eq(notifications.id, id))
-        .then((x) => x[0]!);
     });
 
     const [, notification] = await Promise.all([sendEmail, createNotification]);

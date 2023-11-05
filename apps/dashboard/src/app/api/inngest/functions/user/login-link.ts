@@ -1,4 +1,4 @@
-import { db, EmailNotificationSetting, eq, genId, users } from "@acme/db";
+import { db, EmailNotificationSettingType, genId } from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
@@ -16,15 +16,17 @@ export const userLoginLink = inngest.createFunction(
   async ({ event }) => {
     const { email, url } = event.data;
 
-    const user = await db
-      .select({
-        name: users.name,
-      })
-      .from(users)
-      .where(eq(users.email, email))
-      .then((x) => x[0]);
+    const user = await db.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        name: true,
+      },
+    });
+
     await sendMail({
-      type: EmailNotificationSetting.Security,
+      type: EmailNotificationSettingType.SECURITY,
       to: email,
       subject: "Your login link",
       react: LoginLink({

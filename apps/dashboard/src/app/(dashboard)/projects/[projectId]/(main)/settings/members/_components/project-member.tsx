@@ -3,7 +3,7 @@
 import { formatDistance } from "date-fns";
 import { MoreVertical, Trash2 } from "lucide-react";
 
-import type { RoleType } from "@acme/db";
+import type { Role } from "@acme/db";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
 import { Avatar, AvatarImage } from "@acme/ui/components/avatar";
 import { Button } from "@acme/ui/components/button";
@@ -20,7 +20,7 @@ import { useDeleteMemberDialog } from "./delete-member-dialog";
 
 interface Props {
   projectId: string;
-  currentUserRole: RoleType;
+  currentUserRole: Role;
   member: GetProjectUsers[number];
 }
 
@@ -54,7 +54,7 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
         </div>
         <div className="flex items-center justify-center space-x-2">
           <div className="flex flex-col">
-            <p className="text-sm text-stone-500">{member.role}</p>
+            <p className="text-sm text-stone-500">{member.roleEnum}</p>
             <p className="text-xs text-stone-500">
               Joined{" "}
               {formatDistance(member.createdAt, new Date(), {
@@ -62,7 +62,7 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
               })}
             </p>
           </div>
-          {currentUserRole === "owner" && member.role !== "owner" && (
+          {currentUserRole === "OWNER" && member.roleEnum !== "OWNER" && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="xxs">

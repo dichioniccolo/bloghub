@@ -14,7 +14,7 @@
   },
   "scripts": {
     "clean": "rm -rf .turbo .react-email node_modules",
-    "dev": "email dev --port 3883",
+    "dev:disabled": "email dev --port 3883",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },

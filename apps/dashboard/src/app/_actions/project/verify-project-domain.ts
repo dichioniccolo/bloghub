@@ -1,6 +1,6 @@
 "use server";
 
-import { and, db, eq, isNull, projects } from "@acme/db";
+import { db } from "@acme/db";
 import type { ConfigJSON, DomainJSON } from "@acme/vercel";
 import {
   getConfigResponse,
@@ -25,103 +25,122 @@ export async function verifyProjectDomain(
     getConfigResponse(domain),
   ]);
 
-  await db
-    .update(projects)
-    .set({
-      domainLastCheckedAt: new Date(),
-    })
-    .where(eq(projects.domain, domain));
+  const result = await db.$transaction(async (tx) => {
+    const project = await tx.project.findFirst({
+      where: {
+        deletedAt: null,
+        domain,
+      },
+      select: {
+        id: true,
+        domainUnverifiedAt: true,
+      },
+    });
 
-  const project = await db
-    .select({
-      domainUnverifiedAt: projects.domainUnverifiedAt,
-    })
-    .from(projects)
-    .where(and(eq(projects.domain, domain), isNull(projects.deletedAt)))
-    .then((x) => x[0]);
-
-  if (!project) {
-    return {
-      invalid: true,
-      notFound: false,
-      verified: false,
-      pending: false,
-      domainJson: domainResponse,
-      configJson: configResponse,
-    };
-  }
-
-  if (!domainResponse?.verified) {
-    try {
-      const verificationResponse = await verifyDomain(domain);
-
-      if (verificationResponse?.verified) {
-        await db
-          .update(projects)
-          .set({
-            domainVerified: true,
-            domainUnverifiedAt: null,
-          })
-          .where(eq(projects.domain, domain));
-
-        return {
-          verified: true,
-          invalid: false,
-          notFound: false,
-          pending: false,
-          domainJson: domainResponse,
-          configJson: configResponse,
-        };
-      }
-    } catch {
-      // ignore
+    if (!project) {
+      return {
+        invalid: true,
+        notFound: false,
+        verified: false,
+        pending: false,
+        domainJson: domainResponse,
+        configJson: configResponse,
+      };
     }
 
-    return {
-      verified: false,
-      invalid: false,
-      notFound: false,
-      pending: true,
-      domainJson: domainResponse,
-      configJson: configResponse,
-    };
-  }
+    await tx.project.update({
+      where: {
+        id: project.id,
+        deletedAt: null,
+      },
+      data: {
+        domainLastCheckedAt: new Date(),
+      },
+    });
 
-  if (configResponse?.misconfigured) {
-    await db
-      .update(projects)
-      .set({
-        domainVerified: false,
-        domainUnverifiedAt: !project.domainUnverifiedAt
-          ? new Date()
-          : undefined,
-      })
-      .where(eq(projects.domain, domain));
+    if (!domainResponse?.verified) {
+      try {
+        const verificationResponse = await verifyDomain(domain);
 
-    return {
-      invalid: true,
-      notFound: false,
-      verified: false,
-      pending: false,
-      domainJson: domainResponse,
-      configJson: configResponse,
-    };
-  } else {
-    await db
-      .update(projects)
-      .set({
-        domainVerified: true,
-        domainUnverifiedAt: null,
-      })
-      .where(eq(projects.domain, domain));
+        if (verificationResponse?.verified) {
+          await db.project.update({
+            where: {
+              id: project.id,
+              deletedAt: null,
+            },
+            data: {
+              domainVerified: true,
+              domainUnverifiedAt: null,
+            },
+          });
 
-    return {
-      invalid: false,
-      notFound: false,
-      verified: true,
-      pending: false,
-      domainJson: domainResponse,
-      configJson: configResponse,
-    };
-  }
+          return {
+            verified: true,
+            invalid: false,
+            notFound: false,
+            pending: false,
+            domainJson: domainResponse,
+            configJson: configResponse,
+          };
+        }
+      } catch {
+        // ignore
+      }
+
+      return {
+        verified: false,
+        invalid: false,
+        notFound: false,
+        pending: true,
+        domainJson: domainResponse,
+        configJson: configResponse,
+      };
+    }
+
+    if (configResponse?.misconfigured) {
+      await db.project.update({
+        where: {
+          id: project.id,
+          deletedAt: null,
+        },
+        data: {
+          domainVerified: false,
+          domainUnverifiedAt: !project.domainUnverifiedAt
+            ? new Date()
+            : undefined,
+        },
+      });
+
+      return {
+        invalid: true,
+        notFound: false,
+        verified: false,
+        pending: false,
+        domainJson: domainResponse,
+        configJson: configResponse,
+      };
+    } else {
+      await db.project.update({
+        where: {
+          id: project.id,
+          deletedAt: null,
+        },
+        data: {
+          domainVerified: true,
+          domainUnverifiedAt: null,
+        },
+      });
+
+      return {
+        invalid: false,
+        notFound: false,
+        verified: true,
+        pending: false,
+        domainJson: domainResponse,
+        configJson: configResponse,
+      };
+    }
+  });
+
+  return result;
 }

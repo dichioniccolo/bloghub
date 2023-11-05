@@ -1,13 +1,4 @@
-import {
-  automaticEmails,
-  db,
-  eq,
-  media,
-  posts,
-  projectMembers,
-  projects,
-  visits,
-} from "@acme/db";
+import { db } from "@acme/db";
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { deleteDomain } from "@acme/vercel";
@@ -21,33 +12,57 @@ export const projectDelete = inngest.createFunction(
     event: "project/delete",
   },
   async ({ event }) => {
-    await db.transaction(async (tx) => {
+    const projectId = event.data.id;
+
+    await db.$transaction(async (tx) => {
+      const media = await tx.media.findMany({
+        where: {
+          projectId,
+        },
+        select: {
+          url: true,
+        },
+      });
+
+      await deleteFiles(media.map((m) => m.url));
+
+      await tx.media.deleteMany({
+        where: {
+          projectId,
+        },
+      });
+
+      await tx.post.deleteMany({
+        where: {
+          projectId,
+        },
+      });
+
+      await tx.automaticEmail.deleteMany({
+        where: {
+          projectId,
+        },
+      });
+
+      await tx.projectMember.deleteMany({
+        where: {
+          projectId,
+        },
+      });
+
+      await tx.visit.deleteMany({
+        where: {
+          projectId,
+        },
+      });
+
+      await tx.project.delete({
+        where: {
+          id: projectId,
+        },
+      });
+
       await deleteDomain(event.data.domain);
-
-      const mediaList = await db
-        .select({
-          url: media.url,
-        })
-        .from(media)
-        .where(eq(media.projectId, event.data.id));
-
-      await deleteFiles(mediaList.map((m) => m.url));
-
-      await tx.delete(media).where(eq(media.projectId, event.data.id));
-
-      await tx.delete(posts).where(eq(posts.projectId, event.data.id));
-
-      await tx
-        .delete(automaticEmails)
-        .where(eq(automaticEmails.projectId, event.data.id));
-
-      await tx
-        .delete(projectMembers)
-        .where(eq(projectMembers.projectId, event.data.id));
-
-      await tx.delete(visits).where(eq(visits.projectId, event.data.id));
-
-      await tx.delete(projects).where(eq(projects.id, event.data.id));
     });
   },
 );

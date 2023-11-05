@@ -1,7 +1,9 @@
+import { Role } from "@acme/db";
 import { Card, CardFooter, CardHeader } from "@acme/ui/components/card";
 import { Skeleton } from "@acme/ui/components/skeleton";
 
 import type { GetProject } from "~/app/_api/projects";
+import { getCurrentUserRole } from "~/app/_api/projects";
 import { ChangeName } from "./change-name";
 import { CustomDomain } from "./custom-domain";
 import { DeleteProject } from "./delete-project";
@@ -12,8 +14,10 @@ interface Props {
   project: NonNullable<GetProject>;
 }
 
-export function GeneralSettings({ project }: Props) {
-  if (project.currentUserRole !== "owner") {
+export async function GeneralSettings({ project }: Props) {
+  const currentUserRole = await getCurrentUserRole(project.id);
+
+  if (currentUserRole !== Role.OWNER) {
     return <QuitProject project={project} />;
   }
 

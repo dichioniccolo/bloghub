@@ -58,33 +58,3 @@ export const AutomaticEmail = {
 
 export type AutomaticEmailType =
   (typeof AutomaticEmail)[keyof typeof AutomaticEmail];
-
-export type VisitBody = {
-  browser?: {
-    name?: string;
-    version?: string;
-  };
-  os?: {
-    name?: string;
-    version?: string;
-  };
-  device?: {
-    model?: string;
-    type?: string;
-    vendor?: string;
-  };
-  engine?: {
-    name?: string;
-    version?: string;
-  };
-  cpu?: {
-    architecture?: string;
-  };
-  geo?: {
-    country?: string;
-    region?: string;
-    city?: string;
-    latitute?: string;
-    longitude?: string;
-  };
-};

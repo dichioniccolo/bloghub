@@ -1,20 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { addWeeks } from "date-fns";
 import { z } from "zod";
 
-import {
-  and,
-  db,
-  eq,
-  isNull,
-  projectInvitations,
-  projectMembers,
-  projects,
-  Role,
-  sql,
-  users,
-} from "@acme/db";
+import { db } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import {
@@ -23,6 +13,7 @@ import {
 } from "@acme/stripe/plans";
 
 import { authenticatedAction } from "../authenticated-action";
+import { isOwnerCheck } from "../schemas";
 
 export const inviteUser = authenticatedAction(({ userId }) =>
   z
@@ -31,45 +22,18 @@ export const inviteUser = authenticatedAction(({ userId }) =>
       email: z.string().email(),
     })
     .superRefine(async ({ projectId, email }, ctx) => {
-      const user = await db
-        .select({
-          email: users.email,
-          stripePriceId: users.stripePriceId,
-        })
-        .from(projectMembers)
-        .innerJoin(users, eq(users.id, projectMembers.userId))
-        .where(
-          and(
-            eq(projectMembers.projectId, projectId),
-            eq(projectMembers.userId, userId),
-            eq(projectMembers.role, Role.Owner),
-          ),
-        )
-        .then((x) => x[0]!);
+      await isOwnerCheck(projectId, userId, ctx);
 
-      if (!user) {
-        ctx.addIssue({
-          code: "custom",
-          message:
-            "You must be the owner of the project to perform this action",
-          path: ["email"],
-        });
-        return;
-      }
+      const existingUser = await db.projectMember.count({
+        where: {
+          projectId,
+          user: {
+            email,
+          },
+        },
+      });
 
-      const existingUser = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(eq(projectMembers.projectId, projectId))
-        .innerJoin(
-          users,
-          and(eq(users.id, projectMembers.userId), eq(users.email, email)),
-        )
-        .then((x) => x[0]!);
-
-      if (existingUser.count > 0) {
+      if (existingUser > 0) {
         ctx.addIssue({
           code: "custom",
           message: "A user with this email already exists in this project",
@@ -78,20 +42,14 @@ export const inviteUser = authenticatedAction(({ userId }) =>
         return;
       }
 
-      const existingInvite = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(projectInvitations)
-        .where(
-          and(
-            eq(projectInvitations.projectId, projectId),
-            eq(projectInvitations.email, email),
-          ),
-        )
-        .then((x) => x[0]!);
+      const existingInvite = await db.projectInvitation.count({
+        where: {
+          projectId,
+          email,
+        },
+      });
 
-      if (existingInvite.count > 0) {
+      if (existingInvite > 0) {
         ctx.addIssue({
           code: "custom",
           message: "An invitation has already been sent to this email",
@@ -100,27 +58,32 @@ export const inviteUser = authenticatedAction(({ userId }) =>
         return;
       }
 
-      const { count: projectInvitationsCount } = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(projectInvitations)
-        .where(eq(projectInvitations.projectId, projectId))
-        .then((x) => x[0]!);
+      const allInvitationsCount = await db.projectInvitation.count({
+        where: {
+          projectId,
+        },
+      });
 
-      const { count: projectMembersCount } = await db
-        .select({
-          count: sql<number>`count(*)`.mapWith(Number),
-        })
-        .from(projectMembers)
-        .where(eq(projectMembers.projectId, projectId))
-        .then((x) => x[0]!);
+      const allMembersCount = await db.projectMember.count({
+        where: {
+          projectId,
+        },
+      });
+
+      const user = await db.user.findUniqueOrThrow({
+        where: {
+          id: userId,
+        },
+        select: {
+          stripePriceId: true,
+        },
+      });
 
       const plan = stripePriceToSubscriptionPlan(user.stripePriceId);
 
       if (
         !isSubscriptionPlanPro(plan) &&
-        projectInvitationsCount + projectMembersCount >= 3
+        allInvitationsCount + allMembersCount >= 3
       ) {
         ctx.addIssue({
           code: "custom",
@@ -131,32 +94,30 @@ export const inviteUser = authenticatedAction(({ userId }) =>
       }
     }),
 )(async ({ email, projectId }) => {
-  const ONE_WEEK_IN_SECONDS = 604800;
-
-  await db.transaction(async (tx) => {
-    const project = await tx
-      .select({
-        name: projects.name,
-      })
-      .from(projects)
-      .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
-      .then((x) => x[0]!);
-
-    await tx.insert(projectInvitations).values({
-      email,
+  const projectInvitation = await db.projectInvitation.create({
+    data: {
       projectId,
-      expiresAt: new Date(Date.now() + ONE_WEEK_IN_SECONDS * 1000),
-    });
-
-    await inngest.send({
-      id: `notification/project.invitation/${projectId}-${email}`,
-      name: "notification/project.invitation",
-      data: {
-        projectId,
-        projectName: project.name,
-        userEmail: email,
+      email,
+      expiresAt: addWeeks(Date.now(), 1),
+    },
+    select: {
+      email: true,
+      project: {
+        select: {
+          name: true,
+        },
       },
-    });
+    },
+  });
+
+  await inngest.send({
+    id: `notification/project.invitation/${projectId}-${email}`,
+    name: "notification/project.invitation",
+    data: {
+      projectId,
+      projectName: projectInvitation.project.name,
+      userEmail: projectInvitation.email,
+    },
   });
 
   revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));

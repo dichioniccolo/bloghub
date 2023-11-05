@@ -2,7 +2,7 @@
 import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 
-import { and, db, eq, posts, projects } from "@acme/db";
+import { db } from "@acme/db";
 import { truncate } from "@acme/lib/utils";
 
 export const runtime: ServerRuntime = "edge";
@@ -15,20 +15,26 @@ interface Props {
 }
 
 export default async function PostOG({ params: { domain, slug } }: Props) {
-  const post = await db
-    .select({
-      title: posts.title,
-      description: posts.description,
-      thumbnailUrl: posts.thumbnailUrl,
+  const post = await db.post.findFirst({
+    where: {
       project: {
-        name: projects.name,
-        logo: projects.logo,
+        deletedAt: null,
+        domain,
       },
-    })
-    .from(posts)
-    .innerJoin(projects, eq(posts.projectId, projects.id))
-    .where(and(eq(posts.slug, slug), eq(projects.domain, domain)))
-    .then((x) => x[0]);
+      slug,
+    },
+    select: {
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      project: {
+        select: {
+          name: true,
+          logo: true,
+        },
+      },
+    },
+  });
 
   if (!post) {
     return new Response("Not found", { status: 404 });

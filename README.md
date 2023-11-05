@@ -4,17 +4,14 @@ This is an open source blog app built with everything new in Next.js 13. It is b
 
 > **Warning**
 > This project is still in development and is not ready for production use.
->
-> It uses new technologies (server actions, drizzle ORM) which are subject to change and may break the application.
 
 ## Tech Stack
 
 - [Next.js](https://nextjs.org)
 - [Next Auth](https://next-auth.js.org/)
-- [Drizzle ORM](https://orm.drizzle.team)
+- [Prisma](https://www.prisma.io/)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Stripe](https://stripe.com)
-- [Novel](https://github.com/steven-tey/novel) - editor based on Novel by Steven Tey
 
 ## Features
 

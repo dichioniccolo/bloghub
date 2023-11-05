@@ -1,7 +1,8 @@
 "use server";
 
-import type { MediaEnumType, MediaForEntityType } from "@acme/db";
-import { and, db, eq, genId, media, projectMembers } from "@acme/db";
+import { z } from "zod";
+
+import { db, genId, MediaForEntity, MediaType } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { getCurrentUser } from "~/app/_api/get-user";
@@ -17,34 +18,36 @@ function arrayBufferToBuffer(ab: ArrayBuffer) {
   return buffer;
 }
 
+const CreateProjectMediaSchema = z.object({
+  projectId: z.string().min(1),
+  postId: z.string().optional().nullable(),
+  forEntity: z.nativeEnum(MediaForEntity),
+  type: z.nativeEnum(MediaType),
+});
+
 export async function createProjectMedia(formData: FormData) {
   const user = await getCurrentUser();
 
-  const projectId = formData.get("projectId") as string;
-  const postId = formData.get("postId") as string;
-  const forEntity = parseInt(
-    formData.get("forEntity")?.toString() ?? "",
-  ) as MediaForEntityType;
-
-  const type = parseInt(
-    formData.get("type")?.toString() ?? "",
-  ) as MediaEnumType;
+  const { projectId, postId, forEntity, type } =
+    await CreateProjectMediaSchema.parseAsync({
+      projectId: formData.get("projectId"),
+      postId: formData.get("postId"),
+      forEntity: formData.get("forEntity"),
+      type: formData.get("type"),
+    });
 
   if (!type) {
     throw new Error("Failed to determine media type");
   }
 
-  const projectMember = await db
-    .select()
-    .from(projectMembers)
-    .where(
-      and(
-        eq(projectMembers.projectId, projectId),
-        eq(projectMembers.userId, user.id),
-      ),
-    );
+  const projectMemberCount = await db.projectMember.count({
+    where: {
+      projectId,
+      userId: user.id,
+    },
+  });
 
-  if (projectMember.length === 0) {
+  if (projectMemberCount === 0) {
     throw new Error("You must be a member of the project");
   }
 
@@ -68,22 +71,15 @@ export async function createProjectMedia(formData: FormData) {
 
   const url = uploadedFile.url;
 
-  const id = genId();
-
-  await db.insert(media).values({
-    id,
-    forEntity,
-    projectId,
-    postId,
-    type,
-    url,
+  const media = await db.media.create({
+    data: {
+      forEntityEnum: forEntity,
+      projectId,
+      postId,
+      type,
+      url,
+    },
   });
 
-  return await db
-    .select({
-      url: media.url,
-    })
-    .from(media)
-    .where(eq(media.id, id))
-    .then((x) => x[0]!);
+  return media;
 }

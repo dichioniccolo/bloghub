@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { and, db, eq, isNull, projectMembers, projects, Role } from "@acme/db";
+import { db, Role } from "@acme/db";
 
 import { isOwnerCheck } from "~/app/_actions/schemas";
 import { authenticatedAction } from "../authenticated-action";
@@ -17,21 +17,21 @@ export const verifyDomain = authenticatedAction(({ userId }) =>
       await isOwnerCheck(projectId, userId, ctx);
     }),
 )(async ({ projectId }, { userId }) => {
-  const project = await db
-    .select({
-      domain: projects.domain,
-    })
-    .from(projects)
-    .where(and(eq(projects.id, projectId), isNull(projects.deletedAt)))
-    .innerJoin(
-      projectMembers,
-      and(
-        eq(projectMembers.projectId, projects.id),
-        eq(projectMembers.userId, userId),
-        eq(projectMembers.role, Role.Owner),
-      ),
-    )
-    .then((x) => x[0]!);
+  const project = await db.project.findUniqueOrThrow({
+    where: {
+      id: projectId,
+      deletedAt: null,
+      members: {
+        some: {
+          userId,
+          roleEnum: Role.OWNER,
+        },
+      },
+    },
+    select: {
+      domain: true,
+    },
+  });
 
   return await verifyProjectDomain(project.domain);
 });
