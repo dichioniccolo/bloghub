@@ -41,7 +41,7 @@ export const domainVerification = inngest.createFunction(
             createdAt: true,
             members: {
               where: {
-                roleEnum: Role.OWNER,
+                role: Role.OWNER,
               },
               take: 1,
               select: {

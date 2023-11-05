@@ -92,16 +92,15 @@ enum MediaForEntity {
 }
 
 model Media {
-  id            String          @id @default(cuid()) @db.VarChar(255)
-  projectId     String?         @db.VarChar(255)
-  project       Project?        @relation(fields: [projectId], references: [id])
-  postId        String?         @db.VarChar(255)
-  post          Post?           @relation(fields: [postId], references: [id])
-  type          MediaType       @default(IMAGE)
-  url           String          @db.Text
-  createdAt     DateTime        @default(now())
-  forEntity     Int             @default(1)
-  forEntityEnum MediaForEntity?
+  id        String         @id @default(cuid()) @db.VarChar(255)
+  projectId String?        @db.VarChar(255)
+  project   Project?       @relation(fields: [projectId], references: [id])
+  postId    String?        @db.VarChar(255)
+  post      Post?          @relation(fields: [postId], references: [id])
+  type      MediaType      @default(IMAGE)
+  url       String         @db.Text
+  createdAt DateTime       @default(now())
+  forEntity MediaForEntity @default(POST_CONTENT)
 
   @@index([projectId])
   @@index([postId])
@@ -178,15 +177,14 @@ model ProjectMember {
   project   Project  @relation(fields: [projectId], references: [id])
   userId    String   @db.VarChar(255)
   user      User     @relation(fields: [userId], references: [id])
-  role      String   @default("editor") @db.VarChar(255)
-  roleEnum  Role?
+  role      Role     @default(EDITOR)
   createdAt DateTime @default(now())
 
   @@id([projectId, userId])
   @@unique([projectId, userId], map: "projectMembers_unique_index")
   @@index([projectId])
   @@index([userId])
-  @@index([projectId, userId, role], map: "projectMembers_projectId_userId_role_index")
+  @@index([projectId, userId, role])
   @@map("projectMembers")
 }
 

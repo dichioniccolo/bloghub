@@ -56,12 +56,12 @@ export const mediaDeleteUnused = inngest.createFunction(
             select: {
               id: true,
               url: true,
-              forEntityEnum: true,
+              forEntity: true,
             },
           });
 
           const logoMediaList = media.filter(
-            (x) => x.forEntityEnum === MediaForEntity.PROJECT_LOGO,
+            (x) => x.forEntity === MediaForEntity.PROJECT_LOGO,
           );
 
           const logoMediaToDelete = logoMediaList.filter(
@@ -69,7 +69,7 @@ export const mediaDeleteUnused = inngest.createFunction(
           );
 
           const thumbnailMediaList = media.filter(
-            (x) => x.forEntityEnum === MediaForEntity.POST_THUMBNAIL,
+            (x) => x.forEntity === MediaForEntity.POST_THUMBNAIL,
           );
 
           const thumbnailMediaToDelete = thumbnailMediaList.filter((x) =>
@@ -77,7 +77,7 @@ export const mediaDeleteUnused = inngest.createFunction(
           );
 
           const postContentMediaList = media.filter(
-            (x) => x.forEntityEnum === MediaForEntity.POST_CONTENT,
+            (x) => x.forEntity === MediaForEntity.POST_CONTENT,
           );
 
           const postContentMediaToDelete = postContentMediaList.filter((x) =>

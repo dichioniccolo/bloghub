@@ -84,7 +84,7 @@ export async function getProjectsCount() {
       members: {
         some: {
           userId: user.id,
-          roleEnum: Role.OWNER,
+          role: Role.OWNER,
         },
       },
     },
@@ -109,7 +109,7 @@ export async function getProjectUsers(projectId: string) {
       },
     },
     select: {
-      roleEnum: true,
+      role: true,
       createdAt: true,
       user: {
         select: {
@@ -157,7 +157,7 @@ export async function getProjectOwner(projectId: string) {
       projects: {
         some: {
           projectId,
-          roleEnum: Role.OWNER,
+          role: Role.OWNER,
         },
       },
     },
@@ -389,9 +389,9 @@ export async function getCurrentUserRole(projectId: string) {
       },
     },
     select: {
-      roleEnum: true,
+      role: true,
     },
   });
 
-  return projectMember.roleEnum!;
+  return projectMember.role;
 }

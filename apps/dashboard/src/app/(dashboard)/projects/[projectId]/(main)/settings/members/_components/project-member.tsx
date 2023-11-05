@@ -54,7 +54,7 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
         </div>
         <div className="flex items-center justify-center space-x-2">
           <div className="flex flex-col">
-            <p className="text-sm text-stone-500">{member.roleEnum}</p>
+            <p className="text-sm text-stone-500">{member.role}</p>
             <p className="text-xs text-stone-500">
               Joined{" "}
               {formatDistance(member.createdAt, new Date(), {
@@ -62,7 +62,7 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
               })}
             </p>
           </div>
-          {currentUserRole === "OWNER" && member.roleEnum !== "OWNER" && (
+          {currentUserRole === "OWNER" && member.role !== "OWNER" && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="xxs">

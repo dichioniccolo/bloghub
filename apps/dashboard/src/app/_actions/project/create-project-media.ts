@@ -73,7 +73,7 @@ export async function createProjectMedia(formData: FormData) {
 
   const media = await db.media.create({
     data: {
-      forEntityEnum: forEntity,
+      forEntity,
       projectId,
       postId,
       type,

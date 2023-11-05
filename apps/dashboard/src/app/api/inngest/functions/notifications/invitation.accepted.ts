@@ -31,7 +31,7 @@ export const notificationInvitationAccepted = inngest.createFunction(
           members: {
             take: 1,
             where: {
-              roleEnum: Role.OWNER,
+              role: Role.OWNER,
             },
             select: {
               userId: true,

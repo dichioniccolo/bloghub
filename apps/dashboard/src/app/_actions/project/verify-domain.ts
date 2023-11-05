@@ -24,7 +24,7 @@ export const verifyDomain = authenticatedAction(({ userId }) =>
       members: {
         some: {
           userId,
-          roleEnum: Role.OWNER,
+          role: Role.OWNER,
         },
       },
     },

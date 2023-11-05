@@ -48,7 +48,7 @@ export const acceptInvite = authenticatedAction(({ userEmail }) =>
       data: {
         projectId,
         userId,
-        roleEnum: Role.EDITOR,
+        role: Role.EDITOR,
       },
       select: {
         project: {

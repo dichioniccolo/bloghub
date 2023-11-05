@@ -13,7 +13,7 @@ export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
         deletedAt: null,
         members: {
           some: {
-            roleEnum: Role.OWNER,
+            role: Role.OWNER,
             userId,
           },
         },

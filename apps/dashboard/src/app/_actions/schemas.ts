@@ -43,7 +43,7 @@ export async function isOwnerCheck(
     where: {
       projectId,
       userId,
-      roleEnum: Role.OWNER,
+      role: Role.OWNER,
     },
   });
 

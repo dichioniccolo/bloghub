@@ -26,7 +26,7 @@ export const deleteProjectUser = authenticatedAction(({ userId }) =>
       userId: userIdToDelete,
     },
     select: {
-      roleEnum: true,
+      role: true,
       user: {
         select: {
           email: true,
@@ -44,7 +44,7 @@ export const deleteProjectUser = authenticatedAction(({ userId }) =>
     return;
   }
 
-  if (userToDelete?.roleEnum === Role.OWNER) {
+  if (userToDelete?.role === Role.OWNER) {
     throw new Error("Cannot delete owner");
   }
 

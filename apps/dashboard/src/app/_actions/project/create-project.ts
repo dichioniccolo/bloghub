@@ -26,7 +26,7 @@ export const createProject = authenticatedAction(() =>
         members: {
           create: {
             userId,
-            roleEnum: Role.OWNER,
+            role: Role.OWNER,
           },
         },
       },
