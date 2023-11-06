@@ -27,7 +27,7 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
     .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
       await isProjectMember(projectId, userId, ctx);
 
-      const count = await db.post.count({
+      const postWithSameSlugExists = await db.post.exists({
         where: {
           slug,
           projectId,
@@ -37,7 +37,7 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
         },
       });
 
-      if (count > 0) {
+      if (postWithSameSlugExists) {
         ctx.addIssue({
           code: "custom",
           message: "A post with the same slug already exists",

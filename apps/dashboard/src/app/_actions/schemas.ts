@@ -7,14 +7,14 @@ export const DomainSchema = z
   .string()
   .min(3)
   .refine(async (domain) => {
-    const count = await db.project.count({
+    const domainExists = await db.project.exists({
       where: {
         deletedAt: null,
         domain,
       },
     });
 
-    return count === 0;
+    return !domainExists;
   }, "Domain already exists")
 
   .refine(async (domain) => {
@@ -39,7 +39,7 @@ export async function isOwnerCheck(
     path: string[];
   },
 ) {
-  const count = await db.projectMember.count({
+  const isOwner = await db.projectMember.exists({
     where: {
       projectId,
       userId,
@@ -47,7 +47,7 @@ export async function isOwnerCheck(
     },
   });
 
-  if (count === 0) {
+  if (!isOwner) {
     ctx.addIssue({
       code: "custom",
       message: "You must be the owner of the project to perform this action",
@@ -64,14 +64,14 @@ export async function isProjectMember(
     path: string[];
   },
 ) {
-  const count = await db.projectMember.count({
+  const isMember = await db.projectMember.exists({
     where: {
       projectId,
       userId,
     },
   });
 
-  if (count === 0) {
+  if (!isMember) {
     ctx.addIssue({
       code: "custom",
       message: "You must be a member of the project",

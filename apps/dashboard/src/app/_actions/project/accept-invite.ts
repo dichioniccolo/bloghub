@@ -15,7 +15,7 @@ export const acceptInvite = authenticatedAction(({ userEmail }) =>
       projectId: z.string().min(1),
     })
     .superRefine(async ({ projectId }, ctx) => {
-      const count = await db.projectInvitation.count({
+      const inviteExists = await db.projectInvitation.exists({
         where: {
           email: userEmail,
           projectId,
@@ -25,7 +25,7 @@ export const acceptInvite = authenticatedAction(({ userEmail }) =>
         },
       });
 
-      if (count === 0) {
+      if (!inviteExists) {
         ctx.addIssue({
           code: "custom",
           message: "Invite not found",

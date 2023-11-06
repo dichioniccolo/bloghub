@@ -1,6 +1,8 @@
 import { mergeAttributes, Node, nodeInputRule } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
+import { RESIZABLE_MEDIA_NAME } from "@acme/lib/constants";
+
 import { ResizableMediaNodeView } from "./resizable-media-node-view";
 import type { UploadFunctionType } from "./upload-image-plugin";
 import { UploadImagesPlugin } from "./upload-image-plugin";
@@ -34,7 +36,7 @@ export interface MediaOptions {
 }
 
 export const ResizableMedia = Node.create<MediaOptions>({
-  name: "resizableMedia",
+  name: RESIZABLE_MEDIA_NAME,
 
   addOptions() {
     return {

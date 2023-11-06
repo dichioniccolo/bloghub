@@ -1,3 +1,5 @@
+import { unstable_noStore } from "next/cache";
+
 import type { Session } from "@acme/auth";
 
 import { getNotifications } from "~/app/_api/notifications";
@@ -9,6 +11,7 @@ interface Props {
 }
 
 export async function Notifications({ session }: Props) {
+  unstable_noStore();
   const { notifications, unreadCount } = await getNotifications();
 
   return (

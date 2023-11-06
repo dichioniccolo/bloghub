@@ -24,7 +24,7 @@ export const inviteUser = authenticatedAction(({ userId }) =>
     .superRefine(async ({ projectId, email }, ctx) => {
       await isOwnerCheck(projectId, userId, ctx);
 
-      const existingUser = await db.projectMember.count({
+      const userExists = await db.projectMember.exists({
         where: {
           projectId,
           user: {
@@ -33,7 +33,7 @@ export const inviteUser = authenticatedAction(({ userId }) =>
         },
       });
 
-      if (existingUser > 0) {
+      if (userExists) {
         ctx.addIssue({
           code: "custom",
           message: "A user with this email already exists in this project",
@@ -42,14 +42,14 @@ export const inviteUser = authenticatedAction(({ userId }) =>
         return;
       }
 
-      const existingInvite = await db.projectInvitation.count({
+      const inviteExists = await db.projectInvitation.exists({
         where: {
           projectId,
           email,
         },
       });
 
-      if (existingInvite > 0) {
+      if (inviteExists) {
         ctx.addIssue({
           code: "custom",
           message: "An invitation has already been sent to this email",

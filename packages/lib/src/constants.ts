@@ -37,3 +37,5 @@ export const Crons = {
   EVERY_6_HOURS: "0 */6 * * *",
   EVERY_12_HOURS: "0 */12 * * *",
 };
+
+export const RESIZABLE_MEDIA_NAME = "resizableMedia";

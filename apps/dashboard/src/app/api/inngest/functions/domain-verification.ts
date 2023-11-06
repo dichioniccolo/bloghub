@@ -1,3 +1,5 @@
+import { differenceInDays } from "date-fns";
+
 import {
   AutomaticEmailType,
   db,
@@ -92,13 +94,10 @@ export const domainVerification = inngest.createFunction(
             ? new Date(project.domainUnverifiedAt)
             : new Date();
 
-        const invalidDays = Math.floor(
-          (new Date().getTime() - domainUnverifiedAt.getTime()) /
-            (1000 * 3600 * 24),
-        );
+        const invalidDays = differenceInDays(new Date(), domainUnverifiedAt);
 
         if (invalidDays > 3 && invalidDays <= 7) {
-          const invalidDomainEmailCount = await db.automaticEmail.count({
+          const invalidDomainEmailExists = await db.automaticEmail.exists({
             where: {
               projectId: project.id,
               type: AutomaticEmailType.INVALID_DOMAIN,
@@ -106,7 +105,7 @@ export const domainVerification = inngest.createFunction(
             },
           });
 
-          if (invalidDomainEmailCount > 0) {
+          if (invalidDomainEmailExists) {
             return "mail_already_sent";
           }
 

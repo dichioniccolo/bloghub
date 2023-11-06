@@ -76,7 +76,6 @@ export const {
         await db.user.update({
           where: {
             email: profile.email,
-            name: null,
           },
           data: {
             name: profile?.name,

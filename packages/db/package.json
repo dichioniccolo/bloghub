@@ -26,11 +26,11 @@
   },
   "dependencies": {
     "@auth/core": "^0.18.0",
-    "@open-draft/deferred-promise": "^2.2.0",
+    "@planetscale/database": "^1.11.0",
+    "@prisma/adapter-planetscale": "^5.5.2",
     "@prisma/client": "^5.5.2",
     "@prisma/extension-accelerate": "^0.6.2",
     "@t3-oss/env-nextjs": "^0.7.1",
-    "lodash": "^4.17.21",
     "nanoid": "^5.0.2",
     "zod": "^3.22.4"
   },
@@ -38,7 +38,6 @@
     "@acme/eslint-config": "workspace:^0.1.0",
     "@acme/prettier-config": "workspace:^0.1.0",
     "@acme/tsconfig": "workspace:^0.1.0",
-    "@types/lodash": "^4.14.200",
     "eslint": "^8.53.0",
     "prettier": "^3.0.3",
     "prisma": "^5.5.2",
