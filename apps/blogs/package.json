@@ -49,7 +49,7 @@
     "@acme/prettier-config": "workspace:^0.1.0",
     "@acme/tailwind-config": "workspace:^0.1.0",
     "@acme/tsconfig": "workspace:^0.1.0",
-    "@types/html-escaper": "^3.0.1",
+    "@types/html-escaper": "^3.0.2",
     "@types/node": "^20.8.10",
     "@types/react": "^18.2.35",
     "@types/react-dom": "^18.2.14",
