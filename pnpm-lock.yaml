@@ -82,7 +82,7 @@ importers:
         version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
       '@upstash/ratelimit':
         specifier: ^0.4.4
-        version: 0.4.4(encoding@0.1.13)
+        version: 0.4.4
       '@vercel/analytics':
         specifier: ^1.1.1
         version: 1.1.1
@@ -93,8 +93,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       '@vercel/kv':
-        specifier: ^0.2.4
-        version: 0.2.4
+        specifier: ^1.0.0
+        version: 1.0.0
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -233,7 +233,7 @@ importers:
         version: 3.11.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.5)
       '@upstash/ratelimit':
         specifier: ^0.4.4
-        version: 0.4.4(encoding@0.1.13)
+        version: 0.4.4
       '@vercel/analytics':
         specifier: ^1.1.1
         version: 1.1.1
@@ -244,8 +244,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       '@vercel/kv':
-        specifier: ^0.2.4
-        version: 0.2.4
+        specifier: ^1.0.0
+        version: 1.0.0
       ai:
         specifier: ^2.2.21
         version: 2.2.21(react@18.2.0)(solid-js@1.8.5)(svelte@4.2.2)(vue@3.3.7)
@@ -396,7 +396,7 @@ importers:
         version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
       '@upstash/ratelimit':
         specifier: ^0.4.4
-        version: 0.4.4(encoding@0.1.13)
+        version: 0.4.4
       '@vercel/analytics':
         specifier: ^1.1.1
         version: 1.1.1
@@ -404,8 +404,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       '@vercel/kv':
-        specifier: ^0.2.4
-        version: 0.2.4
+        specifier: ^1.0.0
+        version: 1.0.0
       ai:
         specifier: ^2.2.21
         version: 2.2.21(react@18.2.0)(solid-js@1.8.5)(svelte@4.2.2)(vue@3.3.7)
@@ -4984,29 +4984,17 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@upstash/core-analytics@0.0.6(encoding@0.1.13):
+  /@upstash/core-analytics@0.0.6:
     resolution: {integrity: sha512-cpPSR0XJAJs4Ddz9nq3tINlPS5aLfWVCqhhtHnXt4p7qr5+/Znlt1Es736poB/9rnl1hAHrOsOvVj46NEXcVqA==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@upstash/redis': 1.22.0(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
+      '@upstash/redis': 1.24.3
     dev: false
 
-  /@upstash/ratelimit@0.4.4(encoding@0.1.13):
+  /@upstash/ratelimit@0.4.4:
     resolution: {integrity: sha512-y3q6cNDdcRQ2MRPRf5UNWBN36IwnZ4kAEkGoH3i6OqdWwz4qlBxNsw4/Rpqn9h93+Nx1cqg5IOq7O2e2zMJY1w==}
     dependencies:
-      '@upstash/core-analytics': 0.0.6(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
-  /@upstash/redis@1.22.0(encoding@0.1.13):
-    resolution: {integrity: sha512-sXoJDoEqqik0HbrNE7yRWckOySEFsoBxfRdCgOqkc0w6py19ZZG50SpGkDDEUXSnBqP8VgGYXhWAiBpqxrt5oA==}
-    dependencies:
-      isomorphic-fetch: 3.0.0(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
+      '@upstash/core-analytics': 0.0.6
     dev: false
 
   /@upstash/redis@1.24.3:
@@ -5049,8 +5037,8 @@ packages:
     resolution: {integrity: sha512-NtKiIbn9Cq6HWGy+qRudz28mz5nxfOJWls5Pnckjw1yCfSX8rhXdvY/il3Sy3Zd5n/sKCM2h7VSCCpJF/oaDrQ==}
     dev: false
 
-  /@vercel/kv@0.2.4:
-    resolution: {integrity: sha512-wbIOOXhg6MzmNMzKFSWbbLAS65hCZcJN33z1coENzI1M0fOX55yE9v9LwVGqkzdItp3eZsv6pYvwcmGtllyLTw==}
+  /@vercel/kv@1.0.0:
+    resolution: {integrity: sha512-StouXunmEqUfKE+1joSYfELWEEnI1MhTnzUdarHtv6H18RAm3cf5u5g9ElvA1DJNHcrMT6g5yVAhZcYRbk6lvg==}
     engines: {node: '>=14.6'}
     dependencies:
       '@upstash/redis': 1.24.3
@@ -8090,15 +8078,6 @@ packages:
   /isobject@3.0.1:
     resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
     engines: {node: '>=0.10.0'}
-    dev: false
-
-  /isomorphic-fetch@3.0.0(encoding@0.1.13):
-    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
-    dependencies:
-      node-fetch: 2.7.0(encoding@0.1.13)
-      whatwg-fetch: 3.6.18
-    transitivePeerDependencies:
-      - encoding
     dev: false
 
   /iterator.prototype@1.1.0:
@@ -11422,10 +11401,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       iconv-lite: 0.6.3
-    dev: false
-
-  /whatwg-fetch@3.6.18:
-    resolution: {integrity: sha512-ltN7j66EneWn5TFDO4L9inYC1D+Czsxlrw2SalgjMmEMkLfA5SIZxEFdE6QtHFiiM6Q7WL32c7AkI3w6yxM84Q==}
     dev: false
 
   /whatwg-mimetype@3.0.0:
