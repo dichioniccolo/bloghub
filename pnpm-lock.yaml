@@ -148,8 +148,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       '@types/html-escaper':
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.0.2
+        version: 3.0.2
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
@@ -323,8 +323,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       '@types/html-escaper':
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.0.2
+        version: 3.0.2
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
@@ -468,8 +468,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       '@types/html-escaper':
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.0.2
+        version: 3.0.2
       '@types/node':
         specifier: ^20.8.10
         version: 20.8.10
@@ -4701,8 +4701,8 @@ packages:
       '@types/unist': 3.0.0
     dev: false
 
-  /@types/html-escaper@3.0.1:
-    resolution: {integrity: sha512-lVnoTUR09iECkTInzCzFEasZKs11VuCTIdo8hnLXwCU40UUbSl8boPsy6MNJ9+HbJQ/jxju8nSZxSHPVIbmCbg==}
+  /@types/html-escaper@3.0.2:
+    resolution: {integrity: sha512-A8vk09eyYzk8J/lFO4OUMKCmRN0rRzfZf4n3Olwapgox/PtTiU8zPYlL1UEkJ/WeHvV6v9Xnj3o/705PKz9r4Q==}
     dev: true
 
   /@types/inquirer@6.5.0:
