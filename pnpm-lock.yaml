@@ -268,8 +268,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       inngest:
-        specifier: ^3.4.3
-        version: 3.4.3(encoding@0.1.13)(typescript@5.2.2)
+        specifier: ^3.4.4
+        version: 3.4.4(encoding@0.1.13)(typescript@5.2.2)
       lowlight:
         specifier: ^3.1.0
         version: 3.1.0
@@ -830,8 +830,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../notifications
       inngest:
-        specifier: ^3.4.3
-        version: 3.4.3(encoding@0.1.13)(typescript@5.2.2)
+        specifier: ^3.4.4
+        version: 3.4.4(encoding@0.1.13)(typescript@5.2.2)
     devDependencies:
       '@acme/eslint-config':
         specifier: workspace:^0.1.0
@@ -7716,8 +7716,8 @@ packages:
       - supports-color
     dev: true
 
-  /inngest@3.4.3(encoding@0.1.13)(typescript@5.2.2):
-    resolution: {integrity: sha512-HN+Dl5PlotCcm6SLVSoEja8903I5YHOdMGtqqfni6SorHah5FusZUqYIEfRGqj9FFJZix6yjmpJue4D205xaCw==}
+  /inngest@3.4.4(encoding@0.1.13)(typescript@5.2.2):
+    resolution: {integrity: sha512-tNCVKvdvx72gdsvGI24WWPhvMtOzhEVXW3IiNOjmHBfU+Tzuo8vAl9+IoyTqL0549djWVd2/uAVh80cjBtXjcA==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=4.7.2'
