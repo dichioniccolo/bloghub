@@ -87,8 +87,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@vercel/edge':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.1.1
+        version: 1.1.1
       '@vercel/edge-config':
         specifier: ^0.4.1
         version: 0.4.1
@@ -238,8 +238,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@vercel/edge':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.1.1
+        version: 1.1.1
       '@vercel/edge-config':
         specifier: ^0.4.1
         version: 0.4.1
@@ -5045,8 +5045,8 @@ packages:
       '@vercel/edge-config-fs': 0.1.0
     dev: false
 
-  /@vercel/edge@1.1.0:
-    resolution: {integrity: sha512-84H2EavY5Kul9Ef1DnTH0XEG5vChqcXjyqoRLVPjjZjLWw47sMapzXXQH09pybcshR+8AKqULGvFqPTWuRh3Rw==}
+  /@vercel/edge@1.1.1:
+    resolution: {integrity: sha512-NtKiIbn9Cq6HWGy+qRudz28mz5nxfOJWls5Pnckjw1yCfSX8rhXdvY/il3Sy3Zd5n/sKCM2h7VSCCpJF/oaDrQ==}
     dev: false
 
   /@vercel/kv@0.2.4:
