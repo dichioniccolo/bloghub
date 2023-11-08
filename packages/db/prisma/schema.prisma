@@ -146,7 +146,7 @@ model Post {
   seoTitle       String?  @db.VarChar(255)
   seoDescription String?  @db.VarChar(255)
   createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   likes          Like[]
   media          Media[]
   visits         Visit[]
@@ -198,7 +198,7 @@ model Project {
   domainLastCheckedAt DateTime?
   domainUnverifiedAt  DateTime?
   createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
   deletedAt           DateTime?
   automaticEmails     AutomaticEmail[]
   media               Media[]
@@ -232,7 +232,7 @@ model User {
   stripePriceId             String?                    @db.VarChar(255)
   dayWhenBillingStarts      DateTime                   @default(now())
   createdAt                 DateTime                   @default(now())
-  updatedAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
   accounts                  Account[]
   sessions                  Session[]
   automaticEmails           AutomaticEmail[]
