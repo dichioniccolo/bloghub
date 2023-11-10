@@ -86,6 +86,6 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
   );
 }
 
-export function ProjectMemberSkeleton() {
+export function ProjectMemberPlaceholder() {
   return <div>loading</div>;
 }

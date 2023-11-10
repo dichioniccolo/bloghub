@@ -86,6 +86,6 @@ export function ProjectInvitation({
   );
 }
 
-export function ProjectMemberSkeleton() {
+export function ProjectInvitationPlaceholder() {
   return <div>loading</div>;
 }

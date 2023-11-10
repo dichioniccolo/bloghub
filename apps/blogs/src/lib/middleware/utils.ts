@@ -37,15 +37,13 @@ export async function recordVisit(req: NextRequest, domain: string) {
 
   const { fullKey } = parseRequest(req);
 
+  if (fullKey.length === 0 || fullKey === "/") {
+    return;
+  }
+
   const ua = userAgent(req);
   const referer = req.headers.get("referer");
   const ip = ipAddress(req) ?? "127.0.0.1";
-  const isPostPage =
-    fullKey.startsWith("posts/") && !fullKey.includes("opengraph-image");
-
-  if (!isPostPage) {
-    return;
-  }
 
   if (env.NODE_ENV === "production") {
     const ratelimit = new Ratelimit({
@@ -63,7 +61,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   }
 
   // we need to regex the slug from the url because it can also contain a query string
-  const postSlug = fullKey.replace("posts/", "").replace(/\/.*/, "");
+  const slug = fullKey.replace("posts/", "").replace(/\/.*/, "");
 
   const post = await db.post.findFirst({
     where: {
@@ -73,7 +71,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
         deletedAt: null,
         domain,
       },
-      slug: postSlug,
+      slug,
     },
     select: {
       id: true,

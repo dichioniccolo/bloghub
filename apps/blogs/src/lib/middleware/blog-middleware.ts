@@ -2,6 +2,7 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { TEST_HOSTNAME } from "@acme/lib/constants";
+import { getProtocol } from "@acme/lib/url";
 import { parseRequest } from "@acme/lib/utils";
 
 import { env } from "~/env.mjs";
@@ -19,6 +20,16 @@ export function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
   const path = url.pathname;
 
   const finalDomain = env.NODE_ENV === "development" ? TEST_HOSTNAME : domain;
+
+  if (path.startsWith("/posts/")) {
+    const postSlug = path.replace("/posts/", "").replace(/\/.*/, "");
+
+    return NextResponse.redirect(`${getProtocol()}${domain}/${postSlug}`);
+  }
+
+  if (path.endsWith("opengraph-image")) {
+    return NextResponse.rewrite(`${getProtocol()}${domain}${path}`);
+  }
 
   ev.waitUntil(recordVisit(req, finalDomain));
 

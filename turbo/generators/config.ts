@@ -39,11 +39,6 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
       {
         type: "add",
-        path: "packages/{{ name }}/index.ts",
-        template: "export * from './src';",
-      },
-      {
-        type: "add",
         path: "packages/{{ name }}/src/index.ts",
         template: "export const name = '{{ name }}';",
       },
@@ -52,12 +47,26 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         path: "packages/{{ name }}/package.json",
         async transform(content, answers) {
           const pkg = JSON.parse(content);
-          for (const dep of answers.deps.split(" ").filter(Boolean)) {
-            const version = await fetch(
-              `https://registry.npmjs.org/-/package/${dep}/dist-tags`,
-            )
-              .then((res) => res.json())
-              .then((json) => json.latest);
+          for (let dep of answers.deps.split(" ").filter(Boolean)) {
+            // dep can be "react" or "@acme/api" or "acme/api" or "acme/api@latest" or "@acme/api@latest"
+            // if there is @ at the beginning of the line, it is the name of the package
+            // if there is a @ in the middle of the line, it is the version of the package
+
+            let version;
+
+            if (dep.startsWith("@")) {
+              version = await fetch(
+                `https://registry.npmjs.org/-/package/${dep}/dist-tags`,
+              )
+                .then((res) => res.json())
+                .then((json) => json.latest);
+            }
+
+            if (dep.includes("@") && !dep.startsWith("@")) {
+              version = dep.split("@")[1];
+              dep = dep.split("@")[0];
+            }
+
             pkg.dependencies![dep] = `^${version}`;
           }
           return JSON.stringify(pkg, null, 2);

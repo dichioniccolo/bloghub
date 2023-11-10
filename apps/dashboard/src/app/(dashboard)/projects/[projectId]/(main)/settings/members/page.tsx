@@ -58,7 +58,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
         <div>
           <h2 className="text-lg font-medium">Project Members</h2>
           <p className="text-sm text-muted-foreground">
-            Team mates or friends that have access to this project.{" "}
+            Team mates or friends that have access to this project.
           </p>
         </div>
         {currentUserRole === Role.OWNER && (

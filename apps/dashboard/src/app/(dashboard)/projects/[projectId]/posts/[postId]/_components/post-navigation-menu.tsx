@@ -49,20 +49,6 @@ export function PostNavigationMenu({ projectId, postId }: Props) {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        {/* <NavigationMenuItem>
-          <Link
-            href={AppRoutes.PostStats(projectId, postId)}
-            legacyBehavior
-            passHref
-          >
-            <NavigationMenuLink
-              active={pathname === AppRoutes.PostStats(projectId, postId)}
-              className={navigationMenuTriggerStyle()}
-            >
-              Stats
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );

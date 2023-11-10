@@ -24,7 +24,7 @@ export function subdomainUrl(
   }${domain}.${getBaseUrlPath()}${path}`;
 }
 
-function getProtocol() {
+export function getProtocol() {
   if (typeof window !== "undefined") {
     return `${window.location.protocol}//`;
   }

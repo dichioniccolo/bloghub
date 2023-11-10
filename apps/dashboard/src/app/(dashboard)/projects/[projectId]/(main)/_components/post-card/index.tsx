@@ -82,8 +82,6 @@ export function PostCard({ post, project, owner }: Props) {
         setQrCodeOpen(true);
       } else if (e.key === "x") {
         setDeleteOpen(true);
-      } else if (e.key === "s") {
-        router.push(AppRoutes.PostStats(project.id, post.id));
       }
     },
     [selected, project, post, router],
@@ -190,7 +188,7 @@ export function PostCard({ post, project, owner }: Props) {
         </div>
         <div className="flex items-center space-x-2">
           <Link
-            href={AppRoutes.PostStats(project.id, post.id)}
+            href={AppRoutes.ProjectStats(project.id)}
             className="hidden items-center space-x-1 rounded-md bg-secondary px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 md:inline-flex"
           >
             <BarChart2 className="h-4 w-4" />
