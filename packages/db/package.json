@@ -25,7 +25,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@auth/core": "^0.18.0",
+    "@auth/core": "^0.18.1",
     "@planetscale/database": "^1.11.0",
     "@prisma/adapter-planetscale": "^5.5.2",
     "@prisma/client": "^5.5.2",
