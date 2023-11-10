@@ -550,8 +550,8 @@ importers:
         specifier: 0.18.0
         version: 0.18.0
       '@auth/prisma-adapter':
-        specifier: ^1.0.5
-        version: 1.0.5(@prisma/client@5.5.2)
+        specifier: ^1.0.6
+        version: 1.0.6(@prisma/client@5.5.2)
       '@prisma/client':
         specifier: ^5.5.2
         version: 5.5.2(prisma@5.5.2)
@@ -1327,8 +1327,8 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/prisma-adapter@1.0.5(@prisma/client@5.5.2):
-    resolution: {integrity: sha512-GaacU0TErURwUn/1b29LvybxUjlBxi/wIw/4imMNM+e2AfRLpB3PgpPqITQFd2PEdLTXIaHhVZvnzT4pMu9Ueg==}
+  /@auth/prisma-adapter@1.0.6(@prisma/client@5.5.2):
+    resolution: {integrity: sha512-599Bb+iajDf3cSUF0bNzcqpiJr9QCo7dwzXMuRvzxvtT/1fhDWGDt3E/GwXiYnvUYPndEA47atNVjLhV2ch0Hw==}
     peerDependencies:
       '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5'
     dependencies:
