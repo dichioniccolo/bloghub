@@ -529,7 +529,7 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       eslint:
-        specifier: ^8.47.0
+        specifier: ^8.53.0
         version: 8.53.0
       prettier:
         specifier: ^3.0.2
