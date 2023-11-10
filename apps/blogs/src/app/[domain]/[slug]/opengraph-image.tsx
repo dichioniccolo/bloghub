@@ -40,6 +40,23 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
     return new Response("Not found", { status: 404 });
   }
 
+  if (post.thumbnailUrl) {
+    return new ImageResponse(
+      (
+        <img
+          tw="w-full rounded-2xl border border-stone-200 shadow-md"
+          src={post.thumbnailUrl}
+          alt={post.title}
+        />
+      ),
+      {
+        width: 1200,
+        height: 600,
+        emoji: "blobmoji",
+      },
+    );
+  }
+
   return new ImageResponse(
     (
       <div tw="flex flex-col items-center w-full h-full bg-white">
@@ -64,13 +81,6 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
               by {post.project.name}
             </p>
           </div>
-          {post.thumbnailUrl && (
-            <img
-              tw="mt-4 w-5/6 rounded-2xl border border-stone-200 shadow-md"
-              src={post.thumbnailUrl}
-              alt={post.title}
-            />
-          )}
         </div>
       </div>
     ),
