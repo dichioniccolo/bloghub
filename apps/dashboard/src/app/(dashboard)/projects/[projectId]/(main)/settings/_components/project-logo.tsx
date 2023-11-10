@@ -43,8 +43,14 @@ export function ProjectLogo({ project }: Props) {
       if (file.size / 1024 / 1024 > 5) {
         toast.error("File size too big (max 5MB)");
         return;
-      } else if (file.type !== "image/png" && file.type !== "image/jpeg") {
-        toast.error("File type not supported (.png or .jpg only)");
+      } else if (
+        file.type !== "image/png" &&
+        file.type !== "image/jpeg" &&
+        file.type !== "image/webp"
+      ) {
+        toast.error(
+          "File type not supported (.png, .jpg, .jpeg or .webp only)",
+        );
         return;
       }
 
@@ -157,7 +163,7 @@ export function ProjectLogo({ project }: Props) {
           Save
         </Button>
         <p className="text-sm text-muted-foreground">
-          Accepted file types: .png, .jpg, .jpeg. Max file size: 5MB
+          Accepted file types: .png, .jpg, .jpeg, .webp. Max file size: 5MB
         </p>
       </CardFooter>
     </Card>
