@@ -32,7 +32,7 @@
     "eslint": "^8.53.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
-    "prism-react-renderer": "^2.1.0",
+    "prism-react-renderer": "^2.2.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
