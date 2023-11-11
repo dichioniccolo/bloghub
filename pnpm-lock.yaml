@@ -793,8 +793,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       prism-react-renderer:
-        specifier: ^2.1.0
-        version: 2.1.0(react@18.2.0)
+        specifier: ^2.2.0
+        version: 2.2.0(react@18.2.0)
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -9381,8 +9381,8 @@ packages:
       extend-shallow: 2.0.1
       js-beautify: 1.14.9
 
-  /prism-react-renderer@2.1.0(react@18.2.0):
-    resolution: {integrity: sha512-I5cvXHjA1PVGbGm1MsWCpvBCRrYyxEri0MC7/JbfIfYfcXAxHyO5PaUjs3A8H5GW6kJcLhTHxxMaOZZpRZD2iQ==}
+  /prism-react-renderer@2.2.0(react@18.2.0):
+    resolution: {integrity: sha512-j4AN0VkEr72598+47xDvpzeYyeh/wPPRNTt9nJFZqIZUxwGKwYqYgt7RVigZ3ZICJWJWN84KEuMKPNyypyhNIw==}
     peerDependencies:
       react: '>=16.0.0'
     dependencies:
