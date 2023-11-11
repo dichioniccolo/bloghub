@@ -58,8 +58,10 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
     data: {
       slug,
       thumbnailUrl,
-      seoTitle,
-      seoDescription,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      seoTitle: seoTitle || null,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      seoDescription: seoDescription || null,
       hidden: false,
     },
   });

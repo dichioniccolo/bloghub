@@ -47,13 +47,21 @@ export function EditPostFormContent({
     async ({ title, description, content }: EditPostSchemaType) => {
       formStatusChanged("saving");
 
+      if (!content) {
+        throw new Error("Content is required");
+      }
+
+      const contentBuffer = Buffer.from(JSON.stringify(content)).toString(
+        "base64",
+      );
+
       await mutate({
         projectId: post.projectId,
         postId: post.id,
         body: {
           title,
           description,
-          content: Buffer.from(JSON.stringify(content)).toString("base64"),
+          content: contentBuffer,
         },
       });
     },
@@ -63,6 +71,7 @@ export function EditPostFormContent({
   const initialValues = {
     title: post.title ?? "",
     description: post.description ?? "",
+    content: post.content,
   };
 
   const form = useZodForm({
