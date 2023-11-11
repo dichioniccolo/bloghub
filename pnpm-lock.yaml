@@ -513,7 +513,7 @@ importers:
         specifier: next
         version: 11.0.0-alpha-next-2023-11-10-11-50-03.99
       superjson:
-        specifier: ^2.2.0
+        specifier: ^2.2.1
         version: 2.2.1
       zod:
         specifier: ^3.22.4
