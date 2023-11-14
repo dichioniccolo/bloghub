@@ -935,8 +935,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
       pusher:
-        specifier: ^5.1.3
-        version: 5.1.3
+        specifier: ^5.2.0
+        version: 5.2.0
       pusher-js:
         specifier: ^8.3.0
         version: 8.3.0
@@ -9590,8 +9590,8 @@ packages:
       tweetnacl: 1.0.3
     dev: false
 
-  /pusher@5.1.3:
-    resolution: {integrity: sha512-Bmy5guFxQsbYSFLF3CM7GA2qE1zDJYn51PnNme9QlSjGguvkqUg4nj31PbgiLVDFK2sJvxPfx4JrB2HLgM3kaw==}
+  /pusher@5.2.0:
+    resolution: {integrity: sha512-F6LNiZyJsIkoHLz+YurjKZ1HH8V1/cMggn4k97kihjP3uTvm0P4mZzSFeHOWIy+PlJ2VInJBhUFJBYLsFR5cjg==}
     engines: {node: '>= 4.0.0'}
     dependencies:
       '@types/node-fetch': 2.6.4
