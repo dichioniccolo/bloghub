@@ -3,9 +3,10 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { subdomainUrl } from "@acme/lib/url";
 import { cn } from "@acme/ui";
 import { buttonVariants } from "@acme/ui/components/button";
+
+import { env } from "~/env.mjs";
 
 interface Props {
   children: ReactNode;
@@ -20,7 +21,7 @@ export function AppLink({
 }: Props) {
   return (
     <Link
-      href={subdomainUrl("app")}
+      href={`https://app.${env.NEXT_PUBLIC_APP_DOMAIN}`}
       target="_blank"
       className={cn(
         buttonVariants({
