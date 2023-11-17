@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@acme/db";
-import { SELF_REFERER } from "@acme/lib/constants";
+import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 
 import { getCurrentUser } from "./get-user";
 
@@ -216,14 +216,14 @@ export async function getPostAnalytics(projectId: string, postId: string) {
     .reduce(
       (prev, x) => {
         const existingPost = prev.find(
-          (z) => z.country === (x.geoCountry ?? "Unknown"),
+          (z) => z.country === (x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE),
         );
 
         if (existingPost) {
           existingPost.count += 1;
         } else {
           prev.push({
-            country: x.geoCountry ?? "Unknown",
+            country: x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE,
             count: 1,
           });
         }
@@ -242,16 +242,16 @@ export async function getPostAnalytics(projectId: string, postId: string) {
       (prev, x) => {
         const existingPost = prev.find(
           (z) =>
-            z.country === (x.geoCountry ?? "Unknown") &&
-            z.city === (x.geoCity ?? "Unknown"),
+            z.country === (x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE) &&
+            z.city === (x.geoCity ?? UNKNOWN_ANALYTICS_VALUE),
         );
 
         if (existingPost) {
           existingPost.count += 1;
         } else {
           prev.push({
-            country: x.geoCountry ?? "Unknown",
-            city: x.geoCity ?? "Unknown",
+            country: x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE,
+            city: x.geoCity ?? UNKNOWN_ANALYTICS_VALUE,
             count: 1,
           });
         }

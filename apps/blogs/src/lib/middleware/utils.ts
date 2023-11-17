@@ -5,7 +5,7 @@ import { ipAddress } from "@vercel/edge";
 import { kv } from "@vercel/kv";
 
 import { db } from "@acme/db";
-import { SELF_REFERER } from "@acme/lib/constants";
+import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { env } from "~/env.mjs";
@@ -97,21 +97,21 @@ export async function recordVisit(req: NextRequest, domain: string) {
       projectId: post.projectId,
       postId: post.id,
       referer: refererDomain ?? SELF_REFERER,
-      browserName: ua.browser.name ?? "Unknown",
-      browserVersion: ua.browser.version ?? "Unknown",
-      osName: ua.os.name ?? "Unknown",
-      osVersion: ua.os.version ?? "Unknown",
-      deviceModel: ua.device.model ?? "Unknown",
-      deviceType: ua.device.type ?? "Unknown",
-      deviceVendor: ua.device.vendor ?? "Unknown",
-      engineName: ua.engine.name ?? "Unknown",
-      engineVersion: ua.engine.version ?? "Unknown",
-      cpuArchitecture: ua.cpu.architecture ?? "Unknown",
-      geoCountry: req.geo?.country ?? "Unknown",
-      geoRegion: req.geo?.region ?? "Unknown",
-      geoCity: req.geo?.city ?? "Unknown",
-      geoLatitude: req.geo?.latitude ?? "Unknown",
-      geoLongitude: req.geo?.longitude ?? "Unknown",
+      browserName: ua.browser.name ?? UNKNOWN_ANALYTICS_VALUE,
+      browserVersion: ua.browser.version ?? UNKNOWN_ANALYTICS_VALUE,
+      osName: ua.os.name ?? UNKNOWN_ANALYTICS_VALUE,
+      osVersion: ua.os.version ?? UNKNOWN_ANALYTICS_VALUE,
+      deviceModel: ua.device.model ?? UNKNOWN_ANALYTICS_VALUE,
+      deviceType: ua.device.type ?? UNKNOWN_ANALYTICS_VALUE,
+      deviceVendor: ua.device.vendor ?? UNKNOWN_ANALYTICS_VALUE,
+      engineName: ua.engine.name ?? UNKNOWN_ANALYTICS_VALUE,
+      engineVersion: ua.engine.version ?? UNKNOWN_ANALYTICS_VALUE,
+      cpuArchitecture: ua.cpu.architecture ?? UNKNOWN_ANALYTICS_VALUE,
+      geoCountry: req.geo?.country ?? UNKNOWN_ANALYTICS_VALUE,
+      geoRegion: req.geo?.region ?? UNKNOWN_ANALYTICS_VALUE,
+      geoCity: req.geo?.city ?? UNKNOWN_ANALYTICS_VALUE,
+      geoLatitude: req.geo?.latitude ?? UNKNOWN_ANALYTICS_VALUE,
+      geoLongitude: req.geo?.longitude ?? UNKNOWN_ANALYTICS_VALUE,
     },
   });
 }

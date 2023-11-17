@@ -3,6 +3,7 @@
 import { format } from "date-fns";
 
 import { db, Role } from "@acme/db";
+import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import type { AnalyticsInterval } from "@acme/lib/utils";
 import { roundDateToInterval } from "@acme/lib/utils";
 import {
@@ -299,14 +300,14 @@ export async function getProjectAnalytics(
 
   const groupedCities = allVisits.reduce(
     (result, visit) => {
-      const key = `${visit.geoCountry ?? "Unknown"}_${
-        visit.geoCity ?? "Unknown"
+      const key = `${visit.geoCountry ?? UNKNOWN_ANALYTICS_VALUE}_${
+        visit.geoCity ?? UNKNOWN_ANALYTICS_VALUE
       }`;
 
       if (!result[key]) {
         result[key] = {
-          country: visit.geoCountry ?? "Unknown",
-          city: visit.geoCity ?? "Unknown",
+          country: visit.geoCountry ?? UNKNOWN_ANALYTICS_VALUE,
+          city: visit.geoCity ?? UNKNOWN_ANALYTICS_VALUE,
           count: 0,
         };
       }
@@ -370,7 +371,7 @@ export async function getProjectAnalytics(
 
   const groupedReferers = allVisits.reduce(
     (result, visit) => {
-      const referer = visit.referer ?? "Unknown";
+      const referer = visit.referer ?? UNKNOWN_ANALYTICS_VALUE;
 
       if (!result[referer]) {
         result[referer] = {
@@ -414,7 +415,7 @@ export async function getProjectAnalytics(
 
   const groupedBrowsers = allVisits.reduce(
     (result, visit) => {
-      const key = visit.browserName ?? "Unknown";
+      const key = visit.browserName ?? UNKNOWN_ANALYTICS_VALUE;
 
       if (!result[key]) {
         result[key] = {
@@ -436,7 +437,7 @@ export async function getProjectAnalytics(
 
   const groupedOses = allVisits.reduce(
     (result, visit) => {
-      const key = visit.osName ?? "Unknown";
+      const key = visit.osName ?? UNKNOWN_ANALYTICS_VALUE;
 
       if (!result[key]) {
         result[key] = {

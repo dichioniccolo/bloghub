@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { formatNumber } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 
@@ -27,7 +28,7 @@ export function BarList({ items, maxCount, barBackground }: Props) {
             <div className="group flex items-center justify-between">
               <div className="relative z-10 flex w-full max-w-[calc(100%-2rem)] items-center">
                 <div className="z-10 flex items-center space-x-2 px-2">
-                  {title === "Unknown" ? null : icon}
+                  {title === UNKNOWN_ANALYTICS_VALUE ? null : icon}
                   <p
                     className={cn(
                       "text-sm",
