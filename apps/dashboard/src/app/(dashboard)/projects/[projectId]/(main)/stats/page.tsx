@@ -68,7 +68,7 @@ export default async function Page({
   }
 
   const filters = {
-    interval: searchParams?.interval ?? "day",
+    interval: searchParams?.interval ?? "month",
     country: searchParams?.country ?? null,
     city: searchParams?.city ?? null,
     slug: searchParams?.slug ?? null,

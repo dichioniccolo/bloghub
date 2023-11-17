@@ -337,7 +337,7 @@ export async function getProjectAnalytics(
         };
       }
 
-      result[city.country]!.count += 1;
+      result[city.country]!.count += city.count;
 
       return result;
     },
