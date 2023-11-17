@@ -1,6 +1,9 @@
 import type { ServerRuntime } from "next";
+import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+import type { AnalyticsInterval } from "@acme/lib/utils";
 
 import {
   getProject,
@@ -13,11 +16,25 @@ interface Props {
   params: {
     projectId: string;
   };
+  searchParams: {
+    interval?: AnalyticsInterval;
+    country?: string;
+    city?: string;
+    slug?: string;
+    referer?: string;
+    device?: string;
+    browser?: string;
+    os?: string;
+  };
 }
 
 export const runtime: ServerRuntime = "edge";
 
-export default async function Page({ params: { projectId } }: Props) {
+export default async function Page({
+  params: { projectId },
+  searchParams,
+}: Props) {
+  unstable_noStore();
   const project = await getProject(projectId);
 
   if (!project) {
@@ -50,7 +67,18 @@ export default async function Page({ params: { projectId } }: Props) {
     );
   }
 
-  const analytics = await getProjectAnalytics(projectId);
+  const filters = {
+    interval: searchParams?.interval ?? "day",
+    country: searchParams?.country ?? null,
+    city: searchParams?.city ?? null,
+    slug: searchParams?.slug ?? null,
+    referer: searchParams?.referer ?? null,
+    device: searchParams?.device ?? null,
+    browser: searchParams?.browser ?? null,
+    os: searchParams?.os ?? null,
+  };
+
+  const analytics = await getProjectAnalytics(projectId, filters);
 
   return (
     <>
@@ -67,7 +95,7 @@ export default async function Page({ params: { projectId } }: Props) {
           </Link>
         </div>
       </div>
-      <Analytics analytics={analytics} />
+      <Analytics filters={filters} analytics={analytics} />
     </>
   );
 }

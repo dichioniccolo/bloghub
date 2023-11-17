@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { format } from "date-fns";
+import { format, startOfMonth, startOfYear } from "date-fns";
 
 import type { MediaType } from "@acme/db";
 
@@ -144,4 +144,54 @@ export function parseRequest(req: NextRequest) {
   const fullKey = decodeURIComponent(path.slice(1));
 
   return { domain, path, key, fullKey };
+}
+
+export type AnalyticsInterval = "hour" | "day" | "month" | "year";
+
+export type AnalyticsLocationsTab = "country" | "city";
+
+export type AnalyticsDevicesTab = "device" | "browser" | "os";
+
+export const ANALYTICS_VALID_STATS_FILTERS = [
+  {
+    name: "Country",
+    value: "country",
+  },
+  {
+    name: "City",
+    value: "city",
+  },
+  {
+    name: "Device",
+    value: "device",
+  },
+  {
+    name: "Browser",
+    value: "browser",
+  },
+  {
+    name: "OS",
+    value: "os",
+  },
+  {
+    name: "Referrer",
+    value: "referer",
+  },
+];
+
+export function roundDateToInterval(date: Date, interval: AnalyticsInterval) {
+  switch (interval) {
+    case "hour":
+      return new Date(Math.floor(date.getTime() / 3600000) * 3600000); // Round down to the nearest hour
+    case "day":
+      return new Date(date.toISOString().split("T")[0]!); // Round down to the start of the day
+    case "month":
+      return startOfMonth(date);
+    case "year":
+      return startOfYear(date);
+  }
+}
+
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

@@ -1,5 +1,8 @@
 import typography from "@tailwindcss/typography";
+// @ts-expect-error no types
+import scrollbarHide from "tailwind-scrollbar-hide";
 import type { Config } from "tailwindcss";
+import radix from "tailwindcss-radix";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
@@ -104,5 +107,5 @@ export default {
       },
     },
   },
-  plugins: [typography, require("tailwindcss-animate")],
+  plugins: [typography, require("tailwindcss-animate"), scrollbarHide, radix],
 } satisfies Config;

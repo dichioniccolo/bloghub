@@ -5,6 +5,7 @@ import { ipAddress } from "@vercel/edge";
 import { kv } from "@vercel/kv";
 
 import { db } from "@acme/db";
+import { SELF_REFERER } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { env } from "~/env.mjs";
@@ -87,30 +88,30 @@ export async function recordVisit(req: NextRequest, domain: string) {
   // otherwise, we want to record the referer domain
   const refererDomain = referer
     ? new URL(referer).hostname === domain
-      ? "SELF"
+      ? SELF_REFERER
       : new URL(referer).hostname
-    : "SELF";
+    : SELF_REFERER;
 
   await db.visit.create({
     data: {
       projectId: post.projectId,
       postId: post.id,
-      referer: refererDomain,
-      browserName: ua.browser.name,
-      browserVersion: ua.browser.version,
-      osName: ua.os.name,
-      osVersion: ua.os.version,
-      deviceModel: ua.device.model,
-      deviceType: ua.device.type,
-      deviceVendor: ua.device.vendor,
-      engineName: ua.engine.name,
-      engineVersion: ua.engine.version,
-      cpuArchitecture: ua.cpu.architecture,
-      geoCountry: req.geo?.country,
-      geoRegion: req.geo?.region,
-      geoCity: req.geo?.city,
-      geoLatitude: req.geo?.latitude,
-      geoLongitude: req.geo?.longitude,
+      referer: refererDomain ?? SELF_REFERER,
+      browserName: ua.browser.name ?? "Unknown",
+      browserVersion: ua.browser.version ?? "Unknown",
+      osName: ua.os.name ?? "Unknown",
+      osVersion: ua.os.version ?? "Unknown",
+      deviceModel: ua.device.model ?? "Unknown",
+      deviceType: ua.device.type ?? "Unknown",
+      deviceVendor: ua.device.vendor ?? "Unknown",
+      engineName: ua.engine.name ?? "Unknown",
+      engineVersion: ua.engine.version ?? "Unknown",
+      cpuArchitecture: ua.cpu.architecture ?? "Unknown",
+      geoCountry: req.geo?.country ?? "Unknown",
+      geoRegion: req.geo?.region ?? "Unknown",
+      geoCity: req.geo?.city ?? "Unknown",
+      geoLatitude: req.geo?.latitude ?? "Unknown",
+      geoLongitude: req.geo?.longitude ?? "Unknown",
     },
   });
 }

@@ -1224,12 +1224,18 @@ importers:
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
+      tailwind-scrollbar-hide:
+        specifier: ^1.1.7
+        version: 1.1.7
       tailwindcss:
         specifier: ^3.3.5
         version: 3.3.5
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.3.5)
+      tailwindcss-radix:
+        specifier: ^2.8.0
+        version: 2.8.0
     devDependencies:
       '@acme/eslint-config':
         specifier: workspace:^0.1.0
@@ -4572,7 +4578,7 @@ packages:
       react-day-picker: 8.9.1(date-fns@2.30.0)(react@18.2.0)
       react-dom: 18.2.0(react@18.2.0)
       react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      recharts: 2.9.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+      recharts: 2.9.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge: 1.14.0
     transitivePeerDependencies:
       - prop-types
@@ -4636,46 +4642,46 @@ packages:
       update-check: 1.5.4
     dev: true
 
-  /@types/d3-array@3.2.0:
-    resolution: {integrity: sha512-tjU8juPSfhMnu6mJZPOCVVGba4rZoE0tjHDPb81PYwA8CzbaFscGjgkUM7juUJu6iWA1cCVWNEVwxZ5HN9Jj8Q==}
+  /@types/d3-array@3.0.3:
+    resolution: {integrity: sha512-Reoy+pKnvsksN0lQUlcH6dOGjRZ/3WRwXR//m+/8lt1BXeI4xyaUZoqULNjyXXRuh0Mj4LNpkCvhUpQlY3X5xQ==}
     dev: false
 
-  /@types/d3-color@3.1.2:
-    resolution: {integrity: sha512-At+Ski7dL8Bs58E8g8vPcFJc8tGcaC12Z4m07+p41+DRqnZQcAlp3NfYjLrhNYv+zEyQitU1CUxXNjqUyf+c0g==}
+  /@types/d3-color@3.1.0:
+    resolution: {integrity: sha512-HKuicPHJuvPgCD+np6Se9MQvS6OCbJmOjGvylzMJRlDwUXjKTTXs6Pwgk79O09Vj/ho3u1ofXnhFOaEWWPrlwA==}
     dev: false
 
-  /@types/d3-ease@3.0.1:
-    resolution: {integrity: sha512-VZofjpEt8HWv3nxUAosj5o/+4JflnJ7Bbv07k17VO3T2WRuzGdZeookfaF60iVh5RdhVG49LE5w6LIshVUC6rg==}
+  /@types/d3-ease@3.0.2:
+    resolution: {integrity: sha512-NcV1JjO5oDzoK26oMzbILE6HW7uVXOHLQvHshBUW4UMdZGfiY6v5BeQwh9a9tCzv+CeefZQHJt5SRgK154RtiA==}
     dev: false
 
-  /@types/d3-interpolate@3.0.3:
-    resolution: {integrity: sha512-6OZ2EIB4lLj+8cUY7I/Cgn9Q+hLdA4DjJHYOQDiHL0SzqS1K9DL5xIOVBSIHgF+tiuO9MU1D36qvdIvRDRPh+Q==}
+  /@types/d3-interpolate@3.0.1:
+    resolution: {integrity: sha512-jx5leotSeac3jr0RePOH1KdR9rISG91QIE4Q2PYTu4OymLTZfA3SrnURSLzKH48HmXVUru50b8nje4E79oQSQw==}
     dependencies:
-      '@types/d3-color': 3.1.2
+      '@types/d3-color': 3.1.0
     dev: false
 
-  /@types/d3-path@3.0.1:
-    resolution: {integrity: sha512-blRhp7ki7pVznM8k6lk5iUU9paDbVRVq+/xpf0RRgSJn5gr6SE7RcFtxooYGMBOc1RZiGyqRpVdu5AD0z0ooMA==}
+  /@types/d3-path@1.0.11:
+    resolution: {integrity: sha512-4pQMp8ldf7UaB/gR8Fvvy69psNHkTpD/pVw3vmEi8iZAB9EPMBruB1JvHO4BIq9QkUUd2lV1F5YXpMNj7JPBpw==}
     dev: false
 
-  /@types/d3-scale@4.0.6:
-    resolution: {integrity: sha512-lo3oMLSiqsQUovv8j15X4BNEDOsnHuGjeVg7GRbAuB2PUa1prK5BNSOu6xixgNf3nqxPl4I1BqJWrPvFGlQoGQ==}
+  /@types/d3-scale@4.0.2:
+    resolution: {integrity: sha512-Yk4htunhPAwN0XGlIwArRomOjdoBFXC3+kCxK2Ubg7I9shQlVSJy/pG/Ht5ASN+gdMIalpk8TJ5xV74jFsetLA==}
     dependencies:
-      '@types/d3-time': 3.0.2
+      '@types/d3-time': 3.0.0
     dev: false
 
-  /@types/d3-shape@3.1.4:
-    resolution: {integrity: sha512-M2/xsWPsjaZc5ifMKp1EBp0gqJG0eO/zlldJNOC85Y/5DGsBQ49gDkRJ2h5GY7ZVD6KUumvZWsylSbvTaJTqKg==}
+  /@types/d3-shape@3.1.5:
+    resolution: {integrity: sha512-dfEWpZJ1Pdg8meLlICX1M3WBIpxnaH2eQV2eY43Y5ysRJOTAV9f3/R++lgJKFstfrEOE2zdJ0sv5qwr2Bkic6Q==}
     dependencies:
-      '@types/d3-path': 3.0.1
+      '@types/d3-path': 1.0.11
     dev: false
 
-  /@types/d3-time@3.0.2:
-    resolution: {integrity: sha512-kbdRXTmUgNfw5OTE3KZnFQn6XdIc4QGroN5UixgdrXATmYsdlPQS6pEut9tVlIojtzuFD4txs/L+Rq41AHtLpg==}
+  /@types/d3-time@3.0.0:
+    resolution: {integrity: sha512-sZLCdHvBUcNby1cB6Fd3ZBrABbjz3v1Vm90nysCQ6Vt7vd6e/h9Lt7SiJUoEX0l4Dzc7P5llKyhqSi1ycSf1Hg==}
     dev: false
 
-  /@types/d3-timer@3.0.1:
-    resolution: {integrity: sha512-GGTvzKccVEhxmRfJEB6zhY9ieT4UhGVUIQaBzFpUO9OXy2ycAlnPCSJLzmGGgqt3KVjqN3QCQB4g1rsZnHsWhg==}
+  /@types/d3-timer@3.0.2:
+    resolution: {integrity: sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==}
     dev: false
 
   /@types/eslint@8.44.7:
@@ -6069,8 +6075,8 @@ packages:
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
 
-  /d3-array@3.2.4:
-    resolution: {integrity: sha512-tdQAmyA18i4J7wprpYq8ClcxZy3SC31QMeByyCFyRt7BVHdREQZ5lpzoe5mFEYZUWe+oq8HBvk9JjpibyEV4Jg==}
+  /d3-array@3.2.1:
+    resolution: {integrity: sha512-gUY/qeHq/yNqqoCKNq4vtpFLdoCdvyNpWoC/KNjhGbhDuQpAM9sIQQKkXSNpXa9h5KySs/gzm7R88WkUutgwWQ==}
     engines: {node: '>=12'}
     dependencies:
       internmap: 2.0.3
@@ -6107,7 +6113,7 @@ packages:
     resolution: {integrity: sha512-GZW464g1SH7ag3Y7hXjf8RoUuAFIqklOAq3MRl4OaWabTFJY9PN/E1YklhXLh+OQ3fM9yS2nOkCoS+WLZ6kvxQ==}
     engines: {node: '>=12'}
     dependencies:
-      d3-array: 3.2.4
+      d3-array: 3.2.1
       d3-format: 3.1.0
       d3-interpolate: 3.0.1
       d3-time: 3.1.0
@@ -6132,7 +6138,7 @@ packages:
     resolution: {integrity: sha512-VqKjzBLejbSMT4IgbmVgDjpkYrNWUYJnbCGo874u7MMKIWsILRX+OpX/gTk8MqjpT1A/c6HY2dCA77ZN0lkQ2Q==}
     engines: {node: '>=12'}
     dependencies:
-      d3-array: 3.2.4
+      d3-array: 3.2.1
     dev: false
 
   /d3-timer@3.0.1:
@@ -9939,8 +9945,8 @@ packages:
       decimal.js-light: 2.5.1
     dev: false
 
-  /recharts@2.9.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ig0zYgO5nUP/896GW16b9yy2sHIRW1AHB90x48hypFTSjjxQt/J9rPzlLJjgNupzJKEHPCwMi1VnvN/k20K45w==}
+  /recharts@2.9.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-B61sKrDlTxHvYwOCw8eYrD6rTA2a2hJg0avaY8qFI1ZYdHKvU18+J5u7sBMFg//wfJ/C5RL5+HsXt5e8tcJNLg==}
     engines: {node: '>=12'}
     peerDependencies:
       prop-types: ^15.6.0
@@ -10661,12 +10667,20 @@ packages:
       '@babel/runtime': 7.23.2
     dev: false
 
+  /tailwind-scrollbar-hide@1.1.7:
+    resolution: {integrity: sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA==}
+    dev: false
+
   /tailwindcss-animate@1.0.7(tailwindcss@3.3.5):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
       tailwindcss: 3.3.5
+    dev: false
+
+  /tailwindcss-radix@2.8.0:
+    resolution: {integrity: sha512-1k1UfoIYgVyBl13FKwwoKavjnJ5VEaUClCTAsgz3VLquN4ay/lyaMPzkbqD71sACDs2fRGImytAUlMb4TzOt1A==}
     dev: false
 
   /tailwindcss@3.3.2:
@@ -11305,14 +11319,14 @@ packages:
   /victory-vendor@36.6.12:
     resolution: {integrity: sha512-pJrTkNHln+D83vDCCSUf0ZfxBvIaVrFHmrBOsnnLAbdqfudRACAj51He2zU94/IWq9464oTADcPVkmWAfNMwgA==}
     dependencies:
-      '@types/d3-array': 3.2.0
-      '@types/d3-ease': 3.0.1
-      '@types/d3-interpolate': 3.0.3
-      '@types/d3-scale': 4.0.6
-      '@types/d3-shape': 3.1.4
-      '@types/d3-time': 3.0.2
-      '@types/d3-timer': 3.0.1
-      d3-array: 3.2.4
+      '@types/d3-array': 3.0.3
+      '@types/d3-ease': 3.0.2
+      '@types/d3-interpolate': 3.0.1
+      '@types/d3-scale': 4.0.2
+      '@types/d3-shape': 3.1.5
+      '@types/d3-time': 3.0.0
+      '@types/d3-timer': 3.0.2
+      d3-array: 3.2.1
       d3-ease: 3.0.1
       d3-interpolate: 3.0.1
       d3-scale: 4.0.2

@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@acme/db";
+import { SELF_REFERER } from "@acme/lib/constants";
 
 import { getCurrentUser } from "./get-user";
 
@@ -269,14 +270,14 @@ export async function getPostAnalytics(projectId: string, postId: string) {
     .reduce(
       (prev, x) => {
         const existingPost = prev.find(
-          (z) => z.country === (x.referer ?? "SELF"),
+          (z) => z.country === (x.referer ?? SELF_REFERER),
         );
 
         if (existingPost) {
           existingPost.count += 1;
         } else {
           prev.push({
-            country: x.referer ?? "SELF",
+            country: x.referer ?? SELF_REFERER,
             count: 1,
           });
         }

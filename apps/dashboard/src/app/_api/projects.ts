@@ -1,6 +1,10 @@
 "use server";
 
+import { format } from "date-fns";
+
 import { db, Role } from "@acme/db";
+import type { AnalyticsInterval } from "@acme/lib/utils";
+import { roundDateToInterval } from "@acme/lib/utils";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -208,9 +212,19 @@ export async function getPendingInvite(email: string, projectId: string) {
 
 export type GetPendingInvite = Awaited<ReturnType<typeof getPendingInvite>>;
 
-const TOP_SIZE = 5;
-
-export async function getProjectAnalytics(projectId: string) {
+export async function getProjectAnalytics(
+  projectId: string,
+  filters: {
+    interval: AnalyticsInterval;
+    country: string | null;
+    city: string | null;
+    slug: string | null;
+    referer: string | null;
+    device: string | null;
+    browser: string | null;
+    os: string | null;
+  },
+) {
   const user = await getCurrentUser();
 
   const allVisits = await db.visit.findMany({
@@ -224,161 +238,231 @@ export async function getProjectAnalytics(projectId: string) {
           },
         },
       },
+      geoCountry: filters.country ? filters.country : undefined,
+      geoCity: filters.city ? filters.city : undefined,
+      post: {
+        slug: filters.slug ? filters.slug : undefined,
+      },
+      referer: filters.referer ? filters.referer : undefined,
+      deviceType: filters.device ? filters.device : undefined,
+      browserName: filters.browser ? filters.browser : undefined,
+      osName: filters.os ? filters.os : undefined,
     },
     select: {
-      createdAt: true,
-      postId: true,
-      geoCountry: true,
-      geoCity: true,
-      referer: true,
+      project: {
+        select: {
+          domain: true,
+        },
+      },
       post: {
         select: {
           slug: true,
         },
       },
+      geoCountry: true,
+      geoCity: true,
+      deviceType: true,
+      browserName: true,
+      osName: true,
+      referer: true,
+      createdAt: true,
     },
   });
 
-  const visitsByMonth = allVisits
-    .reduce(
-      (prev, x) => {
-        const year = x.createdAt.getFullYear();
-        const month = x.createdAt.getMonth() + 1;
-        const existingMonth = prev.find(
-          (z) => z.year === year && z.month === month,
-        );
+  // calculate timeseries based on interval
+  const groupedVisits = allVisits.reduce(
+    (result, visit) => {
+      const roundedCreatedAt = roundDateToInterval(
+        visit.createdAt,
+        filters.interval,
+      );
 
-        if (existingMonth) {
-          existingMonth.count += 1;
-        } else {
-          prev.push({ year, month, count: 1 });
-        }
+      const key = `${format(roundedCreatedAt, "yyyy-MM-dd HH:mm:ss")}`;
 
-        return prev;
-      },
-      [] as { year: number; month: number; count: number }[],
-    )
-    // Sort the result by year and month
-    .sort((a, b) => {
-      if (a.year !== b.year) return b.year - a.year;
-      return b.month - b.month;
-    })
-    .slice(0, TOP_SIZE);
+      if (!result[key]) {
+        result[key] = {
+          createdAt: roundedCreatedAt,
+          count: 0,
+        };
+      }
 
-  const topPosts = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find((z) => z.id === (x.postId ?? "DELETED"));
+      result[key]!.count += 1;
 
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            id: x.postId ?? "DELETED",
-            slug: x.post?.slug ?? "DELETED",
-            count: 1,
-          });
-        }
+      return result;
+    },
+    {} as Record<string, { createdAt: Date; count: number }>,
+  );
 
-        return prev;
-      },
-      [] as {
-        id: string;
-        slug: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => b.count - a.count)
-    .slice(0, TOP_SIZE);
+  const timeseries = Object.values(groupedVisits);
 
-  const topCountries = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find(
-          (z) => z.country === (x.geoCountry ?? "Unknown"),
-        );
+  timeseries.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            country: x.geoCountry ?? "Unknown",
-            count: 1,
-          });
-        }
+  const groupedCities = allVisits.reduce(
+    (result, visit) => {
+      const key = `${visit.geoCountry ?? "Unknown"}_${
+        visit.geoCity ?? "Unknown"
+      }`;
 
-        return prev;
-      },
-      [] as {
-        country: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => b.count - a.count)
-    .slice(0, TOP_SIZE);
+      if (!result[key]) {
+        result[key] = {
+          country: visit.geoCountry ?? "Unknown",
+          city: visit.geoCity ?? "Unknown",
+          count: 0,
+        };
+      }
 
-  const topCities = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find(
-          (z) =>
-            z.country === (x.geoCountry ?? "Unknown") &&
-            z.city === (x.geoCity ?? "Unknown"),
-        );
+      result[key]!.count += 1;
 
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            country: x.geoCountry ?? "Unknown",
-            city: x.geoCity ?? "Unknown",
-            count: 1,
-          });
-        }
-
-        return prev;
-      },
-      [] as {
+      return result;
+    },
+    {} as Record<
+      string,
+      {
         country: string;
         city: string;
         count: number;
-      }[],
-    )
-    .sort((a, b) => b.count - a.count)
-    .slice(0, TOP_SIZE);
+      }
+    >,
+  );
 
-  const topReferers = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find(
-          (z) => z.referer === (x.referer ?? "SELF"),
-        );
+  const cities = Object.values(groupedCities).sort((a, b) => b.count - a.count);
 
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            referer: x.referer ?? "SELF",
-            count: 1,
-          });
-        }
+  const groupedCountries = cities.reduce(
+    (result, city) => {
+      if (!result[city.country]) {
+        result[city.country] = {
+          country: city.country,
+          count: 0,
+        };
+      }
 
-        return prev;
-      },
-      [] as {
-        referer: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => b.count - a.count)
-    .slice(0, TOP_SIZE);
+      result[city.country]!.count += 1;
+
+      return result;
+    },
+    {} as Record<string, { country: string; count: number }>,
+  );
+
+  const countries = Object.values(groupedCountries).sort(
+    (a, b) => b.count - a.count,
+  );
+
+  const groupedPosts = allVisits.reduce(
+    (result, visit) => {
+      const slug = visit.post?.slug ?? "DELETED";
+
+      if (!result[slug]) {
+        result[slug] = {
+          domain: visit.project.domain,
+          slug,
+          count: 0,
+        };
+      }
+
+      result[slug]!.count += 1;
+
+      return result;
+    },
+    {} as Record<string, { domain: string; slug: string; count: number }>,
+  );
+
+  const posts = Object.values(groupedPosts).sort((a, b) => b.count - a.count);
+
+  const groupedReferers = allVisits.reduce(
+    (result, visit) => {
+      const referer = visit.referer ?? "Unknown";
+
+      if (!result[referer]) {
+        result[referer] = {
+          referer: referer,
+          count: 0,
+        };
+      }
+
+      result[referer]!.count += 1;
+
+      return result;
+    },
+    {} as Record<string, { referer: string; count: number }>,
+  );
+
+  const referers = Object.values(groupedReferers).sort(
+    (a, b) => b.count - a.count,
+  );
+
+  const groupedDevices = allVisits.reduce(
+    (result, visit) => {
+      const key = visit.deviceType ?? "desktop";
+
+      if (!result[key]) {
+        result[key] = {
+          device: key,
+          count: 0,
+        };
+      }
+
+      result[key]!.count += 1;
+
+      return result;
+    },
+    {} as Record<string, { device: string; count: number }>,
+  );
+
+  const devices = Object.values(groupedDevices).sort(
+    (a, b) => b.count - a.count,
+  );
+
+  const groupedBrowsers = allVisits.reduce(
+    (result, visit) => {
+      const key = visit.browserName ?? "Unknown";
+
+      if (!result[key]) {
+        result[key] = {
+          browser: key,
+          count: 0,
+        };
+      }
+
+      result[key]!.count += 1;
+
+      return result;
+    },
+    {} as Record<string, { browser: string; count: number }>,
+  );
+
+  const browsers = Object.values(groupedBrowsers).sort(
+    (a, b) => b.count - a.count,
+  );
+
+  const groupedOses = allVisits.reduce(
+    (result, visit) => {
+      const key = visit.osName ?? "Unknown";
+
+      if (!result[key]) {
+        result[key] = {
+          os: key,
+          count: 0,
+        };
+      }
+
+      result[key]!.count += 1;
+
+      return result;
+    },
+    {} as Record<string, { os: string; count: number }>,
+  );
+
+  const oses = Object.values(groupedOses).sort((a, b) => b.count - a.count);
 
   return {
-    visitsByMonth,
-    topPosts,
-    topCountries,
-    topCities,
-    topReferers,
+    timeseries,
+    cities,
+    countries,
+    posts,
+    referers,
+    devices,
+    browsers,
+    oses,
   };
 }
 

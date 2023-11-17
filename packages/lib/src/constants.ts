@@ -39,3 +39,7 @@ export const Crons = {
 };
 
 export const RESIZABLE_MEDIA_NAME = "resizableMedia";
+
+export const ANALYTICS_MAX_CARD_ITEMS = 9;
+
+export const SELF_REFERER = "SELF";
