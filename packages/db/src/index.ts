@@ -1,4 +1,4 @@
-import { connect } from "@planetscale/database";
+import { Client } from "@planetscale/database";
 import { PrismaPlanetScale } from "@prisma/adapter-planetscale";
 import { Prisma, PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
@@ -6,8 +6,11 @@ import { customAlphabet } from "nanoid";
 
 import { env } from "./env.mjs";
 
-const connection = connect({ url: env.DATABASE_URL });
-const adapter = new PrismaPlanetScale(connection);
+const client = new Client({
+  url: env.DATABASE_URL,
+});
+
+const adapter = new PrismaPlanetScale(client);
 
 export const db = new PrismaClient({
   adapter,
