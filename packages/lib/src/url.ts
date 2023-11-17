@@ -37,7 +37,11 @@ export function getBaseUrlPath() {
     return window.location.origin.replace(/^https?:\/\//, "");
   }
 
-  return env.NEXT_PUBLIC_APP_DOMAIN;
+  if (env.NODE_ENV === "production") {
+    return env.NEXT_PUBLIC_APP_DOMAIN;
+  }
+
+  return "localhost:3000";
 }
 
 export function constructPostUrl(

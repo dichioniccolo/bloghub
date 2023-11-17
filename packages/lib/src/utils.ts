@@ -1,5 +1,11 @@
 import type { NextRequest } from "next/server";
-import { format, startOfMonth, startOfYear } from "date-fns";
+import {
+  format,
+  startOfDay,
+  startOfHour,
+  startOfMinute,
+  startOfMonth,
+} from "date-fns";
 
 import type { MediaType } from "@acme/db";
 
@@ -146,11 +152,63 @@ export function parseRequest(req: NextRequest) {
   return { domain, path, key, fullKey };
 }
 
-export type AnalyticsInterval = "hour" | "day" | "month" | "year";
+export type AnalyticsInterval =
+  | (typeof INTERVALS)[number]["value"]
+  | (typeof PRO_INTERVALS)[number]["value"];
 
 export type AnalyticsLocationsTab = "country" | "city";
 
 export type AnalyticsDevicesTab = "device" | "browser" | "os";
+
+export const INTERVALS = [
+  {
+    display: "Last hour",
+    value: "1h" as const,
+  },
+  {
+    display: "Last 24 hours",
+    value: "24h" as const,
+  },
+  {
+    display: "Last 7 days",
+    value: "7d" as const,
+  },
+  {
+    display: "Last 30 days",
+    value: "30d" as const,
+  },
+  {
+    display: "Last 3 months",
+    value: "90d" as const,
+  },
+];
+
+export const PRO_INTERVALS = [
+  {
+    display: "All Time",
+    value: "all" as const,
+  },
+];
+
+export const intervalsFilters: Record<AnalyticsInterval, { createdAt?: Date }> =
+  {
+    "1h": {
+      createdAt: new Date(Date.now() - 3600000),
+    },
+    "24h": {
+      createdAt: new Date(Date.now() - 86400000),
+    },
+    "7d": {
+      createdAt: new Date(Date.now() - 604800000),
+    },
+    "30d": {
+      createdAt: new Date(Date.now() - 2592000000),
+    },
+    "90d": {
+      createdAt: new Date(Date.now() - 7776000000),
+    },
+    all: {},
+  };
 
 export const ANALYTICS_VALID_STATS_FILTERS = [
   {
@@ -181,14 +239,15 @@ export const ANALYTICS_VALID_STATS_FILTERS = [
 
 export function roundDateToInterval(date: Date, interval: AnalyticsInterval) {
   switch (interval) {
-    case "hour":
-      return new Date(Math.floor(date.getTime() / 3600000) * 3600000); // Round down to the nearest hour
-    case "day":
-      return new Date(date.toISOString().split("T")[0]!); // Round down to the start of the day
-    case "month":
+    case "1h":
+      return startOfMinute(date);
+    case "24h":
+      return startOfHour(date);
+    case "7d":
+    case "30d":
+      return startOfDay(date);
+    default:
       return startOfMonth(date);
-    case "year":
-      return startOfYear(date);
   }
 }
 

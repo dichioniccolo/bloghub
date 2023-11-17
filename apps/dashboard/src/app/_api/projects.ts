@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { db, Role } from "@acme/db";
 import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import type { AnalyticsInterval } from "@acme/lib/utils";
-import { roundDateToInterval } from "@acme/lib/utils";
+import { intervalsFilters, roundDateToInterval } from "@acme/lib/utils";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -167,6 +167,7 @@ export async function getProjectOwner(projectId: string) {
       },
     },
     select: {
+      id: true,
       stripePriceId: true,
       dayWhenBillingStarts: true,
     },
@@ -183,6 +184,7 @@ export async function getProjectOwner(projectId: string) {
   const plan = stripePriceToSubscriptionPlan(owner.stripePriceId);
 
   return {
+    id: owner.id,
     usage,
     quota: plan.quota,
     isPro: isSubscriptionPlanPro(plan),
@@ -228,6 +230,8 @@ export async function getProjectAnalytics(
 ) {
   const user = await getCurrentUser();
 
+  const intervalFilter = intervalsFilters[filters.interval];
+
   const allVisits = await db.visit.findMany({
     where: {
       projectId,
@@ -238,6 +242,9 @@ export async function getProjectAnalytics(
             userId: user.id,
           },
         },
+      },
+      createdAt: {
+        gte: intervalFilter.createdAt ?? undefined,
       },
       geoCountry: filters.country ? filters.country : undefined,
       geoCity: filters.city ? filters.city : undefined,

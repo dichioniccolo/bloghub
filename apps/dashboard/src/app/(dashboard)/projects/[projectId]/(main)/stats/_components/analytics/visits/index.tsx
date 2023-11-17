@@ -6,7 +6,6 @@ import { localPoint } from "@visx/event";
 import { GridRows } from "@visx/grid";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { useTooltip, useTooltipInPortal } from "@visx/tooltip";
-import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { BarChart2, X } from "lucide-react";
 
@@ -125,19 +124,30 @@ export function AnalyticsVisits({ timeseries, filters }: Props) {
   const formatTimestamp = useCallback(
     (e: Date) => {
       switch (filters.interval) {
-        case "hour":
+        case "1h":
           return new Date(e).toLocaleTimeString("en-us", {
             hour: "numeric",
             minute: "numeric",
           });
-        case "day":
-          return format(e, "dd MMM yyyy");
-        case "month":
-          return format(e, "MMM yyyy");
-        case "year":
-          return format(e, "yyyy");
+        case "24h":
+          return new Date(e)
+            .toLocaleDateString("en-us", {
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+            })
+            .replace(",", " ");
+        case "90d":
+        case "all":
+          return new Date(e).toLocaleDateString("en-us", {
+            month: "short",
+            year: "numeric",
+          });
         default:
-          return format(e, "yyyy");
+          return new Date(e).toLocaleDateString("en-us", {
+            month: "short",
+            day: "numeric",
+          });
       }
     },
     [filters.interval],

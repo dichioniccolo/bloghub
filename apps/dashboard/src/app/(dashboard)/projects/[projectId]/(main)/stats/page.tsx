@@ -1,9 +1,10 @@
 import type { ServerRuntime } from "next";
-import { unstable_noStore } from "next/cache";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
+import { auth } from "@acme/auth";
+import { AppRoutes } from "@acme/lib/routes";
 import type { AnalyticsInterval } from "@acme/lib/utils";
+import { PRO_INTERVALS } from "@acme/lib/utils";
 
 import {
   getProject,
@@ -34,7 +35,12 @@ export default async function Page({
   params: { projectId },
   searchParams,
 }: Props) {
-  unstable_noStore();
+  const session = await auth();
+
+  if (!session) {
+    return redirect(AppRoutes.Login);
+  }
+
   const project = await getProject(projectId);
 
   if (!project) {
@@ -46,19 +52,6 @@ export default async function Page({
   if (owner.usage > owner.quota) {
     return (
       <>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-3xl font-bold">Analytics for {project.name}</h1>
-            <Link
-              href={`https://${project.domain}`}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="bg-stone truncate rounded-md px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200"
-            >
-              {project.domain} ↗
-            </Link>
-          </div>
-        </div>
         <div className="flex items-center justify-center">
           You have exceeded your monthly visits. You won&apos; have access to
           statistics until you upgrade or wait for the next billing month
@@ -68,7 +61,7 @@ export default async function Page({
   }
 
   const filters = {
-    interval: searchParams?.interval ?? "month",
+    interval: searchParams?.interval ?? "30d",
     country: searchParams?.country ?? null,
     city: searchParams?.city ?? null,
     slug: searchParams?.slug ?? null,
@@ -78,24 +71,22 @@ export default async function Page({
     os: searchParams?.os ?? null,
   };
 
+  if (
+    !owner.isPro &&
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+    PRO_INTERVALS.map((x) => x.value).includes(filters.interval as any)
+  ) {
+    filters.interval = "30d";
+  }
+
   const analytics = await getProjectAnalytics(projectId, filters);
 
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-3xl font-bold">Analytics for {project.name}</h1>
-          <Link
-            href={`https://${project.domain}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="bg-stone truncate rounded-md px-2 py-1 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-200"
-          >
-            {project.domain} ↗
-          </Link>
-        </div>
-      </div>
-      <Analytics filters={filters} analytics={analytics} />
-    </>
+    <Analytics
+      session={session}
+      owner={owner}
+      filters={filters}
+      analytics={analytics}
+    />
   );
 }
