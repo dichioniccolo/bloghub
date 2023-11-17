@@ -28,7 +28,7 @@
     "@vercel/analytics": "^1.1.1",
     "@vercel/edge-config": "^0.4.1",
     "@vercel/kv": "^1.0.0",
-    "ai": "^2.2.23",
+    "ai": "^2.2.24",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "encoding": "^0.1.13",
