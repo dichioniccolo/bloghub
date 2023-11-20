@@ -207,6 +207,9 @@ importers:
       '@acme/pusher':
         specifier: workspace:^0.1.0
         version: link:../../packages/pusher
+      '@acme/server-actions':
+        specifier: workspace:^0.1.0
+        version: link:../../packages/server-actions
       '@acme/stripe':
         specifier: workspace:^0.1.0
         version: link:../../packages/stripe
@@ -282,9 +285,6 @@ importers:
       inngest:
         specifier: ^3.6.1
         version: 3.6.1(encoding@0.1.13)(typescript@5.3.2)
-      lowlight:
-        specifier: ^3.1.0
-        version: 3.1.0
       lucide-react:
         specifier: ^0.292.0
         version: 0.292.0(react@18.2.0)
@@ -700,6 +700,9 @@ importers:
       '@tiptap/suggestion':
         specifier: ^2.1.12
         version: 2.1.12(@tiptap/core@2.1.12)(@tiptap/pm@2.1.12)
+      lowlight:
+        specifier: ^3.1.0
+        version: 3.1.0
       lucide-react:
         specifier: ^0.292.0
         version: 0.292.0(react@18.2.0)
@@ -971,6 +974,49 @@ importers:
       typescript:
         specifier: ^5.3.2
         version: 5.3.2
+
+  packages/server-actions:
+    dependencies:
+      next:
+        specifier: ^14.0.3
+        version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
+      '@types/react':
+        specifier: ^18.2.37
+        version: 18.2.37
+      '@types/react-dom':
+        specifier: ^18.2.15
+        version: 18.2.15
+      eslint:
+        specifier: ^8.47.0
+        version: 8.54.0
+      prettier:
+        specifier: ^3.0.2
+        version: 3.1.0
+      typescript:
+        specifier: ^5.1.6
+        version: 5.2.2
 
   packages/stripe:
     dependencies:
@@ -11137,6 +11183,12 @@ packages:
       call-bind: 1.0.5
       for-each: 0.3.3
       is-typed-array: 1.1.12
+    dev: true
+
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
+    hasBin: true
     dev: true
 
   /typescript@5.3.2:

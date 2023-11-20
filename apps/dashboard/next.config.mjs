@@ -118,6 +118,7 @@ const config = {
     "@acme/lib",
     "@acme/notifications",
     "@acme/pusher",
+    "@acme/server-actions",
     "@acme/stripe",
     "@acme/ui",
     "@acme/vercel",

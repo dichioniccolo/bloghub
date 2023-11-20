@@ -2,6 +2,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import type { Project } from "@acme/db";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
   FormControl,
@@ -19,22 +20,21 @@ import { createProject } from "~/app/_actions/project/create-project";
 import { env } from "~/env.mjs";
 import type { CreateProjectSchemaType } from "~/lib/validation/schema";
 import { CreateProjectSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   onSuccess?(project: Project): void;
 }
 
 export function CreateProjectForm({ onSuccess }: Props) {
-  const { mutate } = useZact(createProject, {
-    onSuccess: (data) => {
+  const { action } = useServerAction(createProject, {
+    onSuccess(data) {
       toast.success("Project created");
       onSuccess?.(data);
     },
   });
 
   const onSubmit = ({ name, domain }: CreateProjectSchemaType) =>
-    mutate({
+    action({
       name,
       domain,
     });

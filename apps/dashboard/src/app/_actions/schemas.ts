@@ -2,10 +2,13 @@ import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
 import { db, Role } from "@acme/db";
+import { DOMAIN_REGEX } from "@acme/lib/constants";
 
 export const DomainSchema = z
-  .string()
-  .min(3)
+  .string({
+    required_error: "Domain is required",
+  })
+  .regex(DOMAIN_REGEX, { message: "Invalid domain" })
   .refine(async (domain) => {
     const domainExists = await db.project.exists({
       where: {

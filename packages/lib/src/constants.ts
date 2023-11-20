@@ -44,3 +44,6 @@ export const ANALYTICS_MAX_CARD_ITEMS = 9;
 
 export const SELF_REFERER = "SELF";
 export const UNKNOWN_ANALYTICS_VALUE = "Unknown";
+
+export const DOMAIN_REGEX =
+  /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;

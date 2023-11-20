@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-const domainRegex =
-  /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+import { DOMAIN_REGEX } from "@acme/lib/constants";
 
 export const UserAuthSchema = z.object({
   email: z
@@ -34,14 +33,14 @@ export const CreateProjectSchema = z.object({
     .string({
       required_error: "Domain is required",
     })
-    .regex(domainRegex, { message: "Invalid domain" }),
+    .regex(DOMAIN_REGEX, { message: "Invalid domain" }),
 });
 
 export type CreateProjectSchemaType = z.input<typeof CreateProjectSchema>;
 
 export const UpdateDomainSchema = z.object({
-  oldDomain: z.string().regex(domainRegex),
-  newDomain: z.string().regex(domainRegex, { message: "Invalid domain" }),
+  oldDomain: z.string().regex(DOMAIN_REGEX),
+  newDomain: z.string().regex(DOMAIN_REGEX, { message: "Invalid domain" }),
   confirm: z.literal("yes, change my domain", {
     errorMap: () => ({
       message: "Please confirm the domain change",
