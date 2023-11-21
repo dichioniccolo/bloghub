@@ -19,7 +19,7 @@ import {
 
 export function createServerAction<
   Schema extends z.ZodTypeAny,
-  const Middlewares extends MiddlewareFn[],
+  const Middlewares extends Record<string, MiddlewareFn>,
   State = undefined,
 >({
   schema,
@@ -37,9 +37,16 @@ export function createServerAction<
     try {
       const context =
         middlewares &&
-        ((await Promise.all(
-          middlewares.map((x) => x()),
-        )) as MiddlewareResults<Middlewares>);
+        ((
+          await Promise.all(
+            Object.entries(middlewares).map(async ([key, fn]) => ({
+              [key]: await fn(),
+            })),
+          )
+        ).reduce(
+          (result, x) => ({ ...result, ...x }),
+          {},
+        ) as MiddlewareResults<Middlewares>);
 
       let parsedInput: z.SafeParseReturnType<Schema, Schema>;
 
@@ -66,7 +73,7 @@ export function createServerAction<
       const newState = await action({
         state,
         input: parsedInput.data,
-        ctx: context as Middlewares extends MiddlewareFn[]
+        ctx: context as Middlewares extends Record<string, MiddlewareFn>
           ? MiddlewareResults<Middlewares>
           : undefined,
       });

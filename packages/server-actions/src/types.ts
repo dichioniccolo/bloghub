@@ -10,11 +10,17 @@ export const enum SubmissionStatus {
 
 export type MiddlewareFn = () => Promise<unknown>;
 
-export type MiddlewareResults<Middleware extends MiddlewareFn[]> = {
-  [K in keyof Middleware]: Middleware[K] extends () => Promise<infer T>
-    ? T
-    : never;
-};
+export type MiddlewareResults<Middleware extends Record<string, MiddlewareFn>> =
+  {
+    [K in keyof Middleware]: Middleware[K] extends () => Promise<infer T>
+      ? T
+      : never;
+  };
+// export type MiddlewareResults<Middleware extends MiddlewareFn[]> = {
+//   [K in keyof Middleware]: Middleware[K] extends () => Promise<infer T>
+//     ? T
+//     : never;
+// };
 
 export class ErrorForClient extends Error {}
 
@@ -28,11 +34,11 @@ export interface EnrichedState<State, Schema extends z.ZodTypeAny> {
 export type TypedServerAction<
   State,
   Schema extends z.ZodTypeAny,
-  Middlewares extends MiddlewareFn[] | undefined,
+  Middlewares extends Record<string, MiddlewareFn> | undefined,
 > = (params: {
   state: State;
   input: z.input<Schema>;
-  ctx: Middlewares extends MiddlewareFn[]
+  ctx: Middlewares extends Record<string, MiddlewareFn>
     ? MiddlewareResults<Middlewares>
     : undefined;
 }) => Promise<State>;
@@ -40,7 +46,7 @@ export type TypedServerAction<
 export type ZodActionFactoryParams<
   State,
   Schema extends z.ZodTypeAny,
-  Middlewares extends MiddlewareFn[],
+  Middlewares extends Record<string, MiddlewareFn>,
 > = {
   initialState: State;
   action: TypedServerAction<State, Schema, Middlewares>;

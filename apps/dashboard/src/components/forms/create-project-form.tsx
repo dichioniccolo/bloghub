@@ -2,6 +2,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import type { Project } from "@acme/db";
+import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -26,7 +27,7 @@ interface Props {
 }
 
 export function CreateProjectForm({ onSuccess }: Props) {
-  const { action } = useServerAction(createProject, {
+  const { action, status, validationErrors } = useServerAction(createProject, {
     onSuccess(data) {
       toast.success("Project created");
       onSuccess?.(data);
@@ -66,7 +67,7 @@ export function CreateProjectForm({ onSuccess }: Props) {
                 {...field}
               />
             </FormControl>
-            <FormMessage />
+            <FormMessage>{validationErrors.name?.[0]}</FormMessage>
           </FormItem>
         )}
       />
@@ -84,7 +85,7 @@ export function CreateProjectForm({ onSuccess }: Props) {
                 {...field}
               />
             </FormControl>
-            <FormMessage />
+            <FormMessage>{validationErrors.domain?.[0]}</FormMessage>
             <FormDescription>
               TIP: If you do not have a custom domain, you can use a .
               {env.NEXT_PUBLIC_APP_DOMAIN} subdomain as long as it is available.
@@ -92,8 +93,8 @@ export function CreateProjectForm({ onSuccess }: Props) {
           </FormItem>
         )}
       />
-      <Button disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting && (
+      <Button disabled={status === SubmissionStatus.PENDING}>
+        {status === SubmissionStatus.PENDING && (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         )}
         Create project
