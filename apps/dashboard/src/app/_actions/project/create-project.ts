@@ -18,17 +18,17 @@ export const createProject = createServerAction({
     domain: DomainSchema,
   }),
   initialState: undefined as unknown as Project,
-  // middlewares: [
-  //   async () => {
-  //     const user = await getCurrentUser();
-  //     return {
-  //       userId: user.id,
-  //       userEmail: user.email,
-  //     };
-  //   },
-  // ],
-  action: async ({ input: { name, domain } }) => {
-    const { id: userId } = await getCurrentUser();
+  middlewares: [
+    async () => {
+      const user = await getCurrentUser();
+      return {
+        userId: user.id,
+        userEmail: user.email,
+      };
+    },
+  ],
+  action: async ({ input: { name, domain }, ctx }) => {
+    const { userId } = ctx[0];
 
     const project = await db.$transaction(async (tx) => {
       await createDomain(domain);

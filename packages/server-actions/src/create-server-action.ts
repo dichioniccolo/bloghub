@@ -2,7 +2,12 @@ import "server-only";
 
 import type { z } from "zod";
 
-import type { ServerAction, ZodActionFactoryParams } from "./types";
+import type {
+  MiddlewareFn,
+  MiddlewareResults,
+  ServerAction,
+  ZodActionFactoryParams,
+} from "./types";
 import { ErrorForClient, SubmissionStatus } from "./types";
 import {
   DEFAULT_SERVER_ERROR,
@@ -14,26 +19,37 @@ import {
 
 export function createServerAction<
   Schema extends z.ZodTypeAny,
-  // const Middlewares extends
-  //   | [MiddlewareFn, ...MiddlewareFn[]]
-  //   | undefined = undefined,
+  const Middlewares extends MiddlewareFn[],
   State = undefined,
 >({
   schema,
   initialState,
-  // middlewares,
+  middlewares,
   action,
-}: ZodActionFactoryParams<
+}: ZodActionFactoryParams<State, Schema, Middlewares>): ServerAction<
   State,
   Schema
-  // Middlewares
->): ServerAction<State, Schema> {
+> {
   return async (
     { state = initialState, serverError, validationErrors },
     input,
   ) => {
     try {
-      const parsedInput = await schema.safeParseAsync(normalizeInput(input));
+      const context =
+        middlewares &&
+        ((await Promise.all(
+          middlewares.map((x) => x()),
+        )) as MiddlewareResults<Middlewares>);
+
+      let parsedInput: z.SafeParseReturnType<Schema, Schema>;
+
+      const normalizedInput = normalizeInput(input);
+
+      if (typeof schema === "function") {
+        parsedInput = await schema(context!).safeParseAsync(normalizedInput);
+      } else {
+        parsedInput = await schema.safeParseAsync(normalizedInput);
+      }
 
       if (!parsedInput.success) {
         const validationErrors = parsedInput.error.flatten()
@@ -47,17 +63,12 @@ export function createServerAction<
         };
       }
 
-      // const ctx =
-      //   middlewares &&
-      //   ((await Promise.all(
-      //     middlewares.map((fn) => fn()),
-      //   )) as MiddlewareResults<Middlewares>);
-
       const newState = await action({
         state,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         input: parsedInput.data,
-        // ctx,
+        ctx: context as Middlewares extends MiddlewareFn[]
+          ? MiddlewareResults<Middlewares>
+          : undefined,
       });
 
       return {
