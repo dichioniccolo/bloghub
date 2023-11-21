@@ -129,8 +129,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(react@18.2.0)
       sonner:
-        specifier: ^1.2.1
-        version: 1.2.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^1.2.2
+        version: 1.2.2(react-dom@18.2.0)(react@18.2.0)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -316,8 +316,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(react@18.2.0)
       sonner:
-        specifier: ^1.2.1
-        version: 1.2.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^1.2.2
+        version: 1.2.2(react-dom@18.2.0)(react@18.2.0)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -461,8 +461,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(react@18.2.0)
       sonner:
-        specifier: ^1.2.1
-        version: 1.2.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^1.2.2
+        version: 1.2.2(react-dom@18.2.0)(react@18.2.0)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -10443,8 +10443,8 @@ packages:
       swr-store: 0.10.6
     dev: false
 
-  /sonner@1.2.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-YTW7SCURez/+jTUkgIIIbsbcz6YRVTO4hs5QGlPygEVDUs/pK6Yn52OADpzucF4aDWVZuY6zo9L5GIvAfBqqOw==}
+  /sonner@1.2.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-EHxYBr5tLDQW4CqosTsX95/Qd5oxjDeQN/EbKBZcjdNp4Hjs6snXB6Lmu1kTL27M3su0oG9DxkllfvX+aSoI4Q==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
