@@ -1015,8 +1015,8 @@ importers:
         specifier: ^3.0.2
         version: 3.1.0
       typescript:
-        specifier: ^5.1.6
-        version: 5.2.2
+        specifier: ^5.3.2
+        version: 5.3.2
 
   packages/stripe:
     dependencies:
@@ -11177,12 +11177,6 @@ packages:
       call-bind: 1.0.5
       for-each: 0.3.3
       is-typed-array: 1.1.12
-    dev: true
-
-  /typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
-    engines: {node: '>=14.17'}
-    hasBin: true
     dev: true
 
   /typescript@5.3.2:
