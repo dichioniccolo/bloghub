@@ -18,16 +18,16 @@ export async function getNotificationsSettings() {
   });
 
   return {
-    communication_emails:
+    communication:
       settings.find(
         (s) => s.type === EmailNotificationSettingType.COMMUNICATION,
       )?.value ?? true,
-    marketing_emails:
+    marketing:
       settings.find((s) => s.type === EmailNotificationSettingType.MARKETING)
         ?.value ?? true,
-    social_emails:
+    social:
       settings.find((s) => s.type === EmailNotificationSettingType.SOCIAL)
         ?.value ?? true,
-    security_emails: true as const,
+    security: true as const,
   };
 }
