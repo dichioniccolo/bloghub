@@ -3,7 +3,10 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +19,6 @@ import {
 } from "@acme/ui/components/alert-dialog";
 
 import { deleteProjectUser } from "~/app/_actions/project/delete-project-user";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   open: boolean;
@@ -30,16 +32,19 @@ interface Props {
 }
 
 function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
-  const { mutate, isRunning } = useZact(deleteProjectUser, {
+  const { action, status } = useServerAction(deleteProjectUser, {
     onSuccess: () => {
       setOpen(false);
+    },
+    onServerError(error) {
+      error && toast.error(error);
     },
   });
 
   const onDelete = () =>
-    mutate({
+    action({
       projectId,
-      userIdToDelete: userToDelete.id,
+      userId: userToDelete.id,
     });
 
   return (
@@ -55,7 +60,9 @@ function DeleteMemberDialog({ open, setOpen, projectId, userToDelete }: Props) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={onDelete}>
-            {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {status === SubmissionStatus.PENDING && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Remove
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -2,6 +2,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 import {
   ResizableMediaWithUploader,
@@ -9,6 +10,7 @@ import {
   TiptapEditor,
 } from "@acme/editor";
 import { determineMediaType } from "@acme/lib/utils";
+import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
 import {
   FormControl,
@@ -25,13 +27,12 @@ import { createProjectMedia } from "~/app/_actions/project/create-project-media"
 import type { GetPost } from "~/app/_api/posts";
 import type { EditPostSchemaType } from "~/lib/validation/schema";
 import { EditPostSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   preview: boolean;
   post: NonNullable<GetPost>;
-  formStatus: "saving" | "saved";
-  formStatusChanged(status: "saving" | "saved"): void;
+  formStatus: "saving" | "saved" | "error";
+  formStatusChanged(status: "saving" | "saved" | "error"): void;
 }
 
 export function EditPostFormContent({
@@ -39,8 +40,12 @@ export function EditPostFormContent({
   post,
   formStatusChanged,
 }: Props) {
-  const { mutate } = useZact(updatePost, {
+  const { action } = useServerAction(updatePost, {
     onSuccess: () => formStatusChanged("saved"),
+    onServerError(error) {
+      error && toast.error(error);
+      formStatusChanged("error");
+    },
   });
 
   const onSubmit = useCallback(
@@ -55,7 +60,7 @@ export function EditPostFormContent({
         "base64",
       );
 
-      await mutate({
+      await action({
         projectId: post.projectId,
         postId: post.id,
         body: {
@@ -65,7 +70,7 @@ export function EditPostFormContent({
         },
       });
     },
-    [formStatusChanged, mutate, post.id, post.projectId],
+    [formStatusChanged, action, post.id, post.projectId],
   );
 
   const initialValues = {
@@ -151,13 +156,13 @@ export function EditPostFormContent({
             uploadFn: uploadFile,
           }),
         ]}
-        onDebouncedUpdate={async (content) => {
-          await onSubmit({
+        onDebouncedUpdate={(content) =>
+          onSubmit({
             title: form.getValues("title"),
             description: form.getValues("description"),
             content,
-          });
-        }}
+          })
+        }
       />
     </>
   );

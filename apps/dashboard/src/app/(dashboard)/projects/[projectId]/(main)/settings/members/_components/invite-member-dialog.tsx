@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
   Dialog,
@@ -27,7 +29,6 @@ import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 import { inviteUser } from "~/app/_actions/project/invite-user";
 import type { InviteMemberSchemaType } from "~/lib/validation/schema";
 import { InviteMemberSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   projectId: string;
@@ -36,15 +37,18 @@ interface Props {
 export function InviteMemberDialog({ projectId }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { mutate } = useZact(inviteUser, {
+  const { action, status } = useServerAction(inviteUser, {
     onSuccess: () => {
       toast.success("Invitation sent");
       setOpen(false);
     },
+    onServerError(error) {
+      error && toast.error(error);
+    },
   });
 
   const onSubmit = ({ email }: InviteMemberSchemaType) =>
-    mutate({
+    action({
       email,
       projectId,
     });
@@ -92,8 +96,8 @@ export function InviteMemberDialog({ projectId }: Props) {
               </FormItem>
             )}
           />
-          <Button disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting && (
+          <Button disabled={status === SubmissionStatus.PENDING}>
+            {status === SubmissionStatus.PENDING && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             Invite

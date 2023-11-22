@@ -2,7 +2,8 @@
 
 import { Loader2 } from "lucide-react";
 
-import { Button } from "@acme/ui/components/button";
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import {
   Card,
   CardContent,
@@ -22,28 +23,28 @@ import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 
 import { updateNotificationSettings } from "~/app/_actions/user/update-notifications-settings";
+import { SubmitButton } from "~/components/submit-button";
 import type { EditNotificationsSchemaType } from "~/lib/validation/schema";
 import { EditNotificationsSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   settings: EditNotificationsSchemaType;
 }
 
 export function NotificationsForm({ settings }: Props) {
-  const { mutate } = useZact(updateNotificationSettings);
+  const { action, status } = useServerAction(updateNotificationSettings);
 
   const onSubmit = ({
-    communication_emails,
-    marketing_emails,
-    social_emails,
-    security_emails,
+    communication,
+    marketing,
+    social,
+    security,
   }: EditNotificationsSchemaType) =>
-    mutate({
-      communication_emails,
-      marketing_emails,
-      social_emails,
-      security_emails,
+    action({
+      communication,
+      marketing,
+      social,
+      security,
     });
 
   const form = useZodForm({
@@ -60,7 +61,7 @@ export function NotificationsForm({ settings }: Props) {
         <CardContent className="px-0">
           <div className="space-y-4">
             <FormField<EditNotificationsSchemaType>
-              name="communication_emails"
+              name="communication"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -81,7 +82,7 @@ export function NotificationsForm({ settings }: Props) {
               )}
             />
             <FormField<EditNotificationsSchemaType>
-              name="marketing_emails"
+              name="marketing"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -102,7 +103,7 @@ export function NotificationsForm({ settings }: Props) {
               )}
             />
             <FormField<EditNotificationsSchemaType>
-              name="social_emails"
+              name="social"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -121,7 +122,7 @@ export function NotificationsForm({ settings }: Props) {
               )}
             />
             <FormField<EditNotificationsSchemaType>
-              name="security_emails"
+              name="security"
               render={() => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
@@ -139,12 +140,12 @@ export function NotificationsForm({ settings }: Props) {
           </div>
         </CardContent>
         <CardFooter className="px-0">
-          <Button disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting && (
+          <SubmitButton disabled={status === SubmissionStatus.PENDING}>
+            {status === SubmissionStatus.PENDING && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             <span>Save</span>
-          </Button>
+          </SubmitButton>
         </CardFooter>
       </Card>
     </Form>

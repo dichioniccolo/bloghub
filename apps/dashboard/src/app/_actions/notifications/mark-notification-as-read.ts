@@ -3,21 +3,25 @@
 import { z } from "zod";
 
 import { db, NotificationStatus } from "@acme/db";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
+import { RequiredString } from "~/lib/validation/schema";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const markNotificationAsRead = authenticatedAction(() =>
-  z.object({
-    notificationId: z.string().min(1),
+export const markNotificationAsRead = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    notificationId: RequiredString,
   }),
-)(async ({ notificationId }, { userId }) => {
-  await db.notification.update({
-    where: {
-      id: notificationId,
-      userId,
-    },
-    data: {
-      status: NotificationStatus.READ,
-    },
-  });
+  action: async ({ input: { notificationId }, ctx: { user } }) => {
+    await db.notification.update({
+      where: {
+        id: notificationId,
+        userId: user.id,
+      },
+      data: {
+        status: NotificationStatus.READ,
+      },
+    });
+  },
 });

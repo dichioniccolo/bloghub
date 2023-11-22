@@ -6,65 +6,73 @@ import { z } from "zod";
 import { db, Role } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
-import { isOwnerCheck } from "../schemas";
+import { RequiredString } from "~/lib/validation/schema";
+import { authenticatedMiddlewares } from "../middlewares/user";
+import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "../schemas";
 
-export const deleteProjectUser = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-      userIdToDelete: z.string().min(1),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isOwnerCheck(projectId, userId, ctx);
-    }),
-)(async ({ projectId, userIdToDelete }) => {
-  const userToDelete = await db.projectMember.findFirst({
-    where: {
-      projectId,
-      userId: userIdToDelete,
-    },
-    select: {
-      role: true,
-      user: {
-        select: {
-          email: true,
-        },
-      },
-      project: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
+export const deleteProjectUser = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: RequiredString,
+    userId: RequiredString,
+  }),
+  action: async ({
+    input: { projectId, userId: userIdToDelete },
+    ctx: { user },
+  }) => {
+    if (!(await isProjectOwner(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
+    }
 
-  if (!userToDelete) {
-    return;
-  }
-
-  if (userToDelete?.role === Role.OWNER) {
-    throw new Error("Cannot delete owner");
-  }
-
-  await db.projectMember.delete({
-    where: {
-      projectId_userId: {
+    const userToDelete = await db.projectMember.findFirst({
+      where: {
         projectId,
         userId: userIdToDelete,
       },
-    },
-  });
+      select: {
+        role: true,
+        user: {
+          select: {
+            email: true,
+          },
+        },
+        project: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
 
-  await inngest.send({
-    id: `notification/project.user.removed/${projectId}-${userToDelete.user.email}`,
-    name: "notification/project.user.removed",
-    data: {
-      projectName: userToDelete.project.name,
-      userEmail: userToDelete.user.email,
-    },
-  });
+    if (!userToDelete) {
+      return;
+    }
 
-  revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));
+    if (userToDelete?.role === Role.OWNER) {
+      throw new ErrorForClient("Cannot delete owner");
+    }
+
+    await db.projectMember.delete({
+      where: {
+        projectId_userId: {
+          projectId,
+          userId: userIdToDelete,
+        },
+      },
+    });
+
+    await inngest.send({
+      id: `notification/project.user.removed/${projectId}-${userToDelete.user.email}`,
+      name: "notification/project.user.removed",
+      data: {
+        projectName: userToDelete.project.name,
+        userEmail: userToDelete.user.email,
+      },
+    });
+
+    revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));
+  },
 });

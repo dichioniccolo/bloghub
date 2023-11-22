@@ -12,6 +12,7 @@ import {
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
 } from "@acme/notifications";
+import { useServerFormAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
   Popover,
@@ -28,7 +29,6 @@ import {
 import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
 import { useRealtimeNotification } from "~/hooks/use-realtime";
-import { useZact } from "~/lib/zact/client";
 import { InvitationAccepted } from "./types/invitation-accepted";
 
 interface Props {
@@ -48,7 +48,7 @@ export function NotificationsPopover({ session }: Props) {
     });
   };
 
-  const { mutate } = useZact(archiveAllNotifications, {
+  const { action } = useServerFormAction(archiveAllNotifications, {
     onSuccess: () => {
       dispatch({
         type: NotificationActionTypes.ARCHIVE_ALL,
@@ -125,11 +125,7 @@ export function NotificationsPopover({ session }: Props) {
                 })}
               </div>
               <div className="sticky bottom-0 flex justify-center border-t border-border p-2">
-                <Button
-                  size="xs"
-                  variant="secondary"
-                  onClick={() => void mutate({})}
-                >
+                <Button formAction={action} size="xs" variant="secondary">
                   Archive all
                 </Button>
               </div>

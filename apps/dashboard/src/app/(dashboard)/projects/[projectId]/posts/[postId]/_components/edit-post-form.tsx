@@ -12,7 +12,9 @@ interface Props {
 
 export function EditPostForm({ post }: Props) {
   const [preview, setPreview] = useState(false);
-  const [formStatus, setFormStatus] = useState<"saving" | "saved">("saved");
+  const [formStatus, setFormStatus] = useState<"saving" | "saved" | "error">(
+    "saved",
+  );
 
   return (
     <div className="mt-4 space-y-4">

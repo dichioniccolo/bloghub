@@ -3,6 +3,8 @@
 import { Loader2 } from "lucide-react";
 
 import type { Session } from "@acme/auth";
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import { Card, CardContent, CardFooter } from "@acme/ui/components/card";
 import {
@@ -20,20 +22,18 @@ import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 import { updateUser } from "~/app/_actions/user/update-user";
 import type { UserNameSchemaType } from "~/lib/validation/schema";
 import { UserNameSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   session: Session;
 }
 
 export function ProfileForm({ session }: Props) {
-  const { mutate } = useZact(updateUser);
+  const { action, status, validationErrors } = useServerAction(updateUser);
 
-  const onSubmit = async ({ name }: UserNameSchemaType) => {
-    await mutate({
+  const onSubmit = async ({ name }: UserNameSchemaType) =>
+    action({
       name,
     });
-  };
 
   const form = useZodForm({
     schema: UserNameSchema,
@@ -59,14 +59,14 @@ export function ProfileForm({ session }: Props) {
                 <FormControl>
                   <Input className="w-[400px]" size={32} {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>{validationErrors?.name?.[0]}</FormMessage>
               </FormItem>
             )}
           />
         </CardContent>
         <CardFooter className="px-0">
-          <Button disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting && (
+          <Button disabled={status === SubmissionStatus.PENDING}>
+            {status === SubmissionStatus.PENDING && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             <span>Save</span>

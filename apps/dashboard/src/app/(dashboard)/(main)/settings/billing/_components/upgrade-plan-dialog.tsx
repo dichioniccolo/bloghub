@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { absoluteUrl } from "@acme/lib/url";
 import { formatNumber } from "@acme/lib/utils";
+import { useServerAction } from "@acme/server-actions/client";
 import { PLANS } from "@acme/stripe/plans";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -22,7 +22,7 @@ import { Switch } from "@acme/ui/components/switch";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import type { GetProPlans } from "~/app/_api/stripe";
-import { useZact } from "~/lib/zact/client";
+import { SubmitButton } from "~/components/submit-button";
 
 interface Props {
   proPlans: GetProPlans;
@@ -47,17 +47,14 @@ export function UpgradePlanDialog({ proPlans }: Props) {
 
   const period = annualBilling ? "yearly" : "monthly";
 
-  const { mutate, isRunning } = useZact(createCheckoutSession, {
-    onServerError: () => {
-      toast.error("Something went wrong");
-    },
-    onValidationError: () => {
-      toast.error("Something went wrong");
+  const { action } = useServerAction(createCheckoutSession, {
+    onServerError: (error) => {
+      error && toast.error(error);
     },
   });
 
   const onUpgrade = () =>
-    mutate({
+    action({
       callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
       key: plan.key,
     });
@@ -139,10 +136,9 @@ export function UpgradePlanDialog({ proPlans }: Props) {
             </p>
           </div>
         </div>
-        <Button disabled={isRunning} onClick={onUpgrade}>
-          {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Upgrade to {selectedPlan.name}
-        </Button>
+        <form action={onUpgrade}>
+          <SubmitButton>Upgrade to {selectedPlan.name}</SubmitButton>
+        </form>
       </DialogContent>
     </Dialog>
   );

@@ -5,6 +5,8 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/lib/routes";
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button, buttonVariants } from "@acme/ui/components/button";
 import {
   Dialog,
@@ -17,7 +19,6 @@ import {
 
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
 import type { GetPendingInvite } from "~/app/_api/projects";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   project: NonNullable<GetPendingInvite>["project"];
@@ -25,14 +26,17 @@ interface Props {
 }
 
 export function AcceptInviteDialog({ project, expired }: Props) {
-  const { mutate, isRunning: loading } = useZact(acceptInvite, {
+  const { action, status } = useServerAction(acceptInvite, {
+    onServerError(error) {
+      error && toast.error(error);
+    },
     onSuccess: () => {
       toast.success(`You now are a part of ${project.name} project!`);
     },
   });
 
   const onSubmit = () =>
-    mutate({
+    action({
       projectId: project.id,
     });
 
@@ -52,10 +56,12 @@ export function AcceptInviteDialog({ project, expired }: Props) {
             <DialogFooter>
               <Button
                 className="mt-4 w-full"
-                disabled={loading}
+                disabled={status === SubmissionStatus.PENDING}
                 onClick={onSubmit}
               >
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {status === SubmissionStatus.PENDING && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Accept invite
               </Button>
             </DialogFooter>

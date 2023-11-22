@@ -1,47 +1,50 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 import { db } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 import { createDomain, deleteDomain } from "@acme/vercel";
 
-import { authenticatedAction } from "../authenticated-action";
-import { DomainSchema, isOwnerCheck } from "../schemas";
+import { RequiredString, UpdateDomainSchema } from "~/lib/validation/schema";
+import { authenticatedMiddlewares } from "../middlewares/user";
+import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "../schemas";
 
-export const updateDomain = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-      newDomain: DomainSchema,
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isOwnerCheck(projectId, userId, ctx);
-    }),
-)(async ({ projectId, newDomain }) => {
-  const project = await db.project.findUniqueOrThrow({
-    where: {
-      id: projectId,
-      deletedAt: null,
-    },
-    select: {
-      domain: true,
-    },
-  });
+export const updateDomain = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: UpdateDomainSchema.extend({
+    projectId: RequiredString,
+  }),
+  action: async ({ input: { projectId, newDomain }, ctx: { user } }) => {
+    if (!(await isProjectOwner(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
+    }
 
-  await deleteDomain(project.domain);
-  await createDomain(newDomain);
+    const project = await db.project.findUniqueOrThrow({
+      where: {
+        id: projectId,
+        deletedAt: null,
+      },
+      select: {
+        domain: true,
+      },
+    });
 
-  await db.project.update({
-    where: {
-      id: projectId,
-      deletedAt: null,
-    },
-    data: {
-      domain: newDomain,
-    },
-  });
+    await deleteDomain(project.domain);
+    await createDomain(newDomain);
 
-  revalidatePath(AppRoutes.ProjectSettings(projectId));
+    await db.project.update({
+      where: {
+        id: projectId,
+        deletedAt: null,
+      },
+      data: {
+        domain: newDomain,
+      },
+    });
+
+    revalidatePath(AppRoutes.ProjectSettings(projectId));
+  },
 });

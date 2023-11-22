@@ -12,7 +12,7 @@ import { RequiredString } from "~/lib/validation/schema";
 import { authenticatedMiddlewares } from "../middlewares/user";
 import { IS_NOT_MEMBER_MESSAGE, isProjectMember } from "../schemas";
 
-export const deletePost = createServerAction({
+export const unpublishPost = createServerAction({
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     postId: RequiredString,
@@ -23,7 +23,7 @@ export const deletePost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    await db.post.delete({
+    const post = await db.post.findFirstOrThrow({
       where: {
         projectId,
         id: postId,
@@ -36,8 +36,21 @@ export const deletePost = createServerAction({
           },
         },
       },
+      select: {
+        id: true,
+        hidden: true,
+      },
     });
 
-    revalidatePath(AppRoutes.ProjectDashboard(projectId));
+    await db.post.update({
+      where: {
+        id: post.id,
+      },
+      data: {
+        hidden: !post.hidden,
+      },
+    });
+
+    revalidatePath(AppRoutes.PostEditor(projectId, postId));
   },
 });

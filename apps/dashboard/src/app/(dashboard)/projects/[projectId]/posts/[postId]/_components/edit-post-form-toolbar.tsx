@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Ban, Loader2 } from "lucide-react";
 
 import { CloudSave } from "@acme/ui/icons/cloud-save";
 
@@ -8,7 +8,7 @@ import { UnpublishButton } from "./unpublish-button";
 
 interface Props {
   post: NonNullable<GetPost>;
-  formStatus: "saving" | "saved";
+  formStatus: "saving" | "saved" | "error";
   preview: boolean;
   onPreviewChange(preview: boolean): void;
 }
@@ -30,15 +30,13 @@ export function EditPostFormToolbar({ post, formStatus }: Props) {
               Saved
             </span>
           )}
+          {formStatus === "error" && (
+            <span className="flex">
+              <Ban className="mr-2 h-6 w-6 shrink-0 fill-current text-red-500" />
+              Error while saving
+            </span>
+          )}
         </div>
-        {/* <div className="flex items-center space-x-2">
-          <Switch
-            id="preview-mode"
-            checked={preview}
-            onCheckedChange={onPreviewChange}
-          />
-          <Label htmlFor="preview-mode">Preview</Label>
-        </div> */}
       </div>
       <div className="flex items-center justify-end gap-2">
         {!post.hidden && <UnpublishButton post={post} />}

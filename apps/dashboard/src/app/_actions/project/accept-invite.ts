@@ -6,69 +6,67 @@ import { z } from "zod";
 import { db, Role } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const acceptInvite = authenticatedAction(({ userEmail }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      const inviteExists = await db.projectInvitation.exists({
+export const acceptInvite = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: z.string().min(1),
+  }),
+  action: async ({ input: { projectId }, ctx: { user } }) => {
+    const inviteExists = await db.projectInvitation.exists({
+      where: {
+        email: user.email,
+        projectId,
+        expiresAt: {
+          gte: new Date(),
+        },
+      },
+    });
+
+    if (!inviteExists) {
+      throw new ErrorForClient("Invite not found or expires");
+    }
+
+    await db.$transaction(async (tx) => {
+      await tx.projectInvitation.delete({
         where: {
-          email: userEmail,
-          projectId,
-          expiresAt: {
-            gte: new Date(),
+          email_projectId: {
+            email: user.email,
+            projectId,
           },
         },
       });
 
-      if (!inviteExists) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Invite not found",
-          path: ["projectId"],
-        });
-      }
-    }),
-)(async ({ projectId }, { userId, userEmail }) => {
-  await db.$transaction(async (tx) => {
-    await tx.projectInvitation.delete({
-      where: {
-        email_projectId: {
-          email: userEmail,
+      const projectMember = await tx.projectMember.create({
+        data: {
           projectId,
+          userId: user.id,
+          role: Role.EDITOR,
         },
-      },
-    });
-
-    const projectMember = await tx.projectMember.create({
-      data: {
-        projectId,
-        userId,
-        role: Role.EDITOR,
-      },
-      select: {
-        project: {
-          select: {
-            name: true,
+        select: {
+          project: {
+            select: {
+              name: true,
+            },
           },
         },
-      },
+      });
+
+      await inngest.send({
+        id: `notification/invitation.accepted/${projectId}-${user.email}`,
+        name: "notification/invitation.accepted",
+        data: {
+          projectId,
+          projectName: projectMember.project.name,
+          userEmail: user.email,
+        },
+      });
     });
 
-    await inngest.send({
-      id: `notification/invitation.accepted/${projectId}-${userEmail}`,
-      name: "notification/invitation.accepted",
-      data: {
-        projectId,
-        projectName: projectMember.project.name,
-        userEmail,
-      },
-    });
-  });
-
-  redirect(AppRoutes.ProjectDashboard(projectId));
+    redirect(AppRoutes.ProjectDashboard(projectId));
+  },
 });

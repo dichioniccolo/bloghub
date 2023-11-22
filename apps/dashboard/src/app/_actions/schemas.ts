@@ -34,14 +34,7 @@ export const DomainSchema = z
     return !blackList.some((x) => x?.toString().includes(domain));
   }, "Domain not available");
 
-export async function isOwnerCheck(
-  projectId: string,
-  userId: string,
-  ctx: z.RefinementCtx,
-  options?: {
-    path: string[];
-  },
-) {
+export async function isProjectOwner(projectId: string, userId: string) {
   const isOwner = await db.projectMember.exists({
     where: {
       projectId,
@@ -50,23 +43,10 @@ export async function isOwnerCheck(
     },
   });
 
-  if (!isOwner) {
-    ctx.addIssue({
-      code: "custom",
-      message: "You must be the owner of the project to perform this action",
-      path: options?.path ?? ["projectId"],
-    });
-  }
+  return isOwner;
 }
 
-export async function isProjectMember(
-  projectId: string,
-  userId: string,
-  ctx: z.RefinementCtx,
-  options?: {
-    path: string[];
-  },
-) {
+export async function isProjectMember(projectId: string, userId: string) {
   const isMember = await db.projectMember.exists({
     where: {
       projectId,
@@ -74,11 +54,10 @@ export async function isProjectMember(
     },
   });
 
-  if (!isMember) {
-    ctx.addIssue({
-      code: "custom",
-      message: "You must be a member of the project",
-      path: options?.path ?? ["projectId"],
-    });
-  }
+  return isMember;
 }
+export const IS_NOT_OWNER_MESSAGE =
+  "You must be the owner of the project to perform this action";
+
+export const IS_NOT_MEMBER_MESSAGE =
+  "You must be a member of the project to continue";

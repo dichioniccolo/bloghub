@@ -4,8 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { Check, Loader2, Pencil, Trash2, UploadCloud } from "lucide-react";
 import Dropzone from "react-dropzone";
+import { toast } from "sonner";
 
 import { determineMediaType } from "@acme/lib/utils";
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
 import {
   AlertDialog,
@@ -44,7 +47,6 @@ import { createProjectMedia } from "~/app/_actions/project/create-project-media"
 import type { GetPost } from "~/app/_api/posts";
 import type { PublishPostSchemaType } from "~/lib/validation/schema";
 import { PublishPostSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   post: NonNullable<GetPost>;
@@ -56,7 +58,11 @@ export function PublishSheet({ post }: Props) {
 
   const [slugEditable, setSlugEditable] = useState(post.hidden);
 
-  const { mutate, isRunning } = useZact(updatePostSettings);
+  const { action, status } = useServerAction(updatePostSettings, {
+    onServerError(error) {
+      error && toast.error(error);
+    },
+  });
 
   const onSubmit = ({
     slug,
@@ -64,7 +70,7 @@ export function PublishSheet({ post }: Props) {
     seoTitle,
     seoDescription,
   }: PublishPostSchemaType) =>
-    mutate({
+    action({
       projectId: post.projectId,
       postId: post.id,
       data: {
@@ -145,9 +151,7 @@ export function PublishSheet({ post }: Props) {
                           {...field}
                           autoCapitalize="none"
                           autoCorrect="off"
-                          disabled={
-                            form.formState.isSubmitting || !slugEditable
-                          }
+                          disabled={!slugEditable}
                           value={field.value ?? ""}
                         />
                         {!slugEditable ? (
@@ -289,7 +293,7 @@ export function PublishSheet({ post }: Props) {
               />
               <SheetFooter>
                 <Button variant="outline" type="submit">
-                  {isRunning && (
+                  {status === SubmissionStatus.PENDING && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Save

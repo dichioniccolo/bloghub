@@ -1,24 +1,26 @@
 "use server";
 
+import { z } from "zod";
+
 import { db, NotificationStatus } from "@acme/db";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const archiveAllNotifications = authenticatedAction()(async (
-  _,
-  { userId },
-) => {
-  await db.notification.updateMany({
-    where: {
-      userId,
-      status: {
-        in: [NotificationStatus.READ, NotificationStatus.UNREAD],
+export const archiveAllNotifications = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({}),
+  action: async ({ ctx: { user } }) => {
+    await db.notification.updateMany({
+      where: {
+        userId: user.id,
+        status: {
+          in: [NotificationStatus.READ, NotificationStatus.UNREAD],
+        },
       },
-    },
-    data: {
-      status: NotificationStatus.UNREAD,
-    },
-  });
-
-  // TODO: revalidate notifications query
+      data: {
+        status: NotificationStatus.UNREAD,
+      },
+    });
+  },
 });

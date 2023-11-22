@@ -16,16 +16,11 @@ export type MiddlewareResults<Middleware extends Record<string, MiddlewareFn>> =
       ? T
       : never;
   };
-// export type MiddlewareResults<Middleware extends MiddlewareFn[]> = {
-//   [K in keyof Middleware]: Middleware[K] extends () => Promise<infer T>
-//     ? T
-//     : never;
-// };
 
 export class ErrorForClient extends Error {}
 
 export interface EnrichedState<State, Schema extends z.ZodTypeAny> {
-  state: State;
+  state?: State;
   serverError: string | null;
   validationErrors: Partial<Record<keyof z.input<Schema>, string[]>>;
   status: SubmissionStatus;
@@ -36,19 +31,29 @@ export type TypedServerAction<
   Schema extends z.ZodTypeAny,
   Middlewares extends Record<string, MiddlewareFn> | undefined,
 > = (params: {
-  state: State;
+  state?: State;
   input: z.input<Schema>;
   ctx: Middlewares extends Record<string, MiddlewareFn>
     ? MiddlewareResults<Middlewares>
     : undefined;
-}) => Promise<State>;
+}) => Promise<State | void>;
+
+export type TypedServerActionWithoutInput<
+  State,
+  Middlewares extends Record<string, MiddlewareFn> | undefined,
+> = (params: {
+  state?: State;
+  ctx: Middlewares extends Record<string, MiddlewareFn>
+    ? MiddlewareResults<Middlewares>
+    : undefined;
+}) => Promise<State | void>;
 
 export type ZodActionFactoryParams<
   State,
   Schema extends z.ZodTypeAny,
   Middlewares extends Record<string, MiddlewareFn>,
 > = {
-  initialState: State;
+  initialState?: State;
   action: TypedServerAction<State, Schema, Middlewares>;
 } & (
   | {

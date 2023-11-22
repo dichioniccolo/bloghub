@@ -5,30 +5,33 @@ import { z } from "zod";
 
 import { db, genId } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
-import { isProjectMember } from "../schemas";
+import { authenticatedMiddlewares } from "../middlewares/user";
+import { IS_NOT_MEMBER_MESSAGE, isProjectMember } from "../schemas";
 
-export const createPost = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isProjectMember(projectId, userId, ctx);
-    }),
-)(async ({ projectId }) => {
-  const slug = genId();
+export const createPost = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: z.string().min(1),
+  }),
+  action: async ({ input: { projectId }, ctx: { user } }) => {
+    if (!(await isProjectMember(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
+    }
 
-  const post = await db.post.create({
-    data: {
-      projectId,
-      slug,
-      title: "",
-      description: "",
-      content: {},
-    },
-  });
+    const slug = genId();
+    const post = await db.post.create({
+      data: {
+        projectId,
+        slug,
+        title: "",
+        description: "",
+        content: {},
+      },
+    });
 
-  redirect(AppRoutes.PostEditor(projectId, post.id));
+    redirect(AppRoutes.PostEditor(projectId, post.id));
+  },
 });

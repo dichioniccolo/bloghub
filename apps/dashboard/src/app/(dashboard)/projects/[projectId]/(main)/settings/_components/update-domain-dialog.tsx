@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Badge } from "@acme/ui/components/badge";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -27,7 +29,6 @@ import { updateDomain } from "~/app/_actions/project/update-domain";
 import type { GetProject } from "~/app/_api/projects";
 import type { UpdateDomainSchemaType } from "~/lib/validation/schema";
 import { UpdateDomainSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   project: NonNullable<GetProject>;
@@ -36,21 +37,27 @@ interface Props {
 export function UpdateDomainDialog({ project }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { mutate } = useZact(updateDomain, {
+  const { action, status } = useServerAction(updateDomain, {
     onSuccess: () => {
       setOpen(false);
 
       toast.success("Domain updated");
     },
-    onServerError: () => {
-      toast.error("Something went wrong");
+    onServerError: (error) => {
+      error && toast.error(error);
     },
   });
 
-  const onSubmit = ({ newDomain }: UpdateDomainSchemaType) =>
-    mutate({
+  const onSubmit = ({
+    oldDomain,
+    newDomain,
+    confirm,
+  }: UpdateDomainSchemaType) =>
+    action({
       projectId: project.id,
+      oldDomain,
       newDomain,
+      confirm,
     });
 
   const form = useZodForm({
@@ -117,8 +124,11 @@ export function UpdateDomainDialog({ project }: Props) {
               </FormItem>
             )}
           />
-          <Button disabled={form.formState.isSubmitting} variant="destructive">
-            {form.formState.isSubmitting && (
+          <Button
+            disabled={status === SubmissionStatus.PENDING}
+            variant="destructive"
+          >
+            {status === SubmissionStatus.PENDING && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             Confirm domain change

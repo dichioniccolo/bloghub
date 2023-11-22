@@ -5,27 +5,32 @@ import { z } from "zod";
 
 import { db } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { isProjectMember } from "~/app/_actions/schemas";
-import { authenticatedAction } from "../authenticated-action";
+import { IS_NOT_OWNER_MESSAGE, isProjectMember } from "~/app/_actions/schemas";
+import { RequiredString } from "~/lib/validation/schema";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const quitProject = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string(),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isProjectMember(projectId, userId, ctx);
-    }),
-)(async ({ projectId }, { userId }) => {
-  await db.projectMember.delete({
-    where: {
-      projectId_userId: {
-        projectId,
-        userId,
+export const quitProject = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: RequiredString,
+  }),
+  action: async ({ input: { projectId }, ctx: { user } }) => {
+    if (!(await isProjectMember(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
+    }
+
+    await db.projectMember.delete({
+      where: {
+        projectId_userId: {
+          projectId,
+          userId: user.id,
+        },
       },
-    },
-  });
+    });
 
-  redirect(AppRoutes.Dashboard);
+    redirect(AppRoutes.Dashboard);
+  },
 });

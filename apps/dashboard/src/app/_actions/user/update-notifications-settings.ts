@@ -3,87 +3,90 @@
 import { z } from "zod";
 
 import { db, EmailNotificationSettingType } from "@acme/db";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const updateNotificationSettings = authenticatedAction(() =>
-  z.object({
-    communication_emails: z.coerce.boolean().default(true),
-    marketing_emails: z.coerce.boolean().default(true),
-    social_emails: z.coerce.boolean().default(true),
-    security_emails: z.literal(true),
+export const updateNotificationSettings = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    communication: z.coerce.boolean().default(true),
+    marketing: z.coerce.boolean().default(true),
+    social: z.coerce.boolean().default(true),
+    security: z.literal(true),
   }),
-)(async (
-  { communication_emails, marketing_emails, social_emails, security_emails },
-  { userId },
-) => {
-  await db.$transaction(async (tx) => {
-    await tx.emailNotificationSetting.upsert({
-      where: {
-        type_userId: {
+  action: async ({
+    input: { communication, marketing, social, security },
+    ctx: { user },
+  }) => {
+    await db.$transaction(async (tx) => {
+      await tx.emailNotificationSetting.upsert({
+        where: {
+          type_userId: {
+            type: EmailNotificationSettingType.COMMUNICATION,
+            userId: user.id,
+          },
+        },
+        create: {
+          userId: user.id,
           type: EmailNotificationSettingType.COMMUNICATION,
-          userId,
+          value: communication,
         },
-      },
-      create: {
-        userId,
-        type: EmailNotificationSettingType.COMMUNICATION,
-        value: communication_emails,
-      },
-      update: {
-        value: communication_emails,
-      },
-    });
+        update: {
+          value: communication,
+        },
+      });
 
-    await tx.emailNotificationSetting.upsert({
-      where: {
-        type_userId: {
+      await tx.emailNotificationSetting.upsert({
+        where: {
+          type_userId: {
+            type: EmailNotificationSettingType.MARKETING,
+            userId: user.id,
+          },
+        },
+        create: {
+          userId: user.id,
           type: EmailNotificationSettingType.MARKETING,
-          userId,
+          value: marketing,
         },
-      },
-      create: {
-        userId,
-        type: EmailNotificationSettingType.MARKETING,
-        value: marketing_emails,
-      },
-      update: {
-        value: marketing_emails,
-      },
-    });
+        update: {
+          value: marketing,
+        },
+      });
 
-    await tx.emailNotificationSetting.upsert({
-      where: {
-        type_userId: {
+      await tx.emailNotificationSetting.upsert({
+        where: {
+          type_userId: {
+            type: EmailNotificationSettingType.SOCIAL,
+            userId: user.id,
+          },
+        },
+        create: {
+          userId: user.id,
           type: EmailNotificationSettingType.SOCIAL,
-          userId,
+          value: social,
         },
-      },
-      create: {
-        userId,
-        type: EmailNotificationSettingType.SOCIAL,
-        value: social_emails,
-      },
-      update: {
-        value: social_emails,
-      },
-    });
+        update: {
+          value: social,
+        },
+      });
 
-    await tx.emailNotificationSetting.upsert({
-      where: {
-        type_userId: {
-          type: EmailNotificationSettingType.SECURITY,
-          userId,
+      await tx.emailNotificationSetting.upsert({
+        where: {
+          type_userId: {
+            type: EmailNotificationSettingType.SECURITY,
+            userId: user.id,
+          },
         },
-      },
-      create: {
-        userId,
-        type: EmailNotificationSettingType.SECURITY,
-        value: security_emails,
-      },
-      update: {
-        value: security_emails,
-      },
+        create: {
+          userId: user.id,
+          type: EmailNotificationSettingType.SECURITY,
+          value: security,
+        },
+        update: {
+          value: security,
+        },
+      });
     });
-  });
+  },
 });

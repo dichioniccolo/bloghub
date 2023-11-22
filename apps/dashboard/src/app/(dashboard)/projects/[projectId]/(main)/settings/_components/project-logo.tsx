@@ -5,6 +5,8 @@ import { Loader2, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 
 import { determineMediaType } from "@acme/lib/utils";
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -19,7 +21,6 @@ import {
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
 import type { GetProject } from "~/app/_api/projects";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   project: NonNullable<GetProject>;
@@ -33,6 +34,21 @@ export function ProjectLogo({ project }: Props) {
   }, [project.logo]);
 
   const [dragActive, setDragActive] = useState(false);
+
+  const { action: updateLogo, status: updateLogoStatus } = useServerAction(
+    updateProjectLogo,
+    {
+      onServerError(error) {
+        error && toast.error(error);
+      },
+    },
+  );
+
+  const onSubmit = () =>
+    updateLogo({
+      projectId: project.id,
+      logo: image,
+    });
 
   const onChangePicture = useCallback(
     async (file?: File) => {
@@ -60,16 +76,8 @@ export function ProjectLogo({ project }: Props) {
 
       setImage(media.url);
     },
-    [setImage, project],
+    [project.id],
   );
-
-  const { mutate, isRunning } = useZact(updateProjectLogo);
-
-  const onSubmit = () =>
-    mutate({
-      projectId: project.id,
-      logo: image,
-    });
 
   return (
     <Card>
@@ -151,9 +159,15 @@ export function ProjectLogo({ project }: Props) {
       <CardFooter className="justify-between">
         <Button
           onClick={onSubmit}
-          disabled={!image || project.logo === image || isRunning}
+          disabled={
+            !image ||
+            project.logo === image ||
+            updateLogoStatus === SubmissionStatus.PENDING
+          }
         >
-          {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {updateLogoStatus === SubmissionStatus.PENDING && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
           Save
         </Button>
         <p className="text-sm text-muted-foreground">

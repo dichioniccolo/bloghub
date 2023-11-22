@@ -16,10 +16,10 @@ export default function Loading() {
       <Skeleton>
         <NotificationsForm
           settings={{
-            security_emails: true,
-            communication_emails: false,
-            marketing_emails: false,
-            social_emails: false,
+            security: true,
+            communication: false,
+            marketing: false,
+            social: false,
           }}
         />
       </Skeleton>

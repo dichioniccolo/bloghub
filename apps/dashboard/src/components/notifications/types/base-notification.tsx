@@ -4,6 +4,7 @@ import type { MouseEvent, ReactNode } from "react";
 import { Archive } from "lucide-react";
 
 import type { AppNotification } from "@acme/notifications";
+import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/components/button";
 
@@ -13,7 +14,6 @@ import {
   NotificationActionTypes,
   useNotificationsDispatch,
 } from "~/components/notifications/notifications-provider";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   notification: AppNotification;
@@ -30,7 +30,7 @@ export function BaseNotification({
 }: Props) {
   const dispatch = useNotificationsDispatch();
 
-  const { mutate: archive } = useZact(archiveNotification, {
+  const { action: archive } = useServerAction(archiveNotification, {
     onSuccess: () => {
       dispatch({
         type: NotificationActionTypes.REMOVE_NOTIFICATION,
@@ -38,8 +38,9 @@ export function BaseNotification({
       });
     },
   });
-  const { mutate: markAsRead } = useZact(markNotificationAsRead, {
-    onBeforeAction: () => {
+  const { action: markAsRead } = useServerAction(markNotificationAsRead, {
+    onSuccess: () => {
+      // TODO: make it with optimistic
       dispatch({
         type: NotificationActionTypes.MARK_AS_READ,
         payload: notification,

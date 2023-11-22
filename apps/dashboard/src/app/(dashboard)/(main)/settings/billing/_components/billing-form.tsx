@@ -1,14 +1,14 @@
 "use client";
 
 import { format } from "date-fns";
-import { HelpCircle, InfinityIcon, Loader2 } from "lucide-react";
+import { HelpCircle, InfinityIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { absoluteUrl } from "@acme/lib/url";
 import { formatNumber } from "@acme/lib/utils";
+import { useServerAction } from "@acme/server-actions/client";
 import { Badge } from "@acme/ui/components/badge";
-import { Button } from "@acme/ui/components/button";
 import {
   Card,
   CardContent,
@@ -30,7 +30,7 @@ import { Divider } from "@acme/ui/icons/divider";
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import type { GetProPlans } from "~/app/_api/stripe";
 import type { GetUserPlan } from "~/app/_api/user";
-import { useZact } from "~/lib/zact/client";
+import { SubmitButton } from "~/components/submit-button";
 import { UpgradePlanDialog } from "./upgrade-plan-dialog";
 
 interface Props {
@@ -40,17 +40,14 @@ interface Props {
 }
 
 export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
-  const { mutate, isRunning } = useZact(createCheckoutSession, {
-    onServerError: () => {
-      toast.error("Something went wrong");
-    },
-    onValidationError: () => {
-      toast.error("Something went wrong");
+  const { action } = useServerAction(createCheckoutSession, {
+    onServerError: (error) => {
+      error && toast.error(error);
     },
   });
 
   const onManageSubscription = () =>
-    mutate({
+    action({
       callbackUrl: absoluteUrl(AppRoutes.BillingSettings),
     });
 
@@ -116,10 +113,9 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
           <UpgradePlanDialog proPlans={proPlans} />
         ) : (
           <div className="flex space-x-3">
-            <Button onClick={onManageSubscription} disabled={isRunning}>
-              {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Manage Subscription
-            </Button>
+            <form action={onManageSubscription}>
+              <SubmitButton>Manage Subscription</SubmitButton>
+            </form>
           </div>
         )}
       </CardFooter>

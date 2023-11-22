@@ -1,29 +1,41 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 
-import { togglePublishedPost } from "~/app/_actions/post/toggle-published-post";
+import { unpublishPost } from "~/app/_actions/post/unpublish-post";
 import type { GetPost } from "~/app/_api/posts";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   post: NonNullable<GetPost>;
 }
 
 export function UnpublishButton({ post }: Props) {
-  const { mutate, isRunning } = useZact(togglePublishedPost);
+  const { action, status } = useServerAction(unpublishPost, {
+    onServerError(error) {
+      error && toast.error(error);
+    },
+  });
 
-  const unpublishPost = () =>
-    mutate({
+  const onClick = () =>
+    action({
       postId: post.id,
       projectId: post.projectId,
     });
 
   return (
-    <Button variant="destructive" onClick={unpublishPost} disabled={isRunning}>
-      {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+    <Button
+      variant="destructive"
+      onClick={onClick}
+      disabled={status === SubmissionStatus.PENDING}
+    >
+      {status === SubmissionStatus.PENDING && (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      )}
       Unpublish
     </Button>
   );

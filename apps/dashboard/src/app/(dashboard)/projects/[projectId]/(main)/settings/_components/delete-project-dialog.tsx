@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +21,6 @@ import { Button } from "@acme/ui/components/button";
 
 import { deleteProject } from "~/app/_actions/project/delete-project";
 import type { GetProject } from "~/app/_api/projects";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   project: NonNullable<GetProject>;
@@ -28,17 +29,17 @@ interface Props {
 export function DeleteProjectDialog({ project }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { mutate, isRunning } = useZact(deleteProject, {
+  const { action, status } = useServerAction(deleteProject, {
     onSuccess: () => {
       toast.success("Project deleted");
     },
-    onServerError: () => {
-      toast.error("Something went wrong");
+    onServerError: (error) => {
+      error && toast.error(error);
     },
   });
 
   const onDelete = () =>
-    mutate({
+    action({
       projectId: project.id,
     });
 
@@ -57,8 +58,13 @@ export function DeleteProjectDialog({ project }: Props) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete} disabled={isRunning}>
-            {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <AlertDialogAction
+            onClick={onDelete}
+            disabled={status === SubmissionStatus.PENDING}
+          >
+            {status === SubmissionStatus.PENDING && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

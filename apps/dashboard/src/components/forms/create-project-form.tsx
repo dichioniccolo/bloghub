@@ -29,6 +29,10 @@ interface Props {
 export function CreateProjectForm({ onSuccess }: Props) {
   const { action, status, validationErrors } = useServerAction(createProject, {
     onSuccess(data) {
+      if (!data) {
+        return;
+      }
+
       toast.success("Project created");
       onSuccess?.(data);
     },

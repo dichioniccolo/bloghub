@@ -2,43 +2,57 @@
 
 import { z } from "zod";
 
+import type { Post } from "@acme/db";
 import { db } from "@acme/db";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
-import { isProjectMember } from "../schemas";
+import { RequiredString } from "~/lib/validation/schema";
+import { authenticatedMiddlewares } from "../middlewares/user";
+import { IS_NOT_MEMBER_MESSAGE, isProjectMember } from "../schemas";
 
-export const updatePost = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-      postId: z.string().min(1),
-      body: z.object({
-        title: z.string(),
-        description: z.string().optional().nullable(),
-        content: z.string().min(1),
-      }),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isProjectMember(projectId, userId, ctx);
+export const updatePost = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: RequiredString,
+    postId: RequiredString,
+    body: z.object({
+      title: RequiredString,
+      description: z.string().optional().nullable(),
+      content: RequiredString,
     }),
-)(async ({ projectId, postId, body: { title, description, content } }) => {
-  const postContent = Buffer.from(content, "base64").toString("utf-8");
-
-  const post = await db.post.update({
-    where: {
-      id: postId,
+  }),
+  initialState: undefined as unknown as Pick<Post, "id">,
+  action: async ({
+    input: {
       projectId,
+      postId,
+      body: { title, description, content },
     },
-    data: {
-      title,
-      description,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      content: JSON.parse(postContent),
-    },
-    select: {
-      id: true,
-    },
-  });
+    ctx: { user },
+  }) => {
+    if (!(await isProjectMember(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
+    }
 
-  return post;
+    const postContent = Buffer.from(content, "base64").toString("utf-8");
+
+    const post = await db.post.update({
+      where: {
+        id: postId,
+        projectId,
+      },
+      data: {
+        title,
+        description,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        content: JSON.parse(postContent),
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return post;
+  },
 });

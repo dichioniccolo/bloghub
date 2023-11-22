@@ -5,12 +5,15 @@ import { z } from "zod";
 
 import { db } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
-import { isProjectMember } from "../schemas";
+import { authenticatedMiddlewares } from "../middlewares/user";
+import { IS_NOT_MEMBER_MESSAGE, isProjectMember } from "../schemas";
 
-export const updatePostSettings = authenticatedAction(({ userId }) =>
-  z
+export const updatePostSettings = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z
     .object({
       projectId: z.string().min(1),
       postId: z.string().min(1),
@@ -25,8 +28,6 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
       }),
     })
     .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
-      await isProjectMember(projectId, userId, ctx);
-
       const postWithSameSlugExists = await db.post.exists({
         where: {
           slug,
@@ -45,26 +46,34 @@ export const updatePostSettings = authenticatedAction(({ userId }) =>
         });
       }
     }),
-)(async ({
-  projectId,
-  postId,
-  data: { slug, thumbnailUrl, seoTitle, seoDescription },
-}) => {
-  await db.post.update({
-    where: {
-      id: postId,
+  action: async ({
+    input: {
       projectId,
+      postId,
+      data: { slug, thumbnailUrl, seoTitle, seoDescription },
     },
-    data: {
-      slug,
-      thumbnailUrl,
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      seoTitle: seoTitle || null,
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      seoDescription: seoDescription || null,
-      hidden: false,
-    },
-  });
+    ctx: { user },
+  }) => {
+    if (!(await isProjectMember(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
+    }
 
-  revalidatePath(AppRoutes.PostEditor(projectId, postId));
+    await db.post.update({
+      where: {
+        id: postId,
+        projectId,
+      },
+      data: {
+        slug,
+        thumbnailUrl,
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        seoTitle: seoTitle || null,
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        seoDescription: seoDescription || null,
+        hidden: false,
+      },
+    });
+
+    revalidatePath(AppRoutes.PostEditor(projectId, postId));
+  },
 });

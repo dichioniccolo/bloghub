@@ -2,6 +2,8 @@
 
 import { AlertCircle, ExternalLink, Loader2 } from "lucide-react";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
   Card,
@@ -14,7 +16,6 @@ import { CheckCircleFill } from "@acme/ui/icons/check-circle-fill";
 
 import { verifyDomain } from "~/app/_actions/project/verify-domain";
 import type { GetProject } from "~/app/_api/projects";
-import { useZact } from "~/lib/zact/client";
 import { DomainConfigurations } from "./domain-configurations";
 import { UpdateDomainDialog } from "./update-domain-dialog";
 
@@ -23,10 +24,10 @@ interface Props {
 }
 
 export function CustomDomain({ project }: Props) {
-  const { isRunning, mutate, data } = useZact(verifyDomain);
+  const { action, status, state } = useServerAction(verifyDomain);
 
   const handleVerify = () =>
-    mutate({
+    action({
       projectId: project.id,
     });
 
@@ -54,28 +55,28 @@ export function CustomDomain({ project }: Props) {
           <div className="flex space-x-3">
             <Button
               variant="outline"
-              onClick={async () => {
-                await handleVerify();
-              }}
-              disabled={isRunning}
+              onClick={handleVerify}
+              disabled={status === SubmissionStatus.PENDING}
             >
-              {isRunning && <Loader2 className="mr-1 h-5 w-5 animate-spin" />}
+              {status === SubmissionStatus.PENDING && (
+                <Loader2 className="mr-1 h-5 w-5 animate-spin" />
+              )}
               Verify
             </Button>
             <UpdateDomainDialog project={project} />
           </div>
         </div>
         <div className="flex h-10 items-center space-x-2">
-          {(project.domainVerified || data?.verified === true) && (
+          {(project.domainVerified || state?.verified === true) && (
             <>
               <CheckCircleFill className="h-6 w-6 text-blue-500" />
               <p className="text-sm text-stone-500">Verified</p>
             </>
           )}
 
-          {data
-            ? !data.verified &&
-              (data?.pending ? (
+          {state
+            ? !state.verified &&
+              (state?.pending ? (
                 <>
                   <AlertCircle className="h-6 w-6 text-red-500" />
                   <p className="text-sm text-yellow-500">
@@ -90,7 +91,7 @@ export function CustomDomain({ project }: Props) {
               ))
             : null}
         </div>
-        {data && !data?.verified && <DomainConfigurations status={data} />}
+        {state && !state?.verified && <DomainConfigurations status={state} />}
       </CardContent>
     </Card>
   );

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { db } from "@acme/db";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 import { stripe } from "@acme/stripe";
 import {
   isSubscriptionPlanPro,
@@ -11,10 +13,11 @@ import {
   stripePriceToSubscriptionPlan,
 } from "@acme/stripe/plans";
 
-import { authenticatedAction } from "../authenticated-action";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const createCheckoutSession = authenticatedAction(() =>
-  z.object({
+export const createCheckoutSession = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
     callbackUrl: z.string().min(1),
     key: z
       .enum([
@@ -28,71 +31,72 @@ export const createCheckoutSession = authenticatedAction(() =>
       .nullable()
       .transform((x) => x?.toUpperCase()),
   }),
-)(async ({ callbackUrl, key }, { userId }) => {
-  const dbUser = await db.user.findUniqueOrThrow({
-    where: {
-      id: userId,
-    },
-    select: {
-      stripePriceId: true,
-      stripeCustomerId: true,
-      stripeSubscriptionId: true,
-      email: true,
-    },
-  });
-
-  const currentUserPlan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
-
-  if (
-    isSubscriptionPlanPro(currentUserPlan) &&
-    dbUser.stripeCustomerId &&
-    dbUser.stripeSubscriptionId
-  ) {
-    // The user is on the pro plan.
-    // Create a portal session to manage subscription.
-    const stripeSession = await stripe.billingPortal.sessions.create({
-      customer: dbUser.stripeCustomerId,
-      return_url: callbackUrl,
+  action: async ({ input: { callbackUrl, key }, ctx: { user } }) => {
+    const dbUser = await db.user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+      select: {
+        stripePriceId: true,
+        stripeCustomerId: true,
+        stripeSubscriptionId: true,
+        email: true,
+      },
     });
 
-    redirect(stripeSession.url);
-  }
+    const currentUserPlan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 
-  if (!key) {
-    throw new Error("You must provide a plan key");
-  }
+    if (
+      isSubscriptionPlanPro(currentUserPlan) &&
+      dbUser.stripeCustomerId &&
+      dbUser.stripeSubscriptionId
+    ) {
+      // The user is on the pro plan.
+      // Create a portal session to manage subscription.
+      const stripeSession = await stripe.billingPortal.sessions.create({
+        customer: dbUser.stripeCustomerId,
+        return_url: callbackUrl,
+      });
 
-  const plan = planKeyToPlanInfo(key);
+      redirect(stripeSession.url);
+    }
 
-  if (!isSubscriptionPlanPro(plan)) {
-    throw new Error("You cannot chose free plan");
-  }
+    if (!key) {
+      throw new ErrorForClient("You must provide a plan key");
+    }
 
-  const stripeSession = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    payment_method_types: ["card", "paypal", "revolut_pay"],
-    customer: dbUser.stripeCustomerId ?? undefined,
-    customer_email: dbUser.email,
-    client_reference_id: userId,
-    success_url: callbackUrl,
-    cancel_url: callbackUrl,
-    billing_address_collection: "required",
-    tax_id_collection: {
-      enabled: true,
-    },
-    allow_promotion_codes: true,
-    subscription_data: {
-      metadata: {
-        userId,
+    const plan = planKeyToPlanInfo(key);
+
+    if (!isSubscriptionPlanPro(plan)) {
+      throw new ErrorForClient("You cannot choose free plan");
+    }
+
+    const stripeSession = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card", "paypal"],
+      customer: dbUser.stripeCustomerId ?? undefined,
+      customer_email: dbUser.email,
+      client_reference_id: user.id,
+      success_url: callbackUrl,
+      cancel_url: callbackUrl,
+      billing_address_collection: "required",
+      tax_id_collection: {
+        enabled: true,
       },
-    },
-    line_items: [
-      {
-        price: plan.priceId,
-        quantity: 1,
+      allow_promotion_codes: true,
+      subscription_data: {
+        metadata: {
+          userId: user.id,
+        },
       },
-    ],
-  });
+      line_items: [
+        {
+          price: plan.priceId,
+          quantity: 1,
+        },
+      ],
+    });
 
-  redirect(stripeSession.url!);
+    redirect(stripeSession.url!);
+  },
 });

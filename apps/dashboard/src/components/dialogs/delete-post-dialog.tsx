@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 
+import { useServerAction } from "@acme/server-actions/client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,7 +15,6 @@ import {
 } from "@acme/ui/components/alert-dialog";
 
 import { deletePost } from "~/app/_actions/post/delete-post";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   open: boolean;
@@ -29,20 +29,20 @@ export function DeletePostDialog({
   projectId,
   postId,
 }: Props) {
-  const { mutate } = useZact(deletePost);
+  const { action } = useServerAction(deletePost, {
+    onSuccess() {
+      toast.success("Post deleted!");
+    },
+    onServerError(error) {
+      error && toast.error(error);
+    },
+  });
 
   const onDelete = () =>
-    toast.promise(
-      mutate({
-        postId,
-        projectId,
-      }),
-      {
-        loading: "Deleting post...",
-        success: "Post deleted!",
-        error: (e) => `Failed to delete post ${e}`,
-      },
-    );
+    action({
+      postId,
+      projectId,
+    });
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>

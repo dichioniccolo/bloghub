@@ -5,35 +5,40 @@ import { z } from "zod";
 
 import { db } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { isOwnerCheck } from "~/app/_actions/schemas";
-import { authenticatedAction } from "../authenticated-action";
+import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "~/app/_actions/schemas";
+import { RequiredEmail, RequiredString } from "~/lib/validation/schema";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const deleteProjectInvitation = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-      email: z.string().email(),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isOwnerCheck(projectId, userId, ctx);
-    }),
-)(async ({ projectId, email }) => {
-  await db.projectInvitation.delete({
-    where: {
-      email_projectId: {
-        email,
-        projectId,
-      },
-    },
-    select: {
-      project: {
-        select: {
-          name: true,
+export const deleteProjectInvitation = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: RequiredString,
+    email: RequiredEmail,
+  }),
+  action: async ({ input: { projectId, email }, ctx: { user } }) => {
+    if (!(await isProjectOwner(projectId, user.id))) {
+      throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
+    }
+
+    await db.projectInvitation.delete({
+      where: {
+        email_projectId: {
+          email,
+          projectId,
         },
       },
-    },
-  });
+      select: {
+        project: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
 
-  revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));
+    revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));
+  },
 });

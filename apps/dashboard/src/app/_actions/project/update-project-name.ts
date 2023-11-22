@@ -4,29 +4,35 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { db } from "@acme/db";
+import { ErrorForClient } from "@acme/server-actions";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
-import { isOwnerCheck } from "../schemas";
+import { authenticatedMiddlewares } from "../middlewares/user";
+import { isProjectOwner } from "../schemas";
 
-export const updateProjectName = authenticatedAction(({ userId }) =>
-  z
-    .object({
-      projectId: z.string().min(1),
-      name: z.string().min(1),
-    })
-    .superRefine(async ({ projectId }, ctx) => {
-      await isOwnerCheck(projectId, userId, ctx);
-    }),
-)(async ({ projectId, name }) => {
-  await db.project.update({
-    where: {
-      id: projectId,
-      deletedAt: null,
-    },
-    data: {
-      name,
-    },
-  });
+export const updateProjectName = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
+    projectId: z.string().min(1),
+    name: z.string().min(1),
+  }),
+  action: async ({ input: { projectId, name }, ctx: { user } }) => {
+    if (!(await isProjectOwner(projectId, user.id))) {
+      throw new ErrorForClient(
+        "You must be the owner of the project to perform this action",
+      );
+    }
 
-  revalidatePath(`/projects/${projectId}`);
+    await db.project.update({
+      where: {
+        id: projectId,
+        deletedAt: null,
+      },
+      data: {
+        name,
+      },
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+  },
 });

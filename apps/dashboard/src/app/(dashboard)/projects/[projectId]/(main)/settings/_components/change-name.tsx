@@ -1,7 +1,10 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
+import { SubmissionStatus } from "@acme/server-actions";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
   Card,
@@ -27,17 +30,20 @@ import { updateProjectName } from "~/app/_actions/project/update-project-name";
 import type { GetProject } from "~/app/_api/projects";
 import type { ProjectNameSchemaType } from "~/lib/validation/schema";
 import { ProjectNameSchema } from "~/lib/validation/schema";
-import { useZact } from "~/lib/zact/client";
 
 interface Props {
   project: NonNullable<GetProject>;
 }
 
 export function ChangeName({ project }: Props) {
-  const { mutate } = useZact(updateProjectName);
+  const { action, status } = useServerAction(updateProjectName, {
+    onServerError(error) {
+      error && toast.error(error);
+    },
+  });
 
   const onSubmit = ({ name }: ProjectNameSchemaType) =>
-    mutate({
+    action({
       projectId: project.id,
       name,
     });
@@ -78,10 +84,11 @@ export function ChangeName({ project }: Props) {
         <CardFooter>
           <Button
             disabled={
-              form.formState.isSubmitting || form.watch("name") === project.name
+              status === SubmissionStatus.PENDING ||
+              form.watch("name") === project.name
             }
           >
-            {form.formState.isSubmitting && (
+            {status === SubmissionStatus.PENDING && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             <span>Save</span>

@@ -1,28 +1,12 @@
 "use client";
 
 import * as React from "react";
-import type { Path, UseFormProps, UseFormReturn } from "react-hook-form";
+import type { UseFormProps, UseFormReturn } from "react-hook-form";
 import { FormProvider, useFormContext, useWatch } from "react-hook-form";
 import type { z } from "zod";
 
 import { useDebouncedCallback } from "../hooks/use-debounced-callback";
 import { useDeepCompareEffect } from "../hooks/use-deep-compare-effect";
-
-interface ZactError<S extends z.ZodType> {
-  formErrors: string[];
-  fieldErrors: {
-    [key in keyof S]: string[];
-  };
-}
-
-function isZactError<S extends z.ZodType>(e: unknown): e is ZactError<S> {
-  return (
-    typeof e === "object" &&
-    e !== null &&
-    "formErrors" in e &&
-    "fieldErrors" in e
-  );
-}
 
 type FormProps<TSchema extends z.ZodType> = Omit<
   React.PropsWithoutRef<React.HTMLAttributes<HTMLFormElement>>,
@@ -46,10 +30,8 @@ export function Form<S extends z.ZodType>({
         onSubmit={form.handleSubmit(async (data) => {
           try {
             await onSubmit(data);
-          } catch (e) {
-            if (isZactError<S>(e)) {
-              mapZactErrors(form, e);
-            }
+          } catch {
+            //
           }
         })}
         {...props}
@@ -63,17 +45,6 @@ export function Form<S extends z.ZodType>({
       </form>
     </FormProvider>
   );
-}
-
-function mapZactErrors<S extends z.ZodType>(
-  form: UseFormReturn<z.input<S>>,
-  error: ZactError<S>,
-) {
-  Object.entries(error.fieldErrors).forEach(([key, value]) => {
-    form.setError(key as Path<z.TypeOf<S>>, {
-      message: value?.join(", "),
-    });
-  });
 }
 
 interface AutoSaveProps<S extends z.ZodType> {
@@ -93,10 +64,8 @@ export const useAutoSaveForm = <S extends z.ZodType>({
     void form.handleSubmit(async (data) => {
       try {
         await onSubmit(data);
-      } catch (e) {
-        if (isZactError<S>(e)) {
-          mapZactErrors(form, e);
-        }
+      } catch {
+        //
       }
     })();
   }, delay);

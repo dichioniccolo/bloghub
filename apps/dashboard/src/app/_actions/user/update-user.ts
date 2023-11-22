@@ -3,20 +3,25 @@
 import { z } from "zod";
 
 import { db } from "@acme/db";
+import { createServerAction } from "@acme/server-actions/server";
 
-import { authenticatedAction } from "../authenticated-action";
+import { authenticatedMiddlewares } from "../middlewares/user";
 
-export const updateUser = authenticatedAction(() =>
-  z.object({
+export const updateUser = createServerAction({
+  middlewares: authenticatedMiddlewares,
+  schema: z.object({
     name: z.string().min(1),
   }),
-)(async ({ name }, { userId }) => {
-  await db.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      name,
-    },
-  });
+  action: async ({ input: { name }, ctx }) => {
+    const { user } = ctx;
+
+    await db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        name,
+      },
+    });
+  },
 });
