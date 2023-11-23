@@ -37,7 +37,7 @@ interface Props {
 export function InviteMemberDialog({ projectId }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { action, status } = useServerAction(inviteUser, {
+  const { action, status, validationErrors } = useServerAction(inviteUser, {
     onSuccess: () => {
       toast.success("Invitation sent");
       setOpen(false);
@@ -92,7 +92,7 @@ export function InviteMemberDialog({ projectId }: Props) {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>{validationErrors?.email?.[0]}</FormMessage>
               </FormItem>
             )}
           />

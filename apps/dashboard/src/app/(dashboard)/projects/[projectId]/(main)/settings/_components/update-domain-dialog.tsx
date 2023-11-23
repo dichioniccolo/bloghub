@@ -37,7 +37,7 @@ interface Props {
 export function UpdateDomainDialog({ project }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { action, status } = useServerAction(updateDomain, {
+  const { action, status, validationErrors } = useServerAction(updateDomain, {
     onSuccess: () => {
       setOpen(false);
 
@@ -93,7 +93,7 @@ export function UpdateDomainDialog({ project }: Props) {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>{validationErrors?.oldDomain?.[0]}</FormMessage>
               </FormItem>
             )}
           />
@@ -105,7 +105,7 @@ export function UpdateDomainDialog({ project }: Props) {
                 <FormControl>
                   <Input autoComplete="off" autoCorrect="off" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>{validationErrors?.newDomain?.[0]}</FormMessage>
               </FormItem>
             )}
           />
@@ -120,7 +120,7 @@ export function UpdateDomainDialog({ project }: Props) {
                 <FormControl>
                   <Input autoComplete="off" autoCorrect="off" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>{validationErrors?.confirm?.[0]}</FormMessage>
               </FormItem>
             )}
           />

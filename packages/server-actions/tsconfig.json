@@ -2,7 +2,8 @@
   "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
     "sourceMap": true,
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "types": ["react-dom/experimental", "react/experimental"]
   },
   "include": ["*.ts", "src"],
   "exclude": ["node_modules"]

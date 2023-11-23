@@ -12,7 +12,7 @@ import {
   isProjectInvitationNotification,
   isRemovedFromProjectNotification,
 } from "@acme/notifications";
-import { useServerFormAction } from "@acme/server-actions/client";
+import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
   Popover,
@@ -48,7 +48,7 @@ export function NotificationsPopover({ session }: Props) {
     });
   };
 
-  const { action } = useServerFormAction(archiveAllNotifications, {
+  const { action } = useServerAction(archiveAllNotifications, {
     onSuccess: () => {
       dispatch({
         type: NotificationActionTypes.ARCHIVE_ALL,

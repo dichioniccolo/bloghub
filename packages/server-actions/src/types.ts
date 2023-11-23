@@ -22,7 +22,7 @@ export class ErrorForClient extends Error {}
 export interface EnrichedState<State, Schema extends z.ZodTypeAny> {
   state?: State;
   serverError: string | null;
-  validationErrors: Partial<Record<keyof z.input<Schema>, string[]>>;
+  validationErrors: Partial<Record<keyof z.infer<Schema>, string[]>>;
   status: SubmissionStatus;
 }
 
@@ -68,5 +68,5 @@ export type ZodActionFactoryParams<
 
 export type ServerAction<State, Schema extends z.ZodTypeAny> = (
   state: EnrichedState<State, Schema>,
-  input: unknown,
+  input: z.input<Schema>,
 ) => Promise<EnrichedState<State, Schema>>;

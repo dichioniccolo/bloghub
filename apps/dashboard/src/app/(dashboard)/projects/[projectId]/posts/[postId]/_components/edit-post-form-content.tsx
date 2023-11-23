@@ -49,7 +49,7 @@ export function EditPostFormContent({
   });
 
   const onSubmit = useCallback(
-    async ({ title, description, content }: EditPostSchemaType) => {
+    ({ title, description, content }: EditPostSchemaType) => {
       formStatusChanged("saving");
 
       if (!content) {
@@ -60,7 +60,7 @@ export function EditPostFormContent({
         "base64",
       );
 
-      await action({
+      action({
         projectId: post.projectId,
         postId: post.id,
         body: {

@@ -30,7 +30,7 @@ interface Props {
 export function ProfileForm({ session }: Props) {
   const { action, status, validationErrors } = useServerAction(updateUser);
 
-  const onSubmit = async ({ name }: UserNameSchemaType) =>
+  const onSubmit = ({ name }: UserNameSchemaType) =>
     action({
       name,
     });

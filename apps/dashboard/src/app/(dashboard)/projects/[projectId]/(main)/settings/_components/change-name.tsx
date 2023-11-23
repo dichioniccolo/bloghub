@@ -36,11 +36,14 @@ interface Props {
 }
 
 export function ChangeName({ project }: Props) {
-  const { action, status } = useServerAction(updateProjectName, {
-    onServerError(error) {
-      error && toast.error(error);
+  const { action, status, validationErrors } = useServerAction(
+    updateProjectName,
+    {
+      onServerError(error) {
+        error && toast.error(error);
+      },
     },
-  });
+  );
 
   const onSubmit = ({ name }: ProjectNameSchemaType) =>
     action({
@@ -76,7 +79,7 @@ export function ChangeName({ project }: Props) {
                 <FormControl>
                   <Input className="w-[400px]" size={32} {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>{validationErrors?.name?.[0]}</FormMessage>
               </FormItem>
             )}
           />
