@@ -1,5 +1,6 @@
 import "server-only";
 
+import { revalidateTag } from "next/cache";
 import type { z } from "zod";
 
 import type {
@@ -26,6 +27,7 @@ export function createServerAction<
   initialState,
   middlewares,
   action,
+  cache,
 }: ZodActionFactoryParams<State, Schema, Middlewares>): ServerAction<
   State,
   Schema
@@ -77,6 +79,8 @@ export function createServerAction<
           ? MiddlewareResults<Middlewares>
           : undefined,
       });
+
+      cache?.revalidateTags?.forEach((tag) => revalidateTag(tag));
 
       return {
         state: newState ?? state,

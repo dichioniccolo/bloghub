@@ -55,6 +55,9 @@ export type ZodActionFactoryParams<
 > = {
   initialState?: State;
   action: TypedServerAction<State, Schema, Middlewares>;
+  cache?: {
+    revalidateTags?: string[];
+  };
 } & (
   | {
       schema: Schema | ((ctx: MiddlewareResults<Middlewares>) => Schema);
