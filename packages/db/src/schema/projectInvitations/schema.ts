@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -7,13 +7,15 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { projects } from "../projects/schema";
+
 export const projectInvitations = mysqlTable(
   "projectInvitations",
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
-    expiresAt: datetime("expiresAt", { mode: "string", fsp: 3 }).notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    expiresAt: datetime("expiresAt", { mode: "date", fsp: 3 }).notNull(),
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
   },
@@ -28,4 +30,14 @@ export const projectInvitations = mysqlTable(
       }),
     };
   },
+);
+
+export const projectInvitationsRelations = relations(
+  projectInvitations,
+  ({ one }) => ({
+    project: one(projects, {
+      fields: [projectInvitations.projectId],
+      references: [projects.id],
+    }),
+  }),
 );

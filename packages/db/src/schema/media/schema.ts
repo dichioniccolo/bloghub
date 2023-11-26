@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -8,6 +8,9 @@ import {
   text,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { posts } from "../posts/schema";
+import { projects } from "../projects/schema";
 
 export const media = mysqlTable(
   "media",
@@ -19,7 +22,7 @@ export const media = mysqlTable(
       .default("IMAGE")
       .notNull(),
     url: text("url").notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
     forEntity: mysqlEnum("forEntity", [
@@ -38,3 +41,14 @@ export const media = mysqlTable(
     };
   },
 );
+
+export const mediaRelations = relations(media, ({ one }) => ({
+  project: one(projects, {
+    fields: [media.projectId],
+    references: [projects.id],
+  }),
+  post: one(posts, {
+    fields: [media.postId],
+    references: [posts.id],
+  }),
+}));

@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -7,12 +7,14 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { user } from "../user/schema";
+
 export const session = mysqlTable(
   "session",
   {
     sessionToken: varchar("sessionToken", { length: 500 }).notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
-    expires: datetime("expires", { mode: "string", fsp: 3 })
+    expires: datetime("expires", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
   },
@@ -26,3 +28,10 @@ export const session = mysqlTable(
     };
   },
 );
+
+export const sessionRelations = relations(session, ({ one }) => ({
+  user: one(user, {
+    fields: [session.userId],
+    references: [user.id],
+  }),
+}));

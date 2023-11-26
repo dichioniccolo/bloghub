@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -8,6 +8,8 @@ import {
   primaryKey,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { user } from "../user/schema";
 
 export const notifications = mysqlTable(
   "notifications",
@@ -23,7 +25,7 @@ export const notifications = mysqlTable(
       .default("UNREAD")
       .notNull(),
     body: json("body").notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
   },
@@ -37,3 +39,10 @@ export const notifications = mysqlTable(
     };
   },
 );
+
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+  user: one(user, {
+    fields: [notifications.userId],
+    references: [user.id],
+  }),
+}));

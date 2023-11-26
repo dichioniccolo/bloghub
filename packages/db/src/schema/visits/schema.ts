@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -8,6 +8,9 @@ import {
   unique,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { posts } from "../posts/schema";
+import { projects } from "../projects/schema";
 
 export const visits = mysqlTable(
   "visits",
@@ -30,7 +33,7 @@ export const visits = mysqlTable(
     geoCity: varchar("geoCity", { length: 255 }),
     geoLatitude: varchar("geoLatitude", { length: 255 }),
     geoLongitude: varchar("geoLongitude", { length: 255 }),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
     referer: varchar("referer", { length: 255 }),
@@ -44,3 +47,14 @@ export const visits = mysqlTable(
     };
   },
 );
+
+export const visitsRelations = relations(visits, ({ one }) => ({
+  project: one(projects, {
+    fields: [visits.projectId],
+    references: [projects.id],
+  }),
+  post: one(posts, {
+    fields: [visits.postId],
+    references: [posts.id],
+  }),
+}));

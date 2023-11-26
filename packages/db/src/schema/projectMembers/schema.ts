@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -9,13 +9,16 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { projects } from "../projects/schema";
+import { user } from "../user/schema";
+
 export const projectMembers = mysqlTable(
   "projectMembers",
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
     role: mysqlEnum("role", ["OWNER", "EDITOR"]).default("EDITOR").notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
   },
@@ -37,3 +40,14 @@ export const projectMembers = mysqlTable(
     };
   },
 );
+
+export const projectMembersRelations = relations(projectMembers, ({ one }) => ({
+  project: one(projects, {
+    fields: [projectMembers.projectId],
+    references: [projects.id],
+  }),
+  user: one(user, {
+    fields: [projectMembers.userId],
+    references: [user.id],
+  }),
+}));

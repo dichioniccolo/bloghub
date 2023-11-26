@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   index,
   int,
@@ -6,6 +7,8 @@ import {
   text,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { user } from "../user/schema";
 
 export const account = mysqlTable(
   "account",
@@ -32,3 +35,10 @@ export const account = mysqlTable(
     };
   },
 );
+
+export const accountRelations = relations(account, ({ one }) => ({
+  user: one(user, {
+    fields: [account.userId],
+    references: [user.id],
+  }),
+}));

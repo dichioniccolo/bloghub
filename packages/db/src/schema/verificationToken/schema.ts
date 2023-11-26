@@ -11,7 +11,7 @@ export const verificationToken = mysqlTable(
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),
     token: varchar("token", { length: 500 }).notNull(),
-    expires: datetime("expires", { mode: "string", fsp: 3 })
+    expires: datetime("expires", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
   },

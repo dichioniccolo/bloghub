@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -7,12 +7,15 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { posts } from "../posts/schema";
+import { user } from "../user/schema";
+
 export const likes = mysqlTable(
   "likes",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
     postId: varchar("postId", { length: 255 }).notNull(),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
   },
@@ -27,3 +30,14 @@ export const likes = mysqlTable(
     };
   },
 );
+
+export const likesRelations = relations(likes, ({ one }) => ({
+  user: one(user, {
+    fields: [likes.userId],
+    references: [user.id],
+  }),
+  post: one(posts, {
+    fields: [likes.postId],
+    references: [posts.id],
+  }),
+}));

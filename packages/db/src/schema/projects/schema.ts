@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -9,6 +9,11 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { media } from "../media/schema";
+import { posts } from "../posts/schema";
+import { projectInvitations } from "../projectInvitations/schema";
+import { projectMembers } from "../projectMembers/schema";
+
 export const projects = mysqlTable(
   "projects",
   {
@@ -18,18 +23,18 @@ export const projects = mysqlTable(
     domain: varchar("domain", { length: 255 }).notNull(),
     domainVerified: tinyint("domainVerified").default(0).notNull(),
     domainLastCheckedAt: datetime("domainLastCheckedAt", {
-      mode: "string",
+      mode: "date",
       fsp: 3,
     }),
     domainUnverifiedAt: datetime("domainUnverifiedAt", {
-      mode: "string",
+      mode: "date",
       fsp: 3,
     }),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 }).notNull(),
-    deletedAt: datetime("deletedAt", { mode: "string", fsp: 3 }),
+    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 }).notNull(),
+    deletedAt: datetime("deletedAt", { mode: "date", fsp: 3 }),
   },
   (table) => {
     return {
@@ -38,3 +43,10 @@ export const projects = mysqlTable(
     };
   },
 );
+
+export const projectsRelations = relations(projects, ({ many }) => ({
+  projectMembers: many(projectMembers),
+  projectInvitations: many(projectInvitations),
+  posts: many(posts),
+  media: many(media),
+}));

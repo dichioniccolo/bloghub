@@ -8,7 +8,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().min(1),
-    DRIZZLE_DATABASE_URL: z.string().min(1).optional().nullable(),
+    DRIZZLE_DATABASE_URL: z.string().min(1).optional().nullable(), // TODO: remove optional().nullable() when switched to drizzle
   },
   /**
    * Specify your client-side environment variables schema here.

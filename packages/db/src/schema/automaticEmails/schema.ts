@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   index,
   mysqlEnum,
@@ -7,6 +8,9 @@ import {
   unique,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { projects } from "../projects/schema";
+import { user } from "../user/schema";
 
 export const automaticEmails = mysqlTable(
   "automaticEmails",
@@ -31,4 +35,18 @@ export const automaticEmails = mysqlTable(
       id: unique("id").on(table.id),
     };
   },
+);
+
+export const automaticEmailsRelations = relations(
+  automaticEmails,
+  ({ one }) => ({
+    user: one(user, {
+      fields: [automaticEmails.userId],
+      references: [user.id],
+    }),
+    project: one(projects, {
+      fields: [automaticEmails.projectId],
+      references: [projects.id],
+    }),
+  }),
 );

@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   index,
   mysqlEnum,
@@ -6,6 +7,8 @@ import {
   tinyint,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { user } from "../user/schema";
 
 export const emailNotificationSettings = mysqlTable(
   "emailNotificationSettings",
@@ -28,4 +31,14 @@ export const emailNotificationSettings = mysqlTable(
       }),
     };
   },
+);
+
+export const emailNotificationSettingsRelations = relations(
+  emailNotificationSettings,
+  ({ one }) => ({
+    user: one(user, {
+      fields: [emailNotificationSettings.userId],
+      references: [user.id],
+    }),
+  }),
 );

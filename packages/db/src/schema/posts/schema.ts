@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   datetime,
   index,
@@ -10,6 +10,8 @@ import {
   unique,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { projects } from "../projects/schema";
 
 export const posts = mysqlTable(
   "posts",
@@ -24,10 +26,10 @@ export const posts = mysqlTable(
     hidden: tinyint("hidden").default(1).notNull(),
     seoTitle: varchar("seoTitle", { length: 255 }),
     seoDescription: varchar("seoDescription", { length: 255 }),
-    createdAt: datetime("createdAt", { mode: "string", fsp: 3 })
+    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    updatedAt: datetime("updatedAt", { mode: "string", fsp: 3 }).notNull(),
+    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 }).notNull(),
   },
   (table) => {
     return {
@@ -40,3 +42,10 @@ export const posts = mysqlTable(
     };
   },
 );
+
+export const postsRelations = relations(posts, ({ one }) => ({
+  project: one(projects, {
+    fields: [posts.projectId],
+    references: [projects.id],
+  }),
+}));
