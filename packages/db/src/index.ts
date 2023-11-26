@@ -2,15 +2,22 @@ import { Client } from "@planetscale/database";
 import { PrismaPlanetScale } from "@prisma/adapter-planetscale";
 import { Prisma, PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
+// import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { customAlphabet } from "nanoid";
 
 import { env } from "./env.mjs";
 
-const client = new Client({
+// const drizzleDbClient = new Client({
+//   url: env.DRIZZLE_DATABASE_URL,
+// });
+
+// export const drizzleDb = drizzle(drizzleDbClient.connection());
+
+const prismaDbClient = new Client({
   url: env.DATABASE_URL,
 });
 
-const adapter = new PrismaPlanetScale(client);
+const adapter = new PrismaPlanetScale(prismaDbClient);
 
 export const db = new PrismaClient({
   adapter,

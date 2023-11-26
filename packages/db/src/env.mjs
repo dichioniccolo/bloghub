@@ -8,6 +8,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().min(1),
+    DRIZZLE_DATABASE_URL: z.string().min(1).optional().nullable(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -19,6 +20,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL,
   },
   skipValidation:
     !!process.env.SKIP_ENV_VALIDATION ||
