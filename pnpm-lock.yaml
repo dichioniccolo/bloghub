@@ -220,8 +220,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../../packages/vercel
       '@floating-ui/react':
-        specifier: ^0.26.2
-        version: 0.26.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^0.26.3
+        version: 0.26.3(react-dom@18.2.0)(react@18.2.0)
       '@hookform/resolvers':
         specifier: ^3.3.2
         version: 3.3.2(react-hook-form@7.48.2)
@@ -2709,8 +2709,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@floating-ui/react@0.26.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ocpz3MxYoZlgsASiVFayiTnKukR8QZDQUMqxMdF0YFLbu8lw/IL6AHKLROI8SOpp6CxpUGPh9Q4a03eBAVEZNQ==}
+  /@floating-ui/react@0.26.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-iKH8WRR0L/nLiM6qavFZxkyegIZRMxGnM9aKEc71M4wRlUNkgTamjPsOQXy11oZbDOH37MiTbk/nAPn9M2+shA==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
