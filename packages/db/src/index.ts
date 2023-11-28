@@ -3,7 +3,6 @@ import { PrismaPlanetScale } from "@prisma/adapter-planetscale";
 import { Prisma, PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { customAlphabet } from "nanoid";
 
 import { env } from "./env.mjs";
 import { account, accountRelations } from "./schema/account/schema";
@@ -37,7 +36,7 @@ import { verificationToken } from "./schema/verificationToken/schema";
 import { visits, visitsRelations } from "./schema/visits/schema";
 
 const drizzleDbClient = new Client({
-  url: env.DRIZZLE_DATABASE_URL!,
+  url: env.DRIZZLE_DATABASE_URL,
 });
 
 export const schema = {
@@ -220,4 +219,4 @@ export const db = new PrismaClient({
 
 export * from "@prisma/client/edge";
 
-export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 24);
+export { createId } from "@paralleldrive/cuid2";

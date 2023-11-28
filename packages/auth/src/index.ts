@@ -1,10 +1,10 @@
 import type { JWT } from "@auth/core/jwt";
 import Discord from "@auth/core/providers/discord";
 import type { DefaultSession } from "@auth/core/types";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 
-import { db } from "@acme/db";
+import { db, drizzleDb } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
 import { env } from "./env.mjs";
@@ -31,8 +31,7 @@ export const {
   signOut,
   update: updateSession,
 } = NextAuth({
-  // @ts-expect-error not supporting dynamic extensions
-  adapter: PrismaAdapter(db),
+  adapter: DrizzleAdapter(drizzleDb),
   session: {
     strategy: "jwt",
   },
