@@ -1,6 +1,6 @@
 import type { Metadata, ServerRuntime } from "next";
-import Link from "next/link";
 
+import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
 
 import { env } from "~/env.mjs";

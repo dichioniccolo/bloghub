@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 
 import { cn } from "@acme/ui";
+import { Link } from "@acme/ui/components/link";
 import { useScroll } from "@acme/ui/hooks/use-scroll";
 
 import type { GetProjectByDomain } from "~/app/_api/projects";

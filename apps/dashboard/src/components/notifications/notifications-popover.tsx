@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
 import type { Session } from "@acme/auth";
@@ -14,6 +13,7 @@ import {
 } from "@acme/notifications";
 import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
+import { Link } from "@acme/ui/components/link";
 import {
   Popover,
   PopoverContent,

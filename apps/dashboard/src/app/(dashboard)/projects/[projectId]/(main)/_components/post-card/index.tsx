@@ -2,7 +2,6 @@
 
 import type { ElementRef } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { BarChart2, Edit2, MoreVertical, QrCode, Trash2 } from "lucide-react";
@@ -19,6 +18,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@acme/ui/components/dropdown-menu";
+import { Link } from "@acme/ui/components/link";
 import {
   Tooltip,
   TooltipContent,

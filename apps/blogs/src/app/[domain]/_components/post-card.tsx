@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { format } from "date-fns";
 
 import { BlogRoutes } from "@acme/lib/routes";
+import { Link } from "@acme/ui/components/link";
 
 import type { GetRandomPostsByDomain } from "~/app/_api/posts";
 

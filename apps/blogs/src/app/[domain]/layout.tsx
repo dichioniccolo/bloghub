@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { db } from "@acme/db";
+import { drizzleDb } from "@acme/db";
 
-import { getProjectByDomain } from "~/app/_api/projects";
 import { BlogFooter } from "./_components/blog-footer";
 import { BlogHeader } from "./_components/blog-header";
 import { CustomDomainProviders } from "./providers";
@@ -17,7 +17,13 @@ interface Props {
 export async function generateMetadata({
   params: { domain },
 }: Props): Promise<Metadata> {
-  const project = await getProjectByDomain(domain);
+  const project = await drizzleDb.query.projects.findFirst({
+    where: (columns, { eq }) => eq(columns.domain, domain),
+    columns: {
+      name: true,
+      logo: true,
+    },
+  });
 
   if (!project) {
     return {};
@@ -43,12 +49,9 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const allProjects = await db.project.findMany({
-    where: {
-      deletedAt: null,
-      domainVerified: true,
-    },
-    select: {
+  const allProjects = await drizzleDb.query.projects.findMany({
+    where: (columns, { eq }) => eq(columns.domainVerified, 1),
+    columns: {
       domain: true,
     },
   });
@@ -64,11 +67,15 @@ export default async function Layout({
   children,
   params: { domain },
 }: PropsWithChildren<Props>) {
-  const project = await getProjectByDomain(domain);
+  const project = await drizzleDb.query.projects.findFirst({
+    where: (columns, { eq }) => eq(columns.domain, domain),
+    columns: {
+      name: true,
+      logo: true,
+    },
+  });
 
-  if (!project) {
-    return null;
-  }
+  if (!project) notFound();
 
   return (
     <CustomDomainProviders>

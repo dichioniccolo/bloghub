@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { LogOut, Settings } from "lucide-react";
 
 import type { Session } from "@acme/auth";
@@ -20,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@acme/ui/components/dropdown-menu";
+import { Link } from "@acme/ui/components/link";
 
 interface Props {
   session: Session;

@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { format } from "date-fns";
+
+import { Link } from "@acme/ui/components/link";
 
 import { env } from "~/env.mjs";
 
@@ -29,7 +30,7 @@ const navigation = {
 
 export function Footer() {
   return (
-    <footer className="bg-white/50 z-10 border-t border-gray-200 py-8 backdrop-blur-lg">
+    <footer className="z-10 border-t border-gray-200 bg-white/50 py-8 backdrop-blur-lg">
       <div className="mx-auto w-full max-w-screen-xl px-2.5 pt-10 md:px-20">
         <div className="xl:grid xl:grid-cols-5 xl:gap-8">
           <div className="space-y-8 xl:col-span-2">

@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { buttonVariants } from "@acme/ui/components/button";
+import { Link } from "@acme/ui/components/link";
 
 interface Props {
   pagination: {

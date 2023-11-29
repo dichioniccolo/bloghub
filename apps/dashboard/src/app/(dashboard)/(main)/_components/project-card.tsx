@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { AlertCircle, BarChart2, CaseSensitive } from "lucide-react";
 
 import { GOOGLE_FAVICON_URL } from "@acme/lib/constants";
 import { AppRoutes } from "@acme/lib/routes";
 import { formatNumber } from "@acme/lib/utils";
+import { Link } from "@acme/ui/components/link";
 import { Skeleton } from "@acme/ui/components/skeleton";
 import {
   Tooltip,

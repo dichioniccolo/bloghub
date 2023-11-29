@@ -11,13 +11,14 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { customCuid2 } from "../custom-types";
 import { projects } from "../projects/schema";
 
 export const posts = mysqlTable(
   "posts",
   {
-    id: varchar("id", { length: 255 }).notNull(),
-    projectId: varchar("projectId", { length: 255 }).notNull(),
+    id: customCuid2("id", { length: 255 }).notNull(),
+    projectId: customCuid2("projectId", { length: 255 }).notNull(),
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
     content: json("content").notNull(),

@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { AppRoutes } from "@acme/lib/routes";
+import { Link } from "@acme/ui/components/link";
 import {
   NavigationMenu,
   NavigationMenuItem,

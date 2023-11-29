@@ -1,7 +1,7 @@
 import { createId } from "@paralleldrive/cuid2";
 import { customType } from "drizzle-orm/mysql-core";
 
-export const cuid2 = customType<{
+export const customCuid2 = customType<{
   data: string;
   notNull: true;
   configRequired: true;

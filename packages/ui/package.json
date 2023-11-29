@@ -38,6 +38,7 @@
     "./components/hover-card": "./src/components/hover-card.tsx",
     "./components/input": "./src/components/input.tsx",
     "./components/label": "./src/components/label.tsx",
+    "./components/link": "./src/components/link.tsx",
     "./components/menubar": "./src/components/menubar.tsx",
     "./components/navigation-menu": "./src/components/navigation-menu.tsx",
     "./components/popover": "./src/components/popover.tsx",

@@ -1,7 +1,6 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
 import { AppRoutes } from "@acme/lib/routes";
@@ -14,6 +13,7 @@ import {
 } from "@acme/ui/components/accordion";
 import { buttonVariants } from "@acme/ui/components/button";
 import { Label } from "@acme/ui/components/label";
+import { Link } from "@acme/ui/components/link";
 import { Switch } from "@acme/ui/components/switch";
 import {
   Tooltip,

@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 
 import { AppRoutes } from "@acme/lib/routes";
+import { Link } from "@acme/ui/components/link";
 import {
   NavigationMenu,
   NavigationMenuItem,

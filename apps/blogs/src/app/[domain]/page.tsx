@@ -1,15 +1,14 @@
 import type { ServerRuntime } from "next";
 import { unstable_noStore } from "next/cache";
 import Image from "next/image";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
+import { drizzleDb } from "@acme/db";
 import { BlogRoutes } from "@acme/lib/routes";
+import { Link } from "@acme/ui/components/link";
 
 import { getMainPagePostsByDomain } from "~/app/_api/posts";
-import { getProjectByDomain } from "~/app/_api/projects";
-import { env } from "~/env.mjs";
 import { PostCard } from "./_components/post-card";
 
 interface Props {
@@ -33,11 +32,15 @@ export default async function Page({
   const page =
     typeof searchParams.page === "string" ? Number(searchParams?.page) : 1;
 
-  const project = await getProjectByDomain(domain);
+  const project = await drizzleDb.query.projects.findFirst({
+    where: (columns, { eq }) => eq(columns.domain, domain),
+    columns: {
+      name: true,
+      logo: true,
+    },
+  });
 
-  if (!project) {
-    redirect(env.NEXT_PUBLIC_APP_DOMAIN);
-  }
+  if (!project) notFound();
 
   const { posts } = await getMainPagePostsByDomain(
     domain,

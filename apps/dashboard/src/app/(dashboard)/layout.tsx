@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from "react";
 import { Suspense } from "react";
-import Link from "next/link";
 
 import { auth } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
+import { Link } from "@acme/ui/components/link";
 import { Skeleton } from "@acme/ui/components/skeleton";
 import { Divider } from "@acme/ui/icons/divider";
 import { Logo } from "@acme/ui/icons/logo";

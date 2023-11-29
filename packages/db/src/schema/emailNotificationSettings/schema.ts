@@ -5,15 +5,15 @@ import {
   mysqlTable,
   primaryKey,
   tinyint,
-  varchar,
 } from "drizzle-orm/mysql-core";
 
+import { customCuid2 } from "../custom-types";
 import { user } from "../user/schema";
 
 export const emailNotificationSettings = mysqlTable(
   "emailNotificationSettings",
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
+    userId: customCuid2("userId", { length: 255 }).notNull(),
     type: mysqlEnum("type", [
       "COMMUNICATION",
       "MARKETING",

@@ -6,20 +6,18 @@ import {
   mysqlTable,
   primaryKey,
   text,
-  varchar,
 } from "drizzle-orm/mysql-core";
 
-import { cuid2 } from "../custom-types";
+import { customCuid2 } from "../custom-types";
 import { posts } from "../posts/schema";
 import { projects } from "../projects/schema";
 
 export const media = mysqlTable(
   "media",
   {
-    id: cuid2("id", { length: 255 }).notNull(),
-    // id: varchar("id", { length: 255 }).notNull(),
-    projectId: varchar("projectId", { length: 255 }),
-    postId: varchar("postId", { length: 255 }),
+    id: customCuid2("id", { length: 255 }).notNull(),
+    projectId: customCuid2("projectId", { length: 255 }),
+    postId: customCuid2("postId", { length: 255 }),
     type: mysqlEnum("type", ["IMAGE", "VIDEO", "AUDIO", "DOCUMENT"])
       .default("IMAGE")
       .notNull(),

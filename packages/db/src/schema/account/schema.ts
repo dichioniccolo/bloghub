@@ -8,12 +8,14 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+import { customCuid2 } from "../custom-types";
 import { user } from "../user/schema";
 
 export const account = mysqlTable(
   "account",
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
+    userId: customCuid2("userId", { length: 255 }).notNull(),
+    // varchar("userId", { length: 255 }).notNull(),
     type: text("type").notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),

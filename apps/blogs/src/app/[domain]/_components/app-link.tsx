@@ -1,10 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Link from "next/link";
 
 import { cn } from "@acme/ui";
 import { buttonVariants } from "@acme/ui/components/button";
+import { Link } from "@acme/ui/components/link";
 
 import { env } from "~/env.mjs";
 
