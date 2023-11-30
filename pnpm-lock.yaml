@@ -102,8 +102,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^10.16.7
-        version: 10.16.7(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^10.16.8
+        version: 10.16.9(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.294.0
         version: 0.294.0(react@18.2.0)
@@ -277,8 +277,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^10.16.7
-        version: 10.16.7(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^10.16.8
+        version: 10.16.9(react-dom@18.2.0)(react@18.2.0)
       html-escaper:
         specifier: ^3.0.3
         version: 3.0.3
@@ -431,8 +431,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^10.16.7
-        version: 10.16.7(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^10.16.8
+        version: 10.16.9(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.294.0
         version: 0.294.0(react@18.2.0)
@@ -8166,8 +8166,8 @@ packages:
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
-  /framer-motion@10.16.7(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-iJrX0RXxbRI3qSvDjMIp0hj+Rq6eAx+GotpX8fnZhI88Texkhlj5QHifY4BdokCh4C0oYKPsyf0wL+kwM6/taw==}
+  /framer-motion@10.16.9(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-tcLz4X7PplYu6f4KHmclZFhHe8bFhCqfIG0z0Ssb+xi6OTfYeAb8BuVD235PMvypwi232VQ68KYlu3pfMKwPzA==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
