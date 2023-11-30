@@ -102,7 +102,7 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^10.16.8
+        specifier: ^10.16.9
         version: 10.16.9(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.294.0
@@ -277,7 +277,7 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^10.16.8
+        specifier: ^10.16.9
         version: 10.16.9(react-dom@18.2.0)(react@18.2.0)
       html-escaper:
         specifier: ^3.0.3
@@ -431,7 +431,7 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^10.16.8
+        specifier: ^10.16.9
         version: 10.16.9(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.294.0
