@@ -53,6 +53,7 @@ export type ZodActionFactoryParams<
   Schema extends z.ZodTypeAny,
   Middlewares extends Record<string, MiddlewareFn>,
 > = {
+  actionName: string;
   initialState?: State;
   action: TypedServerAction<State, Schema, Middlewares>;
   cache?: {

@@ -13,6 +13,7 @@ import { authenticatedMiddlewares } from "~/app/_actions/middlewares/user";
 import { DomainSchema } from "../schemas";
 
 export const createProject = createServerAction({
+  actionName: "createProject",
   middlewares: authenticatedMiddlewares,
   initialState: undefined as unknown as Project,
   schema: z.object({

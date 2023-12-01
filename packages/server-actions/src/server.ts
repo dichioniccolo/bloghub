@@ -25,6 +25,7 @@ export function createServerAction<
   const Middlewares extends Record<string, MiddlewareFn>,
   State = undefined,
 >({
+  actionName,
   schema,
   initialState,
   middlewares,
@@ -39,7 +40,7 @@ export function createServerAction<
     input,
   ) => {
     return await Sentry.withServerActionInstrumentation(
-      "",
+      actionName,
       {
         formData: input,
         headers: headers(),

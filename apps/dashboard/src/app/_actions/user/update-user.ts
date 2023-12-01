@@ -8,6 +8,7 @@ import { createServerAction } from "@acme/server-actions/server";
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const updateUser = createServerAction({
+  actionName: "updateUser",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     name: z.string().min(1),

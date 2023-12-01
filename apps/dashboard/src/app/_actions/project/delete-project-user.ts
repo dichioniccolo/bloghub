@@ -14,6 +14,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "../schemas";
 
 export const deleteProjectUser = createServerAction({
+  actionName: "deleteProjectUser",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: RequiredString,

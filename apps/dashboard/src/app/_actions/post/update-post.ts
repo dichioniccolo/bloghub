@@ -12,6 +12,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { IS_NOT_MEMBER_MESSAGE, isProjectMember } from "../schemas";
 
 export const updatePost = createServerAction({
+  actionName: "updatePost",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: RequiredString,

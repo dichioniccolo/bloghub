@@ -9,6 +9,7 @@ import { RequiredString } from "~/lib/validation/schema";
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const markNotificationAsRead = createServerAction({
+  actionName: "markNotificationAsRead",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     notificationId: RequiredString,

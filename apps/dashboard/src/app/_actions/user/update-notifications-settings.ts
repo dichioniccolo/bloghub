@@ -8,6 +8,7 @@ import { createServerAction } from "@acme/server-actions/server";
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const updateNotificationSettings = createServerAction({
+  actionName: "updateNotificationSettings",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     communication: z.coerce.boolean().default(true),

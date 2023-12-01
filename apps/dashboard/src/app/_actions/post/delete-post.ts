@@ -13,6 +13,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { IS_NOT_MEMBER_MESSAGE, isProjectMember } from "../schemas";
 
 export const deletePost = createServerAction({
+  actionName: "deletePost",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     postId: RequiredString,

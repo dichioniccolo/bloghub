@@ -11,6 +11,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "../schemas";
 
 export const updateProjectLogo = createServerAction({
+  actionName: "updateProjectLogo",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: z.string().min(1),

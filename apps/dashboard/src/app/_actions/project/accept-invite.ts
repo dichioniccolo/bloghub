@@ -12,6 +12,7 @@ import { createServerAction } from "@acme/server-actions/server";
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const acceptInvite = createServerAction({
+  actionName: "acceptInvite",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: z.string().min(1),

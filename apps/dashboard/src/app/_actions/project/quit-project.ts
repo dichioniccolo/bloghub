@@ -13,6 +13,7 @@ import { RequiredString } from "~/lib/validation/schema";
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const quitProject = createServerAction({
+  actionName: "quitProject",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: RequiredString,

@@ -13,6 +13,7 @@ import { RequiredEmail, RequiredString } from "~/lib/validation/schema";
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const deleteProjectInvitation = createServerAction({
+  actionName: "deleteProjectInvitation",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: RequiredString,

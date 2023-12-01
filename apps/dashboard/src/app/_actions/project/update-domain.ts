@@ -13,6 +13,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "../schemas";
 
 export const updateDomain = createServerAction({
+  actionName: "updateDomain",
   middlewares: authenticatedMiddlewares,
   schema: UpdateDomainSchema.extend({
     projectId: RequiredString,

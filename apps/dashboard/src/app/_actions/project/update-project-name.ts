@@ -11,6 +11,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { isProjectOwner } from "../schemas";
 
 export const updateProjectName = createServerAction({
+  actionName: "updateProjectName",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: z.string().min(1),

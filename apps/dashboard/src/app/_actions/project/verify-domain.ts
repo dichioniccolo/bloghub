@@ -11,6 +11,7 @@ import { authenticatedMiddlewares } from "../middlewares/user";
 import { verifyProjectDomain } from "./verify-project-domain";
 
 export const verifyDomain = createServerAction({
+  actionName: "verifyDomain",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     projectId: z.string(),

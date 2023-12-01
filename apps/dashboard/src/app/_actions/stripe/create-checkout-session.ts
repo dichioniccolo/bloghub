@@ -16,6 +16,7 @@ import {
 import { authenticatedMiddlewares } from "../middlewares/user";
 
 export const createCheckoutSession = createServerAction({
+  actionName: "createCheckoutSession",
   middlewares: authenticatedMiddlewares,
   schema: z.object({
     callbackUrl: z.string().min(1),
