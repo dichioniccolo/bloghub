@@ -220,3 +220,7 @@ export const db = new PrismaClient({
 export * from "@prisma/client/edge";
 
 export { createId } from "@paralleldrive/cuid2";
+
+export * from "drizzle-orm";
+
+export * from "./helpers";

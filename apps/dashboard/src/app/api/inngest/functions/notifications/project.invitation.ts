@@ -2,9 +2,9 @@ import { createHash, randomBytes } from "crypto";
 
 import { env as authEnv } from "@acme/auth/env.mjs";
 import {
+  createId,
   db,
   EmailNotificationSettingType,
-  genId,
   NotificationType,
 } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
@@ -61,7 +61,7 @@ export const notificationInvitation = inngest.createFunction(
           userEmail: event.data.userEmail,
         }),
         headers: {
-          "X-Entity-Ref-ID": genId(),
+          "X-Entity-Ref-ID": createId(),
         },
       });
     });

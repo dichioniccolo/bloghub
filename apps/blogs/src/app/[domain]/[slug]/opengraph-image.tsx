@@ -2,7 +2,7 @@
 import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 
-import { db } from "@acme/db";
+import { and, drizzleDb, eq, schema } from "@acme/db";
 import { truncate } from "@acme/lib/utils";
 
 export const runtime: ServerRuntime = "edge";
@@ -15,26 +15,26 @@ interface Props {
 }
 
 export default async function PostOG({ params: { domain, slug } }: Props) {
-  const post = await db.post.findFirst({
-    where: {
+  const post = await drizzleDb
+    .select({
+      title: schema.posts.title,
+      description: schema.posts.description,
+      thumbnailUrl: schema.posts.thumbnailUrl,
       project: {
-        deletedAt: null,
-        domain,
+        name: schema.projects.name,
+        logo: schema.projects.logo,
       },
-      slug,
-    },
-    select: {
-      title: true,
-      description: true,
-      thumbnailUrl: true,
-      project: {
-        select: {
-          name: true,
-          logo: true,
-        },
-      },
-    },
-  });
+    })
+    .from(schema.posts)
+    .innerJoin(
+      schema.projects,
+      and(
+        eq(schema.projects.id, schema.posts.projectId),
+        eq(schema.projects.domain, domain),
+      ),
+    )
+    .where(eq(schema.posts.slug, slug))
+    .then((x) => x[0]);
 
   if (!post) {
     return new Response("Not found", { status: 404 });

@@ -1,4 +1,4 @@
-import { db, EmailNotificationSettingType, genId } from "@acme/db";
+import { createId, db, EmailNotificationSettingType } from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
@@ -36,7 +36,7 @@ export const userLoginLink = inngest.createFunction(
         userEmail: email,
       }),
       headers: {
-        "X-Entity-Ref-ID": genId(),
+        "X-Entity-Ref-ID": createId(),
       },
     });
   },

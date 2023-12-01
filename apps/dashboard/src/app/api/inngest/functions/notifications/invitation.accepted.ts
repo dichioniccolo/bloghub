@@ -1,7 +1,7 @@
 import {
+  createId,
   db,
   EmailNotificationSettingType,
-  genId,
   NotificationType,
   Role,
 } from "@acme/db";
@@ -64,7 +64,7 @@ export const notificationInvitationAccepted = inngest.createFunction(
           userEmail: event.data.userEmail,
         }),
         headers: {
-          "X-Entity-Ref-ID": genId(),
+          "X-Entity-Ref-ID": createId(),
         },
       });
     });

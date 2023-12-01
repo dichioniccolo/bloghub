@@ -1,7 +1,7 @@
 import {
+  createId,
   db,
   EmailNotificationSettingType,
-  genId,
   NotificationType,
 } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
@@ -31,7 +31,7 @@ export const notificationRemovedFromProject = inngest.createFunction(
           userEmail: event.data.userEmail,
         }),
         headers: {
-          "X-Entity-Ref-ID": genId(),
+          "X-Entity-Ref-ID": createId(),
         },
       });
     });

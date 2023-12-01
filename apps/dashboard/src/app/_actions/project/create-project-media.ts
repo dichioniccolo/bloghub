@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, genId, MediaForEntity, MediaType } from "@acme/db";
+import { createId, db, MediaForEntity, MediaType } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { getCurrentUser } from "~/app/_api/get-user";
@@ -59,7 +59,7 @@ export async function createProjectMedia(formData: FormData) {
 
   const extension = file.name.split(".").pop();
 
-  const fileName = `projects/${projectId}/${genId()}.${extension}`;
+  const fileName = `projects/${projectId}/${createId()}.${extension}`;
 
   const fileAsBuffer = arrayBufferToBuffer(await file.arrayBuffer());
 
