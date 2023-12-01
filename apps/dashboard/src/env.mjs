@@ -17,6 +17,8 @@ export const env = createEnv({
     KV_REST_API_READ_ONLY_TOKEN: z.string().min(1),
     STRIPE_WEBHOOK_SECRET: z.string().min(1),
     SENTRY_AUTH_TOKEN: z.string().min(1),
+    SENTRY_ORG: z.string().min(1),
+    SENTRY_PROJECT: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.

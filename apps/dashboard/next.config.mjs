@@ -160,8 +160,8 @@ export default withSentryConfig(config, {
   // recommended:
   //   release, url, configFile, stripPrefix, urlPrefix, include, ignore
 
-  org: "bloghub",
-  project: "javascript-nextjs",
+  org: env.SENTRY_ORG,
+  project: env.SENTRY_PROJECT,
 
   // An auth token is required for uploading source maps.
   authToken: env.SENTRY_AUTH_TOKEN,
