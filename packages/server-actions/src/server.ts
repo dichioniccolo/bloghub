@@ -18,6 +18,7 @@ import {
   isNextNotFoundError,
   isNextRedirectError,
   normalizeInput,
+  toFormData,
 } from "./utils";
 
 export function createServerAction<
@@ -42,7 +43,7 @@ export function createServerAction<
     return await Sentry.withServerActionInstrumentation(
       actionName,
       {
-        formData: input,
+        formData: toFormData(input),
         headers: headers(),
         recordResponse: true,
       },

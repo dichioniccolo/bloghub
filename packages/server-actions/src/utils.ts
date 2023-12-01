@@ -45,3 +45,18 @@ export function normalizeInput(input: unknown): unknown {
     ? Object.fromEntries(input.entries())
     : input;
 }
+
+export function toFormData(input: FormData | z.ZodTypeAny): FormData {
+  if (input instanceof FormData) {
+    return input;
+  }
+
+  const formData = new FormData();
+
+  Object.entries(input).forEach(([key, value]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    formData.set(key, value);
+  });
+
+  return formData;
+}

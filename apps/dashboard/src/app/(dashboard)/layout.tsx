@@ -48,7 +48,7 @@ export default async function Layout({ children }: PropsWithChildren) {
             <div className="flex items-center gap-2">
               <CommandMenu />
               <Suspense fallback={<NotificationsPlaceholder />}>
-                <Notifications session={session} />
+                <Notifications />
               </Suspense>
               <UserDropdown session={session} />
             </div>

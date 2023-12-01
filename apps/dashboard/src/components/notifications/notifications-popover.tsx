@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { BellRing, Inbox, Settings } from "lucide-react";
 
-import type { Session } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
-import type { AppNotification } from "@acme/notifications";
 import {
   isInvitationAcceptedNotification,
   isProjectInvitationNotification,
@@ -28,25 +26,27 @@ import {
 } from "~/components/notifications/notifications-provider";
 import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";
-import { useRealtimeNotification } from "~/hooks/use-realtime";
 import { InvitationAccepted } from "./types/invitation-accepted";
 
-interface Props {
-  session: Session;
-}
+// interface Props {
+//   session: Session;
+// }
 
-export function NotificationsPopover({ session }: Props) {
+export function NotificationsPopover() {
+  //  {
+  //   session
+  //  }: Props
   const { notifications, unreadCount } = useNotifications();
   const dispatch = useNotificationsDispatch();
 
   const [open, setOpen] = useState(false);
 
-  const onNewNotification = (notification: AppNotification) => {
-    dispatch({
-      type: NotificationActionTypes.ADD_NOTIFICATION,
-      payload: notification,
-    });
-  };
+  // const onNewNotification = (notification: AppNotification) => {
+  //   dispatch({
+  //     type: NotificationActionTypes.ADD_NOTIFICATION,
+  //     payload: notification,
+  //   });
+  // };
 
   const { action } = useServerAction(archiveAllNotifications, {
     onSuccess: () => {
@@ -56,11 +56,11 @@ export function NotificationsPopover({ session }: Props) {
     },
   });
 
-  useRealtimeNotification(
-    session.user.id ?? "",
-    "notifications:new",
-    onNewNotification,
-  );
+  // useRealtimeNotification(
+  //   session.user.id ?? "",
+  //   "notifications:new",
+  //   onNewNotification,
+  // );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
