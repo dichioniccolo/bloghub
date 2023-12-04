@@ -1,16 +1,12 @@
 import { formatDistanceToNow } from "date-fns";
 import { Trash2 } from "lucide-react";
 
-import type { NotificationType } from "@acme/db";
 import type { AppNotification } from "@acme/notifications";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
 
 interface Props {
-  notification: Extract<
-    AppNotification,
-    { type: typeof NotificationType.REMOVED_FROM_PROJECT }
-  >;
+  notification: Extract<AppNotification, { type: "REMOVED_FROM_PROJECT" }>;
 }
 
 export function RemovedFromProject({ notification }: Props) {

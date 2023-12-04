@@ -1,16 +1,12 @@
 import { formatDistanceToNow } from "date-fns";
 import { UserCheck2 } from "lucide-react";
 
-import type { NotificationType } from "@acme/db";
 import type { AppNotification } from "@acme/notifications";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
 
 interface Props {
-  notification: Extract<
-    AppNotification,
-    { type: typeof NotificationType.INVITATION_ACCEPTED }
-  >;
+  notification: Extract<AppNotification, { type: "INVITATION_ACCEPTED" }>;
 }
 
 export function InvitationAccepted({ notification }: Props) {

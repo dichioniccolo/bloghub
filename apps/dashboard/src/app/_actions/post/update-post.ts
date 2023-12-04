@@ -44,7 +44,7 @@ export const updatePost = createServerAction({
         .set({
           title,
           description,
-          content: JSON.parse(postContent),
+          content: JSON.parse(postContent) as unknown,
         })
         .where(
           and(

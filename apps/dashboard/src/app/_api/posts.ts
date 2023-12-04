@@ -1,6 +1,17 @@
 "use server";
 
-import { and, db, drizzleDb, eq, exists, schema } from "@acme/db";
+import {
+  and,
+  countDistinct,
+  desc,
+  drizzleDb,
+  eq,
+  exists,
+  ilike,
+  or,
+  schema,
+  withCount,
+} from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
@@ -11,78 +22,42 @@ export async function getPosts(
 ) {
   const user = await getCurrentUser();
 
-  const data = await db.post.findMany({
-    where: {
-      projectId,
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-      OR: filter
-        ? [
-            {
-              title: {
-                contains: filter,
-              },
-            },
-            {
-              slug: {
-                contains: filter,
-              },
-            },
-          ]
-        : undefined,
-    },
-    select: {
+  const where = and(
+    eq(schema.posts.projectId, projectId),
+    exists(
+      drizzleDb
+        .select()
+        .from(schema.projectMembers)
+        .where(
+          and(
+            eq(schema.projectMembers.projectId, schema.posts.projectId),
+            eq(schema.projectMembers.userId, user.id),
+          ),
+        ),
+    ),
+    filter
+      ? or(ilike(schema.posts.title, filter), ilike(schema.posts.slug, filter))
+      : undefined,
+  );
+
+  const data = await drizzleDb.query.posts.findMany({
+    where,
+    columns: {
       id: true,
       title: true,
       slug: true,
       createdAt: true,
       hidden: true,
-      _count: {
-        select: {
-          visits: true,
-        },
-      },
     },
-    take: pagination.pageSize,
-    skip: pagination.pageSize * pagination.page - pagination.pageSize,
-    orderBy: {
-      createdAt: "desc",
+    extras: {
+      visits: countDistinct(schema.visits.id).as("visits"),
     },
+    limit: pagination.pageSize,
+    offset: pagination.pageSize * pagination.page - pagination.pageSize,
+    orderBy: desc(schema.posts.createdAt),
   });
 
-  const count = await db.post.count({
-    where: {
-      projectId,
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-      OR: filter
-        ? [
-            {
-              title: {
-                contains: filter,
-              },
-            },
-            {
-              slug: {
-                contains: filter,
-              },
-            },
-          ]
-        : undefined,
-    },
-  });
+  const count = await withCount(schema.posts, where);
 
   return {
     data,

@@ -1,38 +1,35 @@
 "use server";
 
-import { db, NotificationStatus } from "@acme/db";
+import { and, drizzleDb, eq, inArray, schema, withCount } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
 export async function getNotifications() {
   const user = await getCurrentUser();
 
-  const notifications = await db.notification.findMany({
-    where: {
-      userId: user.id,
-      status: {
-        in: [NotificationStatus.READ, NotificationStatus.UNREAD],
+  const [notifications, unreadCount] = await Promise.all([
+    drizzleDb.query.notifications.findMany({
+      where: and(
+        eq(schema.notifications.userId, user.id),
+        inArray(schema.notifications.status, ["READ", "UNREAD"]),
+      ),
+      limit: 20,
+      columns: {
+        id: true,
+        type: true,
+        body: true,
+        createdAt: true,
+        status: true,
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 20,
-    select: {
-      id: true,
-      type: true,
-      body: true,
-      createdAt: true,
-      status: true,
-    },
-  });
-
-  const unreadCount = await db.notification.count({
-    where: {
-      userId: user.id,
-      status: NotificationStatus.UNREAD,
-    },
-  });
+    }),
+    withCount(
+      schema.notifications,
+      and(
+        eq(schema.notifications.userId, user.id),
+        eq(schema.notifications.status, "UNREAD"),
+      ),
+    ),
+  ]);
 
   return {
     notifications,
