@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 import { stripe } from "@acme/stripe";
@@ -33,7 +33,7 @@ export const createCheckoutSession = createServerAction({
       .transform((x) => x?.toUpperCase()),
   }),
   action: async ({ input: { callbackUrl, key }, ctx: { user } }) => {
-    const dbUser = (await drizzleDb.query.user.findFirst({
+    const dbUser = (await db.query.user.findFirst({
       where: eq(schema.user.id, user.id),
       columns: {
         email: true,

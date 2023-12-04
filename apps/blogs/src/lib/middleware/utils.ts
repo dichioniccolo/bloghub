@@ -4,7 +4,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { ipAddress } from "@vercel/edge";
 import { kv } from "@vercel/kv";
 
-import { and, drizzleDb, eq, exists, schema } from "@acme/db";
+import { and, db, eq, exists, schema } from "@acme/db";
 import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
@@ -64,7 +64,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
   // we need to regex the slug from the url because it can also contain a query string
   const slug = fullKey.replace("posts/", "").replace(/\/.*/, "");
 
-  const post = await drizzleDb
+  const post = await db
     .select({
       id: schema.posts.id,
       projectId: schema.posts.projectId,
@@ -75,7 +75,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
         eq(schema.posts.hidden, 0),
         eq(schema.posts.slug, slug),
         exists(
-          drizzleDb
+          db
             .select()
             .from(schema.projects)
             .where(
@@ -101,7 +101,7 @@ export async function recordVisit(req: NextRequest, domain: string) {
       : new URL(referer).hostname
     : SELF_REFERER;
 
-  await drizzleDb.insert(schema.visits).values({
+  await db.insert(schema.visits).values({
     projectId: post.projectId,
     postId: post.id,
     referer: refererDomain ?? SELF_REFERER,

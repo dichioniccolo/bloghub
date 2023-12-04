@@ -7,7 +7,7 @@ import {
   aliasedTable,
   and,
   countDistinct,
-  drizzleDb,
+  db,
   eq,
   exists,
   gte,
@@ -29,9 +29,9 @@ import { getBillingPeriod } from "./user";
 export async function getProjects() {
   const user = await getCurrentUser();
 
-  return await drizzleDb.query.projects.findMany({
+  return await db.query.projects.findMany({
     where: exists(
-      drizzleDb
+      db
         .select()
         .from(schema.projectMembers)
         .where(
@@ -64,11 +64,11 @@ export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 export async function getProject(id: string) {
   const user = await getCurrentUser();
 
-  return await drizzleDb.query.projects.findFirst({
+  return await db.query.projects.findFirst({
     where: and(
       eq(schema.projects.id, id),
       exists(
-        drizzleDb
+        db
           .select()
           .from(schema.projectMembers)
           .where(
@@ -103,7 +103,7 @@ export async function getProjectsCount() {
   const count = await withCount(
     schema.projects,
     exists(
-      drizzleDb
+      db
         .select()
         .from(schema.projectMembers)
         .where(
@@ -124,11 +124,11 @@ export async function getProjectUsers(projectId: string) {
 
   const alias = aliasedTable(schema.projectMembers, "pm");
 
-  return await drizzleDb.query.projectMembers.findMany({
+  return await db.query.projectMembers.findMany({
     where: and(
       eq(schema.projectMembers.projectId, projectId),
       exists(
-        drizzleDb
+        db
           .select()
           .from(alias)
           .where(
@@ -160,11 +160,11 @@ export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
 export async function getProjectInvites(projectId: string) {
   const user = await getCurrentUser();
 
-  return await drizzleDb.query.projectInvitations.findMany({
+  return await db.query.projectInvitations.findMany({
     where: and(
       eq(schema.projectInvitations.projectId, projectId),
       exists(
-        drizzleDb
+        db
           .select()
           .from(schema.projectMembers)
           .where(
@@ -191,9 +191,9 @@ export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 export async function getProjectOwner(projectId: string) {
   const user = await getCurrentUser();
 
-  const owner = await drizzleDb.query.user.findFirst({
+  const owner = await db.query.user.findFirst({
     where: exists(
-      drizzleDb
+      db
         .select()
         .from(schema.projectMembers)
         .where(
@@ -235,7 +235,7 @@ export async function getProjectOwner(projectId: string) {
 export type GetProjectOwner = Awaited<ReturnType<typeof getProjectOwner>>;
 
 export async function getPendingInvite(email: string, projectId: string) {
-  return await drizzleDb.query.projectInvitations.findFirst({
+  return await db.query.projectInvitations.findFirst({
     where: and(
       eq(schema.projectInvitations.email, email),
       eq(schema.projectInvitations.projectId, projectId),
@@ -307,7 +307,7 @@ export async function getProjectAnalytics(
     where.push(eq(schema.visits.osName, filters.os));
   }
 
-  const allVisits = await drizzleDb
+  const allVisits = await db
     .select({
       geoCountry: schema.visits.geoCountry,
       geoCity: schema.visits.geoCity,
@@ -330,7 +330,7 @@ export async function getProjectAnalytics(
       and(
         eq(schema.visits.projectId, projectId),
         exists(
-          drizzleDb
+          db
             .select()
             .from(schema.projectMembers)
             .where(
@@ -548,7 +548,7 @@ export type GetProjectAnalytics = Awaited<
 export async function getCurrentUserRole(projectId: string) {
   const user = await getCurrentUser();
 
-  const projectMember = await drizzleDb.query.projectMembers.findFirst({
+  const projectMember = await db.query.projectMembers.findFirst({
     where: and(
       eq(schema.projectMembers.projectId, projectId),
       eq(schema.projectMembers.userId, user.id),

@@ -1,13 +1,13 @@
 "use server";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
 export async function getNotificationsSettings() {
   const user = await getCurrentUser();
 
-  const settings = await drizzleDb.query.emailNotificationSettings.findMany({
+  const settings = await db.query.emailNotificationSettings.findMany({
     where: eq(schema.emailNotificationSettings.userId, user.id),
     columns: {
       type: true,

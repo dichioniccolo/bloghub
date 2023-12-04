@@ -1,9 +1,9 @@
 "use server";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 
 export async function getProjectByDomain(domain: string) {
-  return await drizzleDb.query.projects.findFirst({
+  return await db.query.projects.findFirst({
     columns: {
       name: true,
       logo: true,

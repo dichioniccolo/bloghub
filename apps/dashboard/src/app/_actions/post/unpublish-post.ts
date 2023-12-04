@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, schema } from "@acme/db";
+import { and, db, eq, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,7 +24,7 @@ export const unpublishPost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    const post = await drizzleDb.query.posts.findFirst({
+    const post = await db.query.posts.findFirst({
       where: eq(schema.posts.id, postId),
       columns: {
         id: true,
@@ -36,7 +36,7 @@ export const unpublishPost = createServerAction({
       return;
     }
 
-    await drizzleDb
+    await db
       .update(schema.posts)
       .set({
         hidden: post.hidden === 1 ? 0 : 1,

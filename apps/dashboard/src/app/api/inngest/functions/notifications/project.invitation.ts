@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 
 import { env as authEnv } from "@acme/auth/env.mjs";
-import { and, createId, drizzleDb, eq, schema } from "@acme/db";
+import { and, createId, db, eq, schema } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
@@ -21,7 +21,7 @@ export const notificationInvitation = inngest.createFunction(
   },
   async ({ event, step }) => {
     const invitation = await step.run("Get invitation", () =>
-      drizzleDb.query.projectInvitations.findFirst({
+      db.query.projectInvitations.findFirst({
         where: and(
           eq(schema.projectInvitations.projectId, event.data.projectId),
           eq(schema.projectInvitations.email, event.data.userEmail),
@@ -63,7 +63,7 @@ export const notificationInvitation = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", () =>
-      drizzleDb.query.user.findFirst({
+      db.query.user.findFirst({
         where: eq(schema.user.email, event.data.userEmail),
         columns: {
           id: true,
@@ -76,7 +76,7 @@ export const notificationInvitation = inngest.createFunction(
     }
 
     const createNotification = step.run("Create notification", () =>
-      drizzleDb.transaction(async (tx) => {
+      db.transaction(async (tx) => {
         const id = createId();
 
         await tx.insert(schema.notifications).values({
@@ -119,7 +119,7 @@ async function getLoginUrl(
 ) {
   const token = randomBytes(32).toString("hex");
 
-  await drizzleDb.insert(schema.verificationToken).values({
+  await db.insert(schema.verificationToken).values({
     identifier,
     expires,
     token: createHash("sha256")

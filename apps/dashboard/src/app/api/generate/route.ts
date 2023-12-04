@@ -5,7 +5,7 @@ import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -27,7 +27,7 @@ export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
     const user = await getCurrentUser();
 
-    const dbUser = await drizzleDb.query.user.findFirst({
+    const dbUser = await db.query.user.findFirst({
       where: eq(schema.user.id, user.id),
       columns: {
         stripePriceId: true,

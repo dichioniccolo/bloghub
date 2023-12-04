@@ -36,7 +36,7 @@ export function generateMetadata() {
     keywords: [
       "Next.js",
       "React",
-      "Prisma",
+      "DrizzleORM",
       "Tailwind CSS",
       "Server Components",
       "Server Actions",

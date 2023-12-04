@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { and, drizzleDb, eq, inArray, schema } from "@acme/db";
+import { and, db, eq, inArray, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -12,7 +12,7 @@ export const archiveAllNotifications = createServerAction({
   middlewares: authenticatedMiddlewares,
   schema: z.object({}),
   action: async ({ ctx: { user } }) => {
-    await drizzleDb
+    await db
       .update(schema.notifications)
       .set({
         status: "UNREAD",

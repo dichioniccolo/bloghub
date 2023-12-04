@@ -1,6 +1,6 @@
 import type { JSONContent } from "@tiptap/core";
 
-import { drizzleDb, inArray, schema } from "@acme/db";
+import { db, inArray, schema } from "@acme/db";
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
@@ -15,7 +15,7 @@ export const mediaDeleteUnused = inngest.createFunction(
   },
   async ({ step }) => {
     const allProjects = await step.run("Get all projects", () =>
-      drizzleDb.query.projects.findMany({
+      db.query.projects.findMany({
         columns: {
           id: true,
           logo: true,
@@ -103,7 +103,7 @@ async function deleteMedia(list: DeletedMedia[]): Promise<DeletedMedia[]> {
 
   const filtererList = list.filter((x) => !x.url.includes("bloghub.it"));
 
-  await drizzleDb.transaction(async (tx) => {
+  await db.transaction(async (tx) => {
     await deleteFiles(filtererList.map((x) => x.url));
     await tx.delete(schema.media).where(
       inArray(

@@ -1,6 +1,6 @@
 "use server";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { stripePriceToSubscriptionPlan } from "@acme/stripe/plans";
 
 import { getCurrentUser } from "./get-user";
@@ -9,7 +9,7 @@ import { getUserTotalUsage } from "./get-user-total-usage";
 export async function getUserPlan() {
   const user = await getCurrentUser();
 
-  const dbUser = await drizzleDb.query.user.findFirst({
+  const dbUser = await db.query.user.findFirst({
     where: eq(schema.user.id, user.id),
     columns: {
       stripeSubscriptionId: true,

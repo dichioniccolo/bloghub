@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, schema } from "@acme/db";
+import { and, db, eq, schema } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -28,7 +28,7 @@ export const deleteProjectUser = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const userToDelete = await drizzleDb.query.projectMembers.findFirst({
+    const userToDelete = await db.query.projectMembers.findFirst({
       where: and(
         eq(schema.projectMembers.projectId, projectId),
         eq(schema.projectMembers.userId, userIdToDelete),
@@ -58,7 +58,7 @@ export const deleteProjectUser = createServerAction({
       throw new ErrorForClient("Cannot delete owner");
     }
 
-    await drizzleDb
+    await db
       .delete(schema.projectMembers)
       .where(
         and(

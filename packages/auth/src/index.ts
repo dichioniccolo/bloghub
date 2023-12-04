@@ -4,7 +4,7 @@ import type { DefaultSession } from "@auth/core/types";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
 import { env } from "./env.mjs";
@@ -29,7 +29,7 @@ export const {
   signOut,
   update: updateSession,
 } = NextAuth({
-  adapter: DrizzleAdapter(drizzleDb),
+  adapter: DrizzleAdapter(db),
   session: {
     strategy: "jwt",
   },
@@ -70,7 +70,7 @@ export const {
         (account?.provider === "google" || account?.provider === "discord") &&
         profile?.email
       ) {
-        await drizzleDb
+        await db
           .update(schema.user)
           .set({
             name: profile?.name,
@@ -98,7 +98,7 @@ export const {
         throw new Error("Unable to sign in with this email address");
       }
 
-      const dbUser = await drizzleDb.query.user.findFirst({
+      const dbUser = await db.query.user.findFirst({
         where: eq(schema.user.email, token.email),
         columns: {
           id: true,

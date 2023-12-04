@@ -2,8 +2,8 @@
 
 import {
   and,
+  db,
   desc,
-  drizzleDb,
   eq,
   exists,
   inArray,
@@ -21,7 +21,7 @@ export async function getMainPagePostsByDomain(
   page = 1,
   perPage = 100,
 ) {
-  const posts = await drizzleDb
+  const posts = await db
     .select({
       id: schema.posts.id,
       slug: schema.posts.slug,
@@ -35,7 +35,7 @@ export async function getMainPagePostsByDomain(
       and(
         eq(schema.posts.hidden, 0),
         exists(
-          drizzleDb
+          db
             .select()
             .from(schema.projects)
             .where(
@@ -56,7 +56,7 @@ export async function getMainPagePostsByDomain(
     and(
       eq(schema.posts.hidden, 0),
       exists(
-        drizzleDb
+        db
           .select()
           .from(schema.projects)
           .where(
@@ -76,7 +76,7 @@ export type GetPostsProjectByDomain = Awaited<
 >["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {
-  return await drizzleDb
+  return await db
     .select({
       id: schema.posts.id,
       title: schema.posts.title,
@@ -98,7 +98,7 @@ export async function getPostBySlug(domain: string, slug: string) {
         eq(schema.posts.hidden, 0),
         eq(schema.posts.slug, slug),
         exists(
-          drizzleDb
+          db
             .select()
             .from(schema.projects)
             .where(
@@ -118,7 +118,7 @@ export async function getRandomPostsByDomain(
   currentPostSlug: string,
   toGenerate = 3,
 ) {
-  const posts = await drizzleDb
+  const posts = await db
     .select({
       id: schema.posts.id,
     })
@@ -128,7 +128,7 @@ export async function getRandomPostsByDomain(
         eq(schema.posts.hidden, 0),
         ne(schema.posts.slug, currentPostSlug),
         exists(
-          drizzleDb
+          db
             .select()
             .from(schema.projects)
             .where(
@@ -151,7 +151,7 @@ export async function getRandomPostsByDomain(
     return [];
   }
 
-  return await drizzleDb.query.posts.findMany({
+  return await db.query.posts.findMany({
     where: inArray(schema.posts.id, ids),
     columns: {
       id: true,

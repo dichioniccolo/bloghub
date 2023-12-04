@@ -2,7 +2,7 @@
 
 import type Stripe from "stripe";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 
 import { stripe } from ".";
 import { stripePriceToSubscriptionPlan } from "./plans";
@@ -35,7 +35,7 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await drizzleDb
+      await db
         .update(schema.user)
         .set({
           stripeCustomerId,
@@ -61,7 +61,7 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await drizzleDb
+      await db
         .update(schema.user)
         .set({
           stripeSubscriptionId: subscription.id,
@@ -79,7 +79,7 @@ export async function handleEvent(event: Stripe.Event) {
           ? subscription.customer
           : subscription.customer.id;
 
-      await drizzleDb
+      await db
         .update(schema.user)
         .set({
           stripeSubscriptionId: null,

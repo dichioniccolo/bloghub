@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createId, drizzleDb, eq, schema } from "@acme/db";
+import { createId, db, eq, schema } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { getCurrentUser } from "~/app/_api/get-user";
@@ -76,7 +76,7 @@ export async function createProjectMedia(formData: FormData) {
 
   const url = uploadedFile.url;
 
-  const media = await drizzleDb.transaction(async (tx) => {
+  const media = await db.transaction(async (tx) => {
     const id = createId();
 
     await tx.insert(schema.media).values({
@@ -88,10 +88,10 @@ export async function createProjectMedia(formData: FormData) {
       type,
     });
 
-    return await drizzleDb.query.media.findFirst({
+    return (await db.query.media.findFirst({
       where: eq(schema.media.id, id),
-    });
+    }))!;
   });
 
-  return media!;
+  return media;
 }

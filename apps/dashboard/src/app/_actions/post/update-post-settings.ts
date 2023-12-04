@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, ne, schema, withExists } from "@acme/db";
+import { and, db, eq, ne, schema, withExists } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -58,7 +58,7 @@ export const updatePostSettings = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    await drizzleDb
+    await db
       .update(schema.posts)
       .set({
         slug,

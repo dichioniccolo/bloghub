@@ -3,8 +3,8 @@
 import {
   and,
   countDistinct,
+  db,
   desc,
-  drizzleDb,
   eq,
   exists,
   ilike,
@@ -25,7 +25,7 @@ export async function getPosts(
   const where = and(
     eq(schema.posts.projectId, projectId),
     exists(
-      drizzleDb
+      db
         .select()
         .from(schema.projectMembers)
         .where(
@@ -40,7 +40,7 @@ export async function getPosts(
       : undefined,
   );
 
-  const data = await drizzleDb.query.posts.findMany({
+  const data = await db.query.posts.findMany({
     where,
     columns: {
       id: true,
@@ -70,12 +70,12 @@ export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
 export async function getPost(projectId: string, postId: string) {
   const user = await getCurrentUser();
 
-  return await drizzleDb.query.posts.findFirst({
+  return await db.query.posts.findFirst({
     where: and(
       eq(schema.posts.projectId, projectId),
       eq(schema.posts.id, postId),
       exists(
-        drizzleDb
+        db
           .select()
           .from(schema.projectMembers)
           .where(

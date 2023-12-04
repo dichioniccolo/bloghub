@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { drizzleDb, schema } from "@acme/db";
+import { db, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -20,7 +20,7 @@ export const updateNotificationSettings = createServerAction({
     input: { communication, marketing, social, security },
     ctx: { user },
   }) => {
-    await drizzleDb.transaction(async (tx) => {
+    await db.transaction(async (tx) => {
       await tx
         .insert(schema.emailNotificationSettings)
         .values({

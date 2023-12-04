@@ -4,16 +4,7 @@ import { revalidatePath } from "next/cache";
 import { addWeeks } from "date-fns";
 import { z } from "zod";
 
-import {
-  and,
-  drizzleDb,
-  eq,
-  gte,
-  lt,
-  schema,
-  withCount,
-  withExists,
-} from "@acme/db";
+import { and, db, eq, gte, lt, schema, withCount, withExists } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -83,7 +74,7 @@ export const inviteUser = createServerAction({
           eq(schema.projectMembers.projectId, projectId),
         );
 
-        const dbUser = await drizzleDb.query.user.findFirst({
+        const dbUser = await db.query.user.findFirst({
           where: eq(schema.user.id, user.id),
           columns: {
             stripePriceId: true,
@@ -119,7 +110,7 @@ export const inviteUser = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const projectInvitation = await drizzleDb.transaction(async (tx) => {
+    const projectInvitation = await db.transaction(async (tx) => {
       await tx
         .delete(schema.projectInvitations)
         .where(

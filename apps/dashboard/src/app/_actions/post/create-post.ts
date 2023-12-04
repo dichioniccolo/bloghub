@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { createId, drizzleDb, schema } from "@acme/db";
+import { createId, db, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,7 +24,7 @@ export const createPost = createServerAction({
 
     const id = createId();
     const slug = createId();
-    await drizzleDb.insert(schema.posts).values({
+    await db.insert(schema.posts).values({
       id,
       projectId,
       slug,

@@ -1,15 +1,6 @@
 "use server";
 
-import {
-  and,
-  drizzleDb,
-  eq,
-  exists,
-  gte,
-  lte,
-  schema,
-  withCount,
-} from "@acme/db";
+import { and, db, eq, exists, gte, lte, schema, withCount } from "@acme/db";
 
 export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
   return await withCount(
@@ -18,7 +9,7 @@ export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
       gte(schema.visits.createdAt, from),
       lte(schema.visits.createdAt, to),
       exists(
-        drizzleDb
+        db
           .select()
           .from(schema.projectMembers)
           .where(

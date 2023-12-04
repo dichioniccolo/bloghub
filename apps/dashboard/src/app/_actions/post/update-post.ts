@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import type { Post } from "@acme/db";
-import { and, drizzleDb, eq, schema } from "@acme/db";
+import { and, db, eq, schema } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -38,7 +38,7 @@ export const updatePost = createServerAction({
 
     const postContent = Buffer.from(content, "base64").toString("utf-8");
 
-    const post = await drizzleDb.transaction(async (tx) => {
+    const post = await db.transaction(async (tx) => {
       await tx
         .update(schema.posts)
         .set({

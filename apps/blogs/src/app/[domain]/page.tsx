@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
-import { drizzleDb } from "@acme/db";
+import { db } from "@acme/db";
 import { BlogRoutes } from "@acme/lib/routes";
 import { Link } from "@acme/ui/components/link";
 
@@ -32,7 +32,7 @@ export default async function Page({
   const page =
     typeof searchParams.page === "string" ? Number(searchParams?.page) : 1;
 
-  const project = await drizzleDb.query.projects.findFirst({
+  const project = await db.query.projects.findFirst({
     where: (columns, { eq }) => eq(columns.domain, domain),
     columns: {
       name: true,

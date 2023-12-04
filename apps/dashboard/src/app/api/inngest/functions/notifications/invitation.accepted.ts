@@ -1,4 +1,4 @@
-import { createId, drizzleDb, eq, schema } from "@acme/db";
+import { createId, db, eq, schema } from "@acme/db";
 import { ProjectInviteAccepted } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
@@ -16,7 +16,7 @@ export const notificationInvitationAccepted = inngest.createFunction(
   },
   async ({ event, step }) => {
     const project = await step.run("Get project", () =>
-      drizzleDb.query.projects.findFirst({
+      db.query.projects.findFirst({
         where: eq(schema.projects.id, event.data.projectId),
         columns: {
           id: true,
@@ -64,7 +64,7 @@ export const notificationInvitationAccepted = inngest.createFunction(
     });
 
     const createNotification = step.run("Create notification", async () => {
-      return await drizzleDb.transaction(async (tx) => {
+      return await db.transaction(async (tx) => {
         const id = createId();
 
         await tx.insert(schema.notifications).values({

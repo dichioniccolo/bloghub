@@ -1,5 +1,5 @@
 import type { EmailNotificationSettingType } from "@acme/db";
-import { and, drizzleDb, eq, inArray, schema } from "@acme/db";
+import { and, db, eq, inArray, schema } from "@acme/db";
 import type { CreateEmailOptions } from "@acme/emails";
 import { sendMail as baseSendMail } from "@acme/emails";
 
@@ -34,7 +34,7 @@ async function fetchEmailNotificationSettings(
   type: EmailNotificationSettingType,
   emailAddresses: string[],
 ) {
-  const usersSettings = await drizzleDb
+  const usersSettings = await db
     .select({
       value: schema.emailNotificationSettings.value,
       user: {

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, exists, schema } from "@acme/db";
+import { and, db, eq, exists, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,12 +24,12 @@ export const deletePost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    await drizzleDb.delete(schema.posts).where(
+    await db.delete(schema.posts).where(
       and(
         eq(schema.posts.projectId, projectId),
         eq(schema.posts.id, postId),
         exists(
-          drizzleDb
+          db
             .select()
             .from(schema.projectMembers)
             .where(
