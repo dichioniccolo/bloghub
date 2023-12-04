@@ -1,10 +1,4 @@
-import {
-  createId,
-  drizzleDb,
-  EmailNotificationSettingType,
-  eq,
-  schema,
-} from "@acme/db";
+import { createId, drizzleDb, eq, schema } from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
@@ -30,7 +24,7 @@ export const userLoginLink = inngest.createFunction(
     });
 
     await sendMail({
-      type: EmailNotificationSettingType.SECURITY,
+      type: "SECURITY",
       to: email,
       subject: "Your login link",
       react: LoginLink({

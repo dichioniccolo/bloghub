@@ -54,9 +54,9 @@ export function BaseNotification({
     },
   });
 
-  const onArchive = async (e: MouseEvent<HTMLButtonElement>) => {
+  const onArchive = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    await archive({
+    archive({
       notificationId: notification.id,
     });
   };

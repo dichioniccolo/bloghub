@@ -56,7 +56,7 @@ export function PublishSheet({ post }: Props) {
   const [open, setOpen] = useState(false);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
 
-  const [slugEditable, setSlugEditable] = useState(post.hidden);
+  const [slugEditable, setSlugEditable] = useState<boolean>(post.hidden === 1);
 
   const { action, status } = useServerAction(updatePostSettings, {
     onServerError(error) {

@@ -193,7 +193,7 @@ export function PostCard({ post, project, owner }: Props) {
           >
             <BarChart2 className="h-4 w-4" />
             <p className="whitespace-nowrap text-sm text-muted-foreground">
-              {formatNumber(post._count.visits)}
+              {formatNumber(post.visits)}
               <span className="ml-1 hidden sm:inline-block">visits</span>
             </p>
           </Link>

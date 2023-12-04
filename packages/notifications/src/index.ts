@@ -1,19 +1,19 @@
 import { z } from "zod";
 
-import type { NotificationStatus, NotificationType } from "@acme/db";
+import type { NotificationStatus } from "@acme/db";
 
 export interface ProjectInvitationNotification {
-  type: typeof NotificationType.PROJECT_INVITATION;
+  type: "PROJECT_INVITATION";
   body: ProjectInvitationNotificationData;
 }
 
 export interface RemovedFromProjectNotification {
-  type: typeof NotificationType.REMOVED_FROM_PROJECT;
+  type: "REMOVED_FROM_PROJECT";
   body: RemovedFromProjectNotificationData;
 }
 
 export interface InvitationAcceptedNotification {
-  type: typeof NotificationType.INVITATION_ACCEPTED;
+  type: "INVITATION_ACCEPTED";
   body: InvitationAcceptedNotificationData;
 }
 
@@ -29,28 +29,19 @@ export type AppNotification = {
 
 export function isProjectInvitationNotification(
   notification: AppNotification,
-): notification is Extract<
-  AppNotification,
-  { type: typeof NotificationType.PROJECT_INVITATION }
-> {
+): notification is Extract<AppNotification, { type: "PROJECT_INVITATION" }> {
   return notification.type === "PROJECT_INVITATION";
 }
 
 export function isRemovedFromProjectNotification(
   notification: AppNotification,
-): notification is Extract<
-  AppNotification,
-  { type: typeof NotificationType.REMOVED_FROM_PROJECT }
-> {
+): notification is Extract<AppNotification, { type: "REMOVED_FROM_PROJECT" }> {
   return notification.type === "REMOVED_FROM_PROJECT";
 }
 
 export function isInvitationAcceptedNotification(
   notification: AppNotification,
-): notification is Extract<
-  AppNotification,
-  { type: typeof NotificationType.INVITATION_ACCEPTED }
-> {
+): notification is Extract<AppNotification, { type: "INVITATION_ACCEPTED" }> {
   return notification.type === "INVITATION_ACCEPTED";
 }
 
