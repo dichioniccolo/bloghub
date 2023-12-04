@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import type { Project } from "@acme/db";
-import { db, Role } from "@acme/db";
+import { createId, drizzleDb, eq, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { createServerAction } from "@acme/server-actions/server";
 import { createDomain } from "@acme/vercel";
@@ -23,25 +23,31 @@ export const createProject = createServerAction({
   action: async ({ input: { name, domain }, ctx }) => {
     const { user } = ctx;
 
-    const project = await db.$transaction(async (tx) => {
+    const project = await drizzleDb.transaction(async (tx) => {
       await createDomain(domain);
 
-      return await tx.project.create({
-        data: {
-          name,
-          domain,
-          members: {
-            create: {
-              userId: user.id,
-              role: Role.OWNER,
-            },
-          },
-        },
+      const id = createId();
+
+      await tx.insert(schema.projects).values({
+        id,
+        name,
+        domain,
+        updatedAt: new Date(),
+      });
+
+      await tx.insert(schema.projectMembers).values({
+        projectId: id,
+        userId: user.id,
+        role: "OWNER",
+      });
+
+      return await tx.query.projects.findFirst({
+        where: eq(schema.projects.id, id),
       });
     });
 
     revalidatePath(AppRoutes.Dashboard);
 
-    return project;
+    return project!;
   },
 });

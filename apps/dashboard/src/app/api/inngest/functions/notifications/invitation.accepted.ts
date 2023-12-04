@@ -1,10 +1,4 @@
-import {
-  createId,
-  db,
-  EmailNotificationSettingType,
-  NotificationType,
-  Role,
-} from "@acme/db";
+import { createId, drizzleDb, eq, schema } from "@acme/db";
 import { ProjectInviteAccepted } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
@@ -21,22 +15,22 @@ export const notificationInvitationAccepted = inngest.createFunction(
     event: "notification/invitation.accepted",
   },
   async ({ event, step }) => {
-    const project = await step.run("Get project", async () => {
-      return await db.project.findUniqueOrThrow({
-        where: {
-          id: event.data.projectId,
-          deletedAt: null,
+    const project = await step.run("Get project", () =>
+      drizzleDb.query.projects.findFirst({
+        where: eq(schema.projects.id, event.data.projectId),
+        columns: {
+          id: true,
         },
-        select: {
+        with: {
           members: {
-            take: 1,
-            where: {
-              role: Role.OWNER,
-            },
-            select: {
+            limit: 1,
+            where: eq(schema.projectMembers.role, "OWNER"),
+            columns: {
               userId: true,
+            },
+            with: {
               user: {
-                select: {
+                columns: {
                   name: true,
                   email: true,
                 },
@@ -44,8 +38,8 @@ export const notificationInvitationAccepted = inngest.createFunction(
             },
           },
         },
-      });
-    });
+      }),
+    );
 
     if (!project) {
       return;
@@ -54,7 +48,7 @@ export const notificationInvitationAccepted = inngest.createFunction(
     const owner = project.members[0]!;
     const email = step.run("Send Email", async () => {
       await sendMail({
-        type: EmailNotificationSettingType.SOCIAL,
+        type: "SOCIAL",
         to: owner.user.email,
         subject: "A user has accepted the project invitation",
         react: ProjectInviteAccepted({
@@ -70,22 +64,28 @@ export const notificationInvitationAccepted = inngest.createFunction(
     });
 
     const createNotification = step.run("Create notification", async () => {
-      return await db.notification.create({
-        data: {
-          type: NotificationType.INVITATION_ACCEPTED,
+      return await drizzleDb.transaction(async (tx) => {
+        const id = createId();
+
+        await tx.insert(schema.notifications).values({
+          id,
+          type: "INVITATION_ACCEPTED",
           body: event.data,
           userId: owner.userId,
-        },
-        select: {
-          id: true,
-          type: true,
-          body: true,
-          createdAt: true,
-          status: true,
-        },
+        });
+
+        return await tx
+          .select()
+          .from(schema.notifications)
+          .where(eq(schema.notifications.id, id))
+          .then((x) => x[0]);
       });
     });
     const [, notification] = await Promise.all([email, createNotification]);
+
+    if (!notification) {
+      return;
+    }
 
     await step.run("Send Pusher notification", async () => {
       await pusherServer.trigger(owner.userId, "notifications:new", {

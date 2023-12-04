@@ -4,7 +4,16 @@ import { revalidatePath } from "next/cache";
 import { addWeeks } from "date-fns";
 import { z } from "zod";
 
-import { db } from "@acme/db";
+import {
+  and,
+  drizzleDb,
+  eq,
+  gte,
+  lt,
+  schema,
+  withCount,
+  withExists,
+} from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -16,7 +25,11 @@ import {
 
 import { RequiredEmail, RequiredString } from "~/lib/validation/schema";
 import { authenticatedMiddlewares } from "../middlewares/user";
-import { IS_NOT_OWNER_MESSAGE, isProjectOwner } from "../schemas";
+import {
+  IS_NOT_OWNER_MESSAGE,
+  isProjectMemberWithEmail,
+  isProjectOwner,
+} from "../schemas";
 
 export const inviteUser = createServerAction({
   actionName: "inviteUser",
@@ -28,16 +41,12 @@ export const inviteUser = createServerAction({
         email: RequiredEmail,
       })
       .superRefine(async ({ projectId, email }, ctx) => {
-        const userExists = await db.projectMember.exists({
-          where: {
-            projectId,
-            user: {
-              email,
-            },
-          },
-        });
+        const isProjectMember = await isProjectMemberWithEmail(
+          projectId,
+          email,
+        );
 
-        if (userExists) {
+        if (isProjectMember) {
           ctx.addIssue({
             code: "custom",
             message: "A user with this email already exists in this project",
@@ -46,14 +55,16 @@ export const inviteUser = createServerAction({
           return;
         }
 
-        const inviteExists = await db.projectInvitation.exists({
-          where: {
-            projectId,
-            email,
-          },
-        });
+        const invitationExists = await withExists(
+          schema.projectInvitations,
+          and(
+            eq(schema.projectInvitations.email, user.email),
+            eq(schema.projectInvitations.projectId, projectId),
+            gte(schema.projectInvitations.expiresAt, new Date()),
+          ),
+        );
 
-        if (inviteExists) {
+        if (invitationExists) {
           ctx.addIssue({
             code: "custom",
             message: "An invitation has already been sent to this email",
@@ -62,26 +73,32 @@ export const inviteUser = createServerAction({
           return;
         }
 
-        const allInvitationsCount = await db.projectInvitation.count({
-          where: {
-            projectId,
-          },
-        });
+        const allInvitationsCount = await withCount(
+          schema.projectInvitations,
+          eq(schema.projectInvitations.projectId, projectId),
+        );
 
-        const allMembersCount = await db.projectMember.count({
-          where: {
-            projectId,
-          },
-        });
+        const allMembersCount = await withCount(
+          schema.projectMembers,
+          eq(schema.projectMembers.projectId, projectId),
+        );
 
-        const dbUser = await db.user.findUniqueOrThrow({
-          where: {
-            id: user.id,
-          },
-          select: {
+        const dbUser = await drizzleDb.query.user.findFirst({
+          where: eq(schema.user.id, user.id),
+          columns: {
             stripePriceId: true,
           },
         });
+
+        if (!dbUser) {
+          ctx.addIssue({
+            code: "custom",
+            message:
+              "You must be on a pro plan to invite more than 2 users to your project",
+            path: ["email"],
+          });
+          return;
+        }
 
         const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 
@@ -102,21 +119,47 @@ export const inviteUser = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const projectInvitation = await db.projectInvitation.create({
-      data: {
+    const projectInvitation = await drizzleDb.transaction(async (tx) => {
+      await tx
+        .delete(schema.projectInvitations)
+        .where(
+          and(
+            eq(schema.projectInvitations.projectId, projectId),
+            eq(schema.projectInvitations.email, email),
+            lt(schema.projectInvitations.expiresAt, new Date()),
+          ),
+        );
+
+      await tx.insert(schema.projectInvitations).values({
         projectId,
         email,
         expiresAt: addWeeks(Date.now(), 1),
-      },
-      select: {
-        email: true,
-        project: {
-          select: {
-            name: true,
+      });
+
+      return await tx
+        .select({
+          email: schema.projectInvitations.email,
+          project: {
+            name: schema.projects.name,
           },
-        },
-      },
+        })
+        .from(schema.projectInvitations)
+        .innerJoin(
+          schema.projects,
+          eq(schema.projects.id, schema.projectInvitations.projectId),
+        )
+        .where(
+          and(
+            eq(schema.projectInvitations.projectId, projectId),
+            eq(schema.projectInvitations.email, email),
+          ),
+        )
+        .then((x) => x[0]);
     });
+
+    if (!projectInvitation) {
+      return;
+    }
 
     await inngest.send({
       id: `notification/project.invitation/${projectId}-${email}`,

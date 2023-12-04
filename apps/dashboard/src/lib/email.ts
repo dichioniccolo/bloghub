@@ -1,5 +1,5 @@
 import type { EmailNotificationSettingType } from "@acme/db";
-import { db } from "@acme/db";
+import { and, drizzleDb, eq, inArray, schema } from "@acme/db";
 import type { CreateEmailOptions } from "@acme/emails";
 import { sendMail as baseSendMail } from "@acme/emails";
 
@@ -16,7 +16,7 @@ export async function sendMail({ to, type, ...options }: MailOptions) {
   const toFinal = filterEmailsBySettings(toEmails, emailSettingsMap);
 
   if (toFinal.length === 0) {
-    return null;
+    return;
   }
 
   try {
@@ -34,25 +34,24 @@ async function fetchEmailNotificationSettings(
   type: EmailNotificationSettingType,
   emailAddresses: string[],
 ) {
-  const usersSettings = await db.emailNotificationSetting.findMany({
-    where: {
-      type,
+  const usersSettings = await drizzleDb
+    .select({
+      value: schema.emailNotificationSettings.value,
       user: {
-        email: {
-          in: emailAddresses,
-        },
+        email: schema.user.email,
       },
-    },
-    select: {
-      value: true,
-      user: {
-        select: {
-          email: true,
-        },
-      },
-    },
-  });
-
+    })
+    .from(schema.emailNotificationSettings)
+    .innerJoin(
+      schema.user,
+      eq(schema.user.id, schema.emailNotificationSettings.userId),
+    )
+    .where(
+      and(
+        eq(schema.emailNotificationSettings.type, type),
+        inArray(schema.user.email, emailAddresses),
+      ),
+    );
   return usersSettings;
 }
 
@@ -61,7 +60,7 @@ function createEmailSettingsMap(
 ) {
   const emailSettingsMap = new Map<string, boolean>();
   for (const setting of usersSettings) {
-    emailSettingsMap.set(setting.user.email, setting.value);
+    emailSettingsMap.set(setting.user.email, setting.value === 1);
   }
   return emailSettingsMap;
 }

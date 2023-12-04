@@ -9,7 +9,6 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { posts } from "../posts/schema";
 import { projects } from "../projects/schema";
 
@@ -17,8 +16,8 @@ export const visits = mysqlTable(
   "visits",
   {
     id: serial("id").notNull(),
-    projectId: customCuid2("projectId", { length: 255 }).notNull(),
-    postId: customCuid2("postId", { length: 255 }),
+    projectId: varchar("projectId", { length: 255 }).notNull(),
+    postId: varchar("postId", { length: 255 }),
     browserName: varchar("browserName", { length: 255 }),
     browserVersion: varchar("browserVersion", { length: 255 }),
     osName: varchar("osName", { length: 255 }),

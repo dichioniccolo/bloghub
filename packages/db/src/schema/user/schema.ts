@@ -9,7 +9,6 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { account } from "../account/schema";
-import { customCuid2 } from "../custom-types";
 import { emailNotificationSettings } from "../emailNotificationSettings/schema";
 import { likes } from "../likes/schema";
 import { notifications } from "../notifications/schema";
@@ -19,7 +18,7 @@ import { session } from "../session/schema";
 export const user = mysqlTable(
   "user",
   {
-    id: customCuid2("id", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).notNull(),
     name: text("name"),
     email: varchar("email", { length: 255 }).notNull(),
     emailVerified: datetime("emailVerified", { mode: "date", fsp: 3 }),

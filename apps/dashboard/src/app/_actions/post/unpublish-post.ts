@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db } from "@acme/db";
+import { and, drizzleDb, eq, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,33 +24,24 @@ export const unpublishPost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    const post = await db.post.findFirstOrThrow({
-      where: {
-        projectId,
-        id: postId,
-        project: {
-          deletedAt: null,
-          members: {
-            some: {
-              userId: user.id,
-            },
-          },
-        },
-      },
-      select: {
+    const post = await drizzleDb.query.posts.findFirst({
+      where: eq(schema.posts.id, postId),
+      columns: {
         id: true,
         hidden: true,
       },
     });
 
-    await db.post.update({
-      where: {
-        id: post.id,
-      },
-      data: {
-        hidden: !post.hidden,
-      },
-    });
+    if (!post) {
+      return;
+    }
+
+    await drizzleDb
+      .update(schema.posts)
+      .set({
+        hidden: post.hidden === 1 ? 0 : 1,
+      })
+      .where(and(eq(schema.posts.id, post.id)));
 
     revalidatePath(AppRoutes.PostEditor(projectId, postId));
   },

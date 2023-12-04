@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { db } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 import { stripe } from "@acme/stripe";
@@ -33,17 +33,15 @@ export const createCheckoutSession = createServerAction({
       .transform((x) => x?.toUpperCase()),
   }),
   action: async ({ input: { callbackUrl, key }, ctx: { user } }) => {
-    const dbUser = await db.user.findUniqueOrThrow({
-      where: {
-        id: user.id,
-      },
-      select: {
+    const dbUser = (await drizzleDb.query.user.findFirst({
+      where: eq(schema.user.id, user.id),
+      columns: {
+        email: true,
         stripePriceId: true,
         stripeCustomerId: true,
         stripeSubscriptionId: true,
-        email: true,
       },
-    });
+    }))!;
 
     const currentUserPlan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 

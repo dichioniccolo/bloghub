@@ -1,4 +1,10 @@
-import { createId, db, EmailNotificationSettingType } from "@acme/db";
+import {
+  createId,
+  drizzleDb,
+  EmailNotificationSettingType,
+  eq,
+  schema,
+} from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
@@ -16,11 +22,9 @@ export const userLoginLink = inngest.createFunction(
   async ({ event }) => {
     const { email, url } = event.data;
 
-    const user = await db.user.findUnique({
-      where: {
-        email,
-      },
-      select: {
+    const user = await drizzleDb.query.user.findFirst({
+      where: eq(schema.user.email, email),
+      columns: {
         name: true,
       },
     });

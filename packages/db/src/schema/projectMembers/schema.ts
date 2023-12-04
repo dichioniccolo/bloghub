@@ -6,17 +6,17 @@ import {
   mysqlTable,
   primaryKey,
   unique,
+  varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { projects } from "../projects/schema";
 import { user } from "../user/schema";
 
 export const projectMembers = mysqlTable(
   "projectMembers",
   {
-    projectId: customCuid2("projectId", { length: 255 }).notNull(),
-    userId: customCuid2("userId", { length: 255 }).notNull(),
+    projectId: varchar("projectId", { length: 255 }).notNull(),
+    userId: varchar("userId", { length: 255 }).notNull(),
     role: mysqlEnum("role", ["OWNER", "EDITOR"]).default("EDITOR").notNull(),
     createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)

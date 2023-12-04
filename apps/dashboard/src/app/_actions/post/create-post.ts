@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { createId, db } from "@acme/db";
+import { createId, drizzleDb, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -22,17 +22,18 @@ export const createPost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
+    const id = createId();
     const slug = createId();
-    const post = await db.post.create({
-      data: {
-        projectId,
-        slug,
-        title: "",
-        description: "",
-        content: {},
-      },
+    await drizzleDb.insert(schema.posts).values({
+      id,
+      projectId,
+      slug,
+      title: "",
+      description: "",
+      content: {},
+      updatedAt: new Date(),
     });
 
-    redirect(AppRoutes.PostEditor(projectId, post.id));
+    redirect(AppRoutes.PostEditor(projectId, id));
   },
 });

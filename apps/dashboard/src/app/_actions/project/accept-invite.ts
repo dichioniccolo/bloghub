@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { db, Role } from "@acme/db";
+import { and, drizzleDb, eq, gte, schema, withExists } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -18,54 +18,55 @@ export const acceptInvite = createServerAction({
     projectId: z.string().min(1),
   }),
   action: async ({ input: { projectId }, ctx: { user } }) => {
-    const inviteExists = await db.projectInvitation.exists({
-      where: {
-        email: user.email,
-        projectId,
-        expiresAt: {
-          gte: new Date(),
-        },
-      },
-    });
+    const invitationExists = await withExists(
+      schema.projectInvitations,
+      and(
+        eq(schema.projectInvitations.email, user.email),
+        eq(schema.projectInvitations.projectId, projectId),
+        gte(schema.projectInvitations.expiresAt, new Date()),
+      ),
+    );
 
-    if (!inviteExists) {
+    if (!invitationExists) {
       throw new ErrorForClient("Invite not found or expires");
     }
 
-    await db.$transaction(async (tx) => {
-      await tx.projectInvitation.delete({
-        where: {
-          email_projectId: {
-            email: user.email,
-            projectId,
-          },
-        },
+    const project = await drizzleDb.transaction(async (tx) => {
+      await tx
+        .delete(schema.projectInvitations)
+        .where(
+          and(
+            eq(schema.projectInvitations.email, user.email),
+            eq(schema.projectInvitations.projectId, projectId),
+          ),
+        );
+
+      await tx.insert(schema.projectMembers).values({
+        projectId,
+        userId: user.id,
+        role: "EDITOR",
       });
 
-      const projectMember = await tx.projectMember.create({
-        data: {
-          projectId,
-          userId: user.id,
-          role: Role.EDITOR,
-        },
-        select: {
-          project: {
-            select: {
-              name: true,
-            },
-          },
+      return await tx.query.projects.findFirst({
+        where: eq(schema.projects.id, projectId),
+        columns: {
+          name: true,
         },
       });
+    });
 
-      await inngest.send({
-        id: `notification/invitation.accepted/${projectId}-${user.email}`,
-        name: "notification/invitation.accepted",
-        data: {
-          projectId,
-          projectName: projectMember.project.name,
-          userEmail: user.email,
-        },
-      });
+    if (!project) {
+      return;
+    }
+
+    await inngest.send({
+      id: `notification/invitation.accepted/${projectId}-${user.email}`,
+      name: "notification/invitation.accepted",
+      data: {
+        projectId,
+        projectName: project.name,
+        userEmail: user.email,
+      },
     });
 
     redirect(AppRoutes.ProjectDashboard(projectId));

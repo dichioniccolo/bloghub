@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import { stripePriceToSubscriptionPlan } from "@acme/stripe/plans";
 
 import { getCurrentUser } from "./get-user";
@@ -9,16 +9,18 @@ import { getUserTotalUsage } from "./get-user-total-usage";
 export async function getUserPlan() {
   const user = await getCurrentUser();
 
-  const dbUser = await db.user.findUniqueOrThrow({
-    where: {
-      id: user.id,
-    },
-    select: {
+  const dbUser = await drizzleDb.query.user.findFirst({
+    where: eq(schema.user.id, user.id),
+    columns: {
       stripeSubscriptionId: true,
       stripePriceId: true,
       dayWhenBillingStarts: true,
     },
   });
+
+  if (!dbUser) {
+    throw new Error("User not found");
+  }
 
   const billingPeriod = await getBillingPeriod(dbUser.dayWhenBillingStarts);
 

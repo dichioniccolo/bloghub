@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db } from "@acme/db";
+import { and, drizzleDb, eq, exists, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,20 +24,23 @@ export const deletePost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    await db.post.delete({
-      where: {
-        projectId,
-        id: postId,
-        project: {
-          deletedAt: null,
-          members: {
-            some: {
-              userId: user.id,
-            },
-          },
-        },
-      },
-    });
+    await drizzleDb.delete(schema.posts).where(
+      and(
+        eq(schema.posts.projectId, projectId),
+        eq(schema.posts.id, postId),
+        exists(
+          drizzleDb
+            .select()
+            .from(schema.projectMembers)
+            .where(
+              and(
+                eq(schema.projectMembers.projectId, schema.posts.projectId),
+                eq(schema.projectMembers.userId, user.id),
+              ),
+            ),
+        ),
+      ),
+    );
 
     revalidatePath(AppRoutes.ProjectDashboard(projectId));
   },

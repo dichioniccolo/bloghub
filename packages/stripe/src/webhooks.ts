@@ -2,7 +2,7 @@
 
 import type Stripe from "stripe";
 
-import { db } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 
 import { stripe } from ".";
 import { stripePriceToSubscriptionPlan } from "./plans";
@@ -35,17 +35,15 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await db.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
+      await drizzleDb
+        .update(schema.user)
+        .set({
           stripeCustomerId,
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
-        },
-      });
+        })
+        .where(eq(schema.user.id, userId));
       break;
     }
     case "invoice.payment_succeeded": {
@@ -63,16 +61,14 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await db.user.update({
-        where: {
-          stripeCustomerId,
-        },
-        data: {
+      await drizzleDb
+        .update(schema.user)
+        .set({
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
-        },
-      });
+        })
+        .where(eq(schema.user.stripeCustomerId, stripeCustomerId));
       break;
     }
     case "customer.subscription.deleted": {
@@ -83,16 +79,14 @@ export async function handleEvent(event: Stripe.Event) {
           ? subscription.customer
           : subscription.customer.id;
 
-      await db.user.update({
-        where: {
-          stripeCustomerId,
-        },
-        data: {
+      await drizzleDb
+        .update(schema.user)
+        .set({
           stripeSubscriptionId: null,
           stripePriceId: null,
           dayWhenBillingStarts: new Date(),
-        },
-      });
+        })
+        .where(eq(schema.user.stripeCustomerId, stripeCustomerId));
       break;
     }
   }

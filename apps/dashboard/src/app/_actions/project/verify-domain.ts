@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, Role } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -22,21 +22,12 @@ export const verifyDomain = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const project = await db.project.findUniqueOrThrow({
-      where: {
-        id: projectId,
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-            role: Role.OWNER,
-          },
-        },
-      },
-      select: {
+    const project = (await drizzleDb.query.projects.findFirst({
+      where: eq(schema.projects.id, projectId),
+      columns: {
         domain: true,
       },
-    });
+    }))!;
 
     return await verifyProjectDomain(project.domain);
   },

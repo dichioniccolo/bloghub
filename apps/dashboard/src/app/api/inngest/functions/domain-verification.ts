@@ -1,11 +1,6 @@
 import { differenceInDays } from "date-fns";
 
-import {
-  AutomaticEmailType,
-  db,
-  EmailNotificationSettingType,
-  Role,
-} from "@acme/db";
+import { and, asc, drizzleDb, eq, schema, withExists } from "@acme/db";
 import { AutomaticProjectDeletion, InvalidDomain } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
@@ -24,40 +19,32 @@ export const domainVerification = inngest.createFunction(
     cron: `TZ=Europe/Rome ${Crons.EVERY_12_HOURS}`,
   },
   async ({ step }) => {
-    const projectsToVerify = await step.run(
-      "Get projects to verify",
-      async () => {
-        return await db.project.findMany({
-          orderBy: {
-            domainLastCheckedAt: "asc",
-          },
-          where: {
-            deletedAt: null,
-          },
-          take: 50,
-          select: {
-            id: true,
-            name: true,
-            domain: true,
-            domainUnverifiedAt: true,
-            createdAt: true,
-            members: {
-              where: {
-                role: Role.OWNER,
-              },
-              take: 1,
-              select: {
-                user: {
-                  select: {
-                    id: true,
-                    email: true,
-                  },
+    const projectsToVerify = await step.run("Get projects to verify", () =>
+      drizzleDb.query.projects.findMany({
+        orderBy: asc(schema.projects.domainLastCheckedAt),
+        limit: 50,
+        columns: {
+          id: true,
+          name: true,
+          domain: true,
+          domainUnverifiedAt: true,
+          createdAt: true,
+        },
+        with: {
+          members: {
+            limit: 1,
+            where: eq(schema.projectMembers.role, "OWNER"),
+            with: {
+              user: {
+                columns: {
+                  id: true,
+                  email: true,
                 },
               },
             },
           },
-        });
-      },
+        },
+      }),
     );
 
     const steps = projectsToVerify.map(async (project) => {
@@ -67,23 +54,18 @@ export const domainVerification = inngest.createFunction(
         const verificationResult = await verifyProjectDomain(project.domain);
 
         if (verificationResult.verified) {
-          await db.$transaction(async (tx) => {
-            await tx.automaticEmail.deleteMany({
-              where: {
-                projectId: project.id,
-              },
-            });
+          await drizzleDb.transaction(async (tx) => {
+            await tx
+              .delete(schema.automaticEmails)
+              .where(eq(schema.automaticEmails.projectId, project.id));
 
-            await tx.project.update({
-              where: {
-                id: project.id,
-                deletedAt: null,
-              },
-              data: {
-                domainVerified: true,
+            await tx
+              .update(schema.projects)
+              .set({
+                domainVerified: 1,
                 domainUnverifiedAt: null,
-              },
-            });
+              })
+              .where(eq(schema.projects.id, project.id));
           });
 
           return "verified";
@@ -97,21 +79,22 @@ export const domainVerification = inngest.createFunction(
         const invalidDays = differenceInDays(new Date(), domainUnverifiedAt);
 
         if (invalidDays > 3 && invalidDays <= 7) {
-          const invalidDomainEmailExists = await db.automaticEmail.exists({
-            where: {
-              projectId: project.id,
-              type: AutomaticEmailType.INVALID_DOMAIN,
-              userId: owner.id,
-            },
-          });
+          const invalidDomainEmailExists = await withExists(
+            schema.automaticEmails,
+            and(
+              eq(schema.automaticEmails.projectId, project.id),
+              eq(schema.automaticEmails.type, "INVALID_DOMAIN"),
+              eq(schema.automaticEmails.userId, owner.id),
+            ),
+          );
 
           if (invalidDomainEmailExists) {
             return "mail_already_sent";
           }
 
-          await db.$transaction(async (tx) => {
+          await drizzleDb.transaction(async (tx) => {
             await sendMail({
-              type: EmailNotificationSettingType.COMMUNICATION,
+              type: "COMMUNICATION",
               to: owner.email,
               subject: `Your domain ${project.domain} is not configured`,
               react: InvalidDomain({
@@ -124,32 +107,30 @@ export const domainVerification = inngest.createFunction(
               }),
             });
 
-            await tx.automaticEmail.create({
-              data: {
-                type: AutomaticEmailType.INVALID_DOMAIN,
-                projectId: project.id,
-                userId: owner.id,
-              },
+            await tx.insert(schema.automaticEmails).values({
+              type: "INVALID_DOMAIN",
+              projectId: project.id,
+              userId: owner.id,
             });
           });
           return "mail_sent";
         } else if (invalidDays > 7) {
-          await db.$transaction(async (tx) => {
-            await sendMail({
-              type: EmailNotificationSettingType.COMMUNICATION,
-              to: owner.email,
-              subject: `Your ${project.domain} domain is not configured`,
-              react: AutomaticProjectDeletion({
-                siteName: env.NEXT_PUBLIC_APP_NAME,
-                projectName: project.name,
-                domain: project.domain,
-                invalidDays,
-                ownerEmail: owner.email,
-              }),
-            });
+          await sendMail({
+            type: "COMMUNICATION",
+            to: owner.email,
+            subject: `Your ${project.domain} domain is not configured`,
+            react: AutomaticProjectDeletion({
+              siteName: env.NEXT_PUBLIC_APP_NAME,
+              projectName: project.name,
+              domain: project.domain,
+              invalidDays,
+              ownerEmail: owner.email,
+            }),
+          });
 
-            // The project here is soft deleted
-            await tx.project.softDelete(project.id);
+          await inngest.send({
+            name: "project/delete",
+            data: project,
           });
 
           return "project_set_deleted";

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -22,15 +22,12 @@ export const updateProjectLogo = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    await db.project.update({
-      where: {
-        id: projectId,
-        deletedAt: null,
-      },
-      data: {
+    await drizzleDb
+      .update(schema.projects)
+      .set({
         logo,
-      },
-    });
+      })
+      .where(eq(schema.projects.id, projectId));
 
     revalidatePath(`/projects/${projectId}`);
   },
