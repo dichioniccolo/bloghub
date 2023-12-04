@@ -518,9 +518,6 @@ importers:
       '@auth/drizzle-adapter':
         specifier: ^0.3.9
         version: 0.3.9
-      '@auth/prisma-adapter':
-        specifier: ^1.0.9
-        version: 1.0.9(@prisma/client@5.7.0)
       '@t3-oss/env-nextjs':
         specifier: ^0.7.1
         version: 0.7.1(typescript@5.3.3)(zod@3.22.4)
@@ -1343,17 +1340,6 @@ packages:
     resolution: {integrity: sha512-xDHYofXyxIvqkLqsrxnnRWpNLJVpvPw+2qlFuZxkMYs83+geYHQqMg0GBrB/pAoNx1+1hG1DjGQvCeSr52FPKg==}
     dependencies:
       '@auth/core': 0.18.0
-    transitivePeerDependencies:
-      - nodemailer
-    dev: false
-
-  /@auth/prisma-adapter@1.0.9(@prisma/client@5.7.0):
-    resolution: {integrity: sha512-/GiOE/7kVggulEtwnoRv9WDTjz4pDRpB78DvYfOYmVyxk+0bIDxAfaFE5qk2lsBtWOyYPUSgfLkO89ZM93qdqA==}
-    peerDependencies:
-      '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5'
-    dependencies:
-      '@auth/core': 0.18.0
-      '@prisma/client': 5.7.0
     transitivePeerDependencies:
       - nodemailer
     dev: false
@@ -3138,17 +3124,6 @@ packages:
 
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
-    dev: false
-
-  /@prisma/client@5.7.0:
-    resolution: {integrity: sha512-cZmglCrfNbYpzUtz7HscVHl38e9CrUs31nrVoGUK1nIPXGgt8hT4jj2s657UXcNdQ/jBUxDgGmHyu2Nyrq1txg==}
-    engines: {node: '>=16.13'}
-    requiresBuild: true
-    peerDependencies:
-      prisma: '*'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
     dev: false
 
   /@radix-ui/colors@3.0.0:
