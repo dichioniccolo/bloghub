@@ -2,13 +2,15 @@
 
 import { format } from "date-fns";
 
+import type { SQL } from "@acme/db";
 import {
+  aliasedTable,
   and,
   countDistinct,
-  db,
   drizzleDb,
   eq,
   exists,
+  gte,
   schema,
   withCount,
 } from "@acme/db";
@@ -56,34 +58,6 @@ export async function getProjects() {
       visits: countDistinct(schema.visits.id).as("visits"),
     },
   });
-  // return await db.project.findMany({
-  //   where: {
-  //     deletedAt: null,
-  //     members: {
-  //       some: {
-  //         userId: user.id,
-  //       },
-  //     },
-  //   },
-  //   select: {
-  //     id: true,
-  //     name: true,
-  //     logo: true,
-  //     domain: true,
-  //     domainVerified: true,
-  //     members: {
-  //       where: {
-  //         userId: user.id,
-  //       },
-  //     },
-  //     _count: {
-  //       select: {
-  //         posts: true,
-  //         visits: true,
-  //       },
-  //     },
-  //   },
-  // });
 }
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 
@@ -118,30 +92,6 @@ export async function getProject(id: string) {
       },
     },
   });
-
-  // return await db.project.findUnique({
-  //   where: {
-  //     id,
-  //     deletedAt: null,
-  //     members: {
-  //       some: {
-  //         userId: user.id,
-  //       },
-  //     },
-  //   },
-  //   select: {
-  //     id: true,
-  //     name: true,
-  //     logo: true,
-  //     domain: true,
-  //     domainVerified: true,
-  //     members: {
-  //       where: {
-  //         userId: user.id,
-  //       },
-  //     },
-  //   },
-  // });
 }
 
 export type GetProject = Awaited<ReturnType<typeof getProject>>;
@@ -172,23 +122,30 @@ export async function getProjectsCount() {
 export async function getProjectUsers(projectId: string) {
   const user = await getCurrentUser();
 
-  return await db.projectMember.findMany({
-    where: {
-      projectId,
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-    },
-    select: {
+  const alias = aliasedTable(schema.projectMembers, "pm");
+
+  return await drizzleDb.query.projectMembers.findMany({
+    where: and(
+      eq(schema.projectMembers.projectId, projectId),
+      exists(
+        drizzleDb
+          .select()
+          .from(alias)
+          .where(
+            and(
+              eq(alias.projectId, schema.projectMembers.projectId),
+              eq(alias.userId, user.id),
+            ),
+          ),
+      ),
+    ),
+    columns: {
       role: true,
       createdAt: true,
+    },
+    with: {
       user: {
-        select: {
+        columns: {
           id: true,
           email: true,
           name: true,
@@ -203,19 +160,25 @@ export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
 export async function getProjectInvites(projectId: string) {
   const user = await getCurrentUser();
 
-  return await db.projectInvitation.findMany({
-    where: {
-      projectId,
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-    },
-    select: {
+  return await drizzleDb.query.projectInvitations.findMany({
+    where: and(
+      eq(schema.projectInvitations.projectId, projectId),
+      exists(
+        drizzleDb
+          .select()
+          .from(schema.projectMembers)
+          .where(
+            and(
+              eq(
+                schema.projectMembers.projectId,
+                schema.projectInvitations.projectId,
+              ),
+              eq(schema.projectMembers.userId, user.id),
+            ),
+          ),
+      ),
+    ),
+    columns: {
       email: true,
       createdAt: true,
       expiresAt: true,
@@ -228,21 +191,28 @@ export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 export async function getProjectOwner(projectId: string) {
   const user = await getCurrentUser();
 
-  const owner = await db.user.findFirstOrThrow({
-    where: {
-      projects: {
-        some: {
-          projectId,
-          role: Role.OWNER,
-        },
-      },
-    },
-    select: {
+  const owner = await drizzleDb.query.user.findFirst({
+    where: exists(
+      drizzleDb
+        .select()
+        .from(schema.projectMembers)
+        .where(
+          and(
+            eq(schema.projectMembers.projectId, projectId),
+            eq(schema.projectMembers.role, "OWNER"),
+          ),
+        ),
+    ),
+    columns: {
       id: true,
       stripePriceId: true,
       dayWhenBillingStarts: true,
     },
   });
+
+  if (!owner) {
+    throw new Error("Owner not found");
+  }
 
   const billingPeriod = await getBillingPeriod(owner.dayWhenBillingStarts);
 
@@ -265,17 +235,17 @@ export async function getProjectOwner(projectId: string) {
 export type GetProjectOwner = Awaited<ReturnType<typeof getProjectOwner>>;
 
 export async function getPendingInvite(email: string, projectId: string) {
-  return await db.projectInvitation.findUnique({
-    where: {
-      email_projectId: {
-        email,
-        projectId,
-      },
-    },
-    select: {
+  return await drizzleDb.query.projectInvitations.findFirst({
+    where: and(
+      eq(schema.projectInvitations.email, email),
+      eq(schema.projectInvitations.projectId, projectId),
+    ),
+    columns: {
       expiresAt: true,
+    },
+    with: {
       project: {
-        select: {
+        columns: {
           id: true,
           name: true,
         },
@@ -303,50 +273,76 @@ export async function getProjectAnalytics(
 
   const intervalFilter = intervalsFilters[filters.interval];
 
-  const allVisits = await db.visit.findMany({
-    where: {
-      projectId,
+  const where: SQL[] = [];
+
+  if (intervalFilter.createdAt) {
+    where.push(gte(schema.visits.createdAt, intervalFilter.createdAt));
+  }
+
+  if (filters.country) {
+    where.push(eq(schema.visits.geoCountry, filters.country));
+  }
+
+  if (filters.city) {
+    where.push(eq(schema.visits.geoCity, filters.city));
+  }
+
+  if (filters.slug) {
+    where.push(eq(schema.posts.slug, filters.slug));
+  }
+
+  if (filters.referer) {
+    where.push(eq(schema.visits.referer, filters.referer));
+  }
+
+  if (filters.device) {
+    where.push(eq(schema.visits.deviceType, filters.device));
+  }
+
+  if (filters.browser) {
+    where.push(eq(schema.visits.browserName, filters.browser));
+  }
+
+  if (filters.os) {
+    where.push(eq(schema.visits.osName, filters.os));
+  }
+
+  const allVisits = await drizzleDb
+    .select({
+      geoCountry: schema.visits.geoCountry,
+      geoCity: schema.visits.geoCity,
+      deviceType: schema.visits.deviceType,
+      browserName: schema.visits.browserName,
+      osName: schema.visits.osName,
+      referer: schema.visits.referer,
+      createdAt: schema.visits.createdAt,
       project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-      createdAt: {
-        gte: intervalFilter.createdAt ?? undefined,
-      },
-      geoCountry: filters.country ? filters.country : undefined,
-      geoCity: filters.city ? filters.city : undefined,
-      post: {
-        slug: filters.slug ? filters.slug : undefined,
-      },
-      referer: filters.referer ? filters.referer : undefined,
-      deviceType: filters.device ? filters.device : undefined,
-      browserName: filters.browser ? filters.browser : undefined,
-      osName: filters.os ? filters.os : undefined,
-    },
-    select: {
-      project: {
-        select: {
-          domain: true,
-        },
+        domain: schema.projects.domain,
       },
       post: {
-        select: {
-          slug: true,
-        },
+        slug: schema.posts.slug,
       },
-      geoCountry: true,
-      geoCity: true,
-      deviceType: true,
-      browserName: true,
-      osName: true,
-      referer: true,
-      createdAt: true,
-    },
-  });
+    })
+    .from(schema.visits)
+    .innerJoin(schema.projects, eq(schema.projects.id, schema.visits.projectId))
+    .innerJoin(schema.posts, eq(schema.posts.id, schema.visits.postId))
+    .where(
+      and(
+        eq(schema.visits.projectId, projectId),
+        exists(
+          drizzleDb
+            .select()
+            .from(schema.projectMembers)
+            .where(
+              and(
+                eq(schema.projectMembers.projectId, schema.visits.projectId),
+                eq(schema.projectMembers.userId, user.id),
+              ),
+            ),
+        ),
+        ...where,
+      ),
+    );
 
   // calculate timeseries based on interval
   const groupedVisits = allVisits.reduce(

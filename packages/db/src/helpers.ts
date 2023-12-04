@@ -1,11 +1,11 @@
 import type { AnyColumn, SQL } from "drizzle-orm";
-import { and, asc, desc, eq, gt, lt, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, exists, gt, lt, or, sql } from "drizzle-orm";
 import type {
   MySqlTableWithColumns,
   TableConfig,
 } from "drizzle-orm/mysql-core";
 
-import { drizzleDb } from ".";
+import { drizzleDb, schema } from ".";
 
 export function withCursor<
   PrimaryColumn extends AnyColumn,
@@ -123,4 +123,18 @@ export async function withExists<T extends TableConfig>(
   const number = await withCount(table, where);
 
   return number > 0;
+}
+
+export function isMember(projectId: string, userId: string) {
+  return exists(
+    drizzleDb
+      .select()
+      .from(schema.projectMembers)
+      .where(
+        and(
+          eq(schema.projectMembers.projectId, projectId),
+          eq(schema.projectMembers.userId, userId),
+        ),
+      ),
+  );
 }

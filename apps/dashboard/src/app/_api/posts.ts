@@ -1,7 +1,6 @@
 "use server";
 
-import { db } from "@acme/db";
-import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
+import { and, db, drizzleDb, eq, exists, schema } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
@@ -96,20 +95,23 @@ export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
 export async function getPost(projectId: string, postId: string) {
   const user = await getCurrentUser();
 
-  return await db.post.findFirst({
-    where: {
-      projectId,
-      id: postId,
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-    },
-    select: {
+  return await drizzleDb.query.posts.findFirst({
+    where: and(
+      eq(schema.posts.projectId, projectId),
+      eq(schema.posts.id, postId),
+      exists(
+        drizzleDb
+          .select()
+          .from(schema.projectMembers)
+          .where(
+            and(
+              eq(schema.projectMembers.projectId, schema.posts.projectId),
+              eq(schema.projectMembers.userId, user.id),
+            ),
+          ),
+      ),
+    ),
+    columns: {
       id: true,
       projectId: true,
       title: true,
@@ -121,8 +123,10 @@ export async function getPost(projectId: string, postId: string) {
       thumbnailUrl: true,
       seoTitle: true,
       seoDescription: true,
+    },
+    with: {
       project: {
-        select: {
+        columns: {
           name: true,
           domain: true,
         },
@@ -132,172 +136,3 @@ export async function getPost(projectId: string, postId: string) {
 }
 
 export type GetPost = Awaited<ReturnType<typeof getPost>>;
-
-export async function getPostAnalytics(projectId: string, postId: string) {
-  const user = await getCurrentUser();
-
-  const allVisits = await db.visit.findMany({
-    where: {
-      projectId,
-      postId,
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-          },
-        },
-      },
-    },
-    select: {
-      createdAt: true,
-      postId: true,
-      geoCountry: true,
-      geoCity: true,
-      referer: true,
-      post: {
-        select: {
-          slug: true,
-        },
-      },
-    },
-  });
-  const visitsByMonth = allVisits
-    .reduce(
-      (prev, x) => {
-        const year = x.createdAt.getFullYear();
-        const month = x.createdAt.getMonth() + 1;
-        const existingMonth = prev.find(
-          (z) => z.year === year && z.month === month,
-        );
-
-        if (existingMonth) {
-          existingMonth.count += 1;
-        } else {
-          prev.push({ year, month, count: 1 });
-        }
-
-        return prev;
-      },
-      [] as { year: number; month: number; count: number }[],
-    )
-    // Sort the result by year and month
-    .sort((a, b) => {
-      if (a.year !== b.year) return a.year - b.year;
-      return a.month - b.month;
-    });
-
-  const topPosts = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find((z) => z.id === (x.postId ?? "DELETED"));
-
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            id: x.postId ?? "DELETED",
-            slug: x.post?.slug ?? "DELETED",
-            count: 1,
-          });
-        }
-
-        return prev;
-      },
-      [] as {
-        id: string;
-        slug: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => a.count - b.count);
-
-  const topCountries = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find(
-          (z) => z.country === (x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE),
-        );
-
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            country: x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE,
-            count: 1,
-          });
-        }
-
-        return prev;
-      },
-      [] as {
-        country: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => a.count - b.count);
-
-  const topCities = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find(
-          (z) =>
-            z.country === (x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE) &&
-            z.city === (x.geoCity ?? UNKNOWN_ANALYTICS_VALUE),
-        );
-
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            country: x.geoCountry ?? UNKNOWN_ANALYTICS_VALUE,
-            city: x.geoCity ?? UNKNOWN_ANALYTICS_VALUE,
-            count: 1,
-          });
-        }
-
-        return prev;
-      },
-      [] as {
-        country: string;
-        city: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => a.count - b.count);
-
-  const topReferers = allVisits
-    .reduce(
-      (prev, x) => {
-        const existingPost = prev.find(
-          (z) => z.country === (x.referer ?? SELF_REFERER),
-        );
-
-        if (existingPost) {
-          existingPost.count += 1;
-        } else {
-          prev.push({
-            country: x.referer ?? SELF_REFERER,
-            count: 1,
-          });
-        }
-
-        return prev;
-      },
-      [] as {
-        country: string;
-        count: number;
-      }[],
-    )
-    .sort((a, b) => a.count - b.count);
-
-  return {
-    visitsByMonth,
-    topPosts,
-    topCountries,
-    topCities,
-    topReferers,
-  };
-}
-
-export type GetPostAnalytics = Awaited<ReturnType<typeof getPostAnalytics>>;

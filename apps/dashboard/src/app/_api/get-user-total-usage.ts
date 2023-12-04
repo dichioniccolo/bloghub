@@ -1,23 +1,34 @@
 "use server";
 
-import { db, Role } from "@acme/db";
+import {
+  and,
+  drizzleDb,
+  eq,
+  exists,
+  gte,
+  lte,
+  schema,
+  withCount,
+} from "@acme/db";
 
 export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
-  return await db.visit.count({
-    where: {
-      createdAt: {
-        gte: from,
-        lte: to,
-      },
-      project: {
-        deletedAt: null,
-        members: {
-          some: {
-            role: Role.OWNER,
-            userId,
-          },
-        },
-      },
-    },
-  });
+  return await withCount(
+    schema.visits,
+    and(
+      gte(schema.visits.createdAt, from),
+      lte(schema.visits.createdAt, to),
+      exists(
+        drizzleDb
+          .select()
+          .from(schema.projectMembers)
+          .where(
+            and(
+              eq(schema.projectMembers.projectId, schema.visits.projectId),
+              eq(schema.projectMembers.userId, userId),
+              eq(schema.projectMembers.role, "OWNER"),
+            ),
+          ),
+      ),
+    ),
+  );
 }

@@ -1,7 +1,4 @@
 import { Client } from "@planetscale/database";
-import { PrismaPlanetScale } from "@prisma/adapter-planetscale";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 
 import { env } from "./env.mjs";
@@ -86,18 +83,6 @@ export const drizzleDb = drizzle(drizzleDbClient.connection(), {
   schema,
   logger: true,
 });
-
-const prismaDbClient = new Client({
-  url: env.DATABASE_URL,
-});
-
-const adapter = new PrismaPlanetScale(prismaDbClient);
-
-export const db = new PrismaClient({
-  adapter,
-}).$extends(withAccelerate());
-
-// export * from "@prisma/client/edge";
 
 export { createId } from "@paralleldrive/cuid2";
 

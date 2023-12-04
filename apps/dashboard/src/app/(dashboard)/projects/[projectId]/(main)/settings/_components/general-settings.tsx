@@ -1,4 +1,3 @@
-import { Role } from "@acme/db";
 import { Card, CardFooter, CardHeader } from "@acme/ui/components/card";
 import { Skeleton } from "@acme/ui/components/skeleton";
 
@@ -17,7 +16,7 @@ interface Props {
 export async function GeneralSettings({ project }: Props) {
   const currentUserRole = await getCurrentUserRole(project.id);
 
-  if (currentUserRole !== Role.OWNER) {
+  if (currentUserRole !== "OWNER") {
     return <QuitProject project={project} />;
   }
 
