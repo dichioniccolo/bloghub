@@ -9,7 +9,7 @@ This is an open source blog app built with everything new in Next.js 13. It is b
 
 - [Next.js](https://nextjs.org)
 - [Next Auth](https://next-auth.js.org/)
-- [Prisma](https://www.prisma.io/)
+- [Drizzle ORM](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Stripe](https://stripe.com)
 
