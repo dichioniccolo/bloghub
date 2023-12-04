@@ -1,7 +1,6 @@
 import type { Metadata, ServerRuntime } from "next";
 import { notFound } from "next/navigation";
 
-import { Role } from "@acme/db";
 import { Separator } from "@acme/ui/components/separator";
 import {
   Tabs,
@@ -61,7 +60,7 @@ export default async function AppDashboardProjectSettingsMembersPage({
             Team mates or friends that have access to this project.
           </p>
         </div>
-        {currentUserRole === Role.OWNER && (
+        {currentUserRole === "OWNER" && (
           <InviteMemberDialog projectId={projectId} />
         )}
       </div>
