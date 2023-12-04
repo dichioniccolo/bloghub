@@ -1,4 +1,4 @@
-import { createId, drizzleDb, eq, schema } from "@acme/db";
+import { createId, db, eq, schema } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
@@ -33,7 +33,7 @@ export const notificationRemovedFromProject = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", () =>
-      drizzleDb.query.user.findFirst({
+      db.query.user.findFirst({
         where: eq(schema.user.email, event.data.userEmail),
         columns: {
           id: true,
@@ -46,7 +46,7 @@ export const notificationRemovedFromProject = inngest.createFunction(
     }
 
     const createNotification = step.run("Create notification", async () => {
-      return await drizzleDb.transaction(async (tx) => {
+      return await db.transaction(async (tx) => {
         const id = createId();
 
         await tx.insert(schema.notifications).values({

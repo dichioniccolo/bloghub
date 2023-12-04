@@ -2,7 +2,7 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { drizzleDb } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 
 import { BlogFooter } from "./_components/blog-footer";
 import { BlogHeader } from "./_components/blog-header";
@@ -17,8 +17,8 @@ interface Props {
 export async function generateMetadata({
   params: { domain },
 }: Props): Promise<Metadata> {
-  const project = await drizzleDb.query.projects.findFirst({
-    where: (columns, { eq }) => eq(columns.domain, domain),
+  const project = await db.query.projects.findFirst({
+    where: eq(schema.projects.domain, domain),
     columns: {
       name: true,
       logo: true,
@@ -49,7 +49,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const allProjects = await drizzleDb.query.projects.findMany({
+  const allProjects = await db.query.projects.findMany({
     where: (columns, { eq }) => eq(columns.domainVerified, 1),
     columns: {
       domain: true,
@@ -67,7 +67,7 @@ export default async function Layout({
   children,
   params: { domain },
 }: PropsWithChildren<Props>) {
-  const project = await drizzleDb.query.projects.findFirst({
+  const project = await db.query.projects.findFirst({
     where: (columns, { eq }) => eq(columns.domain, domain),
     columns: {
       name: true,

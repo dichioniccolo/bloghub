@@ -2,7 +2,7 @@
 import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 
-import { and, drizzleDb, eq, schema } from "@acme/db";
+import { and, db, eq, schema } from "@acme/db";
 import { truncate } from "@acme/lib/utils";
 
 export const runtime: ServerRuntime = "edge";
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default async function PostOG({ params: { domain, slug } }: Props) {
-  const post = await drizzleDb
+  const post = await db
     .select({
       title: schema.posts.title,
       description: schema.posts.description,

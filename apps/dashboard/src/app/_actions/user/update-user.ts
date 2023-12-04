@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -16,7 +16,7 @@ export const updateUser = createServerAction({
   action: async ({ input: { name }, ctx }) => {
     const { user } = ctx;
 
-    await drizzleDb
+    await db
       .update(schema.user)
       .set({
         name,

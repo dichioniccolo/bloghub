@@ -1,6 +1,6 @@
 import { differenceInDays } from "date-fns";
 
-import { and, asc, drizzleDb, eq, schema, withExists } from "@acme/db";
+import { and, asc, db, eq, schema, withExists } from "@acme/db";
 import { AutomaticProjectDeletion, InvalidDomain } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
@@ -20,7 +20,7 @@ export const domainVerification = inngest.createFunction(
   },
   async ({ step }) => {
     const projectsToVerify = await step.run("Get projects to verify", () =>
-      drizzleDb.query.projects.findMany({
+      db.query.projects.findMany({
         orderBy: asc(schema.projects.domainLastCheckedAt),
         limit: 50,
         columns: {
@@ -54,7 +54,7 @@ export const domainVerification = inngest.createFunction(
         const verificationResult = await verifyProjectDomain(project.domain);
 
         if (verificationResult.verified) {
-          await drizzleDb.transaction(async (tx) => {
+          await db.transaction(async (tx) => {
             await tx
               .delete(schema.automaticEmails)
               .where(eq(schema.automaticEmails.projectId, project.id));
@@ -92,7 +92,7 @@ export const domainVerification = inngest.createFunction(
             return "mail_already_sent";
           }
 
-          await drizzleDb.transaction(async (tx) => {
+          await db.transaction(async (tx) => {
             await sendMail({
               type: "COMMUNICATION",
               to: owner.email,

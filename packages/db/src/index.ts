@@ -32,8 +32,8 @@ import { user, userRelations } from "./schema/user/schema";
 import { verificationToken } from "./schema/verificationToken/schema";
 import { visits, visitsRelations } from "./schema/visits/schema";
 
-const drizzleDbClient = new Client({
-  url: env.DRIZZLE_DATABASE_URL,
+const client = new Client({
+  url: env.DATABASE_URL,
 });
 
 export const schema = {
@@ -79,7 +79,7 @@ export const schema = {
   visitsRelations,
 };
 
-export const drizzleDb = drizzle(drizzleDbClient.connection(), {
+export const db = drizzle(client.connection(), {
   schema,
   logger: true,
 });

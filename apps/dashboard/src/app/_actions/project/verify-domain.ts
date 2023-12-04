@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -22,7 +22,7 @@ export const verifyDomain = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const project = (await drizzleDb.query.projects.findFirst({
+    const project = (await db.query.projects.findFirst({
       where: eq(schema.projects.id, projectId),
       columns: {
         domain: true,

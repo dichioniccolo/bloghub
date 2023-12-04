@@ -1,4 +1,4 @@
-import { createId, drizzleDb, eq, schema } from "@acme/db";
+import { createId, db, eq, schema } from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
@@ -16,7 +16,7 @@ export const userLoginLink = inngest.createFunction(
   async ({ event }) => {
     const { email, url } = event.data;
 
-    const user = await drizzleDb.query.user.findFirst({
+    const user = await db.query.user.findFirst({
       where: eq(schema.user.email, email),
       columns: {
         name: true,

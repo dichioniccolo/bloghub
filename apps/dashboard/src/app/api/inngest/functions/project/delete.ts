@@ -1,4 +1,4 @@
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { deleteDomain } from "@acme/vercel";
@@ -14,7 +14,7 @@ export const projectDelete = inngest.createFunction(
   async ({ event }) => {
     const projectId = event.data.id;
 
-    await drizzleDb.transaction(async (tx) => {
+    await db.transaction(async (tx) => {
       const media = await tx.query.media.findMany({
         where: eq(schema.media.projectId, projectId),
         columns: {

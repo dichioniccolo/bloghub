@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, gte, schema, withExists } from "@acme/db";
+import { and, db, eq, gte, schema, withExists } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -31,7 +31,7 @@ export const acceptInvite = createServerAction({
       throw new ErrorForClient("Invite not found or expires");
     }
 
-    const project = await drizzleDb.transaction(async (tx) => {
+    const project = await db.transaction(async (tx) => {
       await tx
         .delete(schema.projectInvitations)
         .where(

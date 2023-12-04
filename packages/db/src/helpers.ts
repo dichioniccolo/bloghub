@@ -5,7 +5,7 @@ import type {
   TableConfig,
 } from "drizzle-orm/mysql-core";
 
-import { drizzleDb, schema } from ".";
+import { db, schema } from ".";
 
 export function withCursor<
   PrimaryColumn extends AnyColumn,
@@ -101,7 +101,7 @@ export async function withCount<T extends TableConfig>(
   table: MySqlTableWithColumns<T>,
   where: SQL | undefined,
 ) {
-  const count = await drizzleDb
+  const count = await db
     .select({
       count: sql`count(*)`.mapWith(Number),
     })
@@ -127,7 +127,7 @@ export async function withExists<T extends TableConfig>(
 
 export function isMember(projectId: string, userId: string) {
   return exists(
-    drizzleDb
+    db
       .select()
       .from(schema.projectMembers)
       .where(

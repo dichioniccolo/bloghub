@@ -1,6 +1,6 @@
 "use server";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import type { ConfigJSON, DomainJSON } from "@acme/vercel";
 import {
   getConfigResponse,
@@ -25,7 +25,7 @@ export async function verifyProjectDomain(
     getConfigResponse(domain),
   ]);
 
-  const result = await drizzleDb.transaction(async (tx) => {
+  const result = await db.transaction(async (tx) => {
     const project = await tx.query.projects.findFirst({
       where: eq(schema.projects.domain, domain),
       columns: {

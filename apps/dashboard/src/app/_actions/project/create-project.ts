@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import type { Project } from "@acme/db";
-import { createId, drizzleDb, eq, schema } from "@acme/db";
+import { createId, db, eq, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { createServerAction } from "@acme/server-actions/server";
 import { createDomain } from "@acme/vercel";
@@ -23,7 +23,7 @@ export const createProject = createServerAction({
   action: async ({ input: { name, domain }, ctx }) => {
     const { user } = ctx;
 
-    const project = await drizzleDb.transaction(async (tx) => {
+    const project = await db.transaction(async (tx) => {
       await createDomain(domain);
 
       const id = createId();
@@ -48,6 +48,6 @@ export const createProject = createServerAction({
 
     revalidatePath(AppRoutes.Dashboard);
 
-    return project!;
+    return project;
   },
 });

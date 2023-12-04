@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, schema } from "@acme/db";
+import { and, db, eq, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,7 +24,7 @@ export const deleteProjectInvitation = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    await drizzleDb
+    await db
       .delete(schema.projectInvitations)
       .where(
         and(

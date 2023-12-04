@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { drizzleDb, eq, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -23,7 +23,7 @@ export const updateDomain = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const project = (await drizzleDb.query.projects.findFirst({
+    const project = (await db.query.projects.findFirst({
       where: eq(schema.projects.id, projectId),
       columns: {
         domain: true,
@@ -33,7 +33,7 @@ export const updateDomain = createServerAction({
     await deleteDomain(project.domain);
     await createDomain(newDomain);
 
-    await drizzleDb
+    await db
       .update(schema.projects)
       .set({
         domain: newDomain,

@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { and, drizzleDb, eq, schema } from "@acme/db";
+import { and, db, eq, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { RequiredString } from "~/lib/validation/schema";
@@ -15,7 +15,7 @@ export const archiveNotification = createServerAction({
     notificationId: RequiredString,
   }),
   action: async ({ input: { notificationId }, ctx: { user } }) => {
-    await drizzleDb
+    await db
       .update(schema.notifications)
       .set({
         status: "ARCHIVED",

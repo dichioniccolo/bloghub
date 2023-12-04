@@ -1,7 +1,7 @@
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { and, drizzleDb, eq, exists, schema, withExists } from "@acme/db";
+import { and, db, eq, exists, schema, withExists } from "@acme/db";
 import { DOMAIN_REGEX } from "@acme/lib/constants";
 
 export const DomainSchema = z
@@ -66,7 +66,7 @@ export async function isProjectMemberWithEmail(
     and(
       eq(schema.projectMembers.projectId, projectId),
       exists(
-        drizzleDb
+        db
           .select()
           .from(schema.user)
           .where(

@@ -1,6 +1,6 @@
 "use server";
 
-import { and, drizzleDb, eq, inArray, schema, withCount } from "@acme/db";
+import { and, db, eq, inArray, schema, withCount } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
@@ -8,7 +8,7 @@ export async function getNotifications() {
   const user = await getCurrentUser();
 
   const [notifications, unreadCount] = await Promise.all([
-    drizzleDb.query.notifications.findMany({
+    db.query.notifications.findMany({
       where: and(
         eq(schema.notifications.userId, user.id),
         inArray(schema.notifications.status, ["READ", "UNREAD"]),
