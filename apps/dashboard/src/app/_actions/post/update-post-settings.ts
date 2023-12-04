@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db } from "@acme/db";
+import { and, drizzleDb, eq, ne, schema, withExists } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -29,15 +29,14 @@ export const updatePostSettings = createServerAction({
       }),
     })
     .superRefine(async ({ projectId, postId, data: { slug } }, ctx) => {
-      const postWithSameSlugExists = await db.post.exists({
-        where: {
-          slug,
-          projectId,
-          id: {
-            not: postId,
-          },
-        },
-      });
+      const postWithSameSlugExists = await withExists(
+        schema.posts,
+        and(
+          eq(schema.posts.slug, slug),
+          eq(schema.posts.projectId, projectId),
+          ne(schema.posts.id, postId),
+        ),
+      );
 
       if (postWithSameSlugExists) {
         ctx.addIssue({
@@ -59,21 +58,20 @@ export const updatePostSettings = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    await db.post.update({
-      where: {
-        id: postId,
-        projectId,
-      },
-      data: {
+    await drizzleDb
+      .update(schema.posts)
+      .set({
         slug,
         thumbnailUrl,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         seoTitle: seoTitle || null,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         seoDescription: seoDescription || null,
-        hidden: false,
-      },
-    });
+        hidden: 0,
+      })
+      .where(
+        and(eq(schema.posts.projectId, projectId), eq(schema.posts.id, postId)),
+      );
 
     revalidatePath(AppRoutes.PostEditor(projectId, postId));
   },

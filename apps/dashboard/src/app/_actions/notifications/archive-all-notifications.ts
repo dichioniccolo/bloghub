@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, NotificationStatus } from "@acme/db";
+import { and, drizzleDb, eq, inArray, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -12,16 +12,16 @@ export const archiveAllNotifications = createServerAction({
   middlewares: authenticatedMiddlewares,
   schema: z.object({}),
   action: async ({ ctx: { user } }) => {
-    await db.notification.updateMany({
-      where: {
-        userId: user.id,
-        status: {
-          in: [NotificationStatus.READ, NotificationStatus.UNREAD],
-        },
-      },
-      data: {
-        status: NotificationStatus.UNREAD,
-      },
-    });
+    await drizzleDb
+      .update(schema.notifications)
+      .set({
+        status: "UNREAD",
+      })
+      .where(
+        and(
+          eq(schema.notifications.userId, user.id),
+          inArray(schema.notifications.status, ["READ", "UNREAD"]),
+        ),
+      );
   },
 });

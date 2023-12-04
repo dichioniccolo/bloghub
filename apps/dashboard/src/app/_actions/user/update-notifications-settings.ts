@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, EmailNotificationSettingType } from "@acme/db";
+import { drizzleDb, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -20,74 +20,57 @@ export const updateNotificationSettings = createServerAction({
     input: { communication, marketing, social, security },
     ctx: { user },
   }) => {
-    await db.$transaction(async (tx) => {
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          type_userId: {
-            type: EmailNotificationSettingType.COMMUNICATION,
-            userId: user.id,
-          },
-        },
-        create: {
+    await drizzleDb.transaction(async (tx) => {
+      await tx
+        .insert(schema.emailNotificationSettings)
+        .values({
           userId: user.id,
-          type: EmailNotificationSettingType.COMMUNICATION,
-          value: communication,
-        },
-        update: {
-          value: communication,
-        },
-      });
+          type: "COMMUNICATION",
+          value: communication ? 1 : 0,
+        })
+        .onDuplicateKeyUpdate({
+          set: {
+            value: communication ? 1 : 0,
+          },
+        });
 
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          type_userId: {
-            type: EmailNotificationSettingType.MARKETING,
-            userId: user.id,
-          },
-        },
-        create: {
+      await tx
+        .insert(schema.emailNotificationSettings)
+        .values({
           userId: user.id,
-          type: EmailNotificationSettingType.MARKETING,
-          value: marketing,
-        },
-        update: {
-          value: marketing,
-        },
-      });
+          type: "MARKETING",
+          value: marketing ? 1 : 0,
+        })
+        .onDuplicateKeyUpdate({
+          set: {
+            value: marketing ? 1 : 0,
+          },
+        });
+      await tx
+        .insert(schema.emailNotificationSettings)
+        .values({
+          userId: user.id,
+          type: "SOCIAL",
+          value: social ? 1 : 0,
+        })
+        .onDuplicateKeyUpdate({
+          set: {
+            value: social ? 1 : 0,
+          },
+        });
 
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          type_userId: {
-            type: EmailNotificationSettingType.SOCIAL,
-            userId: user.id,
-          },
-        },
-        create: {
+      await tx
+        .insert(schema.emailNotificationSettings)
+        .values({
           userId: user.id,
-          type: EmailNotificationSettingType.SOCIAL,
-          value: social,
-        },
-        update: {
-          value: social,
-        },
-      });
-
-      await tx.emailNotificationSetting.upsert({
-        where: {
-          type_userId: {
-            type: EmailNotificationSettingType.SECURITY,
-            userId: user.id,
+          type: "SECURITY",
+          value: security ? 1 : 0,
+        })
+        .onDuplicateKeyUpdate({
+          set: {
+            value: security ? 1 : 0,
           },
-        },
-        create: {
-          userId: user.id,
-          type: EmailNotificationSettingType.SECURITY,
-          value: security,
-        },
-        update: {
-          value: security,
-        },
-      });
+        });
     });
   },
 });

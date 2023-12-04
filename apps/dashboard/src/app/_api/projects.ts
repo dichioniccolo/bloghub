@@ -2,7 +2,16 @@
 
 import { format } from "date-fns";
 
-import { db, Role } from "@acme/db";
+import {
+  and,
+  countDistinct,
+  db,
+  drizzleDb,
+  eq,
+  exists,
+  schema,
+  withCount,
+} from "@acme/db";
 import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import type { AnalyticsInterval } from "@acme/lib/utils";
 import { intervalsFilters, roundDateToInterval } from "@acme/lib/utils";
@@ -18,63 +27,121 @@ import { getBillingPeriod } from "./user";
 export async function getProjects() {
   const user = await getCurrentUser();
 
-  return await db.project.findMany({
-    where: {
-      deletedAt: null,
-      members: {
-        some: {
-          userId: user.id,
-        },
-      },
-    },
-    select: {
+  return await drizzleDb.query.projects.findMany({
+    where: exists(
+      drizzleDb
+        .select()
+        .from(schema.projectMembers)
+        .where(
+          and(
+            eq(schema.projects.id, schema.projectMembers.projectId),
+            eq(schema.projectMembers.userId, user.id),
+          ),
+        ),
+    ),
+    columns: {
       id: true,
       name: true,
       logo: true,
       domain: true,
       domainVerified: true,
+    },
+    with: {
       members: {
-        where: {
-          userId: user.id,
-        },
-      },
-      _count: {
-        select: {
-          posts: true,
-          visits: true,
-        },
+        where: eq(schema.projectMembers.userId, user.id),
       },
     },
+    extras: {
+      posts: countDistinct(schema.posts.id).as("posts"),
+      visits: countDistinct(schema.visits.id).as("visits"),
+    },
   });
+  // return await db.project.findMany({
+  //   where: {
+  //     deletedAt: null,
+  //     members: {
+  //       some: {
+  //         userId: user.id,
+  //       },
+  //     },
+  //   },
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     logo: true,
+  //     domain: true,
+  //     domainVerified: true,
+  //     members: {
+  //       where: {
+  //         userId: user.id,
+  //       },
+  //     },
+  //     _count: {
+  //       select: {
+  //         posts: true,
+  //         visits: true,
+  //       },
+  //     },
+  //   },
+  // });
 }
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 
 export async function getProject(id: string) {
   const user = await getCurrentUser();
 
-  return await db.project.findUnique({
-    where: {
-      id,
-      deletedAt: null,
-      members: {
-        some: {
-          userId: user.id,
-        },
-      },
-    },
-    select: {
+  return await drizzleDb.query.projects.findFirst({
+    where: and(
+      eq(schema.projects.id, id),
+      exists(
+        drizzleDb
+          .select()
+          .from(schema.projectMembers)
+          .where(
+            and(
+              eq(schema.projects.id, schema.projectMembers.projectId),
+              eq(schema.projectMembers.userId, user.id),
+            ),
+          ),
+      ),
+    ),
+    columns: {
       id: true,
       name: true,
       logo: true,
       domain: true,
       domainVerified: true,
+    },
+    with: {
       members: {
-        where: {
-          userId: user.id,
-        },
+        where: eq(schema.projectMembers.userId, user.id),
       },
     },
   });
+
+  // return await db.project.findUnique({
+  //   where: {
+  //     id,
+  //     deletedAt: null,
+  //     members: {
+  //       some: {
+  //         userId: user.id,
+  //       },
+  //     },
+  //   },
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     logo: true,
+  //     domain: true,
+  //     domainVerified: true,
+  //     members: {
+  //       where: {
+  //         userId: user.id,
+  //       },
+  //     },
+  //   },
+  // });
 }
 
 export type GetProject = Awaited<ReturnType<typeof getProject>>;
@@ -83,17 +150,21 @@ export type GetProject = Awaited<ReturnType<typeof getProject>>;
 export async function getProjectsCount() {
   const user = await getCurrentUser();
 
-  const count = await db.project.count({
-    where: {
-      deletedAt: null,
-      members: {
-        some: {
-          userId: user.id,
-          role: Role.OWNER,
-        },
-      },
-    },
-  });
+  const count = await withCount(
+    schema.projects,
+    exists(
+      drizzleDb
+        .select()
+        .from(schema.projectMembers)
+        .where(
+          and(
+            eq(schema.projects.id, schema.projectMembers.projectId),
+            eq(schema.projectMembers.userId, user.id),
+            eq(schema.projectMembers.role, "OWNER"),
+          ),
+        ),
+    ),
+  );
 
   return count;
 }
@@ -481,17 +552,15 @@ export type GetProjectAnalytics = Awaited<
 export async function getCurrentUserRole(projectId: string) {
   const user = await getCurrentUser();
 
-  const projectMember = await db.projectMember.findUniqueOrThrow({
-    where: {
-      projectId_userId: {
-        projectId,
-        userId: user.id,
-      },
-    },
-    select: {
+  const projectMember = await drizzleDb.query.projectMembers.findFirst({
+    where: and(
+      eq(schema.projectMembers.projectId, projectId),
+      eq(schema.projectMembers.userId, user.id),
+    ),
+    columns: {
       role: true,
     },
   });
 
-  return projectMember.role;
+  return projectMember?.role ?? "EDITOR";
 }

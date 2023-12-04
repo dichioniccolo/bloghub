@@ -11,17 +11,17 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { projects } from "../projects/schema";
 
 export const posts = mysqlTable(
   "posts",
   {
-    id: customCuid2("id", { length: 255 }).notNull(),
-    projectId: customCuid2("projectId", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).notNull(),
+    projectId: varchar("projectId", { length: 255 }).notNull(),
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
-    content: json("content").notNull(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    content: json("content").$type<any>().notNull(),
     thumbnailUrl: text("thumbnailUrl"),
     slug: varchar("slug", { length: 255 }).notNull(),
     hidden: tinyint("hidden").default(1).notNull(),

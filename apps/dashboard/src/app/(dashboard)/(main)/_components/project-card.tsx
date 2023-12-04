@@ -59,15 +59,15 @@ export function ProjectCard({ project }: Props) {
         <div className="flex items-center gap-2 text-muted-foreground">
           <CaseSensitive className="h-4 w-4" />
           <h3 className="whitespace-nowrap text-sm">
-            {formatNumber(project._count.posts)} post
-            {project._count.posts !== 1 && "s"}
+            {formatNumber(project.posts)} post
+            {project.posts !== 1 && "s"}
           </h3>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <BarChart2 className="h-4 w-4" />
           <h3 className="whitespace-nowrap text-sm">
-            {formatNumber(project._count.visits)} visit
-            {project._count.visits !== 1 && "s"}
+            {formatNumber(project.visits)} visit
+            {project.visits !== 1 && "s"}
           </h3>
         </div>
       </div>

@@ -7,13 +7,12 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { projects } from "../projects/schema";
 
 export const projectInvitations = mysqlTable(
   "projectInvitations",
   {
-    projectId: customCuid2("projectId", { length: 255 }).notNull(),
+    projectId: varchar("projectId", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
     expiresAt: datetime("expiresAt", { mode: "date", fsp: 3 }).notNull(),
     createdAt: datetime("createdAt", { mode: "date", fsp: 3 })

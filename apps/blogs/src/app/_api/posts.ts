@@ -1,6 +1,16 @@
 "use server";
 
-import { db } from "@acme/db";
+import {
+  and,
+  desc,
+  drizzleDb,
+  eq,
+  exists,
+  inArray,
+  ne,
+  schema,
+  withCount,
+} from "@acme/db";
 import { generateRandomIndices } from "@acme/lib/utils";
 
 const skip = (page: number, perPage: number) => (page - 1) * perPage;
@@ -11,43 +21,53 @@ export async function getMainPagePostsByDomain(
   page = 1,
   perPage = 100,
 ) {
-  const posts = await db.post.findMany({
-    where: {
-      hidden: false,
-      project: {
-        deletedAt: null,
-        domain,
-      },
-    },
-    skip: skip(page, perPage),
-    take: take(perPage),
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      thumbnailUrl: true,
-      description: true,
-      createdAt: true,
-      _count: {
-        select: {
-          likes: true,
-        },
-      },
-    },
-  });
+  const posts = await drizzleDb
+    .select({
+      id: schema.posts.id,
+      slug: schema.posts.slug,
+      title: schema.posts.title,
+      thumbnailUrl: schema.posts.thumbnailUrl,
+      description: schema.posts.description,
+      createdAt: schema.posts.createdAt,
+    })
+    .from(schema.posts)
+    .where(
+      and(
+        eq(schema.posts.hidden, 0),
+        exists(
+          drizzleDb
+            .select()
+            .from(schema.projects)
+            .where(
+              and(
+                eq(schema.projects.id, schema.posts.projectId),
+                eq(schema.projects.domain, domain),
+              ),
+            ),
+        ),
+      ),
+    )
+    .limit(take(perPage))
+    .offset(skip(page, perPage))
+    .orderBy(desc(schema.posts.createdAt));
 
-  const postsCount = await db.post.count({
-    where: {
-      hidden: false,
-      project: {
-        deletedAt: null,
-        domain,
-      },
-    },
-  });
+  const postsCount = await withCount(
+    schema.posts,
+    and(
+      eq(schema.posts.hidden, 0),
+      exists(
+        drizzleDb
+          .select()
+          .from(schema.projects)
+          .where(
+            and(
+              eq(schema.projects.id, schema.posts.projectId),
+              eq(schema.projects.domain, domain),
+            ),
+          ),
+      ),
+    ),
+  );
 
   return { posts, postsCount: postsCount };
 }
@@ -56,33 +76,41 @@ export type GetPostsProjectByDomain = Awaited<
 >["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {
-  return await db.post.findFirst({
-    where: {
-      hidden: false,
+  return await drizzleDb
+    .select({
+      id: schema.posts.id,
+      title: schema.posts.title,
+      description: schema.posts.description,
+      thumbnailUrl: schema.posts.thumbnailUrl,
+      content: schema.posts.content,
+      seoTitle: schema.posts.seoTitle,
+      seoDescription: schema.posts.seoDescription,
+      createdAt: schema.posts.createdAt,
       project: {
-        deletedAt: null,
-        domain,
+        name: schema.projects.name,
+        logo: schema.projects.logo,
+        domain: schema.projects.domain,
       },
-      slug,
-    },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      thumbnailUrl: true,
-      content: true,
-      seoTitle: true,
-      seoDescription: true,
-      createdAt: true,
-      project: {
-        select: {
-          name: true,
-          logo: true,
-          domain: true,
-        },
-      },
-    },
-  });
+    })
+    .from(schema.posts)
+    .where(
+      and(
+        eq(schema.posts.hidden, 0),
+        eq(schema.posts.slug, slug),
+        exists(
+          drizzleDb
+            .select()
+            .from(schema.projects)
+            .where(
+              and(
+                eq(schema.projects.id, schema.posts.projectId),
+                eq(schema.projects.domain, domain),
+              ),
+            ),
+        ),
+      ),
+    )
+    .then((x) => x[0]);
 }
 
 export async function getRandomPostsByDomain(
@@ -90,21 +118,28 @@ export async function getRandomPostsByDomain(
   currentPostSlug: string,
   toGenerate = 3,
 ) {
-  const posts = await db.post.findMany({
-    where: {
-      hidden: false,
-      slug: {
-        not: currentPostSlug,
-      },
-      project: {
-        deletedAt: null,
-        domain,
-      },
-    },
-    select: {
-      id: true,
-    },
-  });
+  const posts = await drizzleDb
+    .select({
+      id: schema.posts.id,
+    })
+    .from(schema.posts)
+    .where(
+      and(
+        eq(schema.posts.hidden, 0),
+        ne(schema.posts.slug, currentPostSlug),
+        exists(
+          drizzleDb
+            .select()
+            .from(schema.projects)
+            .where(
+              and(
+                eq(schema.projects.id, schema.posts.projectId),
+                eq(schema.projects.domain, domain),
+              ),
+            ),
+        ),
+      ),
+    );
 
   const postIds = posts.map((post) => post.id);
 
@@ -116,24 +151,15 @@ export async function getRandomPostsByDomain(
     return [];
   }
 
-  return await db.post.findMany({
-    where: {
-      id: {
-        in: ids,
-      },
-    },
-    select: {
+  return await drizzleDb.query.posts.findMany({
+    where: inArray(schema.posts.id, ids),
+    columns: {
       id: true,
       slug: true,
       title: true,
       description: true,
       thumbnailUrl: true,
       createdAt: true,
-      _count: {
-        select: {
-          likes: true,
-        },
-      },
     },
   });
 }

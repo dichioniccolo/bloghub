@@ -5,7 +5,7 @@ import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
-import { db } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -27,14 +27,18 @@ export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
     const user = await getCurrentUser();
 
-    const dbUser = await db.user.findUniqueOrThrow({
-      where: {
-        id: user.id,
-      },
-      select: {
+    const dbUser = await drizzleDb.query.user.findFirst({
+      where: eq(schema.user.id, user.id),
+      columns: {
         stripePriceId: true,
       },
     });
+
+    if (!dbUser) {
+      return new Response("You must be a pro member to use AI features", {
+        status: 403,
+      });
+    }
 
     const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 

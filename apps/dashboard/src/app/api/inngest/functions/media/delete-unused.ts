@@ -1,6 +1,6 @@
 import type { JSONContent } from "@tiptap/core";
 
-import { db, MediaForEntity } from "@acme/db";
+import { drizzleDb, inArray, schema } from "@acme/db";
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
@@ -14,54 +14,41 @@ export const mediaDeleteUnused = inngest.createFunction(
     cron: `TZ=Europe/Rome ${Crons.EVERY_DAY}`,
   },
   async ({ step }) => {
-    const allProjects = await step.run(
-      "Get all projects",
-      async () =>
-        await db.project.findMany({
-          select: {
-            id: true,
-            logo: true,
-            media: {
-              select: {
-                id: true,
-                url: true,
-              },
+    const allProjects = await step.run("Get all projects", () =>
+      drizzleDb.query.projects.findMany({
+        columns: {
+          id: true,
+          logo: true,
+        },
+        with: {
+          media: {
+            columns: {
+              id: true,
+              url: true,
+              forEntity: true,
             },
           },
-        }),
+          posts: {
+            columns: {
+              id: true,
+              thumbnailUrl: true,
+              content: true,
+            },
+          },
+        },
+      }),
     );
 
     const steps = allProjects.map(async (project) => {
       return await step.run(
         `Delete unused media for project ${project.id}`,
         async () => {
-          const posts = await db.post.findMany({
-            where: {
-              projectId: project.id,
-              thumbnailUrl: {
-                not: null,
-              },
-            },
-            select: {
-              id: true,
-              thumbnailUrl: true,
-              content: true,
-            },
-          });
+          const posts = project.posts;
 
-          const media = await db.media.findMany({
-            where: {
-              projectId: project.id,
-            },
-            select: {
-              id: true,
-              url: true,
-              forEntity: true,
-            },
-          });
+          const media = project.media;
 
           const logoMediaList = media.filter(
-            (x) => x.forEntity === MediaForEntity.PROJECT_LOGO,
+            (x) => x.forEntity === "PROJECT_LOGO",
           );
 
           const logoMediaToDelete = logoMediaList.filter(
@@ -69,7 +56,7 @@ export const mediaDeleteUnused = inngest.createFunction(
           );
 
           const thumbnailMediaList = media.filter(
-            (x) => x.forEntity === MediaForEntity.POST_THUMBNAIL,
+            (x) => x.forEntity === "POST_THUMBNAIL",
           );
 
           const thumbnailMediaToDelete = thumbnailMediaList.filter((x) =>
@@ -77,15 +64,16 @@ export const mediaDeleteUnused = inngest.createFunction(
           );
 
           const postContentMediaList = media.filter(
-            (x) => x.forEntity === MediaForEntity.POST_CONTENT,
+            (x) => x.forEntity === "POST_CONTENT",
           );
 
           const postContentMediaToDelete = postContentMediaList.filter((x) =>
-            posts.every((post) => {
-              return !findMediaInJsonContent(
-                post.content as JSONContent,
-              ).includes(x.url);
-            }),
+            posts.every(
+              (post) =>
+                !findMediaInJsonContent(post.content as JSONContent).includes(
+                  x.url,
+                ),
+            ),
           );
 
           const allDeletedMedia = await Promise.all([
@@ -115,15 +103,14 @@ async function deleteMedia(list: DeletedMedia[]): Promise<DeletedMedia[]> {
 
   const filtererList = list.filter((x) => !x.url.includes("bloghub.it"));
 
-  await db.$transaction(async (tx) => {
+  await drizzleDb.transaction(async (tx) => {
     await deleteFiles(filtererList.map((x) => x.url));
-    await tx.media.deleteMany({
-      where: {
-        id: {
-          in: list.map((x) => x.id),
-        },
-      },
-    });
+    await tx.delete(schema.media).where(
+      inArray(
+        schema.media.id,
+        list.map((x) => x.id),
+      ),
+    );
   });
 
   return list;

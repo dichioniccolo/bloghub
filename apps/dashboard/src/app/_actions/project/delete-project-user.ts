@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db, Role } from "@acme/db";
+import { and, drizzleDb, eq, schema } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -28,20 +28,22 @@ export const deleteProjectUser = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const userToDelete = await db.projectMember.findFirst({
-      where: {
-        projectId,
-        userId: userIdToDelete,
-      },
-      select: {
+    const userToDelete = await drizzleDb.query.projectMembers.findFirst({
+      where: and(
+        eq(schema.projectMembers.projectId, projectId),
+        eq(schema.projectMembers.userId, userIdToDelete),
+      ),
+      columns: {
         role: true,
+      },
+      with: {
         user: {
-          select: {
+          columns: {
             email: true,
           },
         },
         project: {
-          select: {
+          columns: {
             name: true,
           },
         },
@@ -52,18 +54,18 @@ export const deleteProjectUser = createServerAction({
       return;
     }
 
-    if (userToDelete?.role === Role.OWNER) {
+    if (userToDelete?.role === "OWNER") {
       throw new ErrorForClient("Cannot delete owner");
     }
 
-    await db.projectMember.delete({
-      where: {
-        projectId_userId: {
-          projectId,
-          userId: userIdToDelete,
-        },
-      },
-    });
+    await drizzleDb
+      .delete(schema.projectMembers)
+      .where(
+        and(
+          eq(schema.projectMembers.projectId, projectId),
+          eq(schema.projectMembers.userId, userIdToDelete),
+        ),
+      );
 
     await inngest.send({
       id: `notification/project.user.removed/${projectId}-${userToDelete.user.email}`,

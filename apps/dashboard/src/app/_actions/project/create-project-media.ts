@@ -2,10 +2,11 @@
 
 import { z } from "zod";
 
-import { createId, db, MediaForEntity, MediaType } from "@acme/db";
+import { createId, drizzleDb, eq, schema } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { getCurrentUser } from "~/app/_api/get-user";
+import { isProjectMember } from "../schemas";
 
 function arrayBufferToBuffer(ab: ArrayBuffer) {
   const buffer = Buffer.alloc(ab.byteLength);
@@ -21,8 +22,17 @@ function arrayBufferToBuffer(ab: ArrayBuffer) {
 const CreateProjectMediaSchema = z.object({
   projectId: z.string().min(1),
   postId: z.string().optional().nullable(),
-  forEntity: z.nativeEnum(MediaForEntity),
-  type: z.nativeEnum(MediaType),
+  forEntity: z.nativeEnum({
+    POST_CONTENT: "POST_CONTENT",
+    POST_THUMBNAIL: "POST_THUMBNAIL",
+    PROJECT_LOGO: "PROJECT_LOGO",
+  } as const),
+  type: z.nativeEnum({
+    IMAGE: "IMAGE",
+    VIDEO: "VIDEO",
+    AUDIO: "AUDIO",
+    DOCUMENT: "DOCUMENT",
+  } as const),
 });
 
 export async function createProjectMedia(formData: FormData) {
@@ -40,14 +50,9 @@ export async function createProjectMedia(formData: FormData) {
     throw new Error("Failed to determine media type");
   }
 
-  const projectMemberCount = await db.projectMember.count({
-    where: {
-      projectId,
-      userId: user.id,
-    },
-  });
+  const isMember = await isProjectMember(projectId, user.id);
 
-  if (projectMemberCount === 0) {
+  if (!isMember) {
     throw new Error("You must be a member of the project");
   }
 
@@ -71,15 +76,22 @@ export async function createProjectMedia(formData: FormData) {
 
   const url = uploadedFile.url;
 
-  const media = await db.media.create({
-    data: {
-      forEntity,
+  const media = await drizzleDb.transaction(async (tx) => {
+    const id = createId();
+
+    await tx.insert(schema.media).values({
+      id,
       projectId,
       postId,
-      type,
       url,
-    },
+      forEntity,
+      type,
+    });
+
+    return await drizzleDb.query.media.findFirst({
+      where: eq(schema.media.id, id),
+    });
   });
 
-  return media;
+  return media!;
 }

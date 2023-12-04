@@ -1,9 +1,4 @@
-import {
-  createId,
-  db,
-  EmailNotificationSettingType,
-  NotificationType,
-} from "@acme/db";
+import { createId, drizzleDb, eq, schema } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
@@ -22,7 +17,7 @@ export const notificationRemovedFromProject = inngest.createFunction(
   async ({ event, step }) => {
     const sendEmail = step.run("Send email", async () => {
       await sendMail({
-        type: EmailNotificationSettingType.SOCIAL,
+        type: "SOCIAL",
         to: event.data.userEmail,
         subject: "You have been removed from a project",
         react: RemovedFromProject({
@@ -37,39 +32,43 @@ export const notificationRemovedFromProject = inngest.createFunction(
     });
 
     // here the user might not exist, so we need to check for that
-    const user = await step.run("Get user", async () => {
-      return await db.user.findFirst({
-        where: {
-          email: event.data.userEmail,
-        },
-        select: {
+    const user = await step.run("Get user", () =>
+      drizzleDb.query.user.findFirst({
+        where: eq(schema.user.email, event.data.userEmail),
+        columns: {
           id: true,
         },
-      });
-    });
+      }),
+    );
 
     if (!user) {
       return;
     }
 
     const createNotification = step.run("Create notification", async () => {
-      return await db.notification.create({
-        data: {
-          type: NotificationType.REMOVED_FROM_PROJECT,
+      return await drizzleDb.transaction(async (tx) => {
+        const id = createId();
+
+        await tx.insert(schema.notifications).values({
+          id,
+          type: "REMOVED_FROM_PROJECT",
           body: event.data,
           userId: user.id,
-        },
-        select: {
-          id: true,
-          type: true,
-          body: true,
-          createdAt: true,
-          status: true,
-        },
+        });
+
+        return await tx
+          .select()
+          .from(schema.notifications)
+          .where(eq(schema.notifications.id, id))
+          .then((x) => x[0]);
       });
     });
 
     const [, notification] = await Promise.all([sendEmail, createNotification]);
+
+    if (!notification) {
+      return;
+    }
 
     await step.run("Send Pusher notification", async () => {
       await pusherServer.trigger(user.id, "notifications:new", {

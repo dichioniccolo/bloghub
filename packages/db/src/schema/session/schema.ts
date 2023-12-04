@@ -7,14 +7,13 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { user } from "../user/schema";
 
 export const session = mysqlTable(
   "session",
   {
     sessionToken: varchar("sessionToken", { length: 500 }).notNull(),
-    userId: customCuid2("userId", { length: 255 }).notNull(),
+    userId: varchar("userId", { length: 255 }).notNull(),
     expires: datetime("expires", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),

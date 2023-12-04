@@ -9,7 +9,6 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { media } from "../media/schema";
 import { posts } from "../posts/schema";
 import { projectInvitations } from "../projectInvitations/schema";
@@ -18,7 +17,7 @@ import { projectMembers } from "../projectMembers/schema";
 export const projects = mysqlTable(
   "projects",
   {
-    id: customCuid2("id", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).notNull(),
     name: varchar("name", { length: 255 }).notNull(),
     logo: text("logo"),
     domain: varchar("domain", { length: 255 }).notNull(),
@@ -46,8 +45,8 @@ export const projects = mysqlTable(
 );
 
 export const projectsRelations = relations(projects, ({ many }) => ({
-  projectMembers: many(projectMembers),
-  projectInvitations: many(projectInvitations),
+  members: many(projectMembers),
+  invitations: many(projectInvitations),
   posts: many(posts),
   media: many(media),
 }));

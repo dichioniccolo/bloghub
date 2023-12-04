@@ -1,12 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 
 import { env as authEnv } from "@acme/auth/env.mjs";
-import {
-  createId,
-  db,
-  EmailNotificationSettingType,
-  NotificationType,
-} from "@acme/db";
+import { and, createId, drizzleDb, eq, schema } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
@@ -25,14 +20,14 @@ export const notificationInvitation = inngest.createFunction(
     event: "notification/project.invitation",
   },
   async ({ event, step }) => {
-    const invitation = await step.run("Get invitation", async () => {
-      return await db.projectInvitation.findFirst({
-        where: {
-          projectId: event.data.projectId,
-          email: event.data.userEmail,
-        },
-      });
-    });
+    const invitation = await step.run("Get invitation", () =>
+      drizzleDb.query.projectInvitations.findFirst({
+        where: and(
+          eq(schema.projectInvitations.projectId, event.data.projectId),
+          eq(schema.projectInvitations.email, event.data.userEmail),
+        ),
+      }),
+    );
 
     if (!invitation) {
       return;
@@ -52,7 +47,7 @@ export const notificationInvitation = inngest.createFunction(
 
     const email = step.run("Send Email", async () => {
       await sendMail({
-        type: EmailNotificationSettingType.SOCIAL,
+        type: "SOCIAL",
         to: event.data.userEmail,
         subject: "You have been invited to a project",
         react: ProjectInvite({
@@ -67,36 +62,43 @@ export const notificationInvitation = inngest.createFunction(
     });
 
     // here the user might not exist, so we need to check for that
-    const user = await step.run("Get user", async () => {
-      return await db.user.findFirst({
-        where: {
-          email: event.data.userEmail,
+    const user = await step.run("Get user", () =>
+      drizzleDb.query.user.findFirst({
+        where: eq(schema.user.email, event.data.userEmail),
+        columns: {
+          id: true,
         },
-      });
-    });
+      }),
+    );
 
     if (!user) {
       return null;
     }
 
-    const createNotification = step.run("Create notification", async () => {
-      return await db.notification.create({
-        data: {
-          type: NotificationType.PROJECT_INVITATION,
+    const createNotification = step.run("Create notification", () =>
+      drizzleDb.transaction(async (tx) => {
+        const id = createId();
+
+        await tx.insert(schema.notifications).values({
+          id,
+          type: "PROJECT_INVITATION",
           body: event.data,
           userId: user.id,
-        },
-        select: {
-          id: true,
-          type: true,
-          body: true,
-          createdAt: true,
-          status: true,
-        },
-      });
-    });
+        });
+
+        return await tx
+          .select()
+          .from(schema.notifications)
+          .where(eq(schema.notifications.id, id))
+          .then((x) => x[0]);
+      }),
+    );
 
     const [, notification] = await Promise.all([email, createNotification]);
+
+    if (!notification) {
+      return;
+    }
 
     await step.run("Send Pusher notification", async () => {
       await pusherServer.trigger(user.id, "notifications:new", {
@@ -117,14 +119,12 @@ async function getLoginUrl(
 ) {
   const token = randomBytes(32).toString("hex");
 
-  await db.verificationToken.create({
-    data: {
-      identifier,
-      expires,
-      token: createHash("sha256")
-        .update(`${token}${authEnv.AUTH_SECRET}`)
-        .digest("hex"),
-    },
+  await drizzleDb.insert(schema.verificationToken).values({
+    identifier,
+    expires,
+    token: createHash("sha256")
+      .update(`${token}${authEnv.AUTH_SECRET}`)
+      .digest("hex"),
   });
 
   const params = new URLSearchParams({

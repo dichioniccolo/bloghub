@@ -4,17 +4,17 @@ import {
   index,
   mysqlTable,
   primaryKey,
+  varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { posts } from "../posts/schema";
 import { user } from "../user/schema";
 
 export const likes = mysqlTable(
   "likes",
   {
-    userId: customCuid2("userId", { length: 255 }).notNull(),
-    postId: customCuid2("postId", { length: 255 }).notNull(),
+    userId: varchar("userId", { length: 255 }).notNull(),
+    postId: varchar("postId", { length: 255 }).notNull(),
     createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),

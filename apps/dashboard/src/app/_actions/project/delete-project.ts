@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { db, Role } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -23,18 +23,9 @@ export const deleteProject = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const project = await db.project.findUniqueOrThrow({
-      where: {
-        id: projectId,
-        deletedAt: null,
-        members: {
-          some: {
-            userId: user.id,
-            role: Role.OWNER,
-          },
-        },
-      },
-      select: {
+    const project = await drizzleDb.query.projects.findFirst({
+      where: eq(schema.projects.id, projectId),
+      columns: {
         id: true,
         domain: true,
       },
@@ -42,7 +33,7 @@ export const deleteProject = createServerAction({
 
     await inngest.send({
       name: "project/delete",
-      data: project,
+      data: project!,
     });
 
     redirect(AppRoutes.Dashboard);

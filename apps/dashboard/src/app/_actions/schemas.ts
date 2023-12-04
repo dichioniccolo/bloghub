@@ -1,7 +1,7 @@
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { db, Role } from "@acme/db";
+import { and, drizzleDb, eq, exists, schema, withExists } from "@acme/db";
 import { DOMAIN_REGEX } from "@acme/lib/constants";
 
 export const DomainSchema = z
@@ -10,12 +10,10 @@ export const DomainSchema = z
   })
   .regex(DOMAIN_REGEX, { message: "Invalid domain" })
   .refine(async (domain) => {
-    const domainExists = await db.project.exists({
-      where: {
-        deletedAt: null,
-        domain,
-      },
-    });
+    const domainExists = await withExists(
+      schema.projects,
+      eq(schema.projects.domain, domain),
+    );
 
     return !domainExists;
   }, "Domain already exists")
@@ -35,27 +33,55 @@ export const DomainSchema = z
   }, "Domain not available");
 
 export async function isProjectOwner(projectId: string, userId: string) {
-  const isOwner = await db.projectMember.exists({
-    where: {
-      projectId,
-      userId,
-      role: Role.OWNER,
-    },
-  });
+  const isOwner = await withExists(
+    schema.projectMembers,
+    and(
+      eq(schema.projectMembers.projectId, projectId),
+      eq(schema.projectMembers.userId, userId),
+      eq(schema.projectMembers.role, "OWNER"),
+    ),
+  );
 
   return isOwner;
 }
 
 export async function isProjectMember(projectId: string, userId: string) {
-  const isMember = await db.projectMember.exists({
-    where: {
-      projectId,
-      userId,
-    },
-  });
+  const isMember = await withExists(
+    schema.projectMembers,
+    and(
+      eq(schema.projectMembers.projectId, projectId),
+      eq(schema.projectMembers.userId, userId),
+    ),
+  );
 
   return isMember;
 }
+
+export async function isProjectMemberWithEmail(
+  projectId: string,
+  email: string,
+) {
+  const isMember = await withExists(
+    schema.projectMembers,
+    and(
+      eq(schema.projectMembers.projectId, projectId),
+      exists(
+        drizzleDb
+          .select()
+          .from(schema.user)
+          .where(
+            and(
+              eq(schema.projectMembers.userId, schema.user.id),
+              eq(schema.user.email, email),
+            ),
+          ),
+      ),
+    ),
+  );
+
+  return isMember;
+}
+
 export const IS_NOT_OWNER_MESSAGE =
   "You must be the owner of the project to perform this action";
 

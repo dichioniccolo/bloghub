@@ -4,7 +4,7 @@ import type { DefaultSession } from "@auth/core/types";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 
-import { db, drizzleDb } from "@acme/db";
+import { drizzleDb, eq, schema } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
 import { env } from "./env.mjs";
@@ -25,9 +25,7 @@ declare module "next-auth" {
 export const {
   handlers: { GET, POST },
   auth,
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   signIn,
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   signOut,
   update: updateSession,
 } = NextAuth({
@@ -72,16 +70,14 @@ export const {
         (account?.provider === "google" || account?.provider === "discord") &&
         profile?.email
       ) {
-        await db.user.update({
-          where: {
-            email: profile.email,
-          },
-          data: {
+        await drizzleDb
+          .update(schema.user)
+          .set({
             name: profile?.name,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             image: profile?.picture ?? profile?.image ?? profile?.image_url,
-          },
-        });
+          })
+          .where(eq(schema.user.email, profile.email));
       }
 
       return true;
@@ -102,11 +98,9 @@ export const {
         throw new Error("Unable to sign in with this email address");
       }
 
-      const dbUser = await db.user.findUnique({
-        where: {
-          email: token.email,
-        },
-        select: {
+      const dbUser = await drizzleDb.query.user.findFirst({
+        where: eq(schema.user.email, token.email),
+        columns: {
           id: true,
           email: true,
           name: true,

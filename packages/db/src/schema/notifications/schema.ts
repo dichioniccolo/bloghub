@@ -6,16 +6,16 @@ import {
   mysqlEnum,
   mysqlTable,
   primaryKey,
+  varchar,
 } from "drizzle-orm/mysql-core";
 
-import { customCuid2 } from "../custom-types";
 import { user } from "../user/schema";
 
 export const notifications = mysqlTable(
   "notifications",
   {
-    id: customCuid2("id", { length: 255 }).notNull(),
-    userId: customCuid2("userId", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).notNull(),
+    userId: varchar("userId", { length: 255 }).notNull(),
     type: mysqlEnum("type", [
       "PROJECT_INVITATION",
       "REMOVED_FROM_PROJECT",

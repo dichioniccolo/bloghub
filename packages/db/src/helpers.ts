@@ -1,5 +1,11 @@
 import type { AnyColumn, SQL } from "drizzle-orm";
-import { and, asc, desc, eq, gt, lt, or } from "drizzle-orm";
+import { and, asc, desc, eq, gt, lt, or, sql } from "drizzle-orm";
+import type {
+  MySqlTableWithColumns,
+  TableConfig,
+} from "drizzle-orm/mysql-core";
+
+import { drizzleDb } from ".";
 
 export function withCursor<
   PrimaryColumn extends AnyColumn,
@@ -89,4 +95,32 @@ export function withCursor<
     limit,
     ...(where ? { where } : {}),
   };
+}
+
+export async function withCount<T extends TableConfig>(
+  table: MySqlTableWithColumns<T>,
+  where: SQL | undefined,
+) {
+  const count = await drizzleDb
+    .select({
+      count: sql`count(*)`.mapWith(Number),
+    })
+    .from(table)
+    .where(where)
+    .then((x) => x[0]?.count);
+
+  if (!count) {
+    throw new Error("Unable to count");
+  }
+
+  return count;
+}
+
+export async function withExists<T extends TableConfig>(
+  table: MySqlTableWithColumns<T>,
+  where: SQL | undefined,
+) {
+  const number = await withCount(table, where);
+
+  return number > 0;
 }

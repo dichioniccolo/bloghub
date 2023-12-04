@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, NotificationStatus } from "@acme/db";
+import { and, drizzleDb, eq, schema } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { RequiredString } from "~/lib/validation/schema";
@@ -15,14 +15,16 @@ export const archiveNotification = createServerAction({
     notificationId: RequiredString,
   }),
   action: async ({ input: { notificationId }, ctx: { user } }) => {
-    await db.notification.update({
-      where: {
-        id: notificationId,
-        userId: user.id,
-      },
-      data: {
-        status: NotificationStatus.ARCHIVED,
-      },
-    });
+    await drizzleDb
+      .update(schema.notifications)
+      .set({
+        status: "ARCHIVED",
+      })
+      .where(
+        and(
+          eq(schema.notifications.id, notificationId),
+          eq(schema.notifications.userId, user.id),
+        ),
+      );
   },
 });

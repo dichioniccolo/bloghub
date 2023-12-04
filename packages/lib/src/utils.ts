@@ -7,8 +7,6 @@ import {
   startOfMonth,
 } from "date-fns";
 
-import type { MediaType } from "@acme/db";
-
 import { ROOM_DIVIDER, TEST_HOSTNAME } from "./constants";
 import { env } from "./env.mjs";
 
@@ -114,7 +112,9 @@ export function generateRandomIndices(range: number, count: number): number[] {
   return Array.from(indicies);
 }
 
-export function determineMediaType(file: File): MediaType {
+export function determineMediaType(
+  file: File,
+): "IMAGE" | "VIDEO" | "AUDIO" | "DOCUMENT" {
   if (/image/i.test(file.type)) {
     return "IMAGE";
   }
