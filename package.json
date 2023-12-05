@@ -33,10 +33,10 @@
     "@acme/prettier-config": "workspace:^0.1.0",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@turbo/gen": "^1.10.16",
+    "@turbo/gen": "^1.11.0",
     "husky": "^8.0.3",
     "prettier": "^3.1.0",
-    "turbo": "^1.10.16",
+    "turbo": "^1.11.0",
     "typescript": "^5.3.2"
   },
   "pnpm": {
