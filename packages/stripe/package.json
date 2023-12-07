@@ -18,7 +18,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+    "dev:disabled": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
     "typecheck": "tsc --noEmit"

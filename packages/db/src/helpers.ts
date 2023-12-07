@@ -1,5 +1,5 @@
 import type { AnyColumn, SQL } from "drizzle-orm";
-import { and, asc, desc, eq, exists, gt, lt, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, exists, gt, lt, or } from "drizzle-orm";
 import type {
   MySqlTableWithColumns,
   TableConfig,
@@ -101,19 +101,19 @@ export async function withCount<T extends TableConfig>(
   table: MySqlTableWithColumns<T>,
   where: SQL | undefined,
 ) {
-  const count = await db
+  const value = await db
     .select({
-      count: sql`count(*)`.mapWith(Number),
+      count: count(),
     })
     .from(table)
     .where(where)
     .then((x) => x[0]?.count);
 
-  if (!count) {
+  if (typeof value !== "number") {
     throw new Error("Unable to count");
   }
 
-  return count;
+  return value;
 }
 
 export async function withExists<T extends TableConfig>(

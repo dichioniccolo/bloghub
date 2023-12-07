@@ -26,17 +26,14 @@
     },
     "db:generate": {
       "inputs": [
-        "prisma/schema.prisma"
+        "src"
       ],
       "outputs": [
-        "prisma/**"
+        "drizzle/**"
       ],
       "cache": false
     },
     "db:push": {
-      "inputs": [
-        "prisma/schema.prisma"
-      ],
       "cache": false
     },
     "dev": {

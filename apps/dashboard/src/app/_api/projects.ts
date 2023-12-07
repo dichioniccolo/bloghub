@@ -29,35 +29,39 @@ import { getBillingPeriod } from "./user";
 export async function getProjects() {
   const user = await getCurrentUser();
 
-  return await db.query.projects.findMany({
-    where: exists(
-      db
-        .select()
-        .from(schema.projectMembers)
-        .where(
-          and(
-            eq(schema.projects.id, schema.projectMembers.projectId),
-            eq(schema.projectMembers.userId, user.id),
+  return await db
+    .select({
+      id: schema.projects.id,
+      name: schema.projects.name,
+      logo: schema.projects.logo,
+      domain: schema.projects.domain,
+      domainVerified: schema.projects.domainVerified,
+      posts: countDistinct(schema.posts.id),
+      visits: countDistinct(schema.visits.id),
+    })
+    .from(schema.projects)
+    .leftJoin(schema.posts, eq(schema.posts.projectId, schema.projects.id))
+    .leftJoin(schema.visits, eq(schema.visits.projectId, schema.projects.id))
+    .where(
+      exists(
+        db
+          .select()
+          .from(schema.projectMembers)
+          .where(
+            and(
+              eq(schema.projects.id, schema.projectMembers.projectId),
+              eq(schema.projectMembers.userId, user.id),
+            ),
           ),
-        ),
-    ),
-    columns: {
-      id: true,
-      name: true,
-      logo: true,
-      domain: true,
-      domainVerified: true,
-    },
-    with: {
-      members: {
-        where: eq(schema.projectMembers.userId, user.id),
-      },
-    },
-    extras: {
-      posts: countDistinct(schema.posts.id).as("posts"),
-      visits: countDistinct(schema.visits.id).as("visits"),
-    },
-  });
+      ),
+    )
+    .groupBy(
+      schema.projects.id,
+      schema.projects.name,
+      schema.projects.logo,
+      schema.projects.domain,
+      schema.projects.domainVerified,
+    );
 }
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 

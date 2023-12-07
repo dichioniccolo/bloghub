@@ -93,21 +93,15 @@ export async function getPostBySlug(domain: string, slug: string) {
       },
     })
     .from(schema.posts)
+    .innerJoin(
+      schema.projects,
+      and(eq(schema.projects.id, schema.posts.projectId)),
+    )
     .where(
       and(
         eq(schema.posts.hidden, 0),
         eq(schema.posts.slug, slug),
-        exists(
-          db
-            .select()
-            .from(schema.projects)
-            .where(
-              and(
-                eq(schema.projects.id, schema.posts.projectId),
-                eq(schema.projects.domain, domain),
-              ),
-            ),
-        ),
+        eq(schema.projects.domain, domain),
       ),
     )
     .then((x) => x[0]);

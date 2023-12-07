@@ -40,22 +40,28 @@ export async function getPosts(
       : undefined,
   );
 
-  const data = await db.query.posts.findMany({
-    where,
-    columns: {
-      id: true,
-      title: true,
-      slug: true,
-      createdAt: true,
-      hidden: true,
-    },
-    extras: {
-      visits: countDistinct(schema.visits.id).as("visits"),
-    },
-    limit: pagination.pageSize,
-    offset: pagination.pageSize * pagination.page - pagination.pageSize,
-    orderBy: desc(schema.posts.createdAt),
-  });
+  const data = await db
+    .select({
+      id: schema.posts.id,
+      title: schema.posts.title,
+      slug: schema.posts.slug,
+      createdAt: schema.posts.createdAt,
+      hidden: schema.posts.hidden,
+      visits: countDistinct(schema.visits.id),
+    })
+    .from(schema.posts)
+    .leftJoin(schema.visits, eq(schema.visits.postId, schema.posts.id))
+    .limit(pagination.pageSize)
+    .offset(pagination.pageSize * pagination.page - pagination.pageSize)
+    .orderBy(desc(schema.posts.createdAt))
+    .where(where)
+    .groupBy(
+      schema.posts.id,
+      schema.posts.title,
+      schema.posts.slug,
+      schema.posts.createdAt,
+      schema.posts.hidden,
+    );
 
   const count = await withCount(schema.posts, where);
 
