@@ -7,7 +7,7 @@ import {
   desc,
   eq,
   exists,
-  ilike,
+  like,
   or,
   schema,
   withCount,
@@ -36,7 +36,10 @@ export async function getPosts(
         ),
     ),
     filter
-      ? or(ilike(schema.posts.title, filter), ilike(schema.posts.slug, filter))
+      ? or(
+          like(schema.posts.title, `%${filter}%`),
+          like(schema.posts.slug, `%${filter}%`),
+        )
       : undefined,
   );
 
