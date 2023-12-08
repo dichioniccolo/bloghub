@@ -90,8 +90,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       '@vercel/kv':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -241,8 +241,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       '@vercel/kv':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       '@visx/axis':
         specifier: ^3.5.0
         version: 3.5.0(react@18.2.0)
@@ -410,8 +410,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       '@vercel/kv':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       ai:
         specifier: ^2.2.28
         version: 2.2.28(react@18.2.0)(solid-js@1.8.6)(svelte@4.2.7)(vue@3.3.8)
@@ -5838,12 +5838,6 @@ packages:
       '@upstash/core-analytics': 0.0.6
     dev: false
 
-  /@upstash/redis@1.24.3:
-    resolution: {integrity: sha512-gw6d4IA1biB4eye5ESaXc0zOlVQI94aptsBvVcTghYWu1kRmOrJFoMFEDCa8p5uzluyYAOFCuY2GWLR6O4ZoIw==}
-    dependencies:
-      crypto-js: 4.2.0
-    dev: false
-
   /@upstash/redis@1.25.1:
     resolution: {integrity: sha512-ACj0GhJ4qrQyBshwFgPod6XufVEfKX2wcaihsEvSdLYnY+m+pa13kGt1RXm/yTHKf4TQi/Dy2A8z/y6WUEOmlg==}
     dependencies:
@@ -5884,11 +5878,11 @@ packages:
     resolution: {integrity: sha512-NtKiIbn9Cq6HWGy+qRudz28mz5nxfOJWls5Pnckjw1yCfSX8rhXdvY/il3Sy3Zd5n/sKCM2h7VSCCpJF/oaDrQ==}
     dev: false
 
-  /@vercel/kv@1.0.0:
-    resolution: {integrity: sha512-StouXunmEqUfKE+1joSYfELWEEnI1MhTnzUdarHtv6H18RAm3cf5u5g9ElvA1DJNHcrMT6g5yVAhZcYRbk6lvg==}
+  /@vercel/kv@1.0.1:
+    resolution: {integrity: sha512-uTKddsqVYS2GRAM/QMNNXCTuw9N742mLoGRXoNDcyECaxEXvIHG0dEY+ZnYISV4Vz534VwJO+64fd9XeSggSKw==}
     engines: {node: '>=14.6'}
     dependencies:
-      '@upstash/redis': 1.24.3
+      '@upstash/redis': 1.25.1
     dev: false
 
   /@visx/axis@3.5.0(react@18.2.0):
