@@ -12,6 +12,8 @@ export const AppRoutes = {
   ProjectAcceptInvitation: (projectId: string) =>
     `/projects/${projectId}/accept`,
   ProjectSettings: (projectId: string) => `/projects/${projectId}/settings`,
+  ProjectSettingsSocials: (projectId: string) =>
+    `/projects/${projectId}/settings/socials`,
   ProjectSettingsMembers: (projectId: string) =>
     `/projects/${projectId}/settings/members`,
   PostEditor: (projectId: string, postId: string) =>

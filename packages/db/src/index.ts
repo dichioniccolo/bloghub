@@ -27,6 +27,10 @@ import {
   projectMembersRelations,
 } from "./schema/projectMembers/schema";
 import { projects, projectsRelations } from "./schema/projects/schema";
+import {
+  projectSocials,
+  projectSocialsRelations,
+} from "./schema/projectSocials/schema";
 import { session, sessionRelations } from "./schema/session/schema";
 import { user, userRelations } from "./schema/user/schema";
 import { verificationToken } from "./schema/verificationToken/schema";
@@ -77,6 +81,9 @@ export const schema = {
 
   visits,
   visitsRelations,
+
+  projectSocials,
+  projectSocialsRelations,
 };
 
 export const db = drizzle(client.connection(), {

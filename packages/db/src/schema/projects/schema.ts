@@ -13,6 +13,7 @@ import { media } from "../media/schema";
 import { posts } from "../posts/schema";
 import { projectInvitations } from "../projectInvitations/schema";
 import { projectMembers } from "../projectMembers/schema";
+import { projectSocials } from "../projectSocials/schema";
 
 export const projects = mysqlTable(
   "projects",
@@ -49,4 +50,5 @@ export const projectsRelations = relations(projects, ({ many }) => ({
   invitations: many(projectInvitations),
   posts: many(posts),
   media: many(media),
+  socials: many(projectSocials),
 }));

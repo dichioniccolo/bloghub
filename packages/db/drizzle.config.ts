@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
 import type { Config } from "drizzle-kit";
+
+dotenv.config();
 
 export default {
   schema: "./src/**/schema.ts",
@@ -8,6 +11,6 @@ export default {
     casing: "camel",
   },
   dbCredentials: {
-    uri: process.env.DRIZZLE_DATABASE_URL!,
+    uri: process.env.DATABASE_URL!,
   },
 } satisfies Config;

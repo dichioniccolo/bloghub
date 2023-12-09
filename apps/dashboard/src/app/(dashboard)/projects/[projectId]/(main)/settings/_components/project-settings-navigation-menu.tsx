@@ -17,6 +17,11 @@ export function ProjectSettingsNavigationMenu({ projectId }: Props) {
         title: "General",
         href: AppRoutes.ProjectSettings(projectId),
       },
+
+      {
+        title: "Socials",
+        href: AppRoutes.ProjectSettingsSocials(projectId),
+      },
       {
         title: "Members",
         href: AppRoutes.ProjectSettingsMembers(projectId),

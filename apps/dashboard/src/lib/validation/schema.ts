@@ -111,3 +111,14 @@ export const ProjectNameSchema = z.object({
 });
 
 export type ProjectNameSchemaType = z.input<typeof ProjectNameSchema>;
+
+export const ProjectSocialsSchema = z.object({
+  socials: z.array(
+    z.object({
+      social: z.string().min(1),
+      value: z.string().min(1),
+    }),
+  ),
+});
+
+export type ProjectSocialsSchemaType = z.input<typeof ProjectSocialsSchema>;
