@@ -1,15 +1,12 @@
+import { Suspense } from "react";
 import type { ServerRuntime } from "next";
 import { unstable_noStore } from "next/cache";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import { format } from "date-fns";
 
-import { db } from "@acme/db";
-import { BlogRoutes } from "@acme/lib/routes";
-import { Link } from "@acme/ui/components/link";
+import { db, eq, schema } from "@acme/db";
 
-import { getMainPagePostsByDomain } from "~/app/_api/posts";
-import { PostCard } from "./_components/post-card";
+import { LastPosts, LastPostsPlaceholder } from "./_components/last-posts";
+import { OtherPosts, OtherPostsPlaceholder } from "./_components/other-posts";
 
 interface Props {
   params: {
@@ -22,19 +19,13 @@ interface Props {
 
 export const runtime: ServerRuntime = "edge";
 
-const POSTS_PER_PAGE = 50;
-
-export default async function Page({
-  params: { domain },
-  searchParams,
-}: Props) {
+export default async function Page({ params: { domain } }: Props) {
   unstable_noStore();
-  const page =
-    typeof searchParams.page === "string" ? Number(searchParams?.page) : 1;
 
   const project = await db.query.projects.findFirst({
-    where: (columns, { eq }) => eq(columns.domain, domain),
+    where: eq(schema.projects.domain, domain),
     columns: {
+      id: true,
       name: true,
       logo: true,
     },
@@ -42,79 +33,14 @@ export default async function Page({
 
   if (!project) notFound();
 
-  const { posts } = await getMainPagePostsByDomain(
-    domain,
-    page,
-    POSTS_PER_PAGE,
-  );
-
-  // const firstThreePosts = posts.slice(0, 3);
-  // const otherPosts = posts.slice(3);
-
-  // TODO: make it better, I don't like it at all, but it works just for starters
   return (
     <>
-      <div className="mb-20 w-full">
-        {posts.length > 0 ? (
-          <div className="mx-auto w-full max-w-screen-xl md:mb-28 lg:w-5/6">
-            <Link href={BlogRoutes.Post(posts[0]!.slug)}>
-              <div className="sm:h-150 group relative mx-auto h-80 w-full overflow-hidden lg:rounded-xl">
-                <Image
-                  alt={posts[0]!.title ?? ""}
-                  className="h-full w-full object-contain group-hover:scale-105 group-hover:duration-300"
-                  width={1300}
-                  height={630}
-                  src={posts[0]!.thumbnailUrl ?? "/_static/placeholder.png"}
-                />
-              </div>
-              <div className="mx-auto mt-10 w-5/6 lg:w-full">
-                <h2 className="font-title my-10 text-4xl md:text-6xl">
-                  {posts[0]!.title}
-                </h2>
-                <p className="w-full text-base md:text-lg lg:w-2/3">
-                  {posts[0]!.description}
-                </p>
-                <div className="flex w-full items-center justify-start space-x-4">
-                  <p className="my-5 text-sm font-light text-muted-foreground md:text-base">
-                    {format(posts[0]!.createdAt, "MMMM dd, yyyy")}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-20">
-            <Image
-              alt="missing post"
-              src="https://illustrations.popsy.co/gray/success.svg"
-              width={400}
-              height={400}
-              className="dark:hidden"
-            />
-            <Image
-              alt="missing post"
-              src="https://illustrations.popsy.co/white/success.svg"
-              width={400}
-              height={400}
-              className="hidden dark:block"
-            />
-            <p className="font-title text-2xl text-stone-600 dark:text-stone-400">
-              No posts yet.
-            </p>
-          </div>
-        )}
-      </div>
-
-      {posts.length > 1 && (
-        <div className="mx-5 mb-20 max-w-screen-xl lg:mx-24 2xl:mx-auto">
-          <h2 className="font-title mb-10 text-4xl md:text-5xl">More posts</h2>
-          <div className="grid w-full grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-3">
-            {posts.slice(1).map((post, index) => (
-              <PostCard key={index} post={post} />
-            ))}
-          </div>
-        </div>
-      )}
+      <Suspense fallback={<LastPostsPlaceholder />}>
+        <LastPosts projectId={project.id} />
+      </Suspense>
+      <Suspense fallback={<OtherPostsPlaceholder />}>
+        <OtherPosts projectId={project.id} />
+      </Suspense>
     </>
   );
 }

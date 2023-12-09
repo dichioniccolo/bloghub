@@ -1,34 +1,63 @@
-import Image from "next/image";
-import { format } from "date-fns";
+import { BarChart3, BookOpen } from "lucide-react";
 
-import { BlogRoutes } from "@acme/lib/routes";
+import { cn } from "@acme/ui";
+import { Image } from "@acme/ui/components/image";
 import { Link } from "@acme/ui/components/link";
 
-import type { GetRandomPostsByDomain } from "~/app/_api/posts";
-
 interface Props {
-  post: GetRandomPostsByDomain[number];
+  post: {
+    slug: string;
+    title: string;
+    description?: string | null;
+    thumbnailUrl?: string | null;
+    visits: number;
+  };
+  expand?: boolean;
 }
 
-export function PostCard({ post }: Props) {
+export function PostCard({ post, expand }: Props) {
   return (
-    <Link href={BlogRoutes.Post(post.slug)}>
-      <div className="ease overflow-hidden rounded-2xl border border-border bg-card shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
+    <div
+      className={cn("col-span-1", {
+        "md:row-span-2 xl:col-span-2": expand,
+      })}
+    >
+      <Link
+        href={post.slug}
+        aria-label={`Cover photo of the article titled ${post.title}`}
+        className="group mb-4 block w-full overflow-hidden rounded-lg border bg-slate-100 hover:opacity-90 dark:border-slate-800 dark:bg-slate-800"
+      >
         <Image
-          alt={post.title}
           src={post.thumbnailUrl ?? "/_static/placeholder.png"}
-          width={500}
-          height={400}
-          className="h-64 w-full scale-100 object-contain blur-0 grayscale-0 duration-700 ease-in-out"
+          alt={post.title}
+          className="block w-full transition-transform group-hover:scale-110"
         />
-        <div className="h-36 border-t border-border px-5 py-8">
-          <h3 className="truncate text-xl tracking-wide">{post.title}</h3>
-          <p className="text-md my-2 truncate italic">{post.description}</p>
-          <p className="my-2 text-sm text-muted-foreground">
-            Published {format(post.createdAt, "MMMM dd, yyyy")}
-          </p>
+      </Link>
+      <h2 className="mx-4 mb-3 block text-xl font-extrabold text-slate-900 hover:opacity-75 dark:text-slate-100">
+        <Link href={post.slug}>{post.title}</Link>
+      </h2>
+      <p className="mx-4 mb-3 break-words text-lg leading-snug text-slate-500 hover:opacity-75 dark:text-slate-400">
+        <Link href={post.slug}>{post.description}</Link>
+      </p>
+      <div className="mx-4 flex flex-row flex-wrap items-center">
+        <div className="flex flex-col items-start leading-snug">
+          <div className="flex flex-row text-sm">
+            <Link
+              href={post.slug}
+              className="flex flex-row items-center text-slate-500 dark:text-slate-400"
+            >
+              <span className="flex items-center">
+                <BookOpen className="mr-2 h-4 w-4" />
+              </span>
+              <p className="mx-2 font-bold">·</p>
+              <span className="flex items-center">
+                <BarChart3 className="mr-2 h-4 w-4" />
+                <span>{post.visits} visits</span>
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import { db, eq, schema } from "@acme/db";
 export async function getProjectByDomain(domain: string) {
   return await db.query.projects.findFirst({
     columns: {
+      id: true,
       name: true,
       logo: true,
     },

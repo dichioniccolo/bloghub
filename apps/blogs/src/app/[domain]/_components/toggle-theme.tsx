@@ -1,14 +1,10 @@
 "use client";
 
-import { Check, Monitor, Moon, SunDim } from "lucide-react";
+import { Monitor, Moon, SunDim } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@acme/ui/components/dropdown-menu";
+import { Button } from "@acme/ui/components/button";
+import { useMounted } from "@acme/ui/hooks/use-mounted";
 
 const appearances = [
   {
@@ -26,36 +22,29 @@ const appearances = [
 ];
 
 export function ToggleTheme() {
-  const { theme: currentTheme, setTheme } = useTheme();
+  const mounted = useMounted();
+  const { theme, setTheme, systemTheme } = useTheme();
+
+  if (!mounted) {
+    return null;
+  }
+
+  const currentTheme =
+    theme !== "system" && systemTheme !== theme ? theme : systemTheme; // we do not want to show the system theme as a theme option
 
   const icon = appearances.find(
     (appearance) => appearance.theme.toLowerCase() === currentTheme,
   )?.icon;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-200 hover:bg-stone-100 active:bg-stone-200">
-        {icon}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52" align="end">
-        {appearances.map(({ theme, icon }) => (
-          <DropdownMenuItem
-            key={theme}
-            onClick={() => {
-              setTheme(theme.toLowerCase());
-            }}
-          >
-            <div className="flex items-center space-x-2">
-              <span>{icon}</span>
-              <span>{theme}</span>
-            </div>
-
-            {currentTheme === theme.toLowerCase() && (
-              <Check className="ml-auto h-4 w-4" />
-            )}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant="outline"
+      className="flex flex-row items-center rounded-full p-2 font-medium transition duration-100 ease-in-out hover:bg-black/10 dark:hover:bg-white/20"
+      onClick={() => {
+        setTheme(currentTheme === "light" ? "dark" : "light");
+      }}
+    >
+      {icon}
+    </Button>
   );
 }

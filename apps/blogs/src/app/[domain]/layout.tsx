@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { db, eq, schema } from "@acme/db";
 
+import { getProjectByDomain } from "../_api/projects";
 import { BlogFooter } from "./_components/blog-footer";
 import { BlogHeader } from "./_components/blog-header";
 import { CustomDomainProviders } from "./providers";
@@ -67,20 +68,14 @@ export default async function Layout({
   children,
   params: { domain },
 }: PropsWithChildren<Props>) {
-  const project = await db.query.projects.findFirst({
-    where: (columns, { eq }) => eq(columns.domain, domain),
-    columns: {
-      name: true,
-      logo: true,
-    },
-  });
+  const project = await getProjectByDomain(domain);
 
   if (!project) notFound();
 
   return (
     <CustomDomainProviders>
       <BlogHeader project={project} />
-      <div className="mt-20">{children}</div>
+      {children}
       <BlogFooter project={project} />
     </CustomDomainProviders>
   );

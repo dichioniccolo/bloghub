@@ -1,33 +1,38 @@
-import { headers } from "next/headers";
-import Image from "next/image";
+import { Image } from "@acme/ui/components/image";
+import { Link } from "@acme/ui/components/link";
 
-import { TEST_HOSTNAME } from "@acme/lib/constants";
-
-import { getProjectByDomain } from "~/app/_api/projects";
-import { env } from "~/env.mjs";
-
-export default async function NotFound() {
-  const hostname = headers()
-    .get("host")!
-    .replace(".localhost:3000", `.${env.NEXT_PUBLIC_APP_DOMAIN}`);
-
-  const finalHostname =
-    env.NODE_ENV === "development" ? TEST_HOSTNAME : hostname;
-
-  const project = await getProjectByDomain(finalHostname);
-
+export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl">{project ? `${project.name}: ` : ""}404</h1>
-      <Image
-        alt="missing site"
-        src="https://illustrations.popsy.co/gray/timed-out-error.svg"
-        width={400}
-        height={400}
-      />
-      <p className="text-lg text-stone-500">
-        You&apos;ve found a page that doesn&apos;t exist.
-      </p>
+    <div className="flex-1 bg-slate-50 dark:bg-black">
+      <div className="container mx-auto flex flex-col px-2 py-20 md:px-4 2xl:px-10">
+        <div className="flex w-full flex-row flex-wrap items-center md:flex-nowrap">
+          <div className="md:max-w-1/2 relative mb-5 h-64 w-full md:mb-0 md:h-96">
+            <Image alt="missing site" src="/_static/404.png" />
+          </div>
+          <div className="flex w-full flex-col items-center text-center md:w-1/2 md:items-start md:text-left">
+            <h2 className="mb-8 text-7xl font-extrabold text-slate-600 dark:text-slate-400">
+              404
+            </h2>
+            <p className="mb-2 text-3xl font-bold text-slate-800 dark:text-slate-100">
+              Oops!
+            </p>
+            <p className="mb-3 text-3xl font-bold text-slate-800 dark:text-slate-100">
+              Page not found
+            </p>
+            <p className="mb-8 text-xl text-slate-600 dark:text-slate-400">
+              This page doesn&apos;t exist or was removed!
+              <br />
+              We suggest you go back home.
+            </p>
+            <Link
+              href="/"
+              className="flex flex-row items-center justify-center rounded-full border border-blue-600 px-4 py-2 text-center text-lg font-medium text-blue-600 transition-colors duration-150 hover:bg-blue-50 focus:outline-none disabled:opacity-50 dark:border-blue-500 dark:text-blue-500 hover:dark:bg-slate-800"
+            >
+              <span>Take me home</span>
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import {
   and,
+  countDistinct,
   db,
   desc,
   eq,
@@ -9,71 +10,41 @@ import {
   inArray,
   ne,
   schema,
-  withCount,
 } from "@acme/db";
 import { generateRandomIndices } from "@acme/lib/utils";
 
-const skip = (page: number, perPage: number) => (page - 1) * perPage;
-const take = (perPage: number) => perPage;
+interface PostsPaginationOptions {
+  offset?: number;
+  limit?: number;
+}
 
-export async function getMainPagePostsByDomain(
-  domain: string,
-  page = 1,
-  perPage = 100,
+export async function getPosts(
+  projectId: string,
+  { offset = 0, limit = 3 }: PostsPaginationOptions,
 ) {
-  const posts = await db
+  return await db
     .select({
       id: schema.posts.id,
       slug: schema.posts.slug,
       title: schema.posts.title,
-      thumbnailUrl: schema.posts.thumbnailUrl,
       description: schema.posts.description,
-      createdAt: schema.posts.createdAt,
+      thumbnailUrl: schema.posts.thumbnailUrl,
+      visits: countDistinct(schema.visits.id),
     })
     .from(schema.posts)
-    .where(
-      and(
-        eq(schema.posts.hidden, 0),
-        exists(
-          db
-            .select()
-            .from(schema.projects)
-            .where(
-              and(
-                eq(schema.projects.id, schema.posts.projectId),
-                eq(schema.projects.domain, domain),
-              ),
-            ),
-        ),
-      ),
-    )
-    .limit(take(perPage))
-    .offset(skip(page, perPage))
-    .orderBy(desc(schema.posts.createdAt));
-
-  const postsCount = await withCount(
-    schema.posts,
-    and(
-      eq(schema.posts.hidden, 0),
-      exists(
-        db
-          .select()
-          .from(schema.projects)
-          .where(
-            and(
-              eq(schema.projects.id, schema.posts.projectId),
-              eq(schema.projects.domain, domain),
-            ),
-          ),
-      ),
-    ),
-  );
-
-  return { posts, postsCount: postsCount };
+    .leftJoin(schema.visits, eq(schema.visits.postId, schema.posts.id))
+    .offset(offset)
+    .limit(limit)
+    .orderBy(desc(schema.posts.createdAt))
+    .where(and(eq(schema.posts.projectId, projectId)))
+    .groupBy(
+      schema.posts.id,
+      schema.posts.slug,
+      schema.posts.title,
+      schema.posts.description,
+      schema.posts.thumbnailUrl,
+    );
 }
-export type GetPostsProjectByDomain = Awaited<
-  ReturnType<typeof getMainPagePostsByDomain>
->["posts"];
 
 export async function getPostBySlug(domain: string, slug: string) {
   return await db
@@ -81,6 +52,7 @@ export async function getPostBySlug(domain: string, slug: string) {
       id: schema.posts.id,
       title: schema.posts.title,
       description: schema.posts.description,
+      slug: schema.posts.slug,
       thumbnailUrl: schema.posts.thumbnailUrl,
       content: schema.posts.content,
       seoTitle: schema.posts.seoTitle,

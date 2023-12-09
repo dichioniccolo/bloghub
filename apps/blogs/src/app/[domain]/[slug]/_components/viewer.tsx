@@ -28,16 +28,8 @@ export function Viewer({ value }: Props) {
   });
 
   if (!editor) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin" />
-      </div>
-    );
+    return <Loader2 className="h-6 w-6 animate-spin" />;
   }
 
-  return (
-    <div className="relative w-full px-0 py-12">
-      <EditorContent editor={editor} />
-    </div>
-  );
+  return <EditorContent editor={editor} />;
 }

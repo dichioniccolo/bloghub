@@ -1,7 +1,9 @@
 import { unstable_noStore } from "next/cache";
 
+import { Image } from "@acme/ui/components/image";
+import { Link } from "@acme/ui/components/link";
+
 import { getRandomPostsByDomain } from "~/app/_api/posts";
-import { PostCard } from "~/app/[domain]/_components/post-card";
 
 interface Props {
   domain: string;
@@ -17,21 +19,36 @@ export async function RandomPosts({ domain, slug }: Props) {
   }
 
   return (
-    <>
-      <div className="relative mb-20 mt-10 sm:mt-20">
-        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-border"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <span className="bg-background px-2 text-sm">Continue Reading</span>
-        </div>
-      </div>
-
-      <div className="mx-5 mb-20 grid max-w-screen-xl grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:mx-12 xl:grid-cols-3 2xl:mx-auto">
-        {randomPosts.map((randomPost) => (
-          <PostCard key={randomPost.id} post={randomPost} />
+    <div className="mb-20 mt-10">
+      <h3 className="mb-5 text-center font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        More posts
+      </h3>
+      <div className="container mx-auto grid grid-flow-row grid-cols-6 px-4 xl:grid-cols-9 xl:gap-6 2xl:px-0">
+        {randomPosts.map((post) => (
+          <Link
+            key={post.id}
+            href={post.slug}
+            className="col-span-full mb-5 px-2 md:col-span-3 lg:col-span-2 lg:mb-0 xl:col-span-3"
+          >
+            <div className="h-full rounded-lg border p-4 dark:border-slate-800">
+              <div className="mb-3 block rounded border bg-cover bg-center dark:border-slate-800">
+                <Image
+                  src={post.thumbnailUrl ?? "/_static/placeholder.png"}
+                  alt={post.title}
+                />
+              </div>
+              <div className="break-words">
+                <h2 className="mb-2 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
+                  {post.title}
+                </h2>
+                <p className="text-base text-slate-700 dark:text-slate-400">
+                  {post.description}
+                </p>
+              </div>
+            </div>
+          </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 }
