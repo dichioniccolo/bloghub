@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@acme/ui/components/card";
+import { Image } from "@acme/ui/components/image";
 
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";
@@ -87,10 +88,10 @@ export function ProjectLogo({ project }: Props) {
       <CardContent>
         <label
           htmlFor="image"
-          className="group relative mt-1 flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-full border border-border bg-white shadow-sm transition-all hover:bg-gray-50"
+          className="group relative mt-1 flex h-56 w-full cursor-pointer flex-col items-center justify-center border border-border bg-white shadow-sm transition-all hover:bg-gray-50 dark:bg-slate-900"
         >
           <div
-            className="absolute z-[5] h-full w-full rounded-full"
+            className="absolute z-[5] h-full w-full"
             onDragOver={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -116,7 +117,7 @@ export function ProjectLogo({ project }: Props) {
           />
           <div
             className={cn(
-              "absolute z-[3] flex h-full w-full flex-col items-center justify-center rounded-full bg-white transition-all",
+              "absolute z-[3] flex h-full w-full flex-col items-center justify-center transition-all",
               {
                 "cursor-copy border-2 border-border bg-background opacity-100":
                   dragActive,
@@ -136,14 +137,14 @@ export function ProjectLogo({ project }: Props) {
             />
           </div>
           {image && (
-            <img
+            <Image
               src={image}
               alt="Preview"
-              className="h-full w-full rounded-full object-contain"
+              className="h-full w-full object-contain"
             />
           )}
         </label>
-        <div className="mt-1 flex rounded-full shadow-sm">
+        <div className="mt-1 flex shadow-sm">
           <input
             id="image"
             name="image"

@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
