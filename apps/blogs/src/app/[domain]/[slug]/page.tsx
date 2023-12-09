@@ -101,12 +101,13 @@ export default async function Page({ params: { domain, slug } }: Props) {
             <section className="z-20 col-span-8 mb-10 px-4 md:z-10 lg:col-span-6 lg:col-start-2 lg:px-0 xl:col-span-6 xl:col-start-2 2xl:col-span-6 2xl:col-start-3">
               <div className="relative">
                 {/* <div className="relative mb-10 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 pt-0 dark:border-slate-800 dark:bg-slate-900">
-                  <div className="max-h-full">
-
-                  </div>
-                </div> */}
+              <div className="max-h-full">
+                table of contents
+              </div>
+            </div> */}
                 <div className="relative mb-10 pb-14">
-                  <div className="prose prose-lg mx-auto mb-10 break-words dark:prose-invert xl:prose-xl">
+                  <div className="mx-auto mb-10 break-words">
+                    {/* <div className="prose prose-lg mx-auto mb-10 break-words dark:prose-invert xl:prose-xl"> */}
                     <Viewer value={post.content as JSONContent} />
                   </div>
                 </div>
