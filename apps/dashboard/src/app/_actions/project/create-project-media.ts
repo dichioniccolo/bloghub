@@ -76,22 +76,17 @@ export async function createProjectMedia(formData: FormData) {
 
   const url = uploadedFile.url;
 
-  const media = await db.transaction(async (tx) => {
-    const id = createId();
-
-    await tx.insert(schema.media).values({
-      id,
-      projectId,
-      postId,
-      url,
-      forEntity,
-      type,
-    });
-
-    return (await db.query.media.findFirst({
-      where: eq(schema.media.id, id),
-    }))!;
+  const id = createId();
+  await db.insert(schema.media).values({
+    id,
+    projectId,
+    postId,
+    url,
+    forEntity,
+    type,
   });
 
-  return media;
+  return (await db.query.media.findFirst({
+    where: eq(schema.media.id, id),
+  }))!;
 }

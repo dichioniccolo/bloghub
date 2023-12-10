@@ -1,7 +1,7 @@
 import { differenceInDays } from "date-fns";
 
 import { and, asc, db, eq, schema, withExists } from "@acme/db";
-import { AutomaticProjectDeletion, InvalidDomain } from "@acme/emails";
+import { InvalidDomain } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
 
@@ -115,25 +115,23 @@ export const domainVerification = inngest.createFunction(
           });
           return "mail_sent";
         } else if (invalidDays > 7) {
-          await sendMail({
-            type: "COMMUNICATION",
-            to: owner.email,
-            subject: `Your ${project.domain} domain is not configured`,
-            react: AutomaticProjectDeletion({
-              siteName: env.NEXT_PUBLIC_APP_NAME,
-              projectName: project.name,
-              domain: project.domain,
-              invalidDays,
-              ownerEmail: owner.email,
-            }),
-          });
-
-          await inngest.send({
-            name: "project/delete",
-            data: project,
-          });
-
-          return "project_set_deleted";
+          // await sendMail({
+          //   type: "COMMUNICATION",
+          //   to: owner.email,
+          //   subject: `Your ${project.domain} domain is not configured`,
+          //   react: AutomaticProjectDeletion({
+          //     siteName: env.NEXT_PUBLIC_APP_NAME,
+          //     projectName: project.name,
+          //     domain: project.domain,
+          //     invalidDays,
+          //     ownerEmail: owner.email,
+          //   }),
+          // });
+          // await inngest.send({
+          //   name: "project/delete",
+          //   data: project,
+          // });
+          // return "project_set_deleted";
         }
       });
     });
