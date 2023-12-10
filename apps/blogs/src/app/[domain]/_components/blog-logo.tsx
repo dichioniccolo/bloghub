@@ -17,11 +17,7 @@ export function BlogLogo({ project }: Props) {
       aria-label={`${project.name} home page`}
     >
       {project.logo ? (
-        <Image
-          className="!h-16 !w-16 rounded-full"
-          src={project.logo}
-          alt={project.name}
-        />
+        <Image className="!h-16 !w-16" src={project.logo} alt={project.name} />
       ) : (
         <Logo alt={project.name} />
       )}
