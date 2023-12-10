@@ -112,13 +112,55 @@ export const ProjectNameSchema = z.object({
 
 export type ProjectNameSchemaType = z.input<typeof ProjectNameSchema>;
 
-export const ProjectSocialsSchema = z.object({
-  socials: z.array(
-    z.object({
-      social: z.string().min(1),
-      value: z.string().min(1),
-    }),
-  ),
-});
+export const ProjectSocialsSchema = z
+  .object({
+    socials: z.array(
+      z.object({
+        social: RequiredString,
+        value: z.string().optional().nullable(),
+      }),
+    ),
+  })
+  .superRefine((data, ctx) => {
+    const socials = data.socials as { social: string; value: string }[];
+    const socialsMap = new Map<string, string>();
+    for (const { social, value } of socials) {
+      if (socialsMap.has(social)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Duplicate social: ${social}`,
+          path: ["socials"],
+        });
+      } else {
+        socialsMap.set(social, value);
+      }
+
+      if (value.startsWith("https://")) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Social value must not start with https://`,
+          path: ["socials"],
+        });
+      }
+
+      if (value.endsWith("/")) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Social value must not end with /`,
+          path: ["socials"],
+        });
+      }
+
+      if (value.includes(" ")) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Social value must not contain spaces`,
+          path: ["socials"],
+        });
+      }
+    }
+
+    return data;
+  });
 
 export type ProjectSocialsSchemaType = z.input<typeof ProjectSocialsSchema>;

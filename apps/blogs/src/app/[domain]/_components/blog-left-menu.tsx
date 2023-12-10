@@ -10,13 +10,12 @@ import {
   SheetTrigger,
 } from "@acme/ui/components/sheet";
 
+import type { GetProjectByDomain } from "~/app/_api/projects";
 import { BlogLogo } from "./blog-logo";
+import { BlogSocials } from "./blog-socials";
 
 interface Props {
-  project: {
-    name: string;
-    logo: string | null;
-  };
+  project: NonNullable<GetProjectByDomain>;
 }
 
 export function BlogLeftMenu({ project }: Props) {
@@ -44,19 +43,16 @@ export function BlogLeftMenu({ project }: Props) {
                 <span>Home</span>
               </Link>
             </nav>
-            <h2 className="mb-4 text-sm font-semibold uppercase leading-6 text-slate-500 dark:text-slate-400">
-              Blog socials
-            </h2>
-            <div className="flex flex-row flex-wrap gap-x-6 gap-y-4 text-slate-600 dark:text-slate-200">
-              <Link
-                href="/"
-                target="_blank"
-                rel="me noopener"
-                className="flex flex-row items-center justify-center rounded-full p-2 ring-blue-600 ring-offset-white transition-colors duration-150 hover:bg-black/10 dark:ring-offset-slate-800 dark:hover:bg-white/20"
-              >
-                Coming soon...
-              </Link>
-            </div>
+            {project.socials.length > 0 && (
+              <>
+                <h2 className="mb-4 text-sm font-semibold uppercase leading-6 text-slate-500 dark:text-slate-400">
+                  Blog socials
+                </h2>
+                <div className="flex flex-row flex-wrap gap-x-6 gap-y-4 text-slate-600 dark:text-slate-200">
+                  <BlogSocials socials={project.socials} />
+                </div>
+              </>
+            )}
           </div>
           <ScrollBar orientation="vertical" />
         </ScrollArea>
