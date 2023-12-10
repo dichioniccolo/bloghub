@@ -13,7 +13,7 @@ export function BlogLogo({ project }: Props) {
   return (
     <Link
       href="/"
-      className="flex w-64 flex-row flex-wrap items-center gap-2 break-normal"
+      className="flex w-64 flex-row flex-wrap items-center gap-2 break-normal font-bold"
       aria-label={`${project.name} home page`}
     >
       {project.logo ? (
