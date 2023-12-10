@@ -48,8 +48,12 @@ export function BlogLeftMenu({ project }: Props) {
                 <h2 className="mb-4 text-sm font-semibold uppercase leading-6 text-slate-500 dark:text-slate-400">
                   Blog socials
                 </h2>
-                <div className="flex flex-row flex-wrap gap-x-6 gap-y-4 text-slate-600 dark:text-slate-200">
-                  <BlogSocials socials={project.socials} />
+                <div className="flex flex-col flex-wrap gap-2 text-slate-600 dark:text-slate-200">
+                  <BlogSocials
+                    showValue
+                    socials={project.socials}
+                    className="items-center justify-start"
+                  />
                 </div>
               </>
             )}

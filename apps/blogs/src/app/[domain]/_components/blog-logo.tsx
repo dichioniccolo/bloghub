@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { Image } from "@acme/ui/components/image";
 import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
 
@@ -18,7 +17,7 @@ export function BlogLogo({ project }: Props) {
       aria-label={`${project.name} home page`}
     >
       {project.logo ? (
-        <Image height={40} width={40} src={project.logo} alt={project.name} />
+        <Image src={project.logo} alt={project.name} />
       ) : (
         <Logo alt={project.name} />
       )}
