@@ -10,6 +10,14 @@ export async function getProjectByDomain(domain: string) {
       logo: true,
     },
     where: eq(schema.projects.domain, domain),
+    with: {
+      socials: {
+        columns: {
+          social: true,
+          value: true,
+        },
+      },
+    },
   });
 }
 

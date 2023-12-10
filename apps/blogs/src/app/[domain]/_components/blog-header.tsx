@@ -5,6 +5,7 @@ import { ScrollArea, ScrollBar } from "@acme/ui/components/scroll-area";
 import type { GetProjectByDomain } from "~/app/_api/projects";
 import { BlogLeftMenu } from "./blog-left-menu";
 import { BlogLogo } from "./blog-logo";
+import { BlogSocials } from "./blog-socials";
 import { ToggleTheme } from "./toggle-theme";
 
 interface Props {
@@ -37,9 +38,11 @@ export function BlogHeader({ project }: Props) {
         </div>
         <div>
           <div className="mx-0 mb-2 hidden w-full flex-row items-center justify-between md:flex">
-            <div className="5 flex flex-row flex-wrap justify-center gap-x-1 gap-y-2 text-slate-700 dark:text-slate-300">
-              {/* socials */}
-            </div>
+            {project.socials.length > 0 && (
+              <div className="5 flex flex-row flex-wrap justify-center gap-x-1 gap-y-2 text-slate-700 dark:text-slate-300">
+                <BlogSocials socials={project.socials} />
+              </div>
+            )}
             <div className="mb-0 ml-auto flex flex-row items-center justify-center gap-x-3">
               {/* other actions */}
             </div>
@@ -48,9 +51,11 @@ export function BlogHeader({ project }: Props) {
             <div className="mb-6 flex flex-row items-center justify-center gap-x-3">
               {/* other actions, same as above */}
             </div>
-            <div className="relative mt-8 hidden flex-row items-center justify-center overflow-hidden text-base md:flex">
-              {/* socials, same as above */}
-            </div>
+            {project.socials.length > 0 && (
+              <div className="relative mt-8 hidden flex-row items-center justify-center overflow-hidden text-base md:flex">
+                <BlogSocials socials={project.socials} />
+              </div>
+            )}
           </div>
           <div className="relative mt-8 hidden flex-row items-center justify-center overflow-hidden text-base md:flex">
             <ScrollArea>
