@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import type { JSONContent } from "@tiptap/core";
 import { format } from "date-fns";
 
-import { getPostIdFromSlug } from "@acme/lib";
+import { getPostIdFromSlug } from "@acme/lib/utils";
 import { Image } from "@acme/ui/components/image";
 
 import { getPostById } from "~/app/_api/posts";

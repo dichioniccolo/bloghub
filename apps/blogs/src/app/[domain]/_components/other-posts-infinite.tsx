@@ -14,7 +14,6 @@ interface Props {
   projectId: string;
   initialPosts: {
     id: string;
-    slug: string;
     title: string;
     description?: string | null;
     thumbnailUrl?: string | null;

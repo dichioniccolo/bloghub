@@ -8,7 +8,6 @@ import { Link } from "@acme/ui/components/link";
 interface Props {
   post: {
     id: string;
-    slug: string;
     title: string;
     description?: string | null;
     thumbnailUrl?: string | null;
