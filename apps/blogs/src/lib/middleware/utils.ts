@@ -4,7 +4,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { ipAddress } from "@vercel/edge";
 import { kv } from "@vercel/kv";
 
-import { and, db, eq, exists, schema } from "@acme/db";
+import { db, schema } from "@acme/db";
 import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
@@ -29,7 +29,14 @@ export const detectBot = (req: NextRequest) => {
   return false;
 };
 
-export async function recordVisit(req: NextRequest, domain: string) {
+export async function recordVisit(
+  req: NextRequest,
+  domain: string,
+  post: {
+    id: string;
+    projectId: string;
+  },
+) {
   const isBot = detectBot(req);
 
   if (isBot) {
@@ -59,38 +66,6 @@ export async function recordVisit(req: NextRequest, domain: string) {
     if (!success) {
       return;
     }
-  }
-
-  // we need to regex the slug from the url because it can also contain a query string
-  const slug = fullKey.replace("posts/", "").replace(/\/.*/, "");
-
-  const post = await db
-    .select({
-      id: schema.posts.id,
-      projectId: schema.posts.projectId,
-    })
-    .from(schema.posts)
-    .where(
-      and(
-        eq(schema.posts.hidden, 0),
-        eq(schema.posts.slug, slug),
-        exists(
-          db
-            .select()
-            .from(schema.projects)
-            .where(
-              and(
-                eq(schema.projects.id, schema.posts.projectId),
-                eq(schema.projects.domain, domain),
-              ),
-            ),
-        ),
-      ),
-    )
-    .then((x) => x[0]);
-
-  if (!post) {
-    return;
   }
 
   // if the referer domain is the same as the current domain, we want to record "self"

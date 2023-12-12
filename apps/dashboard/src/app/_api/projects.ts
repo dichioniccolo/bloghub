@@ -14,6 +14,7 @@ import {
   schema,
   withCount,
 } from "@acme/db";
+import { generatePostSlug, getPostIdFromSlug } from "@acme/lib";
 import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import type { AnalyticsInterval } from "@acme/lib/utils";
 import { intervalsFilters, roundDateToInterval } from "@acme/lib/utils";
@@ -292,7 +293,11 @@ export async function getProjectAnalytics(
   }
 
   if (filters.slug) {
-    where.push(eq(schema.posts.slug, filters.slug));
+    const postId = getPostIdFromSlug(filters.slug);
+
+    if (postId) {
+      where.push(eq(schema.visits.postId, postId));
+    }
   }
 
   if (filters.referer) {
@@ -324,7 +329,8 @@ export async function getProjectAnalytics(
         domain: schema.projects.domain,
       },
       post: {
-        slug: schema.posts.slug,
+        id: schema.posts.id,
+        title: schema.posts.title,
       },
     })
     .from(schema.visits)
@@ -428,7 +434,9 @@ export async function getProjectAnalytics(
 
   const groupedPosts = allVisits.reduce(
     (result, visit) => {
-      const slug = visit.post?.slug ?? "DELETED";
+      const slug = visit.post
+        ? generatePostSlug(visit.post.title, visit.post.id)
+        : "DELETED";
 
       if (!result[slug]) {
         result[slug] = {

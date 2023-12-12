@@ -5,10 +5,10 @@ import { notFound } from "next/navigation";
 import type { JSONContent } from "@tiptap/core";
 import { format } from "date-fns";
 
+import { getPostIdFromSlug } from "@acme/lib";
 import { Image } from "@acme/ui/components/image";
-import { Link } from "@acme/ui/components/link";
 
-import { getPostBySlug } from "~/app/_api/posts";
+import { getPostById } from "~/app/_api/posts";
 import { RandomPosts } from "./_components/random-posts";
 import { Viewer } from "./_components/viewer";
 
@@ -24,7 +24,13 @@ export const runtime: ServerRuntime = "edge";
 export async function generateMetadata({
   params: { domain, slug },
 }: Props): Promise<Metadata> {
-  const post = await getPostBySlug(domain, slug);
+  const postId = getPostIdFromSlug(slug);
+
+  if (!postId) {
+    notFound();
+  }
+
+  const post = await getPostById(domain, postId);
 
   const title = `${post?.title} | ${post?.project.name}`;
   const description = post?.description ?? undefined;
@@ -51,10 +57,17 @@ export async function generateMetadata({
 
 export default async function Page({ params: { domain, slug } }: Props) {
   unstable_noStore();
-  const post = await getPostBySlug(domain, slug);
+
+  const postId = getPostIdFromSlug(slug);
+
+  if (!postId) {
+    notFound();
+  }
+
+  const post = await getPostById(domain, postId);
 
   if (!post) {
-    return notFound();
+    notFound();
   }
 
   return (
@@ -83,12 +96,9 @@ export default async function Page({ params: { domain, slug } }: Props) {
                   <span className="mx-3 hidden font-bold text-slate-500 md:block">
                     ·
                   </span>
-                  <Link
-                    href={post.slug}
-                    className="text-slate-600 dark:text-slate-400"
-                  >
+                  <span className="text-slate-600 dark:text-slate-400">
                     <span>{format(post.createdAt, "MMM dd, yyyy")}</span>
-                  </Link>
+                  </span>
                   <span className="mx-3 hidden font-bold text-slate-500 md:block">
                     ·
                   </span>
@@ -118,7 +128,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
             </section>
           </div>
           <Suspense fallback={<p>Loading more posts...</p>}>
-            <RandomPosts domain={domain} slug={slug} />
+            <RandomPosts domain={domain} postId={postId} />
           </Suspense>
         </article>
       </main>

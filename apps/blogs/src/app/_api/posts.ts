@@ -25,7 +25,6 @@ export async function getPosts(
   return await db
     .select({
       id: schema.posts.id,
-      slug: schema.posts.slug,
       title: schema.posts.title,
       description: schema.posts.description,
       thumbnailUrl: schema.posts.thumbnailUrl,
@@ -39,20 +38,18 @@ export async function getPosts(
     .where(and(eq(schema.posts.projectId, projectId)))
     .groupBy(
       schema.posts.id,
-      schema.posts.slug,
       schema.posts.title,
       schema.posts.description,
       schema.posts.thumbnailUrl,
     );
 }
 
-export async function getPostBySlug(domain: string, slug: string) {
+export async function getPostById(domain: string, postId: string) {
   return await db
     .select({
       id: schema.posts.id,
       title: schema.posts.title,
       description: schema.posts.description,
-      slug: schema.posts.slug,
       thumbnailUrl: schema.posts.thumbnailUrl,
       content: schema.posts.content,
       seoTitle: schema.posts.seoTitle,
@@ -72,7 +69,7 @@ export async function getPostBySlug(domain: string, slug: string) {
     .where(
       and(
         eq(schema.posts.hidden, 0),
-        eq(schema.posts.slug, slug),
+        eq(schema.posts.id, postId),
         eq(schema.projects.domain, domain),
       ),
     )
@@ -81,7 +78,7 @@ export async function getPostBySlug(domain: string, slug: string) {
 
 export async function getRandomPostsByDomain(
   domain: string,
-  currentPostSlug: string,
+  postId: string,
   toGenerate = 3,
 ) {
   const posts = await db
@@ -92,7 +89,7 @@ export async function getRandomPostsByDomain(
     .where(
       and(
         eq(schema.posts.hidden, 0),
-        ne(schema.posts.slug, currentPostSlug),
+        ne(schema.posts.id, postId),
         exists(
           db
             .select()
@@ -121,7 +118,6 @@ export async function getRandomPostsByDomain(
     where: inArray(schema.posts.id, ids),
     columns: {
       id: true,
-      slug: true,
       title: true,
       description: true,
       thumbnailUrl: true,

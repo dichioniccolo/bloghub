@@ -3,6 +3,7 @@ import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 
 import { and, db, eq, schema } from "@acme/db";
+import { getPostIdFromSlug } from "@acme/lib";
 import { truncate } from "@acme/lib/utils";
 
 export const runtime: ServerRuntime = "edge";
@@ -15,6 +16,12 @@ interface Props {
 }
 
 export default async function PostOG({ params: { domain, slug } }: Props) {
+  const postId = getPostIdFromSlug(slug);
+
+  if (!postId) {
+    return new Response("Not found", { status: 404 });
+  }
+
   const post = await db
     .select({
       title: schema.posts.title,
@@ -33,7 +40,7 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
         eq(schema.projects.domain, domain),
       ),
     )
-    .where(eq(schema.posts.slug, slug))
+    .where(and(eq(schema.posts.id, postId), eq(schema.posts.hidden, 0)))
     .then((x) => x[0]);
 
   if (!post) {

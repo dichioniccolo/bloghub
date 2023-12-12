@@ -31,9 +31,9 @@ export default function Loading() {
                     ·
                   </span>
                   <Skeleton>
-                    <div className="text-slate-600 dark:text-slate-400">
+                    <span className="text-slate-600 dark:text-slate-400">
                       <span>...</span>
-                    </div>
+                    </span>
                   </Skeleton>
                   <span className="mx-3 hidden font-bold text-slate-500 md:block">
                     ·

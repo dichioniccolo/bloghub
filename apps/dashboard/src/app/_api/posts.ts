@@ -35,19 +35,13 @@ export async function getPosts(
           ),
         ),
     ),
-    filter
-      ? or(
-          like(schema.posts.title, `%${filter}%`),
-          like(schema.posts.slug, `%${filter}%`),
-        )
-      : undefined,
+    filter ? or(like(schema.posts.title, `%${filter}%`)) : undefined,
   );
 
   const data = await db
     .select({
       id: schema.posts.id,
       title: schema.posts.title,
-      slug: schema.posts.slug,
       createdAt: schema.posts.createdAt,
       hidden: schema.posts.hidden,
       visits: countDistinct(schema.visits.id),
@@ -61,7 +55,6 @@ export async function getPosts(
     .groupBy(
       schema.posts.id,
       schema.posts.title,
-      schema.posts.slug,
       schema.posts.createdAt,
       schema.posts.hidden,
     );
@@ -100,7 +93,6 @@ export async function getPost(projectId: string, postId: string) {
       projectId: true,
       title: true,
       description: true,
-      slug: true,
       createdAt: true,
       hidden: true,
       content: true,

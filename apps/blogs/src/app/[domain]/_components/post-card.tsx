@@ -1,11 +1,13 @@
 import { BarChart3, BookOpen } from "lucide-react";
 
+import { generatePostSlug } from "@acme/lib";
 import { cn } from "@acme/ui";
 import { Image } from "@acme/ui/components/image";
 import { Link } from "@acme/ui/components/link";
 
 interface Props {
   post: {
+    id: string;
     slug: string;
     title: string;
     description?: string | null;
@@ -23,7 +25,7 @@ export function PostCard({ post, expand }: Props) {
       })}
     >
       <Link
-        href={post.slug}
+        href={generatePostSlug(post.title, post.id)}
         aria-label={`Cover photo of the article titled ${post.title}`}
         className="group mb-4 block w-full overflow-hidden rounded-lg border bg-slate-100 hover:opacity-90 dark:border-slate-800 dark:bg-slate-800"
       >
@@ -34,16 +36,18 @@ export function PostCard({ post, expand }: Props) {
         />
       </Link>
       <h2 className="mx-4 mb-3 block text-xl font-extrabold text-slate-900 hover:opacity-75 dark:text-slate-100">
-        <Link href={post.slug}>{post.title}</Link>
+        <Link href={generatePostSlug(post.title, post.id)}>{post.title}</Link>
       </h2>
       <p className="mx-4 mb-3 break-words text-lg leading-snug text-slate-500 hover:opacity-75 dark:text-slate-400">
-        <Link href={post.slug}>{post.description}</Link>
+        <Link href={generatePostSlug(post.title, post.id)}>
+          {post.description}
+        </Link>
       </p>
       <div className="mx-4 flex flex-row flex-wrap items-center">
         <div className="flex flex-col items-start leading-snug">
           <div className="flex flex-row text-sm">
             <Link
-              href={post.slug}
+              href={generatePostSlug(post.title, post.id)}
               className="flex flex-row items-center text-slate-500 dark:text-slate-400"
             >
               <span className="flex items-center">

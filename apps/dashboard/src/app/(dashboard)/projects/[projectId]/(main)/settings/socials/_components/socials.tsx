@@ -103,31 +103,39 @@ function SocialFormInputs({
         <FormField<ProjectSocialsSchemaType>
           key={field.id}
           name={`socials.${index}.value`}
-          render={({ field: renderField }) => (
-            <FormItem>
-              <div className="flex items-center gap-2">
-                {defaultSocials.find((x) => x.type === field.social)?.icon}
-                <FormControl>
-                  <Input
-                    placeholder={`Your ${field.social} username`}
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    value={
-                      typeof renderField.value === "object"
-                        ? ""
-                        : renderField.value
-                    }
-                    onBlur={renderField.onBlur}
-                    onChange={renderField.onChange}
-                    disabled={renderField.disabled}
-                    name={renderField.name}
-                    ref={renderField.ref}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage>{validationErrors?.socials?.[index]}</FormMessage>
-            </FormItem>
-          )}
+          render={({ field: renderField }) => {
+            const defaultSocial = defaultSocials.find(
+              (x) => x.type === field.social,
+            );
+
+            return (
+              <FormItem>
+                <div className="flex items-center gap-2">
+                  {defaultSocial?.icon}
+                  <FormControl>
+                    <Input
+                      placeholder={`Your ${
+                        defaultSocial?.name ?? field.social
+                      } username`}
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      value={
+                        typeof renderField.value === "object"
+                          ? ""
+                          : renderField.value
+                      }
+                      onBlur={renderField.onBlur}
+                      onChange={renderField.onChange}
+                      disabled={renderField.disabled}
+                      name={renderField.name}
+                      ref={renderField.ref}
+                    />
+                  </FormControl>
+                </div>
+                <FormMessage>{validationErrors?.socials?.[index]}</FormMessage>
+              </FormItem>
+            );
+          }}
         />
       ))}
     </div>

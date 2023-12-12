@@ -88,10 +88,6 @@ export const AiGenerateSchema = z.object({
 });
 
 export const PublishPostSchema = z.object({
-  slug: RequiredString.regex(/^[a-z0-9-]+$/i, {
-    message:
-      "Slug must be alphanumeric and contain no spaces or special characters (only dashes are allowed)",
-  }),
   thumbnailUrl: z.string().url().optional().nullable(),
   seoTitle: z.string().optional().nullable(),
   seoDescription: z.string().optional().nullable(),

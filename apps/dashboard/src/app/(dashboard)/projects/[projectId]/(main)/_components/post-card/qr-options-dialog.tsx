@@ -5,6 +5,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
+import { generatePostSlug } from "@acme/lib";
 import { absoluteUrl, constructPostUrl } from "@acme/lib/url";
 import { Button } from "@acme/ui/components/button";
 import {
@@ -55,7 +56,7 @@ export function QrOptionsDialog({
   function download(url: string, extension: string) {
     if (!anchorRef.current) return;
     anchorRef.current.href = url;
-    anchorRef.current.download = `${post.slug}-qrcode.${extension}`;
+    anchorRef.current.download = `${post.id}-qrcode.${extension}`;
     anchorRef.current.click();
   }
 
@@ -65,7 +66,10 @@ export function QrOptionsDialog({
 
   const qrData = useMemo(
     () => ({
-      value: constructPostUrl(project.domain, post.slug),
+      value: constructPostUrl(
+        project.domain,
+        generatePostSlug(post.title, post.id),
+      ),
       size: 1024,
       level: "Q",
       backgroundColor: "#FFFFFF",
@@ -214,7 +218,7 @@ export function QrOptionsDialog({
         {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
         <a
           className="hidden"
-          download={`${post.slug}-qrcode.svg`}
+          download={`${post.id}-qrcode.svg`}
           ref={anchorRef}
         />
       </DialogContent>

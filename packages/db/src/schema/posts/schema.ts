@@ -7,7 +7,6 @@ import {
   primaryKey,
   text,
   tinyint,
-  unique,
   varchar,
 } from "drizzle-orm/mysql-core";
 
@@ -23,7 +22,6 @@ export const posts = mysqlTable(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     content: json("content").$type<any>().notNull(),
     thumbnailUrl: text("thumbnailUrl"),
-    slug: varchar("slug", { length: 255 }).notNull(),
     hidden: tinyint("hidden").default(1).notNull(),
     seoTitle: varchar("seoTitle", { length: 255 }),
     seoDescription: varchar("seoDescription", { length: 255 }),
@@ -36,10 +34,6 @@ export const posts = mysqlTable(
     return {
       projectIdIdx: index("projectId_index").on(table.projectId),
       postsIdPk: primaryKey({ columns: [table.id], name: "posts_id_pk" }),
-      postsUniqueIndex: unique("posts_unique_index").on(
-        table.projectId,
-        table.slug,
-      ),
     };
   },
 );

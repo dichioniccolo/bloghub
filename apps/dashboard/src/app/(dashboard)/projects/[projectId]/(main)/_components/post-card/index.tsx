@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { BarChart2, Edit2, MoreVertical, QrCode, Trash2 } from "lucide-react";
 
+import { generatePostSlug } from "@acme/lib";
 import { AppRoutes } from "@acme/lib/routes";
 import { constructPostUrl } from "@acme/lib/url";
 import { formatNumber } from "@acme/lib/utils";
@@ -94,7 +95,10 @@ export function PostCard({ post, project, owner }: Props) {
     };
   }, [onKeyDown]);
 
-  const postUrl = constructPostUrl(project.domain, post.slug);
+  const postUrl = constructPostUrl(
+    project.domain,
+    generatePostSlug(post.title, post.id),
+  );
 
   return (
     <div

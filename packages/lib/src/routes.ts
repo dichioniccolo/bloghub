@@ -19,8 +19,3 @@ export const AppRoutes = {
   PostEditor: (projectId: string, postId: string) =>
     `/projects/${projectId}/posts/${postId}`,
 };
-
-export const BlogRoutes = {
-  Home: `/`,
-  Post: (slug: string) => `/${slug}`,
-};
