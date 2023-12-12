@@ -26,12 +26,7 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
 
   const finalDomain = env.NODE_ENV === "development" ? TEST_HOSTNAME : domain;
 
-  const postId = getPostIdFromSlug(path);
-
-  if (!postId) {
-    // rewrite to the post, the 404 error will be handler in the route
-    return NextResponse.rewrite(new URL(`/${finalDomain}${path}`, req.url));
-  }
+  const postId = getPostIdFromSlug(path) ?? path.substring(1);
 
   const post = await db
     .select({
