@@ -5,8 +5,8 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Clipboard, Download, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
-import { generatePostSlug } from "@acme/lib";
 import { absoluteUrl, constructPostUrl } from "@acme/lib/url";
+import { generatePostSlug } from "@acme/lib/utils";
 import { Button } from "@acme/ui/components/button";
 import {
   Dialog,

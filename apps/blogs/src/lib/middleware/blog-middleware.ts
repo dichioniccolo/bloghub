@@ -2,10 +2,13 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { and, db, eq, exists, schema } from "@acme/db";
-import { generatePostSlug, getPostIdFromSlug } from "@acme/lib";
 import { TEST_HOSTNAME } from "@acme/lib/constants";
 import { getProtocol } from "@acme/lib/url";
-import { parseRequest } from "@acme/lib/utils";
+import {
+  generatePostSlug,
+  getPostIdFromSlug,
+  parseRequest,
+} from "@acme/lib/utils";
 
 import { env } from "~/env.mjs";
 import { recordVisit } from "./utils";

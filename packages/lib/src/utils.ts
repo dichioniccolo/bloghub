@@ -6,6 +6,7 @@ import {
   startOfMinute,
   startOfMonth,
 } from "date-fns";
+import baseSlugify from "slugify";
 
 import { ROOM_DIVIDER, TEST_HOSTNAME } from "./constants";
 import { env } from "./env.mjs";
@@ -89,27 +90,6 @@ export function getMonthByNumber(month: number, stringFormat = "MMMM") {
   const date = new Date().setMonth(month - 1);
 
   return format(date, stringFormat);
-}
-
-/**
- *
- * @param range the number of indicies to generate from
- * @param count the number of indicies to generate
- */
-export function generateRandomIndices(range: number, count: number): number[] {
-  const indicies = new Set<number>();
-
-  if (range < count) {
-    count = range;
-  }
-
-  while (indicies.size < count) {
-    const randomIndex = Math.floor(Math.random() * range);
-
-    indicies.add(randomIndex);
-  }
-
-  return Array.from(indicies);
 }
 
 export function determineMediaType(
@@ -253,4 +233,21 @@ export function roundDateToInterval(date: Date, interval: AnalyticsInterval) {
 
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function slugify(value: string): string {
+  return baseSlugify(value, {
+    lower: true,
+    strict: true,
+  });
+}
+
+export function generatePostSlug(title: string, id: string): string {
+  return `${slugify(title)}-${id}`;
+}
+
+export function getPostIdFromSlug(slug: string): string | null {
+  const parts = slug.split("-");
+  const id = parts[parts.length - 1];
+  return id ?? null;
 }

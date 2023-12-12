@@ -1,6 +1,6 @@
 import { unstable_noStore } from "next/cache";
 
-import { generatePostSlug } from "@acme/lib";
+import { generatePostSlug } from "@acme/lib/utils";
 import { Image } from "@acme/ui/components/image";
 import { Link } from "@acme/ui/components/link";
 
@@ -28,7 +28,7 @@ export async function RandomPosts({ domain, postId }: Props) {
         {randomPosts.map((post) => (
           <Link
             key={post.id}
-            href={generatePostSlug(post.title, post.id)}
+            href={`/${generatePostSlug(post.title, post.id)}`}
             className="col-span-full mb-5 px-2 md:col-span-3 lg:col-span-2 lg:mb-0 xl:col-span-3"
           >
             <div className="h-full rounded-lg border p-4 dark:border-slate-800">

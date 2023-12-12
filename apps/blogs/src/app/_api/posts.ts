@@ -10,8 +10,8 @@ import {
   inArray,
   ne,
   schema,
+  sql,
 } from "@acme/db";
-import { generateRandomIndices } from "@acme/lib/utils";
 
 interface PostsPaginationOptions {
   offset?: number;
@@ -81,7 +81,7 @@ export async function getRandomPostsByDomain(
   postId: string,
   toGenerate = 3,
 ) {
-  const posts = await db
+  const ids = await db
     .select({
       id: schema.posts.id,
     })
@@ -102,28 +102,25 @@ export async function getRandomPostsByDomain(
             ),
         ),
       ),
+    )
+    .orderBy(sql`rand()`)
+    .limit(toGenerate);
+
+  return await db
+    .select({
+      id: schema.posts.id,
+      title: schema.posts.title,
+      description: schema.posts.description,
+      thumbnailUrl: schema.posts.thumbnailUrl,
+      createdAt: schema.posts.createdAt,
+    })
+    .from(schema.posts)
+    .where(
+      inArray(
+        schema.posts.id,
+        ids.map((x) => x.id),
+      ),
     );
-
-  const postIds = posts.map((post) => post.id);
-
-  const randomIndices = generateRandomIndices(postIds.length, toGenerate);
-
-  const ids = randomIndices.map((index) => postIds[index]!).filter(Boolean);
-
-  if (ids.length === 0) {
-    return [];
-  }
-
-  return await db.query.posts.findMany({
-    where: inArray(schema.posts.id, ids),
-    columns: {
-      id: true,
-      title: true,
-      description: true,
-      thumbnailUrl: true,
-      createdAt: true,
-    },
-  });
 }
 
 export type GetRandomPostsByDomain = Awaited<

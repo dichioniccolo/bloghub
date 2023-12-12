@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import { BarChart2, Edit2, MoreVertical, QrCode, Trash2 } from "lucide-react";
 
-import { generatePostSlug } from "@acme/lib";
 import { AppRoutes } from "@acme/lib/routes";
 import { constructPostUrl } from "@acme/lib/url";
-import { formatNumber } from "@acme/lib/utils";
+import { formatNumber, generatePostSlug } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 import { buttonVariants } from "@acme/ui/components/button";
 import {
