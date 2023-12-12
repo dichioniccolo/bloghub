@@ -283,8 +283,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       inngest:
-        specifier: ^3.7.0
-        version: 3.7.0(encoding@0.1.13)(typescript@5.3.3)
+        specifier: ^3.7.1
+        version: 3.7.1(encoding@0.1.13)(typescript@5.3.3)
       lucide-react:
         specifier: ^0.294.0
         version: 0.294.0(react@18.2.0)
@@ -836,8 +836,8 @@ importers:
         specifier: workspace:^0.1.0
         version: link:../notifications
       inngest:
-        specifier: ^3.7.0
-        version: 3.7.0(encoding@0.1.13)(typescript@5.3.3)
+        specifier: ^3.7.1
+        version: 3.7.1(encoding@0.1.13)(typescript@5.3.3)
     devDependencies:
       '@acme/eslint-config':
         specifier: workspace:^0.1.0
@@ -8813,8 +8813,8 @@ packages:
       - supports-color
     dev: true
 
-  /inngest@3.7.0(encoding@0.1.13)(typescript@5.3.3):
-    resolution: {integrity: sha512-LhtFC3S+Ak1ex94APD4IS6z7EuPrffw0CaIpHnEMNbzbpuVc4bF5aN/N4hS4VjNIx1TGxm6Um4ymHmFCSmtcSg==}
+  /inngest@3.7.1(encoding@0.1.13)(typescript@5.3.3):
+    resolution: {integrity: sha512-VUswBjtPGkKkl36izF5jhU8ezDSYUHFrGRML14nQZiblKvWe4VmDgs1HTgKNhjZEDDQzfLyVLDI9uguOb9Hdxw==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=4.7.2'
