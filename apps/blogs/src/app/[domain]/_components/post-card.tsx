@@ -1,6 +1,6 @@
 import { BarChart3, BookOpen } from "lucide-react";
 
-import { generatePostSlug } from "@acme/lib/utils";
+import { BlogRoutes } from "@acme/lib/routes";
 import { cn } from "@acme/ui";
 import { Image } from "@acme/ui/components/image";
 import { Link } from "@acme/ui/components/link";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function PostCard({ post, expand }: Props) {
-  const href = `/${generatePostSlug(post.title, post.id)}`;
+  const href = BlogRoutes.Post(post);
 
   return (
     <div

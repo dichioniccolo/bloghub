@@ -1,3 +1,4 @@
+import { Button } from "@acme/ui/components/button";
 import { Card, CardFooter, CardHeader } from "@acme/ui/components/card";
 import { Skeleton } from "@acme/ui/components/skeleton";
 
@@ -31,19 +32,33 @@ export async function GeneralSettings({ project }: Props) {
 }
 
 export function GeneralSettingsPlaceholder() {
-  return new Array(4).map((_, i) => (
-    <Card key={i}>
-      <CardHeader>
-        <div className="text-2xl font-semibold leading-none tracking-tight">
-          <Skeleton />
-        </div>
-        <div className="text-sm text-muted-foreground">
-          <Skeleton />
-        </div>
-      </CardHeader>
-      <CardFooter>
-        <Skeleton />
-      </CardFooter>
-    </Card>
-  ));
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <Card key={i}>
+          <CardHeader>
+            <Skeleton className="w-20">
+              <h2 className="text-2xl font-semibold leading-none tracking-tight">
+                &nbsp;
+              </h2>
+            </Skeleton>
+            <Skeleton className="w-60">
+              <p className="text-sm text-muted-foreground">&nbsp;</p>
+            </Skeleton>
+          </CardHeader>
+          <CardFooter>
+            <Skeleton>
+              <Button
+                className="w-20"
+                variant={i === 3 ? "destructive" : "default"}
+                disabled
+              >
+                &nbsp;
+              </Button>
+            </Skeleton>
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  );
 }

@@ -5,7 +5,11 @@ import { MoreVertical, Trash2 } from "lucide-react";
 
 import type { Role } from "@acme/db";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
-import { Avatar, AvatarImage } from "@acme/ui/components/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@acme/ui/components/avatar";
 import { Button } from "@acme/ui/components/button";
 import {
   DropdownMenu,
@@ -14,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@acme/ui/components/dropdown-menu";
+import { Skeleton } from "@acme/ui/components/skeleton";
 
 import type { GetProjectUsers } from "~/app/_api/projects";
 import { useDeleteMemberDialog } from "./delete-member-dialog";
@@ -87,5 +92,28 @@ export function ProjectMember({ projectId, currentUserRole, member }: Props) {
 }
 
 export function ProjectMemberPlaceholder() {
-  return <div>loading</div>;
+  return (
+    <div className="flex items-center justify-between space-x-3 py-2">
+      <div className="flex items-center space-x-3">
+        <Skeleton className="rounded-full">
+          <Avatar>
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        </Skeleton>
+        <div className="flex flex-col">
+          <Skeleton className="w-40">&nbsp;</Skeleton>
+        </div>
+      </div>
+      <div className="flex items-center justify-center space-x-2">
+        <div className="flex flex-col">
+          <Skeleton className="w-40">&nbsp;</Skeleton>
+        </div>
+        <Skeleton>
+          <Button disabled variant="ghost" size="xxs">
+            &nbsp;
+          </Button>
+        </Skeleton>
+      </div>
+    </div>
+  );
 }

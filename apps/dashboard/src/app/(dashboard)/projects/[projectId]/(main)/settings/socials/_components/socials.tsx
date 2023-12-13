@@ -10,14 +10,6 @@ import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@acme/ui/components/card";
-import {
   FormControl,
   FormField,
   FormItem,
@@ -41,7 +33,7 @@ interface Props {
 }
 
 export function Socials({ projectId, socials }: Props) {
-  const { action, status, validationErrors } = useServerAction(upsertSocials, {
+  const { action, status } = useServerAction(upsertSocials, {
     onServerError: (error) => {
       error && toast.error(error);
     },
@@ -64,35 +56,19 @@ export function Socials({ projectId, socials }: Props) {
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Project Socials</CardTitle>
-        <CardDescription>
-          These are the socials that will be displayed on your project page.
-        </CardDescription>
-      </CardHeader>
-      <Form form={form} onSubmit={onSubmit}>
-        <CardContent>
-          <SocialFormInputs validationErrors={validationErrors} />
-        </CardContent>
-        <CardFooter>
-          <Button disabled={status === SubmissionStatus.PENDING}>
-            {status === SubmissionStatus.PENDING && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span>Save</span>
-          </Button>
-        </CardFooter>
-      </Form>
-    </Card>
+    <Form form={form} onSubmit={onSubmit}>
+      <SocialFormInputs />
+      <Button disabled={status === SubmissionStatus.PENDING} className="mt-4">
+        {status === SubmissionStatus.PENDING && (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        )}
+        <span>Save</span>
+      </Button>
+    </Form>
   );
 }
 
-function SocialFormInputs({
-  validationErrors,
-}: {
-  validationErrors: Partial<Record<"projectId" | "socials", string[]>>;
-}) {
+function SocialFormInputs() {
   const { fields } = useFieldArray<ProjectSocialsSchemaType>({
     name: "socials",
   });
@@ -132,7 +108,7 @@ function SocialFormInputs({
                     />
                   </FormControl>
                 </div>
-                <FormMessage>{validationErrors?.socials?.[index]}</FormMessage>
+                <FormMessage />
               </FormItem>
             );
           }}
@@ -144,26 +120,16 @@ function SocialFormInputs({
 
 export function SocialsPlaceholder() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Project Socials</CardTitle>
-        <CardDescription>
-          These are the socials that will be displayed on your project page.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-2">
-          {defaultSocials.map((x) => (
-            <div key={x.type} className="flex items-center gap-2">
-              {x.icon}
-              <Skeleton className="h-10 w-full px-3 py-2" />
-            </div>
-          ))}
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Skeleton className="h-10 w-32 px-4 py-2" />
-      </CardFooter>
-    </Card>
+    <div>
+      <div className="grid gap-2">
+        {defaultSocials.map((x) => (
+          <div key={x.type} className="flex items-center gap-2">
+            {x.icon}
+            <Skeleton className="h-10 w-full px-3 py-2" />
+          </div>
+        ))}
+      </div>
+      <Skeleton className="mt-4 h-10 w-32 px-4 py-2" />
+    </div>
   );
 }

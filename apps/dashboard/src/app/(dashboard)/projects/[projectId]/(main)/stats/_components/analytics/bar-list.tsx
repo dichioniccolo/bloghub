@@ -30,10 +30,9 @@ export function BarList({ items, maxCount, barBackground }: Props) {
                 <div className="z-10 flex items-center space-x-2 px-2">
                   {title === UNKNOWN_ANALYTICS_VALUE ? null : icon}
                   <p
-                    className={cn(
-                      "text-sm",
-                      href && "underline-offset-4 group-hover:underline",
-                    )}
+                    className={cn("max-w-[20rem] truncate text-sm", {
+                      "underline-offset-4 group-hover:underline": !!href,
+                    })}
                   >
                     {title}
                   </p>

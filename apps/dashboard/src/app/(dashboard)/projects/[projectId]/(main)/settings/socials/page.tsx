@@ -32,11 +32,13 @@ export default async function Page({ params: { projectId } }: Props) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium">Socials</h2>
-        <p className="text-sm text-muted-foreground">
-          Configure your social links.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-medium">Socials</h2>
+          <p className="text-sm text-muted-foreground">
+            Configure your social links.
+          </p>
+        </div>
       </div>
       <Separator />
       <Socials projectId={projectId} socials={socials} />

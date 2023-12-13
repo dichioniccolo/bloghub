@@ -94,10 +94,9 @@ export function PostCard({ post, project, owner }: Props) {
     };
   }, [onKeyDown]);
 
-  const postUrl = constructPostUrl(
-    project.domain,
-    generatePostSlug(post.title, post.id),
-  );
+  const postSlug = generatePostSlug(post.title, post.id);
+
+  const postUrl = constructPostUrl(project.domain, postSlug);
 
   return (
     <div
@@ -191,7 +190,7 @@ export function PostCard({ post, project, owner }: Props) {
         </div>
         <div className="flex items-center space-x-2">
           <Link
-            href={AppRoutes.ProjectStats(project.id)}
+            href={AppRoutes.PostStats(project.id, postSlug)}
             className="hidden items-center space-x-1 rounded-md bg-secondary px-2 py-0.5 transition-all duration-75 hover:scale-105 active:scale-100 md:inline-flex"
           >
             <BarChart2 className="h-4 w-4" />
