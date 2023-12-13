@@ -519,8 +519,8 @@ importers:
         specifier: 0.18.0
         version: 0.18.0
       '@auth/drizzle-adapter':
-        specifier: ^0.3.10
-        version: 0.3.10
+        specifier: ^0.3.11
+        version: 0.3.11
       '@t3-oss/env-nextjs':
         specifier: ^0.7.1
         version: 0.7.1(typescript@5.3.3)(zod@3.22.4)
@@ -1342,8 +1342,8 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/drizzle-adapter@0.3.10:
-    resolution: {integrity: sha512-Zs41T+GZBDotkuWdWx8of9jChF9GXJ+EGfm+4tee8oYkOb6pswLh0Pu8a8lK6Ka5HgPVmqO53ZsJjP4e47mHHw==}
+  /@auth/drizzle-adapter@0.3.11:
+    resolution: {integrity: sha512-pJQiujXjIWENaEHi+j4OcYluoFpjq1WLPVyIPMzbpasothCVeu2p9aH+SiZFPa8TJdKrXo8ItTlq2xJ7xITnHQ==}
     dependencies:
       '@auth/core': 0.18.0
     transitivePeerDependencies:
