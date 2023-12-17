@@ -50,7 +50,7 @@
     "@acme/tailwind-config": "workspace:^0.1.0",
     "@acme/tsconfig": "workspace:^0.1.0",
     "@types/html-escaper": "^3.0.2",
-    "@types/node": "^20.10.4",
+    "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.16",
