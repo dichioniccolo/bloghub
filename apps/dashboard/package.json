@@ -40,7 +40,7 @@
     "@visx/tooltip": "^3.3.0",
     "ai": "^2.2.29",
     "cmdk": "^0.2.0",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.0.0",
     "dequal": "^2.0.3",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.16",
