@@ -24,7 +24,7 @@
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.7.1",
     "pusher": "^5.2.0",
-    "pusher-js": "^8.3.0"
+    "pusher-js": "8.4.0-rc2"
   },
   "devDependencies": {
     "@acme/eslint-config": "workspace:^0.1.0",
