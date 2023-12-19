@@ -34,7 +34,7 @@
     "typescript": "^5.3.3"
   },
   "overrides": {
-    "@auth/core": "0.18.0"
+    "@auth/core": "0.18.6"
   },
   "prettier": "@acme/prettier-config",
   "packageManager": "bun@1.0.15",
