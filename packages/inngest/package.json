@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@acme/notifications": "workspace:^0.1.0",
-    "inngest": "^3.7.3"
+    "inngest": "^3.7.4"
   },
   "devDependencies": {
     "@acme/eslint-config": "workspace:^0.1.0",
