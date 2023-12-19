@@ -6,6 +6,7 @@ import type { SQL } from "@acme/db";
 import {
   aliasedTable,
   and,
+  count,
   countDistinct,
   db,
   eq,
@@ -50,7 +51,9 @@ export async function getProjects() {
     .where(
       exists(
         db
-          .select()
+          .select({
+            count: count(),
+          })
           .from(schema.projectMembers)
           .where(
             and(
@@ -78,7 +81,9 @@ export async function getProject(id: string) {
       eq(schema.projects.id, id),
       exists(
         db
-          .select()
+          .select({
+            count: count(),
+          })
           .from(schema.projectMembers)
           .where(
             and(
@@ -109,11 +114,13 @@ export type GetProject = Awaited<ReturnType<typeof getProject>>;
 export async function getProjectsCount() {
   const user = await getCurrentUser();
 
-  const count = await withCount(
+  const projectsCount = await withCount(
     schema.projects,
     exists(
       db
-        .select()
+        .select({
+          count: count(),
+        })
         .from(schema.projectMembers)
         .where(
           and(
@@ -125,7 +132,7 @@ export async function getProjectsCount() {
     ),
   );
 
-  return count;
+  return projectsCount;
 }
 
 export async function getProjectUsers(projectId: string) {
@@ -138,7 +145,9 @@ export async function getProjectUsers(projectId: string) {
       eq(schema.projectMembers.projectId, projectId),
       exists(
         db
-          .select()
+          .select({
+            count: count(),
+          })
           .from(alias)
           .where(
             and(
@@ -174,7 +183,9 @@ export async function getProjectInvites(projectId: string) {
       eq(schema.projectInvitations.projectId, projectId),
       exists(
         db
-          .select()
+          .select({
+            count: count(),
+          })
           .from(schema.projectMembers)
           .where(
             and(
@@ -203,7 +214,9 @@ export async function getProjectOwner(projectId: string) {
   const owner = await db.query.user.findFirst({
     where: exists(
       db
-        .select()
+        .select({
+          count: count(),
+        })
         .from(schema.projectMembers)
         .where(
           and(
@@ -345,7 +358,9 @@ export async function getProjectAnalytics(
         eq(schema.visits.projectId, projectId),
         exists(
           db
-            .select()
+            .select({
+              count: count(),
+            })
             .from(schema.projectMembers)
             .where(
               and(

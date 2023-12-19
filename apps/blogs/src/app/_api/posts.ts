@@ -2,6 +2,7 @@
 
 import {
   and,
+  count,
   countDistinct,
   db,
   desc,
@@ -92,7 +93,9 @@ export async function getRandomPostsByDomain(
         ne(schema.posts.id, postId),
         exists(
           db
-            .select()
+            .select({
+              count: count(),
+            })
             .from(schema.projects)
             .where(
               and(

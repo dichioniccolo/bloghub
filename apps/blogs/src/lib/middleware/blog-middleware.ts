@@ -1,7 +1,7 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { and, db, eq, exists, schema } from "@acme/db";
+import { and, count, db, eq, exists, schema } from "@acme/db";
 import { TEST_HOSTNAME } from "@acme/lib/constants";
 import { getProtocol } from "@acme/lib/url";
 import {
@@ -41,7 +41,9 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
         eq(schema.posts.id, postId),
         exists(
           db
-            .select()
+            .select({
+              count: count(),
+            })
             .from(schema.projects)
             .where(
               and(

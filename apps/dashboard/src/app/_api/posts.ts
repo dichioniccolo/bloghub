@@ -2,6 +2,7 @@
 
 import {
   and,
+  count,
   countDistinct,
   db,
   desc,
@@ -26,7 +27,9 @@ export async function getPosts(
     eq(schema.posts.projectId, projectId),
     exists(
       db
-        .select()
+        .select({
+          count: count(),
+        })
         .from(schema.projectMembers)
         .where(
           and(
@@ -59,11 +62,11 @@ export async function getPosts(
       schema.posts.hidden,
     );
 
-  const count = await withCount(schema.posts, where);
+  const dataCount = await withCount(schema.posts, where);
 
   return {
     data,
-    count,
+    count: dataCount,
   };
 }
 
@@ -78,7 +81,9 @@ export async function getPost(projectId: string, postId: string) {
       eq(schema.posts.id, postId),
       exists(
         db
-          .select()
+          .select({
+            count: count(),
+          })
           .from(schema.projectMembers)
           .where(
             and(
