@@ -28,7 +28,7 @@
       "name": "Next.js: Dashboard debug full stack",
       "type": "node-terminal",
       "request": "launch",
-      "command": "doppler run -- pnpm dev",
+      "command": "doppler run -- bun dev",
       "cwd": "${workspaceFolder}/apps/dashboard",
       // "sourceMapPathOverrides": {
       //   "webpack:///./*": "${workspaceFolder}/apps/dashboard/*"
@@ -43,7 +43,7 @@
       "name": "Inngest",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm dev",
+      "command": "bun dev",
       "cwd": "${workspaceFolder}/packages/inngest"
     }
   ]
