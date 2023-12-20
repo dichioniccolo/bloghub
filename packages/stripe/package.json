@@ -20,7 +20,7 @@
     "clean": "rm -rf .turbo node_modules",
     "dev:disabled": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "lint": "eslint .",
-    "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
