@@ -6,7 +6,7 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-export const verificationToken = mysqlTable(
+export const verificationTokens = mysqlTable(
   "verificationToken",
   {
     identifier: varchar("identifier", { length: 255 }).notNull(),

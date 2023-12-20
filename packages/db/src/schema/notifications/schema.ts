@@ -9,7 +9,7 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { user } from "../user/schema";
+import { users } from "../users/schema";
 
 export const notifications = mysqlTable(
   "notifications",
@@ -41,8 +41,8 @@ export const notifications = mysqlTable(
 );
 
 export const notificationsRelations = relations(notifications, ({ one }) => ({
-  user: one(user, {
+  user: one(users, {
     fields: [notifications.userId],
-    references: [user.id],
+    references: [users.id],
   }),
 }));

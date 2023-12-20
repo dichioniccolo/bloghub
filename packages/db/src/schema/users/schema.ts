@@ -8,14 +8,14 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { account } from "../account/schema";
+import { accounts } from "../accounts/schema";
 import { emailNotificationSettings } from "../emailNotificationSettings/schema";
 import { likes } from "../likes/schema";
 import { notifications } from "../notifications/schema";
 import { projectMembers } from "../projectMembers/schema";
 import { session } from "../session/schema";
 
-export const user = mysqlTable(
+export const users = mysqlTable(
   "user",
   {
     id: varchar("id", { length: 255 }).notNull(),
@@ -48,9 +48,9 @@ export const user = mysqlTable(
   },
 );
 
-export const userRelations = relations(user, ({ many }) => ({
+export const userRelations = relations(users, ({ many }) => ({
   sessions: many(session),
-  accounts: many(account),
+  accounts: many(accounts),
   projects: many(projectMembers),
   notifications: many(notifications),
   likes: many(likes),

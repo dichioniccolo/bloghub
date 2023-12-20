@@ -2,7 +2,7 @@ import { Client } from "@planetscale/database";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 
 import { env } from "./env.mjs";
-import { account, accountRelations } from "./schema/account/schema";
+import { accountRelations, accounts } from "./schema/accounts/schema";
 import {
   automaticEmails,
   automaticEmailsRelations,
@@ -32,8 +32,8 @@ import {
   projectSocialsRelations,
 } from "./schema/projectSocials/schema";
 import { session, sessionRelations } from "./schema/session/schema";
-import { user, userRelations } from "./schema/user/schema";
-import { verificationToken } from "./schema/verificationToken/schema";
+import { userRelations, users } from "./schema/users/schema";
+import { verificationTokens } from "./schema/verificationTokens/schema";
 import { visits, visitsRelations } from "./schema/visits/schema";
 
 const client = new Client({
@@ -41,7 +41,7 @@ const client = new Client({
 });
 
 export const schema = {
-  account,
+  account: accounts,
   accountRelations,
 
   automaticEmails,
@@ -74,10 +74,10 @@ export const schema = {
   session,
   sessionRelations,
 
-  user,
+  user: users,
   userRelations,
 
-  verificationToken,
+  verificationToken: verificationTokens,
 
   visits,
   visitsRelations,

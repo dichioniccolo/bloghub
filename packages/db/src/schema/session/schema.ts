@@ -7,7 +7,7 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { user } from "../user/schema";
+import { users } from "../users/schema";
 
 export const session = mysqlTable(
   "session",
@@ -30,8 +30,8 @@ export const session = mysqlTable(
 );
 
 export const sessionRelations = relations(session, ({ one }) => ({
-  user: one(user, {
+  user: one(users, {
     fields: [session.userId],
-    references: [user.id],
+    references: [users.id],
   }),
 }));

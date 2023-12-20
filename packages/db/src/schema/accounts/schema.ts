@@ -8,9 +8,9 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-import { user } from "../user/schema";
+import { users } from "../users/schema";
 
-export const account = mysqlTable(
+export const accounts = mysqlTable(
   "account",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
@@ -37,9 +37,9 @@ export const account = mysqlTable(
   },
 );
 
-export const accountRelations = relations(account, ({ one }) => ({
-  user: one(user, {
-    fields: [account.userId],
-    references: [user.id],
+export const accountRelations = relations(accounts, ({ one }) => ({
+  user: one(users, {
+    fields: [accounts.userId],
+    references: [users.id],
   }),
 }));

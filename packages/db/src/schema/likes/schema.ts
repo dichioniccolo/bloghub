@@ -8,7 +8,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { posts } from "../posts/schema";
-import { user } from "../user/schema";
+import { users } from "../users/schema";
 
 export const likes = mysqlTable(
   "likes",
@@ -32,9 +32,9 @@ export const likes = mysqlTable(
 );
 
 export const likesRelations = relations(likes, ({ one }) => ({
-  user: one(user, {
+  user: one(users, {
     fields: [likes.userId],
-    references: [user.id],
+    references: [users.id],
   }),
   post: one(posts, {
     fields: [likes.postId],

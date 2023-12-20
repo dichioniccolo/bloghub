@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { projects } from "../projects/schema";
-import { user } from "../user/schema";
+import { users } from "../users/schema";
 
 export const projectMembers = mysqlTable(
   "projectMembers",
@@ -46,8 +46,8 @@ export const projectMembersRelations = relations(projectMembers, ({ one }) => ({
     fields: [projectMembers.projectId],
     references: [projects.id],
   }),
-  user: one(user, {
+  user: one(users, {
     fields: [projectMembers.userId],
-    references: [user.id],
+    references: [users.id],
   }),
 }));

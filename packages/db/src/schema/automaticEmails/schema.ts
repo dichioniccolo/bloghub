@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { projects } from "../projects/schema";
-import { user } from "../user/schema";
+import { users } from "../users/schema";
 
 export const automaticEmails = mysqlTable(
   "automaticEmails",
@@ -40,9 +40,9 @@ export const automaticEmails = mysqlTable(
 export const automaticEmailsRelations = relations(
   automaticEmails,
   ({ one }) => ({
-    user: one(user, {
+    user: one(users, {
       fields: [automaticEmails.userId],
-      references: [user.id],
+      references: [users.id],
     }),
     project: one(projects, {
       fields: [automaticEmails.projectId],
