@@ -21,13 +21,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/notifications": "workspace:^0.1.0",
+    "@acme/notifications": "^0.1.0",
     "inngest": "^3.7.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:^0.1.0",
-    "@acme/prettier-config": "workspace:^0.1.0",
-    "@acme/tsconfig": "workspace:^0.1.0",
+    "@acme/eslint-config": "^0.1.0",
+    "@acme/prettier-config": "^0.1.0",
+    "@acme/tsconfig": "^0.1.0",
     "eslint": "^8.56.0",
     "inngest-cli": "^0.23.1",
     "prettier": "^3.1.1",

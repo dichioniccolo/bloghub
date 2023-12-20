@@ -15,8 +15,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@acme/prettier-config": "workspace:^0.1.0",
-    "@acme/tsconfig": "workspace:^0.1.0",
+    "@acme/prettier-config": "^0.1.0",
+    "@acme/tsconfig": "^0.1.0",
     "@next/eslint-plugin-next": "^14.0.4",
     "@types/eslint": "^8.56.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
