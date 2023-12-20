@@ -23,11 +23,10 @@ export const createPost = createServerAction({
     }
 
     const id = createId();
-    const slug = createId();
+
     await db.insert(schema.posts).values({
       id,
       projectId,
-      slug,
       title: "",
       description: "",
       content: {},

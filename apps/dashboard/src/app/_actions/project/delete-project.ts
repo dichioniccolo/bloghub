@@ -31,6 +31,10 @@ export const deleteProject = createServerAction({
       },
     });
 
+    if (!project) {
+      throw new ErrorForClient("Project not found");
+    }
+
     await inngest.send({
       name: "project/delete",
       data: project,
