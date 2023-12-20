@@ -14,8 +14,7 @@ export const accounts = mysqlTable(
   "account",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
-    // varchar("userId", { length: 255 }).notNull(),
-    type: text("type").notNull(),
+    type: text("type").$type<"oauth" | "oidc" | "email">().notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refreshToken: text("refresh_token"),

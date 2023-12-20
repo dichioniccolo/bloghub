@@ -33,8 +33,8 @@ export const notificationRemovedFromProject = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", () =>
-      db.query.user.findFirst({
-        where: eq(schema.user.email, event.data.userEmail),
+      db.query.users.findFirst({
+        where: eq(schema.users.email, event.data.userEmail),
         columns: {
           id: true,
         },

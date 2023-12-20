@@ -9,8 +9,8 @@ import { getUserTotalUsage } from "./get-user-total-usage";
 export async function getUserPlan() {
   const user = await getCurrentUser();
 
-  const dbUser = await db.query.user.findFirst({
-    where: eq(schema.user.id, user.id),
+  const dbUser = await db.query.users.findFirst({
+    where: eq(schema.users.id, user.id),
     columns: {
       stripeSubscriptionId: true,
       stripePriceId: true,

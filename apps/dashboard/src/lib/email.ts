@@ -38,18 +38,18 @@ async function fetchEmailNotificationSettings(
     .select({
       value: schema.emailNotificationSettings.value,
       user: {
-        email: schema.user.email,
+        email: schema.users.email,
       },
     })
     .from(schema.emailNotificationSettings)
     .innerJoin(
-      schema.user,
-      eq(schema.user.id, schema.emailNotificationSettings.userId),
+      schema.users,
+      eq(schema.users.id, schema.emailNotificationSettings.userId),
     )
     .where(
       and(
         eq(schema.emailNotificationSettings.type, type),
-        inArray(schema.user.email, emailAddresses),
+        inArray(schema.users.email, emailAddresses),
       ),
     );
   return usersSettings;

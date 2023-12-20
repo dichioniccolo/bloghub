@@ -74,8 +74,8 @@ export const inviteUser = createServerAction({
           eq(schema.projectMembers.projectId, projectId),
         );
 
-        const dbUser = await db.query.user.findFirst({
-          where: eq(schema.user.id, user.id),
+        const dbUser = await db.query.users.findFirst({
+          where: eq(schema.users.id, user.id),
           columns: {
             stripePriceId: true,
           },

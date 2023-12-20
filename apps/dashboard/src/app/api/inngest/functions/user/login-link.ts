@@ -16,8 +16,8 @@ export const userLoginLink = inngest.createFunction(
   async ({ event }) => {
     const { email, url } = event.data;
 
-    const user = await db.query.user.findFirst({
-      where: eq(schema.user.email, email),
+    const user = await db.query.users.findFirst({
+      where: eq(schema.users.email, email),
       columns: {
         name: true,
       },

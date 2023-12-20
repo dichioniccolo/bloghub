@@ -71,13 +71,13 @@ export const {
         profile?.email
       ) {
         await db
-          .update(schema.user)
+          .update(schema.users)
           .set({
             name: profile?.name,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             image: profile?.picture ?? profile?.image ?? profile?.image_url,
           })
-          .where(eq(schema.user.email, profile.email));
+          .where(eq(schema.users.email, profile.email));
       }
 
       return true;
@@ -98,8 +98,8 @@ export const {
         throw new Error("Unable to sign in with this email address");
       }
 
-      const dbUser = await db.query.user.findFirst({
-        where: eq(schema.user.email, token.email),
+      const dbUser = await db.query.users.findFirst({
+        where: eq(schema.users.email, token.email),
         columns: {
           id: true,
           email: true,

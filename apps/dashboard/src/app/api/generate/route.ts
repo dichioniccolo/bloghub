@@ -27,8 +27,8 @@ export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
     const user = await getCurrentUser();
 
-    const dbUser = await db.query.user.findFirst({
-      where: eq(schema.user.id, user.id),
+    const dbUser = await db.query.users.findFirst({
+      where: eq(schema.users.id, user.id),
       columns: {
         stripePriceId: true,
       },

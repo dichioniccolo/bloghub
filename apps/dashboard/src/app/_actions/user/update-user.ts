@@ -17,10 +17,10 @@ export const updateUser = createServerAction({
     const { user } = ctx;
 
     await db
-      .update(schema.user)
+      .update(schema.users)
       .set({
         name,
       })
-      .where(eq(schema.user.id, user.id));
+      .where(eq(schema.users.id, user.id));
   },
 });

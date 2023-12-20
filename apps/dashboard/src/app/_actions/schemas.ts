@@ -70,11 +70,11 @@ export async function isProjectMemberWithEmail(
           .select({
             count: count(),
           })
-          .from(schema.user)
+          .from(schema.users)
           .where(
             and(
-              eq(schema.projectMembers.userId, schema.user.id),
-              eq(schema.user.email, email),
+              eq(schema.projectMembers.userId, schema.users.id),
+              eq(schema.users.email, email),
             ),
           ),
       ),

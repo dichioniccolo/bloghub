@@ -211,7 +211,7 @@ export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 export async function getProjectOwner(projectId: string) {
   const user = await getCurrentUser();
 
-  const owner = await db.query.user.findFirst({
+  const owner = await db.query.users.findFirst({
     where: exists(
       db
         .select({

@@ -33,8 +33,8 @@ export const createCheckoutSession = createServerAction({
       .transform((x) => x?.toUpperCase()),
   }),
   action: async ({ input: { callbackUrl, key }, ctx: { user } }) => {
-    const dbUser = (await db.query.user.findFirst({
-      where: eq(schema.user.id, user.id),
+    const dbUser = (await db.query.users.findFirst({
+      where: eq(schema.users.id, user.id),
       columns: {
         email: true,
         stripePriceId: true,

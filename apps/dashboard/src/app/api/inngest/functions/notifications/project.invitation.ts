@@ -63,8 +63,8 @@ export const notificationInvitation = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", () =>
-      db.query.user.findFirst({
-        where: eq(schema.user.email, event.data.userEmail),
+      db.query.users.findFirst({
+        where: eq(schema.users.email, event.data.userEmail),
         columns: {
           id: true,
         },
@@ -119,7 +119,7 @@ async function getLoginUrl(
 ) {
   const token = randomBytes(32).toString("hex");
 
-  await db.insert(schema.verificationToken).values({
+  await db.insert(schema.verificationTokens).values({
     identifier,
     expires,
     token: createHash("sha256")

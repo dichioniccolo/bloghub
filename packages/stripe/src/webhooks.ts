@@ -36,14 +36,14 @@ export async function handleEvent(event: Stripe.Event) {
       );
 
       await db
-        .update(schema.user)
+        .update(schema.users)
         .set({
           stripeCustomerId,
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
         })
-        .where(eq(schema.user.id, userId));
+        .where(eq(schema.users.id, userId));
       break;
     }
     case "invoice.payment_succeeded": {
@@ -62,13 +62,13 @@ export async function handleEvent(event: Stripe.Event) {
       );
 
       await db
-        .update(schema.user)
+        .update(schema.users)
         .set({
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
         })
-        .where(eq(schema.user.stripeCustomerId, stripeCustomerId));
+        .where(eq(schema.users.stripeCustomerId, stripeCustomerId));
       break;
     }
     case "customer.subscription.deleted": {
@@ -80,13 +80,13 @@ export async function handleEvent(event: Stripe.Event) {
           : subscription.customer.id;
 
       await db
-        .update(schema.user)
+        .update(schema.users)
         .set({
           stripeSubscriptionId: null,
           stripePriceId: null,
           dayWhenBillingStarts: new Date(),
         })
-        .where(eq(schema.user.stripeCustomerId, stripeCustomerId));
+        .where(eq(schema.users.stripeCustomerId, stripeCustomerId));
       break;
     }
   }
