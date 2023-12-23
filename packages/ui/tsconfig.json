@@ -2,11 +2,7 @@
   "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
     "sourceMap": true,
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["src/*"]
-    }
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
   "include": ["*.ts", "src"],
   "exclude": ["node_modules"]
