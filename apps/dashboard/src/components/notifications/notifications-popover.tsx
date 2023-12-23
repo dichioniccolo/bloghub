@@ -10,13 +10,13 @@ import {
   isRemovedFromProjectNotification,
 } from "@acme/notifications";
 import { useServerAction } from "@acme/server-actions/client";
-import { Button } from "@acme/ui/components/button";
 import { Link } from "@acme/ui/components/link";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@acme/ui/components/popover";
+} from "@acme/ui/components/ui/popover";
 
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import {

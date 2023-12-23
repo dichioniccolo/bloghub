@@ -1,5 +1,5 @@
 import { signIn } from "@acme/auth";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 export function DiscordButton() {
   return (

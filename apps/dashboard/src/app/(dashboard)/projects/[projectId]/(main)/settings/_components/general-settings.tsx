@@ -1,6 +1,6 @@
-import { Button } from "@acme/ui/components/button";
-import { Card, CardFooter, CardHeader } from "@acme/ui/components/card";
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Button } from "@acme/ui/components/ui/button";
+import { Card, CardFooter, CardHeader } from "@acme/ui/components/ui/card";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 import type { GetProject } from "~/app/_api/projects";
 import { getCurrentUserRole } from "~/app/_api/projects";

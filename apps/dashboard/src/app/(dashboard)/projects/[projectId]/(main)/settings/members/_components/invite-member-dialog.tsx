@@ -6,15 +6,6 @@ import { toast } from "sonner";
 
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
-import { Button } from "@acme/ui/components/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@acme/ui/components/dialog";
 import {
   FormControl,
   FormField,
@@ -22,7 +13,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
+import { Button } from "@acme/ui/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@acme/ui/components/ui/dialog";
+import { Input } from "@acme/ui/components/ui/input";
 import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 

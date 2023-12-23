@@ -6,7 +6,8 @@ import { toast } from "sonner";
 import { AppRoutes } from "@acme/lib/routes";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
-import { Button, buttonVariants } from "@acme/ui/components/button";
+import { Link } from "@acme/ui/components/link";
+import { Button, buttonVariants } from "@acme/ui/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,8 +15,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/components/dialog";
-import { Link } from "@acme/ui/components/link";
+} from "@acme/ui/components/ui/dialog";
 
 import { acceptInvite } from "~/app/_actions/project/accept-invite";
 import type { GetPendingInvite } from "~/app/_api/projects";

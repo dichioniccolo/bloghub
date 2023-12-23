@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
 
 import { AppRoutes } from "@acme/lib/routes";
-import { buttonVariants } from "@acme/ui/components/button";
 import { Link } from "@acme/ui/components/link";
+import { buttonVariants } from "@acme/ui/components/ui/button";
 import { useDebounce } from "@acme/ui/hooks/use-debounce";
 
 import { env } from "~/env.mjs";

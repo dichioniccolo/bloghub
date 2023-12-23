@@ -7,21 +7,21 @@ import { toast } from "sonner";
 
 import { absoluteUrl, constructPostUrl } from "@acme/lib/url";
 import { generatePostSlug } from "@acme/lib/utils";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/components/dialog";
+} from "@acme/ui/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@acme/ui/components/dropdown-menu";
+} from "@acme/ui/components/ui/dropdown-menu";
 
 import type { GetPosts } from "~/app/_api/posts";
 import type { GetProject, GetProjectOwner } from "~/app/_api/projects";

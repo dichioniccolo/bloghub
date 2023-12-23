@@ -6,7 +6,7 @@ import { Archive } from "lucide-react";
 import type { AppNotification } from "@acme/notifications";
 import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 import { archiveNotification } from "~/app/_actions/notifications/archive-notification";
 import { markNotificationAsRead } from "~/app/_actions/notifications/mark-notification-as-read";

@@ -4,14 +4,14 @@ import { AlertCircle, ExternalLink, Loader2 } from "lucide-react";
 
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
+} from "@acme/ui/components/ui/card";
 import { CheckCircleFill } from "@acme/ui/icons/check-circle-fill";
 
 import { verifyDomain } from "~/app/_actions/project/verify-domain";

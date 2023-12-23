@@ -5,8 +5,6 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
-import { Alert, AlertDescription, AlertTitle } from "@acme/ui/components/alert";
-import { Button } from "@acme/ui/components/button";
 import {
   FormControl,
   FormField,
@@ -14,7 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@acme/ui/components/ui/alert";
+import { Button } from "@acme/ui/components/ui/button";
+import { Input } from "@acme/ui/components/ui/input";
 import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 

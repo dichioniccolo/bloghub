@@ -4,7 +4,7 @@ import type { PropsWithChildren } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
 
-import { TooltipProvider } from "@acme/ui/components/tooltip";
+import { TooltipProvider } from "@acme/ui/components/ui/tooltip";
 
 const ToasterProvider = () => {
   const { theme } = useTheme() as {

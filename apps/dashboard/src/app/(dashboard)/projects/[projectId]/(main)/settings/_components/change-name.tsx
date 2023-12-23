@@ -5,15 +5,6 @@ import { toast } from "sonner";
 
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
-import { Button } from "@acme/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@acme/ui/components/card";
 import {
   FormControl,
   FormDescription,
@@ -22,7 +13,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
+import { Button } from "@acme/ui/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@acme/ui/components/ui/card";
+import { Input } from "@acme/ui/components/ui/input";
 import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 

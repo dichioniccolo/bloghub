@@ -2,8 +2,8 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { buttonVariants } from "@acme/ui/components/button";
 import { Link } from "@acme/ui/components/link";
+import { buttonVariants } from "@acme/ui/components/ui/button";
 
 interface Props {
   pagination: {

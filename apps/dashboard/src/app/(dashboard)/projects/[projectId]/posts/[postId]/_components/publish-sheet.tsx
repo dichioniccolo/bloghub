@@ -10,7 +10,6 @@ import { determineMediaType } from "@acme/lib/utils";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
 import {
   FormControl,
   FormDescription,
@@ -19,7 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@acme/ui/components/form";
-import { Input } from "@acme/ui/components/input";
+import { Button } from "@acme/ui/components/ui/button";
+import { Input } from "@acme/ui/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -28,7 +28,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@acme/ui/components/sheet";
+} from "@acme/ui/components/ui/sheet";
 import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 

@@ -1,7 +1,7 @@
 import { BarChart2, Copy, MoreVertical } from "lucide-react";
 
 import { cn } from "@acme/ui";
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 import { PostCardButton } from "./post-card/post-card-button";
 

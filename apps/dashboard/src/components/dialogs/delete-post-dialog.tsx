@@ -12,7 +12,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@acme/ui/components/alert-dialog";
+} from "@acme/ui/components/ui/alert-dialog";
 
 import { deletePost } from "~/app/_actions/post/delete-post";
 

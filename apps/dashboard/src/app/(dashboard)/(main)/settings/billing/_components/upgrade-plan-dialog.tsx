@@ -8,7 +8,7 @@ import { absoluteUrl } from "@acme/lib/url";
 import { formatNumber } from "@acme/lib/utils";
 import { useServerAction } from "@acme/server-actions/client";
 import { PLANS } from "@acme/stripe/plans";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +16,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/components/dialog";
-import { Slider } from "@acme/ui/components/slider";
-import { Switch } from "@acme/ui/components/switch";
+} from "@acme/ui/components/ui/dialog";
+import { Slider } from "@acme/ui/components/ui/slider";
+import { Switch } from "@acme/ui/components/ui/switch";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
 import type { GetProPlans } from "~/app/_api/stripe";

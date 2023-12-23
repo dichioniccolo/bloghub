@@ -4,8 +4,8 @@ import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
-import type { ButtonProps } from "@acme/ui/components/button";
-import { Button } from "@acme/ui/components/button";
+import type { ButtonProps } from "@acme/ui/components/ui/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 export const SubmitButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, disabled, "aria-disabled": ariaDisabled, ...props }, ref) => {

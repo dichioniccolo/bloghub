@@ -8,7 +8,7 @@ import { AppRoutes } from "@acme/lib/routes";
 import { absoluteUrl } from "@acme/lib/url";
 import { formatNumber } from "@acme/lib/utils";
 import { useServerAction } from "@acme/server-actions/client";
-import { Badge } from "@acme/ui/components/badge";
+import { Badge } from "@acme/ui/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -16,15 +16,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
-import { Progress } from "@acme/ui/components/progress";
-import { Separator } from "@acme/ui/components/separator";
-import { Skeleton } from "@acme/ui/components/skeleton";
+} from "@acme/ui/components/ui/card";
+import { Progress } from "@acme/ui/components/ui/progress";
+import { Separator } from "@acme/ui/components/ui/separator";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@acme/ui/components/ui/tooltip";
 import { Divider } from "@acme/ui/icons/divider";
 
 import { createCheckoutSession } from "~/app/_actions/stripe/create-checkout-session";
@@ -70,7 +70,7 @@ export function BillingForm({ userPlan, projectsCount, proPlans }: Props) {
         </CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent className="grid grid-cols-1 divide-y divide-stone-200 px-0 dark:divide-stone-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+      <CardContent className="grid grid-cols-1 divide-y divide-stone-200 px-0 sm:grid-cols-2 sm:divide-x sm:divide-y-0 dark:divide-stone-700">
         <div className="flex flex-col space-y-2 p-10">
           <div className="flex items-center">
             <h3>Total Post Visits</h3>
@@ -139,7 +139,7 @@ export function BillingFormSkeleton() {
         </div>
       </CardHeader>
       <Separator />
-      <CardContent className="grid grid-cols-1 divide-y divide-stone-200 px-0 dark:divide-stone-700 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+      <CardContent className="grid grid-cols-1 divide-y divide-stone-200 px-0 sm:grid-cols-2 sm:divide-x sm:divide-y-0 dark:divide-stone-700">
         <div className="flex flex-col space-y-2 p-10">
           <div className="flex items-center">
             <h3>Total Post Visits</h3>

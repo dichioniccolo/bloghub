@@ -5,12 +5,12 @@ import { GOOGLE_FAVICON_URL } from "@acme/lib/constants";
 import { AppRoutes } from "@acme/lib/routes";
 import { formatNumber } from "@acme/lib/utils";
 import { Link } from "@acme/ui/components/link";
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@acme/ui/components/ui/tooltip";
 import { CheckCircleFill } from "@acme/ui/icons/check-circle-fill";
 
 import type { GetProjects } from "~/app/_api/projects";

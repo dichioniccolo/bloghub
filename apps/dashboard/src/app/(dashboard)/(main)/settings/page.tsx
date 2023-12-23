@@ -1,7 +1,7 @@
 import type { Metadata, ServerRuntime } from "next";
 
 import { auth } from "@acme/auth";
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 
 import { ProfileForm } from "./_components/profile-form";
 

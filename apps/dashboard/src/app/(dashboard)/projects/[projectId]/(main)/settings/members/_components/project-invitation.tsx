@@ -9,17 +9,17 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@acme/ui/components/avatar";
-import { Badge } from "@acme/ui/components/badge";
-import { Button } from "@acme/ui/components/button";
+} from "@acme/ui/components/ui/avatar";
+import { Badge } from "@acme/ui/components/ui/badge";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@acme/ui/components/dropdown-menu";
-import { Skeleton } from "@acme/ui/components/skeleton";
+} from "@acme/ui/components/ui/dropdown-menu";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 import type { GetProjectInvites } from "~/app/_api/projects";
 import { useDeleteInvitationDialog } from "./delete-invitation-dialog";

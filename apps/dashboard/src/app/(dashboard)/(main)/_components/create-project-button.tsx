@@ -2,8 +2,8 @@
 
 import { Plus } from "lucide-react";
 
-import type { ButtonProps } from "@acme/ui/components/button";
-import { Button } from "@acme/ui/components/button";
+import type { ButtonProps } from "@acme/ui/components/ui/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";
 

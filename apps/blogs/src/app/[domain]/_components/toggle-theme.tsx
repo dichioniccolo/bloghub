@@ -3,7 +3,7 @@
 import { Monitor, Moon, SunDim } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 import { useMounted } from "@acme/ui/hooks/use-mounted";
 
 const appearances = [

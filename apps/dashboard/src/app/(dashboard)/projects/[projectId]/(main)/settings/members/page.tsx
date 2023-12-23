@@ -1,13 +1,13 @@
 import type { Metadata, ServerRuntime } from "next";
 import { notFound } from "next/navigation";
 
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@acme/ui/components/tabs";
+} from "@acme/ui/components/ui/tabs";
 
 import {
   getCurrentUserRole,

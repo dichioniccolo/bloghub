@@ -1,4 +1,4 @@
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 import { DashboardHeader } from "~/components/dashboard-header";
 import { DashboardShell } from "~/components/dashboard-shell";

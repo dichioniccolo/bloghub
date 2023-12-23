@@ -8,7 +8,8 @@ import { determineMediaType } from "@acme/lib/utils";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
+import { Image } from "@acme/ui/components/image";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,8 +17,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
-import { Image } from "@acme/ui/components/image";
+} from "@acme/ui/components/ui/card";
 
 import { createProjectMedia } from "~/app/_actions/project/create-project-media";
 import { updateProjectLogo } from "~/app/_actions/project/update-project-logo";

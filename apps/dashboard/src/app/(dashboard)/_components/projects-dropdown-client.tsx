@@ -12,8 +12,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@acme/ui/components/avatar";
-import { Button } from "@acme/ui/components/button";
+} from "@acme/ui/components/ui/avatar";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -22,12 +22,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@acme/ui/components/command";
+} from "@acme/ui/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@acme/ui/components/popover";
+} from "@acme/ui/components/ui/popover";
 
 import type { GetProjects } from "~/app/_api/projects";
 import { useCreateProjectDialog } from "~/components/dialogs/create-project-dialog";

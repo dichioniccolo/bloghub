@@ -16,7 +16,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@acme/ui/components/alert-dialog";
+} from "@acme/ui/components/ui/alert-dialog";
 
 import { deleteProjectInvitation } from "~/app/_actions/project/delete-project-invitation";
 

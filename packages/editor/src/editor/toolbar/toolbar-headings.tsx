@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@acme/ui/components/select";
+} from "@acme/ui/components/ui/select";
 
 const toolbarHeadings = [
   { value: "p", title: "Paragraph" },

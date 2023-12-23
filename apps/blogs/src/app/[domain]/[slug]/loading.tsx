@@ -1,5 +1,5 @@
 import { Image } from "@acme/ui/components/image";
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 export default function Loading() {
   return (
@@ -15,14 +15,14 @@ export default function Loading() {
                   className="mb-0 block w-full"
                 />
               </div>
-              <div className="mb-5 mt-6 break-words px-4 text-center text-3xl font-extrabold text-slate-900 dark:text-white md:mt-10 md:px-5 md:text-4xl lg:px-8 xl:px-20 xl:text-5xl">
+              <div className="mb-5 mt-6 break-words px-4 text-center text-3xl font-extrabold text-slate-900 md:mt-10 md:px-5 md:text-4xl lg:px-8 xl:px-20 xl:text-5xl dark:text-white">
                 <Skeleton>
                   <span className="w-8 leading-snug"></span>
                 </Skeleton>
               </div>
               <div className="mb-8 px-4 text-center md:mb-14 md:px-5 lg:px-8 xl:px-20">
                 <Skeleton>
-                  <span className="w-8 text-2xl leading-snug text-slate-700 dark:text-slate-400 md:text-3xl xl:text-3xl"></span>
+                  <span className="w-8 text-2xl leading-snug text-slate-700 md:text-3xl xl:text-3xl dark:text-slate-400"></span>
                 </Skeleton>
               </div>
               <div className="relative z-20 mb-8 flex flex-row flex-wrap items-center justify-center px-4 md:-mt-7 md:mb-14 md:text-lg last:md:mb-10">

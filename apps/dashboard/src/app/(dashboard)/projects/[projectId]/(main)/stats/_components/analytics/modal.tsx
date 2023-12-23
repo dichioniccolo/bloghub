@@ -8,8 +8,8 @@ import {
   Dialog,
   DialogContent,
   DialogTrigger,
-} from "@acme/ui/components/dialog";
-import { Input } from "@acme/ui/components/input";
+} from "@acme/ui/components/ui/dialog";
+import { Input } from "@acme/ui/components/ui/input";
 
 import { BarList } from "./bar-list";
 

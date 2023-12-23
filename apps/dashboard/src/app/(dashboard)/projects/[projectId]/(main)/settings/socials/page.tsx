@@ -1,7 +1,7 @@
 import type { Metadata, ServerRuntime } from "next";
 
 import { db, eq, schema } from "@acme/db";
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 
 import { getProject } from "~/app/_api/projects";
 import { Socials } from "./_components/socials";

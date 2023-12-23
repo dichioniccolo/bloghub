@@ -15,8 +15,12 @@ import {
 } from "lucide-react";
 
 import { cn } from "@acme/ui";
-import { Command, CommandItem, CommandList } from "@acme/ui/components/command";
-import { ScrollArea } from "@acme/ui/components/scroll-area";
+import {
+  Command,
+  CommandItem,
+  CommandList,
+} from "@acme/ui/components/ui/command";
+import { ScrollArea } from "@acme/ui/components/ui/scroll-area";
 
 import { ControlledBubbleMenu } from "../controlled-bubble-menu";
 

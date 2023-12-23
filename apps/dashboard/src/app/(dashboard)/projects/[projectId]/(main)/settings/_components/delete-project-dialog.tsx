@@ -16,8 +16,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@acme/ui/components/alert-dialog";
-import { Button } from "@acme/ui/components/button";
+} from "@acme/ui/components/ui/alert-dialog";
+import { Button } from "@acme/ui/components/ui/button";
 
 import { deleteProject } from "~/app/_actions/project/delete-project";
 import type { GetProject } from "~/app/_api/projects";

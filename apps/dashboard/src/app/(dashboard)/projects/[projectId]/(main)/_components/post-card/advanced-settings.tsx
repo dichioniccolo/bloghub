@@ -5,21 +5,21 @@ import { HexColorInput } from "react-colorful";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { cn } from "@acme/ui";
+import { Link } from "@acme/ui/components/link";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@acme/ui/components/accordion";
-import { buttonVariants } from "@acme/ui/components/button";
-import { Label } from "@acme/ui/components/label";
-import { Link } from "@acme/ui/components/link";
-import { Switch } from "@acme/ui/components/switch";
+} from "@acme/ui/components/ui/accordion";
+import { buttonVariants } from "@acme/ui/components/ui/button";
+import { Label } from "@acme/ui/components/ui/label";
+import { Switch } from "@acme/ui/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@acme/ui/components/ui/tooltip";
 
 import { env } from "~/env.mjs";
 import type { QRProps } from "~/lib/qr";

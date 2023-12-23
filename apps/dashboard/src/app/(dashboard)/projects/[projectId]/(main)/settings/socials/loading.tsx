@@ -1,4 +1,4 @@
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 
 import { SocialsPlaceholder } from "./_components/socials";
 

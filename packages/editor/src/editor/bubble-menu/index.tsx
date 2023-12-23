@@ -19,7 +19,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@acme/ui/components/ui/tooltip";
 
 import { AiBubbleMenuSelector } from "./ai/ai-bubble-menu-selector";
 import { useBubbleMenu } from "./bubble-menu-context";

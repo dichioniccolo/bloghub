@@ -1,5 +1,5 @@
-import { Separator } from "@acme/ui/components/separator";
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Separator } from "@acme/ui/components/ui/separator";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 import { NotificationsForm } from "./notifications-form";
 

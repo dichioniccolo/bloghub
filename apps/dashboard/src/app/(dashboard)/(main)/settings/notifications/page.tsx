@@ -1,6 +1,6 @@
 import type { Metadata, ServerRuntime } from "next";
 
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 
 import { getNotificationsSettings } from "~/app/_api/settings";
 import { NotificationsForm } from "./notifications-form";

@@ -15,7 +15,7 @@ import { useTheme } from "next-themes";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   CommandDialog,
   CommandEmpty,
@@ -23,7 +23,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@acme/ui/components/command";
+} from "@acme/ui/components/ui/command";
 
 import { useCreateProjectDialog } from "./dialogs/create-project-dialog";
 

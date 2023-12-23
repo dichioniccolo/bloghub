@@ -13,7 +13,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@acme/ui/components/popover";
+} from "@acme/ui/components/ui/popover";
 import { fontMapper } from "@acme/ui/styles/fonts";
 
 import { env } from "~/env.mjs";

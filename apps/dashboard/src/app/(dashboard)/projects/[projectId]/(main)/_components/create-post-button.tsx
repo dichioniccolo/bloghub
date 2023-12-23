@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 import { createPost } from "~/app/_actions/post/create-post";
 

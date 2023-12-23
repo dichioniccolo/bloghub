@@ -1,11 +1,11 @@
-import { Button } from "@acme/ui/components/button";
-import { Separator } from "@acme/ui/components/separator";
+import { Button } from "@acme/ui/components/ui/button";
+import { Separator } from "@acme/ui/components/ui/separator";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@acme/ui/components/tabs";
+} from "@acme/ui/components/ui/tabs";
 
 import { ProjectInvitationPlaceholder } from "./_components/project-invitation";
 import { ProjectMemberPlaceholder } from "./_components/project-member";

@@ -1,8 +1,8 @@
 import { Plus } from "lucide-react";
 
-import { Button } from "@acme/ui/components/button";
-import { Input } from "@acme/ui/components/input";
-import { Skeleton } from "@acme/ui/components/skeleton";
+import { Button } from "@acme/ui/components/ui/button";
+import { Input } from "@acme/ui/components/ui/input";
+import { Skeleton } from "@acme/ui/components/ui/skeleton";
 
 import { DashboardHeader } from "~/components/dashboard-header";
 import { DashboardShell } from "~/components/dashboard-shell";

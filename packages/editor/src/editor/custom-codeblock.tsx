@@ -11,7 +11,7 @@ import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 import { createLowlight } from "lowlight";
 
-import { ScrollArea } from "@acme/ui/components/scroll-area";
+import { ScrollArea } from "@acme/ui/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -20,7 +20,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@acme/ui/components/select";
+} from "@acme/ui/components/ui/select";
 
 const lowlight = createLowlight();
 

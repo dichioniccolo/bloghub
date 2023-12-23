@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata, ServerRuntime } from "next";
 
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 
 import { PlanUsage, PlanUsageSkeleton } from "./_components/plan-usage";
 

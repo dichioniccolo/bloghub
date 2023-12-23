@@ -1,4 +1,4 @@
-import { Separator } from "@acme/ui/components/separator";
+import { Separator } from "@acme/ui/components/ui/separator";
 
 import { PlanUsageSkeleton } from "./_components/plan-usage";
 

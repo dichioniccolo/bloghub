@@ -4,7 +4,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/components/card";
+} from "@acme/ui/components/ui/card";
 
 import type { GetProject } from "~/app/_api/projects";
 import { QuitProjectDialog } from "./quit-project-dialog";

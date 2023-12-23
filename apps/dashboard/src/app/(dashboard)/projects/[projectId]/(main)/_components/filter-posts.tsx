@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { AppRoutes } from "@acme/lib/routes";
-import { Input } from "@acme/ui/components/input";
+import { Input } from "@acme/ui/components/ui/input";
 import { useDebounce } from "@acme/ui/hooks/use-debounce";
 
 interface Props {

@@ -11,7 +11,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@acme/ui/components/navigation-menu";
+} from "@acme/ui/components/ui/navigation-menu";
 
 interface Props {
   projectId: string;

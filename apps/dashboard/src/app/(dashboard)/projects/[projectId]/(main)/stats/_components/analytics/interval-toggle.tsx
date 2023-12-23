@@ -13,12 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@acme/ui/components/dropdown-menu";
+} from "@acme/ui/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@acme/ui/components/tooltip";
+} from "@acme/ui/components/ui/tooltip";
 import { useScroll } from "@acme/ui/hooks/use-scroll";
 
 import { useRouterStuff } from "~/hooks/use-router-stuff";

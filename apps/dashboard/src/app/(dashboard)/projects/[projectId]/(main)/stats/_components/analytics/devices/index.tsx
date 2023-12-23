@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import type { AnalyticsDevicesTab } from "@acme/lib/utils";
 import { capitalize } from "@acme/lib/utils";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 import { useRouterStuff } from "~/hooks/use-router-stuff";
 import { AnalyticsCard } from "../card";

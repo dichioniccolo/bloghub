@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { countries } from "@acme/lib";
 import type { AnalyticsLocationsTab } from "@acme/lib/utils";
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 import { useRouterStuff } from "~/hooks/use-router-stuff";
 import { AnalyticsCard } from "../card";

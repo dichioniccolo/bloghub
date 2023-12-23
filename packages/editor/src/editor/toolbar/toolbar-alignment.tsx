@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/react";
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from "lucide-react";
 
-import { Button } from "@acme/ui/components/button";
+import { Button } from "@acme/ui/components/ui/button";
 
 interface Props {
   editor: Editor;
