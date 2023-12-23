@@ -1,7 +1,7 @@
 "use client";
 
 import type { PropsWithChildren } from "react";
-import { useTheme } from "next-themes";
+import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
 
 import { TooltipProvider } from "@acme/ui/components/tooltip";
@@ -16,9 +16,9 @@ const ToasterProvider = () => {
 
 export function Providers({ children }: PropsWithChildren) {
   return (
-    <>
+    <ThemeProvider attribute="class">
       <ToasterProvider />
       <TooltipProvider>{children}</TooltipProvider>
-    </>
+    </ThemeProvider>
   );
 }
