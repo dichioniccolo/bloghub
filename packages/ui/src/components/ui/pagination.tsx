@@ -1,8 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { cn } from "../../lib/utils";
+import { Link } from "../link";
 import type { ButtonProps } from "./button";
 import { buttonVariants } from "./button";
 
@@ -38,7 +38,7 @@ PaginationItem.displayName = "PaginationItem";
 type PaginationLinkProps = {
   isActive?: boolean;
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<"a">;
+  React.ComponentProps<typeof Link>;
 
 const PaginationLink = ({
   className,
@@ -47,7 +47,7 @@ const PaginationLink = ({
   ...props
 }: PaginationLinkProps) => (
   <PaginationItem>
-    <a
+    <Link
       aria-current={isActive ? "page" : undefined}
       className={cn(
         buttonVariants({

@@ -1,9 +1,13 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
-import { Link } from "@acme/ui/components/link";
-import { buttonVariants } from "@acme/ui/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@acme/ui/components/ui/pagination";
 
 interface Props {
   pagination: {
@@ -24,7 +28,41 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
   return (
     <div className="sticky bottom-0 mt-4 flex h-20 flex-col items-center justify-center space-y-2 rounded-t-md border border-border bg-background shadow-lg">
       <div className="flex items-center space-x-2">
-        {page > 1 && paginatedCount > 5 && (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem aria-disabled={page === 1}>
+              <PaginationPrevious
+                href={{
+                  query: {
+                    page: (page - 1).toString(),
+                  },
+                }}
+              />
+            </PaginationItem>
+            {paginationArray.map((i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  isActive={i === page}
+                  href={{
+                    query: {
+                      page: i.toString(),
+                    },
+                  }}
+                />
+              </PaginationItem>
+            ))}
+            <PaginationItem aria-disabled={paginationArray.length === page}>
+              <PaginationNext
+                href={{
+                  query: {
+                    page: (page + 1).toString(),
+                  },
+                }}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+        {/* {page > 1 && paginatedCount > 5 && (
           <Link
             href={{
               query: {
@@ -78,7 +116,7 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
           >
             <ChevronRight className="h-4 w-4" />
           </Link>
-        )}
+        )} */}
       </div>
       <p className="text-sm text-gray-500">
         Showing {(page - 1) * pageSize + 1} -{" "}
@@ -88,25 +126,3 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
     </div>
   );
 }
-
-const Divider = () => {
-  return <div className="w-6 rounded-lg border border-gray-400" />;
-};
-
-const AnchorLink = ({ value }: { value: number }) => {
-  return (
-    <Link
-      href={{
-        query: {
-          page: value.toString(),
-        },
-      }}
-      className={buttonVariants({
-        className: "w-6",
-        size: "sm",
-      })}
-    >
-      {value}
-    </Link>
-  );
-};
