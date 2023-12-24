@@ -5,6 +5,8 @@ import { Loader2 } from "lucide-react";
 import type { Session } from "@acme/auth";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
+import { Button } from "@acme/ui/components/ui/button";
+import { Card, CardContent, CardFooter } from "@acme/ui/components/ui/card";
 import {
   FormControl,
   FormDescription,
@@ -12,9 +14,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Button } from "@acme/ui/components/ui/button";
-import { Card, CardContent, CardFooter } from "@acme/ui/components/ui/card";
+} from "@acme/ui/components/ui/form";
 import { Input } from "@acme/ui/components/ui/input";
 import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";

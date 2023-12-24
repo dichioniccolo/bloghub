@@ -10,6 +10,7 @@ import { determineMediaType } from "@acme/lib/utils";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   FormControl,
   FormDescription,
@@ -17,8 +18,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Button } from "@acme/ui/components/ui/button";
+} from "@acme/ui/components/ui/form";
 import { Input } from "@acme/ui/components/ui/input";
 import {
   Sheet,

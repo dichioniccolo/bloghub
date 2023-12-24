@@ -83,13 +83,14 @@ export const {
       return true;
     },
 
-    session: ({ session, token }) => {
-      if (token) {
-        session.user.id = token.sub!;
-        session.user.name = token.name;
-        session.user.email = token.email!;
-        session.user.image = token.picture;
+    session: ({ session, ...others }) => {
+      if ("token" in others) {
+        session.user.id = others.token.sub!;
+        session.user.name = others.token.name;
+        session.user.email = others.token.email!;
+        session.user.image = others.token.picture;
       }
+
       return session;
     },
 

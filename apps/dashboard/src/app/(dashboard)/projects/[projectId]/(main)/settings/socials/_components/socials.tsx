@@ -8,13 +8,13 @@ import type { ProjectSocialType } from "@acme/db";
 import { defaultSocials } from "@acme/lib";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
+import { Button } from "@acme/ui/components/ui/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@acme/ui/components/form";
-import { Button } from "@acme/ui/components/ui/button";
+} from "@acme/ui/components/ui/form";
 import { Input } from "@acme/ui/components/ui/input";
 import { Skeleton } from "@acme/ui/components/ui/skeleton";
 import { Form } from "@acme/ui/components/zod-form";
