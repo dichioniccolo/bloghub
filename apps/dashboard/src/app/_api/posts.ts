@@ -81,9 +81,7 @@ export async function getPost(projectId: string, postId: string) {
       eq(schema.posts.id, postId),
       exists(
         db
-          .select({
-            count: count(),
-          })
+          .select()
           .from(schema.projectMembers)
           .where(
             and(

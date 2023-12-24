@@ -1,16 +1,6 @@
 "use server";
 
-import {
-  and,
-  count,
-  db,
-  eq,
-  exists,
-  gte,
-  lte,
-  schema,
-  withCount,
-} from "@acme/db";
+import { and, db, eq, exists, gte, lte, schema, withCount } from "@acme/db";
 
 export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
   return await withCount(
@@ -20,9 +10,7 @@ export async function getUserTotalUsage(userId: string, from: Date, to: Date) {
       lte(schema.visits.createdAt, to),
       exists(
         db
-          .select({
-            count: count(),
-          })
+          .select()
           .from(schema.projectMembers)
           .where(
             and(

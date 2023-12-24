@@ -51,9 +51,7 @@ export async function getProjects() {
     .where(
       exists(
         db
-          .select({
-            count: count(),
-          })
+          .select()
           .from(schema.projectMembers)
           .where(
             and(
@@ -81,9 +79,7 @@ export async function getProject(id: string) {
       eq(schema.projects.id, id),
       exists(
         db
-          .select({
-            count: count(),
-          })
+          .select()
           .from(schema.projectMembers)
           .where(
             and(
@@ -145,9 +141,7 @@ export async function getProjectUsers(projectId: string) {
       eq(schema.projectMembers.projectId, projectId),
       exists(
         db
-          .select({
-            count: count(),
-          })
+          .select()
           .from(alias)
           .where(
             and(
@@ -183,9 +177,7 @@ export async function getProjectInvites(projectId: string) {
       eq(schema.projectInvitations.projectId, projectId),
       exists(
         db
-          .select({
-            count: count(),
-          })
+          .select()
           .from(schema.projectMembers)
           .where(
             and(
