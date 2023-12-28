@@ -40,15 +40,17 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
               />
             </PaginationItem>
             {paginationArray.map((i) => (
-              <PaginationItem key={i}>
+              <PaginationItem key={i + 1}>
                 <PaginationLink
-                  isActive={i === page}
+                  isActive={i + 1 === page}
                   href={{
                     query: {
-                      page: i.toString(),
+                      page: (i + 1).toString(),
                     },
                   }}
-                />
+                >
+                  {i + 1}
+                </PaginationLink>
               </PaginationItem>
             ))}
             <PaginationItem aria-disabled={paginationArray.length === page}>
