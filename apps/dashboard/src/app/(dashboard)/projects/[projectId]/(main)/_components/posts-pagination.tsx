@@ -3,7 +3,6 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
@@ -30,7 +29,7 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
       <div className="flex items-center space-x-2">
         <Pagination>
           <PaginationContent>
-            <PaginationItem aria-disabled={page === 1}>
+            {page > 1 && (
               <PaginationPrevious
                 href={{
                   query: {
@@ -38,22 +37,21 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
                   },
                 }}
               />
-            </PaginationItem>
+            )}
             {paginationArray.map((i) => (
-              <PaginationItem key={i + 1}>
-                <PaginationLink
-                  isActive={i + 1 === page}
-                  href={{
-                    query: {
-                      page: (i + 1).toString(),
-                    },
-                  }}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
+              <PaginationLink
+                key={i + 1}
+                isActive={i + 1 === page}
+                href={{
+                  query: {
+                    page: (i + 1).toString(),
+                  },
+                }}
+              >
+                {i + 1}
+              </PaginationLink>
             ))}
-            <PaginationItem aria-disabled={paginationArray.length === page}>
+            {paginationArray.length < page && (
               <PaginationNext
                 href={{
                   query: {
@@ -61,7 +59,7 @@ export function PostsPagination({ pagination, itemsCount }: Props) {
                   },
                 }}
               />
-            </PaginationItem>
+            )}
           </PaginationContent>
         </Pagination>
         {/* {page > 1 && paginatedCount > 5 && (
