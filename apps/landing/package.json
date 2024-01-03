@@ -26,7 +26,7 @@
     "@vercel/analytics": "^1.1.1",
     "@vercel/edge-config": "^0.4.1",
     "@vercel/kv": "^1.0.1",
-    "ai": "^2.2.30",
+    "ai": "^2.2.31",
     "date-fns": "^3.0.6",
     "encoding": "^0.1.13",
     "framer-motion": "^10.17.0",
