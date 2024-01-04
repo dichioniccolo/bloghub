@@ -41,7 +41,7 @@
     "date-fns": "^3.0.6",
     "dequal": "^2.0.3",
     "encoding": "^0.1.13",
-    "framer-motion": "^10.17.4",
+    "framer-motion": "^10.17.6",
     "html-escaper": "^3.0.3",
     "inngest": "^3.8.0",
     "lucide-react": "^0.303.0",
