@@ -10,7 +10,10 @@ export default {
       path.dirname(require.resolve("@acme/ui")),
       "**/*.{js,ts,jsx,tsx}",
     ),
-    // "../../packages/ui/src/**/*.{ts,tsx}",
+    path.join(
+      path.dirname(require.resolve("@acme/editor")),
+      "**/*.{js,ts,jsx,tsx}",
+    ),
   ],
   presets: [baseConfig],
 } satisfies Config;
