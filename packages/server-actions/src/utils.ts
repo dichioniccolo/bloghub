@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { RedirectError } from "next/dist/client/components/redirect";
-import { z } from "zod";
+import type { z } from "zod";
 
 export const DEFAULT_SERVER_ERROR =
   "Something went wrong while executing the operation";
@@ -11,34 +8,38 @@ const NOT_FOUND_ERROR_CODE = "NEXT_NOT_FOUND";
 
 export type NotFoundError = Error & { digest: typeof NOT_FOUND_ERROR_CODE };
 
-export const isNextRedirectError = <U extends string>(
-  error: any,
-): error is RedirectError<U> => {
-  if (!z.object({ digest: z.string() }).safeParse(error).success) {
-    return false;
-  }
+export const isError = (e: unknown): e is Error => e instanceof Error;
+export const isNextRedirectError = (e: unknown) =>
+  isError(e) && e.message === REDIRECT_ERROR_CODE;
+export const isNextNotFoundError = (e: unknown) =>
+  isError(e) && e.message === NOT_FOUND_ERROR_CODE;
 
-  const [errorCode, type, destination, permanent] = (
-    error.digest as string
-  ).split(";", 4);
+// export const isNextRedirectError = <U extends string>(
+//   error: any,
+// ): error is RedirectError<U> => {
+//   if (!z.object({ digest: z.string() }).safeParse(error).success) {
+//     return false;
+//   }
 
-  if (!errorCode || !type || !destination || !permanent) {
-    return false;
-  }
+//   const [errorCode, type, destination, permanent] = (
+//     error.digest as string
+//   ).split(";", 4);
 
-  return (
-    errorCode === REDIRECT_ERROR_CODE &&
-    (type === "replace" || type === "push") &&
-    typeof destination === "string" &&
-    (permanent === "true" || permanent === "false")
-  );
-};
+//   if (!errorCode || !type || !destination || !permanent) {
+//     return false;
+//   }
 
-export const isNextNotFoundError = (error: any): error is NotFoundError =>
-  z.object({ digest: z.literal(NOT_FOUND_ERROR_CODE) }).safeParse(error)
-    .success;
+//   return (
+//     errorCode === REDIRECT_ERROR_CODE &&
+//     (type === "replace" || type === "push") &&
+//     typeof destination === "string" &&
+//     (permanent === "true" || permanent === "false")
+//   );
+// };
 
-export const isError = (error: any): error is Error => error instanceof Error;
+// export const isNextNotFoundError = (error: any): error is NotFoundError =>
+//   z.object({ digest: z.literal(NOT_FOUND_ERROR_CODE) }).safeParse(error)
+//     .success;
 
 export function normalizeInput(input: unknown): unknown {
   return input instanceof FormData
