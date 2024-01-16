@@ -49,7 +49,7 @@
     "@tiptap/starter-kit": "^2.1.16",
     "@tiptap/suggestion": "^2.1.16",
     "lowlight": "^3.1.0",
-    "lucide-react": "^0.309.0",
+    "lucide-react": "^0.311.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "cmdk": "^0.2.0",
