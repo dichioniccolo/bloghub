@@ -27,7 +27,7 @@
     "@auth/drizzle-adapter": "^0.3.15",
     "@t3-oss/env-nextjs": "^0.7.3",
     "next": "^14.0.4",
-    "next-auth": "5.0.0-beta.4",
+    "next-auth": "5.0.0-beta.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.22.4"
