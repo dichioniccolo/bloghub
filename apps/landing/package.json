@@ -27,7 +27,7 @@
     "@vercel/edge-config": "^0.4.1",
     "@vercel/kv": "^1.0.1",
     "ai": "^2.2.31",
-    "date-fns": "^3.2.0",
+    "date-fns": "^3.3.0",
     "encoding": "^0.1.13",
     "framer-motion": "^10.18.0",
     "lucide-react": "^0.312.0",
