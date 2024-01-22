@@ -29,7 +29,7 @@
     "@acme/prettier-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
     "eslint": "^8.56.0",
-    "inngest-cli": "^0.24.2",
+    "inngest-cli": "^0.24.3",
     "prettier": "^3.2.4",
     "typescript": "^5.3.3"
   },
