@@ -30,7 +30,7 @@
     "@planetscale/database": "^1.14.0",
     "@t3-oss/env-nextjs": "^0.7.3",
     "drizzle-orm": "^0.29.3",
-    "mysql2": "^3.7.1",
+    "mysql2": "^3.8.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
