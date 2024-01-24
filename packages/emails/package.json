@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@react-email/components": "^0.0.14",
-    "@t3-oss/env-nextjs": "^0.7.3",
+    "@t3-oss/env-nextjs": "^0.8.0",
     "nodemailer": "^6.9.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
