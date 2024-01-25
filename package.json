@@ -28,7 +28,7 @@
     "@commitlint/cli": "^18.5.0",
     "@commitlint/config-conventional": "^18.5.0",
     "@turbo/gen": "^1.11.3",
-    "husky": "^8.0.3",
+    "husky": "^9.0.1",
     "prettier": "^3.2.4",
     "turbo": "^1.11.3",
     "typescript": "^5.3.3"
