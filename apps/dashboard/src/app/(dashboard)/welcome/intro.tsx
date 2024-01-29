@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { buttonVariants } from "@acme/ui/components/ui/button";
 import { useDebounce } from "@acme/ui/hooks/use-debounce";
-import Link from "next-link";
 
 import { env } from "~/env.mjs";
 

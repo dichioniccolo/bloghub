@@ -1,8 +1,8 @@
 import { unstable_noStore } from "next/cache";
+import Link from "next/link";
 
 import { BlogRoutes } from "@acme/lib/routes";
 import { Image } from "@acme/ui/components/image";
-import Link from "next-link";
 
 import { getRandomPostsByDomain } from "~/app/_api/posts";
 

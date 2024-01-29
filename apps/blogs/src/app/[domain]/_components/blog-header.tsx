@@ -1,6 +1,7 @@
+import Link from "next/link";
+
 import { cn } from "@acme/ui";
 import { ScrollArea, ScrollBar } from "@acme/ui/components/ui/scroll-area";
-import Link from "next-link";
 
 import type { GetProjectByDomain } from "~/app/_api/projects";
 import { BlogLeftMenu } from "./blog-left-menu";
@@ -22,7 +23,7 @@ export function BlogHeader({ project }: Props) {
       <div className="container mx-auto px-2 md:px-4 2xl:px-10">
         <div className="relative z-40 flex flex-row items-center justify-between pb-2 pt-8 md:mb-4">
           <div className="flex flex-row items-center py-1">
-            <div className="md:hidden dark:text-white">
+            <div className="dark:text-white md:hidden">
               <BlogLeftMenu project={project} />
             </div>
             <div className="hidden md:block">

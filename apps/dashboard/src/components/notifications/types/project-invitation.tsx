@@ -1,9 +1,9 @@
+import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { MailPlus } from "lucide-react";
 
 import { AppRoutes } from "@acme/lib/routes";
 import type { AppNotification } from "@acme/notifications";
-import Link from "next-link";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
 
