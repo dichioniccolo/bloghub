@@ -1,14 +1,14 @@
 import { Menu } from "lucide-react";
 
+import { Link } from "@acme/ui/components/link";
 import { Button } from "@acme/ui/components/ui/button";
 import { ScrollArea, ScrollBar } from "@acme/ui/components/ui/scroll-area";
 import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTrigger,
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
 } from "@acme/ui/components/ui/sheet";
-import Link from "next-link";
 
 import type { GetProjectByDomain } from "~/app/_api/projects";
 import { BlogLogo } from "./blog-logo";

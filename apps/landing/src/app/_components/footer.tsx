@@ -1,7 +1,7 @@
-import { format } from "date-fns";
 import Image from "next/image";
+import { format } from "date-fns";
 
-import Link from "next-link";
+import { Link } from "@acme/ui/components/link";
 
 import { env } from "~/env.mjs";
 

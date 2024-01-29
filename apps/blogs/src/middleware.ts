@@ -17,12 +17,6 @@ export const config = {
      * 5. /_vercel (Vercel internals)
      * 6. /favicon.ico, /sitemap.xml, /robots.txt (static files)
      */
-    {
-      source: "/((?!api/|_next/|_proxy/|_static|_vercel|favicon.ico|sitemap.xml|robots.txt).*)",
-      missing: [
-        { type: "header", key: "next-router-prefetch" },
-        { type: "header", key: "purpose", value: "prefetch" },
-      ],
-    }
+    "/((?!api/|_next/|_proxy/|_static|_vercel|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };

@@ -1,28 +1,28 @@
 "use client";
 
-import { BellRing, Inbox, Settings } from "lucide-react";
 import { useState } from "react";
+import { BellRing, Inbox, Settings } from "lucide-react";
 
 import { AppRoutes } from "@acme/lib/routes";
 import {
-    isInvitationAcceptedNotification,
-    isProjectInvitationNotification,
-    isRemovedFromProjectNotification,
+  isInvitationAcceptedNotification,
+  isProjectInvitationNotification,
+  isRemovedFromProjectNotification,
 } from "@acme/notifications";
 import { useServerAction } from "@acme/server-actions/client";
+import { Link } from "@acme/ui/components/link";
 import { Button } from "@acme/ui/components/ui/button";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@acme/ui/components/ui/popover";
-import Link from "next-link";
 
 import { archiveAllNotifications } from "~/app/_actions/notifications/archive-all-notifications";
 import {
-    NotificationActionTypes,
-    useNotifications,
-    useNotificationsDispatch,
+  NotificationActionTypes,
+  useNotifications,
+  useNotificationsDispatch,
 } from "~/components/notifications/notifications-provider";
 import { ProjectInvitationNotification } from "~/components/notifications/types/project-invitation";
 import { RemovedFromProject } from "~/components/notifications/types/removed-from-project";

@@ -1,5 +1,5 @@
 import { Image } from "@acme/ui/components/image";
-import Link from "next-link";
+import { Link } from "@acme/ui/components/link";
 
 export default function NotFound() {
   return (

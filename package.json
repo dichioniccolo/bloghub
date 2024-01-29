@@ -5,22 +5,22 @@
     "node": ">=20.11.0"
   },
   "scripts": {
-    "reinstall": "pnpm clean:workspaces && pnpm i",
+    "reinstall": "bun clean:workspaces && bun i",
     "build": "turbo build",
     "clean": "git clean -xdf node_modules dist .next",
     "clean:workspaces": "turbo clean",
-    "db:generate": "pnpm with-env turbo db:generate",
-    "db:push": "pnpm with-env turbo db:push",
-    "db:studio": "pnpm with-env turbo db:studio",
-    "dev": "FORCE_COLOR=1 pnpm with-env turbo dev --parallel",
-    "dev:dashboard": "pnpm dev --filter @acme/dashboard --filter @acme/inngest --filter @acme/stripe",
+    "db:generate": "bun with-env turbo db:generate",
+    "db:push": "bun with-env turbo db:push",
+    "db:studio": "bun with-env turbo db:studio",
+    "dev": "FORCE_COLOR=1 bun with-env turbo dev --parallel",
+    "dev:dashboard": "bun dev --filter @acme/dashboard --filter @acme/inngest --filter @acme/stripe",
     "prepare": "husky install",
     "with-env": "doppler run --",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
     "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
     "lint": "turbo lint --continue -- --cache --cache-location 'node_modules/.cache/.eslintcache'",
     "lint:fix": "turbo lint --continue -- --fix --cache --cache-location 'node_modules/.cache/.eslintcache'",
-    "lint:ws": "npx sherif@latest",
+    "lint:ws": "bunx sherif@latest",
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "@auth/core": "0.24.0"
   },
   "prettier": "@acme/prettier-config",
-  "packageManager": "pnpm@8.14.0",
+  "packageManager": "bun@1.0.15",
   "workspaces": [
     "apps/*",
     "packages/*",

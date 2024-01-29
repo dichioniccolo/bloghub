@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
+import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
-import Link from "next-link";
 
 import type { GetProjectByDomain } from "~/app/_api/projects";
 import { env } from "~/env.mjs";

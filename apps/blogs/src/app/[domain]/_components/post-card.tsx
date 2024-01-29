@@ -3,7 +3,7 @@ import { BarChart3, BookOpen } from "lucide-react";
 import { BlogRoutes } from "@acme/lib/routes";
 import { cn } from "@acme/ui";
 import { Image } from "@acme/ui/components/image";
-import Link from "next-link";
+import { Link } from "@acme/ui/components/link";
 
 interface Props {
   post: {

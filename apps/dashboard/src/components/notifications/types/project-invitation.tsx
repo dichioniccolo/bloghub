@@ -3,7 +3,7 @@ import { MailPlus } from "lucide-react";
 
 import { AppRoutes } from "@acme/lib/routes";
 import type { AppNotification } from "@acme/notifications";
-import Link from "next-link";
+import { Link } from "@acme/ui/components/link";
 
 import { BaseNotification } from "~/components/notifications/types/base-notification";
 
