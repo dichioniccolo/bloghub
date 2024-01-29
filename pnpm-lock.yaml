@@ -96,8 +96,8 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.317.0
-        version: 0.317.0(react@18.2.0)
+        specifier: ^0.316.0
+        version: 0.316.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -274,8 +274,8 @@ importers:
         specifier: ^3.12.0
         version: 3.12.0(encoding@0.1.13)(typescript@5.3.3)
       lucide-react:
-        specifier: ^0.317.0
-        version: 0.317.0(react@18.2.0)
+        specifier: ^0.316.0
+        version: 0.316.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -413,8 +413,8 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.317.0
-        version: 0.317.0(react@18.2.0)
+        specifier: ^0.316.0
+        version: 0.316.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -680,8 +680,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       lucide-react:
-        specifier: ^0.317.0
-        version: 0.317.0(react@18.2.0)
+        specifier: ^0.316.0
+        version: 0.316.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1124,8 +1124,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.317.0
-        version: 0.317.0(react@18.2.0)
+        specifier: ^0.316.0
+        version: 0.316.0(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0)
@@ -1219,10 +1219,10 @@ importers:
         specifier: ^8.56.2
         version: 8.56.2
       '@typescript-eslint/eslint-plugin':
-        specifier: ^6.20.0
+        specifier: ^6.19.1
         version: 6.20.0(@typescript-eslint/parser@6.20.0)(eslint@8.56.0)(typescript@5.3.3)
       '@typescript-eslint/parser':
-        specifier: ^6.20.0
+        specifier: ^6.19.1
         version: 6.20.0(eslint@8.56.0)(typescript@5.3.3)
       eslint:
         specifier: ^8.56.0
@@ -9592,8 +9592,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-react@0.317.0(react@18.2.0):
-    resolution: {integrity: sha512-8J8fIim0Sc+AYn8skgVau+hRGXaqjErRNzuW0vIGt4QA/f3UvY8g8o2A/OL9deCBKxZjVD1zuoidyMCiq8rfFQ==}
+  /lucide-react@0.316.0(react@18.2.0):
+    resolution: {integrity: sha512-dTmYX1H4IXsRfVcj/KUxworV6814ApTl7iXaS21AimK2RUEl4j4AfOmqD3VR8phe5V91m4vEJ8tCK4uT1jE5nA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
