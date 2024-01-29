@@ -599,79 +599,79 @@ importers:
         specifier: ^0.1.0
         version: link:../ui
       '@tiptap/core':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/pm@2.2.0)
       '@tiptap/extension-character-count':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-code-block-lowlight':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/extension-code-block@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-color':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/extension-text-style@2.2.0)
       '@tiptap/extension-highlight':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-horizontal-rule':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-image':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-link':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-placeholder':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-subscript':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-superscript':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-table':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-table-cell':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-table-header':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-table-row':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-task-item':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       '@tiptap/extension-task-list':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-text-align':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-text-style':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-underline':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/extension-youtube':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)
       '@tiptap/pm':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0
       '@tiptap/react':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)(react-dom@18.2.0)(react@18.2.0)
       '@tiptap/starter-kit':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/pm@2.2.0)
       '@tiptap/suggestion':
-        specifier: ^2.1.16
+        specifier: ^2.2.0
         version: 2.2.0(@tiptap/core@2.2.0)(@tiptap/pm@2.2.0)
       cmdk:
         specifier: ^0.2.0
