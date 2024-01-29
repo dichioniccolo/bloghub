@@ -1,7 +1,7 @@
 import type { Metadata, ServerRuntime } from "next";
-import Link from "next/link";
 
 import { Logo } from "@acme/ui/icons/logo";
+import Link from "next-link";
 
 import { env } from "~/env.mjs";
 import { DiscordButton } from "./_components/discord-sign-in";

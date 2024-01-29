@@ -1,25 +1,25 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import Link from "next/link";
 import { HexColorInput } from "react-colorful";
 
 import { AppRoutes } from "@acme/lib/routes";
 import { cn } from "@acme/ui";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
 } from "@acme/ui/components/ui/accordion";
 import { buttonVariants } from "@acme/ui/components/ui/button";
 import { Label } from "@acme/ui/components/ui/label";
 import { Switch } from "@acme/ui/components/ui/switch";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
 } from "@acme/ui/components/ui/tooltip";
+import Link from "next-link";
 
 import { env } from "~/env.mjs";
 import type { QRProps } from "~/lib/qr";

@@ -1,12 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import type { ReactNode } from "react";
 
 import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { formatNumber } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
+import Link from "next-link";
 
 interface Props {
   items: {

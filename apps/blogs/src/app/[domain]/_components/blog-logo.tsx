@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import { Image } from "@acme/ui/components/image";
 import { Logo } from "@acme/ui/icons/logo";
+import Link from "next-link";
 
 interface Props {
   project: {

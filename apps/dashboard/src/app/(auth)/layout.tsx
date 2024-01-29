@@ -1,6 +1,7 @@
-import type { PropsWithChildren } from "react";
-import Link from "next/link";
 import { format } from "date-fns";
+import type { PropsWithChildren } from "react";
+
+import Link from "next-link";
 
 import { env } from "~/env.mjs";
 
