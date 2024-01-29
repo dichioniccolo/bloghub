@@ -80,7 +80,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         //   stdio: "inherit",
         // });
         execSync(
-          `bun prettier --write packages/${
+          `pnpm prettier --write packages/${
             (answers as { name: string }).name
           }/** --list-different`,
         );

@@ -1,6 +1,6 @@
 import { cn } from "@acme/ui";
-import { Link } from "@acme/ui/components/link";
 import { ScrollArea, ScrollBar } from "@acme/ui/components/ui/scroll-area";
+import Link from "next-link";
 
 import type { GetProjectByDomain } from "~/app/_api/projects";
 import { BlogLeftMenu } from "./blog-left-menu";

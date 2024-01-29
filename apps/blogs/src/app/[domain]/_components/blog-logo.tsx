@@ -1,6 +1,6 @@
 import { Image } from "@acme/ui/components/image";
-import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
+import Link from "next-link";
 
 interface Props {
   project: {

@@ -4,9 +4,9 @@ import { useSelectedLayoutSegment } from "next/navigation";
 
 import { subdomainUrl } from "@acme/lib/url";
 import { cn } from "@acme/ui";
-import { Link } from "@acme/ui/components/link";
 import { useScroll } from "@acme/ui/hooks/use-scroll";
 import { Logo } from "@acme/ui/icons/logo";
+import Link from "next-link";
 
 import { env } from "~/env.mjs";
 

@@ -3,10 +3,10 @@ import { Suspense } from "react";
 
 import { auth } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
-import { Link } from "@acme/ui/components/link";
 import { Skeleton } from "@acme/ui/components/ui/skeleton";
 import { Divider } from "@acme/ui/icons/divider";
 import { Logo } from "@acme/ui/icons/logo";
+import Link from "next-link";
 
 import { CommandMenu } from "~/components/command-menu";
 import { Notifications } from "~/components/notifications";

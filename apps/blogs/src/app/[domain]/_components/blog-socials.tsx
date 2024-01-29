@@ -1,7 +1,7 @@
 import type { ProjectSocialType } from "@acme/db";
 import { defaultSocials } from "@acme/lib";
 import { cn } from "@acme/ui";
-import { Link } from "@acme/ui/components/link";
+import Link from "next-link";
 
 interface Props {
   showValue?: boolean;

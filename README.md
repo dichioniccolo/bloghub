@@ -31,7 +31,7 @@ git clone https://github.com/dichioniccolo/bloghub
 ### 2. Install dependencies
 
 ```bash
-bun install
+pnpm install
 ```
 
 ### 3. Create a `.env` file or stick with Doppler
@@ -42,13 +42,13 @@ but feel free to create a `.env` file in the root directory and add the environm
 ### 4. Run the application
 
 ```bash
-bun dev
+pnpm dev
 ```
 
 ### 5. Push database
 
 ```bash
-bun db:push
+pnpm db:push
 ```
 
 ## How do I deploy this?

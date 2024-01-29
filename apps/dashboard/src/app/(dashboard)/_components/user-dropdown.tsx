@@ -4,22 +4,22 @@ import type { Session } from "@acme/auth";
 import { signOut } from "@acme/auth";
 import { AppRoutes } from "@acme/lib/routes";
 import { getDefaultAvatarImage } from "@acme/lib/utils";
-import { Link } from "@acme/ui/components/link";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
 } from "@acme/ui/components/ui/avatar";
 import { Button } from "@acme/ui/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@acme/ui/components/ui/dropdown-menu";
+import Link from "next-link";
 
 interface Props {
   session: Session;

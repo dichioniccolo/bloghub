@@ -28,7 +28,7 @@
       "name": "Next.js: Dashboard debug full stack",
       "type": "node-terminal",
       "request": "launch",
-      "command": "doppler run -- bun dev",
+      "command": "doppler run -- pnpm dev",
       "cwd": "${workspaceFolder}/apps/dashboard",
       // "sourceMapPathOverrides": {
       //   "webpack:///./*": "${workspaceFolder}/apps/dashboard/*"
