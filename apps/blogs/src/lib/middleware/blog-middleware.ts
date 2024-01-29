@@ -56,6 +56,8 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
     )
     .then((x) => x[0]);
 
+  console.log(post);
+
   if (!post) {
     // rewrite to the post, the 404 error will be handler in the route
     return NextResponse.rewrite(new URL(`/${finalDomain}${path}`, req.url));

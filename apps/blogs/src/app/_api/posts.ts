@@ -109,6 +109,10 @@ export async function getRandomPostsByDomain(
     .orderBy(sql`rand()`)
     .limit(toGenerate);
 
+  if (ids.length === 0) {
+    return [];
+  }
+
   return await db
     .select({
       id: schema.posts.id,

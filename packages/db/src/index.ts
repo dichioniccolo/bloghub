@@ -42,7 +42,7 @@ export const schema = {
 
 export const db = drizzle(client.connection(), {
   schema,
-  logger: true,
+  // logger: true,
 });
 
 export { createId } from "@paralleldrive/cuid2";
