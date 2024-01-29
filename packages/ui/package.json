@@ -119,7 +119,7 @@
     "react-hook-form": "^7.49.3",
     "react-resizable-panels": "^1.0.10",
     "react-textarea-autosize": "^8.5.3",
-    "sonner": "^1.3.1",
+    "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
     "vaul": "^0.8.9"
   },
