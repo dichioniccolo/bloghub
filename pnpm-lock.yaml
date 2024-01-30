@@ -1142,7 +1142,7 @@ importers:
         specifier: ^7.49.3
         version: 7.49.3(react@18.2.0)
       react-resizable-panels:
-        specifier: ^2.0.0
+        specifier: ^2.0.1
         version: 2.0.1(react-dom@18.2.0)(react@18.2.0)
       react-textarea-autosize:
         specifier: ^8.5.3
