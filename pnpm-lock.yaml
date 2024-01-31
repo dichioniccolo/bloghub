@@ -606,7 +606,7 @@ importers:
         version: 2.2.1(@tiptap/core@2.2.1)(@tiptap/pm@2.2.1)
       '@tiptap/extension-code-block-lowlight':
         specifier: ^2.2.1
-        version: 2.2.1(@tiptap/core@2.2.1)(@tiptap/extension-code-block@2.2.0)(@tiptap/pm@2.2.1)
+        version: 2.2.1(@tiptap/core@2.2.1)(@tiptap/extension-code-block@2.2.1)(@tiptap/pm@2.2.1)
       '@tiptap/extension-color':
         specifier: ^2.2.1
         version: 2.2.1(@tiptap/core@2.2.1)(@tiptap/extension-text-style@2.2.1)
@@ -1142,8 +1142,8 @@ importers:
         specifier: ^7.49.3
         version: 7.49.3(react@18.2.0)
       react-resizable-panels:
-        specifier: ^2.0.1
-        version: 2.0.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^2.0.2
+        version: 2.0.2(react-dom@18.2.0)(react@18.2.0)
       react-textarea-autosize:
         specifier: ^8.5.3
         version: 8.5.3(react@18.2.0)
@@ -4983,7 +4983,7 @@ packages:
       '@tiptap/pm': 2.2.1
     dev: false
 
-  /@tiptap/extension-code-block-lowlight@2.2.1(@tiptap/core@2.2.1)(@tiptap/extension-code-block@2.2.0)(@tiptap/pm@2.2.1):
+  /@tiptap/extension-code-block-lowlight@2.2.1(@tiptap/core@2.2.1)(@tiptap/extension-code-block@2.2.1)(@tiptap/pm@2.2.1):
     resolution: {integrity: sha512-XrgDfqfuyYQ7xtjCALUbh5Qu4NAD9WXjE8T51C9aL60A6eMcd78QUDYtNEpHEIARqHLC1lWfUN1HhdkG3bFtuA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
@@ -4991,17 +4991,7 @@ packages:
       '@tiptap/pm': ^2.0.0
     dependencies:
       '@tiptap/core': 2.2.1(@tiptap/pm@2.2.1)
-      '@tiptap/extension-code-block': 2.2.0(@tiptap/core@2.2.1)(@tiptap/pm@2.2.1)
-      '@tiptap/pm': 2.2.1
-    dev: false
-
-  /@tiptap/extension-code-block@2.2.0(@tiptap/core@2.2.1)(@tiptap/pm@2.2.1):
-    resolution: {integrity: sha512-e+5cZUDJwi405eG1n6A5k8d1B99UGnD2JomoXYwL+YglbJcIuaeGQhx+Re7lTX582z7JO4ViWxVaKZJ3iINaFw==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/core': 2.2.1(@tiptap/pm@2.2.1)
+      '@tiptap/extension-code-block': 2.2.1(@tiptap/core@2.2.1)(@tiptap/pm@2.2.1)
       '@tiptap/pm': 2.2.1
     dev: false
 
@@ -11018,8 +11008,8 @@ packages:
       use-sidecar: 1.1.2(@types/react@18.2.48)(react@18.2.0)
     dev: false
 
-  /react-resizable-panels@2.0.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-h+YJ+E70/UVsWjq4RVJhW0ua+yYFo5AcDkSUaVXLqBjor5CLYl9TypqoAlrYoWvlnZIQuntuo2g3aScTT5XiNw==}
+  /react-resizable-panels@2.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-BIHRt1cuR3M5YuaP7Hj9Qm0TVJF3ZIlYfuf7yvH+Ys6Sg0LaWHyoiT9o4NmvWKYxLbI25L6dzDXiyQeKufA3hw==}
     peerDependencies:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
