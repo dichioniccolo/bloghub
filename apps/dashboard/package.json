@@ -37,7 +37,7 @@
     "@visx/grid": "^3.5.0",
     "@visx/scale": "^3.5.0",
     "@visx/tooltip": "^3.3.0",
-    "ai": "^2.2.32",
+    "ai": "^2.2.33",
     "date-fns": "^3.3.1",
     "dequal": "^2.0.3",
     "encoding": "^0.1.13",
