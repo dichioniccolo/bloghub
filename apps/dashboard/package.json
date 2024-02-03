@@ -24,7 +24,7 @@
     "@acme/stripe": "^0.1.0",
     "@acme/ui": "^0.1.0",
     "@acme/vercel": "^0.1.0",
-    "@floating-ui/react": "^0.26.8",
+    "@floating-ui/react": "^0.26.9",
     "@sentry/nextjs": "^7.99.0",
     "@t3-oss/env-nextjs": "^0.8.0",
     "@upstash/ratelimit": "^1.0.0",
