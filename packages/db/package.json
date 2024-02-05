@@ -27,7 +27,7 @@
   "dependencies": {
     "@auth/core": "0.25.1",
     "@paralleldrive/cuid2": "^2.2.2",
-    "@planetscale/database": "^1.14.0",
+    "@planetscale/database": "^1.15.0",
     "@t3-oss/env-nextjs": "^0.8.0",
     "drizzle-orm": "^0.29.3",
     "mysql2": "^3.9.1",
