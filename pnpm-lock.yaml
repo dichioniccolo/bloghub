@@ -510,8 +510,8 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
       next-auth:
-        specifier: 5.0.0-beta.5
-        version: 5.0.0-beta.5(next@14.1.0)(react@18.2.0)
+        specifier: 5.0.0-beta.6
+        version: 5.0.0-beta.6(next@14.1.0)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1331,8 +1331,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.22
     dev: false
 
-  /@auth/core@0.21.0:
-    resolution: {integrity: sha512-jUWYs8gjy2GvtP9dd/4S9KcwZ660Cm/IkybiAq96/2Ooku9SKk5SUG+UTEwkyLuaQ38ZgfwggfpDOgzsXEcufA==}
+  /@auth/core@0.25.1:
+    resolution: {integrity: sha512-Xt/0oV0ItS38BUeqc98LVYspoXSUifWS48BeEzWXkkdQgLcXEFnF008+CDLyZvnyv/zF4vahwJHeR/J5SK9RaA==}
     peerDependencies:
       nodemailer: ^6.8.0
     peerDependenciesMeta:
@@ -1348,11 +1348,14 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/core@0.25.1:
-    resolution: {integrity: sha512-Xt/0oV0ItS38BUeqc98LVYspoXSUifWS48BeEzWXkkdQgLcXEFnF008+CDLyZvnyv/zF4vahwJHeR/J5SK9RaA==}
+  /@auth/core@0.26.0:
+    resolution: {integrity: sha512-AcuOQZHVUJDIbP6l98GttJNlobo3dxFfUiUEzzESapJ5BxJM+k/Cez3heDkQFhDBeati+FDZpZb4aPtH+odNwA==}
     peerDependencies:
+      '@simplewebauthn/server': ^9.0.1
       nodemailer: ^6.8.0
     peerDependenciesMeta:
+      '@simplewebauthn/server':
+        optional: true
       nodemailer:
         optional: true
     dependencies:
@@ -9877,19 +9880,24 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: true
 
-  /next-auth@5.0.0-beta.5(next@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-tEYIPhm/i0byW4xf9Ldlsnh7ckBQfNvMjOA3B3eXQX9taAQWb8earravSn1fjk4fKfKvaOApFJkks0VeI7Vy/A==}
+  /next-auth@5.0.0-beta.6(next@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-knkj6sfl6NkoilOh886pdJAKWCcJyoEXhR8avqDKffRSK6cfyOdAoAyERMZK4uWS2MwnsuUqhSz0vhndM3ws8Q==}
     peerDependencies:
+      '@simplewebauthn/browser': v9.0.0
       next: ^14
       nodemailer: ^6.6.5
       react: ^18.2.0
     peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
       nodemailer:
         optional: true
     dependencies:
-      '@auth/core': 0.21.0
+      '@auth/core': 0.26.0
       next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
+    transitivePeerDependencies:
+      - '@simplewebauthn/server'
     dev: false
 
   /next-themes@0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0):
