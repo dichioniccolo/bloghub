@@ -21,7 +21,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@vercel/blob": "^0.20.0"
+    "@vercel/blob": "^0.21.0"
   },
   "devDependencies": {
     "@acme/eslint-config": "^0.1.0",
