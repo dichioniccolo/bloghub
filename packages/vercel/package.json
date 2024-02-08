@@ -21,7 +21,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.9.1"
+    "@t3-oss/env-nextjs": "^0.9.2"
   },
   "devDependencies": {
     "@acme/eslint-config": "^0.1.0",
