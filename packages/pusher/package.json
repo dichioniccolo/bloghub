@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.8.0",
+    "@t3-oss/env-nextjs": "^0.9.1",
     "pusher": "^5.2.0",
     "pusher-js": "8.4.0-rc2"
   },
