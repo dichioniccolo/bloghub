@@ -550,14 +550,14 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
       '@planetscale/database':
-        specifier: ^1.15.0
-        version: 1.15.0
+        specifier: ^1.16.0
+        version: 1.16.0
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.3.3)(zod@3.22.4)
       drizzle-orm:
         specifier: ^0.29.3
-        version: 0.29.3(@planetscale/database@1.15.0)(mysql2@3.9.1)
+        version: 0.29.3(@planetscale/database@1.16.0)(mysql2@3.9.1)
       mysql2:
         specifier: ^3.9.1
         version: 3.9.1
@@ -2775,8 +2775,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@planetscale/database@1.15.0:
-    resolution: {integrity: sha512-X4GmGGKE3o6tj/FM+ElDdyVb9BI8Y2OSSeOtyW/gCmVS0XLs4tTppg0cVLL89CS+awEhIIYXFDwqT3a7pbYROg==}
+  /@planetscale/database@1.16.0:
+    resolution: {integrity: sha512-HNUrTqrd8aTRZYMDcsoZ62s36sIWkMMmKZBOehoCWR2WrfNPKq+Q1yQef5okl3pSVlldFnu2h/dbHjOsDTHXug==}
     engines: {node: '>=16'}
     dev: false
 
@@ -7459,7 +7459,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.3(@planetscale/database@1.15.0)(mysql2@3.9.1):
+  /drizzle-orm@0.29.3(@planetscale/database@1.16.0)(mysql2@3.9.1):
     resolution: {integrity: sha512-uSE027csliGSGYD0pqtM+SAQATMREb3eSM/U8s6r+Y0RFwTKwftnwwSkqx3oS65UBgqDOM0gMTl5UGNpt6lW0A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -7530,7 +7530,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      '@planetscale/database': 1.15.0
+      '@planetscale/database': 1.16.0
       mysql2: 3.9.1
     dev: false
 
