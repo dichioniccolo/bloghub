@@ -738,8 +738,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(eslint@8.56.0)
       resend:
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^3.2.0
+        version: 3.2.0
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -11227,8 +11227,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /resend@3.1.0:
-    resolution: {integrity: sha512-H+Ll0bAim1L1slAGzjPZlYAlWqihHAdCM14POqJ0AUgEPfwZQ3Eb6Z9HCO5Wsi3IDMHihPx+O77kzgprj5CchQ==}
+  /resend@3.2.0:
+    resolution: {integrity: sha512-lDHhexiFYPoLXy7zRlJ8D5eKxoXy6Tr9/elN3+Vv7PkUoYuSSD1fpiIfa/JYXEWyiyN2UczkCTLpkT8dDPJ4Pg==}
     engines: {node: '>=18'}
     dependencies:
       '@react-email/render': 0.0.12
