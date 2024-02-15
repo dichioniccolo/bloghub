@@ -96,8 +96,8 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.330.0
-        version: 0.330.0(react@18.2.0)
+        specifier: ^0.331.0
+        version: 0.331.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(@opentelemetry/api@1.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -274,8 +274,8 @@ importers:
         specifier: ^3.14.0
         version: 3.14.0(encoding@0.1.13)(typescript@5.3.3)
       lucide-react:
-        specifier: ^0.330.0
-        version: 0.330.0(react@18.2.0)
+        specifier: ^0.331.0
+        version: 0.331.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(@opentelemetry/api@1.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -413,8 +413,8 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.330.0
-        version: 0.330.0(react@18.2.0)
+        specifier: ^0.331.0
+        version: 0.331.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(@opentelemetry/api@1.7.0)(react-dom@18.2.0)(react@18.2.0)
@@ -606,7 +606,7 @@ importers:
         version: 2.2.3(@tiptap/core@2.2.3)(@tiptap/pm@2.2.3)
       '@tiptap/extension-code-block-lowlight':
         specifier: ^2.2.3
-        version: 2.2.3(@tiptap/core@2.2.3)(@tiptap/extension-code-block@2.2.2)(@tiptap/pm@2.2.3)
+        version: 2.2.3(@tiptap/core@2.2.3)(@tiptap/extension-code-block@2.2.3)(@tiptap/pm@2.2.3)
       '@tiptap/extension-color':
         specifier: ^2.2.3
         version: 2.2.3(@tiptap/core@2.2.3)(@tiptap/extension-text-style@2.2.3)
@@ -680,8 +680,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       lucide-react:
-        specifier: ^0.330.0
-        version: 0.330.0(react@18.2.0)
+        specifier: ^0.331.0
+        version: 0.331.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1124,8 +1124,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@types/react@18.2.55)(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.330.0
-        version: 0.330.0(react@18.2.0)
+        specifier: ^0.331.0
+        version: 0.331.0(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0)
@@ -4980,7 +4980,7 @@ packages:
       '@tiptap/pm': 2.2.3
     dev: false
 
-  /@tiptap/extension-code-block-lowlight@2.2.3(@tiptap/core@2.2.3)(@tiptap/extension-code-block@2.2.2)(@tiptap/pm@2.2.3):
+  /@tiptap/extension-code-block-lowlight@2.2.3(@tiptap/core@2.2.3)(@tiptap/extension-code-block@2.2.3)(@tiptap/pm@2.2.3):
     resolution: {integrity: sha512-zVd1Uq0lenbPhw0Mc4ZkrwPblaUp/lNQXGZ8ukhZYQ/JD1oWRA9s0hWQ8jqMi2hp1uTmH5vYFe5bOYqFpoL14g==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
@@ -4988,17 +4988,7 @@ packages:
       '@tiptap/pm': ^2.0.0
     dependencies:
       '@tiptap/core': 2.2.3(@tiptap/pm@2.2.3)
-      '@tiptap/extension-code-block': 2.2.2(@tiptap/core@2.2.3)(@tiptap/pm@2.2.3)
-      '@tiptap/pm': 2.2.3
-    dev: false
-
-  /@tiptap/extension-code-block@2.2.2(@tiptap/core@2.2.3)(@tiptap/pm@2.2.3):
-    resolution: {integrity: sha512-CKn4xqhpCfwkVdkj//A+LVf0hFrRkBbDx8u3KG+I7cegjXxvDSqb2OGhn/tXpFatLAE50GJiPIvqf+TmhIWBvA==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/core': 2.2.3(@tiptap/pm@2.2.3)
+      '@tiptap/extension-code-block': 2.2.3(@tiptap/core@2.2.3)(@tiptap/pm@2.2.3)
       '@tiptap/pm': 2.2.3
     dev: false
 
@@ -9623,8 +9613,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-react@0.330.0(react@18.2.0):
-    resolution: {integrity: sha512-CQwY+Fpbt2kxCoVhuN0RCZDCYlbYnqB870Bl/vIQf3ER/cnDDQ6moLmEkguRyruAUGd4j3Lc4mtnJosXnqHheA==}
+  /lucide-react@0.331.0(react@18.2.0):
+    resolution: {integrity: sha512-CHFJ0ve9vaZ7bB2VRAl27SlX1ELh6pfNC0jS96qGpPEEzLkLDGq4pDBFU8RhOoRMqsjXqTzLm9U6bZ1OcIHq7Q==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
