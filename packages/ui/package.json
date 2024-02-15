@@ -117,7 +117,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
-    "react-resizable-panels": "^2.0.8",
+    "react-resizable-panels": "^2.0.9",
     "react-textarea-autosize": "^8.5.3",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
