@@ -1,10 +1,7 @@
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 export const fontMapper = {
-  "font-sans": inter.variable,
+  "font-sans": GeistSans.variable,
+  "font-mono": GeistMono.variable,
 };

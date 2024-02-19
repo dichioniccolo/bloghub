@@ -11,7 +11,7 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <head />
-      <body className={cn(fontMapper["font-sans"], "font-sans")}>
+      <body className={cn(fontMapper["font-sans"], fontMapper["font-mono"], "font-sans")}>
         <Providers>{children}</Providers>
       </body>
     </html>
