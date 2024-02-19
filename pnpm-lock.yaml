@@ -96,8 +96,8 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.333.0
-        version: 0.333.0(react@18.2.0)
+        specifier: ^0.334.0
+        version: 0.334.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -274,8 +274,8 @@ importers:
         specifier: ^3.14.0
         version: 3.14.0(encoding@0.1.13)(typescript@5.3.3)
       lucide-react:
-        specifier: ^0.333.0
-        version: 0.333.0(react@18.2.0)
+        specifier: ^0.334.0
+        version: 0.334.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -413,8 +413,8 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.333.0
-        version: 0.333.0(react@18.2.0)
+        specifier: ^0.334.0
+        version: 0.334.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -680,8 +680,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       lucide-react:
-        specifier: ^0.333.0
-        version: 0.333.0(react@18.2.0)
+        specifier: ^0.334.0
+        version: 0.334.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1124,8 +1124,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.333.0
-        version: 0.333.0(react@18.2.0)
+        specifier: ^0.334.0
+        version: 0.334.0(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0)
@@ -9620,8 +9620,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-react@0.333.0(react@18.2.0):
-    resolution: {integrity: sha512-K/TIOTaLy5qAZBlhIBIY16MVPXchlFOeOtz2GE3/hXvKRffl5QjX9USkFKSSc8oSGXglbftSBzs2s0zkLHknaw==}
+  /lucide-react@0.334.0(react@18.2.0):
+    resolution: {integrity: sha512-y0Rv/Xx6qAq4FutZ3L/efl3O9vl6NC/1p0YOg6mBfRbQ4k1JCE2rz0rnV7WC8Moxq1RY99vLATvjcqUegGJTvA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
