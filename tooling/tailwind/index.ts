@@ -3,7 +3,6 @@ import typography from "@tailwindcss/typography";
 import scrollbarHide from "tailwind-scrollbar-hide";
 import type { Config } from "tailwindcss";
 import radix from "tailwindcss-radix";
-import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: "class",

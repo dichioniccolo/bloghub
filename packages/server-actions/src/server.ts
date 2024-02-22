@@ -1,6 +1,6 @@
 import "server-only";
 
-import { revalidateTag } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { headers } from "next/headers";
 import * as Sentry from "@sentry/nextjs";
 import type { z } from "zod";
@@ -9,7 +9,9 @@ import type {
   MiddlewareFn,
   MiddlewareResults,
   ServerAction,
+  ServerQueryHandler,
   ZodActionFactoryParams,
+  ZodQueryFactoryParams,
 } from "./types";
 import { ErrorForClient, SubmissionStatus } from "./types";
 import {
@@ -20,6 +22,46 @@ import {
   normalizeInput,
   toFormData,
 } from "./utils";
+
+async function getContext<
+  const Middlewares extends Record<string, MiddlewareFn>,
+>(
+  middlewares: Middlewares | undefined,
+): Promise<MiddlewareResults<Middlewares> | null> {
+  return middlewares
+    ? ((
+        await Promise.all(
+          Object.entries(middlewares).map(async ([key, fn]) => ({
+            [key]: await fn(),
+          })),
+        )
+      ).reduce(
+        (result, x) => ({ ...result, ...x }),
+        {},
+      ) as MiddlewareResults<Middlewares>)
+    : null;
+}
+
+async function parseSchema<
+  const Middlewares extends Record<string, MiddlewareFn>,
+  Schema extends z.ZodTypeAny,
+>(
+  context: MiddlewareResults<Middlewares> | null,
+  schema: ((ctx: MiddlewareResults<Middlewares>) => Schema) | Schema,
+  input: z.input<Schema>,
+) {
+  let parsedInput: z.SafeParseReturnType<Schema, Schema>;
+
+  const normalizedInput = normalizeInput(input);
+
+  if (typeof schema === "function") {
+    parsedInput = await schema(context!).safeParseAsync(normalizedInput);
+  } else {
+    parsedInput = await schema.safeParseAsync(normalizedInput);
+  }
+
+  return parsedInput;
+}
 
 export function createServerAction<
   Schema extends z.ZodTypeAny,
@@ -49,30 +91,9 @@ export function createServerAction<
       },
       async () => {
         try {
-          const context =
-            middlewares &&
-            ((
-              await Promise.all(
-                Object.entries(middlewares).map(async ([key, fn]) => ({
-                  [key]: await fn(),
-                })),
-              )
-            ).reduce(
-              (result, x) => ({ ...result, ...x }),
-              {},
-            ) as MiddlewareResults<Middlewares>);
+          const context = await getContext(middlewares);
 
-          let parsedInput: z.SafeParseReturnType<Schema, Schema>;
-
-          const normalizedInput = normalizeInput(input);
-
-          if (typeof schema === "function") {
-            parsedInput = await schema(context!).safeParseAsync(
-              normalizedInput,
-            );
-          } else {
-            parsedInput = await schema.safeParseAsync(normalizedInput);
-          }
+          const parsedInput = await parseSchema(context, schema, input);
 
           if (!parsedInput.success) {
             const validationErrors = parsedInput.error.flatten()
@@ -137,4 +158,69 @@ export function createServerAction<
       },
     );
   };
+}
+
+export function createServerQuery<
+  Schema extends z.ZodTypeAny,
+  const Middlewares extends Record<string, MiddlewareFn>,
+  Result,
+>({
+  schema,
+  middlewares,
+  query,
+  cache,
+}: ZodQueryFactoryParams<Schema, Middlewares, Result>): ServerQueryHandler<
+  Schema,
+  Result
+> {
+  const queryHandler: ServerQueryHandler<Schema, Result> = async (input) => {
+    try {
+      const context = await getContext(middlewares);
+
+      const parsedInput = await parseSchema(context, schema, input);
+
+      if (!parsedInput.success) {
+        const validationErrors = parsedInput.error.flatten()
+          .fieldErrors as Partial<Record<keyof Schema, string[]>>;
+
+        return {
+          data: null,
+          validationErrors,
+        };
+      }
+
+      const data = await query({
+        input: parsedInput.data,
+        ctx: context as Middlewares extends Record<string, MiddlewareFn>
+          ? MiddlewareResults<Middlewares>
+          : never,
+      });
+
+      return {
+        data,
+      };
+    } catch (e) {
+      if (e instanceof ErrorForClient) {
+        return {
+          data: null,
+          serverError: e.message,
+        };
+      }
+
+      console.error("Server query error: ", e);
+      return {
+        data: null,
+        serverError: DEFAULT_SERVER_ERROR,
+      };
+    }
+  };
+
+  if (cache) {
+    return unstable_cache(queryHandler, cache.keys, {
+      revalidate: cache.revalidate,
+      tags: cache.tags,
+    });
+  }
+
+  return queryHandler;
 }
