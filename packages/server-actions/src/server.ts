@@ -1,6 +1,8 @@
 import "server-only";
 
 import { revalidateTag, unstable_cache } from "next/cache";
+import { isNotFoundError } from "next/dist/client/components/not-found";
+import { isRedirectError } from "next/dist/client/components/redirect";
 import { headers } from "next/headers";
 import * as Sentry from "@sentry/nextjs";
 import type { z } from "zod";
@@ -17,8 +19,6 @@ import { ErrorForClient, SubmissionStatus } from "./types";
 import {
   DEFAULT_SERVER_ERROR,
   isError,
-  isNextNotFoundError,
-  isNextRedirectError,
   normalizeInput,
   toFormData,
 } from "./utils";
@@ -144,7 +144,7 @@ export function createServerAction<
               status: SubmissionStatus.ERROR,
             };
           }
-          if (isNextRedirectError(e) || isNextNotFoundError(e)) {
+          if (isRedirectError(e) || isNotFoundError(e)) {
             throw e;
           }
           console.error("Server action error: ", e);
