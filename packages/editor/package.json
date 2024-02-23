@@ -61,7 +61,7 @@
     "@acme/tsconfig": "^0.1.0",
     "@types/react": "^18.2.58",
     "@types/react-dom": "^18.2.19",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   },
