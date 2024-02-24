@@ -1145,8 +1145,8 @@ importers:
         specifier: ^7.50.1
         version: 7.50.1(react@18.2.0)
       react-resizable-panels:
-        specifier: ^2.0.9
-        version: 2.0.9(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^2.0.10
+        version: 2.0.10(react-dom@18.2.0)(react@18.2.0)
       react-textarea-autosize:
         specifier: ^8.5.3
         version: 8.5.3(react@18.2.0)
@@ -10963,8 +10963,8 @@ packages:
       use-sidecar: 1.1.2(@types/react@18.2.58)(react@18.2.0)
     dev: false
 
-  /react-resizable-panels@2.0.9(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ZylBvs7oG7Y/INWw3oYGolqgpFvoPW8MPeg9l1fURDeKpxrmUuCHBUmPj47BdZ11MODImu3kZYXG85rbySab7w==}
+  /react-resizable-panels@2.0.10(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1cQl5rp3VDWRL04XXX92lzM1hej2Fe5x+vpjYXcldfOjKwLV5JVrt5T6q0cTB5yfp4Wh+JIdYQ9A5EnZypO1DQ==}
     peerDependencies:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
