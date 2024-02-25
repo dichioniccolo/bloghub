@@ -96,8 +96,8 @@ importers:
         specifier: ^11.0.6
         version: 11.0.6(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.338.0
-        version: 0.338.0(react@18.2.0)
+        specifier: ^0.340.0
+        version: 0.340.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -274,8 +274,8 @@ importers:
         specifier: ^3.15.0
         version: 3.15.0(encoding@0.1.13)(typescript@5.3.3)
       lucide-react:
-        specifier: ^0.338.0
-        version: 0.338.0(react@18.2.0)
+        specifier: ^0.340.0
+        version: 0.340.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -413,8 +413,8 @@ importers:
         specifier: ^11.0.6
         version: 11.0.6(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
-        specifier: ^0.338.0
-        version: 0.338.0(react@18.2.0)
+        specifier: ^0.340.0
+        version: 0.340.0(react@18.2.0)
       next:
         specifier: ^14.1.0
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -680,8 +680,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       lucide-react:
-        specifier: ^0.338.0
-        version: 0.338.0(react@18.2.0)
+        specifier: ^0.340.0
+        version: 0.340.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1127,8 +1127,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2(next@14.1.0)
       lucide-react:
-        specifier: ^0.338.0
-        version: 0.338.0(react@18.2.0)
+        specifier: ^0.340.0
+        version: 0.340.0(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.1.0)(react-dom@18.2.0)(react@18.2.0)
@@ -9561,8 +9561,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-react@0.338.0(react@18.2.0):
-    resolution: {integrity: sha512-Uq+vcn/gp6l01GpDH8SxY6eAvO6Ur2bSU39NxEEJt35OotnVCH5q26TZEVPtJf23gTAncXd3DJQqcezIm6HA7w==}
+  /lucide-react@0.340.0(react@18.2.0):
+    resolution: {integrity: sha512-mWzYhbyy2d+qKuKHh+GWElPwa+kIquTnKbmSLGWOuZy+bjfZCkYD8DQWVFlqI4mQwc4HNxcqcOvtQ7ZS2PwURg==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
