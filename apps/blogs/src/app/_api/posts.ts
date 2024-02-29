@@ -35,7 +35,9 @@ export async function getPosts(
     .offset(offset)
     .limit(limit)
     .orderBy(desc(schema.posts.createdAt))
-    .where(and(eq(schema.posts.projectId, projectId)))
+    .where(
+      and(eq(schema.posts.hidden, 0), eq(schema.posts.projectId, projectId)),
+    )
     .groupBy(
       schema.posts.id,
       schema.posts.title,
@@ -120,9 +122,12 @@ export async function getRandomPostsByDomain(
     })
     .from(schema.posts)
     .where(
-      inArray(
-        schema.posts.id,
-        ids.map((x) => x.id),
+      and(
+        eq(schema.posts.hidden, 0),
+        inArray(
+          schema.posts.id,
+          ids.map((x) => x.id),
+        ),
       ),
     );
 }
