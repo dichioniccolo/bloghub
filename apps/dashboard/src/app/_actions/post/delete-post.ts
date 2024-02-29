@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, count, db, eq, exists, schema } from "@acme/db";
+import { and, db, eq, exists, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -30,9 +30,7 @@ export const deletePost = createServerAction({
         eq(schema.posts.id, postId),
         exists(
           db
-            .select({
-              count: count(),
-            })
+            .select()
             .from(schema.projectMembers)
             .where(
               and(

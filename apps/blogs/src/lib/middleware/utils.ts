@@ -1,14 +1,13 @@
 import type { NextRequest } from "next/server";
 import { userAgent } from "next/server";
-import { Ratelimit } from "@upstash/ratelimit";
 import { ipAddress } from "@vercel/edge";
-import { kv } from "@vercel/kv";
 
 import { db, schema } from "@acme/db";
 import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { env } from "~/env.mjs";
+import { ratelimitVisit } from "../ratelimit";
 
 export const detectBot = (req: NextRequest) => {
   const url = req.nextUrl;
@@ -54,12 +53,7 @@ export async function recordVisit(
   const ip = ipAddress(req) ?? "127.0.0.1";
 
   if (env.NODE_ENV === "production") {
-    const ratelimit = new Ratelimit({
-      redis: kv,
-      limiter: Ratelimit.slidingWindow(2, "1 h"),
-    });
-
-    const { success } = await ratelimit.limit(
+    const { success } = await ratelimitVisit.limit(
       `recordVisit:${ip}:${domain}:${fullKey}`,
     );
 

@@ -1,3 +1,4 @@
+import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { auth } from "@acme/auth";
@@ -5,26 +6,44 @@ import { API_HOSTNAMES } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { ApiMiddleware } from "~/lib/middleware/api-middleware";
+import { ratelimit } from "./lib/ratelimit";
 
-export default auth((req) => {
-  const { path, domain } = parseRequest(req);
+export default function middleware(req: NextRequest, event: NextFetchEvent) {
+  return auth(async (req) => {
+    const { path, domain } = parseRequest(req);
 
-  if (API_HOSTNAMES.has(domain)) {
-    return ApiMiddleware(req);
-  }
+    const ip = req.ip ?? "127.0.0.1";
 
-  if (!req.auth?.user && path !== "/login") {
-    const url = new URL("/login", req.url);
-    if (path !== "/") url.searchParams.set("redirect", path);
-    return NextResponse.redirect(url);
-  }
+    const { success, pending, limit, remaining, reset } =
+      await ratelimit.limit(ip);
 
-  if (!!req.auth?.user && path === "/login") {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+    event.waitUntil(pending);
 
-  return NextResponse.next();
-});
+    if (!success) {
+      const res = NextResponse.json("Rate limit exceeded", { status: 429 });
+      res.headers.set("X-RateLimit-Limit", limit.toString());
+      res.headers.set("X-RateLimit-Remaining", remaining.toString());
+      res.headers.set("X-RateLimit-Reset", reset.toString());
+      return res;
+    }
+
+    if (API_HOSTNAMES.has(domain)) {
+      return ApiMiddleware(req);
+    }
+
+    if (!req.auth?.user && path !== "/login") {
+      const url = new URL("/login", req.url);
+      if (path !== "/") url.searchParams.set("redirect", path);
+      return NextResponse.redirect(url);
+    }
+
+    if (!!req.auth?.user && path === "/login") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    return NextResponse.next();
+  })(req, null!);
+}
 
 export const config = {
   matcher: [

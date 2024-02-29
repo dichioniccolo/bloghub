@@ -2,7 +2,6 @@
 
 import {
   and,
-  count,
   countDistinct,
   db,
   desc,
@@ -27,9 +26,7 @@ export async function getPosts(
     eq(schema.posts.projectId, projectId),
     exists(
       db
-        .select({
-          count: count(),
-        })
+        .select()
         .from(schema.projectMembers)
         .where(
           and(

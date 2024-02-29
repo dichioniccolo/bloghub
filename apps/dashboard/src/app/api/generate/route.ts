@@ -1,7 +1,5 @@
 import type { ServerRuntime } from "next";
-import { Ratelimit } from "@upstash/ratelimit";
 import { ipAddress } from "@vercel/edge";
-import { kv } from "@vercel/kv";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
 
@@ -13,6 +11,7 @@ import {
 
 import { getCurrentUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
+import { ratelimitAi } from "~/lib/ratelimit";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 import { getSystemPrompts } from "./system-prompts";
 
@@ -25,6 +24,23 @@ export const runtime: ServerRuntime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {
+    const ip = ipAddress(req) ?? "127.0.0.1";
+
+    const { success, limit, reset, remaining } = await ratelimitAi.limit(
+      `${ip}-ai`,
+    );
+
+    if (!success) {
+      return new Response("You have reached your request limit for the day.", {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": limit.toString(),
+          "X-RateLimit-Remaining": remaining.toString(),
+          "X-RateLimit-Reset": reset.toString(),
+        },
+      });
+    }
+
     const user = await getCurrentUser();
 
     const dbUser = await db.query.users.findFirst({
@@ -45,27 +61,6 @@ export async function POST(req: Request): Promise<Response> {
     if (!isSubscriptionPlanPro(plan)) {
       return new Response("You must be a pro member to use AI features", {
         status: 403,
-      });
-    }
-
-    const ip = ipAddress(req) ?? "127.0.0.1";
-    const ratelimit = new Ratelimit({
-      redis: kv,
-      limiter: Ratelimit.slidingWindow(50, "1 d"),
-    });
-
-    const { success, limit, reset, remaining } = await ratelimit.limit(
-      `${ip}-ai`,
-    );
-
-    if (!success) {
-      return new Response("You have reached your request limit for the day.", {
-        status: 429,
-        headers: {
-          "X-RateLimit-Limit": limit.toString(),
-          "X-RateLimit-Remaining": remaining.toString(),
-          "X-RateLimit-Reset": reset.toString(),
-        },
       });
     }
   }

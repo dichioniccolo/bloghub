@@ -6,7 +6,6 @@ import type { SQL } from "@acme/db";
 import {
   aliasedTable,
   and,
-  count,
   countDistinct,
   db,
   eq,
@@ -114,9 +113,7 @@ export async function getProjectsCount() {
     schema.projects,
     exists(
       db
-        .select({
-          count: count(),
-        })
+        .select()
         .from(schema.projectMembers)
         .where(
           and(
@@ -206,9 +203,7 @@ export async function getProjectOwner(projectId: string) {
   const owner = await db.query.users.findFirst({
     where: exists(
       db
-        .select({
-          count: count(),
-        })
+        .select()
         .from(schema.projectMembers)
         .where(
           and(
@@ -350,9 +345,7 @@ export async function getProjectAnalytics(
         eq(schema.visits.projectId, projectId),
         exists(
           db
-            .select({
-              count: count(),
-            })
+            .select()
             .from(schema.projectMembers)
             .where(
               and(

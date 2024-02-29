@@ -1,7 +1,7 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { and, count, db, eq, exists, schema } from "@acme/db";
+import { and, db, eq, exists, schema } from "@acme/db";
 import { TEST_HOSTNAME } from "@acme/lib/constants";
 import { getProtocol } from "@acme/lib/url";
 import {
@@ -15,10 +15,6 @@ import { recordVisit } from "./utils";
 
 export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain } = parseRequest(req);
-
-  if (!domain) {
-    return NextResponse.next();
-  }
 
   const url = req.nextUrl;
 
@@ -41,9 +37,7 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
         eq(schema.posts.id, postId),
         exists(
           db
-            .select({
-              count: count(),
-            })
+            .select()
             .from(schema.projects)
             .where(
               and(
@@ -55,8 +49,6 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
       ),
     )
     .then((x) => x[0]);
-
-  console.log(post);
 
   if (!post) {
     // rewrite to the post, the 404 error will be handler in the route
@@ -75,6 +67,5 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
 
   ev.waitUntil(recordVisit(req, finalDomain, post));
 
-  // rewrite everything else to `/[domain]/... dynamic route
   return NextResponse.rewrite(new URL(`/${finalDomain}${path}`, req.url));
 }

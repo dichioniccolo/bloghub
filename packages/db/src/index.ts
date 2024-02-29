@@ -40,7 +40,7 @@ export const schema = {
   ...visits,
 };
 
-export const db = drizzle(client.connection(), {
+export const db = drizzle(client, {
   schema,
   // logger: true,
 });

@@ -5,9 +5,6 @@ import "~/styles/globals.css";
 import { cn } from "@acme/ui";
 import { fontMapper } from "@acme/ui/styles/fonts";
 
-import { Footer } from "./_components/footer";
-import { Nav } from "./_components/nav";
-
 interface Props {
   // modal: ReactNode;
   children: ReactNode;
@@ -24,9 +21,9 @@ export default function Layout({ children }: Props) {
         )}
       >
         {/* <MarketingProviders modal={modal}> */}
-        <Nav />
+        {/* <Nav /> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
         {/* </MarketingProviders> */}
       </body>
     </html>
