@@ -20,7 +20,7 @@ export const updatePost = createServerAction({
     body: z.object({
       title: RequiredString,
       description: z.string().optional().nullable(),
-      content: RequiredString,
+      content: z.string().optional().nullable(),
     }),
   }),
   initialState: undefined as unknown as Pick<Post, "id">,
@@ -36,7 +36,7 @@ export const updatePost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    const postContent = Buffer.from(content, "base64").toString("utf-8");
+    const postContent = Buffer.from(content ?? "", "base64").toString("utf-8");
 
     const post = await db.transaction(async (tx) => {
       await tx
