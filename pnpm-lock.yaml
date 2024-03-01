@@ -253,8 +253,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(react-dom@18.2.0)(react@18.2.0)
       ai:
-        specifier: ^3.0.0
-        version: 3.0.0(react@18.2.0)(solid-js@1.8.14)(svelte@4.2.10)(vue@3.4.15)(zod@3.22.4)
+        specifier: ^3.0.1
+        version: 3.0.1(react@18.2.0)(solid-js@1.8.14)(svelte@4.2.10)(vue@3.4.15)(zod@3.22.4)
       date-fns:
         specifier: ^3.3.1
         version: 3.3.1
@@ -401,8 +401,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       ai:
-        specifier: ^3.0.0
-        version: 3.0.0(react@18.2.0)(solid-js@1.8.14)(svelte@4.2.10)(vue@3.4.15)(zod@3.22.4)
+        specifier: ^3.0.1
+        version: 3.0.1(react@18.2.0)(solid-js@1.8.14)(svelte@4.2.10)(vue@3.4.15)(zod@3.22.4)
       date-fns:
         specifier: ^3.3.1
         version: 3.3.1
@@ -6299,8 +6299,8 @@ packages:
       indent-string: 4.0.0
     dev: true
 
-  /ai@3.0.0(react@18.2.0)(solid-js@1.8.14)(svelte@4.2.10)(vue@3.4.15)(zod@3.22.4):
-    resolution: {integrity: sha512-m/b1qqhA8/6kpDE4OSprEtZLTL7qLD72Z0O5Xd93ivC2uca02Bh5WEm2WebGO/lgsa9/LO9BC9LaWXj2Fo9quQ==}
+  /ai@3.0.1(react@18.2.0)(solid-js@1.8.14)(svelte@4.2.10)(vue@3.4.15)(zod@3.22.4):
+    resolution: {integrity: sha512-rzBJFhGQAMMzQEPCAWPc2XB4wQ4ce2k/fo9MTWkp2awPsZX2d11DsXF8BMDYFVO/xioEPTeix138jVQEZEpY7g==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
