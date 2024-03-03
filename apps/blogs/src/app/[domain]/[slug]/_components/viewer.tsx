@@ -1,34 +1,24 @@
 "use client";
 
 import type { Content } from "@tiptap/react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
 import { Loader2 } from "lucide-react";
 
-import {
-  EditorExtensions,
-  ResizableMedia,
-  TiptapEditorProps,
-} from "@acme/editor";
+import { useBlockEditor } from "@acme/editor";
 
 interface Props {
   value: Content;
 }
 
 export function Viewer({ value }: Props) {
-  const editor = useEditor({
+  const { editor } = useBlockEditor({
+    initialContent: value,
     editable: false,
-    editorProps: TiptapEditorProps,
-    extensions: [
-      ...EditorExtensions({
-        openLinkOnClick: true,
-      }),
-      ResizableMedia,
-    ],
-    content: value,
+    onUpload: () => Promise.resolve(""),
   });
 
   if (!editor) {
-    return <Loader2 className="h-6 w-6 animate-spin" />;
+    return <Loader2 className="nimate-spin size-6" />;
   }
 
   return <EditorContent editor={editor} />;

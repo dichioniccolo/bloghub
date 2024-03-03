@@ -1,7 +1,7 @@
 import type { ServerRuntime } from "next";
 import { ipAddress } from "@vercel/edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import { Configuration, OpenAIApi } from "openai-edge";
+import OpenAI from "openai";
 
 import { db, eq, schema } from "@acme/db";
 import {
@@ -13,12 +13,11 @@ import { getCurrentUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
 import { ratelimitAi } from "~/lib/ratelimit";
 import { AiGenerateSchema } from "~/lib/validation/schema";
-import { getSystemPrompts } from "./system-prompts";
+import { getFunctions, getSystemPrompts } from "./system-prompts";
 
-const config = new Configuration({
+const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(config);
 
 export const runtime: ServerRuntime = "edge";
 
@@ -75,7 +74,8 @@ export async function POST(req: Request): Promise<Response> {
 
   const { prompt, type } = parsedResult.data;
 
-  const response = await openai.createChatCompletion({
+  const response = await openai.chat.completions.create({
+    stream: true,
     model: "gpt-3.5-turbo",
     messages: [
       {
@@ -84,19 +84,12 @@ export async function POST(req: Request): Promise<Response> {
       },
       { role: "user", content: prompt },
     ],
+    functions: getFunctions(type),
     temperature: 0.7,
     frequency_penalty: 0,
     presence_penalty: 0,
-    stream: true,
     n: 1,
   });
-
-  // If the response is unauthorized, return a 500 error
-  if (response.status === 401) {
-    return new Response("You are unauthorized to perform this action", {
-      status: 500,
-    });
-  }
 
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);

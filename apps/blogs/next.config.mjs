@@ -123,7 +123,7 @@ const config = {
     "@acme/vercel",
   ],
   eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
+  // typescript: { ignoreBuildErrors: true },
   experimental: {
     useDeploymentId: true,
     useDeploymentIdServerActions: true,

@@ -1,3 +1,5 @@
+import type { ChatCompletionCreateParams } from "openai/resources/chat";
+
 export const getSystemPrompts = (
   type: "completion" | "summarize" | "fix_grammar_spelling",
 ): string => {
@@ -28,3 +30,23 @@ export const getSystemPrompts = (
     "You need to format your text with HTML tags."
   );
 };
+
+export const getFunctions = (
+  type: "completion" | "summarize" | "fix_grammar_spelling",
+) => {
+  if (type === "fix_grammar_spelling") {
+    return fixGrammarSpelling;
+  }
+
+  if (type === "summarize") {
+    return summarize;
+  }
+
+  return completion;
+};
+
+export const completion: ChatCompletionCreateParams.Function[] = [];
+
+export const summarize: ChatCompletionCreateParams.Function[] = [];
+
+export const fixGrammarSpelling: ChatCompletionCreateParams.Function[] = [];

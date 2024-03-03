@@ -27,7 +27,7 @@ export const {
   auth,
   signIn,
   signOut,
-  update: updateSession,
+  unstable_update: updateSession,
 } = NextAuth({
   adapter: DrizzleAdapter(db),
   session: {

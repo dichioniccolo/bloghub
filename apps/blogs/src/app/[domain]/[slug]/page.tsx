@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Metadata, ServerRuntime } from "next";
 import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
-import type { JSONContent } from "@tiptap/core";
+import type { Content } from "@tiptap/react";
 import { format } from "date-fns";
 
 import { getPostIdFromSlug } from "@acme/lib/utils";
@@ -10,7 +10,7 @@ import { Image } from "@acme/ui/components/image";
 
 import { getPostById } from "~/app/_api/posts";
 import { RandomPosts } from "./_components/random-posts";
-import { Viewer } from "./_components/viewer";
+import { ViewerWrapper } from "./_components/viewer-wrapper";
 
 interface Props {
   params: {
@@ -118,7 +118,7 @@ export default async function Page({ params: { domain, slug } }: Props) {
                 <div className="relative mb-10 pb-14">
                   <div className="mx-auto mb-10 break-words">
                     {/* <div className="prose prose-lg mx-auto mb-10 break-words dark:prose-invert xl:prose-xl"> */}
-                    <Viewer value={post.content as JSONContent} />
+                    <ViewerWrapper value={post.content as Content} />
                   </div>
                 </div>
                 <div className="mb-5 flex w-full flex-row flex-wrap justify-center md:mb-0">
