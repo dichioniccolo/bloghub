@@ -685,6 +685,9 @@ importers:
       '@tiptap/suggestion':
         specifier: ^2.2.4
         version: 2.2.4(@tiptap/core@2.2.4)(@tiptap/pm@2.2.4)
+      ai:
+        specifier: ^3.0.5
+        version: 3.0.5(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
       cmdk:
         specifier: ^0.2.1
         version: 0.2.1(@types/react@18.2.64)(react-dom@18.2.0)(react@18.2.0)

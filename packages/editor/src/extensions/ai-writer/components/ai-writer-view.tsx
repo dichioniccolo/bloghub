@@ -3,7 +3,6 @@ import { createId } from "@paralleldrive/cuid2";
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
 import type { NodeViewWrapperProps } from "@tiptap/react";
 import { NodeViewWrapper } from "@tiptap/react";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@acme/ui/components/ui/button";
@@ -16,6 +15,7 @@ import { Surface } from "../../../components/ui/surface";
 import { ToolbarDivider } from "../../../components/ui/toolbar";
 import type { AiTone } from "../../../lib/constants";
 import { tones } from "../../../lib/constants";
+import { useEditorCompletion } from "../hooks/use-ai-completion";
 
 export interface DataProps {
   text: string;
@@ -32,9 +32,13 @@ export const AiWriterView = ({
   getPos,
   deleteNode,
 }: NodeViewWrapperProps) => {
-  // const aiOptions = editor.extensionManager.extensions.find(
-  //   (ext: Extension) => ext.name === "ai",
-  // ).options;
+  const { complete, completion } = useEditorCompletion({
+    body: {
+      type: "completion",
+    },
+    onResponse: () => {},
+    onFinish: () => {},
+  });
 
   const [data, setData] = useState<DataProps>({
     text: "",
@@ -44,8 +48,6 @@ export const AiWriterView = ({
     language: undefined,
   });
   const currentTone = tones.find((t) => t.value === data.tone);
-  const [previewText, setPreviewText] = useState(undefined);
-  const [isFetching, setIsFetching] = useState(false);
   const textareaId = useMemo(() => createId(), []);
 
   const generateText = useCallback(async () => {
@@ -64,8 +66,6 @@ export const AiWriterView = ({
       return;
     }
 
-    setIsFetching(true);
-
     const payload = {
       text: dataText,
       textLength: textLength,
@@ -76,7 +76,7 @@ export const AiWriterView = ({
     };
 
     try {
-      // const { baseUrl, appId, token } = aiOptions
+      await complete(dataText);
       // const response = await fetch(`${baseUrl}/text/prompt`, {
       //   method: 'POST',
       //   headers: {
@@ -98,19 +98,17 @@ export const AiWriterView = ({
       // }
 
       // setPreviewText(text)
-
-      setIsFetching(false);
     } catch {
       toast.error("An error occurred");
     }
-  }, [data]);
+  }, [complete, data]);
 
   const insert = useCallback(() => {
     const from = getPos();
     const to = from + node.nodeSize;
 
-    editor.chain().focus().insertContentAt({ from, to }, previewText).run();
-  }, [editor, previewText, getPos, node.nodeSize]);
+    editor.chain().focus().insertContentAt({ from, to }, completion).run();
+  }, [editor, completion, getPos, node.nodeSize]);
 
   const discard = useCallback(() => {
     deleteNode();
@@ -137,13 +135,12 @@ export const AiWriterView = ({
     <NodeViewWrapper data-drag-handle>
       <Panel noShadow className="w-full">
         <div className="flex flex-col p-1">
-          {isFetching && <Loader2 className="size-4 animate-spin" />}
-          {previewText && (
+          {completion && (
             <>
               <PanelHeadline>Preview</PanelHeadline>
               <div
                 className="relative mb-4 ml-2.5 max-h-[14rem] overflow-y-auto border-l-4 border-neutral-100 bg-white px-4 text-base text-black dark:border-neutral-700 dark:bg-black dark:text-white"
-                dangerouslySetInnerHTML={{ __html: previewText }}
+                dangerouslySetInnerHTML={{ __html: completion }}
               />
             </>
           )}
@@ -203,7 +200,7 @@ export const AiWriterView = ({
               </Dropdown.Root>
             </div>
             <div className="flex w-auto justify-between gap-1">
-              {previewText && (
+              {completion && (
                 <Button
                   variant="ghost"
                   className="text-red-500 hover:bg-red-500/10 hover:text-red-500"
@@ -213,23 +210,15 @@ export const AiWriterView = ({
                   Discard
                 </Button>
               )}
-              {previewText && (
-                <Button
-                  variant="ghost"
-                  onClick={insert}
-                  disabled={!previewText}
-                >
+              {completion && (
+                <Button variant="ghost" onClick={insert} disabled={!completion}>
                   <Icon name="Check" />
                   Insert
                 </Button>
               )}
               <Button onClick={generateText} style={{ whiteSpace: "nowrap" }}>
-                {previewText ? (
-                  <Icon name="Repeat" />
-                ) : (
-                  <Icon name="Sparkles" />
-                )}
-                {previewText ? "Regenerate" : "Generate text"}
+                {completion ? <Icon name="Repeat" /> : <Icon name="Sparkles" />}
+                {completion ? "Regenerate" : "Generate text"}
               </Button>
             </div>
           </div>

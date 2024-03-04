@@ -71,8 +71,8 @@ export const useTextmenuCommands = (editor: Editor) => {
   );
 
   const onSimplify = useCallback(() => {
-    // editor.chain().focus().aiSimplify().run();
-  }, []);
+    editor.chain().focus().setAiWriter().run();
+  }, [editor]);
   const onEmojify = useCallback(() => {
     // editor.chain().focus().aiEmojify().run();
   }, []);
