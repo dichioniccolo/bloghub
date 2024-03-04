@@ -13,7 +13,7 @@ import { getCurrentUser } from "~/app/_api/get-user";
 import { env } from "~/env.mjs";
 import { ratelimitAi } from "~/lib/ratelimit";
 import { AiGenerateSchema } from "~/lib/validation/schema";
-import { getFunctions, getSystemPrompts } from "./system-prompts";
+import { getSystemPrompts } from "./system-prompts";
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
@@ -84,7 +84,7 @@ export async function POST(req: Request): Promise<Response> {
       },
       { role: "user", content: prompt },
     ],
-    functions: getFunctions(type),
+    // functions: getFunctions(type),
     temperature: 0.7,
     frequency_penalty: 0,
     presence_penalty: 0,

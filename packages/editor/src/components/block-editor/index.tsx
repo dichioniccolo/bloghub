@@ -41,7 +41,7 @@ export const BlockEditor = ({
 
   return (
     <div className="flex h-full" ref={menuContainerRef}>
-      <div className="relative flex h-full flex-1 flex-col overflow-hidden">
+      <div className="relative flex h-full flex-1 flex-col">
         <div className="flex items-center justify-between border-b border-border">
           {editor && <WordCount editor={editor} />}
         </div>

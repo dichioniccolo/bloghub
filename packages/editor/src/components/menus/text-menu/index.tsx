@@ -11,6 +11,7 @@ import {
   ToolbarDivider,
   ToolbarWrapper,
 } from "../../ui/toolbar";
+import { AIDropdown } from "./components/ai-dropdown";
 import { ContentTypePicker } from "./components/content-type-picker";
 import { EditLinkPopover } from "./components/edit-link-popover";
 import { FontSizePicker } from "./components/font-size-picker";
@@ -43,7 +44,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       updateDelay={100}
     >
       <ToolbarWrapper>
-        {/* <AIDropdown
+        <AIDropdown
           onCompleteSentence={commands.onCompleteSentence}
           onEmojify={commands.onEmojify}
           onFixSpelling={commands.onFixSpelling}
@@ -53,7 +54,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
           onTldr={commands.onTldr}
           onTone={commands.onTone}
           onTranslate={commands.onTranslate}
-        /> */}
+        />
         {/* <ToolbarDivider /> */}
         <MemoContentTypePicker options={blockOptions} />
         {/* <MemoFontFamilyPicker
