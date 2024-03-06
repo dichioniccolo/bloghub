@@ -77,27 +77,6 @@ export const AiWriterView = ({
 
     try {
       await complete(dataText);
-      // const response = await fetch(`${baseUrl}/text/prompt`, {
-      //   method: 'POST',
-      //   headers: {
-      //     accept: 'application.json',
-      //     'Content-Type': 'application/json',
-      //     'X-App-Id': appId.trim(),
-      //     Authorization: `Bearer ${token.trim()}`,
-      //   },
-      //   body: JSON.stringify(payload),
-      // })
-
-      // const json = await response.json()
-      // const text = json.response
-
-      // if (!text.length) {
-      //   setIsFetching(false)
-
-      //   return
-      // }
-
-      // setPreviewText(text)
     } catch {
       toast.error("An error occurred");
     }
