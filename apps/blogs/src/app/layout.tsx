@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
 
 import "~/styles/globals.css";
+import "~/styles/tiptap.css";
 
 import { cn } from "@acme/ui";
 import { fontMapper } from "@acme/ui/styles/fonts";
@@ -11,7 +12,13 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <head />
-      <body className={cn(fontMapper["font-sans"], fontMapper["font-mono"], "font-sans")}>
+      <body
+        className={cn(
+          fontMapper["font-sans"],
+          fontMapper["font-mono"],
+          "font-sans",
+        )}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

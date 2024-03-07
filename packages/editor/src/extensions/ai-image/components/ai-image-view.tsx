@@ -135,6 +135,12 @@ export const AiImageView = ({
     [],
   );
 
+  const editable = editor.options.editable;
+
+  if (!editable) {
+    return null;
+  }
+
   return (
     <NodeViewWrapper data-drag-handle>
       <Panel noShadow className="w-full">

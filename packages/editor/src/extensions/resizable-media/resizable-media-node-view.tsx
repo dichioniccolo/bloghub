@@ -239,6 +239,7 @@ export const ResizableMediaNodeView = ({
         {editable && (
           <>
             <button
+              type="button"
               className="absolute right-1 top-[50%] z-50 h-24 w-2.5 translate-y-[-50%] cursor-col-resize rounded opacity-50 group-hover:border-2 group-hover:border-white group-hover:bg-black"
               title="Resize"
               onClick={({ clientX }) => setLastClientX(clientX)}

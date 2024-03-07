@@ -82,6 +82,7 @@ export const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
       tooltipShortcut,
       active,
       activeClassname,
+      type,
       ...rest
     },
     ref,
@@ -98,6 +99,7 @@ export const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
         variant={variant}
         size={size}
         ref={ref}
+        type={type ?? "button"}
         {...rest}
       >
         {children}

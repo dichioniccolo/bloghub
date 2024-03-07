@@ -164,22 +164,6 @@ export function EditPostFormContent({
         }
         onUpload={uploadFile}
       />
-      {/* <TiptapEditor
-        initialContent={post.content}
-        extensions={[
-          SlashCommand,
-          ResizableMediaWithUploader.configure({
-            uploadFn: uploadFile,
-          }),
-        ]}
-        onDebouncedUpdate={(content) =>
-          onSubmit({
-            title: form.getValues("title"),
-            description: form.getValues("description"),
-            content,
-          })
-        }
-      /> */}
     </>
   );
 }

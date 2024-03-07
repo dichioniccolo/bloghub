@@ -23,6 +23,7 @@ export { Paragraph } from "@tiptap/extension-paragraph";
 export { Superscript } from "@tiptap/extension-superscript";
 // export { Collaboration } from '@tiptap/extension-collaboration'
 // export { FileHandler } from '@tiptap-pro/extension-file-handler'
+export { AiContent } from "./ai-content";
 export { AiImage } from "./ai-image";
 export { AiWriter } from "./ai-writer";
 export { BlockquoteFigure } from "./blockquote-figure";

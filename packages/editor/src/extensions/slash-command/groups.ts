@@ -15,16 +15,16 @@ export const GROUPS: Group[] = [
           editor.chain().focus().setAiWriter().run();
         },
       },
-      {
-        name: "aiImage",
-        label: "AI Image",
-        iconName: "Sparkles",
-        description: "Generate an image from text",
-        shouldBeHidden: (editor) => editor.isActive("columns"),
-        action: (editor) => {
-          editor.chain().focus().setAiImage().run();
-        },
-      },
+      // {
+      //   name: "aiImage",
+      //   label: "AI Image",
+      //   iconName: "Sparkles",
+      //   description: "Generate an image from text",
+      //   shouldBeHidden: (editor) => editor.isActive("columns"),
+      //   action: (editor) => {
+      //     editor.chain().focus().setAiImage().run();
+      //   },
+      // },
     ],
   },
   {

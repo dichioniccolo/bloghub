@@ -11,7 +11,6 @@ import { TableColumnMenu, TableRowMenu } from "../../extensions/table/menus";
 import { useBlockEditor } from "../../hooks/use-block-editor";
 import { LinkMenu } from "../menus/link-menu";
 import { TextMenu } from "../menus/text-menu";
-import { WordCount } from "../word-count";
 
 interface Props {
   initialContent?: Content;
@@ -40,16 +39,16 @@ export const BlockEditor = ({
   }
 
   return (
-    <div className="flex h-full" ref={menuContainerRef}>
-      <div className="relative flex h-full flex-1 flex-col">
-        <div className="flex items-center justify-between border-b border-border">
+    <div className="flex" ref={menuContainerRef}>
+      <div className="relative flex flex-1 flex-col overflow-hidden">
+        {/* <div className="flex items-center justify-between border-b border-border">
           {editor && <WordCount editor={editor} />}
-        </div>
+        </div> */}
         <EditorContent
           editor={editor}
           // @ts-expect-error dunno
           ref={editorRef}
-          className="min-h-screen flex-1 overflow-y-auto"
+          className="max-h-[550px] flex-1 overflow-y-auto"
         />
         <LinkMenu editor={editor} appendTo={menuContainerRef} />
         <TextMenu editor={editor} />

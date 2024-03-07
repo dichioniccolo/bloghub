@@ -7,6 +7,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Construction } from "lucide-react";
 
+import { AI } from "@acme/editor/ai";
 import { subdomainUrl } from "@acme/lib/url";
 import { cn } from "@acme/ui";
 import {
@@ -93,14 +94,14 @@ export const viewport: Viewport = {
   ],
 };
 
-export const dynamic = "force-dynamic";
-
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html className={cn(fontMapper["font-sans"], "h-full font-sans")} lang="en">
       <head />
-      <body className={cn(fontMapper["font-sans"], "font-sans")}>
-        <Providers>{children}</Providers>
+      <body className="h-full">
+        <Providers>
+          <AI>{children}</AI>
+        </Providers>
         <Analytics />
         <Popover>
           <PopoverTrigger className="fixed bottom-4 right-4 z-50 rounded-full border bg-background p-4">

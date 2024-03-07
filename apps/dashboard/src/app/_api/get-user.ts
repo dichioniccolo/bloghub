@@ -1,11 +1,10 @@
 "use server";
 
-import { cache } from "react";
 import { notFound } from "next/navigation";
 
 import { auth } from "@acme/auth";
 
-export const getCurrentUser = cache(async () => {
+export const getCurrentUser = async () => {
   const session = await auth();
 
   if (!session?.user) {
@@ -20,4 +19,4 @@ export const getCurrentUser = cache(async () => {
     email,
     image: picture ?? image,
   };
-});
+};
