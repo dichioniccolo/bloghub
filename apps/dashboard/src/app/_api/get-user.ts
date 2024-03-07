@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { auth } from "@acme/auth";
 
-export const getCurrentUser = async () => {
+export async function getCurrentUser() {
   const session = await auth();
 
   if (!session?.user) {
@@ -19,4 +19,4 @@ export const getCurrentUser = async () => {
     email,
     image: picture ?? image,
   };
-};
+}

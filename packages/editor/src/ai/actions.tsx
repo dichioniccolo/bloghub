@@ -1,14 +1,8 @@
-import "server-only";
-
 import type { ReactNode } from "react";
 import { createAI, getMutableAIState, render } from "ai/rsc";
 import OpenAI from "openai";
 
 import { env } from "../env.mjs";
-
-const openai = new OpenAI({
-  apiKey: env.OPENAI_API_KEY,
-});
 
 async function submitUserMessage(userInput: string) {
   "use server";
@@ -23,6 +17,10 @@ async function submitUserMessage(userInput: string) {
       content: userInput,
     },
   ]);
+
+  const openai = new OpenAI({
+    apiKey: env.OPENAI_API_KEY,
+  });
 
   const ui = render({
     model: "gpt-3.5-turbo",
