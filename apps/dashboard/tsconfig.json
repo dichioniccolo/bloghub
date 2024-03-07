@@ -13,13 +13,6 @@
     ],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "*.ts",
-    "*.mjs",
-    "src",
-    "../../packages/editor/src/ai"
-  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "*.ts", "*.mjs", "src"],
   "exclude": ["node_modules"]
 }
