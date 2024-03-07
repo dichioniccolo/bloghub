@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "inngest-cli dev -u http://localhost:3000/api/inngest",
+    "dev": "npx inngest-cli dev -u http://localhost:3000/api/inngest",
     "lint": "eslint .",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"

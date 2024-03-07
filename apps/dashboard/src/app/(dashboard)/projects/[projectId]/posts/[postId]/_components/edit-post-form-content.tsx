@@ -2,13 +2,10 @@
 "use client";
 
 import { useCallback } from "react";
+import dynamic from "next/dynamic";
 import { toast } from "sonner";
 
-import {
-  ResizableMediaWithUploader,
-  SlashCommand,
-  TiptapEditor,
-} from "@acme/editor";
+// import { BlockEditor } from "@acme/editor";
 import { determineMediaType } from "@acme/lib/utils";
 import { useServerAction } from "@acme/server-actions/client";
 import { cn } from "@acme/ui";
@@ -34,6 +31,13 @@ interface Props {
   formStatus: "saving" | "saved" | "error";
   formStatusChanged(status: "saving" | "saved" | "error"): void;
 }
+
+const BlockEditor = dynamic(
+  () => import("@acme/editor").then((x) => x.BlockEditor),
+  {
+    ssr: false,
+  },
+);
 
 export function EditPostFormContent({
   preview,
@@ -148,7 +152,19 @@ export function EditPostFormContent({
           )}
         />
       </Form>
-      <TiptapEditor
+
+      <BlockEditor
+        initialContent={post.content}
+        onDebouncedUpdate={(content) =>
+          onSubmit({
+            title: form.getValues("title"),
+            description: form.getValues("description"),
+            content,
+          })
+        }
+        onUpload={uploadFile}
+      />
+      {/* <TiptapEditor
         initialContent={post.content}
         extensions={[
           SlashCommand,
@@ -163,7 +179,7 @@ export function EditPostFormContent({
             content,
           })
         }
-      />
+      /> */}
     </>
   );
 }

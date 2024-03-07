@@ -121,7 +121,7 @@ const config = {
     "@acme/ui",
   ],
   eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
+  // typescript: { ignoreBuildErrors: true },
   experimental: {
     useDeploymentId: true,
     useDeploymentIdServerActions: true,
