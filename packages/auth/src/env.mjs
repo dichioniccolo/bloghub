@@ -22,7 +22,7 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     AUTH_SECRET: process.env.AUTH_SECRET,
-    AUTH_URL: process.env.AUTH_URL,
+    // AUTH_URL: process.env.AUTH_URL,
   },
   skipValidation:
     !!process.env.SKIP_ENV_VALIDATION ||
