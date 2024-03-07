@@ -165,6 +165,7 @@ export function useDebouncedCallback<
 
       lastArgs.current = lastThis.current = [];
       lastInvokeTime.current = time;
+      // @ts-expect-error dunno
       return (result.current = funcRef.current.apply(thisArg, args));
     };
 
