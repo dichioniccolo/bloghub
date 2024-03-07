@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { ReactNode } from "react";
 import { createAI, getMutableAIState, render } from "ai/rsc";
 import OpenAI from "openai";
