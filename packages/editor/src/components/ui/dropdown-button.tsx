@@ -42,6 +42,7 @@ export const DropdownButton = forwardRef<
       className={buttonClass}
       disabled={disabled}
       onClick={onClick}
+      type="button"
     >
       {children}
     </button>

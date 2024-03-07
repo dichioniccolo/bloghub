@@ -149,11 +149,9 @@ function startImageUpload(
           // the image
           if (pos == null) return;
 
-          const node = schema.nodes.resizableMedia!.create({
+          const node = schema.nodes.imageBlock!.create({
             src,
             alt: file.name,
-            title: file.name,
-            "media-type": file.type.startsWith("image") ? "img" : "video",
           });
           const transaction = view.state.tr
             .replaceWith(pos, pos, node)

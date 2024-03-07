@@ -1,18 +1,16 @@
 import "server-only";
 
 import type { ReactNode } from "react";
-import { createAI, createStreamableUI, getMutableAIState } from "ai/rsc";
+import { createAI, getMutableAIState, render } from "ai/rsc";
 import OpenAI from "openai";
 
-import { spinner } from "~/components/spinner";
-import { env } from "~/env.mjs";
-import { runOpenAICompletion } from "~/lib/openai";
+import { env } from "../env.mjs";
 
 const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
 
-function submitUserMessage(content: string) {
+async function submitUserMessage(userInput: string) {
   "use server";
 
   const aiState = getMutableAIState<typeof AI>();
@@ -22,15 +20,13 @@ function submitUserMessage(content: string) {
     ...aiState.get(),
     {
       role: "user",
-      content: content,
+      content: userInput,
     },
   ]);
 
-  const reply = createStreamableUI(spinner);
-
-  const completion = runOpenAICompletion(openai, {
+  const ui = render({
     model: "gpt-3.5-turbo",
-    stream: true,
+    provider: openai,
     messages: [
       {
         role: "system",
@@ -45,28 +41,35 @@ function submitUserMessage(content: string) {
           Beside this, you can not chat with users, you can only help them with the tasks mentioned above.
         `,
       },
-      ...aiState.get().map((info) => ({
-        role: info.role,
-        content: info.content,
-        name: info.name,
-      })),
+      {
+        role: "user",
+        content: userInput,
+      },
     ],
-    functions: [],
+    // `text` is called when an AI returns a text response (as opposed to a tool call).
+    // Its content is streamed from the LLM, so this function will be called
+    // multiple times with `content` being incremental.
+    text: ({ content, done }) => {
+      // When it's the final content, mark the state as done and ready for the client to access.
+      if (done) {
+        aiState.done([
+          ...aiState.get(),
+          {
+            role: "assistant",
+            content,
+          },
+        ]);
+      }
+
+      return <p>{content}</p>;
+    },
+    // tools: {},
     temperature: 0,
-  });
-
-  completion.onTextContent((content, isFinal) => {
-    reply.update(<>{content}</>);
-
-    if (isFinal) {
-      reply.done();
-      aiState.done([...aiState.get(), { role: "assistant", content }]);
-    }
   });
 
   return {
     id: Date.now(),
-    display: reply.value,
+    display: ui,
   };
 }
 

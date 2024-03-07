@@ -3,7 +3,6 @@ import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import { RESIZABLE_MEDIA_NAME } from "@acme/lib/constants";
 
-import type { UploadFunctionType } from "../image-upload/upload-image-plugin";
 import { ResizableMediaNodeView } from "./resizable-media-node-view";
 
 declare module "@tiptap/core" {
@@ -115,10 +114,10 @@ export const ResizableMedia = Node.create<MediaOptions>({
     //   ];
     // }
 
-    // if (!mediaType)
-    //   console.error(
-    //     "TiptapMediaExtension-renderHTML method: Media Type not set, going default with image",
-    //   );
+    if (!mediaType)
+      console.error(
+        "TiptapMediaExtension-renderHTML method: Media Type not set, going default with image",
+      );
 
     return [
       "img",
@@ -149,10 +148,10 @@ export const ResizableMedia = Node.create<MediaOptions>({
           //   });
           // }
 
-          // if (!mediaType)
-          //   console.error(
-          //     "TiptapMediaExtension-setMedia: Media Type not set, going default with image",
-          //   );
+          if (!mediaType)
+            console.error(
+              "TiptapMediaExtension-setMedia: Media Type not set, going default with image",
+            );
 
           return commands.insertContent({
             type: this.name,
@@ -197,14 +196,3 @@ export const ResizableMedia = Node.create<MediaOptions>({
     ];
   },
 });
-
-export interface MediaWithUploaderOptions {
-  uploadFn: UploadFunctionType;
-}
-
-// export const ResizableMediaWithUploader =
-//   ResizableMedia.extend<MediaWithUploaderOptions>({
-//     addProseMirrorPlugins() {
-//       return [UploadImagesPlugin(this.options.uploadFn)];
-//     },
-//   });

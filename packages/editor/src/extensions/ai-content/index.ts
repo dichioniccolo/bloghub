@@ -2,18 +2,23 @@ import { createId } from "@paralleldrive/cuid2";
 import { mergeAttributes, Node } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
-import { AiWriterView } from "./components/ai-writer-view";
+import { AiContentView } from "./components/ai-content-view";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
-    aiWriter: {
-      setAiWriter: () => ReturnType;
+    aiContent: {
+      setAiContent: (content: string) => ReturnType;
+      setAiContentAt: (options: {
+        from: number;
+        to: number;
+        content: string;
+      }) => ReturnType;
     };
   }
 }
 
-export const AiWriter = Node.create({
-  name: "aiWriter",
+export const AiContent = Node.create({
+  name: "aiContent",
 
   group: "block",
 
@@ -36,20 +41,6 @@ export const AiWriter = Node.create({
           "data-id": attributes.id,
         }),
       },
-      // authorId: {
-      //   default: undefined,
-      //   parseHTML: (element) => element.getAttribute("data-author-id"),
-      //   renderHTML: (attributes) => ({
-      //     "data-author-id": attributes.authorId,
-      //   }),
-      // },
-      // authorName: {
-      //   default: undefined,
-      //   parseHTML: (element) => element.getAttribute("data-author-name"),
-      //   renderHTML: (attributes) => ({
-      //     "data-author-name": attributes.authorName,
-      //   }),
-      // },
     };
   },
 
@@ -70,8 +61,8 @@ export const AiWriter = Node.create({
 
   addCommands() {
     return {
-      setAiWriter:
-        () =>
+      setAiContent:
+        (content) =>
         ({ chain }) =>
           chain()
             .focus()
@@ -82,12 +73,27 @@ export const AiWriter = Node.create({
               },
             })
             .run(),
+
+      setAiContentAt:
+        ({ from, to, content }) =>
+        ({ chain }) =>
+          chain()
+            .focus()
+            .insertContentAt(
+              { from, to },
+              {
+                type: this.name,
+                attrs: {
+                  id: createId(),
+                },
+                text: content,
+              },
+            )
+            .run(),
     };
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(AiWriterView);
+    return ReactNodeViewRenderer(AiContentView);
   },
 });
-
-export default AiWriter;

@@ -9,6 +9,7 @@ import { createLowlight } from "lowlight";
 import "highlight.js/styles/github-dark.css";
 
 import {
+  AiContent,
   AiImage,
   AiWriter,
   BlockquoteFigure,
@@ -76,6 +77,7 @@ export const ExtensionKit = ({
   TaskItem,
   AiWriter,
   AiImage,
+  AiContent,
   Column,
   Selection,
   Heading.configure({
@@ -87,12 +89,12 @@ export const ExtensionKit = ({
     dropcursor: false,
     heading: false,
     horizontalRule: false,
-    // blockquote: false,
-    blockquote: {
-      HTMLAttributes: {
-        class: "border-l-4 border-stone-700",
-      },
-    },
+    blockquote: false,
+    // blockquote: {
+    // HTMLAttributes: {
+    //   class: "border-l-4 border-stone-700",
+    // },
+    // },
     codeBlock: false,
     bulletList: {
       HTMLAttributes: {

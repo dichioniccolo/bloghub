@@ -55,7 +55,7 @@ export default async function Layout({ children }: PropsWithChildren) {
           </div>
         </header>
         <div className="container grid gap-12 bg-background">
-          <main className="flex-w-full flex-1 flex-col">{children}</main>
+          <main className="flex w-full flex-1 flex-col">{children}</main>
         </div>
       </div>
     </Providers>

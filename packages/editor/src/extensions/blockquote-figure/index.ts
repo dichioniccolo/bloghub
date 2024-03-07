@@ -2,6 +2,7 @@ import { mergeAttributes } from "@tiptap/core";
 
 import { Figure } from "../figure";
 import { Quote } from "./quote";
+import { QuoteCaption } from "./quote-caption";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -16,23 +17,12 @@ export const BlockquoteFigure = Figure.extend({
 
   group: "block",
 
-  content: "quote",
+  content: "quote quoteCaption",
 
   isolating: true,
 
   addExtensions() {
-    return [
-      Quote.configure({
-        HTMLAttributes: {
-          class: "border-l-4 border-stone-700",
-        },
-      }),
-      // QuoteCaption.configure({
-      //   HTMLAttributes: {
-      //     class: "border-l-4 border-stone-700",
-      //   },
-      // }),
-    ];
+    return [Quote, QuoteCaption];
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -82,9 +72,9 @@ export const BlockquoteFigure = Figure.extend({
                     },
                   ],
                 },
-                // {
-                //   type: "quoteCaption",
-                // },
+                {
+                  type: "quoteCaption",
+                },
               ],
             })
             .focus(position + 1)

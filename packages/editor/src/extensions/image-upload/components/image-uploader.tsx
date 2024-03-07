@@ -59,6 +59,7 @@ export const ImageUploader = ({
             onClick={handleUploadClick}
             variant="default"
             size="sm"
+            type="button"
           >
             <Icon name="Upload" />
             Upload an image
