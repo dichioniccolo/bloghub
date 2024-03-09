@@ -1,6 +1,6 @@
 import { db as dbMysql, schema as schemaMysql } from "@acme/db-mysql";
 
-import { dbHttp as db, schema } from "..";
+import { db, schema } from "..";
 
 async function main() {
   const accounts = await dbMysql.select().from(schemaMysql.accounts);

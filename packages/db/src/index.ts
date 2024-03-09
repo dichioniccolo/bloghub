@@ -1,5 +1,4 @@
-import { neon, Pool } from "@neondatabase/serverless";
-import { drizzle as drizzleHttp } from "drizzle-orm/neon-http";
+import { Pool } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-serverless";
 
 import { env } from "./env.mjs";
@@ -45,11 +44,11 @@ export const db = drizzle(pool, {
   schema,
 });
 
-const sql = neon(env.DATABASE_URL_POSTGRES);
-// @ts-expect-error dunno
-export const dbHttp = drizzleHttp(sql, {
-  schema,
-});
+// const sql = neon(env.DATABASE_URL_POSTGRES);
+// // @ts-expect-error dunno
+// export const dbHttp = drizzleHttp(sql, {
+//   schema,
+// });
 
 export { createId } from "@paralleldrive/cuid2";
 
