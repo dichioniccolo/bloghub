@@ -108,7 +108,7 @@ export async function getRandomPostsByDomain(
         ),
       ),
     )
-    .orderBy(sql`rand()`)
+    .orderBy(sql`random()`)
     .limit(toGenerate);
 
   if (ids.length === 0) {
