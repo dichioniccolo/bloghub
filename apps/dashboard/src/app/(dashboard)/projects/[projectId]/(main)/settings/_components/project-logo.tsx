@@ -74,6 +74,10 @@ export function ProjectLogo({ project }: Props) {
 
       const media = await createProjectMedia(formData);
 
+      if (!media) {
+        return;
+      }
+
       setImage(media.url);
     },
     [project.id],

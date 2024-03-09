@@ -85,6 +85,10 @@ export function PublishSheet({ post }: Props) {
 
     const media = await createProjectMedia(formData);
 
+    if (!media) {
+      return;
+    }
+
     return media.url;
   };
 

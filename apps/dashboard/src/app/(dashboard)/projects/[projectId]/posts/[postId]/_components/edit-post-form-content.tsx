@@ -99,7 +99,7 @@ export function EditPostFormContent({
 
       const media = await createProjectMedia(formData);
 
-      return media.url;
+      return media?.url ?? "";
     },
     [post],
   );
