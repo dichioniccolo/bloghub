@@ -103,7 +103,7 @@ export const GROUPS: Group[] = [
       {
         name: "codeBlock",
         label: "Code Block",
-        iconName: "CodeSquare",
+        iconName: "FileCode",
         description: "Code block with syntax highlighting",
         shouldBeHidden: (editor) => editor.isActive("columns"),
         action: (editor) => {

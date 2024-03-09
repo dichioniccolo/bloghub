@@ -100,7 +100,7 @@ export const AIDropdown = ({
           </Dropdown.Sub>
           <Dropdown.Item onClick={onTldr}>
             <DropdownButton>
-              <Icon name="MoreHorizontal" />
+              <Icon name="Ellipsis" />
               Tl;dr:
             </DropdownButton>
           </Dropdown.Item>
