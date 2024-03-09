@@ -17,9 +17,9 @@ export async function getNotificationsSettings() {
 
   return {
     communication:
-      settings.find((s) => s.type === "COMMUNICATION")?.value === 1,
-    marketing: settings.find((s) => s.type === "MARKETING")?.value === 1,
-    social: settings.find((s) => s.type === "SOCIAL")?.value === 1,
+      settings.find((s) => s.type === "COMMUNICATION")?.value ?? true,
+    marketing: settings.find((s) => s.type === "MARKETING")?.value ?? true,
+    social: settings.find((s) => s.type === "SOCIAL")?.value ?? true,
     security: true as const,
   };
 }

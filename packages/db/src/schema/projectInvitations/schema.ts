@@ -1,22 +1,22 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
   index,
-  mysqlTable,
+  pgTable,
   primaryKey,
+  timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { projects } from "../projects/schema";
 
-export const projectInvitations = mysqlTable(
+export const projectInvitations = pgTable(
   "projectInvitations",
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
-    expiresAt: datetime("expiresAt", { mode: "date", fsp: 3 }).notNull(),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    expiresAt: timestamp("expiresAt", { mode: "date", precision: 3 }).notNull(),
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
   },
   (table) => {

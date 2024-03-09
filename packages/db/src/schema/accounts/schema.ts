@@ -1,16 +1,16 @@
 import { relations } from "drizzle-orm";
 import {
   index,
-  int,
-  mysqlTable,
+  integer,
+  pgTable,
   primaryKey,
   text,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { users } from "../users/schema";
 
-export const accounts = mysqlTable(
+export const accounts = pgTable(
   "account",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
@@ -19,7 +19,7 @@ export const accounts = mysqlTable(
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
     refreshToken: text("refresh_token"),
     accessToken: text("access_token"),
-    expiresAt: int("expires_at"),
+    expiresAt: integer("expires_at"),
     tokenType: text("token_type"),
     scope: text("scope"),
     idToken: text("id_token"),

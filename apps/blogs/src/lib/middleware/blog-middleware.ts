@@ -33,7 +33,7 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
     .from(schema.posts)
     .where(
       and(
-        eq(schema.posts.hidden, 0),
+        eq(schema.posts.hidden, false),
         eq(schema.posts.id, postId),
         exists(
           db

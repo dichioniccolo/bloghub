@@ -1,22 +1,22 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
   index,
-  mysqlTable,
+  pgTable,
   primaryKey,
+  timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { posts } from "../posts/schema";
 import { users } from "../users/schema";
 
-export const likes = mysqlTable(
+export const likes = pgTable(
   "likes",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
     postId: varchar("postId", { length: 255 }).notNull(),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
   },
   (table) => {

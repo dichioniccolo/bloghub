@@ -39,7 +39,7 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
         eq(schema.projects.domain, domain),
       ),
     )
-    .where(and(eq(schema.posts.id, postId), eq(schema.posts.hidden, 0)))
+    .where(and(eq(schema.posts.id, postId), eq(schema.posts.hidden, false)))
     .then((x) => x[0]);
 
   if (!post) {

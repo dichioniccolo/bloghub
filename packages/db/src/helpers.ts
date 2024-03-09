@@ -1,9 +1,6 @@
 import type { AnyColumn, SQL } from "drizzle-orm";
 import { and, asc, count, desc, eq, gt, lt, or } from "drizzle-orm";
-import type {
-  MySqlTableWithColumns,
-  TableConfig,
-} from "drizzle-orm/mysql-core";
+import type { PgTableWithColumns, TableConfig } from "drizzle-orm/pg-core";
 
 import { db } from ".";
 
@@ -98,7 +95,7 @@ export function withCursor<
 }
 
 export async function withCount<T extends TableConfig>(
-  table: MySqlTableWithColumns<T>,
+  table: PgTableWithColumns<T>,
   where: SQL | undefined,
 ) {
   const value = await db
@@ -117,7 +114,7 @@ export async function withCount<T extends TableConfig>(
 }
 
 export async function withExists<T extends TableConfig>(
-  table: MySqlTableWithColumns<T>,
+  table: PgTableWithColumns<T>,
   where: SQL | undefined,
 ) {
   const number = await withCount(table, where);

@@ -39,7 +39,7 @@ export const unpublishPost = createServerAction({
     await db
       .update(schema.posts)
       .set({
-        hidden: post.hidden === 1 ? 0 : 1,
+        hidden: !post.hidden,
       })
       .where(and(eq(schema.posts.id, post.id)));
 

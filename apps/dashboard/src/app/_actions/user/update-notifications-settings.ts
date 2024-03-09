@@ -26,11 +26,15 @@ export const updateNotificationSettings = createServerAction({
         .values({
           userId: user.id,
           type: "COMMUNICATION",
-          value: communication ? 1 : 0,
+          value: communication,
         })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+          target: [
+            schema.emailNotificationSettings.userId,
+            schema.emailNotificationSettings.type,
+          ],
           set: {
-            value: communication ? 1 : 0,
+            value: communication,
           },
         });
 
@@ -39,11 +43,15 @@ export const updateNotificationSettings = createServerAction({
         .values({
           userId: user.id,
           type: "MARKETING",
-          value: marketing ? 1 : 0,
+          value: marketing,
         })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+          target: [
+            schema.emailNotificationSettings.userId,
+            schema.emailNotificationSettings.type,
+          ],
           set: {
-            value: marketing ? 1 : 0,
+            value: marketing,
           },
         });
       await tx
@@ -51,11 +59,15 @@ export const updateNotificationSettings = createServerAction({
         .values({
           userId: user.id,
           type: "SOCIAL",
-          value: social ? 1 : 0,
+          value: social,
         })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+          target: [
+            schema.emailNotificationSettings.userId,
+            schema.emailNotificationSettings.type,
+          ],
           set: {
-            value: social ? 1 : 0,
+            value: social,
           },
         });
 
@@ -64,11 +76,15 @@ export const updateNotificationSettings = createServerAction({
         .values({
           userId: user.id,
           type: "SECURITY",
-          value: security ? 1 : 0,
+          value: security,
         })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+          target: [
+            schema.emailNotificationSettings.userId,
+            schema.emailNotificationSettings.type,
+          ],
           set: {
-            value: security ? 1 : 0,
+            value: security,
           },
         });
     });

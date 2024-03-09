@@ -62,7 +62,7 @@ export const domainVerification = inngest.createFunction(
             await tx
               .update(schema.projects)
               .set({
-                domainVerified: 1,
+                domainVerified: true,
                 domainUnverifiedAt: null,
               })
               .where(eq(schema.projects.id, project.id));

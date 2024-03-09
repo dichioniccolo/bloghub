@@ -47,20 +47,17 @@ export const notificationRemovedFromProject = inngest.createFunction(
 
     const createNotification = step.run("Create notification", async () => {
       return await db.transaction(async (tx) => {
-        const id = createId();
+        const [notification] = await tx
+          .insert(schema.notifications)
+          .values({
+            id: createId(),
+            type: "REMOVED_FROM_PROJECT",
+            body: event.data,
+            userId: user.id,
+          })
+          .returning();
 
-        await tx.insert(schema.notifications).values({
-          id,
-          type: "REMOVED_FROM_PROJECT",
-          body: event.data,
-          userId: user.id,
-        });
-
-        return await tx
-          .select()
-          .from(schema.notifications)
-          .where(eq(schema.notifications.id, id))
-          .then((x) => x[0]);
+        return notification;
       });
     });
 

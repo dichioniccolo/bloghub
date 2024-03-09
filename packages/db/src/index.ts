@@ -1,48 +1,54 @@
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { neon, Pool } from "@neondatabase/serverless";
+import { drizzle as drizzleHttp } from "drizzle-orm/neon-http";
+import { drizzle } from "drizzle-orm/neon-serverless";
 
 import { env } from "./env.mjs";
-import * as accounts from "./schema/accounts/schema";
-import * as automaticEmails from "./schema/automaticEmails/schema";
-import * as emailNotificationSettings from "./schema/emailNotificationSettings/schema";
-import * as likes from "./schema/likes/schema";
-import * as media from "./schema/media/schema";
-import * as notifications from "./schema/notifications/schema";
-import * as posts from "./schema/posts/schema";
-import * as projectInvitations from "./schema/projectInvitations/schema";
-import * as projectMembers from "./schema/projectMembers/schema";
-import * as projects from "./schema/projects/schema";
-import * as projectSocials from "./schema/projectSocials/schema";
-import * as sessions from "./schema/session/schema";
-import * as users from "./schema/users/schema";
-import * as verificationTokens from "./schema/verificationTokens/schema";
-import * as visits from "./schema/visits/schema";
-
-const client = new Client({
-  url: env.DATABASE_URL,
-});
+import * as accountsPostgres from "./schema/accounts/schema";
+import * as automaticEmailsPostgres from "./schema/automaticEmails/schema";
+import * as emailNotificationSettingsPostgres from "./schema/emailNotificationSettings/schema";
+import * as likesPostgres from "./schema/likes/schema";
+import * as mediaPostgres from "./schema/media/schema";
+import * as notificationsPostgres from "./schema/notifications/schema";
+import * as postsPostgres from "./schema/posts/schema";
+import * as projectInvitationsPostgres from "./schema/projectInvitations/schema";
+import * as projectMembersPostgres from "./schema/projectMembers/schema";
+import * as projectsPostgres from "./schema/projects/schema";
+import * as projectSocialsPostgres from "./schema/projectSocials/schema";
+import * as sessionsPostgres from "./schema/session/schema";
+import * as usersPostgres from "./schema/users/schema";
+import * as verificationTokensPostgres from "./schema/verificationTokens/schema";
+import * as visitsPostgres from "./schema/visits/schema";
 
 export const schema = {
-  ...accounts,
-  ...automaticEmails,
-  ...emailNotificationSettings,
-  ...likes,
-  ...media,
-  ...notifications,
-  ...posts,
-  ...projectInvitations,
-  ...projectMembers,
-  ...projectSocials,
-  ...projects,
-  ...sessions,
-  ...users,
-  ...verificationTokens,
-  ...visits,
+  ...accountsPostgres,
+  ...automaticEmailsPostgres,
+  ...emailNotificationSettingsPostgres,
+  ...likesPostgres,
+  ...mediaPostgres,
+  ...notificationsPostgres,
+  ...postsPostgres,
+  ...projectInvitationsPostgres,
+  ...projectMembersPostgres,
+  ...projectsPostgres,
+  ...projectSocialsPostgres,
+  ...sessionsPostgres,
+  ...usersPostgres,
+  ...verificationTokensPostgres,
+  ...visitsPostgres,
 };
 
-export const db = drizzle(client, {
+const pool = new Pool({
+  connectionString: env.DATABASE_URL_POSTGRES,
+});
+
+export const db = drizzle(pool, {
   schema,
-  // logger: true,
+});
+
+const sql = neon(env.DATABASE_URL_POSTGRES);
+// @ts-expect-error dunno
+export const dbHttp = drizzleHttp(sql, {
+  schema,
 });
 
 export { createId } from "@paralleldrive/cuid2";

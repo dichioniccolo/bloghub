@@ -60,7 +60,7 @@ function createEmailSettingsMap(
 ) {
   const emailSettingsMap = new Map<string, boolean>();
   for (const setting of usersSettings) {
-    emailSettingsMap.set(setting.user.email, setting.value === 1);
+    emailSettingsMap.set(setting.user.email, setting.value);
   }
   return emailSettingsMap;
 }

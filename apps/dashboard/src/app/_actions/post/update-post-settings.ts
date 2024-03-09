@@ -43,7 +43,7 @@ export const updatePostSettings = createServerAction({
         seoTitle: seoTitle || null,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         seoDescription: seoDescription || null,
-        hidden: 0,
+        hidden: false,
       })
       .where(
         and(eq(schema.posts.projectId, projectId), eq(schema.posts.id, postId)),

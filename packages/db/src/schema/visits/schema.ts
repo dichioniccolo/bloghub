@@ -1,21 +1,19 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
   index,
-  mysqlTable,
-  primaryKey,
+  pgTable,
   serial,
-  unique,
+  timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { posts } from "../posts/schema";
 import { projects } from "../projects/schema";
 
-export const visits = mysqlTable(
+export const visits = pgTable(
   "visits",
   {
-    id: serial("id").notNull(),
+    id: serial("id").primaryKey().notNull(),
     projectId: varchar("projectId", { length: 255 }).notNull(),
     postId: varchar("postId", { length: 255 }),
     browserName: varchar("browserName", { length: 255 }),
@@ -33,17 +31,15 @@ export const visits = mysqlTable(
     geoCity: varchar("geoCity", { length: 255 }),
     geoLatitude: varchar("geoLatitude", { length: 255 }),
     geoLongitude: varchar("geoLongitude", { length: 255 }),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
     referer: varchar("referer", { length: 255 }),
   },
   (table) => {
     return {
-      projectIdIdx: index("projectId_index").on(table.projectId),
+      projectIdIdx: index("projectId_idx").on(table.projectId),
       postIdIdx: index("visits_postId_idx").on(table.postId),
-      visitsIdPk: primaryKey({ columns: [table.id], name: "visits_id_pk" }),
-      id: unique("id").on(table.id),
     };
   },
 );

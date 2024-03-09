@@ -60,7 +60,7 @@ export async function verifyProjectDomain(
           await tx
             .update(schema.projects)
             .set({
-              domainVerified: 1,
+              domainVerified: true,
               domainUnverifiedAt: null,
             })
             .where(eq(schema.projects.id, project.id));
@@ -92,7 +92,7 @@ export async function verifyProjectDomain(
       await tx
         .update(schema.projects)
         .set({
-          domainVerified: 0,
+          domainVerified: false,
           domainUnverifiedAt: !project.domainUnverifiedAt
             ? new Date()
             : undefined,
@@ -111,7 +111,7 @@ export async function verifyProjectDomain(
       await tx
         .update(schema.projects)
         .set({
-          domainVerified: 1,
+          domainVerified: false,
           domainUnverifiedAt: null,
         })
         .where(eq(schema.projects.id, project.id));

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import type { Project } from "@acme/db";
-import { createId, db, eq, schema } from "@acme/db";
+import { createId, db, schema } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { createServerAction } from "@acme/server-actions/server";
 import { createDomain } from "@acme/vercel";
@@ -26,24 +26,26 @@ export const createProject = createServerAction({
     const project = await db.transaction(async (tx) => {
       await createDomain(domain);
 
-      const id = createId();
+      const [project] = await tx
+        .insert(schema.projects)
+        .values({
+          id: createId(),
+          name,
+          domain,
+        })
+        .returning();
 
-      await tx.insert(schema.projects).values({
-        id,
-        name,
-        domain,
-        updatedAt: new Date(),
-      });
+      if (!project) {
+        throw new Error("Failed to create project");
+      }
 
       await tx.insert(schema.projectMembers).values({
-        projectId: id,
+        projectId: project.id,
         userId: user.id,
         role: "OWNER",
       });
 
-      return await tx.query.projects.findFirst({
-        where: eq(schema.projects.id, id),
-      });
+      return project;
     });
 
     revalidatePath(AppRoutes.Dashboard);

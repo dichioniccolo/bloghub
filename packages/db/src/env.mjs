@@ -7,7 +7,7 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    DATABASE_URL: z.string().min(1),
+    DATABASE_URL_POSTGRES: z.string().min(1),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -18,7 +18,7 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
+    DATABASE_URL_POSTGRES: process.env.DATABASE_URL_POSTGRES,
   },
   skipValidation:
     !!process.env.SKIP_ENV_VALIDATION ||

@@ -1,26 +1,28 @@
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   index,
-  mysqlEnum,
-  mysqlTable,
+  pgEnum,
+  pgTable,
   primaryKey,
-  tinyint,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { users } from "../users/schema";
 
-export const emailNotificationSettings = mysqlTable(
+export const emailNotificationTypeEnum = pgEnum("emailNotificationType", [
+  "COMMUNICATION",
+  "MARKETING",
+  "SOCIAL",
+  "SECURITY",
+]);
+
+export const emailNotificationSettings = pgTable(
   "emailNotificationSettings",
   {
     userId: varchar("userId", { length: 255 }).notNull(),
-    type: mysqlEnum("type", [
-      "COMMUNICATION",
-      "MARKETING",
-      "SOCIAL",
-      "SECURITY",
-    ]).notNull(),
-    value: tinyint("value").default(1).notNull(),
+    type: emailNotificationTypeEnum("type").notNull(),
+    value: boolean("value").default(true).notNull(),
   },
   (table) => {
     return {

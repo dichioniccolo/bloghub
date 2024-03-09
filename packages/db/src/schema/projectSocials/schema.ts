@@ -1,29 +1,31 @@
 import { relations } from "drizzle-orm";
 import {
   index,
-  mysqlEnum,
-  mysqlTable,
+  pgEnum,
+  pgTable,
   primaryKey,
   text,
   unique,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { projects } from "../projects/schema";
 
-export const projectSocials = mysqlTable(
+export const socialEnum = pgEnum("social", [
+  "GITHUB",
+  "TWITTER",
+  "DISCORD",
+  "YOUTUBE",
+  "LINKEDIN",
+  "FACEBOOK",
+  "INSTAGRAM",
+]);
+
+export const projectSocials = pgTable(
   "projectSocials",
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
-    social: mysqlEnum("social", [
-      "GITHUB",
-      "TWITTER",
-      "DISCORD",
-      "YOUTUBE",
-      "LINKEDIN",
-      "FACEBOOK",
-      "INSTAGRAM",
-    ]).notNull(),
+    social: socialEnum("social").notNull(),
     value: text("value").notNull(),
   },
   (table) => {

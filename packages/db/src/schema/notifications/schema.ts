@@ -1,41 +1,42 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
   index,
   json,
-  mysqlEnum,
-  mysqlTable,
-  primaryKey,
+  pgEnum,
+  pgTable,
+  timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { users } from "../users/schema";
 
-export const notifications = mysqlTable(
+export const notificationTypeEnum = pgEnum("notificationType", [
+  "PROJECT_INVITATION",
+  "REMOVED_FROM_PROJECT",
+  "INVITATION_ACCEPTED",
+]);
+
+export const notificationStatusEnum = pgEnum("notificationStatus", [
+  "UNREAD",
+  "READ",
+  "ARCHIVED",
+]);
+
+export const notifications = pgTable(
   "notifications",
   {
-    id: varchar("id", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).primaryKey().notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
-    type: mysqlEnum("type", [
-      "PROJECT_INVITATION",
-      "REMOVED_FROM_PROJECT",
-      "INVITATION_ACCEPTED",
-    ]).notNull(),
-    status: mysqlEnum("status", ["UNREAD", "READ", "ARCHIVED"])
-      .default("UNREAD")
-      .notNull(),
+    type: notificationTypeEnum("type").notNull(),
+    status: notificationStatusEnum("status").default("UNREAD").notNull(),
     body: json("body").notNull(),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
   },
   (table) => {
     return {
       userIdIdx: index("notifications_userId_idx").on(table.userId),
-      notificationsIdPk: primaryKey({
-        columns: [table.id],
-        name: "notifications_id_pk",
-      }),
     };
   },
 );

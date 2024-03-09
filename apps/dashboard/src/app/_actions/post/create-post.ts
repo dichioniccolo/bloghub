@@ -22,17 +22,23 @@ export const createPost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    const id = createId();
+    const [post] = await db
+      .insert(schema.posts)
+      .values({
+        id: createId(),
+        projectId,
+        title: "",
+        description: "",
+        content: {},
+      })
+      .returning({
+        id: schema.posts.id,
+      });
 
-    await db.insert(schema.posts).values({
-      id,
-      projectId,
-      title: "",
-      description: "",
-      content: {},
-      updatedAt: new Date(),
-    });
+    if (!post) {
+      return;
+    }
 
-    redirect(AppRoutes.PostEditor(projectId, id));
+    redirect(AppRoutes.PostEditor(projectId, post.id));
   },
 });

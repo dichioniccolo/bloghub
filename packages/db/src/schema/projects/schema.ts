@@ -1,13 +1,12 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
+  boolean,
   index,
-  mysqlTable,
-  primaryKey,
+  pgTable,
   text,
-  tinyint,
+  timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { media } from "../media/schema";
 import { posts } from "../posts/schema";
@@ -15,32 +14,33 @@ import { projectInvitations } from "../projectInvitations/schema";
 import { projectMembers } from "../projectMembers/schema";
 import { projectSocials } from "../projectSocials/schema";
 
-export const projects = mysqlTable(
+export const projects = pgTable(
   "projects",
   {
-    id: varchar("id", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).primaryKey().notNull(),
     name: varchar("name", { length: 255 }).notNull(),
     logo: text("logo"),
     domain: varchar("domain", { length: 255 }).notNull(),
-    domainVerified: tinyint("domainVerified").default(0).notNull(),
-    domainLastCheckedAt: datetime("domainLastCheckedAt", {
+    domainVerified: boolean("domainVerified").default(false).notNull(),
+    domainLastCheckedAt: timestamp("domainLastCheckedAt", {
       mode: "date",
-      fsp: 3,
+      precision: 3,
     }),
-    domainUnverifiedAt: datetime("domainUnverifiedAt", {
+    domainUnverifiedAt: timestamp("domainUnverifiedAt", {
       mode: "date",
-      fsp: 3,
+      precision: 3,
     }),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
-    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 }).notNull(),
-    deletedAt: datetime("deletedAt", { mode: "date", fsp: 3 }),
+    updatedAt: timestamp("updatedAt", { mode: "date", precision: 3 })
+      .defaultNow()
+      .notNull(),
+    deletedAt: timestamp("deletedAt", { mode: "date", precision: 3 }),
   },
   (table) => {
     return {
       deletedAtIdx: index("deleted_at_index").on(table.deletedAt),
-      projectsIdPk: primaryKey({ columns: [table.id], name: "projects_id_pk" }),
     };
   },
 );

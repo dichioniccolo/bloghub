@@ -17,26 +17,24 @@ export function EditPostFormToolbar({ post, formStatus }: Props) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 gap-2">
-        <div className="w-24">
-          {formStatus === "saving" && (
-            <span className="flex">
-              <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-              Saving...
-            </span>
-          )}
-          {formStatus === "saved" && (
-            <span className="flex">
-              <CloudSave className="mr-2 h-6 w-6 shrink-0 fill-current text-green-500" />
-              Saved
-            </span>
-          )}
-          {formStatus === "error" && (
-            <span className="flex">
-              <Ban className="mr-2 h-6 w-6 shrink-0 fill-current text-red-500" />
-              Error while saving
-            </span>
-          )}
-        </div>
+        {formStatus === "saving" && (
+          <span className="flex">
+            <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+            Saving...
+          </span>
+        )}
+        {formStatus === "saved" && (
+          <span className="flex">
+            <CloudSave className="mr-2 h-6 w-6 shrink-0 fill-current text-green-500" />
+            Saved
+          </span>
+        )}
+        {formStatus === "error" && (
+          <span className="flex">
+            <Ban className="mr-2 h-6 w-6 shrink-0 fill-current text-red-500" />
+            Error while saving
+          </span>
+        )}
       </div>
       <div className="flex items-center justify-end gap-2">
         {!post.hidden && <UnpublishButton post={post} />}

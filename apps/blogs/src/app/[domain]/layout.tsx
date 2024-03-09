@@ -51,7 +51,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const allProjects = await db.query.projects.findMany({
-    where: (columns, { eq }) => eq(columns.domainVerified, 1),
+    where: (columns, { eq }) => eq(columns.domainVerified, true),
     columns: {
       domain: true,
     },

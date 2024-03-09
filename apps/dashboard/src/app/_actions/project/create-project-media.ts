@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createId, db, eq, schema } from "@acme/db";
+import { createId, db, schema } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { getCurrentUser } from "~/app/_api/get-user";
@@ -76,17 +76,21 @@ export async function createProjectMedia(formData: FormData) {
 
   const url = uploadedFile.url;
 
-  const id = createId();
-  await db.insert(schema.media).values({
-    id,
-    projectId,
-    postId,
-    url,
-    forEntity,
-    type,
-  });
+  const [media] = await db
+    .insert(schema.media)
+    .values({
+      id: createId(),
+      projectId,
+      postId,
+      url,
+      forEntity,
+      type,
+    })
+    .returning();
 
-  return (await db.query.media.findFirst({
-    where: eq(schema.media.id, id),
-  }))!;
+  return media;
+
+  // return (await db.query.media.findFirst({
+  //   where: eq(schema.media.id, id),
+  // }))!;
 }

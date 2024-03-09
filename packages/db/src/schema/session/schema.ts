@@ -1,30 +1,22 @@
-import { relations, sql } from "drizzle-orm";
-import {
-  datetime,
-  index,
-  mysqlTable,
-  primaryKey,
-  varchar,
-} from "drizzle-orm/mysql-core";
+import { relations } from "drizzle-orm";
+import { index, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 
 import { users } from "../users/schema";
 
-export const session = mysqlTable(
+export const session = pgTable(
   "session",
   {
-    sessionToken: varchar("sessionToken", { length: 500 }).notNull(),
+    sessionToken: varchar("sessionToken", { length: 500 })
+      .primaryKey()
+      .notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
-    expires: datetime("expires", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    expires: timestamp("expires", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
   },
   (table) => {
     return {
       userIdIdx: index("session_userId_idx").on(table.userId),
-      sessionSessionTokenPk: primaryKey({
-        columns: [table.sessionToken],
-        name: "session_sessionToken_pk",
-      }),
     };
   },
 );

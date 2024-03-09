@@ -1,25 +1,27 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
   index,
-  mysqlEnum,
-  mysqlTable,
+  pgEnum,
+  pgTable,
   primaryKey,
+  timestamp,
   unique,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { projects } from "../projects/schema";
 import { users } from "../users/schema";
 
-export const projectMembers = mysqlTable(
+export const roleEnum = pgEnum("role", ["OWNER", "EDITOR"]);
+
+export const projectMembers = pgTable(
   "projectMembers",
   {
     projectId: varchar("projectId", { length: 255 }).notNull(),
     userId: varchar("userId", { length: 255 }).notNull(),
-    role: mysqlEnum("role", ["OWNER", "EDITOR"]).default("EDITOR").notNull(),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    role: roleEnum("role").default("EDITOR").notNull(),
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
   },
   (table) => {

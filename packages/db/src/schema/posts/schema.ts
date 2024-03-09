@@ -1,39 +1,39 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
-  datetime,
+  boolean,
   index,
   json,
-  mysqlTable,
-  primaryKey,
+  pgTable,
   text,
-  tinyint,
+  timestamp,
   varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 import { projects } from "../projects/schema";
 
-export const posts = mysqlTable(
+export const posts = pgTable(
   "posts",
   {
-    id: varchar("id", { length: 255 }).notNull(),
+    id: varchar("id", { length: 255 }).primaryKey().notNull(),
     projectId: varchar("projectId", { length: 255 }).notNull(),
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     content: json("content").$type<any>().notNull(),
     thumbnailUrl: text("thumbnailUrl"),
-    hidden: tinyint("hidden").default(1).notNull(),
+    hidden: boolean("hidden").default(true).notNull(),
     seoTitle: varchar("seoTitle", { length: 255 }),
     seoDescription: varchar("seoDescription", { length: 255 }),
-    createdAt: datetime("createdAt", { mode: "date", fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    createdAt: timestamp("createdAt", { mode: "date", precision: 3 })
+      .defaultNow()
       .notNull(),
-    updatedAt: datetime("updatedAt", { mode: "date", fsp: 3 }).notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date", precision: 3 })
+      .defaultNow()
+      .notNull(),
   },
   (table) => {
     return {
       projectIdIdx: index("projectId_index").on(table.projectId),
-      postsIdPk: primaryKey({ columns: [table.id], name: "posts_id_pk" }),
     };
   },
 );

@@ -77,20 +77,17 @@ export const notificationInvitation = inngest.createFunction(
 
     const createNotification = step.run("Create notification", () =>
       db.transaction(async (tx) => {
-        const id = createId();
+        const [notification] = await tx
+          .insert(schema.notifications)
+          .values({
+            id: createId(),
+            type: "PROJECT_INVITATION",
+            body: event.data,
+            userId: user.id,
+          })
+          .returning();
 
-        await tx.insert(schema.notifications).values({
-          id,
-          type: "PROJECT_INVITATION",
-          body: event.data,
-          userId: user.id,
-        });
-
-        return await tx
-          .select()
-          .from(schema.notifications)
-          .where(eq(schema.notifications.id, id))
-          .then((x) => x[0]);
+        return notification;
       }),
     );
 
