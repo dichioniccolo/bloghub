@@ -1,4 +1,4 @@
-import type { Metadata, ServerRuntime } from "next";
+import type { Metadata } from "next";
 
 import { prisma } from "@acme/db";
 import { Separator } from "@acme/ui/components/ui/separator";
@@ -12,7 +12,7 @@ interface Props {
   };
 }
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export async function generateMetadata({
   params: { projectId },

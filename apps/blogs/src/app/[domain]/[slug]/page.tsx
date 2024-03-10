@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import type { Metadata, ServerRuntime } from "next";
+import type { Metadata } from "next";
 import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 import type { Content } from "@tiptap/react";
@@ -19,7 +19,7 @@ interface Props {
   };
 }
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export async function generateMetadata({
   params: { domain, slug },

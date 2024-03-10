@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import type { ServerRuntime } from "next";
 import { notFound } from "next/navigation";
 
 import { getProject, getProjectOwner } from "~/app/_api/projects";
@@ -17,7 +16,7 @@ interface Props {
   searchParams: Record<string, string | string[]>;
 }
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export default async function Page({
   params: { projectId },

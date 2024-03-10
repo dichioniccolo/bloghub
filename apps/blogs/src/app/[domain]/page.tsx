@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import type { ServerRuntime } from "next";
 import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 
@@ -17,7 +16,7 @@ interface Props {
   };
 }
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export default async function Page({ params: { domain } }: Props) {
   unstable_noStore();

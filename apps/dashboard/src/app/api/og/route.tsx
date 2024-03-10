@@ -1,4 +1,3 @@
-import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 import { z } from "zod";
 
@@ -6,7 +5,7 @@ import { Logo } from "@acme/ui/icons/logo";
 
 import { env } from "~/env.mjs";
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 const ogImageSchema = z.object({
   title: z.string(),

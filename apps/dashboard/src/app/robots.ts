@@ -1,8 +1,8 @@
-import type { MetadataRoute, ServerRuntime } from "next";
+import type { MetadataRoute } from "next";
 
 import { env } from "~/env.mjs";
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export default function robots(): MetadataRoute.Robots {
   return {

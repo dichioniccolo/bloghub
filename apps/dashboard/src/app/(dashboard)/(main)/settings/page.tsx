@@ -1,4 +1,4 @@
-import type { Metadata, ServerRuntime } from "next";
+import type { Metadata } from "next";
 
 import { auth } from "@acme/auth";
 import { Separator } from "@acme/ui/components/ui/separator";
@@ -9,7 +9,7 @@ export const metadata = {
   title: "Settings",
 } satisfies Metadata;
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 export default async function AppDashboardMainSettingsPage() {
   const session = await auth();

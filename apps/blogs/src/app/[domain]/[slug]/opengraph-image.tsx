@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unknown-property */
-import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 
 import { prisma } from "@acme/db";
 import { getPostIdFromSlug, truncate } from "@acme/lib/utils";
 
-export const runtime: ServerRuntime = "edge";
+// export const runtime: ServerRuntime = "edge";
 
 interface Props {
   params: {
