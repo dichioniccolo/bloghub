@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 import type { Content } from "@tiptap/react";
 import { format } from "date-fns";
@@ -55,8 +54,10 @@ export async function generateMetadata({
   };
 }
 
+export const revalidate = 60;
+
 export default async function Page({ params: { domain, slug } }: Props) {
-  unstable_noStore();
+  // unstable_noStore();
 
   const postId = getPostIdFromSlug(slug);
 

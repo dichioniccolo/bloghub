@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 
 import { prisma } from "@acme/db";
@@ -16,10 +15,12 @@ interface Props {
   };
 }
 
+export const revalidate = 60;
+
 // export const runtime: ServerRuntime = "edge";
 
 export default async function Page({ params: { domain } }: Props) {
-  unstable_noStore();
+  // unstable_noStore();
 
   const project = await prisma.projects.findFirst({
     where: {

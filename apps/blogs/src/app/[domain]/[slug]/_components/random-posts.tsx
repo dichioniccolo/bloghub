@@ -1,5 +1,3 @@
-import { unstable_noStore } from "next/cache";
-
 import { BlogRoutes } from "@acme/lib/routes";
 import { Image } from "@acme/ui/components/image";
 import { Link } from "@acme/ui/components/link";
@@ -12,7 +10,7 @@ interface Props {
 }
 
 export async function RandomPosts({ domain, postId }: Props) {
-  unstable_noStore();
+  // unstable_noStore();
   const randomPosts = await getRandomPostsByDomain(domain, postId);
 
   if (randomPosts.length === 0) {

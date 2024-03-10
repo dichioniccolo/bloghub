@@ -1,5 +1,3 @@
-import { unstable_noStore } from "next/cache";
-
 import { getNotifications } from "~/app/_api/notifications";
 import { NotificationsPopover } from "~/components/notifications/notifications-popover";
 import { NotificationsProvider } from "~/components/notifications/notifications-provider";
@@ -9,8 +7,8 @@ import { NotificationsProvider } from "~/components/notifications/notifications-
 // }
 
 export async function Notifications() {
-// { session }: Props
-  unstable_noStore();
+  // { session }: Props
+  // unstable_noStore();
   const { notifications, unreadCount } = await getNotifications();
 
   return (

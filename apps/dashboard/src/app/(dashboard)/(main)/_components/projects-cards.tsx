@@ -1,5 +1,3 @@
-import { unstable_noStore } from "next/cache";
-
 import { cn } from "@acme/ui";
 
 import { getProjects } from "~/app/_api/projects";
@@ -7,7 +5,7 @@ import { CreateProjectButton } from "./create-project-button";
 import { ProjectCard, ProjectCardSkeleton } from "./project-card";
 
 export async function ProjectsCards() {
-  unstable_noStore();
+  // unstable_noStore();
   const projects = await getProjects();
 
   return (
