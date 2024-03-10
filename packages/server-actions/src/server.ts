@@ -3,8 +3,6 @@ import "server-only";
 import { revalidateTag, unstable_cache } from "next/cache";
 import { isNotFoundError } from "next/dist/client/components/not-found";
 import { isRedirectError } from "next/dist/client/components/redirect";
-import { headers } from "next/headers";
-import * as Sentry from "@sentry/nextjs";
 import type { z } from "zod";
 
 import type {
@@ -16,12 +14,7 @@ import type {
   ZodQueryFactoryParams,
 } from "./types";
 import { ErrorForClient, SubmissionStatus } from "./types";
-import {
-  DEFAULT_SERVER_ERROR,
-  isError,
-  normalizeInput,
-  toFormData,
-} from "./utils";
+import { DEFAULT_SERVER_ERROR, isError, normalizeInput } from "./utils";
 
 async function getContext<
   const Middlewares extends Record<string, MiddlewareFn>,
@@ -68,7 +61,7 @@ export function createServerAction<
   const Middlewares extends Record<string, MiddlewareFn>,
   State = undefined,
 >({
-  actionName,
+  actionName: _,
   schema,
   initialState,
   middlewares,
@@ -82,82 +75,80 @@ export function createServerAction<
     { state = initialState, serverError, validationErrors },
     input,
   ) => {
-    return await Sentry.withServerActionInstrumentation(
-      actionName,
-      {
-        formData: toFormData(input),
-        headers: headers(),
-        recordResponse: true,
-      },
-      async () => {
-        try {
-          const context = await getContext(middlewares);
+    // return await Sentry.withServerActionInstrumentation(
+    //   actionName,
+    //   {
+    //     formData: toFormData(input),
+    //     headers: headers(),
+    //     recordResponse: true,
+    //   },
+    try {
+      const context = await getContext(middlewares);
 
-          const parsedInput = await parseSchema(context, schema, input);
+      const parsedInput = await parseSchema(context, schema, input);
 
-          if (!parsedInput.success) {
-            const validationErrors = parsedInput.error.flatten()
-              .fieldErrors as Partial<Record<keyof Schema, string[]>>;
+      if (!parsedInput.success) {
+        const validationErrors = parsedInput.error.flatten()
+          .fieldErrors as Partial<Record<keyof Schema, string[]>>;
 
-            return {
-              state,
-              serverError,
-              validationErrors,
-              status: SubmissionStatus.VALIDATION_ERROR,
-            };
-          }
+        return {
+          state,
+          serverError,
+          validationErrors,
+          status: SubmissionStatus.VALIDATION_ERROR,
+        };
+      }
 
-          const newState = await action({
-            state,
-            input: parsedInput.data,
-            ctx: context as Middlewares extends Record<string, MiddlewareFn>
-              ? MiddlewareResults<Middlewares>
-              : undefined,
-          });
+      const newState = await action({
+        state,
+        input: parsedInput.data,
+        ctx: context as Middlewares extends Record<string, MiddlewareFn>
+          ? MiddlewareResults<Middlewares>
+          : undefined,
+      });
 
-          cache?.revalidateTags?.forEach((tag) => revalidateTag(tag));
+      cache?.revalidateTags?.forEach((tag) => revalidateTag(tag));
 
-          return {
-            state: newState ?? state,
-            serverError: null,
-            validationErrors: {},
-            status: SubmissionStatus.SUCCESS,
-          };
-        } catch (e) {
-          if (!isError(e)) {
-            console.error(
-              "Could not handle server error. Not an instance of Error: ",
-              e,
-            );
-            return {
-              serverError: DEFAULT_SERVER_ERROR,
-              state,
-              validationErrors,
-              status: SubmissionStatus.ERROR,
-            };
-          }
-          if (e instanceof ErrorForClient) {
-            return {
-              serverError: e.message,
-              state,
-              validationErrors,
-              status: SubmissionStatus.ERROR,
-            };
-          }
-          if (isRedirectError(e) || isNotFoundError(e)) {
-            throw e;
-          }
-          console.error("Server action error: ", e);
-          return {
-            serverError: DEFAULT_SERVER_ERROR,
-            state,
-            validationErrors,
-            status: SubmissionStatus.ERROR,
-          };
-        }
-      },
-    );
+      return {
+        state: newState ?? state,
+        serverError: null,
+        validationErrors: {},
+        status: SubmissionStatus.SUCCESS,
+      };
+    } catch (e) {
+      if (!isError(e)) {
+        console.error(
+          "Could not handle server error. Not an instance of Error: ",
+          e,
+        );
+        return {
+          serverError: DEFAULT_SERVER_ERROR,
+          state,
+          validationErrors,
+          status: SubmissionStatus.ERROR,
+        };
+      }
+      if (e instanceof ErrorForClient) {
+        return {
+          serverError: e.message,
+          state,
+          validationErrors,
+          status: SubmissionStatus.ERROR,
+        };
+      }
+      if (isRedirectError(e) || isNotFoundError(e)) {
+        throw e;
+      }
+      console.error("Server action error: ", e);
+      return {
+        serverError: DEFAULT_SERVER_ERROR,
+        state,
+        validationErrors,
+        status: SubmissionStatus.ERROR,
+      };
+    }
   };
+  // );
 }
 
 export function createServerQuery<

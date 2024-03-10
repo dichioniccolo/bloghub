@@ -21,6 +21,13 @@ export const domainVerification = inngest.createFunction(
   async ({ step }) => {
     const projectsToVerify = await step.run("Get projects to verify", () =>
       prisma.projects.findMany({
+        where: {
+          domain: {
+            not: {
+              contains: "bloghub.it",
+            },
+          },
+        },
         orderBy: {
           domainLastCheckedAt: "asc",
         },

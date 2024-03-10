@@ -1,26 +1,24 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
-import { NextResponse } from "next/server";
 
 import { BlogMiddleware } from "./lib/middleware/blog-middleware";
-import { ratelimit } from "./lib/ratelimit";
 
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  const ip = req.ip ?? "127.0.0.1";
+  // const ip = req.ip ?? "127.0.0.1";
 
-  const { success, pending, limit, remaining, reset } =
-    await ratelimit.limit(ip);
+  // const { success, pending, limit, remaining, reset } =
+  //   await ratelimit.limit(ip);
 
-  ev.waitUntil(pending);
+  // ev.waitUntil(pending);
 
-  if (!success) {
-    const res = NextResponse.json("Rate limit exceeded", { status: 429 });
+  // if (!success) {
+  //   const res = NextResponse.json("Rate limit exceeded", { status: 429 });
 
-    res.headers.set("X-RateLimit-Limit", limit.toString());
-    res.headers.set("X-RateLimit-Remaining", remaining.toString());
-    res.headers.set("X-RateLimit-Reset", reset.toString());
+  //   res.headers.set("X-RateLimit-Limit", limit.toString());
+  //   res.headers.set("X-RateLimit-Remaining", remaining.toString());
+  //   res.headers.set("X-RateLimit-Reset", reset.toString());
 
-    return res;
-  }
+  //   return res;
+  // }
 
   // rewrite everything else to `/[domain]/... dynamic route
   return await BlogMiddleware(req, ev);
