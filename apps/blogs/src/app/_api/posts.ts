@@ -72,14 +72,14 @@ export async function getRandomPostsByDomain(
   const ids = await prisma.$queryRaw<{ id: string }[]>(
     Prisma.sql`
       SELECT "id"
-      FROM "posts"
+      FROM "Posts"
       WHERE "hidden" = false
       AND "id" != ${postId}
       AND EXISTS (
-        SELECT 1
-        FROM "projects"
-        WHERE "id" = "posts"."projectId"
-        AND "domain" = ${domain}
+      SELECT 1
+      FROM "Projects"
+      WHERE "id" = "Posts"."projectId"
+      AND "domain" = ${domain}
       )
       ORDER BY random()
       LIMIT ${toGenerate}
