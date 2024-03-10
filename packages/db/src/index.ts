@@ -1,6 +1,8 @@
-import { Pool } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
+// import { Pool } from "@neondatabase/serverless";
+// import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
+import { Pool } from "pg";
 
 export * from "@prisma/client";
 
@@ -10,13 +12,16 @@ export { createId } from "@paralleldrive/cuid2";
 
 const connectionString = `${process.env.DATABASE_URL_POSTGRES}`;
 
-const pool = new Pool({
-  connectionString,
-});
+// const pool = new Pool({
+//   connectionString,
+// });
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
 
 // neonConfig.webSocketConstructor = ws;
 
-const adapter = new PrismaNeon(pool);
+// const adapter = new PrismaNeon(pool);
 
 const prismaClientSingleton = () => {
   return new PrismaClient({
