@@ -1,4 +1,4 @@
-import { createId, db, eq, schema } from "@acme/db";
+import { createId, prisma } from "@acme/db";
 import { ProjectInviteAccepted } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
@@ -16,21 +16,21 @@ export const notificationInvitationAccepted = inngest.createFunction(
   },
   async ({ event, step }) => {
     const project = await step.run("Get project", () =>
-      db.query.projects.findFirst({
-        where: eq(schema.projects.id, event.data.projectId),
-        columns: {
-          id: true,
+      prisma.projects.findUnique({
+        where: {
+          id: event.data.projectId,
         },
-        with: {
+        select: {
+          id: true,
           members: {
-            limit: 1,
-            where: eq(schema.projectMembers.role, "OWNER"),
-            columns: {
-              userId: true,
+            take: 1,
+            where: {
+              role: "OWNER",
             },
-            with: {
+            select: {
+              userId: true,
               user: {
-                columns: {
+                select: {
                   name: true,
                   email: true,
                 },
@@ -64,18 +64,12 @@ export const notificationInvitationAccepted = inngest.createFunction(
     });
 
     const createNotification = step.run("Create notification", async () => {
-      return await db.transaction(async (tx) => {
-        const [notification] = await tx
-          .insert(schema.notifications)
-          .values({
-            id: createId(),
-            type: "INVITATION_ACCEPTED",
-            body: event.data,
-            userId: owner.userId,
-          })
-          .returning();
-
-        return notification;
+      return await prisma.notifications.create({
+        data: {
+          type: "INVITATION_ACCEPTED",
+          body: event.data,
+          userId: owner.userId,
+        },
       });
     });
     const [, notification] = await Promise.all([email, createNotification]);

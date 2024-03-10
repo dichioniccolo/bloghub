@@ -1,6 +1,6 @@
 import type { JSONContent } from "@tiptap/core";
 
-import { db, inArray, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
@@ -15,21 +15,19 @@ export const mediaDeleteUnused = inngest.createFunction(
   },
   async ({ step }) => {
     const allProjects = await step.run("Get all projects", () =>
-      db.query.projects.findMany({
-        columns: {
+      prisma.projects.findMany({
+        select: {
           id: true,
           logo: true,
-        },
-        with: {
-          media: {
-            columns: {
+          medium: {
+            select: {
               id: true,
               url: true,
               forEntity: true,
             },
           },
           posts: {
-            columns: {
+            select: {
               id: true,
               thumbnailUrl: true,
               content: true,
@@ -45,9 +43,9 @@ export const mediaDeleteUnused = inngest.createFunction(
         async () => {
           const posts = project.posts;
 
-          const media = project.media;
+          const medium = project.medium;
 
-          const logoMediaList = media.filter(
+          const logoMediaList = medium.filter(
             (x) => x.forEntity === "PROJECT_LOGO",
           );
 
@@ -55,7 +53,7 @@ export const mediaDeleteUnused = inngest.createFunction(
             (x) => x.url !== project.logo,
           );
 
-          const thumbnailMediaList = media.filter(
+          const thumbnailMediaList = medium.filter(
             (x) => x.forEntity === "POST_THUMBNAIL",
           );
 
@@ -63,7 +61,7 @@ export const mediaDeleteUnused = inngest.createFunction(
             posts.every(({ thumbnailUrl }) => thumbnailUrl !== x.url),
           );
 
-          const postContentMediaList = media.filter(
+          const postContentMediaList = medium.filter(
             (x) => x.forEntity === "POST_CONTENT",
           );
 
@@ -103,14 +101,15 @@ async function deleteMedia(list: DeletedMedia[]): Promise<DeletedMedia[]> {
 
   const filtererList = list.filter((x) => !x.url.includes("bloghub.it"));
 
-  await db.transaction(async (tx) => {
+  await prisma.$transaction(async (tx) => {
     await deleteFiles(filtererList.map((x) => x.url));
-    await tx.delete(schema.media).where(
-      inArray(
-        schema.media.id,
-        list.map((x) => x.id),
-      ),
-    );
+    await tx.media.deleteMany({
+      where: {
+        id: {
+          in: list.map((x) => x.id),
+        },
+      },
+    });
   });
 
   return list;

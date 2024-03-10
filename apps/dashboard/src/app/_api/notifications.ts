@@ -1,6 +1,6 @@
 "use server";
 
-import { and, db, eq, inArray, schema, withCount } from "@acme/db";
+import { prisma } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
@@ -8,13 +8,18 @@ export async function getNotifications() {
   const user = await getCurrentUser();
 
   const [notifications, unreadCount] = await Promise.all([
-    db.query.notifications.findMany({
-      where: and(
-        eq(schema.notifications.userId, user.id),
-        inArray(schema.notifications.status, ["READ", "UNREAD"]),
-      ),
-      limit: 20,
-      columns: {
+    prisma.notifications.findMany({
+      where: {
+        userId: user.id,
+        status: {
+          in: ["UNREAD", "READ"],
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 20,
+      select: {
         id: true,
         type: true,
         body: true,
@@ -22,13 +27,12 @@ export async function getNotifications() {
         status: true,
       },
     }),
-    withCount(
-      schema.notifications,
-      and(
-        eq(schema.notifications.userId, user.id),
-        eq(schema.notifications.status, "UNREAD"),
-      ),
-    ),
+    prisma.notifications.count({
+      where: {
+        userId: user.id,
+        status: "UNREAD",
+      },
+    }),
   ]);
 
   return {

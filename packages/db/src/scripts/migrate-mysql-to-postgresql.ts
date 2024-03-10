@@ -1,6 +1,6 @@
-import { db as dbMysql, schema as schemaMysql } from "@acme/db-mysql";
+import { db as dbMysql, inArray, schema as schemaMysql } from "@acme/db-mysql";
 
-import { db, schema } from "..";
+import { prisma } from "..";
 
 async function main() {
   const accounts = await dbMysql.select().from(schemaMysql.accounts);
@@ -29,91 +29,142 @@ async function main() {
   const verificationTokens = await dbMysql
     .select()
     .from(schemaMysql.verificationTokens);
-  const visits = await dbMysql.select().from(schemaMysql.visits);
+  const visits = await dbMysql
+    .select()
+    .from(schemaMysql.visits)
+    .where(
+      inArray(
+        schemaMysql.visits.id,
+        [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 28, 50, 51, 56, 57, 361, 362,
+          910, 911, 912, 913, 917, 918, 938, 1624, 1625, 3363, 3364, 3365, 3366,
+          3367, 3368, 3369, 3370, 3371, 3372, 3373, 3374, 3375, 3376, 3377,
+          3378, 3379, 3380, 3381, 3382, 3383, 3384, 3385, 3386, 3406, 3407,
+        ],
+      ),
+    );
 
-  for (const account of accounts) {
-    await db.insert(schema.accounts).values(account).execute();
-  }
+  // for (const user of users) {
+  //   await prisma.user.create({
+  //     data: user,
+  //   });
+  // }
 
-  for (const session of sessions) {
-    await db.insert(schema.session).values(session).execute();
-  }
+  // for (const account of accounts) {
+  //   await prisma.account.createMany({
+  //     data: {
+  //       refresh_token: account.refreshToken,
+  //       access_token: account.accessToken,
+  //       expires_at: account.expiresAt,
+  //       id_token: account.idToken,
+  //       session_state: account.sessionState,
+  //       token_type: account.tokenType,
+  //       provider: account.provider,
+  //       providerAccountId: account.providerAccountId,
+  //       type: account.type,
+  //       userId: account.userId,
+  //       scope: account.scope,
+  //     },
+  //   });
+  // }
 
-  for (const user of users) {
-    await db.insert(schema.users).values(user).execute();
-  }
+  // for (const session of sessions) {
+  //   await prisma.session.create({
+  //     data: session,
+  //   });
+  // }
 
-  for (const notification of notifications) {
-    await db.insert(schema.notifications).values(notification).execute();
-  }
+  // for (const notification of notifications) {
+  //   await prisma.notifications.create({
+  //     data: {
+  //       ...notification,
+  //       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+  //       body: notification.body as any,
+  //     },
+  //   });
+  // }
 
-  for (const verificationToken of verificationTokens) {
-    await db
-      .insert(schema.verificationTokens)
-      .values(verificationToken)
-      .execute();
-  }
+  // for (const verificationToken of verificationTokens) {
+  //   await prisma.verificationToken.create({
+  //     data: verificationToken,
+  //   });
+  // }
 
-  for (const project of projects) {
-    await db
-      .insert(schema.projects)
-      .values({
-        ...project,
-        domainVerified: project.domainVerified === 1,
-      })
-      .execute();
-  }
+  // for (const project of projects) {
+  //   await prisma.projects.create({
+  //     data: {
+  //       ...project,
+  //       domainVerified: project.domainVerified === 1,
+  //     },
+  //   });
+  // }
 
-  for (const projectMember of projectMembers) {
-    await db.insert(schema.projectMembers).values(projectMember).execute();
-  }
+  // for (const projectMember of projectMembers) {
+  //   await prisma.projectMembers.create({
+  //     data: projectMember,
+  //   });
+  // }
 
-  for (const projectInvitation of projectInvitations) {
-    await db
-      .insert(schema.projectInvitations)
-      .values(projectInvitation)
-      .execute();
-  }
+  // for (const projectInvitation of projectInvitations) {
+  //   await prisma.projectInvitations.create({
+  //     data: projectInvitation,
+  //   });
+  // }
 
-  for (const projectSocial of projectSocials) {
-    await db.insert(schema.projectSocials).values(projectSocial).execute();
-  }
+  // for (const projectSocial of projectSocials) {
+  //   await prisma.projectSocials.create({
+  //     data: projectSocial,
+  //   });
+  // }
 
-  for (const automaticEmail of automaticEmails) {
-    await db.insert(schema.automaticEmails).values(automaticEmail).execute();
-  }
+  // for (const automaticEmail of automaticEmails) {
+  //   await prisma.automaticEmails.create({
+  //     data: automaticEmail,
+  //   });
+  // }
 
-  for (const emailNotificationSetting of emailNotificationSettings) {
-    await db
-      .insert(schema.emailNotificationSettings)
-      .values({
-        ...emailNotificationSetting,
-        value: emailNotificationSetting.value === 1,
-      })
-      .execute();
-  }
+  // for (const emailNotificationSetting of emailNotificationSettings) {
+  //   await prisma.emailNotificationSettings.create({
+  //     data: {
+  //       ...emailNotificationSetting,
+  //       value: emailNotificationSetting.value === 1,
+  //     },
+  //   });
+  // }
 
-  for (const post of posts) {
-    await db
-      .insert(schema.posts)
-      .values({
-        ...post,
-        hidden: post.hidden === 1,
-      })
-      .execute();
-  }
+  // for (const post of posts) {
+  //   try {
+  //     await prisma.posts.create({
+  //       data: {
+  //         ...post,
+  //         hidden: post.hidden === 1,
+  //       },
+  //     });
+  //   } catch {
+  //     //
+  //   }
+  // }
 
-  for (const media of medium) {
-    await db.insert(schema.media).values(media).execute();
-  }
+  // for (const media of medium) {
+  //   await prisma.media.create({
+  //     data: media,
+  //   });
+  // }
 
   for (const visit of visits) {
-    await db.insert(schema.visits).values(visit).execute();
+    await prisma.visits.create({
+      data: {
+        ...visit,
+        postId: null,
+      },
+    });
   }
 
-  for (const like of likes) {
-    await db.insert(schema.likes).values(like).execute();
-  }
+  // for (const like of likes) {
+  //   await prisma.likes.create({
+  //     data: like,
+  //   });
+  // }
 }
 
 main()

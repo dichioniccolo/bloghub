@@ -1,7 +1,7 @@
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { and, db, eq, exists, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { TEST_HOSTNAME } from "@acme/lib/constants";
 import { getProtocol } from "@acme/lib/url";
 import {
@@ -24,31 +24,20 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
 
   const postId = getPostIdFromSlug(path) ?? path.substring(1);
 
-  const post = await db
-    .select({
-      id: schema.posts.id,
-      projectId: schema.posts.projectId,
-      title: schema.posts.title,
-    })
-    .from(schema.posts)
-    .where(
-      and(
-        eq(schema.posts.hidden, false),
-        eq(schema.posts.id, postId),
-        exists(
-          db
-            .select()
-            .from(schema.projects)
-            .where(
-              and(
-                eq(schema.projects.id, schema.posts.projectId),
-                eq(schema.projects.domain, finalDomain),
-              ),
-            ),
-        ),
-      ),
-    )
-    .then((x) => x[0]);
+  const post = await prisma.posts.findFirst({
+    where: {
+      id: postId,
+      hidden: false,
+      project: {
+        domain: finalDomain,
+      },
+    },
+    select: {
+      id: true,
+      projectId: true,
+      title: true,
+    },
+  });
 
   if (!post) {
     // rewrite to the post, the 404 error will be handler in the route

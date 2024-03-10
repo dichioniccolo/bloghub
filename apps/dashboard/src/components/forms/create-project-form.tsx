@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import type { Project } from "@acme/db";
+import type { Projects } from "@acme/db";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
 import { Button } from "@acme/ui/components/ui/button";
@@ -23,7 +23,7 @@ import type { CreateProjectSchemaType } from "~/lib/validation/schema";
 import { CreateProjectSchema } from "~/lib/validation/schema";
 
 interface Props {
-  onSuccess?(project: Project): void;
+  onSuccess?(project: Projects): void;
 }
 
 export function CreateProjectForm({ onSuccess }: Props) {

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -35,19 +35,20 @@ export const updatePostSettings = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    await db
-      .update(schema.posts)
-      .set({
+    await prisma.posts.update({
+      where: {
+        id: postId,
+        projectId,
+      },
+      data: {
         thumbnailUrl,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         seoTitle: seoTitle || null,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         seoDescription: seoDescription || null,
         hidden: false,
-      })
-      .where(
-        and(eq(schema.posts.projectId, projectId), eq(schema.posts.id, postId)),
-      );
+      },
+    });
 
     revalidatePath(AppRoutes.PostEditor(projectId, postId));
   },

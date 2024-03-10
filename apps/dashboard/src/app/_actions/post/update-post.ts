@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 
-import type { Post } from "@acme/db";
-import { and, db, eq, schema } from "@acme/db";
+import type { Posts } from "@acme/db";
+import { prisma } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -23,7 +23,7 @@ export const updatePost = createServerAction({
       content: z.string().optional().nullable(),
     }),
   }),
-  initialState: undefined as unknown as Pick<Post, "id">,
+  initialState: undefined as unknown as Pick<Posts, "id">,
   action: async ({
     input: {
       projectId,
@@ -38,33 +38,22 @@ export const updatePost = createServerAction({
 
     const postContent = Buffer.from(content ?? "", "base64").toString("utf-8");
 
-    const post = await db.transaction(async (tx) => {
-      await tx
-        .update(schema.posts)
-        .set({
+    const post = await prisma.$transaction(async (tx) => {
+      return await tx.posts.update({
+        where: {
+          id: postId,
+          projectId,
+        },
+        data: {
           title,
           description,
-          content: JSON.parse(postContent) as unknown,
-        })
-        .where(
-          and(
-            eq(schema.posts.projectId, projectId),
-            eq(schema.posts.id, postId),
-          ),
-        );
-
-      return await tx
-        .select({
-          id: schema.posts.id,
-        })
-        .from(schema.posts)
-        .where(
-          and(
-            eq(schema.posts.projectId, projectId),
-            eq(schema.posts.id, postId),
-          ),
-        )
-        .then((x) => x[0]!);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          content: JSON.parse(postContent),
+        },
+        select: {
+          id: true,
+        },
+      });
     });
 
     return post;

@@ -3,6 +3,7 @@
 
 import { useCallback } from "react";
 import dynamic from "next/dynamic";
+import type { Content } from "@tiptap/react";
 import { toast } from "sonner";
 
 // import { BlockEditor } from "@acme/editor";
@@ -154,7 +155,7 @@ export function EditPostFormContent({
       </Form>
 
       <BlockEditor
-        initialContent={post.content}
+        initialContent={post.content as Content}
         onDebouncedUpdate={(content) =>
           onSubmit({
             title: form.getValues("title"),

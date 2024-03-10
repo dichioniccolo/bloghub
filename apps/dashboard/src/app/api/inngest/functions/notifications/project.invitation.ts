@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 
 import { env as authEnv } from "@acme/auth/env.mjs";
-import { and, createId, db, eq, schema } from "@acme/db";
+import { createId, prisma } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
@@ -21,11 +21,11 @@ export const notificationInvitation = inngest.createFunction(
   },
   async ({ event, step }) => {
     const invitation = await step.run("Get invitation", () =>
-      db.query.projectInvitations.findFirst({
-        where: and(
-          eq(schema.projectInvitations.projectId, event.data.projectId),
-          eq(schema.projectInvitations.email, event.data.userEmail),
-        ),
+      prisma.projectInvitations.findFirst({
+        where: {
+          projectId: event.data.projectId,
+          email: event.data.userEmail,
+        },
       }),
     );
 
@@ -63,9 +63,11 @@ export const notificationInvitation = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", () =>
-      db.query.users.findFirst({
-        where: eq(schema.users.email, event.data.userEmail),
-        columns: {
+      prisma.user.findUnique({
+        where: {
+          email: event.data.userEmail,
+        },
+        select: {
           id: true,
         },
       }),
@@ -76,18 +78,12 @@ export const notificationInvitation = inngest.createFunction(
     }
 
     const createNotification = step.run("Create notification", () =>
-      db.transaction(async (tx) => {
-        const [notification] = await tx
-          .insert(schema.notifications)
-          .values({
-            id: createId(),
-            type: "PROJECT_INVITATION",
-            body: event.data,
-            userId: user.id,
-          })
-          .returning();
-
-        return notification;
+      prisma.notifications.create({
+        data: {
+          type: "PROJECT_INVITATION",
+          body: event.data,
+          userId: user.id,
+        },
       }),
     );
 
@@ -116,12 +112,14 @@ async function getLoginUrl(
 ) {
   const token = randomBytes(32).toString("hex");
 
-  await db.insert(schema.verificationTokens).values({
-    identifier,
-    expires,
-    token: createHash("sha256")
-      .update(`${token}${authEnv.AUTH_SECRET}`)
-      .digest("hex"),
+  await prisma.verificationToken.create({
+    data: {
+      identifier,
+      expires,
+      token: createHash("sha256")
+        .update(`${token}${authEnv.AUTH_SECRET}`)
+        .digest("hex"),
+    },
   });
 
   const params = new URLSearchParams({

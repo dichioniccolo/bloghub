@@ -1,6 +1,6 @@
 import type { Metadata, ServerRuntime } from "next";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { Separator } from "@acme/ui/components/ui/separator";
 
 import { getProject } from "~/app/_api/projects";
@@ -25,10 +25,11 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params: { projectId } }: Props) {
-  const socials = await db
-    .select()
-    .from(schema.projectSocials)
-    .where(eq(schema.projectSocials.projectId, projectId));
+  const socials = await prisma.projectSocials.findMany({
+    where: {
+      projectId,
+    },
+  });
 
   return (
     <div className="space-y-6">

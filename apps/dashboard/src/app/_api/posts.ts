@@ -1,17 +1,7 @@
 "use server";
 
-import {
-  and,
-  countDistinct,
-  db,
-  desc,
-  eq,
-  exists,
-  like,
-  or,
-  schema,
-  withCount,
-} from "@acme/db";
+import type { Prisma } from "@acme/db";
+import { prisma } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
@@ -22,48 +12,51 @@ export async function getPosts(
 ) {
   const user = await getCurrentUser();
 
-  const where = and(
-    eq(schema.posts.projectId, projectId),
-    exists(
-      db
-        .select()
-        .from(schema.projectMembers)
-        .where(
-          and(
-            eq(schema.projectMembers.projectId, schema.posts.projectId),
-            eq(schema.projectMembers.userId, user.id),
-          ),
-        ),
-    ),
-    filter ? or(like(schema.posts.title, `%${filter}%`)) : undefined,
-  );
+  const where: Prisma.PostsWhereInput = {
+    projectId,
+    project: {
+      members: {
+        some: {
+          userId: user.id,
+        },
+      },
+    },
+    ...(filter
+      ? {
+          title: {
+            contains: filter,
+          },
+        }
+      : {}),
+  };
 
-  const data = await db
-    .select({
-      id: schema.posts.id,
-      title: schema.posts.title,
-      createdAt: schema.posts.createdAt,
-      hidden: schema.posts.hidden,
-      visits: countDistinct(schema.visits.id),
-    })
-    .from(schema.posts)
-    .leftJoin(schema.visits, eq(schema.visits.postId, schema.posts.id))
-    .limit(pagination.pageSize)
-    .offset(pagination.pageSize * pagination.page - pagination.pageSize)
-    .orderBy(desc(schema.posts.createdAt))
-    .where(where)
-    .groupBy(
-      schema.posts.id,
-      schema.posts.title,
-      schema.posts.createdAt,
-      schema.posts.hidden,
-    );
+  const data = await prisma.posts.findMany({
+    where,
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+      hidden: true,
+      _count: {
+        select: {
+          visits: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: pagination.pageSize,
+    skip: pagination.pageSize * pagination.page - pagination.pageSize,
+  });
 
-  const dataCount = await withCount(schema.posts, where);
+  const count = await prisma.posts.count({
+    where,
+  });
 
   return {
     data,
-    count: dataCount,
+    count,
   };
 }
 
@@ -72,23 +65,19 @@ export type GetPosts = Awaited<ReturnType<typeof getPosts>>;
 export async function getPost(projectId: string, postId: string) {
   const user = await getCurrentUser();
 
-  return await db.query.posts.findFirst({
-    where: and(
-      eq(schema.posts.projectId, projectId),
-      eq(schema.posts.id, postId),
-      exists(
-        db
-          .select()
-          .from(schema.projectMembers)
-          .where(
-            and(
-              eq(schema.projectMembers.projectId, schema.posts.projectId),
-              eq(schema.projectMembers.userId, user.id),
-            ),
-          ),
-      ),
-    ),
-    columns: {
+  return prisma.posts.findFirst({
+    where: {
+      projectId,
+      id: postId,
+      project: {
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
       id: true,
       projectId: true,
       title: true,
@@ -99,10 +88,8 @@ export async function getPost(projectId: string, postId: string) {
       thumbnailUrl: true,
       seoTitle: true,
       seoDescription: true,
-    },
-    with: {
       project: {
-        columns: {
+        select: {
           name: true,
           domain: true,
         },

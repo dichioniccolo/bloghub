@@ -32,8 +32,6 @@ export const BlockEditor = ({
     onUpload,
   });
 
-  // const displayedUsers = users.slice(0, 3);
-
   if (!editor) {
     return null;
   }

@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -23,14 +23,14 @@ export const quitProject = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    await db
-      .delete(schema.projectMembers)
-      .where(
-        and(
-          eq(schema.projectMembers.projectId, projectId),
-          eq(schema.projectMembers.userId, user.id),
-        ),
-      );
+    await prisma.projectMembers.delete({
+      where: {
+        projectId_userId: {
+          projectId,
+          userId: user.id,
+        },
+      },
+    });
 
     redirect(AppRoutes.Dashboard);
   },

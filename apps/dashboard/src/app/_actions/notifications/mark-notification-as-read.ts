@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { RequiredString } from "~/lib/validation/schema";
@@ -15,16 +15,14 @@ export const markNotificationAsRead = createServerAction({
     notificationId: RequiredString,
   }),
   action: async ({ input: { notificationId }, ctx: { user } }) => {
-    await db
-      .update(schema.notifications)
-      .set({
+    await prisma.notifications.update({
+      where: {
+        id: notificationId,
+        userId: user.id,
+      },
+      data: {
         status: "READ",
-      })
-      .where(
-        and(
-          eq(schema.notifications.id, notificationId),
-          eq(schema.notifications.userId, user.id),
-        ),
-      );
+      },
+    });
   },
 });

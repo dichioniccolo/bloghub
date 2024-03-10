@@ -1,7 +1,7 @@
 import { get, has } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { and, db, eq, exists, schema, withExists } from "@acme/db";
+import { prisma } from "@acme/db";
 import { DOMAIN_REGEX } from "@acme/lib/constants";
 
 export const DomainSchema = z
@@ -10,12 +10,13 @@ export const DomainSchema = z
   })
   .regex(DOMAIN_REGEX, { message: "Invalid domain" })
   .refine(async (domain) => {
-    const domainExists = await withExists(
-      schema.projects,
-      eq(schema.projects.domain, domain),
-    );
+    const existingDomains = await prisma.projects.count({
+      where: {
+        domain,
+      },
+    });
 
-    return !domainExists;
+    return existingDomains === 0;
   }, "Domain already exists")
 
   .refine(async (domain) => {
@@ -33,53 +34,42 @@ export const DomainSchema = z
   }, "Domain not available");
 
 export async function isProjectOwner(projectId: string, userId: string) {
-  const isOwner = await withExists(
-    schema.projectMembers,
-    and(
-      eq(schema.projectMembers.projectId, projectId),
-      eq(schema.projectMembers.userId, userId),
-      eq(schema.projectMembers.role, "OWNER"),
-    ),
-  );
+  const isOwnerCount = await prisma.projectMembers.count({
+    where: {
+      projectId,
+      userId,
+      role: "OWNER",
+    },
+  });
 
-  return isOwner;
+  return isOwnerCount > 0;
 }
 
 export async function isProjectMember(projectId: string, userId: string) {
-  const isMember = await withExists(
-    schema.projectMembers,
-    and(
-      eq(schema.projectMembers.projectId, projectId),
-      eq(schema.projectMembers.userId, userId),
-    ),
-  );
+  const isMemberCount = await prisma.projectMembers.count({
+    where: {
+      projectId,
+      userId,
+    },
+  });
 
-  return isMember;
+  return isMemberCount;
 }
 
 export async function isProjectMemberWithEmail(
   projectId: string,
   email: string,
 ) {
-  const isMember = await withExists(
-    schema.projectMembers,
-    and(
-      eq(schema.projectMembers.projectId, projectId),
-      exists(
-        db
-          .select()
-          .from(schema.users)
-          .where(
-            and(
-              eq(schema.projectMembers.userId, schema.users.id),
-              eq(schema.users.email, email),
-            ),
-          ),
-      ),
-    ),
-  );
+  const isMemberCount = await prisma.projectMembers.count({
+    where: {
+      projectId,
+      user: {
+        email,
+      },
+    },
+  });
 
-  return isMember;
+  return isMemberCount > 0;
 }
 
 export const IS_NOT_OWNER_MESSAGE =

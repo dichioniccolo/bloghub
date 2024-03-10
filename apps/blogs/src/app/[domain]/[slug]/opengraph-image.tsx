@@ -2,7 +2,7 @@
 import type { ServerRuntime } from "next";
 import { ImageResponse } from "next/og";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { getPostIdFromSlug, truncate } from "@acme/lib/utils";
 
 export const runtime: ServerRuntime = "edge";
@@ -21,26 +21,26 @@ export default async function PostOG({ params: { domain, slug } }: Props) {
     return new Response("Not found", { status: 404 });
   }
 
-  const post = await db
-    .select({
-      title: schema.posts.title,
-      description: schema.posts.description,
-      thumbnailUrl: schema.posts.thumbnailUrl,
+  const post = await prisma.posts.findFirst({
+    where: {
+      id: postId,
+      hidden: false,
       project: {
-        name: schema.projects.name,
-        logo: schema.projects.logo,
+        domain,
       },
-    })
-    .from(schema.posts)
-    .innerJoin(
-      schema.projects,
-      and(
-        eq(schema.projects.id, schema.posts.projectId),
-        eq(schema.projects.domain, domain),
-      ),
-    )
-    .where(and(eq(schema.posts.id, postId), eq(schema.posts.hidden, false)))
-    .then((x) => x[0]);
+    },
+    select: {
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      project: {
+        select: {
+          name: true,
+          logo: true,
+        },
+      },
+    },
+  });
 
   if (!post) {
     return new Response("Not found", { status: 404 });

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,14 +24,14 @@ export const deleteProjectInvitation = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    await db
-      .delete(schema.projectInvitations)
-      .where(
-        and(
-          eq(schema.projectInvitations.email, email),
-          eq(schema.projectInvitations.projectId, projectId),
-        ),
-      );
+    await prisma.projectInvitations.delete({
+      where: {
+        email_projectId: {
+          projectId,
+          email,
+        },
+      },
+    });
 
     revalidatePath(AppRoutes.ProjectSettingsMembers(projectId));
   },

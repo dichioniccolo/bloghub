@@ -1,4 +1,4 @@
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { deleteFiles } from "@acme/files";
 import { inngest } from "@acme/inngest";
 import { deleteDomain } from "@acme/vercel";
@@ -14,41 +14,59 @@ export const projectDelete = inngest.createFunction(
   async ({ event }) => {
     const projectId = event.data.id;
 
-    await db.transaction(async (tx) => {
-      const media = await tx.query.media.findMany({
-        where: eq(schema.media.projectId, projectId),
-        columns: {
+    await prisma.$transaction(async (tx) => {
+      const medium = await tx.media.findMany({
+        where: {
+          projectId,
+        },
+        select: {
           url: true,
         },
       });
 
-      await deleteFiles(media.map((m) => m.url));
+      await deleteFiles(medium.map((m) => m.url));
 
-      await tx
-        .delete(schema.media)
-        .where(eq(schema.media.projectId, projectId));
+      await tx.media.deleteMany({
+        where: {
+          projectId,
+        },
+      });
 
-      await tx
-        .delete(schema.posts)
-        .where(eq(schema.posts.projectId, projectId));
+      await tx.posts.deleteMany({
+        where: {
+          projectId,
+        },
+      });
 
-      await tx
-        .delete(schema.automaticEmails)
-        .where(eq(schema.automaticEmails.projectId, projectId));
+      await tx.automaticEmails.deleteMany({
+        where: {
+          projectId,
+        },
+      });
 
-      await tx
-        .delete(schema.projectMembers)
-        .where(eq(schema.projectMembers.projectId, projectId));
+      await tx.projectMembers.deleteMany({
+        where: {
+          projectId,
+        },
+      });
 
-      await tx
-        .delete(schema.projectInvitations)
-        .where(eq(schema.projectInvitations.projectId, projectId));
+      await tx.projectInvitations.deleteMany({
+        where: {
+          projectId,
+        },
+      });
 
-      await tx
-        .delete(schema.visits)
-        .where(eq(schema.visits.projectId, projectId));
+      await tx.visits.deleteMany({
+        where: {
+          projectId,
+        },
+      });
 
-      await tx.delete(schema.projects).where(eq(schema.projects.id, projectId));
+      await tx.projects.delete({
+        where: {
+          id: projectId,
+        },
+      });
 
       await deleteDomain(event.data.domain);
     });

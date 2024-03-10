@@ -1,18 +1,18 @@
 "use server";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 
 export async function getProjectByDomain(domain: string) {
-  return await db.query.projects.findFirst({
-    columns: {
+  return await prisma.projects.findFirst({
+    where: {
+      domain,
+    },
+    select: {
       id: true,
       name: true,
       logo: true,
-    },
-    where: eq(schema.projects.domain, domain),
-    with: {
       socials: {
-        columns: {
+        select: {
           social: true,
           value: true,
         },

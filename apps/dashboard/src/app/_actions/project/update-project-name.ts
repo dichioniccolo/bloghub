@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -24,12 +24,14 @@ export const updateProjectName = createServerAction({
       );
     }
 
-    await db
-      .update(schema.projects)
-      .set({
+    await prisma.projects.update({
+      where: {
+        id: projectId,
+      },
+      data: {
         name,
-      })
-      .where(eq(schema.projects.id, projectId));
+      },
+    });
 
     revalidatePath(`/projects/${projectId}`);
   },

@@ -2,18 +2,8 @@
 
 import { format } from "date-fns";
 
-import type { SQL } from "@acme/db";
-import {
-  aliasedTable,
-  and,
-  countDistinct,
-  db,
-  eq,
-  exists,
-  gte,
-  schema,
-  withCount,
-} from "@acme/db";
+import type { Prisma } from "@acme/db";
+import { prisma } from "@acme/db";
 import { UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import type { AnalyticsInterval } from "@acme/lib/utils";
 import {
@@ -34,70 +24,53 @@ import { getBillingPeriod } from "./user";
 export async function getProjects() {
   const user = await getCurrentUser();
 
-  return await db
-    .select({
-      id: schema.projects.id,
-      name: schema.projects.name,
-      logo: schema.projects.logo,
-      domain: schema.projects.domain,
-      domainVerified: schema.projects.domainVerified,
-      posts: countDistinct(schema.posts.id),
-      visits: countDistinct(schema.visits.id),
-    })
-    .from(schema.projects)
-    .leftJoin(schema.posts, eq(schema.posts.projectId, schema.projects.id))
-    .leftJoin(schema.visits, eq(schema.visits.projectId, schema.projects.id))
-    .where(
-      exists(
-        db
-          .select()
-          .from(schema.projectMembers)
-          .where(
-            and(
-              eq(schema.projects.id, schema.projectMembers.projectId),
-              eq(schema.projectMembers.userId, user.id),
-            ),
-          ),
-      ),
-    )
-    .groupBy(
-      schema.projects.id,
-      schema.projects.name,
-      schema.projects.logo,
-      schema.projects.domain,
-      schema.projects.domainVerified,
-    );
+  return await prisma.projects.findMany({
+    where: {
+      members: {
+        some: {
+          userId: user.id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      logo: true,
+      domain: true,
+      domainVerified: true,
+      _count: {
+        select: {
+          posts: true,
+          visits: true,
+        },
+      },
+    },
+  });
 }
 export type GetProjects = Awaited<ReturnType<typeof getProjects>>;
 
 export async function getProject(id: string) {
   const user = await getCurrentUser();
 
-  return await db.query.projects.findFirst({
-    where: and(
-      eq(schema.projects.id, id),
-      exists(
-        db
-          .select()
-          .from(schema.projectMembers)
-          .where(
-            and(
-              eq(schema.projects.id, schema.projectMembers.projectId),
-              eq(schema.projectMembers.userId, user.id),
-            ),
-          ),
-      ),
-    ),
-    columns: {
+  return await prisma.projects.findFirst({
+    where: {
+      id,
+      members: {
+        some: {
+          userId: user.id,
+        },
+      },
+    },
+    select: {
       id: true,
       name: true,
       logo: true,
       domain: true,
       domainVerified: true,
-    },
-    with: {
       members: {
-        where: eq(schema.projectMembers.userId, user.id),
+        where: {
+          userId: user.id,
+        },
       },
     },
   });
@@ -109,21 +82,16 @@ export type GetProject = Awaited<ReturnType<typeof getProject>>;
 export async function getProjectsCount() {
   const user = await getCurrentUser();
 
-  const projectsCount = await withCount(
-    schema.projects,
-    exists(
-      db
-        .select()
-        .from(schema.projectMembers)
-        .where(
-          and(
-            eq(schema.projects.id, schema.projectMembers.projectId),
-            eq(schema.projectMembers.userId, user.id),
-            eq(schema.projectMembers.role, "OWNER"),
-          ),
-        ),
-    ),
-  );
+  const projectsCount = await prisma.projects.count({
+    where: {
+      members: {
+        some: {
+          userId: user.id,
+          role: "OWNER",
+        },
+      },
+    },
+  });
 
   return projectsCount;
 }
@@ -131,30 +99,16 @@ export async function getProjectsCount() {
 export async function getProjectUsers(projectId: string) {
   const user = await getCurrentUser();
 
-  const alias = aliasedTable(schema.projectMembers, "pm");
-
-  return await db.query.projectMembers.findMany({
-    where: and(
-      eq(schema.projectMembers.projectId, projectId),
-      exists(
-        db
-          .select()
-          .from(alias)
-          .where(
-            and(
-              eq(alias.projectId, schema.projectMembers.projectId),
-              eq(alias.userId, user.id),
-            ),
-          ),
-      ),
-    ),
-    columns: {
+  return await prisma.projectMembers.findMany({
+    where: {
+      projectId,
+      userId: user.id,
+    },
+    select: {
       role: true,
       createdAt: true,
-    },
-    with: {
       user: {
-        columns: {
+        select: {
           id: true,
           email: true,
           name: true,
@@ -169,25 +123,18 @@ export type GetProjectUsers = Awaited<ReturnType<typeof getProjectUsers>>;
 export async function getProjectInvites(projectId: string) {
   const user = await getCurrentUser();
 
-  return await db.query.projectInvitations.findMany({
-    where: and(
-      eq(schema.projectInvitations.projectId, projectId),
-      exists(
-        db
-          .select()
-          .from(schema.projectMembers)
-          .where(
-            and(
-              eq(
-                schema.projectMembers.projectId,
-                schema.projectInvitations.projectId,
-              ),
-              eq(schema.projectMembers.userId, user.id),
-            ),
-          ),
-      ),
-    ),
-    columns: {
+  return await prisma.projectInvitations.findMany({
+    where: {
+      projectId,
+      project: {
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    select: {
       email: true,
       createdAt: true,
       expiresAt: true,
@@ -200,19 +147,16 @@ export type GetProjectInvites = Awaited<ReturnType<typeof getProjectInvites>>;
 export async function getProjectOwner(projectId: string) {
   const user = await getCurrentUser();
 
-  const owner = await db.query.users.findFirst({
-    where: exists(
-      db
-        .select()
-        .from(schema.projectMembers)
-        .where(
-          and(
-            eq(schema.projectMembers.projectId, projectId),
-            eq(schema.projectMembers.role, "OWNER"),
-          ),
-        ),
-    ),
-    columns: {
+  const owner = await prisma.user.findFirst({
+    where: {
+      memberOfProjects: {
+        some: {
+          projectId,
+          role: "OWNER",
+        },
+      },
+    },
+    select: {
       id: true,
       stripePriceId: true,
       dayWhenBillingStarts: true,
@@ -244,17 +188,15 @@ export async function getProjectOwner(projectId: string) {
 export type GetProjectOwner = Awaited<ReturnType<typeof getProjectOwner>>;
 
 export async function getPendingInvite(email: string, projectId: string) {
-  return await db.query.projectInvitations.findFirst({
-    where: and(
-      eq(schema.projectInvitations.email, email),
-      eq(schema.projectInvitations.projectId, projectId),
-    ),
-    columns: {
-      expiresAt: true,
+  return await prisma.projectInvitations.findFirst({
+    where: {
+      email,
+      projectId,
     },
-    with: {
+    select: {
+      expiresAt: true,
       project: {
-        columns: {
+        select: {
           id: true,
           name: true,
         },
@@ -282,81 +224,56 @@ export async function getProjectAnalytics(
 
   const intervalFilter = intervalsFilters[filters.interval];
 
-  const where: SQL[] = [];
+  const where: Prisma.VisitsWhereInput = {
+    ...(intervalFilter.createdAt
+      ? {
+          createdAt: {
+            gte: intervalFilter.createdAt,
+          },
+        }
+      : {}),
+    ...(filters.country ? { geoCountry: filters.country } : {}),
+    ...(filters.city ? { geoCity: filters.city } : {}),
+    ...(filters.slug ? { postId: getPostIdFromSlug(filters.slug) } : {}),
+    ...(filters.referer ? { referer: filters.referer } : {}),
+    ...(filters.device ? { deviceType: filters.device } : {}),
+    ...(filters.browser ? { browserName: filters.browser } : {}),
+    ...(filters.os ? { osName: filters.os } : {}),
+  };
 
-  if (intervalFilter.createdAt) {
-    where.push(gte(schema.visits.createdAt, intervalFilter.createdAt));
-  }
-
-  if (filters.country) {
-    where.push(eq(schema.visits.geoCountry, filters.country));
-  }
-
-  if (filters.city) {
-    where.push(eq(schema.visits.geoCity, filters.city));
-  }
-
-  if (filters.slug) {
-    const postId = getPostIdFromSlug(filters.slug);
-
-    if (postId) {
-      where.push(eq(schema.visits.postId, postId));
-    }
-  }
-
-  if (filters.referer) {
-    where.push(eq(schema.visits.referer, filters.referer));
-  }
-
-  if (filters.device) {
-    where.push(eq(schema.visits.deviceType, filters.device));
-  }
-
-  if (filters.browser) {
-    where.push(eq(schema.visits.browserName, filters.browser));
-  }
-
-  if (filters.os) {
-    where.push(eq(schema.visits.osName, filters.os));
-  }
-
-  const allVisits = await db
-    .select({
-      geoCountry: schema.visits.geoCountry,
-      geoCity: schema.visits.geoCity,
-      deviceType: schema.visits.deviceType,
-      browserName: schema.visits.browserName,
-      osName: schema.visits.osName,
-      referer: schema.visits.referer,
-      createdAt: schema.visits.createdAt,
+  const allVisits = await prisma.visits.findMany({
+    where: {
+      projectId,
       project: {
-        domain: schema.projects.domain,
+        members: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+      ...where,
+    },
+    select: {
+      geoCountry: true,
+      geoCity: true,
+      deviceType: true,
+      browserName: true,
+      osName: true,
+      referer: true,
+      createdAt: true,
+      project: {
+        select: {
+          domain: true,
+        },
       },
       post: {
-        id: schema.posts.id,
-        title: schema.posts.title,
+        select: {
+          id: true,
+          title: true,
+        },
       },
-    })
-    .from(schema.visits)
-    .innerJoin(schema.projects, eq(schema.projects.id, schema.visits.projectId))
-    .innerJoin(schema.posts, eq(schema.posts.id, schema.visits.postId))
-    .where(
-      and(
-        eq(schema.visits.projectId, projectId),
-        exists(
-          db
-            .select()
-            .from(schema.projectMembers)
-            .where(
-              and(
-                eq(schema.projectMembers.projectId, schema.visits.projectId),
-                eq(schema.projectMembers.userId, user.id),
-              ),
-            ),
-        ),
-        ...where,
-      ),
-    );
+    },
+  });
 
   // calculate timeseries based on interval
   const groupedVisits = allVisits.reduce(
@@ -564,12 +481,12 @@ export type GetProjectAnalytics = Awaited<
 export async function getCurrentUserRole(projectId: string) {
   const user = await getCurrentUser();
 
-  const projectMember = await db.query.projectMembers.findFirst({
-    where: and(
-      eq(schema.projectMembers.projectId, projectId),
-      eq(schema.projectMembers.userId, user.id),
-    ),
-    columns: {
+  const projectMember = await prisma.projectMembers.findFirst({
+    where: {
+      projectId,
+      userId: user.id,
+    },
+    select: {
       role: true,
     },
   });

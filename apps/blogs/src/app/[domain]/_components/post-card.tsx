@@ -11,7 +11,9 @@ interface Props {
     title: string;
     description?: string | null;
     thumbnailUrl?: string | null;
-    visits: number;
+    _count: {
+      visits: number;
+    };
   };
   expand?: boolean;
 }
@@ -55,7 +57,7 @@ export function PostCard({ post, expand }: Props) {
               <p className="mx-2 font-bold">·</p>
               <span className="flex items-center">
                 <BarChart3 className="mr-2 h-4 w-4" />
-                <span>{post.visits} visits</span>
+                <span>{post._count.visits} visits</span>
               </span>
             </Link>
           </div>

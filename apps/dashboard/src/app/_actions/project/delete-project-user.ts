@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -28,22 +28,20 @@ export const deleteProjectUser = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const userToDelete = await db.query.projectMembers.findFirst({
-      where: and(
-        eq(schema.projectMembers.projectId, projectId),
-        eq(schema.projectMembers.userId, userIdToDelete),
-      ),
-      columns: {
-        role: true,
+    const userToDelete = await prisma.projectMembers.findFirst({
+      where: {
+        projectId,
+        userId: userIdToDelete,
       },
-      with: {
+      select: {
+        role: true,
         user: {
-          columns: {
+          select: {
             email: true,
           },
         },
         project: {
-          columns: {
+          select: {
             name: true,
           },
         },
@@ -58,14 +56,14 @@ export const deleteProjectUser = createServerAction({
       throw new ErrorForClient("Cannot delete owner");
     }
 
-    await db
-      .delete(schema.projectMembers)
-      .where(
-        and(
-          eq(schema.projectMembers.projectId, projectId),
-          eq(schema.projectMembers.userId, userIdToDelete),
-        ),
-      );
+    await prisma.projectMembers.delete({
+      where: {
+        projectId_userId: {
+          projectId,
+          userId: userIdToDelete,
+        },
+      },
+    });
 
     await inngest.send({
       id: `notification/project.user.removed/${projectId}-${userToDelete.user.email}`,

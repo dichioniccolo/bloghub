@@ -1,6 +1,6 @@
 "use server";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { stripePriceToSubscriptionPlan } from "@acme/stripe/plans";
 
 import { getCurrentUser } from "./get-user";
@@ -9,9 +9,9 @@ import { getUserTotalUsage } from "./get-user-total-usage";
 export async function getUserPlan() {
   const user = await getCurrentUser();
 
-  const dbUser = await db.query.users.findFirst({
-    where: eq(schema.users.id, user.id),
-    columns: {
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: {
       stripeSubscriptionId: true,
       stripePriceId: true,
       dayWhenBillingStarts: true,

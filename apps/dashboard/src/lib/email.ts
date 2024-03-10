@@ -1,10 +1,10 @@
-import type { EmailNotificationSettingType } from "@acme/db";
-import { and, db, eq, inArray, schema } from "@acme/db";
+import type { EmailNotificationType } from "@acme/db";
+import { prisma } from "@acme/db";
 import type { CreateEmailOptions } from "@acme/emails";
 import { sendMail as baseSendMail } from "@acme/emails";
 
 type MailOptions = CreateEmailOptions & {
-  type: EmailNotificationSettingType;
+  type: EmailNotificationType;
 };
 export async function sendMail({ to, type, ...options }: MailOptions) {
   const toEmails = Array.isArray(to) ? to : [to];
@@ -31,28 +31,27 @@ export async function sendMail({ to, type, ...options }: MailOptions) {
 }
 
 async function fetchEmailNotificationSettings(
-  type: EmailNotificationSettingType,
+  type: EmailNotificationType,
   emailAddresses: string[],
 ) {
-  const usersSettings = await db
-    .select({
-      value: schema.emailNotificationSettings.value,
+  return await prisma.emailNotificationSettings.findMany({
+    select: {
+      value: true,
       user: {
-        email: schema.users.email,
+        select: {
+          email: true,
+        },
       },
-    })
-    .from(schema.emailNotificationSettings)
-    .innerJoin(
-      schema.users,
-      eq(schema.users.id, schema.emailNotificationSettings.userId),
-    )
-    .where(
-      and(
-        eq(schema.emailNotificationSettings.type, type),
-        inArray(schema.users.email, emailAddresses),
-      ),
-    );
-  return usersSettings;
+    },
+    where: {
+      type,
+      user: {
+        email: {
+          in: emailAddresses,
+        },
+      },
+    },
+  });
 }
 
 function createEmailSettingsMap(

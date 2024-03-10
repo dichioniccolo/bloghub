@@ -1,0 +1,288 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_POSTGRES")
+}
+
+model Account {
+  userId            String  @db.VarChar(255)
+  user              User    @relation(fields: [userId], references: [id])
+  type              String
+  provider          String  @db.VarChar(255)
+  providerAccountId String  @db.VarChar(255)
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  @@id([provider, providerAccountId], map: "account_provider_providerAccountId_pk")
+  @@index([userId])
+}
+
+model AutomaticEmails {
+  id        Int                @id @default(autoincrement())
+  type      AutomaticEmailType
+  userId    String             @db.VarChar(255)
+  user      User               @relation(fields: [userId], references: [id])
+  projectId String             @db.VarChar(255)
+  project   Projects           @relation(fields: [projectId], references: [id])
+
+  @@index([projectId])
+  @@index([userId])
+}
+
+model EmailNotificationSettings {
+  userId String                @db.VarChar(255)
+  user   User                  @relation(fields: [userId], references: [id])
+  type   EmailNotificationType
+  value  Boolean               @default(true)
+
+  @@id([type, userId], map: "emailNotificationSettings_type_userId_pk")
+  @@index([userId])
+}
+
+model Likes {
+  userId    String   @db.VarChar(255)
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String   @db.VarChar(255)
+  post      Posts    @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([postId, userId], map: "likes_postId_userId_pk")
+  @@index([userId])
+  @@index([postId], map: "postId_index")
+}
+
+model Media {
+  id        String         @id @default(cuid()) @db.VarChar(255)
+  projectId String?        @db.VarChar(255)
+  project   Projects?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  postId    String?        @db.VarChar(255)
+  post      Posts?         @relation(fields: [postId], references: [id], onDelete: SetNull)
+  type      MediaType      @default(IMAGE)
+  url       String
+  createdAt DateTime       @default(now())
+  forEntity MediaForEntity @default(POST_CONTENT)
+
+  @@index([postId])
+  @@index([projectId])
+}
+
+model Notifications {
+  id        String             @id @default(cuid()) @db.VarChar(255)
+  userId    String             @db.VarChar(255)
+  user      User               @relation(fields: [userId], references: [id])
+  type      NotificationType
+  status    NotificationStatus @default(UNREAD)
+  body      Json               @db.Json
+  createdAt DateTime           @default(now())
+
+  @@index([userId])
+}
+
+model Posts {
+  id             String   @id @default(cuid()) @db.VarChar(255)
+  projectId      String   @db.VarChar(255)
+  project        Projects @relation(fields: [projectId], references: [id])
+  title          String   @db.VarChar(255)
+  description    String?  @db.VarChar(255)
+  content        Json     @db.Json
+  thumbnailUrl   String?
+  hidden         Boolean  @default(true)
+  seoTitle       String?  @db.VarChar(255)
+  seoDescription String?  @db.VarChar(255)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+
+  medium Media[]
+  visits Visits[]
+  likes  Likes[]
+
+  @@index([projectId], map: "projectId_index")
+}
+
+model ProjectInvitations {
+  projectId String   @db.VarChar(255)
+  project   Projects @relation(fields: [projectId], references: [id])
+  email     String   @db.VarChar(255)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@id([email, projectId], map: "projectInvitations_email_projectId_pk")
+  @@index([projectId])
+}
+
+model ProjectMembers {
+  projectId String   @db.VarChar(255)
+  project   Projects @relation(fields: [projectId], references: [id])
+  userId    String   @db.VarChar(255)
+  user      User     @relation(fields: [userId], references: [id])
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+
+  @@id([projectId, userId], map: "projectMembers_projectId_userId_pk")
+  @@index([projectId])
+  @@index([projectId, userId, role])
+  @@index([userId])
+}
+
+model ProjectSocials {
+  projectId String   @db.VarChar(255)
+  project   Projects @relation(fields: [projectId], references: [id])
+  social    Social
+  value     String
+
+  @@id([projectId, social], map: "projectSocials_projectId_social_pk")
+  @@index([projectId])
+  @@index([projectId, social])
+}
+
+model Projects {
+  id                  String    @id @default(cuid()) @db.VarChar(255)
+  name                String    @db.VarChar(255)
+  logo                String?
+  domain              String    @db.VarChar(255)
+  domainVerified      Boolean   @default(false)
+  domainLastCheckedAt DateTime?
+  domainUnverifiedAt  DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @default(now()) @updatedAt
+  deletedAt           DateTime?
+
+  automaticEmails AutomaticEmails[]
+  medium          Media[]
+  invitations     ProjectInvitations[]
+  socials         ProjectSocials[]
+  visits          Visits[]
+  posts           Posts[]
+  members         ProjectMembers[]
+
+  @@index([deletedAt], map: "deleted_at_index")
+}
+
+model Session {
+  sessionToken String   @id @db.VarChar(500)
+  userId       String   @db.VarChar(255)
+  user         User     @relation(fields: [userId], references: [id])
+  expires      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model User {
+  id                   String    @id @default(cuid()) @db.VarChar(255)
+  name                 String?
+  email                String    @unique(map: "email_unique_index") @db.VarChar(255)
+  emailVerified        DateTime?
+  image                String?
+  stripeCustomerId     String?   @unique @db.VarChar(255)
+  stripeSubscriptionId String?   @db.VarChar(255)
+  stripePriceId        String?   @db.VarChar(255)
+  dayWhenBillingStarts DateTime  @default(now())
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @default(now()) @updatedAt
+
+  accounts             Account[]
+  automaticEmails      AutomaticEmails[]
+  notifications        Notifications[]
+  notificationSettings EmailNotificationSettings[]
+  likes                Likes[]
+  memberOfProjects     ProjectMembers[]
+  sessions             Session[]
+}
+
+model VerificationToken {
+  identifier String   @db.VarChar(255)
+  token      String   @db.VarChar(500)
+  expires    DateTime @default(now())
+
+  @@id([identifier, token], map: "verificationToken_identifier_token_pk")
+}
+
+model Visits {
+  id              Int      @id @default(autoincrement())
+  projectId       String   @db.VarChar(255)
+  project         Projects @relation(fields: [projectId], references: [id])
+  postId          String?  @db.VarChar(255)
+  post            Posts?   @relation(fields: [postId], references: [id], onDelete: SetNull)
+  browserName     String?  @db.VarChar(255)
+  browserVersion  String?  @db.VarChar(255)
+  osName          String?  @db.VarChar(255)
+  osVersion       String?  @db.VarChar(255)
+  deviceModel     String?  @db.VarChar(255)
+  deviceType      String?  @db.VarChar(255)
+  deviceVendor    String?  @db.VarChar(255)
+  engineName      String?  @db.VarChar(255)
+  engineVersion   String?  @db.VarChar(255)
+  cpuArchitecture String?  @db.VarChar(255)
+  geoCountry      String?  @db.VarChar(255)
+  geoRegion       String?  @db.VarChar(255)
+  geoCity         String?  @db.VarChar(255)
+  geoLatitude     String?  @db.VarChar(255)
+  geoLongitude    String?  @db.VarChar(255)
+  createdAt       DateTime @default(now())
+  referer         String?  @db.VarChar(255)
+
+  @@index([projectId], map: "projectId_idx")
+  @@index([postId])
+}
+
+enum AutomaticEmailType {
+  INVALID_DOMAIN
+  NEAR_MONTHLY_LIMIT
+  MONTHLY_LIMIT_REACHED
+}
+
+enum EmailNotificationType {
+  COMMUNICATION
+  MARKETING
+  SOCIAL
+  SECURITY
+}
+
+enum MediaForEntity {
+  POST_CONTENT
+  POST_THUMBNAIL
+  PROJECT_LOGO
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  DOCUMENT
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+  ARCHIVED
+}
+
+enum NotificationType {
+  PROJECT_INVITATION
+  REMOVED_FROM_PROJECT
+  INVITATION_ACCEPTED
+}
+
+enum Role {
+  OWNER
+  EDITOR
+}
+
+enum Social {
+  GITHUB
+  TWITTER
+  DISCORD
+  YOUTUBE
+  LINKEDIN
+  FACEBOOK
+  INSTAGRAM
+}

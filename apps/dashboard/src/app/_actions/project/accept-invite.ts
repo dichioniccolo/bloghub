@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { and, db, eq, gte, schema, withExists } from "@acme/db";
+import { prisma } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
@@ -18,38 +18,43 @@ export const acceptInvite = createServerAction({
     projectId: z.string().min(1),
   }),
   action: async ({ input: { projectId }, ctx: { user } }) => {
-    const invitationExists = await withExists(
-      schema.projectInvitations,
-      and(
-        eq(schema.projectInvitations.email, user.email),
-        eq(schema.projectInvitations.projectId, projectId),
-        gte(schema.projectInvitations.expiresAt, new Date()),
-      ),
-    );
+    const invitationExistsCount = await prisma.projectInvitations.count({
+      where: {
+        email: user.email,
+        projectId,
+        expiresAt: {
+          gte: new Date(),
+        },
+      },
+    });
 
-    if (!invitationExists) {
+    if (invitationExistsCount === 0) {
       throw new ErrorForClient("Invite not found or expires");
     }
 
-    const project = await db.transaction(async (tx) => {
-      await tx
-        .delete(schema.projectInvitations)
-        .where(
-          and(
-            eq(schema.projectInvitations.email, user.email),
-            eq(schema.projectInvitations.projectId, projectId),
-          ),
-        );
-
-      await tx.insert(schema.projectMembers).values({
-        projectId,
-        userId: user.id,
-        role: "EDITOR",
+    const project = await prisma.$transaction(async (tx) => {
+      await tx.projectInvitations.delete({
+        where: {
+          email_projectId: {
+            email: user.email,
+            projectId,
+          },
+        },
       });
 
-      return await tx.query.projects.findFirst({
-        where: eq(schema.projects.id, projectId),
-        columns: {
+      await tx.projectMembers.create({
+        data: {
+          projectId,
+          userId: user.id,
+          role: "EDITOR",
+        },
+      });
+
+      return await tx.projects.findFirst({
+        where: {
+          id: projectId,
+        },
+        select: {
           name: true,
         },
       });

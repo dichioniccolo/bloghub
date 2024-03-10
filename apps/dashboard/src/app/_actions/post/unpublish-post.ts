@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { and, db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -24,24 +24,27 @@ export const unpublishPost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    const post = await db.query.posts.findFirst({
-      where: eq(schema.posts.id, postId),
-      columns: {
+    const post = await prisma.posts.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
         id: true,
         hidden: true,
       },
     });
-
     if (!post) {
       return;
     }
 
-    await db
-      .update(schema.posts)
-      .set({
+    await prisma.posts.update({
+      where: {
+        id: postId,
+      },
+      data: {
         hidden: !post.hidden,
-      })
-      .where(and(eq(schema.posts.id, post.id)));
+      },
+    });
 
     revalidatePath(AppRoutes.PostEditor(projectId, postId));
   },

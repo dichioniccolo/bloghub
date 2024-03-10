@@ -1,17 +1,6 @@
 "use server";
 
-import {
-  and,
-  countDistinct,
-  db,
-  desc,
-  eq,
-  exists,
-  inArray,
-  ne,
-  schema,
-  sql,
-} from "@acme/db";
+import { Prisma, prisma } from "@acme/db";
 
 interface PostsPaginationOptions {
   offset?: number;
@@ -22,63 +11,57 @@ export async function getPosts(
   projectId: string,
   { offset = 0, limit = 3 }: PostsPaginationOptions,
 ) {
-  return await db
-    .select({
-      id: schema.posts.id,
-      title: schema.posts.title,
-      description: schema.posts.description,
-      thumbnailUrl: schema.posts.thumbnailUrl,
-      visits: countDistinct(schema.visits.id),
-    })
-    .from(schema.posts)
-    .leftJoin(schema.visits, eq(schema.visits.postId, schema.posts.id))
-    .offset(offset)
-    .limit(limit)
-    .orderBy(desc(schema.posts.createdAt))
-    .where(
-      and(
-        eq(schema.posts.hidden, false),
-        eq(schema.posts.projectId, projectId),
-      ),
-    )
-    .groupBy(
-      schema.posts.id,
-      schema.posts.title,
-      schema.posts.description,
-      schema.posts.thumbnailUrl,
-    );
+  return await prisma.posts.findMany({
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      _count: {
+        select: {
+          visits: true,
+        },
+      },
+    },
+    where: {
+      hidden: false,
+      projectId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: offset,
+    take: limit,
+  });
 }
 
 export async function getPostById(domain: string, postId: string) {
-  return await db
-    .select({
-      id: schema.posts.id,
-      title: schema.posts.title,
-      description: schema.posts.description,
-      thumbnailUrl: schema.posts.thumbnailUrl,
-      content: schema.posts.content,
-      seoTitle: schema.posts.seoTitle,
-      seoDescription: schema.posts.seoDescription,
-      createdAt: schema.posts.createdAt,
+  return await prisma.posts.findFirst({
+    where: {
+      id: postId,
+      hidden: false,
       project: {
-        name: schema.projects.name,
-        logo: schema.projects.logo,
-        domain: schema.projects.domain,
+        domain,
       },
-    })
-    .from(schema.posts)
-    .innerJoin(
-      schema.projects,
-      and(eq(schema.projects.id, schema.posts.projectId)),
-    )
-    .where(
-      and(
-        eq(schema.posts.hidden, false),
-        eq(schema.posts.id, postId),
-        eq(schema.projects.domain, domain),
-      ),
-    )
-    .then((x) => x[0]);
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      content: true,
+      seoTitle: true,
+      seoDescription: true,
+      createdAt: true,
+      project: {
+        select: {
+          name: true,
+          logo: true,
+          domain: true,
+        },
+      },
+    },
+  });
 }
 
 export async function getRandomPostsByDomain(
@@ -86,53 +69,41 @@ export async function getRandomPostsByDomain(
   postId: string,
   toGenerate = 3,
 ) {
-  const ids = await db
-    .select({
-      id: schema.posts.id,
-    })
-    .from(schema.posts)
-    .where(
-      and(
-        eq(schema.posts.hidden, false),
-        ne(schema.posts.id, postId),
-        exists(
-          db
-            .select()
-            .from(schema.projects)
-            .where(
-              and(
-                eq(schema.projects.id, schema.posts.projectId),
-                eq(schema.projects.domain, domain),
-              ),
-            ),
-        ),
-      ),
-    )
-    .orderBy(sql`random()`)
-    .limit(toGenerate);
+  const ids = await prisma.$queryRaw<{ id: string }[]>(
+    Prisma.sql`
+      SELECT "id"
+      FROM "posts"
+      WHERE "hidden" = false
+      AND "id" != ${postId}
+      AND EXISTS (
+        SELECT 1
+        FROM "projects"
+        WHERE "id" = "posts"."projectId"
+        AND "domain" = ${domain}
+      )
+      ORDER BY random()
+      LIMIT ${toGenerate}
+    `,
+  );
 
   if (ids.length === 0) {
     return [];
   }
 
-  return await db
-    .select({
-      id: schema.posts.id,
-      title: schema.posts.title,
-      description: schema.posts.description,
-      thumbnailUrl: schema.posts.thumbnailUrl,
-      createdAt: schema.posts.createdAt,
-    })
-    .from(schema.posts)
-    .where(
-      and(
-        eq(schema.posts.hidden, false),
-        inArray(
-          schema.posts.id,
-          ids.map((x) => x.id),
-        ),
-      ),
-    );
+  return await prisma.posts.findMany({
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      thumbnailUrl: true,
+      createdAt: true,
+    },
+    where: {
+      id: {
+        in: ids.map((x) => x.id),
+      },
+    },
+  });
 }
 
 export type GetRandomPostsByDomain = Awaited<

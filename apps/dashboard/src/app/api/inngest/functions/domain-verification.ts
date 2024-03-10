@@ -1,6 +1,6 @@
 import { differenceInDays } from "date-fns";
 
-import { and, asc, db, eq, schema, withExists } from "@acme/db";
+import { prisma } from "@acme/db";
 import { InvalidDomain } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
@@ -20,23 +20,25 @@ export const domainVerification = inngest.createFunction(
   },
   async ({ step }) => {
     const projectsToVerify = await step.run("Get projects to verify", () =>
-      db.query.projects.findMany({
-        orderBy: asc(schema.projects.domainLastCheckedAt),
-        limit: 50,
-        columns: {
+      prisma.projects.findMany({
+        orderBy: {
+          domainLastCheckedAt: "asc",
+        },
+        take: 50,
+        select: {
           id: true,
           name: true,
           domain: true,
           domainUnverifiedAt: true,
           createdAt: true,
-        },
-        with: {
           members: {
-            limit: 1,
-            where: eq(schema.projectMembers.role, "OWNER"),
-            with: {
+            take: 1,
+            where: {
+              role: "OWNER",
+            },
+            select: {
               user: {
-                columns: {
+                select: {
                   id: true,
                   email: true,
                 },
@@ -54,18 +56,22 @@ export const domainVerification = inngest.createFunction(
         const verificationResult = await verifyProjectDomain(project.domain);
 
         if (verificationResult.verified) {
-          await db.transaction(async (tx) => {
-            await tx
-              .delete(schema.automaticEmails)
-              .where(eq(schema.automaticEmails.projectId, project.id));
+          await prisma.$transaction(async (tx) => {
+            await tx.automaticEmails.deleteMany({
+              where: {
+                projectId: project.id,
+              },
+            });
 
-            await tx
-              .update(schema.projects)
-              .set({
+            await tx.projects.update({
+              where: {
+                id: project.id,
+              },
+              data: {
                 domainVerified: true,
                 domainUnverifiedAt: null,
-              })
-              .where(eq(schema.projects.id, project.id));
+              },
+            });
           });
 
           return "verified";
@@ -79,20 +85,20 @@ export const domainVerification = inngest.createFunction(
         const invalidDays = differenceInDays(new Date(), domainUnverifiedAt);
 
         if (invalidDays > 3 && invalidDays <= 7) {
-          const invalidDomainEmailExists = await withExists(
-            schema.automaticEmails,
-            and(
-              eq(schema.automaticEmails.projectId, project.id),
-              eq(schema.automaticEmails.type, "INVALID_DOMAIN"),
-              eq(schema.automaticEmails.userId, owner.id),
-            ),
-          );
+          const invalidDomainEmailExistsCount =
+            await prisma.automaticEmails.count({
+              where: {
+                projectId: project.id,
+                type: "INVALID_DOMAIN",
+                userId: owner.id,
+              },
+            });
 
-          if (invalidDomainEmailExists) {
+          if (invalidDomainEmailExistsCount > 0) {
             return "mail_already_sent";
           }
 
-          await db.transaction(async (tx) => {
+          await prisma.$transaction(async (tx) => {
             await sendMail({
               type: "COMMUNICATION",
               to: owner.email,
@@ -107,10 +113,12 @@ export const domainVerification = inngest.createFunction(
               }),
             });
 
-            await tx.insert(schema.automaticEmails).values({
-              type: "INVALID_DOMAIN",
-              projectId: project.id,
-              userId: owner.id,
+            await tx.automaticEmails.create({
+              data: {
+                type: "INVALID_DOMAIN",
+                projectId: project.id,
+                userId: owner.id,
+              },
             });
           });
           return "mail_sent";

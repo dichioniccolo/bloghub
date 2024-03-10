@@ -1,4 +1,4 @@
-import { createId, db, eq, schema } from "@acme/db";
+import { createId, prisma } from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
@@ -16,9 +16,11 @@ export const userLoginLink = inngest.createFunction(
   async ({ event }) => {
     const { email, url } = event.data;
 
-    const user = await db.query.users.findFirst({
-      where: eq(schema.users.email, email),
-      columns: {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
         name: true,
       },
     });

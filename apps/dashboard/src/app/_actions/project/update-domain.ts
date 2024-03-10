@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -23,22 +23,30 @@ export const updateDomain = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const project = (await db.query.projects.findFirst({
-      where: eq(schema.projects.id, projectId),
-      columns: {
+    const project = await prisma.projects.findUnique({
+      where: {
+        id: projectId,
+      },
+      select: {
         domain: true,
       },
-    }))!;
+    });
+
+    if (!project) {
+      return;
+    }
 
     await deleteDomain(project.domain);
     await createDomain(newDomain);
 
-    await db
-      .update(schema.projects)
-      .set({
+    await prisma.projects.update({
+      where: {
+        id: projectId,
+      },
+      data: {
         domain: newDomain,
-      })
-      .where(eq(schema.projects.id, projectId));
+      },
+    });
 
     revalidatePath(AppRoutes.ProjectSettings(projectId));
   },

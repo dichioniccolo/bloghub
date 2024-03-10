@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { userAgent } from "next/server";
 import { ipAddress } from "@vercel/edge";
 
-import { db, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
@@ -70,24 +70,26 @@ export async function recordVisit(
       : new URL(referer).hostname
     : SELF_REFERER;
 
-  await db.insert(schema.visits).values({
-    projectId: post.projectId,
-    postId: post.id,
-    referer: refererDomain ?? SELF_REFERER,
-    browserName: ua.browser.name ?? UNKNOWN_ANALYTICS_VALUE,
-    browserVersion: ua.browser.version ?? UNKNOWN_ANALYTICS_VALUE,
-    osName: ua.os.name ?? UNKNOWN_ANALYTICS_VALUE,
-    osVersion: ua.os.version ?? UNKNOWN_ANALYTICS_VALUE,
-    deviceModel: ua.device.model ?? UNKNOWN_ANALYTICS_VALUE,
-    deviceType: ua.device.type ?? UNKNOWN_ANALYTICS_VALUE,
-    deviceVendor: ua.device.vendor ?? UNKNOWN_ANALYTICS_VALUE,
-    engineName: ua.engine.name ?? UNKNOWN_ANALYTICS_VALUE,
-    engineVersion: ua.engine.version ?? UNKNOWN_ANALYTICS_VALUE,
-    cpuArchitecture: ua.cpu.architecture ?? UNKNOWN_ANALYTICS_VALUE,
-    geoCountry: req.geo?.country ?? UNKNOWN_ANALYTICS_VALUE,
-    geoRegion: req.geo?.region ?? UNKNOWN_ANALYTICS_VALUE,
-    geoCity: req.geo?.city ?? UNKNOWN_ANALYTICS_VALUE,
-    geoLatitude: req.geo?.latitude ?? UNKNOWN_ANALYTICS_VALUE,
-    geoLongitude: req.geo?.longitude ?? UNKNOWN_ANALYTICS_VALUE,
+  await prisma.visits.create({
+    data: {
+      projectId: post.projectId,
+      postId: post.id,
+      referer: refererDomain ?? SELF_REFERER,
+      browserName: ua.browser.name ?? UNKNOWN_ANALYTICS_VALUE,
+      browserVersion: ua.browser.version ?? UNKNOWN_ANALYTICS_VALUE,
+      osName: ua.os.name ?? UNKNOWN_ANALYTICS_VALUE,
+      osVersion: ua.os.version ?? UNKNOWN_ANALYTICS_VALUE,
+      deviceModel: ua.device.model ?? UNKNOWN_ANALYTICS_VALUE,
+      deviceType: ua.device.type ?? UNKNOWN_ANALYTICS_VALUE,
+      deviceVendor: ua.device.vendor ?? UNKNOWN_ANALYTICS_VALUE,
+      engineName: ua.engine.name ?? UNKNOWN_ANALYTICS_VALUE,
+      engineVersion: ua.engine.version ?? UNKNOWN_ANALYTICS_VALUE,
+      cpuArchitecture: ua.cpu.architecture ?? UNKNOWN_ANALYTICS_VALUE,
+      geoCountry: req.geo?.country ?? UNKNOWN_ANALYTICS_VALUE,
+      geoRegion: req.geo?.region ?? UNKNOWN_ANALYTICS_VALUE,
+      geoCity: req.geo?.city ?? UNKNOWN_ANALYTICS_VALUE,
+      geoLatitude: req.geo?.latitude ?? UNKNOWN_ANALYTICS_VALUE,
+      geoLongitude: req.geo?.longitude ?? UNKNOWN_ANALYTICS_VALUE,
+    },
   });
 }

@@ -19,9 +19,9 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "db:generate": "drizzle-kit generate:mysql",
-    "db:push": "drizzle-kit push:mysql",
-    "db:studio": "drizzle-kit studio",
+    "disabled:db:generate": "drizzle-kit generate:mysql",
+    "disabled:db:push": "drizzle-kit push:mysql",
+    "disabled:db:studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

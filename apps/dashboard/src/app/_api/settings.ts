@@ -1,15 +1,17 @@
 "use server";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 
 import { getCurrentUser } from "./get-user";
 
 export async function getNotificationsSettings() {
   const user = await getCurrentUser();
 
-  const settings = await db.query.emailNotificationSettings.findMany({
-    where: eq(schema.emailNotificationSettings.userId, user.id),
-    columns: {
+  const settings = await prisma.emailNotificationSettings.findMany({
+    where: {
+      userId: user.id,
+    },
+    select: {
       type: true,
       value: true,
     },

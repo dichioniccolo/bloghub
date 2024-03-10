@@ -1,4 +1,4 @@
-import type { ProjectSocialType } from "@acme/db";
+import type { Social } from "@acme/db";
 import { defaultSocials } from "@acme/lib";
 import { cn } from "@acme/ui";
 import { Link } from "@acme/ui/components/link";
@@ -6,7 +6,7 @@ import { Link } from "@acme/ui/components/link";
 interface Props {
   showValue?: boolean;
   socials: {
-    social: ProjectSocialType;
+    social: Social;
     value: string;
   }[];
   className?: string;

@@ -17,7 +17,9 @@ interface Props {
     title: string;
     description?: string | null;
     thumbnailUrl?: string | null;
-    visits: number;
+    _count: {
+      visits: number;
+    };
   }[];
 }
 

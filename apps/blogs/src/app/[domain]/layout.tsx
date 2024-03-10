@@ -2,7 +2,7 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 
 import { getProjectByDomain } from "../_api/projects";
 import { BlogFooter } from "./_components/blog-footer";
@@ -18,9 +18,11 @@ interface Props {
 export async function generateMetadata({
   params: { domain },
 }: Props): Promise<Metadata> {
-  const project = await db.query.projects.findFirst({
-    where: eq(schema.projects.domain, domain),
-    columns: {
+  const project = await prisma.projects.findFirst({
+    where: {
+      domain,
+    },
+    select: {
       name: true,
       logo: true,
     },
@@ -50,9 +52,11 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const allProjects = await db.query.projects.findMany({
-    where: (columns, { eq }) => eq(columns.domainVerified, true),
-    columns: {
+  const allProjects = await prisma.projects.findMany({
+    where: {
+      domainVerified: true,
+    },
+    select: {
       domain: true,
     },
   });

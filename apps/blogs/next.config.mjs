@@ -149,6 +149,10 @@ const config = {
   //   locales: ["en"],
   //   defaultLocale: "en",
   // },
+  webpack: function (config, options) {
+    config.experiments = { asyncWebAssembly: true };
+    return config;
+  },
 };
 
 export default config;

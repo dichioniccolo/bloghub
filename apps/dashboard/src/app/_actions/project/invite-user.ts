@@ -4,15 +4,11 @@ import { revalidatePath } from "next/cache";
 import { addWeeks } from "date-fns";
 import { z } from "zod";
 
-import { and, db, eq, gte, lt, schema, withCount, withExists } from "@acme/db";
+import { prisma } from "@acme/db";
 import { inngest } from "@acme/inngest";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
-import {
-  isSubscriptionPlanPro,
-  stripePriceToSubscriptionPlan,
-} from "@acme/stripe/plans";
 
 import { RequiredEmail, RequiredString } from "~/lib/validation/schema";
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -46,16 +42,17 @@ export const inviteUser = createServerAction({
           return;
         }
 
-        const invitationExists = await withExists(
-          schema.projectInvitations,
-          and(
-            eq(schema.projectInvitations.email, user.email),
-            eq(schema.projectInvitations.projectId, projectId),
-            gte(schema.projectInvitations.expiresAt, new Date()),
-          ),
-        );
+        const invitationExistsCount = await prisma.projectInvitations.count({
+          where: {
+            email,
+            projectId,
+            expiresAt: {
+              gte: new Date(),
+            },
+          },
+        });
 
-        if (invitationExists) {
+        if (invitationExistsCount > 0) {
           ctx.addIssue({
             code: "custom",
             message: "An invitation has already been sent to this email",
@@ -64,93 +61,79 @@ export const inviteUser = createServerAction({
           return;
         }
 
-        const allInvitationsCount = await withCount(
-          schema.projectInvitations,
-          eq(schema.projectInvitations.projectId, projectId),
-        );
+        // const allInvitationsCount = await withCount(
+        //   schema.projectInvitations,
+        //   eq(schema.projectInvitations.projectId, projectId),
+        // );
 
-        const allMembersCount = await withCount(
-          schema.projectMembers,
-          eq(schema.projectMembers.projectId, projectId),
-        );
+        // const allMembersCount = await withCount(
+        //   schema.projectMembers,
+        //   eq(schema.projectMembers.projectId, projectId),
+        // );
 
-        const dbUser = await db.query.users.findFirst({
-          where: eq(schema.users.id, user.id),
-          columns: {
-            stripePriceId: true,
-          },
-        });
+        // const dbUser = await db.query.users.findFirst({
+        //   where: eq(schema.users.id, user.id),
+        //   columns: {
+        //     stripePriceId: true,
+        //   },
+        // });
 
-        if (!dbUser) {
-          ctx.addIssue({
-            code: "custom",
-            message:
-              "You must be on a pro plan to invite more than 2 users to your project",
-            path: ["email"],
-          });
-          return;
-        }
+        // if (!dbUser) {
+        //   ctx.addIssue({
+        //     code: "custom",
+        //     message:
+        //       "You must be on a pro plan to invite more than 2 users to your project",
+        //     path: ["email"],
+        //   });
+        //   return;
+        // }
 
-        const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
+        // const plan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 
-        if (
-          !isSubscriptionPlanPro(plan) &&
-          allInvitationsCount + allMembersCount >= 3
-        ) {
-          ctx.addIssue({
-            code: "custom",
-            message:
-              "You must be on a pro plan to invite more than 2 users to your project",
-            path: ["email"],
-          });
-        }
+        // if (
+        //   !isSubscriptionPlanPro(plan) &&
+        //   allInvitationsCount + allMembersCount >= 3
+        // ) {
+        //   ctx.addIssue({
+        //     code: "custom",
+        //     message:
+        //       "You must be on a pro plan to invite more than 2 users to your project",
+        //     path: ["email"],
+        //   });
+        // }
       }),
   action: async ({ input: { projectId, email }, ctx: { user } }) => {
     if (!(await isProjectOwner(projectId, user.id))) {
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const projectInvitation = await db.transaction(async (tx) => {
-      await tx
-        .delete(schema.projectInvitations)
-        .where(
-          and(
-            eq(schema.projectInvitations.projectId, projectId),
-            eq(schema.projectInvitations.email, email),
-            lt(schema.projectInvitations.expiresAt, new Date()),
-          ),
-        );
-
-      await tx.insert(schema.projectInvitations).values({
-        projectId,
-        email,
-        expiresAt: addWeeks(Date.now(), 1),
+    const projectInvitation = await prisma.$transaction(async (tx) => {
+      await tx.projectInvitations.delete({
+        where: {
+          email_projectId: {
+            projectId,
+            email,
+          },
+          expiresAt: {
+            lt: new Date(),
+          },
+        },
       });
 
-      return await tx
-        .select({
-          email: schema.projectInvitations.email,
+      return await tx.projectInvitations.create({
+        data: {
+          projectId,
+          email,
+          expiresAt: addWeeks(Date.now(), 1),
+        },
+        select: {
+          email: true,
           project: {
-            name: schema.projects.name,
+            select: { name: true },
           },
-        })
-        .from(schema.projectInvitations)
-        .innerJoin(
-          schema.projects,
-          eq(schema.projects.id, schema.projectInvitations.projectId),
-        )
-        .where(
-          and(
-            eq(schema.projectInvitations.projectId, projectId),
-            eq(schema.projectInvitations.email, email),
-          ),
-        )
-        .then((x) => x[0]);
+        },
+      });
     });
-
-    if (!projectInvitation) {
-      return;
-    }
 
     await inngest.send({
       id: `notification/project.invitation/${projectId}-${email}`,

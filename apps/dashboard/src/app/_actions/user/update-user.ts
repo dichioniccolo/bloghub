@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -16,11 +16,13 @@ export const updateUser = createServerAction({
   action: async ({ input: { name }, ctx }) => {
     const { user } = ctx;
 
-    await db
-      .update(schema.users)
-      .set({
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
         name,
-      })
-      .where(eq(schema.users.id, user.id));
+      },
+    });
   },
 });

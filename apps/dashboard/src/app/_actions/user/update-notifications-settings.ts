@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { createServerAction } from "@acme/server-actions/server";
 
 import { authenticatedMiddlewares } from "../middlewares/user";
@@ -20,73 +20,74 @@ export const updateNotificationSettings = createServerAction({
     input: { communication, marketing, social, security },
     ctx: { user },
   }) => {
-    await db.transaction(async (tx) => {
-      await tx
-        .insert(schema.emailNotificationSettings)
-        .values({
+    await prisma.$transaction(async (tx) => {
+      await tx.emailNotificationSettings.upsert({
+        where: {
+          type_userId: {
+            userId: user.id,
+            type: "COMMUNICATION",
+          },
+        },
+        create: {
           userId: user.id,
           type: "COMMUNICATION",
           value: communication,
-        })
-        .onConflictDoUpdate({
-          target: [
-            schema.emailNotificationSettings.userId,
-            schema.emailNotificationSettings.type,
-          ],
-          set: {
-            value: communication,
-          },
-        });
+        },
+        update: {
+          value: communication,
+        },
+      });
 
-      await tx
-        .insert(schema.emailNotificationSettings)
-        .values({
+      await tx.emailNotificationSettings.upsert({
+        where: {
+          type_userId: {
+            userId: user.id,
+            type: "MARKETING",
+          },
+        },
+        create: {
           userId: user.id,
           type: "MARKETING",
           value: marketing,
-        })
-        .onConflictDoUpdate({
-          target: [
-            schema.emailNotificationSettings.userId,
-            schema.emailNotificationSettings.type,
-          ],
-          set: {
-            value: marketing,
+        },
+        update: {
+          value: marketing,
+        },
+      });
+
+      await tx.emailNotificationSettings.upsert({
+        where: {
+          type_userId: {
+            userId: user.id,
+            type: "SOCIAL",
           },
-        });
-      await tx
-        .insert(schema.emailNotificationSettings)
-        .values({
+        },
+        create: {
           userId: user.id,
           type: "SOCIAL",
           value: social,
-        })
-        .onConflictDoUpdate({
-          target: [
-            schema.emailNotificationSettings.userId,
-            schema.emailNotificationSettings.type,
-          ],
-          set: {
-            value: social,
-          },
-        });
+        },
+        update: {
+          value: social,
+        },
+      });
 
-      await tx
-        .insert(schema.emailNotificationSettings)
-        .values({
+      await tx.emailNotificationSettings.upsert({
+        where: {
+          type_userId: {
+            userId: user.id,
+            type: "SECURITY",
+          },
+        },
+        create: {
           userId: user.id,
           type: "SECURITY",
           value: security,
-        })
-        .onConflictDoUpdate({
-          target: [
-            schema.emailNotificationSettings.userId,
-            schema.emailNotificationSettings.type,
-          ],
-          set: {
-            value: security,
-          },
-        });
+        },
+        update: {
+          value: security,
+        },
+      });
     });
   },
 });

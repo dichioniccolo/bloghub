@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 
-import type { ProjectSocialType } from "@acme/db";
-import { and, db, eq, schema } from "@acme/db";
+import type { Social } from "@acme/db";
+import { prisma } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -32,19 +32,24 @@ export const upsertSocials = createServerAction({
       (x) => x.value !== null && x.value !== undefined && x.value !== "",
     );
 
-    await db.transaction(async (tx) => {
-      await tx
-        .delete(schema.projectSocials)
-        .where(and(eq(schema.projectSocials.projectId, projectId)));
+    await prisma.$transaction(async (tx) => {
+      await tx.projectSocials.deleteMany({
+        where: {
+          projectId,
+          social: {
+            notIn: nonNullSocials.map((x) => x.social as Social),
+          },
+        },
+      });
 
       if (nonNullSocials.length > 0) {
-        await tx.insert(schema.projectSocials).values(
-          nonNullSocials.map((x) => ({
+        await tx.projectSocials.createMany({
+          data: nonNullSocials.map((x) => ({
             projectId,
-            social: x.social as ProjectSocialType,
+            social: x.social as Social,
             value: x.value!,
           })),
-        );
+        });
       }
     });
   },

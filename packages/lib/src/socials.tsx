@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Facebook, Github, Instagram, Linkedin, Youtube } from "lucide-react";
 
-import type { ProjectSocialType } from "@acme/db";
+import type { Social } from "@acme/db";
 
 export const defaultSocials = [
   {
@@ -86,7 +86,7 @@ export const defaultSocials = [
     `,
   },
 ] satisfies {
-  type: ProjectSocialType;
+  type: Social;
   name: string;
   icon: ReactNode;
   url: (x: { value: string }) => string;

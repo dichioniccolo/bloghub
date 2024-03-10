@@ -3,7 +3,7 @@ import { ipAddress } from "@vercel/edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import OpenAI from "openai";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import {
   isSubscriptionPlanPro,
   stripePriceToSubscriptionPlan,
@@ -42,9 +42,9 @@ export async function POST(req: Request): Promise<Response> {
 
     const user = await getCurrentUser();
 
-    const dbUser = await db.query.users.findFirst({
-      where: eq(schema.users.id, user.id),
-      columns: {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: {
         stripePriceId: true,
       },
     });

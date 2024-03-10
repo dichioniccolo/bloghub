@@ -2,7 +2,7 @@
 
 import type Stripe from "stripe";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 
 import { stripe } from ".";
 import { stripePriceToSubscriptionPlan } from "./plans";
@@ -35,15 +35,16 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await db
-        .update(schema.users)
-        .set({
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
           stripeCustomerId,
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
-        })
-        .where(eq(schema.users.id, userId));
+        },
+      });
+
       break;
     }
     case "invoice.payment_succeeded": {
@@ -61,14 +62,15 @@ export async function handleEvent(event: Stripe.Event) {
         subscription.items.data[0]?.price.id,
       );
 
-      await db
-        .update(schema.users)
-        .set({
+      await prisma.user.update({
+        where: { stripeCustomerId },
+        data: {
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscriptionPlan.priceId,
           dayWhenBillingStarts: new Date(),
-        })
-        .where(eq(schema.users.stripeCustomerId, stripeCustomerId));
+        },
+      });
+
       break;
     }
     case "customer.subscription.deleted": {
@@ -79,14 +81,14 @@ export async function handleEvent(event: Stripe.Event) {
           ? subscription.customer
           : subscription.customer.id;
 
-      await db
-        .update(schema.users)
-        .set({
+      await prisma.user.update({
+        where: { stripeCustomerId },
+        data: {
           stripeSubscriptionId: null,
           stripePriceId: null,
           dayWhenBillingStarts: new Date(),
-        })
-        .where(eq(schema.users.stripeCustomerId, stripeCustomerId));
+        },
+      });
       break;
     }
   }

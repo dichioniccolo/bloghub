@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 
-import type { ProjectSocialType } from "@acme/db";
+import type { Social } from "@acme/db";
 import { defaultSocials } from "@acme/lib";
 import { SubmissionStatus } from "@acme/server-actions";
 import { useServerAction } from "@acme/server-actions/client";
@@ -27,7 +27,7 @@ import { ProjectSocialsSchema } from "~/lib/validation/schema";
 interface Props {
   projectId: string;
   socials: {
-    social: ProjectSocialType;
+    social: Social;
     value: string;
   }[];
 }

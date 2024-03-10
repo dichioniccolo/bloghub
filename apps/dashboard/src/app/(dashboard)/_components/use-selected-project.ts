@@ -2,10 +2,10 @@
 
 import { usePathname } from "next/navigation";
 
-import type { Project } from "@acme/db";
+import type { Projects } from "@acme/db";
 
 export function useSelectedProject(
-  projects: Pick<Project, "id" | "logo" | "name">[],
+  projects: Pick<Projects, "id" | "logo" | "name">[],
 ) {
   const pathname = usePathname();
 

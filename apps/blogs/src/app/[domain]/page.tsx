@@ -3,7 +3,7 @@ import type { ServerRuntime } from "next";
 import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 
 import { LastPosts, LastPostsPlaceholder } from "./_components/last-posts";
 import { OtherPosts, OtherPostsPlaceholder } from "./_components/other-posts";
@@ -22,9 +22,11 @@ export const runtime: ServerRuntime = "edge";
 export default async function Page({ params: { domain } }: Props) {
   unstable_noStore();
 
-  const project = await db.query.projects.findFirst({
-    where: eq(schema.projects.domain, domain),
-    columns: {
+  const project = await prisma.projects.findFirst({
+    where: {
+      domain,
+    },
+    select: {
       id: true,
       name: true,
       logo: true,

@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 import { stripe } from "@acme/stripe";
@@ -33,15 +33,17 @@ export const createCheckoutSession = createServerAction({
       .transform((x) => x?.toUpperCase()),
   }),
   action: async ({ input: { callbackUrl, key }, ctx: { user } }) => {
-    const dbUser = (await db.query.users.findFirst({
-      where: eq(schema.users.id, user.id),
-      columns: {
+    const dbUser = await prisma.user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+      select: {
         email: true,
         stripePriceId: true,
         stripeCustomerId: true,
         stripeSubscriptionId: true,
       },
-    }))!;
+    });
 
     const currentUserPlan = stripePriceToSubscriptionPlan(dbUser.stripePriceId);
 

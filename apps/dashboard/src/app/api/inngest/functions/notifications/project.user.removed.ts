@@ -1,4 +1,4 @@
-import { createId, db, eq, schema } from "@acme/db";
+import { createId, prisma } from "@acme/db";
 import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
@@ -33,9 +33,11 @@ export const notificationRemovedFromProject = inngest.createFunction(
 
     // here the user might not exist, so we need to check for that
     const user = await step.run("Get user", () =>
-      db.query.users.findFirst({
-        where: eq(schema.users.email, event.data.userEmail),
-        columns: {
+      prisma.user.findFirst({
+        where: {
+          email: event.data.userEmail,
+        },
+        select: {
           id: true,
         },
       }),
@@ -46,18 +48,12 @@ export const notificationRemovedFromProject = inngest.createFunction(
     }
 
     const createNotification = step.run("Create notification", async () => {
-      return await db.transaction(async (tx) => {
-        const [notification] = await tx
-          .insert(schema.notifications)
-          .values({
-            id: createId(),
-            type: "REMOVED_FROM_PROJECT",
-            body: event.data,
-            userId: user.id,
-          })
-          .returning();
-
-        return notification;
+      return await prisma.notifications.create({
+        data: {
+          type: "REMOVED_FROM_PROJECT",
+          body: event.data,
+          userId: user.id,
+        },
       });
     });
 

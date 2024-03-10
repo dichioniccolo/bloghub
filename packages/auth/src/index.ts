@@ -1,10 +1,10 @@
 import type { JWT } from "@auth/core/jwt";
 import Discord from "@auth/core/providers/discord";
 import type { DefaultSession } from "@auth/core/types";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { inngest } from "@acme/inngest";
 
 import { env } from "./env.mjs";
@@ -29,7 +29,7 @@ export const {
   signOut,
   unstable_update: updateSession,
 } = NextAuth({
-  adapter: DrizzleAdapter(db),
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
@@ -70,14 +70,16 @@ export const {
         (account?.provider === "google" || account?.provider === "discord") &&
         profile?.email
       ) {
-        await db
-          .update(schema.users)
-          .set({
-            name: profile?.name,
+        await prisma.user.update({
+          where: {
+            email: profile.email,
+          },
+          data: {
+            name: profile.name,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            image: profile?.picture ?? profile?.image ?? profile?.image_url,
-          })
-          .where(eq(schema.users.email, profile.email));
+            image: profile.picture ?? profile.image ?? profile.image_url,
+          },
+        });
       }
 
       return true;
@@ -99,9 +101,11 @@ export const {
         throw new Error("Unable to sign in with this email address");
       }
 
-      const dbUser = await db.query.users.findFirst({
-        where: eq(schema.users.email, token.email),
-        columns: {
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          email: token.email,
+        },
+        select: {
           id: true,
           email: true,
           name: true,

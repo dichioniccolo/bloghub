@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -22,12 +22,18 @@ export const verifyDomain = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    const project = (await db.query.projects.findFirst({
-      where: eq(schema.projects.id, projectId),
-      columns: {
+    const project = await prisma.projects.findUnique({
+      where: {
+        id: projectId,
+      },
+      select: {
         domain: true,
       },
-    }))!;
+    });
+
+    if (!project) {
+      return;
+    }
 
     return await verifyProjectDomain(project.domain);
   },

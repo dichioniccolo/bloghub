@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
 
@@ -22,12 +22,14 @@ export const updateProjectLogo = createServerAction({
       throw new ErrorForClient(IS_NOT_OWNER_MESSAGE);
     }
 
-    await db
-      .update(schema.projects)
-      .set({
+    await prisma.projects.update({
+      where: {
+        id: projectId,
+      },
+      data: {
         logo,
-      })
-      .where(eq(schema.projects.id, projectId));
+      },
+    });
 
     revalidatePath(`/projects/${projectId}`);
   },

@@ -1,6 +1,6 @@
 "use server";
 
-import { db, eq, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import type { ConfigJSON, DomainJSON } from "@acme/vercel";
 import {
   getConfigResponse,
@@ -25,10 +25,12 @@ export async function verifyProjectDomain(
     getConfigResponse(domain),
   ]);
 
-  const result = await db.transaction(async (tx) => {
-    const project = await tx.query.projects.findFirst({
-      where: eq(schema.projects.domain, domain),
-      columns: {
+  const result = await prisma.$transaction(async (tx) => {
+    const project = await tx.projects.findFirst({
+      where: {
+        domain,
+      },
+      select: {
         id: true,
         domainUnverifiedAt: true,
       },
@@ -45,25 +47,29 @@ export async function verifyProjectDomain(
       };
     }
 
-    await tx
-      .update(schema.projects)
-      .set({
+    await tx.projects.update({
+      where: {
+        id: project.id,
+      },
+      data: {
         domainLastCheckedAt: new Date(),
-      })
-      .where(eq(schema.projects.id, project.id));
+      },
+    });
 
     if (!domainResponse?.verified) {
       try {
         const verificationResponse = await verifyDomain(domain);
 
         if (verificationResponse?.verified) {
-          await tx
-            .update(schema.projects)
-            .set({
+          await tx.projects.update({
+            where: {
+              id: project.id,
+            },
+            data: {
               domainVerified: true,
               domainUnverifiedAt: null,
-            })
-            .where(eq(schema.projects.id, project.id));
+            },
+          });
 
           return {
             verified: true,
@@ -89,15 +95,15 @@ export async function verifyProjectDomain(
     }
 
     if (configResponse?.misconfigured) {
-      await tx
-        .update(schema.projects)
-        .set({
+      await tx.projects.update({
+        where: {
+          id: project.id,
+        },
+        data: {
           domainVerified: false,
-          domainUnverifiedAt: !project.domainUnverifiedAt
-            ? new Date()
-            : undefined,
-        })
-        .where(eq(schema.projects.id, project.id));
+          domainUnverifiedAt: !project.domainUnverifiedAt ? new Date() : null,
+        },
+      });
 
       return {
         invalid: true,
@@ -108,13 +114,15 @@ export async function verifyProjectDomain(
         configJson: configResponse,
       };
     } else {
-      await tx
-        .update(schema.projects)
-        .set({
-          domainVerified: false,
+      await tx.projects.update({
+        where: {
+          id: project.id,
+        },
+        data: {
+          domainVerified: true,
           domainUnverifiedAt: null,
-        })
-        .where(eq(schema.projects.id, project.id));
+        },
+      });
 
       return {
         invalid: false,

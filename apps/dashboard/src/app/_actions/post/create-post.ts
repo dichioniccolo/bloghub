@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { createId, db, schema } from "@acme/db";
+import { prisma } from "@acme/db";
 import { AppRoutes } from "@acme/lib/routes";
 import { ErrorForClient } from "@acme/server-actions";
 import { createServerAction } from "@acme/server-actions/server";
@@ -22,22 +22,17 @@ export const createPost = createServerAction({
       throw new ErrorForClient(IS_NOT_MEMBER_MESSAGE);
     }
 
-    const [post] = await db
-      .insert(schema.posts)
-      .values({
-        id: createId(),
+    const post = await prisma.posts.create({
+      data: {
         projectId,
         title: "",
         description: "",
         content: {},
-      })
-      .returning({
-        id: schema.posts.id,
-      });
-
-    if (!post) {
-      return;
-    }
+      },
+      select: {
+        id: true,
+      },
+    });
 
     redirect(AppRoutes.PostEditor(projectId, post.id));
   },

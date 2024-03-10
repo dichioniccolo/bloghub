@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createId, db, schema } from "@acme/db";
+import { createId, prisma } from "@acme/db";
 import { uploadFile } from "@acme/files";
 
 import { getCurrentUser } from "~/app/_api/get-user";
@@ -76,21 +76,15 @@ export async function createProjectMedia(formData: FormData) {
 
   const url = uploadedFile.url;
 
-  const [media] = await db
-    .insert(schema.media)
-    .values({
-      id: createId(),
+  const media = await prisma.media.create({
+    data: {
       projectId,
       postId,
       url,
       forEntity,
       type,
-    })
-    .returning();
+    },
+  });
 
   return media;
-
-  // return (await db.query.media.findFirst({
-  //   where: eq(schema.media.id, id),
-  // }))!;
 }
