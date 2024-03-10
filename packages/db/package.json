@@ -33,7 +33,7 @@
     "@prisma/adapter-pg": "^5.10.2",
     "@prisma/client": "^5.10.2",
     "@t3-oss/env-nextjs": "^0.9.2",
-    "pg-native": "^3.0.1",
+    "pg": "^8.11.3",
     "ws": "^8.16.0",
     "zod": "^3.22.4"
   },
