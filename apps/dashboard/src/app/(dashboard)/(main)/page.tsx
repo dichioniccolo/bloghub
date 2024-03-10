@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 
 import { DashboardHeader } from "~/components/dashboard-header";
 import { DashboardShell } from "~/components/dashboard-shell";
@@ -15,7 +15,7 @@ export const metadata = {
 
 export const revalidate = 3600;
 
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export default function AppDashboardMainPage() {
   return (

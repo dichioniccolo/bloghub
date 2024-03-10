@@ -1,3 +1,4 @@
+import type { ServerRuntime } from "next";
 import { ipAddress } from "@vercel/edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import OpenAI from "openai";
@@ -18,7 +19,7 @@ const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
 
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   if (env.NODE_ENV !== "development") {

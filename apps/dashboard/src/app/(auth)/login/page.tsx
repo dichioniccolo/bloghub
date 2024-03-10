@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
 
 import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
@@ -15,7 +15,7 @@ export const metadata = {
   description,
 } satisfies Metadata;
 
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export default function Page() {
   return (

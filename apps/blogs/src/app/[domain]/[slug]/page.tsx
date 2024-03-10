@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, ServerRuntime } from "next";
+import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 import type { Content } from "@tiptap/react";
 import { format } from "date-fns";
@@ -18,7 +19,7 @@ interface Props {
   };
 }
 
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export async function generateMetadata({
   params: { domain, slug },
@@ -54,10 +55,8 @@ export async function generateMetadata({
   };
 }
 
-export const revalidate = 60;
-
 export default async function Page({ params: { domain, slug } }: Props) {
-  // unstable_noStore();
+  unstable_noStore();
 
   const postId = getPostIdFromSlug(slug);
 

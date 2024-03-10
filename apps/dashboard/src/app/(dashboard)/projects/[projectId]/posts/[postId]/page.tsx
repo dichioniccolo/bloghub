@@ -1,3 +1,4 @@
+import type { ServerRuntime } from "next";
 import { notFound } from "next/navigation";
 
 import { getPost } from "~/app/_api/posts";
@@ -10,7 +11,7 @@ interface Props {
   };
 }
 
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export default async function Page({ params: { projectId, postId } }: Props) {
   const post = await getPost(projectId, postId);

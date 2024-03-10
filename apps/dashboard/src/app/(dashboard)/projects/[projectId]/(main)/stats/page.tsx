@@ -1,3 +1,4 @@
+import type { ServerRuntime } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import { auth } from "@acme/auth";
@@ -28,7 +29,7 @@ interface Props {
   };
 }
 
-// export const runtime: ServerRuntime = "edge";
+export const runtime: ServerRuntime = "edge";
 
 export default async function Page({
   params: { projectId },
