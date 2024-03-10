@@ -6,25 +6,28 @@ import { API_HOSTNAMES } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { ApiMiddleware } from "~/lib/middleware/api-middleware";
+import { env } from "./env.mjs";
 import { ratelimit } from "./lib/ratelimit";
 
 export default function middleware(req: NextRequest, event: NextFetchEvent) {
   return auth(async (req) => {
     const { path, domain } = parseRequest(req);
 
-    const ip = req.ip ?? "127.0.0.1";
+    if (env.NODE_ENV === "production") {
+      const ip = req.ip ?? "127.0.0.1";
 
-    const { success, pending, limit, remaining, reset } =
-      await ratelimit.limit(ip);
+      const { success, pending, limit, remaining, reset } =
+        await ratelimit.limit(ip);
 
-    event.waitUntil(pending);
+      event.waitUntil(pending);
 
-    if (!success) {
-      const res = NextResponse.json("Rate limit exceeded", { status: 429 });
-      res.headers.set("X-RateLimit-Limit", limit.toString());
-      res.headers.set("X-RateLimit-Remaining", remaining.toString());
-      res.headers.set("X-RateLimit-Reset", reset.toString());
-      return res;
+      if (!success) {
+        const res = NextResponse.json("Rate limit exceeded", { status: 429 });
+        res.headers.set("X-RateLimit-Limit", limit.toString());
+        res.headers.set("X-RateLimit-Remaining", remaining.toString());
+        res.headers.set("X-RateLimit-Reset", reset.toString());
+        return res;
+      }
     }
 
     if (API_HOSTNAMES.has(domain)) {
