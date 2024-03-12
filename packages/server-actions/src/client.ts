@@ -31,19 +31,23 @@ export function useServerAction<const State, const Schema extends z.ZodTypeAny>(
         startTransition(() => {
           actionParam(...params)
             .then((data) => {
-              if (data.status === SubmissionStatus.SUCCESS) {
-                options?.onSuccess?.(data.state);
-              }
+              try {
+                if (data.status === SubmissionStatus.SUCCESS) {
+                  options?.onSuccess?.(data.state);
+                }
 
-              if (data.status === SubmissionStatus.ERROR) {
-                options?.onServerError?.(data.serverError);
-              }
+                if (data.status === SubmissionStatus.ERROR) {
+                  options?.onServerError?.(data.serverError);
+                }
 
-              if (data.status === SubmissionStatus.VALIDATION_ERROR) {
-                options?.onValidationError?.(data.validationErrors);
-              }
+                if (data.status === SubmissionStatus.VALIDATION_ERROR) {
+                  options?.onValidationError?.(data.validationErrors);
+                }
 
-              resolve(data);
+                resolve(data);
+              } catch (error) {
+                reject(error);
+              }
             })
             .catch((error) => {
               reject(error);
@@ -99,19 +103,23 @@ export function useOptimisticAction<
 
           actionParam(...params)
             .then((data) => {
-              if (data.status === SubmissionStatus.SUCCESS) {
-                options?.onSuccess?.(data.state);
-              }
+              try {
+                if (data.status === SubmissionStatus.SUCCESS) {
+                  options?.onSuccess?.(data.state);
+                }
 
-              if (data.status === SubmissionStatus.ERROR) {
-                options?.onServerError?.(data.serverError);
-              }
+                if (data.status === SubmissionStatus.ERROR) {
+                  options?.onServerError?.(data.serverError);
+                }
 
-              if (data.status === SubmissionStatus.VALIDATION_ERROR) {
-                options?.onValidationError?.(data.validationErrors);
-              }
+                if (data.status === SubmissionStatus.VALIDATION_ERROR) {
+                  options?.onValidationError?.(data.validationErrors);
+                }
 
-              resolve(data);
+                resolve(data);
+              } catch (error) {
+                reject(error);
+              }
             })
             .catch((error) => {
               reject(error);

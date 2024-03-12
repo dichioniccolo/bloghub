@@ -1,13 +1,12 @@
 // Importing env files here to validate on build
+import { withAxiom } from "next-axiom";
+
 import "@acme/auth/env.mjs";
 import "@acme/db/env";
 import "@acme/emails/env";
 import "@acme/pusher/env";
 import "@acme/stripe/env";
 import "@acme/vercel/env";
-
-import { withAxiom } from "next-axiom";
-
 import "./src/env.mjs";
 
 import { env } from "./src/env.mjs";
