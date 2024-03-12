@@ -1,4 +1,6 @@
 // Importing env files here to validate on build
+import { withAxiom } from "next-axiom";
+
 import "@acme/db/env";
 import "@acme/emails/env";
 import "@acme/pusher/env";
@@ -155,4 +157,4 @@ const config = {
   },
 };
 
-export default config;
+export default withAxiom(config);

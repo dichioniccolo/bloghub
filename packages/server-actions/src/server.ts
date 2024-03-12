@@ -75,13 +75,6 @@ export function createServerAction<
     { state = initialState, serverError, validationErrors },
     input,
   ) => {
-    // return await Sentry.withServerActionInstrumentation(
-    //   actionName,
-    //   {
-    //     formData: toFormData(input),
-    //     headers: headers(),
-    //     recordResponse: true,
-    //   },
     try {
       const context = await getContext(middlewares);
 
@@ -148,7 +141,6 @@ export function createServerAction<
       };
     }
   };
-  // );
 }
 
 export function createServerQuery<

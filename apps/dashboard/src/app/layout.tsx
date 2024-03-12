@@ -5,16 +5,11 @@ import "~/styles/tiptap.css";
 
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { Construction } from "lucide-react";
+import { AxiomWebVitals } from "next-axiom";
 
 import { AI } from "@acme/editor/ai";
 import { subdomainUrl } from "@acme/lib/url";
 import { cn } from "@acme/ui";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@acme/ui/components/ui/popover";
 import { fontMapper } from "@acme/ui/styles/fonts";
 
 import { env } from "~/env.mjs";
@@ -99,34 +94,11 @@ export default function Layout({ children }: PropsWithChildren) {
     <html className={cn(fontMapper["font-sans"], "h-full font-sans")} lang="en">
       <head />
       <body className="h-full">
+        <AxiomWebVitals />
         <Providers>
           <AI>{children}</AI>
         </Providers>
         <Analytics />
-        <Popover>
-          <PopoverTrigger className="fixed bottom-4 right-4 z-50 rounded-full border bg-background p-4">
-            <Construction />
-          </PopoverTrigger>
-          <PopoverContent className="max-w-md" align="end">
-            <div className="flex items-center gap-x-2 text-base font-medium">
-              <Construction />
-              <span>Under construction</span>
-            </div>
-            <div className="mt-2 text-sm">
-              This app is still under construction. You are free to use it, but
-              expect bugs and missing features. If you find any bugs, please
-              report them{" "}
-              <a
-                href="mailto:niccolo@bloghub.it"
-                className="text-blue-500 hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                here
-              </a>
-            </div>
-          </PopoverContent>
-        </Popover>
       </body>
     </html>
   );
