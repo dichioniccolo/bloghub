@@ -93,8 +93,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^11.0.8
-        version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^11.0.12
+        version: 11.0.12(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.354.0
         version: 0.354.0(react@18.2.0)
@@ -268,8 +268,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^11.0.8
-        version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^11.0.12
+        version: 11.0.12(react-dom@18.2.0)(react@18.2.0)
       html-escaper:
         specifier: ^3.0.3
         version: 3.0.3
@@ -413,8 +413,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^11.0.8
-        version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^11.0.12
+        version: 11.0.12(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.354.0
         version: 0.354.0(react@18.2.0)
@@ -8541,12 +8541,15 @@ packages:
       '@emotion/is-prop-valid': 0.8.8
     dev: false
 
-  /framer-motion@11.0.8(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-1KSGNuqe1qZkS/SWQlDnqK2VCVzRVEoval379j0FiUBJAZoqgwyvqFkfvJbgW2IPFo4wX16K+M0k5jO23lCIjA==}
+  /framer-motion@11.0.12(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1VW4pk+4EH8RwWHdqntWTwF9peranyHn/BczvMzF9TGh/FwMKxoRZzkig8Nak9BQA8GymfIyCGo5adXwRuXDXA==}
     peerDependencies:
+      '@emotion/is-prop-valid': '*'
       react: ^18.0.0
       react-dom: ^18.0.0
     peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
       react:
         optional: true
       react-dom:
@@ -8555,8 +8558,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       tslib: 2.6.2
-    optionalDependencies:
-      '@emotion/is-prop-valid': 0.8.8
     dev: false
 
   /fs-extra@10.1.0:
