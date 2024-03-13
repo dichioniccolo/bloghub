@@ -20,7 +20,7 @@ export const config = {
      */
     {
       source:
-        "/((?!api/|_next/|_proxy/|_static|_vercel|favicon.ico|sitemap.xml|robots.txt).*)",
+        "/((?!api/|_next/|_proxy/|_static|_axiom|_vercel|favicon.ico|sitemap.xml|robots.txt).*)",
       // missing: [
       //   { type: "header", key: "next-router-prefetch" },
       //   { type: "header", key: "purpose", value: "prefetch" },
