@@ -29,6 +29,10 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
 
   const postId = getPostIdFromSlug(path) ?? path.substring(1);
 
+  if (path === "/" || !postId) {
+    return NextResponse.rewrite(new URL(`/${finalDomain}${path}`, req.url));
+  }
+
   const post = await prisma.posts.findFirst({
     where: {
       id: postId,
