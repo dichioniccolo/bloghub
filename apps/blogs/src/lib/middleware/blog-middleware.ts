@@ -11,6 +11,7 @@ import {
 } from "@acme/lib/utils";
 
 import { env } from "~/env.mjs";
+import { ratelimit } from "../ratelimit";
 import { recordVisit } from "./utils";
 
 export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
@@ -19,6 +20,10 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl;
 
   const path = url.pathname;
+
+  if (path.endsWith("opengraph-image")) {
+    return NextResponse.rewrite(`${getProtocol()}${domain}${path}`);
+  }
 
   const finalDomain = env.NODE_ENV === "development" ? TEST_HOSTNAME : domain;
 
@@ -41,7 +46,7 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
 
   if (!post) {
     // rewrite to the post, the 404 error will be handler in the route
-    return NextResponse.rewrite(new URL(`/${finalDomain}${path}`, req.url));
+    return NextResponse.redirect(`${getProtocol()}${domain}`);
   }
 
   const slug = generatePostSlug(post.title, post.id);
@@ -50,8 +55,23 @@ export async function BlogMiddleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect(`${getProtocol()}${domain}/${slug}`);
   }
 
-  if (path.endsWith("opengraph-image")) {
-    return NextResponse.rewrite(`${getProtocol()}${domain}${path}`);
+  if (env.NODE_ENV === "production") {
+    const ip = req.ip ?? "127.0.0.1";
+
+    const { success, pending, limit, remaining, reset } =
+      await ratelimit.limit(ip);
+
+    ev.waitUntil(pending);
+
+    if (!success) {
+      const res = NextResponse.json("Rate limit exceeded", { status: 429 });
+
+      res.headers.set("X-RateLimit-Limit", limit.toString());
+      res.headers.set("X-RateLimit-Remaining", remaining.toString());
+      res.headers.set("X-RateLimit-Reset", reset.toString());
+
+      return res;
+    }
   }
 
   ev.waitUntil(recordVisit(req, finalDomain, post));
