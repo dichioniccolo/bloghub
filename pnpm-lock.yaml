@@ -567,6 +567,9 @@ importers:
       '@prisma/client':
         specifier: ^5.11.0
         version: 5.11.0(prisma@5.11.0)
+      '@prisma/extension-accelerate':
+        specifier: ^1.0.0
+        version: 1.0.0(@prisma/client@5.11.0)
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.2)(zod@3.22.4)
@@ -2922,6 +2925,15 @@ packages:
       '@prisma/engines-version': 5.11.0-15.efd2449663b3d73d637ea1fd226bafbcf45b3102
       '@prisma/fetch-engine': 5.11.0
       '@prisma/get-platform': 5.11.0
+
+  /@prisma/extension-accelerate@1.0.0(@prisma/client@5.11.0):
+    resolution: {integrity: sha512-5oSpPtKCMfTl/sSXaS/7vBsPqfm+eEVB6/5KPBJITFatDoFcmjx/PIC/T93mHLiHI98xKwosPN59NGXjDDhcFA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@prisma/client': '>=4.16.1'
+    dependencies:
+      '@prisma/client': 5.11.0(prisma@5.11.0)
+    dev: false
 
   /@prisma/fetch-engine@5.11.0:
     resolution: {integrity: sha512-994viazmHTJ1ymzvWugXod7dZ42T2ROeFuH6zHPcUfp/69+6cl5r9u3NFb6bW8lLdNjwLYEVPeu3hWzxpZeC0w==}
