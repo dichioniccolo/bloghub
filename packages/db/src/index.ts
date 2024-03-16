@@ -12,7 +12,7 @@ export * from "@prisma/client/edge";
 export { createId } from "@paralleldrive/cuid2";
 
 // neonConfig.webSocketConstructor = ws;
-// const connectionString = `${process.env.DATABASE_URL_POSTGRES}`;
+// const connectionString = `${process.env.DATABASE_URL}`;
 
 // const pool = new Pool({ connectionString });
 

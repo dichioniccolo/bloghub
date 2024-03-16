@@ -70,11 +70,8 @@
     }
   },
   "globalEnv": [
-    "ADMIN_EMAIL",
     "CI",
-    "DATABASE_HOST",
-    "DATABASE_PASSWORD",
-    "DATABASE_USERNAME",
+    "DATABASE_URL",
     "EDGE_CONFIG",
     "KV_REST_API_READ_ONLY_TOKEN",
     "KV_REST_API_TOKEN",
