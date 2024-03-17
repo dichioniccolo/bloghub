@@ -37,7 +37,7 @@
     "@visx/scale": "^3.5.0",
     "@visx/tooltip": "^3.3.0",
     "ai": "^3.0.12",
-    "date-fns": "^3.4.0",
+    "date-fns": "^3.5.0",
     "dequal": "^2.0.3",
     "encoding": "^0.1.13",
     "framer-motion": "^11.0.14",
