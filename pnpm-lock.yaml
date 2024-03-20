@@ -93,8 +93,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^11.0.15
-        version: 11.0.15(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^11.0.18
+        version: 11.0.18(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.359.0
         version: 0.359.0(react@18.2.0)
@@ -268,8 +268,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^11.0.15
-        version: 11.0.15(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^11.0.18
+        version: 11.0.18(react-dom@18.2.0)(react@18.2.0)
       html-escaper:
         specifier: ^3.0.3
         version: 3.0.3
@@ -416,8 +416,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       framer-motion:
-        specifier: ^11.0.15
-        version: 11.0.15(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^11.0.18
+        version: 11.0.18(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.359.0
         version: 0.359.0(react@18.2.0)
@@ -5359,7 +5359,7 @@ packages:
       '@vue/shared': 3.4.21
       entities: 4.5.0
       estree-walker: 2.0.2
-      source-map-js: 1.1.0
+      source-map-js: 1.2.0
     dev: false
 
   /@vue/compiler-dom@3.4.21:
@@ -5380,7 +5380,7 @@ packages:
       estree-walker: 2.0.2
       magic-string: 0.30.8
       postcss: 8.4.37
-      source-map-js: 1.1.0
+      source-map-js: 1.2.0
     dev: false
 
   /@vue/compiler-ssr@3.4.21:
@@ -6506,7 +6506,7 @@ packages:
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
     dependencies:
       mdn-data: 2.0.30
-      source-map-js: 1.1.0
+      source-map-js: 1.2.0
     dev: false
 
   /cssesc@3.0.0:
@@ -7575,8 +7575,8 @@ packages:
       '@emotion/is-prop-valid': 0.8.8
     dev: false
 
-  /framer-motion@11.0.15(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-bQzPYHL66lO4SLoAHqWy5v1Pd4TDwYs8I16+ZlsoZjRn2MdUiygb8nyl9kcI/JjhcErSBq2XLaha4F5knn72ow==}
+  /framer-motion@11.0.18(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-TPKJ1KqQzTQ//cGFAb/jrpbbNY8UVh2q69vAcVRA8AxsKYkl5nrW1nsmrHRc5dLsRdwlXSV1kuo1Khylhph7kw==}
     peerDependencies:
       '@emotion/is-prop-valid': '*'
       react: ^18.0.0
