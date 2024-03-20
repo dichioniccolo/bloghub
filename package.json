@@ -32,7 +32,7 @@
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "turbo": "^1.12.5",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "overrides": {
     "@auth/core": "0.28.0"

@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@acme/tsconfig": "^0.1.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "prettier": "@acme/prettier-config"
 }
