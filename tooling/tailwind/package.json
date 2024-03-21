@@ -16,7 +16,7 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.37",
+    "postcss": "^8.4.38",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
