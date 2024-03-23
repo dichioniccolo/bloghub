@@ -1331,8 +1331,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.1)
       tailwindcss-radix:
-        specifier: ^2.9.0
-        version: 2.9.0
+        specifier: ^3.0.1
+        version: 3.0.1
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.1.0
@@ -11127,8 +11127,8 @@ packages:
       tailwindcss: 3.4.1
     dev: false
 
-  /tailwindcss-radix@2.9.0:
-    resolution: {integrity: sha512-N49SnciSeRgLC+VK+Fu5VULNJIvJUvN7tUKF1kEHPXrS76WAlwrSVthCbJ9NUw0Cj/ptxs73pdVEdosomAN5Lg==}
+  /tailwindcss-radix@3.0.1:
+    resolution: {integrity: sha512-nbKUtTNdjqQAdTmRMQZT0iRPYuaMgsQmR3KxmSuxkGRM8TzIjXgxlZ0t6X4n/a3QSEaEx2NFTTkKnrYACjCI+A==}
     dev: false
 
   /tailwindcss@3.4.0:
