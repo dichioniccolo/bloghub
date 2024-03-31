@@ -507,8 +507,8 @@ importers:
         specifier: 0.28.2
         version: 0.28.2
       '@auth/prisma-adapter':
-        specifier: ^1.5.1
-        version: 1.5.1(@prisma/client@5.11.0)
+        specifier: ^1.5.2
+        version: 1.5.2(@prisma/client@5.11.0)
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.3)(zod@3.22.4)
@@ -1419,12 +1419,12 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/prisma-adapter@1.5.1(@prisma/client@5.11.0):
-    resolution: {integrity: sha512-qie27TFTc2XDb9YPwNCSA/sCHaykMr4IHhAzQpTry0XTNftsFLWkni1zc+4OzkAJ7c82QU9LbGRISGLc+DiN5Q==}
+  /@auth/prisma-adapter@1.5.2(@prisma/client@5.11.0):
+    resolution: {integrity: sha512-yP331ZtBvzrtKSqsJ7/LeojJVimiSvJ7CKeA4HfvAGtHhKvu2m5IVe8mnWa6yX1xWK8I5VyZMMlWPcaDtNKlwA==}
     peerDependencies:
       '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5'
     dependencies:
-      '@auth/core': 0.28.1
+      '@auth/core': 0.28.2
       '@prisma/client': 5.11.0(prisma@5.11.0)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
