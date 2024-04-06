@@ -41,7 +41,7 @@
     "@acme/prettier-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
     "@types/ws": "^8.5.10",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "prettier": "^3.2.5",
     "prisma": "^5.12.1",
     "typescript": "^5.4.4"
