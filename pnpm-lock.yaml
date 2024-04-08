@@ -630,7 +630,7 @@ importers:
         version: 2.2.6(@tiptap/core@2.2.6)(@tiptap/pm@2.2.6)
       '@tiptap/extension-code-block-lowlight':
         specifier: ^2.2.6
-        version: 2.2.6(@tiptap/core@2.2.6)(@tiptap/extension-code-block@2.2.5)(@tiptap/pm@2.2.6)
+        version: 2.2.6(@tiptap/core@2.2.6)(@tiptap/extension-code-block@2.2.6)(@tiptap/pm@2.2.6)
       '@tiptap/extension-color':
         specifier: ^2.2.6
         version: 2.2.6(@tiptap/core@2.2.6)(@tiptap/extension-text-style@2.2.6)
@@ -835,8 +835,8 @@ importers:
   packages/files:
     dependencies:
       '@vercel/blob':
-        specifier: ^0.22.2
-        version: 0.22.2
+        specifier: ^0.22.3
+        version: 0.22.3
     devDependencies:
       '@acme/eslint-config':
         specifier: ^0.1.0
@@ -4250,7 +4250,7 @@ packages:
       '@tiptap/pm': 2.2.6
     dev: false
 
-  /@tiptap/extension-code-block-lowlight@2.2.6(@tiptap/core@2.2.6)(@tiptap/extension-code-block@2.2.5)(@tiptap/pm@2.2.6):
+  /@tiptap/extension-code-block-lowlight@2.2.6(@tiptap/core@2.2.6)(@tiptap/extension-code-block@2.2.6)(@tiptap/pm@2.2.6):
     resolution: {integrity: sha512-W/8C5nIwgGLvxjc+PfnCcWkfrUuJsIKjyZGXmq1hVXTTVA9eVGbS7m1YB/fsYTEg1ccwoM2JjKO9yuKCeR2xiQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
@@ -4258,17 +4258,7 @@ packages:
       '@tiptap/pm': ^2.0.0
     dependencies:
       '@tiptap/core': 2.2.6(@tiptap/pm@2.2.6)
-      '@tiptap/extension-code-block': 2.2.5(@tiptap/core@2.2.6)(@tiptap/pm@2.2.6)
-      '@tiptap/pm': 2.2.6
-    dev: false
-
-  /@tiptap/extension-code-block@2.2.5(@tiptap/core@2.2.6)(@tiptap/pm@2.2.6):
-    resolution: {integrity: sha512-EMOSdP+wqvXmrIO7wkzPCGy4jwgSPY42HR2xXg5jd0oqjYM4ZexWJ6cpdVwcUQ51Zjc8EDwJrmFAsbawnyk+fA==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/core': 2.2.6(@tiptap/pm@2.2.6)
+      '@tiptap/extension-code-block': 2.2.6(@tiptap/core@2.2.6)(@tiptap/pm@2.2.6)
       '@tiptap/pm': 2.2.6
     dev: false
 
@@ -5128,14 +5118,14 @@ packages:
       server-only: 0.0.1
     dev: false
 
-  /@vercel/blob@0.22.2:
-    resolution: {integrity: sha512-CzjmolbHf7Swp6or6grGLggya3STSbj/jgC9mp08M7cEwJbTMY4GbWRJyzirc2jX1x/OljJ9VqYVQgg6Y3xyAQ==}
+  /@vercel/blob@0.22.3:
+    resolution: {integrity: sha512-l0t2KhbOO/I8ZNOl9zypYf1NE0837aO4/CPQNGR/RAxtj8FpdYKjhyUADUXj2gERLQmnhun+teaVs/G7vZJ/TQ==}
     engines: {node: '>=16.14'}
     dependencies:
       async-retry: 1.3.3
       bytes: 3.1.2
       is-buffer: 2.0.5
-      undici: 5.28.3
+      undici: 5.28.4
     dev: false
 
   /@vercel/edge-config-fs@0.1.0:
@@ -11252,8 +11242,8 @@ packages:
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  /undici@5.28.3:
-    resolution: {integrity: sha512-3ItfzbrhDlINjaP0duwnNsKpDQk3acHI3gVJ1z4fmwMK31k5G9OVIAMLSIaP6w4FaGkaAkN6zaQO9LUvZ1t7VA==}
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.1.1
