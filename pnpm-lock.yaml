@@ -256,8 +256,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(react-dom@18.2.0)(react@18.2.0)
       ai:
-        specifier: ^3.0.19
-        version: 3.0.19(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
+        specifier: ^3.0.20
+        version: 3.0.20(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -630,7 +630,7 @@ importers:
         version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/pm@2.3.0)
       '@tiptap/extension-code-block-lowlight':
         specifier: ^2.3.0
-        version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-code-block@2.2.6)(@tiptap/pm@2.3.0)
+        version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-code-block@2.3.0)(@tiptap/pm@2.3.0)
       '@tiptap/extension-color':
         specifier: ^2.3.0
         version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-text-style@2.3.0)
@@ -707,8 +707,8 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/pm@2.3.0)
       ai:
-        specifier: ^3.0.19
-        version: 3.0.19(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
+        specifier: ^3.0.20
+        version: 3.0.20(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
       cmdk:
         specifier: ^1.0.0
         version: 1.0.0(@types/react-dom@18.2.24)(@types/react@18.2.75)(react-dom@18.2.0)(react@18.2.0)
@@ -4250,7 +4250,7 @@ packages:
       '@tiptap/pm': 2.3.0
     dev: false
 
-  /@tiptap/extension-code-block-lowlight@2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-code-block@2.2.6)(@tiptap/pm@2.3.0):
+  /@tiptap/extension-code-block-lowlight@2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-code-block@2.3.0)(@tiptap/pm@2.3.0):
     resolution: {integrity: sha512-xMxWr/Fvv0hnN+u+6SW0OI3RVan+C6nJDU8xKh2Tx2DlBXJ0yODmq5v8WJJpW38AbaLkFuJuY/OA3AZ6n9pNbg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
@@ -4258,17 +4258,7 @@ packages:
       '@tiptap/pm': ^2.0.0
     dependencies:
       '@tiptap/core': 2.3.0(@tiptap/pm@2.3.0)
-      '@tiptap/extension-code-block': 2.2.6(@tiptap/core@2.3.0)(@tiptap/pm@2.3.0)
-      '@tiptap/pm': 2.3.0
-    dev: false
-
-  /@tiptap/extension-code-block@2.2.6(@tiptap/core@2.3.0)(@tiptap/pm@2.3.0):
-    resolution: {integrity: sha512-834gVybNyI4nY6NINqnOosFPa4WKylMQTraEY2KhUH2XU1mh0Ni7EgyK10dfZvOUj90OjaxZtXkyZrZ89RTxog==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/core': 2.3.0(@tiptap/pm@2.3.0)
+      '@tiptap/extension-code-block': 2.3.0(@tiptap/core@2.3.0)(@tiptap/pm@2.3.0)
       '@tiptap/pm': 2.3.0
     dev: false
 
@@ -5589,8 +5579,8 @@ packages:
       indent-string: 4.0.0
     dev: true
 
-  /ai@3.0.19(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4):
-    resolution: {integrity: sha512-HV0MixfqMrxq2N/gVsEXoNfO9e0mWkgv7zdUH6UvdtI53Qd0UjoxjH0bwe/TsxoCqnK4gnWaGYiGKZrpy/Ldtw==}
+  /ai@3.0.20(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4):
+    resolution: {integrity: sha512-W5J7lNrqxBA5aQmWEV4V5AtEE3yGRMQ9l4kipIXeS3+RTds1V3cgmKjQwgASPS5Jn/9IgrUEER/Est0V1rU/NA==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
