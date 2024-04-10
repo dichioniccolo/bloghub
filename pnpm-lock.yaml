@@ -256,8 +256,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(react-dom@18.2.0)(react@18.2.0)
       ai:
-        specifier: ^3.0.20
-        version: 3.0.20(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
+        specifier: ^3.0.21
+        version: 3.0.21(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -707,8 +707,8 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/pm@2.3.0)
       ai:
-        specifier: ^3.0.20
-        version: 3.0.20(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
+        specifier: ^3.0.21
+        version: 3.0.21(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4)
       cmdk:
         specifier: ^1.0.0
         version: 1.0.0(@types/react-dom@18.2.24)(@types/react@18.2.75)(react-dom@18.2.0)(react@18.2.0)
@@ -1360,6 +1360,13 @@ packages:
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
+
+  /@ai-sdk/provider@0.0.0:
+    resolution: {integrity: sha512-Gbl9Ei8NPtM85gB/o8cY7s7CLGxK/U6QVheVaI3viFn7o6IpTfy1Ja389e2FXVMNJ4WHK2qYWSp5fAFDuKulTA==}
+    engines: {node: '>=18'}
+    dependencies:
+      json-schema: 0.4.0
+    dev: false
 
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -5579,8 +5586,8 @@ packages:
       indent-string: 4.0.0
     dev: true
 
-  /ai@3.0.20(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4):
-    resolution: {integrity: sha512-W5J7lNrqxBA5aQmWEV4V5AtEE3yGRMQ9l4kipIXeS3+RTds1V3cgmKjQwgASPS5Jn/9IgrUEER/Est0V1rU/NA==}
+  /ai@3.0.21(react@18.2.0)(solid-js@1.8.15)(svelte@4.2.12)(vue@3.4.21)(zod@3.22.4):
+    resolution: {integrity: sha512-ieWylO8pnrIO7tuGMEBUpa1rC+kFdnsdjM1qgO0nAi3INa+5lCB2iLJdTQSnhSZbmWQx3wDlnToaXSZRiZvc+Q==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0
@@ -5600,7 +5607,7 @@ packages:
       zod:
         optional: true
     dependencies:
-      '@types/json-schema': 7.0.15
+      '@ai-sdk/provider': 0.0.0
       eventsource-parser: 1.1.2
       json-schema: 0.4.0
       jsondiffpatch: 0.6.0
