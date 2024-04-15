@@ -879,8 +879,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
       inngest-cli:
-        specifier: ^0.26.6
-        version: 0.26.6
+        specifier: ^0.26.7
+        version: 0.26.7
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -7954,15 +7954,15 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
-  /inngest-cli@0.26.6:
-    resolution: {integrity: sha512-b5tG5vC2+K4hw2Oquk2L/iNH9/a0ag20N0esFbuDHAw1xmzoEiKK6T7lLL/8PX9sWIRxTDNBDE45yCu+ajayDQ==}
+  /inngest-cli@0.26.7:
+    resolution: {integrity: sha512-evxE9xcBlYYZNVr7uIcVfzf3WQsHYitxhEUMJZk2FE7CSa60DPzJ0KCUjHwJBCRhxCGZXvYoVxMDF0QgPeCajg==}
     hasBin: true
     requiresBuild: true
     dependencies:
       adm-zip: 0.5.10
       debug: 4.3.4
       node-fetch: 2.6.7
-      tar: 6.1.11
+      tar: 6.2.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8762,6 +8762,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /minipass@5.0.0:
+    resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==}
+    engines: {node: '>=8'}
     dev: true
 
   /minipass@7.0.4:
@@ -10925,13 +10930,13 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /tar@6.1.11:
-    resolution: {integrity: sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==}
-    engines: {node: '>= 10'}
+  /tar@6.2.1:
+    resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
+    engines: {node: '>=10'}
     dependencies:
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      minipass: 3.3.6
+      minipass: 5.0.0
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
