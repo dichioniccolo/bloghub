@@ -289,8 +289,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.2.0)(react@18.2.0)
       openai:
-        specifier: ^4.36.0
-        version: 4.36.0(encoding@0.1.13)
+        specifier: ^4.37.1
+        version: 4.37.1(encoding@0.1.13)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -9153,8 +9153,8 @@ packages:
       mimic-fn: 4.0.0
     dev: true
 
-  /openai@4.36.0(encoding@0.1.13):
-    resolution: {integrity: sha512-AtYrhhWY64LhB9P6f3H0nV8nTSaQJ89mWPnfNU5CnYg81zlYaV8nkyO+aTNfprdqP/9xv10woNNUgefXINT4Dg==}
+  /openai@4.37.1(encoding@0.1.13):
+    resolution: {integrity: sha512-YVuhylpDeTNCWgsfhZe38+c4dDWZuW9VgzNY/sdYiNt6K9pvijroyYENp8YGEUHnuIAKtsLneZX9Qb/iB5XHkw==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.22
