@@ -58,7 +58,7 @@
     "ai": "^3.0.23",
     "cmdk": "^1.0.0",
     "lowlight": "^3.1.0",
-    "lucide-react": "^0.370.0",
+    "lucide-react": "^0.371.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sonner": "^1.4.41",
