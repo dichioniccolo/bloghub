@@ -38,7 +38,7 @@
     "@auth/core": "0.29.0"
   },
   "prettier": "@acme/prettier-config",
-  "packageManager": "pnpm@9.0.2",
+  "packageManager": "pnpm@9.0.4",
   "workspaces": [
     "apps/*",
     "packages/*",
