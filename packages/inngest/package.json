@@ -28,7 +28,7 @@
     "@acme/eslint-config": "^0.1.0",
     "@acme/prettier-config": "^0.1.0",
     "@acme/tsconfig": "^0.1.0",
-    "eslint": "^9.0.0",
+    "eslint": "^9.1.1",
     "inngest-cli": "^0.27.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5"
