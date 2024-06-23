@@ -42,7 +42,7 @@ export const TableColumnMenu = memo(
         updateDelay={0}
         tippyOptions={{
           appendTo: () => {
-            return appendTo.current!;
+            return appendTo.current ?? document.body;
           },
           offset: [0, 15],
           popperOptions: {

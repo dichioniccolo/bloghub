@@ -59,7 +59,7 @@ export const isTableGripSelected = (node: HTMLElement) => {
   let container: HTMLElement | null = node;
 
   while (container && !["TD", "TH"].includes(container.tagName)) {
-    container = container.parentElement!;
+    container = container.parentElement;
   }
 
   const gripColumn = container?.querySelector("a.grip-column.selected");

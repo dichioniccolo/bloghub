@@ -1,6 +1,5 @@
 import { createHash, randomBytes } from "crypto";
 
-import { env as authEnv } from "@acme/auth/env.mjs";
 import { createId, prisma } from "@acme/db";
 import { ProjectInvite } from "@acme/emails";
 import { inngest } from "@acme/inngest";
@@ -8,7 +7,7 @@ import { AppRoutes } from "@acme/lib/routes";
 import { subdomainUrl } from "@acme/lib/url";
 import { pusherServer } from "@acme/pusher/server";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { sendMail } from "~/lib/email";
 
 export const notificationInvitation = inngest.createFunction(
@@ -117,7 +116,7 @@ async function getLoginUrl(
       identifier,
       expires,
       token: createHash("sha256")
-        .update(`${token}${authEnv.AUTH_SECRET}`)
+        .update(`${token}${env.AUTH_SECRET}`)
         .digest("hex"),
     },
   });

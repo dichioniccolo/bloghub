@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import TiptapTaskItem from "@tiptap/extension-task-item";
 import TiptapTaskList from "@tiptap/extension-task-list";
 import type { NodeViewProps } from "@tiptap/react";

@@ -6,7 +6,7 @@ import { API_HOSTNAMES } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
 import { ApiMiddleware } from "~/lib/middleware/api-middleware";
-import { env } from "./env.mjs";
+import { env } from "./env";
 import { ratelimit } from "./lib/ratelimit";
 
 export default function middleware(req: NextRequest, event: NextFetchEvent) {

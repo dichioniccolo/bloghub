@@ -87,13 +87,13 @@ export const useDropZone = ({
         }
       }
 
-      if (files.some((file) => file.type.indexOf("image") === -1)) {
+      if (files.some((file) => !file.type.includes("image"))) {
         return;
       }
 
       e.preventDefault();
 
-      const filteredFiles = files.filter((f) => f.type.indexOf("image") !== -1);
+      const filteredFiles = files.filter((f) => f.type.includes("image"));
 
       const file = filteredFiles.length > 0 ? filteredFiles[0] : undefined;
 

@@ -18,7 +18,7 @@ import { Form } from "@acme/ui/components/zod-form";
 import { useZodForm } from "@acme/ui/hooks/use-zod-form";
 
 import { createProject } from "~/app/_actions/project/create-project";
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import type { CreateProjectSchemaType } from "~/lib/validation/schema";
 import { CreateProjectSchema } from "~/lib/validation/schema";
 

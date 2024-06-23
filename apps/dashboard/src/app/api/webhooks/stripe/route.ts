@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@acme/stripe";
 import { handleEvent } from "@acme/stripe/webhooks";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 
 export async function POST(req: Request) {
   const payload = await req.text();

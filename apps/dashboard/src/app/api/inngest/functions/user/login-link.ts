@@ -2,7 +2,7 @@ import { createId, prisma } from "@acme/db";
 import { LoginLink } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { sendMail } from "~/lib/email";
 
 export const userLoginLink = inngest.createFunction(

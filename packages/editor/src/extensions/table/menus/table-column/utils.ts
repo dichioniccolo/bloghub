@@ -16,9 +16,9 @@ export const isColumnGripSelected = ({
   state: EditorState;
   from: number;
 }) => {
-  const domAtPos = view.domAtPos(from).node as HTMLElement;
-  const nodeDOM = view.nodeDOM(from) as HTMLElement;
-  const node = nodeDOM || domAtPos;
+  const domAtPos = view.domAtPos(from).node as HTMLElement | undefined;
+  const nodeDOM = view.nodeDOM(from) as HTMLElement | undefined;
+  const node = nodeDOM ?? domAtPos;
 
   if (
     !editor.isActive(Table.name) ||
@@ -28,13 +28,13 @@ export const isColumnGripSelected = ({
     return false;
   }
 
-  let container = node;
+  let container: HTMLElement | null = node;
 
   while (container && !["TD", "TH"].includes(container.tagName)) {
-    container = container.parentElement!;
+    container = container.parentElement;
   }
 
-  const gripColumn = container?.querySelector?.("a.grip-column.selected");
+  const gripColumn = container?.querySelector("a.grip-column.selected");
 
   return !!gripColumn;
 };

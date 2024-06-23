@@ -34,6 +34,7 @@ export const ImageBlock = Image.extend({
         default: "",
         parseHTML: (element) => element.getAttribute("src"),
         renderHTML: (attributes) => ({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src: attributes.src,
         }),
       },
@@ -41,6 +42,7 @@ export const ImageBlock = Image.extend({
         default: "100%",
         parseHTML: (element) => element.getAttribute("data-width"),
         renderHTML: (attributes) => ({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           "data-width": attributes.width,
         }),
       },
@@ -48,6 +50,7 @@ export const ImageBlock = Image.extend({
         default: "center",
         parseHTML: (element) => element.getAttribute("data-align"),
         renderHTML: (attributes) => ({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           "data-align": attributes.align,
         }),
       },
@@ -55,6 +58,7 @@ export const ImageBlock = Image.extend({
         default: undefined,
         parseHTML: (element) => element.getAttribute("alt"),
         renderHTML: (attributes) => ({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           alt: attributes.alt,
         }),
       },

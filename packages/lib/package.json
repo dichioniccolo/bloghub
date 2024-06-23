@@ -2,45 +2,39 @@
   "name": "@acme/lib",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "exports": {
-    ".": "./index.ts",
-    "./env": "./src/env.mjs",
+    ".": "./src/index.ts",
+    "./env": "./src/env.ts",
     "./constants": "./src/constants.ts",
     "./utils": "./src/utils.ts",
     "./url": "./src/url.ts",
     "./routes": "./src/routes.ts"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "src/*"
-      ]
-    }
-  },
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "lint": "eslint .",
+    "lint": "eslint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/db": "^0.1.0",
+    "@acme/db": "workspace:*",
     "date-fns": "^3.6.0",
-    "next": "^14.1.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "next": "^14.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "slugify": "^1.6.6"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
-    "@acme/prettier-config": "^0.1.0",
-    "@acme/tsconfig": "^0.1.0",
-    "@types/react": "^18.2.73",
-    "@types/react-dom": "^18.2.23",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.3"
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^9.5.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.2"
   },
   "eslintConfig": {
     "extends": [

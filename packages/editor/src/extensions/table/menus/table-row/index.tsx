@@ -42,7 +42,7 @@ export const TableRowMenu = React.memo(
         updateDelay={0}
         tippyOptions={{
           appendTo: () => {
-            return appendTo.current!;
+            return appendTo.current ?? document.body;
           },
           placement: "left",
           offset: [0, 15],

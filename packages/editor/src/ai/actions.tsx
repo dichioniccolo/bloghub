@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { createAI, getMutableAIState, render } from "ai/rsc";
 import OpenAI from "openai";
 
-import { env } from "../env.mjs";
+import { env } from "../env";
 
 async function submitUserMessage(userInput: string) {
   "use server";

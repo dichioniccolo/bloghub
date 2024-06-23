@@ -138,6 +138,7 @@ export const ResizableMedia = Node.create<MediaOptions>({
               attrs: options,
             });
           }
+
           // if (mediaType === "video") {
           //   return commands.insertContent({
           //     type: this.name,
@@ -147,11 +148,6 @@ export const ResizableMedia = Node.create<MediaOptions>({
           //     },
           //   });
           // }
-
-          if (!mediaType)
-            console.error(
-              "TiptapMediaExtension-setMedia: Media Type not set, going default with image",
-            );
 
           return commands.insertContent({
             type: this.name,

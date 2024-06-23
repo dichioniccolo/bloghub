@@ -9,7 +9,7 @@ import {
 import baseSlugify from "slugify";
 
 import { ROOM_DIVIDER, TEST_HOSTNAME } from "./constants";
-import { env } from "./env.mjs";
+import { env } from "./env";
 
 export function isValidUrl(url: string) {
   try {

@@ -33,6 +33,7 @@ export const AiImage = Node.create({
         default: undefined,
         parseHTML: (element) => element.getAttribute("data-id"),
         renderHTML: (attributes) => ({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           "data-id": attributes.id,
         }),
       },
@@ -50,6 +51,7 @@ export const AiImage = Node.create({
   renderHTML({ HTMLAttributes }) {
     return [
       "div",
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
     ];
   },

@@ -1,4 +1,4 @@
-import { env } from "./env.mjs";
+import { env } from "./env";
 
 export const TEST_HOSTNAME = "test.niccolodichio.it";
 

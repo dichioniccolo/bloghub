@@ -109,7 +109,7 @@ function startImageUpload(
   pos: number,
 ) {
   files.forEach((file) => {
-    if (!file?.type.includes("image/")) {
+    if (!file.type.includes("image/")) {
       toast.error("File type not supported");
       return;
     }
@@ -139,31 +139,35 @@ function startImageUpload(
       view.dispatch(tr);
     };
 
-    if (upload && file) {
-      toast.promise(
-        upload(file).then((src) => {
-          const { schema } = view.state;
+    toast.promise(
+      upload(file).then((src) => {
+        const pos = findPlaceholder(view.state, id);
+        // If the content around the placeholder has been deleted, drop
+        // the image
+        if (pos == null) {
+          return;
+        }
 
-          const pos = findPlaceholder(view.state, id);
-          // If the content around the placeholder has been deleted, drop
-          // the image
-          if (pos == null) return;
+        const { schema } = view.state;
 
-          const node = schema.nodes.imageBlock!.create({
-            src,
-            alt: file.name,
-          });
-          const transaction = view.state.tr
-            .replaceWith(pos, pos, node)
-            .setMeta(uploadKey, { remove: { id } });
-          view.dispatch(transaction);
-        }),
-        {
-          loading: "Uploading...",
-          success: "Uploaded",
-          error: (e) => `Failed to upload ${e}`,
-        },
-      );
-    }
+        if (!schema.nodes.imageBlock) {
+          return;
+        }
+
+        const node = schema.nodes.imageBlock.create({
+          src,
+          alt: file.name,
+        });
+        const transaction = view.state.tr
+          .replaceWith(pos, pos, node)
+          .setMeta(uploadKey, { remove: { id } });
+        view.dispatch(transaction);
+      }),
+      {
+        loading: "Uploading...",
+        success: "Uploaded",
+        error: (e) => `Failed to upload ${e}`,
+      },
+    );
   });
 }

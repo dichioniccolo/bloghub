@@ -3,7 +3,7 @@ import { RemovedFromProject } from "@acme/emails";
 import { inngest } from "@acme/inngest";
 import { pusherServer } from "@acme/pusher/server";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { sendMail } from "~/lib/email";
 
 export const notificationRemovedFromProject = inngest.createFunction(

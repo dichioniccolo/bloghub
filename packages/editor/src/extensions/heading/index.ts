@@ -4,6 +4,7 @@ import TiptapHeading from "@tiptap/extension-heading";
 
 export const Heading = TiptapHeading.extend({
   renderHTML({ node, HTMLAttributes }) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const nodeLevel = parseInt(node.attrs.level, 10) as Level;
     const hasLevel = this.options.levels.includes(nodeLevel);
     const level = hasLevel ? nodeLevel : this.options.levels[0];

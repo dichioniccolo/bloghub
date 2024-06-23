@@ -1,13 +1,14 @@
 // Importing env files here to validate on build
-import "@acme/db/env";
-import "@acme/emails/env";
-import "@acme/pusher/env";
-import "@acme/stripe/env";
-import "@acme/vercel/env";
-import "./src/env.mjs";
 
-import { env } from "./src/env.mjs";
+import { fileURLToPath } from "url";
+import createJiti from "jiti";
 
+const jiti = createJiti(fileURLToPath(import.meta.url));
+
+// Import env here to validate during build. Using jiti we can import .ts files :)
+jiti("./src/env");
+
+// Importing env files here to validate on build
 // const ContentSecurityPolicy = `
 //   default-src 'self';
 //   script-src https://vercel.live/ https://vercel.com unsafe-inline unsafe-eval;
@@ -64,6 +65,7 @@ const securityHeaders = [
 const config = {
   reactStrictMode: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -110,6 +112,7 @@ const config = {
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
     "@acme/db",
+    "@acme/editor",
     "@acme/emails",
     "@acme/files",
     "@acme/inngest",
@@ -117,14 +120,17 @@ const config = {
     "@acme/notifications",
     "@acme/pusher",
     "@acme/stripe",
-    "@acme/vercel",
     "@acme/ui",
+    "@acme/vercel",
   ],
   eslint: { ignoreDuringBuilds: true },
   // typescript: { ignoreBuildErrors: true },
   experimental: {
-    useDeploymentId: true,
-    useDeploymentIdServerActions: true,
+    typedRoutes: true,
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
@@ -135,7 +141,7 @@ const config = {
   ],
   compiler: {
     removeConsole:
-      env.NODE_ENV === "production"
+      process.env.NODE_ENV === "production"
         ? {
             exclude: ["error", "warn"],
           }

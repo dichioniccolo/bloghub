@@ -1,15 +1,10 @@
-// Importing env files here to validate on build
-import { withAxiom } from "next-axiom";
+import { fileURLToPath } from "url";
+import createJiti from "jiti";
 
-import "@acme/auth/env.mjs";
-import "@acme/db/env";
-import "@acme/emails/env";
-import "@acme/pusher/env";
-import "@acme/stripe/env";
-import "@acme/vercel/env";
-import "./src/env.mjs";
+const jiti = createJiti(fileURLToPath(import.meta.url));
 
-import { env } from "./src/env.mjs";
+// Import env here to validate during build. Using jiti we can import .ts files :)
+jiti("./src/env");
 
 // const ContentSecurityPolicy = `
 //   default-src 'self';
@@ -129,8 +124,11 @@ const config = {
   eslint: { ignoreDuringBuilds: true },
   // typescript: { ignoreBuildErrors: true },
   experimental: {
-    useDeploymentId: true,
-    useDeploymentIdServerActions: true,
+    typedRoutes: true,
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
@@ -141,7 +139,7 @@ const config = {
   ],
   compiler: {
     removeConsole:
-      env.NODE_ENV === "production"
+      process.env.NODE_ENV === "production"
         ? {
             exclude: ["error", "warn"],
           }
@@ -159,4 +157,4 @@ const config = {
   },
 };
 
-export default withAxiom(config);
+export default config;

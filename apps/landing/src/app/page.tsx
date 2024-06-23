@@ -1,7 +1,7 @@
 import type { ServerRuntime } from "next";
 import { redirect } from "next/navigation";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 
 export const runtime: ServerRuntime = "edge";
 

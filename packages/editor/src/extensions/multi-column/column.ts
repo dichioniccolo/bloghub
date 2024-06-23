@@ -12,6 +12,7 @@ export const Column = Node.create({
       position: {
         default: "",
         parseHTML: (element) => element.getAttribute("data-position"),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         renderHTML: (attributes) => ({ "data-position": attributes.position }),
       },
     };

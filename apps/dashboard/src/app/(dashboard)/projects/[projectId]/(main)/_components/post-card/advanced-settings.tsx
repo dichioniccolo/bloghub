@@ -21,7 +21,7 @@ import {
   TooltipTrigger,
 } from "@acme/ui/components/ui/tooltip";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import type { QRProps } from "~/lib/qr";
 
 interface AdvancedSettingsProps {

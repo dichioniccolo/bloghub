@@ -92,7 +92,7 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps) => {
           tippyInstance.current = instance;
         },
         appendTo: () => {
-          return appendTo.current!;
+          return appendTo.current ?? document.body;
         },
         plugins: [sticky],
         sticky: "popper",
@@ -123,6 +123,7 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps) => {
         <ToolbarDivider />
         <ImageBlockWidth
           onChange={onWidthChange}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           value={parseInt(editor.getAttributes("imageBlock").width)}
         />
       </ToolbarWrapper>

@@ -54,14 +54,13 @@ export const SlashCommand = Extension.create({
           const $from = state.doc.resolve(range.from);
           const isRootDepth = $from.depth === 1;
           const isParagraph = $from.parent.type.name === "paragraph";
-          const isStartOfNode = $from.parent.textContent?.startsWith("/");
-          // TODO
+          const isStartOfNode = $from.parent.textContent.startsWith("/");
           const isInColumn = this.editor.isActive("column");
 
-          const afterContent = $from.parent.textContent?.substring(
-            $from.parent.textContent?.indexOf("/"),
+          const afterContent = $from.parent.textContent.substring(
+            $from.parent.textContent.indexOf("/"),
           );
-          const isValidAfterContent = !afterContent?.endsWith("  ");
+          const isValidAfterContent = !afterContent.endsWith("  ");
 
           return (
             ((isRootDepth && isParagraph && isStartOfNode) ||
@@ -75,10 +74,10 @@ export const SlashCommand = Extension.create({
           const { $head, $from } = view.state.selection;
 
           const end = $from.pos;
-          const from = $head?.nodeBefore
+          const from = $head.nodeBefore
             ? end -
               ($head.nodeBefore.text?.substring(
-                $head.nodeBefore.text?.indexOf("/"),
+                $head.nodeBefore.text.indexOf("/"),
               ).length ?? 0)
             : $from.start();
 

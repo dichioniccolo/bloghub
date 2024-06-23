@@ -43,7 +43,6 @@ export const ImageBlockView = ({
     <NodeViewWrapper>
       <div className={wrapperClassName} style={{ width }}>
         <div contentEditable={false} ref={imageWrapperRef}>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
           <img className="block" src={src} alt={alt} onClick={onClick} />
         </div>
       </div>

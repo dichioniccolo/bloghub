@@ -6,7 +6,7 @@ import { getSubDomain } from "@acme/lib/utils";
 import { cn } from "@acme/ui";
 
 import type { VerifyDomain } from "~/app/_actions/project/verify-domain";
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 
 interface Props {
   status: VerifyDomain;
@@ -28,7 +28,7 @@ export function DomainConfigurations({ status }: Props) {
   const [recordType, setRecordType] = useState(subDomain ? "CNAME" : "A");
 
   if (status.pending && status.domainJson) {
-    const txtVerification = status.domainJson.verification?.find(
+    const txtVerification = status.domainJson.verification.find(
       (x) => x.type === "TXT",
     );
 

@@ -16,8 +16,8 @@ export const isRectSelected = (rect: any) => (selection: CellSelection) => {
     ),
   );
 
-  for (let i = 0, count = cells.length; i < count; i += 1) {
-    if (selectedCells.indexOf(cells[i]!) === -1) {
+  for (const cell of cells) {
+    if (!selectedCells.includes(cell)) {
       return false;
     }
   }
@@ -37,7 +37,6 @@ export const isCellSelection = (selection: unknown) =>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isColumnSelected = (columnIndex: number) => (selection: any) => {
   if (isCellSelection(selection)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const map = TableMap.get(selection.$anchorCell.node(-1));
 
     return isRectSelected({
@@ -45,7 +44,6 @@ export const isColumnSelected = (columnIndex: number) => (selection: any) => {
       right: columnIndex + 1,
       top: 0,
       bottom: map.height,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     })(selection);
   }
 
@@ -55,7 +53,6 @@ export const isColumnSelected = (columnIndex: number) => (selection: any) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isRowSelected = (rowIndex: number) => (selection: any) => {
   if (isCellSelection(selection)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const map = TableMap.get(selection.$anchorCell.node(-1));
 
     return isRectSelected({
@@ -63,7 +60,6 @@ export const isRowSelected = (rowIndex: number) => (selection: any) => {
       right: map.width,
       top: rowIndex,
       bottom: rowIndex + 1,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     })(selection);
   }
 
@@ -73,7 +69,6 @@ export const isRowSelected = (rowIndex: number) => (selection: any) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isTableSelected = (selection: any) => {
   if (isCellSelection(selection)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const map = TableMap.get(selection.$anchorCell.node(-1));
 
     return isRectSelected({
@@ -81,7 +76,6 @@ export const isTableSelected = (selection: any) => {
       right: map.width,
       top: 0,
       bottom: map.height,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     })(selection);
   }
 
@@ -246,8 +240,9 @@ const select =
                 bottom,
               });
 
-        const head = table.start + cellsInFirstRow[0]!;
-        const anchor = table.start + cellsInLastRow[cellsInLastRow.length - 1]!;
+        const head = table.start + (cellsInFirstRow[0] ?? 0);
+        const anchor =
+          table.start + (cellsInLastRow[cellsInLastRow.length - 1] ?? 0);
         const $head = tr.doc.resolve(head);
         const $anchor = tr.doc.resolve(anchor);
 
@@ -267,9 +262,9 @@ export const selectTable = (tr: Transaction) => {
   if (table) {
     const { map } = TableMap.get(table.node);
 
-    if (map?.length) {
-      const head = table.start + map[0]!;
-      const anchor = table.start + map[map.length - 1]!;
+    if (map.length) {
+      const head = table.start + (map[0] ?? 0);
+      const anchor = table.start + (map[map.length - 1] ?? 0);
       const $head = tr.doc.resolve(head);
       const $anchor = tr.doc.resolve(anchor);
 

@@ -12,7 +12,7 @@ import { subdomainUrl } from "@acme/lib/url";
 import { cn } from "@acme/ui";
 import { fontMapper } from "@acme/ui/styles/fonts";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { Providers } from "./providers";
 
 export function generateMetadata() {

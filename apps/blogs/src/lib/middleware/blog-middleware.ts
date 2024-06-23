@@ -10,7 +10,7 @@ import {
   parseRequest,
 } from "@acme/lib/utils";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { ratelimit } from "../ratelimit";
 import { recordVisit } from "./utils";
 

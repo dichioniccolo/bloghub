@@ -6,7 +6,7 @@ import { inngest } from "@acme/inngest";
 import { Crons } from "@acme/lib/constants";
 
 import { verifyProjectDomain } from "~/app/_actions/project/verify-project-domain";
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { sendMail } from "~/lib/email";
 
 export const domainVerification = inngest.createFunction(

@@ -2,39 +2,28 @@
   "name": "@acme/notifications",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "exports": {
     ".": "./src/index.ts"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "src/*"
-      ]
-    }
   },
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "lint": "eslint .",
+    "lint": "eslint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/db": "^0.1.0",
-    "zod": "^3.22.4"
+    "@acme/db": "workspace:*",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
-    "@acme/prettier-config": "^0.1.0",
-    "@acme/tsconfig": "^0.1.0",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@acme/eslint-config/base"
-    ]
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "eslint": "^9.5.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.2"
   },
   "prettier": "@acme/prettier-config"
 }

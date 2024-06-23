@@ -35,7 +35,7 @@ export const useBlockEditor = ({
       editable,
       content: initialContent,
       autofocus: editable ? "end" : null,
-      onCreate: ({ editor }) => {
+      onCreate: () => {
         //
       },
       onUpdate: ({ editor }) => {
@@ -60,21 +60,26 @@ export const useBlockEditor = ({
     [],
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const users: EditorUser[] = useMemo(() => {
-    if (!editor?.storage?.collaborationCursor?.users) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (!editor?.storage.collaborationCursor?.users) {
       return [];
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     return editor.storage.collaborationCursor?.users.map((user: EditorUser) => {
-      const names = user.name?.split(" ");
-      const firstName = names?.[0];
-      const lastName = names?.[names.length - 1];
-      const initials = `${firstName?.[0] || "?"}${lastName?.[0] || "?"}`;
+      const names = user.name.split(" ");
+      const firstName = names[0];
+      const lastName = names[names.length - 1];
+      const initials = `${firstName?.[0] ?? "?"}${lastName?.[0] ?? "?"}`;
 
       return { ...user, initials: initials.length ? initials : "?" };
     });
-  }, [editor?.storage?.collaborationCursor?.users]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  }, [editor?.storage.collaborationCursor?.users]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const characterCount = editor?.storage.characterCount || {
     characters: () => 0,
     words: () => 0,
@@ -85,6 +90,7 @@ export const useBlockEditor = ({
   return {
     editor,
     users,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     characterCount,
   };
 };

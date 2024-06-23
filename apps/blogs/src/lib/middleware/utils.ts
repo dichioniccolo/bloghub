@@ -6,7 +6,7 @@ import { prisma } from "@acme/db";
 import { SELF_REFERER, UNKNOWN_ANALYTICS_VALUE } from "@acme/lib/constants";
 import { parseRequest } from "@acme/lib/utils";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { ratelimitVisit } from "../ratelimit";
 
 export const detectBot = (req: NextRequest) => {

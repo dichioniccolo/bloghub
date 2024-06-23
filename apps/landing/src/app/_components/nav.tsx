@@ -8,7 +8,7 @@ import { Link } from "@acme/ui/components/link";
 import { useScroll } from "@acme/ui/hooks/use-scroll";
 import { Logo } from "@acme/ui/icons/logo";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 
 export const navItems = [
   {

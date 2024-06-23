@@ -4,7 +4,7 @@ import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
 
 import type { GetProjectByDomain } from "~/app/_api/projects";
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 
 interface Props {
   project: NonNullable<GetProjectByDomain>;

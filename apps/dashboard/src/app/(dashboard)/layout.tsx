@@ -11,7 +11,7 @@ import { Logo } from "@acme/ui/icons/logo";
 import { CommandMenu } from "~/components/command-menu";
 import { Notifications } from "~/components/notifications";
 import { NotificationsPlaceholder } from "~/components/notifications/notifications-placeholder";
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { ProjectsDropdown } from "./_components/projects-dropdown";
 import { UserDropdown } from "./_components/user-dropdown";
 import { Providers } from "./providers";

@@ -1,19 +1,23 @@
-import * as path from "path";
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
-import baseConfig from "@acme/tailwind-config";
+import baseConfig from "@acme/tailwind-config/web";
 
 export default {
+  // We need to append the path to the UI package to the content array so that
+  // those classes are included correctly.
   content: [
     ...baseConfig.content,
-    path.join(
-      path.dirname(require.resolve("@acme/ui")),
-      "**/*.{js,ts,jsx,tsx}",
-    ),
-    path.join(
-      path.dirname(require.resolve("@acme/editor")),
-      "**/*.{js,ts,jsx,tsx}",
-    ),
+    "../../packages/ui/**/*.{ts,tsx}",
+    "../../packages/editor/**/*.{ts,tsx}",
   ],
   presets: [baseConfig],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+      },
+    },
+  },
 } satisfies Config;

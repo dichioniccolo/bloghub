@@ -1,18 +1,16 @@
 {
   "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
-    "sourceMap": true,
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+    "plugins": [{ "name": "next" }],
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "module": "esnext"
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "*.ts", "*.mjs", "src"],
+  "include": [".", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

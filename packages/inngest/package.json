@@ -2,41 +2,30 @@
   "name": "@acme/inngest",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "exports": {
     ".": "./src/index.ts"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "src/*"
-      ]
-    }
   },
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "dev": "npx inngest-cli dev -u http://localhost:3000/api/inngest",
-    "lint": "eslint .",
+    "lint": "eslint",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/notifications": "^0.1.0",
-    "inngest": "^3.16.1"
+    "@acme/notifications": "workspace:*",
+    "inngest": "^3.19.16"
   },
   "devDependencies": {
-    "@acme/eslint-config": "^0.1.0",
-    "@acme/prettier-config": "^0.1.0",
-    "@acme/tsconfig": "^0.1.0",
-    "eslint": "^8.57.0",
-    "inngest-cli": "^0.26.5",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@acme/eslint-config/base"
-    ]
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "eslint": "^9.5.0",
+    "inngest-cli": "^0.29.1",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.2"
   },
   "prettier": "@acme/prettier-config"
 }

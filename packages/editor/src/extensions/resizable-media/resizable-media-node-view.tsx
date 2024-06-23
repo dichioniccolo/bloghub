@@ -89,7 +89,7 @@ export const ResizableMediaNodeView = ({
     const proseMirrorContainerDiv = document.querySelector(".ProseMirror");
 
     if (proseMirrorContainerDiv)
-      setProseMirrorContainerWidth(proseMirrorContainerDiv?.clientWidth);
+      setProseMirrorContainerWidth(proseMirrorContainerDiv.clientWidth);
 
     // When the media has loaded
     if (!resizableMediaRef.current) return;
@@ -159,8 +159,8 @@ export const ResizableMediaNodeView = ({
     }
 
     const currentMediaDimensions = {
-      width: resizableMediaRef.current?.width,
-      height: resizableMediaRef.current?.height,
+      width: resizableMediaRef.current.width,
+      height: resizableMediaRef.current.height,
     };
 
     const newMediaDimensions = {

@@ -5,6 +5,8 @@ import "server-only";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
+import { env } from "./env";
+
 // import ws from "ws";
 
 export * from "@prisma/client/edge";
@@ -31,4 +33,4 @@ declare global {
 
 export const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
-if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;
+if (env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;

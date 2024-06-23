@@ -49,16 +49,22 @@ export const AiWriterView = ({
   }, [complete]);
 
   const insert = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const from = getPos();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const to = from + node.nodeSize;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
     editor.chain().focus().insertContentAt({ from, to }, completion).run();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   }, [completion, editor, getPos, node.nodeSize]);
 
   const discard = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     deleteNode();
   }, [deleteNode]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   const editable = editor.options.editable;
 
   if (!editable) {

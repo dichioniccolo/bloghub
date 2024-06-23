@@ -1,6 +1,6 @@
 import type { MetadataRoute, ServerRuntime } from "next";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 
 export const runtime: ServerRuntime = "edge";
 

@@ -1,13 +1,10 @@
 import type { JWT } from "@auth/core/jwt";
-import Discord from "@auth/core/providers/discord";
 import type { DefaultSession } from "@auth/core/types";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 
 import { prisma } from "@acme/db";
 import { inngest } from "@acme/inngest";
-
-import { env } from "./env.mjs";
 
 export type { Session } from "next-auth";
 
@@ -40,11 +37,11 @@ export const {
     newUser: "/welcome",
   },
   providers: [
-    Discord({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    }),
+    // Discord({
+    //   clientId: env.DISCORD_CLIENT_ID,
+    //   clientSecret: env.DISCORD_CLIENT_SECRET,
+    //   allowDangerousEmailAccountLinking: true,
+    // }),
     {
       id: "email",
       type: "email",
@@ -115,7 +112,7 @@ export const {
 
       if (!dbUser) {
         if (user) {
-          token.sub = user?.id;
+          token.sub = user.id;
         }
 
         return token;

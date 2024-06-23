@@ -1,6 +1,13 @@
 import type { PlopTypes } from "@turbo/gen";
 import { execSync } from "node:child_process";
 
+interface PackageJson {
+  name: string;
+  scripts: Record<string, string>;
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
+}
+
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
   plop.setGenerator("init", {
     description: "Generate a new package for the Acme Monorepo",
@@ -29,6 +36,11 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       },
       {
         type: "add",
+        path: "packages/{{ name }}/eslint.config.js",
+        templateFile: "templates/eslint.config.js.hbs",
+      },
+      {
+        type: "add",
         path: "packages/{{ name }}/package.json",
         templateFile: "templates/package.json.hbs",
       },
@@ -46,42 +58,37 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "modify",
         path: "packages/{{ name }}/package.json",
         async transform(content, answers) {
-          const pkg = JSON.parse(content);
-          for (let dep of answers.deps.split(" ").filter(Boolean)) {
-            // dep can be "react" or "@acme/api" or "acme/api" or "acme/api@latest" or "@acme/api@latest"
-            // if there is @ at the beginning of the line, it is the name of the package
-            // if there is a @ in the middle of the line, it is the version of the package
-
-            let version;
-
-            if (dep.startsWith("@")) {
-              version = await fetch(
+          if ("deps" in answers && typeof answers.deps === "string") {
+            const pkg = JSON.parse(content) as PackageJson;
+            for (const dep of answers.deps.split(" ").filter(Boolean)) {
+              const version = await fetch(
                 `https://registry.npmjs.org/-/package/${dep}/dist-tags`,
               )
                 .then((res) => res.json())
                 .then((json) => json.latest);
+              if (!pkg.dependencies) pkg.dependencies = {};
+              pkg.dependencies[dep] = `^${version}`;
             }
-
-            if (dep.includes("@") && !dep.startsWith("@")) {
-              version = dep.split("@")[1];
-              dep = dep.split("@")[0];
-            }
-
-            pkg.dependencies![dep] = `^${version}`;
+            return JSON.stringify(pkg, null, 2);
           }
-          return JSON.stringify(pkg, null, 2);
+          return content;
         },
       },
       async (answers) => {
         /**
          * Install deps and format everything
          */
-        execSync(
-          `pnpm prettier --write packages/${
-            (answers as { name: string }).name
-          }/** --list-different`,
-        );
-        return "Package scaffolded";
+        if ("name" in answers && typeof answers.name === "string") {
+          // execSync("pnpm dlx sherif@latest --fix", {
+          //   stdio: "inherit",
+          // });
+          execSync("pnpm i", { stdio: "inherit" });
+          execSync(
+            `pnpm prettier --write packages/${answers.name}/** --list-different`,
+          );
+          return "Package scaffolded";
+        }
+        return "Package not scaffolded";
       },
     ],
   });

@@ -10,7 +10,7 @@ import {
 } from "@acme/stripe/plans";
 
 import { getCurrentUser } from "~/app/_api/get-user";
-import { env } from "~/env.mjs";
+import { env } from "~/env";
 import { ratelimitAi } from "~/lib/ratelimit";
 import { AiGenerateSchema } from "~/lib/validation/schema";
 import { getSystemPrompts } from "./system-prompts";
