@@ -1,5 +1,5 @@
-import type { UseCompletionOptions } from "ai";
 import { useCompletion } from "ai/react";
+import type { UseCompletionOptions } from "ai/svelte";
 import { toast } from "sonner";
 
 type CompletionOptions = Omit<UseCompletionOptions, "api">;

@@ -110,10 +110,6 @@ export function createServerAction<
       };
     } catch (e) {
       if (!isError(e)) {
-        console.error(
-          "Could not handle server error. Not an instance of Error: ",
-          e,
-        );
         return {
           serverError: DEFAULT_SERVER_ERROR,
           state,
@@ -132,7 +128,6 @@ export function createServerAction<
       if (isRedirectError(e) || isNotFoundError(e)) {
         throw e;
       }
-      console.error("Server action error: ", e);
       return {
         serverError: DEFAULT_SERVER_ERROR,
         state,
@@ -190,7 +185,6 @@ export function createServerQuery<
         };
       }
 
-      console.error("Server query error: ", e);
       return {
         data: null,
         serverError: DEFAULT_SERVER_ERROR,

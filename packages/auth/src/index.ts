@@ -26,6 +26,7 @@ export const {
   signOut,
   unstable_update: updateSession,
 } = NextAuth({
+  // @ts-expect-error dunno
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",

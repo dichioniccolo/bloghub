@@ -167,7 +167,8 @@ namespace qrcodegen {
       const dataCodewords: byte[] = [];
       while (dataCodewords.length * 8 < bb.length) dataCodewords.push(0);
       bb.forEach(
-        (b: bit, i: int) => (dataCodewords[i >>> 3] |= b << (7 - (i & 7))),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        (b: bit, i: int) => (dataCodewords[i >>> 3]! |= b << (7 - (i & 7))),
       );
 
       // Create the QR Code object
@@ -263,6 +264,7 @@ namespace qrcodegen {
         x < this.size &&
         0 <= y &&
         y < this.size &&
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.modules[y]![x]!
       );
     }
@@ -300,6 +302,7 @@ namespace qrcodegen {
               (i == numAlign - 1 && j == 0)
             )
           )
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.drawAlignmentPattern(alignPatPos[i]!, alignPatPos[j]!);
         }
       }
@@ -387,7 +390,9 @@ namespace qrcodegen {
     // Sets the color of a module and marks it as a function module.
     // Only used by the constructor. Coordinates must be in bounds.
     private setFunctionModule(x: int, y: int, isDark: boolean): void {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.modules[y]![x] = isDark;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.isFunction[y]![x] = true;
     }
 
@@ -403,8 +408,10 @@ namespace qrcodegen {
 
       // Calculate parameter numbers
       const numBlocks: int =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         QrCode.NUM_ERROR_CORRECTION_BLOCKS[ecl.ordinal]![ver]!;
       const blockEccLen: int =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         QrCode.ECC_CODEWORDS_PER_BLOCK[ecl.ordinal]![ver]!;
       const rawCodewords: int = Math.floor(
         QrCode.getNumRawDataModules(ver) / 8,
@@ -428,10 +435,12 @@ namespace qrcodegen {
 
       // Interleave (not concatenate) the bytes from every block into a single sequence
       const result: byte[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       for (let i = 0; i < blocks[0]!.length; i++) {
         blocks.forEach((block, j) => {
           // Skip the padding byte in short blocks
           if (i != shortBlockLen - blockEccLen || j >= numShortBlocks)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             result.push(block[i]!);
         });
       }
@@ -457,7 +466,9 @@ namespace qrcodegen {
             const x: int = right - j; // Actual x coordinate
             const upward: boolean = ((right + 1) & 2) == 0;
             const y: int = upward ? this.size - 1 - vert : vert; // Actual y coordinate
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             if (!this.isFunction[y]![x] && i < data.length * 8) {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               this.modules[y]![x] = getBit(data[i >>> 3]!, 7 - (i & 7));
               i++;
             }
@@ -507,7 +518,9 @@ namespace qrcodegen {
             default:
               throw new Error("Unreachable");
           }
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           if (!this.isFunction[y]![x] && invert)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.modules[y]![x] = !this.modules[y]![x];
         }
       }
@@ -524,6 +537,7 @@ namespace qrcodegen {
         let runX = 0;
         const runHistory = [0, 0, 0, 0, 0, 0, 0];
         for (let x = 0; x < this.size; x++) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           if (this.modules[y]![x] == runColor) {
             runX++;
             if (runX == 5) result += QrCode.PENALTY_N1;
@@ -533,6 +547,7 @@ namespace qrcodegen {
             if (!runColor)
               result +=
                 this.finderPenaltyCountPatterns(runHistory) * QrCode.PENALTY_N3;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             runColor = this.modules[y]![x]!;
             runX = 1;
           }
@@ -547,6 +562,7 @@ namespace qrcodegen {
         let runY = 0;
         const runHistory = [0, 0, 0, 0, 0, 0, 0];
         for (let y = 0; y < this.size; y++) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           if (this.modules[y]![x] == runColor) {
             runY++;
             if (runY == 5) result += QrCode.PENALTY_N1;
@@ -556,6 +572,7 @@ namespace qrcodegen {
             if (!runColor)
               result +=
                 this.finderPenaltyCountPatterns(runHistory) * QrCode.PENALTY_N3;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             runColor = this.modules[y]![x]!;
             runY = 1;
           }
@@ -568,10 +585,14 @@ namespace qrcodegen {
       // 2*2 blocks of modules having same color
       for (let y = 0; y < this.size - 1; y++) {
         for (let x = 0; x < this.size - 1; x++) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const color: boolean = this.modules[y]![x]!;
           if (
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             color == this.modules[y]![x + 1] &&
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             color == this.modules[y + 1]![x] &&
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             color == this.modules[y + 1]![x + 1]
           )
             result += QrCode.PENALTY_N2;
@@ -633,7 +654,9 @@ namespace qrcodegen {
     private static getNumDataCodewords(ver: int, ecl: QrCode.Ecc): int {
       return (
         Math.floor(QrCode.getNumRawDataModules(ver) / 8) -
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         QrCode.ECC_CODEWORDS_PER_BLOCK[ecl.ordinal]![ver]! *
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           QrCode.NUM_ERROR_CORRECTION_BLOCKS[ecl.ordinal]![ver]!
       );
     }
@@ -656,8 +679,10 @@ namespace qrcodegen {
       for (let i = 0; i < degree; i++) {
         // Multiply the current product by (x - r^i)
         for (let j = 0; j < result.length; j++) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           result[j] = QrCode.reedSolomonMultiply(result[j]!, root);
-          if (j + 1 < result.length) result[j] ^= result[j + 1]!;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          if (j + 1 < result.length) result[j]! ^= result[j + 1]!;
         }
         root = QrCode.reedSolomonMultiply(root, 0x02);
       }
@@ -672,10 +697,12 @@ namespace qrcodegen {
       const result: byte[] = divisor.map(() => 0);
       for (const b of data) {
         // Polynomial division
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const factor: byte = b ^ result.shift()!;
         result.push(0);
         divisor.forEach(
-          (coef, i) => (result[i] ^= QrCode.reedSolomonMultiply(coef, factor)),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          (coef, i) => (result[i]! ^= QrCode.reedSolomonMultiply(coef, factor)),
         );
       }
       return result;
@@ -699,6 +726,7 @@ namespace qrcodegen {
     // Can only be called immediately after a light run is added, and
     // returns either 0, 1, or 2. A helper function for getPenaltyScore().
     private finderPenaltyCountPatterns(runHistory: Readonly<int[]>): int {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const n: int = runHistory[1]!;
       assert(n <= this.size * 3);
       const core: boolean =
@@ -708,7 +736,9 @@ namespace qrcodegen {
         runHistory[4] == n &&
         runHistory[5] == n;
       return (
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         (core && runHistory[0]! >= n * 4 && runHistory[6]! >= n ? 1 : 0) +
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         (core && runHistory[6]! >= n * 4 && runHistory[0]! >= n ? 1 : 0)
       );
     }
@@ -1039,6 +1069,7 @@ namespace qrcodegen.QrSegment {
     // (Package-private) Returns the bit width of the character count field for a segment in
     // this mode in a QR Code at the given version number. The result is in the range [0, 16].
     public numCharCountBits(ver: int): int {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return this.numBitsCharCount[Math.floor((ver + 7) / 17)]!;
     }
   }

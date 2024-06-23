@@ -1,7 +1,10 @@
 {
   "extends": "@acme/tsconfig/internal-package.json",
   "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "jsx": "preserve",
     "outDir": "dist",
+    "emitDeclarationOnly": false,
     "types": ["react-dom/experimental", "react/experimental"],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
