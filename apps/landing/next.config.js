@@ -121,7 +121,6 @@ const config = {
   eslint: { ignoreDuringBuilds: true },
   // typescript: { ignoreBuildErrors: true },
   experimental: {
-    typedRoutes: true,
     staleTimes: {
       dynamic: 0,
       static: 0,
