@@ -1,21 +1,20 @@
 import "server-only";
 
-import { Pool } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 import { env } from "./env";
 
-export * from "@prisma/client";
+export * from "@prisma/client/edge";
 
 export { createId } from "@paralleldrive/cuid2";
 
 const prismaClientSingleton = () => {
-  const pool = new Pool({ connectionString: env.DIRECT_DATABASE_URL });
-  const adapter = new PrismaNeon(pool);
+  // const pool = new Pool({ connectionString: env.DIRECT_DATABASE_URL });
+  // const adapter = new PrismaNeon(pool);
   return new PrismaClient({
-    adapter,
-  });
+    // adapter,
+  }).$extends(withAccelerate());
 };
 
 declare global {
