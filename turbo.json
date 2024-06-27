@@ -68,6 +68,7 @@
   },
   "globalEnv": [
     "CI",
+    "DIRECT_DATABASE_URL",
     "DATABASE_URL",
     "EDGE_CONFIG",
     "KV_REST_API_READ_ONLY_TOKEN",

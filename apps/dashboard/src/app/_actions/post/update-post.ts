@@ -38,22 +38,20 @@ export const updatePost = createServerAction({
 
     const postContent = Buffer.from(content ?? "", "base64").toString("utf-8");
 
-    const post = await prisma.$transaction(async (tx) => {
-      return await tx.posts.update({
-        where: {
-          id: postId,
-          projectId,
-        },
-        data: {
-          title,
-          description,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          content: JSON.parse(postContent),
-        },
-        select: {
-          id: true,
-        },
-      });
+    const post = await prisma.posts.update({
+      where: {
+        id: postId,
+        projectId,
+      },
+      data: {
+        title,
+        description,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        content: JSON.parse(postContent),
+      },
+      select: {
+        id: true,
+      },
     });
 
     return post;

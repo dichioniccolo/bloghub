@@ -32,37 +32,30 @@ export const acceptInvite = createServerAction({
       throw new ErrorForClient("Invite not found or expires");
     }
 
-    const project = await prisma.$transaction(async (tx) => {
-      await tx.projectInvitations.delete({
-        where: {
-          email_projectId: {
-            email: user.email,
-            projectId,
+    const project = await prisma.projects.update({
+      where: {
+        id: projectId,
+      },
+      data: {
+        invitations: {
+          delete: {
+            email_projectId: {
+              email: user.email,
+              projectId,
+            },
           },
         },
-      });
-
-      await tx.projectMembers.create({
-        data: {
-          projectId,
-          userId: user.id,
-          role: "EDITOR",
+        members: {
+          create: {
+            userId: user.id,
+            role: "EDITOR",
+          },
         },
-      });
-
-      return await tx.projects.findFirst({
-        where: {
-          id: projectId,
-        },
-        select: {
-          name: true,
-        },
-      });
+      },
+      select: {
+        name: true,
+      },
     });
-
-    if (!project) {
-      return;
-    }
 
     await inngest.send({
       id: `notification/invitation.accepted/${projectId}-${user.email}`,

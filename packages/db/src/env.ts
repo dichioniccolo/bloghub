@@ -12,6 +12,7 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
+    DIRECT_DATABASE_URL: z.string().min(1),
     DATABASE_URL: z.string().min(1),
   },
   /**
@@ -24,6 +25,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    DIRECT_DATABASE_URL: process.env.DIRECT_DATABASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
   },
   skipValidation:
