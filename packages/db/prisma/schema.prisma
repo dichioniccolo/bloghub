@@ -196,6 +196,7 @@ model User {
   likes                Likes[]
   memberOfProjects     ProjectMembers[]
   sessions             Session[]
+  authenricators       Authenticator[]
 }
 
 model VerificationToken {
@@ -204,6 +205,20 @@ model VerificationToken {
   expires    DateTime @default(now())
 
   @@id([identifier, token], map: "verificationToken_identifier_token_pk")
+}
+
+model Authenticator {
+  id                   String  @id @default(cuid())
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Visits {

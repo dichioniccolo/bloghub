@@ -4,6 +4,7 @@ import { Link } from "@acme/ui/components/link";
 import { Logo } from "@acme/ui/icons/logo";
 
 import { env } from "~/env";
+import { PasskeySignIn } from "./_components/passkey-sign-in";
 import { SignInForm } from "./_components/sign-in-form";
 
 const title = "Sign in to BlogHub";
@@ -52,7 +53,7 @@ export default function Page() {
         </p>
         <div className="grid gap-6">
           <SignInForm />
-          {/* <div className="relative">
+          <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-slate-300" />
             </div>
@@ -60,7 +61,9 @@ export default function Page() {
               <span className="bg-background px-2 text-slate-600">Or</span>
             </div>
           </div>
-          <DiscordButton /> */}
+
+          <PasskeySignIn />
+          {/* <DiscordButton /> */}
         </div>
       </div>
     </main>

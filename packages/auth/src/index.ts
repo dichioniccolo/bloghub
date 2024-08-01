@@ -1,5 +1,6 @@
 import type { JWT } from "@auth/core/jwt";
 import type { DefaultSession } from "@auth/core/types";
+import Passkey from "@auth/core/providers/passkey";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 
@@ -26,6 +27,9 @@ export const {
   signOut,
   unstable_update: updateSession,
 } = NextAuth({
+  experimental: {
+    enableWebAuthn: true,
+  },
   // @ts-expect-error dunno
   adapter: PrismaAdapter(prisma),
   session: {
@@ -38,6 +42,7 @@ export const {
     newUser: "/welcome",
   },
   providers: [
+    Passkey,
     // Discord({
     //   clientId: env.DISCORD_CLIENT_ID,
     //   clientSecret: env.DISCORD_CLIENT_SECRET,
