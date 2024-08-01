@@ -15,7 +15,6 @@
     "db:studio": "pnpm with-env turbo db:studio",
     "dev": "FORCE_COLOR=1 pnpm with-env turbo dev --parallel",
     "dev:dashboard": "pnpm dev --filter @acme/dashboard --filter @acme/inngest --filter @acme/stripe",
-    "prepare": "husky install",
     "with-env": "doppler run --",
     "format": "turbo format --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
     "format:fix": "turbo format --continue -- --write --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'",
