@@ -30,7 +30,6 @@ export const {
   experimental: {
     enableWebAuthn: true,
   },
-  // @ts-expect-error dunno
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
